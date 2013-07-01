@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @warehouse.name %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @warehouse.address %>
+</p>
+
+<p>
+  <strong>Zip:</strong>
+  <%= @warehouse.zip %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @warehouse.city %>
+</p>
+
+<%= link_to 'Edit', edit_warehouse_path(@warehouse) %> |
+<%= link_to 'Back', warehouses_path %>

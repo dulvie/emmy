@@ -1,0 +1,22 @@
+<div class="navbar navbar-static-top">
+  <div class="navbar-inner">
+    <div class="container">
+
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="#">M on rails</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li class="active"><a href="/dashboard">Dashboard</a></li>
+          <li><%= link_to 'Lager', warehouses_path %></li>
+          <li><%= link_to 'Användare', users_path %></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
