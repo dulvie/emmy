@@ -8,13 +8,34 @@
         <span class="icon-bar"></span>
       </a>
 
-      <a class="brand" href="#">M on rails</a>
+      <a class="brand" href="/">Messias</a>
       <div class="nav-collapse collapse">
-        <ul class="nav">
-          <li class="active"><a href="/dashboard">Dashboard</a></li>
-          <li><%= link_to 'Lager', warehouses_path %></li>
-          <li><%= link_to 'Användare', users_path %></li>
-        </ul>
+        <% if user_signed_in? %>
+          <ul class="nav">
+            <%= nav_link "Dashboard", dashboard_path %>
+            <%= nav_link "Användare", users_path %>
+            <%= nav_link "Lager", warehouses_path %>
+          </ul>
+
+          <ul class="nav pull-right">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="icon-cog"></i>
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><%= link_to current_user.name, edit_user_path(current_user) %></li>
+                <li><%= link_to "logout", destroy_user_session_path, :method => :delete %></li>
+              </ul>
+            </li>
+          </ul>
+
+        <% else %>
+          <ul class="nav">
+            <li><%= link_to 'Om', about_path %></li>
+            <li><%= link_to 'Login', new_user_session_path %></li>
+          </ul>
+        <% end %>
       </div>
 
     </div>

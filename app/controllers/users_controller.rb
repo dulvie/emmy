@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  # @fixme CanCan authorization MUST be implemented here.
+  # all actions needs to be locked down to admin only.
+
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
