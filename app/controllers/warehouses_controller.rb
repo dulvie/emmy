@@ -1,5 +1,6 @@
 class WarehousesController < ApplicationController
-  before_action :set_warehouse, only: [:show, :edit, :update, :destroy]
+  #before_action :set_warehouse, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
 
   # GET /warehouses
   # GET /warehouses.json
@@ -63,9 +64,9 @@ class WarehousesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_warehouse
-      @warehouse = Warehouse.find(params[:id])
-    end
+    #def set_warehouse
+    #  @warehouse = Warehouse.find(params[:id])
+    #end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def warehouse_params

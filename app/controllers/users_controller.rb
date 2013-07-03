@@ -4,6 +4,8 @@ class UsersController < ApplicationController
 
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+  before_action :check_authorization
+
   # GET /users
   # GET /users.json
   def index
@@ -74,4 +76,13 @@ class UsersController < ApplicationController
     def user_params
       params[:user]
     end
+
+    def check_authorization
+      if @user
+        authorize! :manage, @user
+      else
+        authorize! :manage, User
+      end
+    end
+
 end

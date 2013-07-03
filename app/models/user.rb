@@ -9,5 +9,13 @@ class User < ActiveRecord::Base
   attr_accessible :name,
                   :email, :password, :password_confirmation, :remember_me # by devise
 
+  has_and_belongs_to_many :roles
+
+  # @note :security
+  # The roles are cached on the object when role? is called the first time.
+  def role? role
+    @rlz ||= roles.collect{ |r| r.name}
+    @rlz.include? role.to_s
+  end
 
 end

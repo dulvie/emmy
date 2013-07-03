@@ -52,3 +52,5 @@ gem 'bootstrap-sass'
 gem 'protected_attributes'
 
 gem 'foreman'
+gem 'cancan'
+
