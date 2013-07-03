@@ -15,10 +15,12 @@
 /log/*.log
 /tmp
 
-# vim
+# temp/swap files for different editors and oss
 *.swp
-
-# mac
 .DS_STORE
 
+# Obviously
 config/database.yml
+
+# Convenient dev script, not part of the app
+reload_db.sh
