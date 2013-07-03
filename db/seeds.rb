@@ -8,6 +8,7 @@
 
 
 # Default users, jtest(admin) and ktest(normal user)
+roles = Role.create([{ name: "admin"}, {name: "seller"}])
 jtest = User.new({
   name: "jtest",
   email: "jtest@mailinator.com",
@@ -15,7 +16,8 @@ jtest = User.new({
   password_confirmation: "foobar"
 })
 jtest.save
-jtest.roles.build(name: "admin")
+jtest.roles << roles.first
+jtest.save
 
 ktest = User.new({
   name: "ktest",
@@ -23,6 +25,8 @@ ktest = User.new({
   password: "foobar",
   password_confirmation: "foobar"
 })
+ktest.save
+ktest.roles << roles.last
 ktest.save
 
 ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg"})

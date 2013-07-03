@@ -1,8 +1,9 @@
-<h1>Listing users</h1>
+<h1>Användare</h1>
 
-<table>
+<table class="table table-border">
   <thead>
     <tr>
+      <th>Email</th>
       <th></th>
       <th></th>
       <th></th>
@@ -14,9 +15,12 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= user.email %></td>
-        <td><%= link_to 'Show', user %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'visa', user %></td>
+        <% if can? :manage, Role %>
+          <td><%= link_to 'Rättigheter', edit_roles_user_path(user) %></td>
+        <% end %>
+        <td><%= link_to 'ändra', edit_user_path(user) %></td>
+        <td><%= link_to 'ta bort', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -24,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New User', new_user_path %>
+<%= link_to 'New User', new_user_path, :class => "btn" %>

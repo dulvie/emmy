@@ -1,0 +1,23 @@
+<h1>Produktlista</h1>
+<table class="table table-border">
+  <thead>
+    <tr>
+      <th>Namn</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @customers.each do |customer| %>
+      <tr>
+        <td><%= customer.name %></td>
+        <td><%= link_to 'visa', customer %></td>
+        <td><%= link_to 'ändra', edit_customer_path(customer) %></td>
+        <td><%= link_to 'ta bort', customer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Lägg till ny kund', new_customer_path, :class => "btn" %>

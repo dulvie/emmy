@@ -1,12 +1,12 @@
-<h1>Listing warehouses</h1>
+<h1>Lagerlista</h1>
 
 <table class="table table-border">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Address</th>
-      <th>Zip</th>
-      <th>City</th>
+      <th>Namn</th>
+      <th>Adress</th>
+      <th>Postnr</th>
+      <th>Stad</th>
       <th></th>
       <th></th>
       <th></th>
@@ -20,9 +20,9 @@
         <td><%= warehouse.address %></td>
         <td><%= warehouse.zip %></td>
         <td><%= warehouse.city %></td>
-        <td><%= link_to 'Show', warehouse %></td>
-        <td><%= link_to 'Edit', edit_warehouse_path(warehouse) %></td>
-        <td><%= link_to 'Destroy', warehouse, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'visa', warehouse %></td>
+        <td><%= link_to 'ändra', edit_warehouse_path(warehouse) %></td>
+        <td><%= link_to 'ta bort', warehouse, method: :delete, data: { confirm: 'är du säker?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -30,4 +30,4 @@
 
 <br>
 
-<%= link_to 'New Warehouse', new_warehouse_path %>
+<%= link_to 'Nytt Lager', new_warehouse_path, :class => "btn" %>

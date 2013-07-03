@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   # @fixme CanCan authorization MUST be implemented here.
   # all actions needs to be locked down to admin only.
 
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_roles, :update_roles]
 
   before_action :check_authorization
 
@@ -63,6 +63,58 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to users_url }
       format.json { head :no_content }
+    end
+  end
+
+  # Some admin only stuff
+  # The find stuff/authorize stuff is done by load_and_authorize_resource
+  # for the other actions..
+  def edit_roles
+    authorize! :manage, Role
+  end
+
+  # @todo Refactor me!
+  # This is quite hariy and not very clean...
+  # Not sure if I want to put this into a @user.update_roles or not..
+  def update_roles
+    authorize! :manage, Role
+
+    # Extract the role_ids
+    role_ids = []
+    params[:user][:role_ids].each do |role_id|
+      role_ids << role_id.to_i unless role_id.empty?
+    end
+
+    # Get the actual role objects
+    logger.info "will try and find roles: #{role_ids}"
+    roles = Role.find role_ids
+    logger.info "will ensure #{roles.collect{|r| r.name}.join(", ")} is the roles for #{@user.name}"
+
+    # Cache the old user roles.
+    user_roles_before_update = @user.roles.collect{|r| r}
+
+    # Add the roles that aren't already present
+    roles.each do |role|
+      logger.info "adding #{role.name} to user"
+      @user.roles << role unless @user.role? role.name
+    end
+
+    # Remove the roles that are not present in the request params
+    user_roles_before_update.each do |role|
+      unless role_ids.include? role.id
+        logger.info "removing #{role.name} to user"
+        @user.roles.delete role
+      end
+    end
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to edit_roles_user_path(@user), notice: 'User roles was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit_roles' }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
   end
 

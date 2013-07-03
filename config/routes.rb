@@ -17,7 +17,12 @@ Messiasonrails4::Application.routes.draw do
 
 
   devise_for :users
-  resources :users
+  resources :users do
+    member do
+      get "edit_roles", to: "users#edit_roles"
+      patch "edit_roles", to: "users#update_roles" 
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
