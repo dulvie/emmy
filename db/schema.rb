@@ -11,7 +11,70 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130702160142) do
+ActiveRecord::Schema.define(version: 20130703132836) do
+
+  create_table "contact_infos", force: true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "telephone"
+    t.string   "address"
+    t.string   "zip"
+    t.string   "city"
+    t.string   "country"
+    t.text     "comment"
+    t.integer  "user_id"
+    t.integer  "customer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "customers", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "invoice_items", force: true do |t|
+    t.string   "name"
+    t.integer  "quantity"
+    t.integer  "vat"
+    t.integer  "price"
+    t.integer  "invoice_id"
+    t.integer  "product_id"
+    t.integer  "slot_change_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "invoices", force: true do |t|
+    t.string   "customer_contact"
+    t.string   "user_contact"
+    t.integer  "current_state"
+    t.datetime "sent_at"
+    t.integer  "total"
+    t.integer  "total_excluding_vat"
+    t.integer  "total_including_vat"
+    t.datetime "paid_date"
+    t.integer  "user_id"
+    t.integer  "customer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "products", force: true do |t|
+    t.string   "name"
+    t.text     "comment"
+    t.integer  "in_price"
+    t.integer  "out_price"
+    t.integer  "customer_price"
+    t.integer  "vat"
+    t.string   "weight"
+    t.string   "package_dimensions"
+    t.datetime "expire_at"
+    t.datetime "refined_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "roles", force: true do |t|
     t.string   "name"
@@ -22,6 +85,26 @@ ActiveRecord::Schema.define(version: 20130702160142) do
   create_table "roles_users", id: false, force: true do |t|
     t.integer "role_id"
     t.integer "user_id"
+  end
+
+  create_table "slot_changes", force: true do |t|
+    t.integer  "slot_id"
+    t.integer  "quantity"
+    t.integer  "invoice_item_id"
+    t.integer  "user_id"
+    t.integer  "change_type"
+    t.integer  "current_state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "slots", force: true do |t|
+    t.integer  "quantity"
+    t.text     "comment"
+    t.integer  "warehouse_id"
+    t.integer  "product_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|

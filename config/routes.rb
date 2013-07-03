@@ -1,9 +1,20 @@
 Messiasonrails4::Application.routes.draw do
+  resources :customers
+  resources :invoices do
+    resources :invoice_items
+  end
+  resources :contact_infos
+  resources :products
+  resources :warehouses do
+    resources :slots do
+      resources :slot_changes
+    end
+  end
+
   get "dashboard", to: "dashboard#index"
   get "/about", to: "pages#about"
   get "/start", to: "pages#start"
 
-  resources :warehouses
 
   devise_for :users
   resources :users

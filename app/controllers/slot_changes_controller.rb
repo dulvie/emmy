@@ -1,0 +1,2 @@
+class SlotChangesController < ApplicationController
+end
