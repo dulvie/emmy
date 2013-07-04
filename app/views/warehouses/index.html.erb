@@ -1,6 +1,6 @@
 <h1>Lagerlista</h1>
 
-<table class="table table-border">
+<table class="table table-striped ">
   <thead>
     <tr>
       <th>Namn</th>
@@ -20,9 +20,8 @@
         <td><%= warehouse.address %></td>
         <td><%= warehouse.zip %></td>
         <td><%= warehouse.city %></td>
-        <td><%= link_to 'visa', warehouse %></td>
-        <td><%= link_to 'ändra', edit_warehouse_path(warehouse) %></td>
-        <td><%= link_to 'ta bort', warehouse, method: :delete, data: { confirm: 'är du säker?' } %></td>
+        <td><%= link_to settings_icon, edit_warehouse_path(warehouse) %></td>
+        <td><%= link_to delete_icon, warehouse, method: :delete, data: { confirm: 'är du säker?' } %></td>
       </tr>
     <% end %>
   </tbody>

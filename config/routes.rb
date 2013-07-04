@@ -1,4 +1,7 @@
 Messiasonrails4::Application.routes.draw do
+  resources :comments
+
+  get "statistics/index"
   resources :customers
   resources :invoices do
     resources :invoice_items
@@ -11,9 +14,7 @@ Messiasonrails4::Application.routes.draw do
     end
   end
 
-  get "dashboard", to: "dashboard#index"
-  get "/about", to: "pages#about"
-  get "/start", to: "pages#start"
+
 
 
   devise_for :users
@@ -23,6 +24,10 @@ Messiasonrails4::Application.routes.draw do
       patch "edit_roles", to: "users#update_roles" 
     end
   end
+
+  get "dashboard", to: "dashboard#index"
+  get "/about", to: "pages#about"
+  get "/start", to: "pages#start"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

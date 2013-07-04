@@ -1,0 +1,17 @@
+# SomeName
+
+SomeName is an application to handle logistics and invoicing for small organisations that sell some kind of products.
+
+db/seed.rb contains sample data, Don't use this in production!
+
+Everything besides login, about and start page is locked down using CanCan.
+
+Create a new user using rails console and add the "admin" role to it.
+
+ie:
+    
+    $ bundle exec rails console
+    > u = User.new :email "me@example.com", :password => "changeme", :password_confirmation => "changeme"
+    > u.save
+    > u.roles << Role.create :name => "admin
+    > u.save

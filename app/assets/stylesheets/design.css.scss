@@ -1,2 +1,14 @@
 .container {
 }
+
+a:hover .delete-icon {
+  background-color: $errorText;
+  @include border-radius(3px);
+  @extend .icon-white
+}
+
+a:hover .settings-icon:hover {
+  background-color: $successText;
+  @include border-radius(3px);
+  @extend .icon-white
+}

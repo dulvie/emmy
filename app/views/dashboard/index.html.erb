@@ -7,11 +7,12 @@
 <h4>Snabbvägar</h4>
 <ul>
   <li>Skapa ny faktura</li>
+  <li>Lista obetalda fakturor</li>
 </ul>
 
 <h4>Övrigt</h4>
 <ul>
-  <li>Hantera fakturor</li>
-  <li>Hantera lager</li>
-  <li>Hantera produkter</li>
+  <li><%= link_to "Hantera fakturor", invoices_path %></li>
+  <li><%= link_to "Hantera lager", warehouses_path %></li>
+  <li><%= link_to "Hantera sortiment", products_path %></li>
 </ul>

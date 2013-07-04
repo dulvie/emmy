@@ -53,4 +53,4 @@ gem 'protected_attributes'
 
 gem 'foreman'
 gem 'cancan'
-
+gem 'modernizr-rails'

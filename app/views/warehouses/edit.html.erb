@@ -1,6 +1,19 @@
-<h1>Editing warehouse</h1>
+<ul class="breadcrumb">
+  <li><%= link_to 'Lagerlista', warehouses_path %></li>
+  <li class="active"><%= @warehouse.name %></li>
+</ul>
 
-<%= render 'form' %>
+<h1>Lagret <%= @warehouse.name %></h1>
 
-<%= link_to 'Show', @warehouse %> |
-<%= link_to 'Back', warehouses_path %>
+<ul class="nav nav-tabs">
+  <li class="active"><%= link_to "Basinformation", "#warehouse-form", {"data-toggle" => "tab"} %></li>
+  <li><%= link_to "Lagerhyllor", "#slot-index", {"data-toggle" => "tab"} %></li>
+</ul>
+<div class="tab-content">
+  <div id="warehouse-form" class="tab-pane active">
+    <%= render 'form' %>
+  </div>
+  <div id="slot-index" class="tab-pane">
+    <%= render "slots/index", {slots: @warehouse.slots} %>
+  </div>
+</div>

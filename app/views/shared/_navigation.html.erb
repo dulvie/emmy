@@ -15,15 +15,17 @@
           <ul class="nav">
             <%= nav_link "Dashboard", dashboard_path %>
             <%= nav_link "Användare", users_path %>
+            <%= nav_link "Fakturor", invoices_path %>
             <%= nav_link "Kunder", customers_path %>
             <%= nav_link "Lager", warehouses_path %>
             <%= nav_link "Produkter", products_path %>
+            <%= nav_link "Statistik", statistics_index_path %>
           </ul>
 
           <ul class="nav pull-right">
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="icon-cog"></i>
+                <%= settings_icon %>
                 <b class="caret"></b>
               </a>
               <ul class="dropdown-menu">

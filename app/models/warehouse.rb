@@ -6,6 +6,6 @@ class Warehouse < ActiveRecord::Base
 
   attr_accessible :name, :address, :zip, :city
 
-  has_many :slots
-  has_many :contact_infos
+  has_many :slots, :dependent => :destroy
+  has_many :contact_infos, :dependent => :destroy
 end

@@ -1,0 +1,24 @@
+<ul class="breadcrumb">
+  <li><%= link_to 'Lagerlista', warehouses_path %></li>
+  <li><%= link_to @warehouse.name, edit_warehouse_path(@warehouse) %></li>
+  <li><%= link_to "Lagerhändelser #{@slot.product_name}(#{@slot.quantity})", warehouse_slot_slot_changes_path(@warehouse, @slot)  %></li>
+  <li class="active">Lagerhändelsen den <%= @slot_change.created_at %></li>
+</ul>
+
+<table>
+  <tr> <td> Förändring:</td><td> <%= @slot_change.change_type %> </td>
+  <tr> <td> Antal:</td><td> <%= @slot_change.quantity %> </td>
+  <tr> <td> Utförd av:</td><td> <%= @slot_change.user.name %> </td>
+</table>
+
+
+<div>
+  <% @slot_change.comments.each do |comment| %>
+    <div>
+      <h4><%= comment.user.name %> @ <%= comment.created_at %></h4>
+      <div>
+        <%= comment.content %>
+      </div>
+    </div>
+  <% end %>
+</div>

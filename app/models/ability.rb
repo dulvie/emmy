@@ -31,6 +31,7 @@ class Ability
     can :manage, Slot
     can :manage, SlotChange
     can :manage, Warehouse
+    can :read, Statistics::Report
   end
 
 

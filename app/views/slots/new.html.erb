@@ -1,0 +1,20 @@
+<ul class="breadcrumb">
+  <li><%= link_to 'Lagerlista', warehouses_path %></li>
+  <li><%= link_to @warehouse.name, edit_warehouse_path(@warehouse) %></li>
+  <li class="active">Ny lagerhylla</li>
+</ul>
+
+<h1>Lägg till lagerhylla till <%= @warehouse.name %></h1>
+<%= simple_form_for @slot,
+  :url => warehouse_slots_path(@slot.warehouse),
+  :class => "form-horizontal" do |f| %>
+
+  <div class="inputs">
+    <%= f.input :warehouse_id, :as => :hidden %>
+    <%= f.association :product %>
+  </div>
+
+  <div>
+    <%= f.button :submit, :class => "btn btn-primary" %>
+  </div>
+<% end %>

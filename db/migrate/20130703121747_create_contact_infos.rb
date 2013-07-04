@@ -9,8 +9,10 @@ class CreateContactInfos < ActiveRecord::Migration
       t.string :city
       t.string :country
       t.text :comment
+
       t.integer :user_id
       t.integer :customer_id
+      t.integer :warehouse_id
 
       t.timestamps
     end
