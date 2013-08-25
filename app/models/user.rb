@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
 
   has_one :contact_info
   has_and_belongs_to_many :roles
+  has_many :slot_changes
 
   # @note :security
   # The roles are cached on the object when role? is called the first time.

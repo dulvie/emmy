@@ -9,16 +9,15 @@ class SlotChangesController < ApplicationController
 
   # GET /warehouses/:warehouse_id/slots/:slot_id/slot_changes/new
   def new
+    # @note Not sure why this is needed, and if there is some
+    # load_and_authorize option that can be used so this is not needed.
     @slot_change.slot_id = @slot.id
   end
 
   # POST /warehouses/:warehouse_id/slots/:slot_id/slot_changes
   def create
-    @slot_change = SlotChange.new(slot_change_params)
+    @slot_change = current_user.slot_changes.new_by_change_type(slot_change_params[:change_type], slot_change_params)
 
-    # This is important
-    @slot_change.user_id = current_user.id
-    @slot_change.initiate_state
 
     respond_to do |format|
       if @slot_change.save
@@ -36,7 +35,8 @@ class SlotChangesController < ApplicationController
           end
         end
 
-        # @fixme there must be a nicer way to do the de-normalization of quantity...
+        # @fixme
+        # There must be a nicer way to do the de-normalization of quantity...
         # @wtf can't use @slot.recalculate_quantity_and_save here, if I do, it dosn't work.
         unless @slot_change.slot.recalculate_quantity_and_save
           logger.info "slot recalc FAILED #{@slot.errors.collect{|e| e}.inspect}"
@@ -57,6 +57,6 @@ class SlotChangesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def slot_change_params
-      params.require(:slot_change).permit(:slot_id, :warehouse_id, :quantity, :change_type)
+      params.require(:slot_change).permit(:slot_id, :warehouse_id, :quantity)
     end
 end

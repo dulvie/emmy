@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Messiasonrails4::Application.load_tasks
+Hormiga::Application.load_tasks

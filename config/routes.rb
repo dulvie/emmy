@@ -1,4 +1,4 @@
-Messiasonrails4::Application.routes.draw do
+Hormiga::Application.routes.draw do
   resources :comments
 
   get "statistics/index"

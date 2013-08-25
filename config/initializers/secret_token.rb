@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Messiasonrails4::Application.config.secret_key_base = '9512e4f1926bba74f40b781ca9af182ea0ef281f11458a9a220a1cd385c4018093ac02d506b7a87d34a99ce86465c289148b51a74796a978959c3f4fd065ca52'
+Hormiga::Application.config.secret_key_base = '9512e4f1926bba74f40b781ca9af182ea0ef281f11458a9a220a1cd385c4018093ac02d506b7a87d34a99ce86465c289148b51a74796a978959c3f4fd065ca52'

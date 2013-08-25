@@ -27,10 +27,11 @@ class Slot < ActiveRecord::Base
     product.name
   end
 
-  # @fixme this doesn't scale...
+  # @fixme Does this really scale?
+  # Can this be refactord into something that scale betters?
+  # To only do (old_value + change_value) instead of a full recalculation maybe?
   def recalculate_quantity_and_save
-    q = slot_changes.sum(:quantity)
-    self.quantity = q
+    self.quantity = slot_changes.sum(:quantity)
     save
   end
 end

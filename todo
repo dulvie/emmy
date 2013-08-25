@@ -1,10 +1,20 @@
 TODO
 
 * Features TBD
+  - add state machine for:
+    - invoice
+    - products
+    - slot
+    - slot_change
+
   - slot_change::transfers
     - Two slot_changes needs to be created, with status in_transfer etc.
-  - invoicing (not even started)
-    - pdf invoice
+  - invoicing (create,index,show(pdf), mark as paid)
+
+* Q/A Test period
+
+* Implement a test suite
+  - 
 
 * Translations!
   - Use rails i18n everywhere.

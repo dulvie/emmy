@@ -23,7 +23,7 @@
         <td><%= link_to change.created_at, warehouse_slot_slot_change_path(@warehouse, @slot, change) %></td>
         <td><%= change.change_type %></td>
         <td><%= change.quantity %></td>
-        <td><%= change.current_state %></td>
+        <td><%= change.human_state_name %></td>
         <td><%= change.user.name %></td>
         <td><%= change.comments.size %></td>
       </tr>
