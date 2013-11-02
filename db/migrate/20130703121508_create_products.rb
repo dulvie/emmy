@@ -3,11 +3,11 @@ class CreateProducts < ActiveRecord::Migration
     create_table :products do |t|
       t.string :name
       t.text :comment
-      t.string :product_type
+      t.string :product_type, default: Product::TYPES.first 
 
       t.integer :in_price
-      t.integer :out_price
-      t.integer :customer_price
+      t.integer :distributor_price
+      t.integer :retail_price
       t.integer :vat
 
       t.string :weight

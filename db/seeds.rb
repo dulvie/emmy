@@ -34,8 +34,8 @@ ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg"})
 espresso = Product.create({
   name: "Espresso",
   in_price: 3000,
-  out_price: 8000,
-  customer_price: 9500
+  distributor_price: 8000,
+  retail_price: 9500
 })
 
 espresso_in_ankeborg = Slot.new

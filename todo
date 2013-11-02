@@ -36,3 +36,6 @@ TODO
   - Integrate mail sending/reciving (imap?).
     - CRM as separate application?
 
+
+* notes/smaller details/good-to-have
+  - In the invoice list, mark expired invoices with red.

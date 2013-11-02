@@ -2,17 +2,44 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= f.input :product_type,
+      as: 'select',
+      collection: Product::TYPES,
+      include_blank: false
+    %>
     <%= f.input :name %>
-    <%= f.input :out_price %>
     <%= f.input :in_price %>
-    <%= f.input :customer_price %>
+    <%= f.input :distributor_price %>
+    <%= f.input :retail_price %>
     <%= f.input :vat %>
     <%= f.input :weight %>
-    <%= f.input :expire_at, as: :date %>
-    <%= f.input :refined_at, as: :date %>
+    <div id="date-fields-wrapper">
+      <%= f.input :expire_at, as: :date %>
+      <%= f.input :refined_at, as: :date %>
+    </div>
   </div>
 
   <div class="form-actions">
     <%= f.button :submit, :class => "btn btn-primary" %>
   </div>
 <% end %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    // hide expire/refined at fields when type is not refined.
+    $("#product_product_type").change(function() {
+      var $me = $(this);
+      if ($me.val() == 'refined') {
+        $('#date-fields-wrapper').show();
+      } else { 
+        $('#date-fields-wrapper').hide();
+      }
+    });
+    if ($('#product_product_type').val() == 'refined') {
+      $('#date-fields-wrapper').show();
+    } else { 
+      $('#date-fields-wrapper').hide();
+    }
+  });
+</script>
