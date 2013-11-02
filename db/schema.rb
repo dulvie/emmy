@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20130704195123) do
 
   create_table "customers", force: true do |t|
     t.string   "name"
+    t.string   "orgnr"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -76,6 +77,7 @@ ActiveRecord::Schema.define(version: 20130704195123) do
   create_table "products", force: true do |t|
     t.string   "name"
     t.text     "comment"
+    t.string   "product_type"
     t.integer  "in_price"
     t.integer  "out_price"
     t.integer  "customer_price"

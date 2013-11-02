@@ -3,6 +3,7 @@ class CreateProducts < ActiveRecord::Migration
     create_table :products do |t|
       t.string :name
       t.text :comment
+      t.string :product_type
 
       t.integer :in_price
       t.integer :out_price
