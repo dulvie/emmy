@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Hormiga::Application.load_tasks
+Emmy::Application.load_tasks

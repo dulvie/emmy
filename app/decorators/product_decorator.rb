@@ -1,5 +1,5 @@
 class ProductDecorator < Draper::Decorator
-  delegate :all
+  delegate_all
 
   [:in_price, :distributor_price, :retail_price].each do |field|
     define_method(field) do

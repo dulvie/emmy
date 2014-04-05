@@ -19,6 +19,7 @@ class ProductsController < ApplicationController
 
   # GET /products/1/edit
   def edit
+    @product = @product.decorate
   end
 
   # POST /products

@@ -1,14 +1,18 @@
 .container {
 }
 
+.container-small {
+  max-width: 800px;
+}
+
 a:hover .delete-icon {
-  background-color: $errorText;
-  @include border-radius(3px);
+  background-color: $state-danger-text;
+  border-radius: 3px;
   @extend .icon-white
 }
 
 a:hover .settings-icon:hover {
-  background-color: $successText;
-  @include border-radius(3px);
+  background-color: $state-success-text;
+  border-radius: 3px;
   @extend .icon-white
 }

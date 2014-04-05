@@ -4,13 +4,13 @@ module ApplicationHelper
   # A couple of short hand methods to make the html a bit nicer.
   # To short to be in a partial, but doesn't belong in a helper...
   def settings_icon
-    "<i class=\"icon-cog settings-icon\"></i>".html_safe
+    "<i class=\"glyphicon glyphicon-cog settings-icon\"> </i>".html_safe
   end
   def delete_icon
-    "<i class=\"icon-trash delete-icon\"></i>".html_safe
+    "<i class=\"glyphicon glyphicon-trash delete-icon\"> </i>".html_safe
   end
   def list_icon
-    "<i class=\"icon-align-justify\"></i>".html_safe
+    "<i class=\"glyphicon glyphicon-align-justify\"> </i>".html_safe
   end
 
   # This is hairy, please simplify/shorten
@@ -24,6 +24,18 @@ module ApplicationHelper
       end
     else
       content_tag(:li) { link_to link_text, link_path }
+    end
+  end
+
+  def form_submit(sform, text = nil)
+    content_tag(:div, class: 'form-group') do
+      content_tag(:div, class: 'col-md-3 col-md-offset-3') do
+        if text
+          sform.button :submit, class: "btn btn-primary", value: text
+        else
+          sform.button :submit, class: "btn btn-primary"
+        end
+      end
     end
   end
 

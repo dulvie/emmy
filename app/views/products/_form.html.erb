@@ -1,27 +1,24 @@
-<%= simple_form_for(@product, :html => {:class => "form-horizontal"}) do |f| %>
+<%= simple_form_for(@product, wrapper: :horizontal_form, html:{class: 'form-horizontal'} ) do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :product_type,
-      as: 'select',
-      collection: Product::TYPES,
-      include_blank: false
-    %>
-    <%= f.input :name %>
-    <%= f.input :in_price %>
-    <%= f.input :distributor_price %>
-    <%= f.input :retail_price %>
-    <%= f.input :vat %>
-    <%= f.input :weight %>
-    <div id="date-fields-wrapper">
-      <%= f.input :expire_at, as: :date %>
-      <%= f.input :refined_at, as: :date %>
-    </div>
+  <%= f.input :product_type,
+    as: 'select',
+    collection: Product::TYPES,
+    include_blank: false
+  %>
+  <%= f.input :name %>
+  <%= f.input :in_price %>
+  <%= @product.in_price %>
+  <%= f.input :distributor_price %>
+  <%= f.input :retail_price %>
+  <%= f.input :vat %>
+  <%= f.input :weight %>
+  <div id="date-fields-wrapper">
+    <%= f.input :expire_at, as: :date %>
+    <%= f.input :refined_at, as: :date %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, :class => "btn btn-primary" %>
-  </div>
+  <%= form_submit(f) %>
 <% end %>
 
 <script type="text/javascript">

@@ -10,21 +10,17 @@
   <li class="active">Ny Lagerhändelser</li>
 </ul>
 
-<%= simple_form_for @slot_change,
-  :url => warehouse_slot_slot_changes_path(@warehouse, @slot),
-  :html => {:class => "form-horizontal"} do |f| %>
+<%= simple_form_for(@slot_change,
+  url: warehouse_slot_slot_changes_path(@warehouse, @slot),
+  wrapper: :horizontal_form, html:{class: 'form-horizontal'} ) do |f| %>
   <%= f.error_notification %>
 
-  <div class="inputs">
-    <%= f.input :slot_id, :as => :hidden %>
-    <%= f.input :change_type, :as => :radio_buttons, :collection => SlotChange::TYPES %>
-    <%= f.input :quantity, :as => :integer %>
-    <%= simple_fields_for :comments do |c| %>
-      <%= c.input :content, :label => "Comment", :as => "text" %>
-    <% end %>
-  </div>
+  <%= f.input :slot_id, :as => :hidden %>
+  <%= f.input :change_type, :as => :radio_buttons, :collection => SlotChange::TYPES %>
+  <%= f.input :quantity, :as => :integer %>
+  <%= simple_fields_for :comments do |c| %>
+    <%= c.input :content, :label => "Comment", :as => "text" %>
+  <% end %>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Genomför lagerändring", :class => "btn btn-primary" %>
-  </div>
+  <%= form_submit(f, "Genomför lagerändring") %>
 <% end %>

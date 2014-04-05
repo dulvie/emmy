@@ -4,10 +4,11 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.0'
 
 # Use postgresql as the database for Active Record
-gem 'pg'
+#gem 'pg'
+gem 'mysql2'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails', '~> 4.0'
 #gem 'less-rails'
 #gem 'therubyracer' # needed for less-rails
 
@@ -15,7 +16,7 @@ gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
+#gem 'coffee-rails', '~> 4.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer', platforms: :ruby
@@ -48,7 +49,7 @@ gem 'unicorn'
 #
 gem 'devise'
 gem 'simple_form', git: 'https://github.com/plataformatec/simple_form.git'
-gem 'bootstrap-sass', '~> 2.3.2.2'
+gem 'bootstrap-sass', '~> 3.1'
 
 # adds backward compatibility.
 gem 'protected_attributes'

@@ -1,4 +1,4 @@
-Hormiga::Application.routes.draw do
+Emmy::Application.routes.draw do
   resources :comments
 
   get "statistics/index"

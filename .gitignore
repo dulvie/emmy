@@ -21,6 +21,7 @@
 
 # Obviously
 config/database.yml
+config/database.*.yml
 
 # Convenient dev script, not part of the app
 reload_db.sh

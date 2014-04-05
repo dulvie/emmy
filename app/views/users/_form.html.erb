@@ -1,14 +1,10 @@
-<%= simple_form_for(@user, :html => {:class => "form-horizontal"}) do |f| %>
+<%= simple_form_for(@user, wrapper: :horizontal_form, html:{class: 'form-horizontal'} ) do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :name, :required => true, :autofocus => true %>
-    <%= f.input :email, :required => true %>
-    <%= f.input :password, :required => true %>
-    <%= f.input :password_confirmation, :required => true %>
-  </div>
+  <%= f.input :name, :required => true, :autofocus => true %>
+  <%= f.input :email, :required => true %>
+  <%= f.input :password, :required => true %>
+  <%= f.input :password_confirmation, :required => true %>
 
-  <div class="form-actions">
-    <%= f.button :submit, :class => "btn btn-primary" %>
-  </div>
+  <%= form_submit(f) %>
 <% end %>
