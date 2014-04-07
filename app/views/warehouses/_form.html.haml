@@ -1,0 +1,10 @@
+= simple_form_for(@warehouse) do |f|
+  = f.error_notification
+
+  = f.input :name
+  = f.input :address
+  = f.input :zip
+  = f.input :city
+
+  = form_submit(f)
+

@@ -1,0 +1,24 @@
+%h1 Warehouses
+%table{:class => 'table table-striped'}
+  %thead
+    %tr
+      %th Name
+      %th Address
+      %th Zip
+      %th City
+      %th
+      %th
+    %tbody
+    - @warehouses.each do |warehouse|
+      %tr
+        %td= warehouse.name
+        %td= warehouse.address
+        %td= warehouse.zip
+        %td= warehouse.city
+        %td= link_to settings_icon, edit_warehouse_path(warehouse)
+        %td= link_to delete_icon, warehouse, method: :delete, data: { confirm: 'Are you sure?' }
+      </tr>
+
+%br
+
+= link_to 'Create warehouse', new_warehouse_path, :class => "btn"
