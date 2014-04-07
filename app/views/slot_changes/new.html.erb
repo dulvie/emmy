@@ -11,8 +11,8 @@
 </ul>
 
 <%= simple_form_for(@slot_change,
-  url: warehouse_slot_slot_changes_path(@warehouse, @slot),
-  wrapper: :horizontal_form, html:{class: 'form-horizontal'} ) do |f| %>
+  url: warehouse_slot_slot_changes_path(@warehouse, @slot)) do |f| %>
+
   <%= f.error_notification %>
 
   <%= f.input :slot_id, :as => :hidden %>

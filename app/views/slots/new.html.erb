@@ -1,18 +1,12 @@
 <ul class="breadcrumb">
   <li><%= link_to 'Lagerlista', warehouses_path %></li>
   <li><%= link_to @warehouse.name, edit_warehouse_path(@warehouse) %></li>
-  <li class="active">Ny lagerhylla</li>
+  <li class="active">New Slot</li>
 </ul>
 
-<h1>Lägg till lagerhylla till <%= @warehouse.name %></h1>
-<%= simple_form_for(@slot, url: warehouse_slots_path(@slot.warehouse), wrapper: :horizontal_form, html:{class: 'form-horizontal'} ) do |f| %>
-
-  <div class="inputs">
-    <%= f.input :warehouse_id, :as => :hidden %>
-    <%= f.association :product %>
-  </div>
-
-  <div>
-    <%= f.button :submit, :class => "btn btn-primary" %>
-  </div>
+<h2>Add slot to <%= @warehouse.name %></h2>
+<%= simple_form_for(@slot, url: warehouse_slots_path(@slot.warehouse)) do |f| %>
+  <%= f.input :warehouse_id, :as => :hidden %>
+  <%= f.association :product %>
+  <%= form_submit(f) %>
 <% end %>
