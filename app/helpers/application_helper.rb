@@ -29,12 +29,10 @@ module ApplicationHelper
 
   def form_submit(sform, text = nil)
     content_tag(:div, class: 'form-group') do
-      content_tag(:div, class: 'col-md-3 col-md-offset-3') do
-        if text
-          sform.button :submit, class: "btn btn-primary", value: text
-        else
-          sform.button :submit, class: "btn btn-primary"
-        end
+      if text
+        sform.button :submit, class: "btn btn-primary", value: text
+      else
+        sform.button :submit, class: "btn btn-primary"
       end
     end
   end
