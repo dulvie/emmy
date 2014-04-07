@@ -86,6 +86,8 @@ GEM
     guard-zeus (2.0.0)
       guard (~> 2.0)
       zeus (~> 0)
+    haml (4.0.5)
+      tilt
     hike (1.2.3)
     i18n (0.6.9)
     jquery-rails (3.1.0)
@@ -201,6 +203,7 @@ DEPENDENCIES
   foreman
   guard
   guard-zeus
+  haml
   jquery-rails
   modernizr-rails
   mysql2

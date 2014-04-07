@@ -59,6 +59,7 @@ gem 'cancan'
 gem 'modernizr-rails'
 gem 'state_machine'
 gem 'draper', '~> 1.3'
+gem 'haml', '~> 4.0'
 
 group :test do
   gem 'factory_girl_rails', '~> 4.0'

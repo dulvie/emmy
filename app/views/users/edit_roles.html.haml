@@ -1,0 +1,8 @@
+%h1 Change authorization for #{@user.name}
+
+= simple_form_for(@user, :url => edit_roles_user_path(@user), :method => :patch) do |f|
+  = f.error_notification
+
+  = f.association :roles, as: :check_boxes
+
+  = form_submit(f)
