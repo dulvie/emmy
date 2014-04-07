@@ -1,3 +1,11 @@
 .hidden {
   @extend .hide;
 }
+
+.alert-notice {
+  @extend .alert-success;
+}
+
+.flash {
+  margin-top: -$line-height-computed;
+}
