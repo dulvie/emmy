@@ -203,7 +203,7 @@ DEPENDENCIES
   foreman
   guard
   guard-zeus
-  haml
+  haml (~> 4.0)
   jquery-rails
   modernizr-rails
   mysql2
