@@ -6,6 +6,7 @@ class WarehousesController < ApplicationController
   # GET /warehouses.json
   def index
     @warehouses = Warehouse.all
+    @breadcrumbs = [['Warehouses']]
   end
 
   # GET /warehouses/1
@@ -16,10 +17,12 @@ class WarehousesController < ApplicationController
   # GET /warehouses/new
   def new
     @warehouse = Warehouse.new
+    @breadcrumbs = [['Warehouses', warehouses_path], ['New warehouse']]
   end
 
   # GET /warehouses/1/edit
   def edit
+    @breadcrumbs = [['Warehouses', warehouses_path], [@warehouse.name]]
   end
 
   # POST /warehouses

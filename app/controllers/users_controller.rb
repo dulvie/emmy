@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.all
+    @breadcrumbs = [['Users']]
   end
 
   # GET /users/1
@@ -20,10 +21,12 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
+    @breadcrumbs = [['Users', users_path], ['New user']]
   end
 
   # GET /users/1/edit
   def edit
+    @breadcrumbs = [['Users', users_path], [@user.name]]
   end
 
   # POST /users
@@ -71,6 +74,7 @@ class UsersController < ApplicationController
   # for the other actions..
   def edit_roles
     authorize! :manage, Role
+    @breadcrumbs = [['Users', users_path], [@user.name, edit_user_path(@user)], ['Roles']]
   end
 
   # @todo Refactor me!

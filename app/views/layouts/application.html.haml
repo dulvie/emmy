@@ -1,16 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Emmy</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-  <%= render partial: "shared/navigation" %>
-  <%= render partial: "shared/notifications" %>
-  <div class="container-fluid">
-    <%= yield %>
-  </div>
-</body>
-</html>
+!!! 5
+%html
+  %head
+    %title Emmy
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tags
+
+  %body
+    = render partial: 'shared/navigation'
+    = render partial: 'shared/notifications'
+    .container-fluid
+      = render(partial: 'shared/breadcrumb') if @breadcrumbs
+      = yield

@@ -1,9 +1,4 @@
-%ul.breadcrumb
-  %li= link_to 'Warehouses', warehouses_path
-  %li.active= @warehouse.name
-
 %h1 Warehouse #{@warehouse.name}
-
 %ul{:class => 'nav nav-tabs'}
   %li.active= link_to "Base information", "#warehouse-form", {"data-toggle" => "tab"}
   %li= link_to "Slots", "#slot-index", {"data-toggle" => "tab"}

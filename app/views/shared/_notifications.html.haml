@@ -1,7 +1,5 @@
-<% if flash %>
-  <% flash.each do |key, message| %>
-    <div class="flash alert alert-<%= key %>">
-      <div class="container-fluid"><%= message %></div>
-    </div>
-  <% end %>
-<% end %>
+- if flash
+  - flash.each do |key, message|
+    .flash.alert{:class => "alert-#{key}"}
+      .container-fluid
+        = message

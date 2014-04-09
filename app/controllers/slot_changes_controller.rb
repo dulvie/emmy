@@ -12,6 +12,12 @@ class SlotChangesController < ApplicationController
     # @note Not sure why this is needed, and if there is some
     # load_and_authorize option that can be used so this is not needed.
     @slot_change.slot_id = @slot.id
+    @breadcrumbs = [
+      ['Warehouses', warehouses_path],
+      [@warehouse.name, edit_warehouse_path(@warehouse)],
+      [@slot.product_name, warehouse_slot_slot_changes_path(@warehouse, @slot)],
+      ['New slot change']
+    ]
   end
 
   # POST /warehouses/:warehouse_id/slots/:slot_id/slot_changes
