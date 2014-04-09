@@ -1,6 +1,14 @@
 form {
   width: 750px;
 }
+form.form-bare {
+  width: inherit;
+}
+
+.single-center {
+  margin: 0 auto;
+  width: 300px;
+}
 
 a:hover .delete-icon {
   background-color: $state-danger-text;
@@ -12,4 +20,15 @@ a:hover .settings-icon:hover {
   background-color: $state-success-text;
   border-radius: 3px;
   @extend .icon-white
+}
+
+form.form-signin {
+  input[type=email] {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  input[type=password] {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
 }

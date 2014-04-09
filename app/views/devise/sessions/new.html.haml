@@ -1,0 +1,11 @@
+.container
+  .panel.panel-default.single-center
+    .panel-heading Sign in
+    .panel-body
+      = simple_form_for( resource, :as => resource_name, :url => session_path(resource_name), wrapper: :bare, html:{class:'form-bare form-signin'}) do |f|
+        = f.input :email, :autofocus => true, label:false, placeholder: 'Username', type: 'email'
+        = f.input :password, label: false, placeholder: 'Password'
+        = f.input :remember_me, as: :boolean, inline_label: true
+        = form_submit(f)
+      = render :partial => "devise/shared/links"
+
