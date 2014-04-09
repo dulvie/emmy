@@ -7,12 +7,32 @@ Javascript:
       - /products/new (_form)
 
 
-Rails-side:
+Rails:
   * Add angular javascripts
   * Add breadcrumbs everywhere.
   * Convert all views to haml
     - find app/views/ -type f -name "*.erb"
 
 
+Product:
+  * Do a recap of all needed features.
+  * Gather and write acceptance tests for features.
+    - as a user, I can create and edit products
+    - as a user, I can create and edit customers
+    - as a user, I can create and edit a warehouse.
+    - as a user, I can add slots to a warehouse.
+    - as a user, I can stack products into a slot in a warehouse.
+    - as a user, I can modify number of products in a warehouse slot
+      - manually remove/add
+      - send a number of items to another warehouse
+      - receive items from another warehouse
+      - transform an un-refined product into a refined product(roast coffee)
+    - as a user, I can create and confirm invoices.
+      - This includes, subtracking items from a warehouse
+      - Invoices should be tied to a customer, warehouse and a seller.
 
     
+
+Version 2 (or should this be done sooner?)
+* Add support for multiple projects.
+* Add support for OAuth'd users and projects.
