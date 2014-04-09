@@ -11,15 +11,10 @@ form.form-bare {
 }
 
 a:hover .delete-icon {
-  background-color: $state-danger-text;
-  border-radius: 3px;
-  @extend .icon-white
+  color: $state-danger-text;
 }
-
 a:hover .settings-icon:hover {
-  background-color: $state-success-text;
-  border-radius: 3px;
-  @extend .icon-white
+  color: $state-success-text;
 }
 
 form.form-signin {
