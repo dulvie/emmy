@@ -1,18 +1,22 @@
-<h1>Dashboard</h1>
-<div>
-  Här borde en lista på saker man kan tänkas vilja göra finnas.
-</div>
-<div>Det borde även finnas lite statistik och sånt smuttigt.</div>
+%h1 Dashboard
+%div
+  @TBD Statistics, diagrams etc.
 
-<h4>Snabbvägar</h4>
-<ul>
-  <li>Skapa ny faktura</li>
-  <li>Lista obetalda fakturor</li>
-</ul>
+.row
+  .col-md-4
+    %h4 Shortcuts
+    %ul.nav.nav-pills.nav-stacked.col-md-4
+      %li= link_to "Create invoice", new_invoice_path
+      %li= link_to "Create product", new_product_path
 
-<h4>Övrigt</h4>
-<ul>
-  <li><%= link_to "Hantera fakturor", invoices_path %></li>
-  <li><%= link_to "Hantera lager", warehouses_path %></li>
-  <li><%= link_to "Hantera sortiment", products_path %></li>
-</ul>
+  .col-md-4
+    %h4 Misc
+    %ul.nav.nav-pills.nav-stacked.col-md-4
+      %li= link_to "Invoices", invoices_path
+      %li= link_to "Warehouses", warehouses_path
+      %li= link_to "Products", products_path
+
+.row
+  .col-md-6
+    %h4 TODO
+    %pre= @todo_content

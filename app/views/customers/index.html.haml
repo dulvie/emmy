@@ -11,6 +11,6 @@
         %tr
           %td #{customer.name}
           %td= link_to settings_icon, edit_customer_path(customer)
-          %td= link_to delete_icon, customer, method: :delete, data: { confirm: 'är du säker?' }
+          %td= link_to delete_icon, customer, method: :delete, data: { confirm: 'Are you Sure?' }
 
-= link_to 'Add new customer', new_customer_path, class: 'btn'
+= link_to 'Add new customer', new_customer_path, class: 'btn btn-default'
