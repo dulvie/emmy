@@ -10,8 +10,6 @@ Javascript:
 Rails-side:
   * Add angular javascripts
   * Add breadcrumbs everywhere.
-  * login form should be in the middle.
-    - inspiration: http://getbootstrap.com/examples/signin/
   * Convert all views to haml
     - find app/views/ -type f -name "*.erb"
 
