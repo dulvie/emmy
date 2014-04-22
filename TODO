@@ -10,11 +10,12 @@ Javascript:
 Rails:
   * Add angular javascripts
   * Add breadcrumbs everywhere.
+  * make table lists and form have consistent looks
   * Convert all views to haml
     - find app/views/ -type f -name "*.erb"
 
 
-Product:
+Features:
   * Do a recap of all needed features.
   * Gather and write acceptance tests for features.
     - as a user, I can create and edit products
