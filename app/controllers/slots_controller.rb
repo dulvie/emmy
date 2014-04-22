@@ -4,6 +4,11 @@ class SlotsController < ApplicationController
 
   # GET /warehouses/:warehouse_id/slots/new
   def new
+    @breadcrumbs = [
+      ['Warehouses', warehouses_path],
+      [@warehouse.name, edit_warehouse_path(@warehouse)],
+      ['New slot']
+    ]
   end
 
   # GET /warehouses/:warehouse_id/slots/:id/edit

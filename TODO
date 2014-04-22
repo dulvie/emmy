@@ -9,8 +9,8 @@ Javascript:
 
 Rails:
   * Add angular javascripts
-  * Add breadcrumbs everywhere.
-  * make table lists and form have consistent looks
+  [x] * Add breadcrumbs everywhere.
+  [x] * make table lists and form have consistent looks
   * Convert all views to haml
     - find app/views/ -type f -name "*.erb"
 

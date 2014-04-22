@@ -1,0 +1,14 @@
+%table{:class=> 'table table-striped'}
+  %thead
+    %tr
+      %th Product
+      %th Quantity
+      %th
+  %tbody
+    - slots.each do |slot|
+      %tr
+        %td= slot.product_name
+        %td= slot.quantity
+        %td= link_to list_icon, warehouse_slot_slot_changes_path(@warehouse, slot)
+
+= link_to "Create slot", new_warehouse_slot_path(@warehouse), class: 'btn btn-default'
