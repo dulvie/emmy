@@ -12,6 +12,7 @@ class WarehousesController < ApplicationController
   # GET /warehouses/1
   # GET /warehouses/1.json
   def show
+    @breadcrumbs = [['Warehouses', warehouses_path], [@warehouse.name]]
   end
 
   # GET /warehouses/new
