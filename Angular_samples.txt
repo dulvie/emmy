@@ -1,0 +1,135 @@
+var app= angular.module('emmy');
+
+// Filter ------------------------------------------
+// Insted of a usual function 
+// Check inparam?
+// use in HTML  {{e.xvat|invat:vat}} when e.xvat is value exclusive vat
+// use in Javascript  var inkl =  $filter('inkvat')(e.xvat, vat); OBS! Controller med "function myCtrl($scope, $filter)"
+
+app.filter('inkvat', function() {
+	return function(input, vat) {
+	var out = 0;
+	var inp = Number(input);
+	out = inp + inp*(vat/100);
+	return out;
+	};
+});
+
+// Rest i AngularJs
+// (1) http://coder1.com/articles/consuming-rest-services-angularjs
+// (2) http://draptik.github.io/blog/2013/07/28/restful-crud-with-angularjs/
+// +(3) http://docs.angularjs.org/api/ngResource/service/$resource
+// (4) http://www.masnun.com/2013/08/28/rest-access-in-angularjs-using-ngresource.html
+// ! (5) http://kirkbushell.me/angular-js-using-ng-resource-in-a-more-restful-manner/
+// (6) http://sravi-kiran.blogspot.se/2013/08/ConsumingWebApiODataUsingResourceServiceOfAngularJS.html
+// (7) http://cacodaemon.de/index.php?id=44
+// (8) https://egghead.io/lessons/angularjs-using-resource-for-data-models
+
+//--Summa---------------------------------
+<script src="angular-resource.min.js" type="text/javascript">
+
+var app = angular.module('myApp', ['ngResource']);
+
+app.factory('UsersFactory', function ($resource) {
+    return $resource('/ngdemo/web/users', {}, {
+        query: { method: 'GET', isArray: true },
+        create: { method: 'POST' }
+    })
+});
+app.factory('UserFactory', function ($resource) {
+    return $resource('/ngdemo/web/users/:id', {}, {
+        show: { method: 'GET' },
+        update: { method: 'PUT', params: {id: '@id'} },
+        delete: { method: 'DELETE', params: {id: '@id'} }
+    })
+app.factory('employeeSvc', function ($resource) {
+    var odataUrl = "/odata/Employees";
+    return $resource("", {},
+    {
+        'getAll': { method: "GET", url: odataUrl },
+        'save': { method: "POST", url: odataUrl },
+        'update': { method: 'PUT', params: { key: "@key" }, url: odataUrl + "(:key)" },
+        'query': { method: 'GET', params: { key: "@key" }, url: odataUrl + "(:key)" },
+        'remove': { method: 'DELETE', params: { key: "@key" }, url: odataUrl + "(:key)" }
+     });
+});    
+    
+app.controller('UserDetailCtrl', ['$scope', '$routeParams', 'UserFactory', '$location',
+    function ($scope, $routeParams, UserFactory, $location) {
+    
+var bookings = Booking.query(); (4)
+
+$scope.updateUser = function () {
+            UserFactory.update($scope.user);
+            $location.path('/user-list');
+        }; 
+        
+ //Getting all employees and assigning to a scope variable          
+    function refreshEmployees() {
+        (new employeeSvc()).$getAll()
+            .then(function (data) {
+                $scope.employees = data.value;
+            });
+    };
+ 
+    //Add a new employee to the resource
+    function createEmployee(emp) {
+        return emp.$save();
+    };
+ 
+    //Modify details of an existing employee
+    function editEmployee(emp) {
+        return (new employeeSvc({
+            "Id": emp.Id, "Name": emp.Name, "Salary": emp.Salary
+        })).$update({ key: emp.Id });
+    };
+ 
+    //Delete an employee
+    function deleteEmployee(id) {
+        return (new employeeSvc()).$remove({ key: id });
+    };          
+    
+//-----------------------------------------
+var myApp = angular.module('myApp', ['ngResource'])
+  .factory('AngularIssues', function($resource){
+    return $resource('https://api.github.com/repos/angular/angular.js/issues', {})
+  })
+  .value('version', '0.1') 
+  
+ .controller('MyCtrl1', ['$scope', 'AngularIssues', function($scope, AngularIssues) {
+ 
+    $scope.data = {};
+   
+    AngularIssues.query(function(response) {
+      $scope.data.issues = response;
+    });
+  }])
+
+//--
+myApp.factory('UsersFactory', function ($resource) {
+    return $resource('/ngdemo/web/users', {}, {
+        query: { method: 'GET', isArray: true },
+        create: { method: 'POST' }
+    })
+});
+myApp.factory('UserFactory', function ($resource) {
+    return $resource('/ngdemo/web/users/:id', {}, {
+        show: { method: 'GET' },
+        update: { method: 'PUT', params: {id: '@id'} },
+        delete: { method: 'DELETE', params: {id: '@id'} }
+    })
+});
+app.controller('UserDetailCtrl', ['$scope', '$routeParams', 'UserFactory', '$location',
+    function ($scope, $routeParams, UserFactory, $location) {
+
+$scope.updateUser = function () {
+            UserFactory.update($scope.user);
+            $location.path('/user-list');
+        };
+
+$scope.user = UserFactory.show({id: $routeParams.id});
+
+   }]);
+
+
+
