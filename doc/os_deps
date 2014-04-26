@@ -1,0 +1,4 @@
+# Dependencies need to be installed by OS-level admin
+
+## Ubuntu
+  Postgres dev files in order to build pg gem
