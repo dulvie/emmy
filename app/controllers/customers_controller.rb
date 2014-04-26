@@ -4,19 +4,23 @@ class CustomersController < ApplicationController
   # GET /customers
   # GET /customers.json
   def index
+    @breadcrumbs = [['Customers']]
   end
 
   # GET /customers/1
   # GET /customers/1.json
   def show
+    @breadcrumbs = [['Customers', customers_path], [@customer.name]]
   end
 
   # GET /customers/new
   def new
+    @breadcrumbs = [['Customers', customers_path], ['New customer']]
   end
 
   # GET /customers/1/edit
   def edit
+    @breadcrumbs = [['Customers', customers_path], [@customer.name]]
   end
 
   # POST /customers

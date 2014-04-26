@@ -1,21 +1,19 @@
 %h1 Users
-
 %table{:class => 'table table-striped'}
   %thead
     %tr
       %th Email
-      %th
-      %th
-      %th
-      %th
+      - if can? :manage, Role
+        %th
+        %th
+        %th
     %tbody
     - @users.each do |user|
       %tr
-        %td #{user.email}
-        %td #{link_to 'visa', user}
+        %td #{link_to(user.email, user)}
         - if can? :manage, Role
-          %td #{link_to 'Rättigheter', edit_roles_user_path(user)}
-        %td #{link_to 'ändra', edit_user_path(user)}
-        %td #{link_to 'ta bort', user, method: :delete, data: { confirm: 'Are you sure?' }}
-%br
-= link_to 'New User', new_user_path, :class => "btn"
+          %td #{link_to 'Roles', edit_roles_user_path(user)}
+          %td= link_to settings_icon, edit_user_path(user)
+          %td= link_to delete_icon, user, method: :delete, data: { confirm: 'Are you Sure?' }
+
+= link_to 'New User', new_user_path, class: 'btn btn-default'
