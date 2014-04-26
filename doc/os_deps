@@ -2,3 +2,5 @@
 
 ## Ubuntu
   Postgres dev files in order to build pg gem
+
+  git-core is also needed.
