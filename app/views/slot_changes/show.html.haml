@@ -1,0 +1,20 @@
+.row
+  .col-md-6
+    %table{:class => 'table'}
+      %tbody
+        %tr
+          %th Change
+          %td #{@slot_change.change_type}
+        %tr
+          %th Quantity
+          %td #{@slot_change.quantity}
+        %tr
+          %th Done by
+          %td #{@slot_change.user.name}
+
+
+.row
+  - @slot_change.comments.each do |comment|
+    .col-md-6
+      %h4 #{comment.user.name} @ #{comment.created_at}
+      %div #{comment.content}

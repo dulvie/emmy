@@ -5,6 +5,11 @@ class SlotChangesController < ApplicationController
 
   # GET /warehouses/:warehouse_id/slots/:slot_id/slot_changes
   def index
+    @breadcrumbs = [
+      ['Warehouses', warehouses_path],
+      [@warehouse.name, edit_warehouse_path(@warehouse)],
+      ["#{@slot.product_name}(#{@slot.quantity})"]
+    ]
   end
 
   # GET /warehouses/:warehouse_id/slots/:slot_id/slot_changes/new
@@ -57,12 +62,18 @@ class SlotChangesController < ApplicationController
 
   # GET /warehouses/:warehouse_id/slots/:slot_id/slot_changes/:id
   def show
+    @breadcrumbs = [
+      ['Warehouses', warehouses_path],
+      [@warehouse.name, @warehouse],
+      ['Slot changes', warehouse_slot_slot_changes_path(@warehouse, @slot)],
+      ['Warehouse changes']
+    ]
   end
 
   private
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def slot_change_params
-      params.require(:slot_change).permit(:slot_id, :warehouse_id, :quantity)
+      params.require(:slot_change).permit(:slot_id, :warehouse_id, :quantity, :change_type)
     end
 end

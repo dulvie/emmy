@@ -1,0 +1,26 @@
+
+%table{:class => 'table table-striped'}
+  %thead
+    %tr
+      %th Date
+      %th Type
+      %th Quantity
+      %th Status
+      %th Done by
+      %th Comments
+  %tbody
+    - @slot_changes.each do |change|
+      %tr
+        %td= link_to change.created_at, warehouse_slot_slot_change_path(@warehouse, @slot, change)
+        %td= change.change_type
+        %td= change.quantity
+        %td= change.human_state_name
+        %td= change.user.name
+        %td= change.comments.size
+      </tr>
+  %tfoot
+    %tr
+      %td Total
+      %td
+      %td= @slot.quantity
+= link_to 'Create transaction', new_warehouse_slot_slot_change_path(@warehouse, @slot), class: 'btn btn-default'
