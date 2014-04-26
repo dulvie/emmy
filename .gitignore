@@ -18,6 +18,7 @@
 # temp/swap files for different editors and oss
 *.swp
 .DS_STORE
+.project
 
 # Obviously
 config/database.yml
