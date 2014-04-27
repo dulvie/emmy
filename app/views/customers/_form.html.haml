@@ -1,5 +1,7 @@
 = simple_form_for(@customer) do |f|
   = f.error_notification
-  = f.input :name
-
+  
+  = f.input :name, required: true, autofocus: true
+  = f.input :orgnr, required: true
+  
   = form_submit(f)
