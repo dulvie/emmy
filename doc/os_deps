@@ -1,6 +1,14 @@
 # Dependencies need to be installed by OS-level admin
 
 ## Ubuntu
-  Postgres dev files in order to build pg gem
+  git is a good idea:
+    * git-core
 
-  git-core is also needed.
+  Postgres dev files in order to build pg gem
+    * libpq-dev
+
+  The capybara webkit driver needs
+    * libqtwebkit-dev
+  And then you'll need to
+    $ DISPLAY=localhost:1.0 xvfb-run bundle exec cucumber
+  when running cucumber on headless vm
