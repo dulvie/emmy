@@ -6,6 +6,6 @@
         = f.input :email, :autofocus => true, label:false, placeholder: 'Username', type: 'email'
         = f.input :password, label: false, placeholder: 'Password'
         = f.input :remember_me, as: :boolean, inline_label: true
-        = form_submit(f)
+        = form_submit(f, "Sign in")
       = render :partial => "devise/shared/links"
 
