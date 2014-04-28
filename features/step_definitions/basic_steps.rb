@@ -39,8 +39,36 @@ end
 Then(/^I should see a "(.*?)" link$/) do |string|
   assert_equal page.has_link?(string), true
 end
+ 
+Given(/^a "(.*?)" with "(.*?)" equals to "(.*?)" exists$/) do |resource_name, field_name, field_value|
+  m = resource_name.capitalize.constantize
+  obj = m.send("find_by_#{field_name}", field_value)
+  if obj
+    assert_equals field_value, obj.send(field_name)
+  else
+    FactoryGirl.create resource_name.to_sym, field_name.to_sym => field_value
+  end
+end
 
+Given(/^I click delete link for "(.*?)" warehouse$/) do |warehouse_name|
+  assert true, page.has_content?(warehouse_name)
+  wh = Warehouse.find_by_name warehouse_name
+  delete_link = find(:xpath, "//a[contains(@href,'#{warehouse_path(wh)}') and contains (@data-method, 'delete')]")
+  delete_link.click
+end
 
+Given(/^I confirm the alertbox$/) do
+  # page.driver.browser.switch_to.alert.accept
+  page.driver.accept_js_confirms!
+end
+
+Given(/^I click edit link for "(.*?)" warehouse$/) do |warehouse_name|
+  assert true, page.has_content?(warehouse_name)
+  wh = Warehouse.find_by_name "test warehouse"
+  assert_equal wh.name, warehouse_name
+  edit_link = find(:xpath, "//a[contains(@href,'#{edit_warehouse_path(wh)}')]")
+  edit_link.click
+end
 
 def warehouse_valid_form_data
   fill_in "warehouse_name", with: "test warehouse"

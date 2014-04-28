@@ -61,7 +61,7 @@ class WarehousesController < ApplicationController
   def destroy
     @warehouse.destroy
     respond_to do |format|
-      format.html { redirect_to warehouses_url }
+      format.html { redirect_to warehouses_url, notice: "Warehouse was successfully deleted." }
       format.json { head :no_content }
     end
   end

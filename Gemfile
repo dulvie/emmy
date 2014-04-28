@@ -57,4 +57,5 @@ group :test, :development do
   gem 'guard-zeus'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
+  gem 'capybara-webkit'
 end
