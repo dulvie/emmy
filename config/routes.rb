@@ -14,9 +14,6 @@ Emmy::Application.routes.draw do
     end
   end
 
-
-
-
   devise_for :users
   resources :users do
     member do
@@ -26,8 +23,9 @@ Emmy::Application.routes.draw do
   end
 
   get "dashboard", to: "dashboard#index"
-  get "/about", to: "pages#about"
-  get "/start", to: "pages#start"
+  [:about,:start,:formats].each do |p|
+    get "/#{p}", to: "pages##{p}"
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
