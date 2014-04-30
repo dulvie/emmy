@@ -17,6 +17,10 @@ a:hover .settings-icon:hover {
   color: $state-success-text;
 }
 
+a {
+  transition: color .2s ease-in-out;
+}
+
 form.form-signin {
   input[type=email] {
     border-bottom-left-radius: 0;
