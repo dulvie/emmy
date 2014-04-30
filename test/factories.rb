@@ -30,4 +30,8 @@ FactoryGirl.define do
     zip "08 001"
     city "Stockholm"
   end
+
+  factory :customer do
+    name "CoffeeHouse foobar"
+  end
 end
