@@ -8,6 +8,13 @@
 
 .flash {
   margin-top: -$line-height-computed;
+  position: absolute;
+  width: 100%;
+}
+
+
+.breadcrumb {
+  margin-top: -$line-height-computed;
 }
 
 .translation_missing {

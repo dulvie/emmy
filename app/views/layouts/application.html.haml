@@ -9,6 +9,6 @@
   %body
     = render partial: 'shared/navigation'
     = render partial: 'shared/notifications'
+    = render(partial: 'shared/breadcrumb') if @breadcrumbs
     .container-fluid
-      = render(partial: 'shared/breadcrumb') if @breadcrumbs
       = yield
