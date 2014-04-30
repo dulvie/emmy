@@ -2,13 +2,21 @@
 
 ## Ubuntu
   git is a good idea:
-    * git-core
+    $ apt-get install git-core
 
   Postgres dev files in order to build pg gem
-    * libpq-dev
+    $ apt-get install libpq-dev
 
   The capybara webkit driver needs
-    * libqtwebkit-dev
-  And then you'll need to
+    $ apt-get install libqtwebkit-dev
+
+  When running inside a headless vm, capybara-webkit need you to
     $ DISPLAY=localhost:1.0 xvfb-run bundle exec cucumber
-  when running cucumber on headless vm
+  Tip: Add that thing to your ~/.bashrc
+    $ echo "DISPLAY=localhost:1.0" >> ~/.bashrc
+    $ echo "alias cucu='xvfb-run bundle exec cucumber'" >> ~/.bashrc
+
+
+## Gems
+  All needed gems should be installed with
+    $ bundle install
