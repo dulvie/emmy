@@ -13,7 +13,7 @@ class Product < ActiveRecord::Base
 
   TYPES = ['refined', 'unrefined']
 
-  has_and_belongs_to_many :slots
+  has_many :slots, through: :slot_changes
 
   attr_accessible :name, :product_type, :in_price, :distributor_price, :retail_price, :vat, :weight, :expire_at, :refined_at
 
