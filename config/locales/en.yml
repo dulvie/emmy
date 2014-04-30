@@ -21,3 +21,5 @@
 
 en:
   hello: "Hello world"
+  welcome_to_emmy: "Welcome to Emmy, the app to handle logistics for small organisations."
+  sign_in: "Sign in"

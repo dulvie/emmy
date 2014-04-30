@@ -1,0 +1,22 @@
+en:
+  # Guest.
+  about: "About"
+  login: "Sign in"
+
+  # Authenticated, top navigation.
+  general: "General"
+  imports: "Imports"
+  process_roast: "Process / Roasts"
+  users: "Users"
+
+  # Authenticated, sub navigation.
+  accept: "Accept"
+  customers: "Customers"
+  invoices: "Invoices"
+  order: "Order"
+  products: "Products"
+  reception: "Reception"
+  warehouses: "Warehouses"
+  payment: "Payment"
+  
+

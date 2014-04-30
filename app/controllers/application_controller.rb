@@ -10,4 +10,17 @@ class ApplicationController < ActionController::Base
   # Except the devise controller (sign in).
   check_authorization :unless => :devise_controller?
 
+
+  # i18n support
+  before_filter :set_locale
+  def set_locale
+    I18n.locale = locale_from_params || I18n.default_locale
+  end
+
+  private
+  # only allow certian locales to be passed.
+  def locale_from_params
+    params[:locale] if (params[:locale] && ['en','se'].include?(params[:locale]))
+  end
+
 end

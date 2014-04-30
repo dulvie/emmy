@@ -1,0 +1,20 @@
+se:
+  # Guest.
+  about: "Om"
+  login: "Logga in"
+
+  # Authenticated, top navigation.
+  general: "Allmän"
+  imports: "Importer"
+  process_roast: "Process / Rostning"
+  users: "Användare"
+
+  # Authenticated, sub navigation.
+  accept: "Godkänn"
+  customers: "Kunder"
+  invoices: "Fakturor"
+  order: "Beställ"
+  products: "Produkter"
+  reception: "Mottag"
+  warehouses: "Lagerställen"
+  payment: "Betalning"
