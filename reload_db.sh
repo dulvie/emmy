@@ -1,3 +1,8 @@
 #!/bin/bash
+db_name=$1
+
+if [ "$db_name" == "" ]; then
+  $db_name='emmy_development' 
+fi
 be='bundle exec'
-$be rake db:drop && $be rake db:create && $be rake db:migrate && $be rake db:seed
+dropdb $db_name && $be rake db:create && $be rake db:migrate && $be rake db:seed

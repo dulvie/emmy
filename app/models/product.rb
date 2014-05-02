@@ -7,15 +7,17 @@ class Product < ActiveRecord::Base
   # t.integer :retail_price
   # t.integer :vat
   # t.string :weight
+  # t.string :unit
   # t.string :package_dimensions
   # t.timestamp :expire_at
   # t.timestamp :refined_at
 
   TYPES = ['refined', 'unrefined']
 
-  has_many :slots, through: :slot_changes
+  has_many :transactions
+  has_many :shelves, through: :transactions
 
-  attr_accessible :name, :product_type, :in_price, :distributor_price, :retail_price, :vat, :weight, :expire_at, :refined_at
+  attr_accessible :name, :product_type, :in_price, :distributor_price, :retail_price, :vat, :unit, :weight, :expire_at, :refined_at
 
   validates :name, :uniqueness => true
   validates :name, :presence => true

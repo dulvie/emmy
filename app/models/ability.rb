@@ -28,8 +28,8 @@ class Ability
     can :manage, Invoice
     can :manage, InvoiceItem
     can :manage, Product
-    can :manage, Slot
-    can :manage, SlotChange
+    can :manage, Transaction
+    can :manage, Manual
     can :manage, Warehouse
     can :read, Statistics::Report
   end

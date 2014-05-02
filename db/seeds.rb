@@ -30,6 +30,7 @@ ktest.roles << roles.last
 ktest.save
 
 ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg"})
+flea_bottom = Warehouse.create({name: "Flea bottom", city: "King's landing"})
 
 espresso = Product.create({
   name: "Espresso",
@@ -38,38 +39,38 @@ espresso = Product.create({
   retail_price: 9500
 })
 
-espresso_in_ankeborg = Slot.new
+brewd = Product.create({
+  name: "Brygg",
+  in_price: 3000,
+  distributor_price: 6000,
+  retail_price: 6500
+})
+
+espresso_in_ankeborg = Shelf.new
 espresso_in_ankeborg.warehouse = ankeborg_warehouse
 espresso_in_ankeborg.product = espresso
 espresso_in_ankeborg.save
 
-emmaus = Customer.create({
-  name: "Emmaus Stockholm",
-})
+brewd_in_ankeborg = Shelf.new
+brewd_in_ankeborg.warehouse = ankeborg_warehouse
+brewd_in_ankeborg.product = brewd
+brewd_in_ankeborg.save
 
-# Creating an invoice, this is a bit hairy ----------------
-invoice = Invoice.new
-invoice.customer = emmaus
-invoice.user = jtest
-invoice.save
+[espresso, brewd].each do |pr|
+  transaction = Transaction.new(
+    warehouse: ankeborg_warehouse,
+    product: pr,
+    quantity: (5..100).to_a.sample
+  )
+  transaction.parent = Manual.new user: jtest
+  transaction.save
 
-item = InvoiceItem.new
-item.product = espresso
-item.invoice = invoice
-item.quantity = 12
-item.save
-
-change = SlotChange.new
-change.slot = espresso_in_ankeborg
-change.user = jtest
-change.quantity = -12
-change.save
-
-item.slot_change = change
-item.save
-# End invoice ---------------------------------------------
+  transaction.recalculate_shelf
+end
 
 
+donald = Customer.create(name: "Donald duck")
 
+coffehouse = Customer.create(name: 'Coffe House by Foobar')
 
-
+# @TODO create invoice(s)

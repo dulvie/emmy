@@ -12,5 +12,5 @@ class Invoice < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :customer
-  has_many :invoice_items
+  has_many :transactions
 end

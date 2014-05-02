@@ -11,15 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130704195123) do
+ActiveRecord::Schema.define(version: 20140502134140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "comments", force: true do |t|
+    t.text     "body"
+    t.string   "parent_type"
+    t.integer  "parent_id"
     t.integer  "user_id"
-    t.integer  "slot_change_id"
-    t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -74,6 +75,13 @@ ActiveRecord::Schema.define(version: 20130704195123) do
     t.datetime "updated_at"
   end
 
+  create_table "manuals", force: true do |t|
+    t.integer  "user_id"
+    t.string   "state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "products", force: true do |t|
     t.string   "name"
     t.text     "comment"
@@ -82,6 +90,7 @@ ActiveRecord::Schema.define(version: 20130704195123) do
     t.integer  "distributor_price"
     t.integer  "retail_price"
     t.integer  "vat"
+    t.string   "unit"
     t.string   "weight"
     t.string   "package_dimensions"
     t.datetime "expire_at"
@@ -101,24 +110,20 @@ ActiveRecord::Schema.define(version: 20130704195123) do
     t.integer "user_id"
   end
 
-  create_table "slot_changes", force: true do |t|
-    t.integer  "slot_id"
-    t.integer  "user_id"
+  create_table "shelves", force: true do |t|
+    t.integer  "quantity",     default: 0
     t.integer  "warehouse_id"
-    t.integer  "transfer_to_slot_id"
-    t.integer  "quantity",            default: 0
-    t.string   "change_type"
-    t.string   "state"
-    t.integer  "comments_count",      default: 0
+    t.integer  "product_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "slots", force: true do |t|
-    t.integer  "quantity"
-    t.text     "comment"
-    t.integer  "warehouse_id"
+  create_table "transactions", force: true do |t|
+    t.string   "parent_type"
+    t.integer  "parent_id"
     t.integer  "product_id"
+    t.integer  "warehouse_id"
+    t.integer  "quantity"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

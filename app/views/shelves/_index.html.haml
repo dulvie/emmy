@@ -1,0 +1,9 @@
+%table{'class' => 'table table-striped'}
+  %tr
+    %th= t(:name)
+    %th= t(:quantity)
+  - shelves.each do |shelf|
+    %tr
+      %td= shelf.product.name
+      %td= shelf.quantity
+

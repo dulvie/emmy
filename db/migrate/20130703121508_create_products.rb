@@ -10,6 +10,7 @@ class CreateProducts < ActiveRecord::Migration
       t.integer :retail_price
       t.integer :vat
 
+      t.string :unit
       t.string :weight
       t.string :package_dimensions
       t.timestamp :expire_at

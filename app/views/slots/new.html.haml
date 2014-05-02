@@ -1,7 +1,0 @@
-%h2 Add slot to #{@warehouse.name}
-= simple_form_for(@slot, url: warehouse_slots_path(@slot.warehouse)) do |f|
-  = f.input :warehouse_id, :as => :hidden
-  = f.association :product
-  = form_submit(f)
-
-= link_to 'Back', edit_warehouse_path(@warehouse)

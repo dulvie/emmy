@@ -1,10 +1,11 @@
 class Comment < ActiveRecord::Base
+  # t.text :body
+  # t.string :parent_type
+  # t.integer :parent_id
   # t.integer :user_id
-  # t.integer :slot_change_id
-  # t.text :content
 
   belongs_to :user
-  belongs_to :slot_change
+  belongs_to :parent, polymorphic: true
 
-  attr_accessible :content
+  attr_accessible :body
 end
