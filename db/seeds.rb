@@ -64,8 +64,6 @@ brewd_in_ankeborg.save
   )
   transaction.parent = Manual.new user: jtest
   transaction.save
-
-  transaction.recalculate_shelf
 end
 
 
