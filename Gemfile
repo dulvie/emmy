@@ -33,6 +33,9 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # Use unicorn as the app server
 gem 'unicorn'
 
+gem 'resque', '~> 1.25'
+
+
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 #
@@ -58,4 +61,5 @@ group :test, :development do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'capybara-webkit'
+  gem 'resque_unit'
 end

@@ -15,11 +15,12 @@ class Transaction < ActiveRecord::Base
   validates :product, presence: true
   validates :quantity, presence: true
 
+  after_save :enqueue_event
 
-  # @todo Not sure about this, doesn't feel 100% ok.
-  def recalculate_shelf
-    @shelf ||= warehouse.shelves.where(product_id: product_id).first
-    @shelf.recalculate
+
+  # Callback: after_save
+  def enqueue_event
+    Resque.enqueue(Job::TransactionEvent, self.id)
   end
 
 end
