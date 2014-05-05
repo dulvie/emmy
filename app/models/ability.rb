@@ -31,6 +31,7 @@ class Ability
     can :manage, Transaction
     can :manage, Manual
     can :manage, Warehouse
+    can :manage, Supplier
     can :read, Statistics::Report
   end
 
