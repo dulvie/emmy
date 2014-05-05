@@ -1,4 +1,11 @@
 Emmy::Application.routes.draw do
+  get "suppliers/_form"
+  get "suppliers/edit"
+  get "suppliers/index"
+  get "suppliers/new"
+  get "suppliers_controller/edit"
+  get "suppliers_controller/index"
+  get "suppliers_controller/new"
   resources :comments
 
   get "statistics/index"

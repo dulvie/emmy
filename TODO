@@ -18,6 +18,7 @@ Rails:
 
 
 Features:
+  *  as a user, I can create, read, edit and delete suppliers.
   [x] - as a user, I can create, read, edit and delete products.
   [x] - as a user, I can create, read, edit and delete customers.
   [x] - as a user, I can create, read, edit and delete warehouses.
