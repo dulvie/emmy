@@ -1,2 +1,2 @@
 web: bundle exec unicorn -p $PORT -c ./config/unicorn.rb
-resque: QUEUE=* bundle rake resque:work
+resque: env QUEUE=* bundle exec rake resque:work
