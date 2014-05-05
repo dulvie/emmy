@@ -7,7 +7,7 @@ class Customer < ActiveRecord::Base
 
   has_one :contact_info
   has_many :comments, as: :parent
- 
+
   attr_accessible :name, :orgnr, :address, :zip, :city
 
   validate :name, presence: true

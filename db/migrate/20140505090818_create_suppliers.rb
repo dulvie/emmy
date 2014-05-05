@@ -1,9 +1,9 @@
 class CreateSuppliers < ActiveRecord::Migration
-   def change
+  def change
     create_table :suppliers do |t|
       t.string  :name
       t.integer :orgnr
-   	  t.string  :address
+      t.string  :address
       t.string  :zip
       t.string  :city
       t.string  :bg_number
