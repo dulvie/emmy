@@ -1,5 +1,5 @@
 class SuppliersController < ApplicationController
-  def _form
+  def _form 
   end
 
   def edit
