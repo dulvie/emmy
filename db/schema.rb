@@ -13,13 +13,11 @@
 
 ActiveRecord::Schema.define(version: 20140505090818) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "comments", force: true do |t|
+    t.text     "body"
+    t.string   "parent_type"
+    t.integer  "parent_id"
     t.integer  "user_id"
-    t.integer  "slot_change_id"
-    t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -41,13 +39,13 @@ ActiveRecord::Schema.define(version: 20140505090818) do
   end
 
   create_table "customers", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "address"
-    t.string   "zip"
     t.string   "city"
     t.integer  "orgnr"
+    t.string   "name"
+    t.string   "zip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "invoice_items", force: true do |t|
