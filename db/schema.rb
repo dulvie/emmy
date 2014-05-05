@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140505090818) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "comments", force: true do |t|
     t.text     "body"
     t.string   "parent_type"
@@ -90,6 +93,7 @@ ActiveRecord::Schema.define(version: 20140505090818) do
     t.integer  "distributor_price"
     t.integer  "retail_price"
     t.integer  "vat"
+    t.string   "unit"
     t.string   "weight"
     t.string   "package_dimensions"
     t.datetime "expire_at"
@@ -109,22 +113,8 @@ ActiveRecord::Schema.define(version: 20140505090818) do
     t.integer "user_id"
   end
 
-  create_table "slot_changes", force: true do |t|
-    t.integer  "slot_id"
-    t.integer  "user_id"
-    t.integer  "warehouse_id"
-    t.integer  "transfer_to_slot_id"
-    t.integer  "quantity",            default: 0
-    t.string   "change_type"
-    t.string   "state"
-    t.integer  "comments_count",      default: 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "slots", force: true do |t|
-    t.integer  "quantity"
-    t.text     "comment"
+  create_table "shelves", force: true do |t|
+    t.integer  "quantity",     default: 0
     t.integer  "warehouse_id"
     t.integer  "product_id"
     t.datetime "created_at"
@@ -139,6 +129,16 @@ ActiveRecord::Schema.define(version: 20140505090818) do
     t.string   "city"
     t.string   "bg_number"
     t.string   "vat_number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "transactions", force: true do |t|
+    t.string   "parent_type"
+    t.integer  "parent_id"
+    t.integer  "product_id"
+    t.integer  "warehouse_id"
+    t.integer  "quantity"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
