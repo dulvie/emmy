@@ -8,4 +8,6 @@ class Manual < ActiveRecord::Base
   belongs_to :user
   has_many :comments, as: :parent
 
+  delegate :quantity, :product_id, :warehouse_id, to: :transaction
+
 end

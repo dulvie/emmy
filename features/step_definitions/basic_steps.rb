@@ -52,4 +52,8 @@ Given(/^I confirm the alertbox$/) do
   page.driver.accept_js_confirms!
 end
 
+Then /^Resque should perform work$/  do
+  Resque.run!
+end
+
 

@@ -25,11 +25,11 @@ class Ability
   def seller_permissions(user)
     can :manage, ContactInfo
     can :manage, Customer
+    can :manage, Manual
     can :manage, Product
     can :manage, Transaction
-    can :manage, Manual
-    can :manage, Warehouse
     can :manage, Supplier
+    can :manage, Warehouse
     can :read, Statistics::Report
   end
 

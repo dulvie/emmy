@@ -1,0 +1,13 @@
+%table{:class => 'table table-striped'}
+  %thead
+    %tr
+      %th Manual transactions
+      %th Quantity
+      %th
+    %tbody
+      - @manuals.each do |manual|
+        %tr
+          %td= link_to(manual.created_at, manual)
+          %td= manual.transaction.quantity
+
+= link_to 'Create Manual', new_manual_path, class: 'btn btn-default'

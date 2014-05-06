@@ -1,17 +1,14 @@
 require 'resque/server'
 Emmy::Application.routes.draw do
-  resources :suppliers
   resources :comments
+  resources :contact_infos
+  resources :customers
+  resources :manuals
+  resources :suppliers
+  resources :products
 
   get "statistics/index"
-  resources :customers
-  resources :contact_infos
-  resources :products
-  resources :warehouses do
-    resources :slots do
-      resources :slot_changes
-    end
-  end
+  resources :warehouses
 
   devise_for :users
   resources :users do

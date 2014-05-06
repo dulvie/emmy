@@ -1,0 +1,9 @@
+= simple_form_for(@manual) do |f|
+  = f.error_notification
+  
+  = simple_fields_for(@manual.transaction) do |tf|
+    = tf.input :quantity
+    = tf.association :product
+    = tf.association :warehouse
+  
+  = form_submit(f)
