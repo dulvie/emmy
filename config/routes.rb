@@ -4,9 +4,6 @@ Emmy::Application.routes.draw do
 
   get "statistics/index"
   resources :customers
-  resources :invoices do
-    resources :invoice_items
-  end
   resources :contact_infos
   resources :products
   resources :warehouses do

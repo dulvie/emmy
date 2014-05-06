@@ -51,33 +51,6 @@ ActiveRecord::Schema.define(version: 20140505090818) do
     t.datetime "updated_at"
   end
 
-  create_table "invoice_items", force: true do |t|
-    t.string   "name"
-    t.integer  "quantity"
-    t.integer  "vat"
-    t.integer  "price"
-    t.integer  "invoice_id"
-    t.integer  "product_id"
-    t.integer  "slot_change_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "invoices", force: true do |t|
-    t.string   "customer_contact"
-    t.string   "user_contact"
-    t.integer  "current_state"
-    t.datetime "sent_at"
-    t.integer  "total"
-    t.integer  "total_excluding_vat"
-    t.integer  "total_including_vat"
-    t.datetime "paid_date"
-    t.integer  "user_id"
-    t.integer  "customer_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "manuals", force: true do |t|
     t.integer  "user_id"
     t.string   "state"
