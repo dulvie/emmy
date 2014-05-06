@@ -16,14 +16,14 @@ class ManualsController < ApplicationController
   # GET /manuals/new
   def new
     @manual.transaction = Transaction.new
+    @manual.comments.build
     @breadcrumbs = [['Manuals', manuals_path], ['New manual']]
   end
 
   # POST /manuals
   # POST /manuals.json
   def create
-    @manual = Manual.new
-    @manual.transaction = Transaction.new transaction_params
+    @manual = new_manual
 
     respond_to do |format|
       if @manual.save
@@ -36,10 +36,24 @@ class ManualsController < ApplicationController
     end
   end
 
+
   private
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def transaction_params
       params.require(:transaction).permit(Transaction.accessible_attributes.to_a)
+    end
+
+    def comments_params
+      params.require(:comments).permit(Comment.accessible_attributes.to_a)
+    end
+
+    def new_manual
+      manual = Manual.new user_id: current_user.id
+      manual.transaction = Transaction.new transaction_params
+      comment_p = comments_params.dup
+      comment_p[:user_id] = current_user.id
+      manual.comments.build(comment_p)
+      manual
     end
 end
