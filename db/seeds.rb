@@ -71,4 +71,6 @@ donald = Customer.create(name: "Donald duck")
 
 coffehouse = Customer.create(name: 'Coffe House by Foobar')
 
+bigsupp = Supplier.create(name: "Big supplier of coffee")
+
 # @TODO create invoice(s)
