@@ -1,3 +1,11 @@
 se:
   welcome_to_emmy: "Välkommen till Emmy, appen som hanterar logistik för små organisationer."
   sign_in: "Logga in"
+  name: "Namn"
+  quantity: "Antal"
+  warehouse: "Lager"
+  product: "Produkt"
+  manual_transactions: "Manuella transaktioner"
+  comment: "Comment"
+  back: "Tillbaka"
+  new_manual_transaction: "Ny manuell transaktion"
