@@ -12,5 +12,6 @@ class Supplier < ActiveRecord::Base
 
   attr_accessible :name, :orgnr, :address, :zip, :city, :bg_number, :vat_number
 
-  validate :name, presence: true
+  validates :name, presence: true
+
 end
