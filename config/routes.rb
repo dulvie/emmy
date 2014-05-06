@@ -1,3 +1,4 @@
+require 'resque/server'
 Emmy::Application.routes.draw do
   resources :suppliers
   resources :comments
@@ -23,6 +24,10 @@ Emmy::Application.routes.draw do
   get "dashboard", to: "dashboard#index"
   [:about,:start,:formats].each do |p|
     get "/#{p}", to: "pages##{p}"
+  end
+
+  constraints lambda { |request| request.env['warden'].authenticate? && request.env['warden'].user.role?(:admin) } do
+    mount Resque::Server.new, at: "/resque"
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
