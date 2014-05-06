@@ -15,6 +15,7 @@ en:
   invoices: "Invoices"
   order: "Order"
   products: "Products"
+  suppliers: "Suppliers"
   reception: "Reception"
   warehouses: "Warehouses"
   payment: "Payment"

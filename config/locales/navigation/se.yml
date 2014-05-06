@@ -15,6 +15,7 @@ se:
   invoices: "Fakturor"
   order: "Beställ"
   products: "Produkter"
+  suppliers: "Leverantörer"
   reception: "Mottag"
   warehouses: "Lagerställen"
   payment: "Betalning"
