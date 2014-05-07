@@ -53,7 +53,6 @@ ActiveRecord::Schema.define(version: 20140505090818) do
 
   create_table "manuals", force: true do |t|
     t.integer  "user_id"
-    t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

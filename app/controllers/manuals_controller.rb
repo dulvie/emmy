@@ -49,7 +49,8 @@ class ManualsController < ApplicationController
     end
 
     def new_manual
-      manual = Manual.new user_id: current_user.id
+      manual = Manual.new
+      manual.user_id = current_user.id
       manual.transaction = Transaction.new transaction_params
       comment_p = comments_params.dup
       comment_p[:user_id] = current_user.id

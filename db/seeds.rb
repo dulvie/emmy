@@ -62,7 +62,11 @@ brewd_in_ankeborg.save
     product: pr,
     quantity: (5..100).to_a.sample
   )
-  transaction.parent = Manual.new user: jtest
+  m = Manual.new
+  m.user = jtest
+  m.comments.build(user_id: jtest.id, body: "Initial seed manual transaction")
+  m.save
+  transaction.parent = m
   transaction.save
 end
 
