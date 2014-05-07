@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140505090818) do
-
+ActiveRecord::Schema.define(version: 20140506125348) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -111,6 +110,17 @@ ActiveRecord::Schema.define(version: 20140505090818) do
     t.integer  "product_id"
     t.integer  "warehouse_id"
     t.integer  "quantity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "transfers", force: true do |t|
+    t.integer  "from_warehouse_id"
+    t.integer  "to_warehouse_id"
+    t.integer  "product_id"
+    t.integer  "quantity"
+    t.integer  "user_id"
+    t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

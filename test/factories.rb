@@ -34,4 +34,7 @@ FactoryGirl.define do
   factory :customer do
     name "CoffeeHouse foobar"
   end
+
+  factory :manual do
+  end
 end

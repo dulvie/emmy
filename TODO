@@ -19,6 +19,8 @@ Rails:
 
 Features:
   *  as a user, I can create, read, edit and delete suppliers.
+  [x] - As a user, I can create, send and confirm transfers of
+        products between warehouses.
   [x] - as a user, I can create, read, edit and delete products.
   [x] - as a user, I can create, read, edit and delete customers.
   [x] - as a user, I can create, read, edit and delete warehouses.
@@ -27,6 +29,8 @@ Features:
     - Invoices should be tied to a customer, warehouse and a seller.
   ... More needed
 
+Cucumber tests that is missing:
+  - Creation and state change when doing transfers.
     
 
 Version 2 (or should this be done sooner?)

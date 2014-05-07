@@ -1,0 +1,12 @@
+= simple_form_for(@transfer) do |f|
+  = f.error_notification
+
+  = f.input :quantity
+  = f.association :from_warehouse
+  = f.association :to_warehouse
+  = f.association :product
+  
+  = simple_fields_for :comments do |c|
+    = c.input :body, as: :text, label: t(:comment)
+  
+  = form_submit(f)

@@ -28,6 +28,7 @@ class Ability
     can :manage, Manual
     can :manage, Product
     can :manage, Transaction
+    can :manage, Transfer
     can :manage, Supplier
     can :manage, Warehouse
     can :read, Statistics::Report

@@ -1,5 +1,12 @@
 require 'resque/server'
 Emmy::Application.routes.draw do
+  resources :transfers do
+    member do
+      post 'send_package', as: :send_package
+      post 'receive_package', as: :receive_package
+    end
+  end
+
   resources :comments
   resources :contact_infos
   resources :customers
