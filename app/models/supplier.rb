@@ -1,6 +1,6 @@
 class Supplier < ActiveRecord::Base
   # t.string  :name
-  # t.integer :orgnr
+  # t.integer :vat_number
   # t.string  :address
   # t.string  :zip
   # t.string  :city
@@ -10,7 +10,7 @@ class Supplier < ActiveRecord::Base
   has_one :contact_info
   has_many :comments, as: :parent
 
-  attr_accessible :name, :orgnr, :address, :zip, :city, :bg_number, :vat_number
+  attr_accessible :name, :vat_number, :address, :zip, :city, :bg_number, :vat_number
 
   validates :name, presence: true
 

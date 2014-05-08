@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20140506125348) do
   create_table "customers", force: true do |t|
     t.string   "address"
     t.string   "city"
-    t.string   "orgnr"
+    t.string   "vat_number"
     t.string   "name"
     t.string   "zip"
     t.datetime "created_at"
@@ -94,12 +94,11 @@ ActiveRecord::Schema.define(version: 20140506125348) do
 
   create_table "suppliers", force: true do |t|
     t.string   "name"
-    t.string   "orgnr"
+    t.string   "vat_number"
     t.string   "address"
     t.string   "zip"
     t.string   "city"
     t.string   "bg_number"
-    t.string   "vat_number"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
