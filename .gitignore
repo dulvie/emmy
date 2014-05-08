@@ -27,3 +27,6 @@ config/database.*.yml
 # ignore dev env specific foreman stuff
 .env
 Procfile.*
+
+# ignore coverage files
+coverage/*

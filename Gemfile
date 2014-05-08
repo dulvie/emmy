@@ -65,4 +65,5 @@ group :test do
   gem 'database_cleaner'
   gem 'capybara-webkit'
   gem 'resque_unit'
+  gem 'simplecov', '~> 0.7.1'
 end
