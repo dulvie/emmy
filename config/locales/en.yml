@@ -21,11 +21,13 @@
 
 en:
   hello: "Hello world"
+  new: "New"
   welcome_to_emmy: "Welcome to Emmy, the app to handle logistics for small organisations."
   sign_in: "Sign in"
   name: "Name"
   quantity: "Quantity"
   warehouse: "Warehouse"
+  customer: "Customer"
   product: "Product"
   manual_transactions: "Manual transactions"
   comment: "Comment"
@@ -39,3 +41,5 @@ en:
   state: "State"
   send_package: "Mark as sent"
   receive_package: "Verify as received"
+  failed_to_create: "Failed to create"
+  failed_to_update: "Failed to update"

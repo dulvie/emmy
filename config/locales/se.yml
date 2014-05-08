@@ -1,9 +1,11 @@
 se:
+  new: "Ny"
   welcome_to_emmy: "Välkommen till Emmy, appen som hanterar logistik för små organisationer."
   sign_in: "Logga in"
   name: "Namn"
   quantity: "Antal"
   warehouse: "Lager"
+  customer: "Kund"
   product: "Produkt"
   manual_transactions: "Manuella transaktioner"
   comment: "Comment"
@@ -17,3 +19,5 @@ se:
   to_warehouse: "Till lagerställe"
   send_package: "Markera som skickat"
   receive_package: "Bekräfta försändelse"
+  failed_to_create: "Kunde inte skapa"
+  failed_to_update: "Kunde inte uppdatera"

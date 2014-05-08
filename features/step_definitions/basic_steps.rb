@@ -33,6 +33,11 @@ Given(/^I fill in valid "(.*?)" data$/) do |resource_name|
   send("#{resource_name}_valid_form_data")
 end
 
+Given /^I fill in invalid "(.*?)" data$/ do |resource_name|
+  puts "will call #{resource_name}_invalid_form_data"
+  send("#{resource_name}_invalid_form_data")
+end
+
 Then(/^I should see a "(.*?)" link$/) do |string|
   assert_equal page.has_link?(string), true
 end
