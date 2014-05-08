@@ -19,6 +19,7 @@
 *.swp
 .DS_STORE
 .project
+.settings
 
 # Obviously
 config/database.yml
