@@ -1,6 +1,9 @@
 class SuppliersController < ApplicationController
   load_and_authorize_resource
 
+  before_filter :new_breadcrumbs, only: [:new, :create]
+  before_filter :edit_breadcrumbs, only: [:edit, :update]
+
   # GET /suppliers
   # GET /suppliers.json
   def index
@@ -15,12 +18,10 @@ class SuppliersController < ApplicationController
 
   # GET /suppliers/new
   def new
-    @breadcrumbs = [['Suppliers', suppliers_path], ['New supplier']]
   end
 
   # GET /suppliers/1/edit
   def edit
-    @breadcrumbs = [['Suppliers', suppliers_path], [@supplier.name]]
   end
 
   # POST /suppliers
@@ -33,6 +34,7 @@ class SuppliersController < ApplicationController
         format.html { redirect_to edit_supplier_path(@supplier), notice: 'supplier was successfully created.' }
         #format.json { render action: 'show', status: :created, location: @supplier }
       else
+        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:supplier)}"
         format.html { render action: 'new' }
         #format.json { render json: @supplier.errors, status: :unprocessable_entity }
       end
@@ -47,6 +49,7 @@ class SuppliersController < ApplicationController
         format.html { redirect_to edit_supplier_path(@supplier), notice: 'supplier was successfully updated.' }
         #format.json { head :no_content }
       else
+        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:supplier)}"
         format.html { render action: 'edit' }
         #format.json { render json: @supplier.errors, status: :unprocessable_entity }
       end
@@ -69,5 +72,13 @@ class SuppliersController < ApplicationController
     def supplier_params
       params.require(:supplier).permit(Supplier.accessible_attributes.to_a)
 
+    end
+
+    def new_breadcrumbs
+      @breadcrumbs = [['Suppliers', suppliers_path], ["#{t(:new)} #{t(:supplier)}"]]
+    end
+
+    def edit_breadcrumbs
+      @breadcrumbs = [['Suppliers', suppliers_path], [@supplier.name]]
     end
 end

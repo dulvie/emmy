@@ -35,6 +35,10 @@ FactoryGirl.define do
     name "CoffeeHouse foobar"
   end
 
+  factory :supplier do
+    name "Some farmer collective"
+  end
+
   factory :manual do
   end
 end

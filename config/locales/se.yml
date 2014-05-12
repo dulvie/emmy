@@ -6,6 +6,7 @@ se:
   quantity: "Antal"
   warehouse: "Lager"
   customer: "Kund"
+  supplier: "Leverantör"
   product: "Produkt"
   manual_transactions: "Manuella transaktioner"
   comment: "Comment"

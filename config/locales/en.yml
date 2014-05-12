@@ -31,6 +31,7 @@ en:
   product: "Product"
   manual_transactions: "Manual transactions"
   comment: "Comment"
+  supplier: "Supplier"
   back: "Back"
   new_manual_transaction: "New manual transaction"
   from: "From"
