@@ -1,22 +1,23 @@
 require 'resque/server'
 Emmy::Application.routes.draw do
+
   resources :transfers do
     member do
       post 'send_package', as: :send_package
       post 'receive_package', as: :receive_package
     end
   end
-
   resources :comments
   resources :contact_infos
   resources :customers
   resources :manuals
   resources :suppliers
+  resources :sales do
+    resources :sale_tiems
+  end
   resources :products
-
   get "statistics/index"
   resources :warehouses
-
   devise_for :users
   resources :users do
     member do
@@ -24,12 +25,10 @@ Emmy::Application.routes.draw do
       patch "edit_roles", to: "users#update_roles" 
     end
   end
-
   get "dashboard", to: "dashboard#index"
   [:about,:start,:formats].each do |p|
     get "/#{p}", to: "pages##{p}"
   end
-
   constraints lambda { |request| request.env['warden'].authenticate? && request.env['warden'].user.role?(:admin) } do
     mount Resque::Server.new, at: "/resque"
   end
