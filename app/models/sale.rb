@@ -12,6 +12,8 @@ class Sale < ActiveRecord::Base
   belongs_to :customer
   belongs_to :warehouse
 
+  attr_accessible :customer_id
+
   state_machine :state, initial: :incomplete do
     event :mark_complete do
       transition :incomplete => :complete
@@ -28,6 +30,10 @@ class Sale < ActiveRecord::Base
     event :pay do
       transition :not_paid => :paid
     end
+  end
+
+  def is_updateable?
+    state.eql? 'incomplete'
   end
 
 end

@@ -30,6 +30,8 @@ class Ability
     can :manage, Transaction
     can :manage, Transfer
     can :manage, Supplier
+    can :manage, Sale
+    can :manage, SaleItem
     can :manage, Warehouse
     can :read, Statistics::Report
   end
