@@ -32,7 +32,7 @@ Rails:
 
 
 Features:
-  *  as a user, I can create, read, edit and delete suppliers.
+  [x] - As a user, I can create, read, edit and delete suppliers.
   [x] - As a user, I can create, send and confirm transfers of
         products between warehouses.
   [x] - as a user, I can create, read, edit and delete products.
@@ -45,8 +45,8 @@ Features:
   ... More needed
 
 Add tests for:
-  - Creation and state change when doing transfers.
-  - Supplier CRUD
+  [x] Creation and state change when doing transfers.
+  [x] Supplier CRUD
 
 Version 2 (or should this be done sooner?)
 * Add support for multiple projects.
