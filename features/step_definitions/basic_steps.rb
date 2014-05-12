@@ -3,6 +3,9 @@ Given /^I am on the home page$/  do
 end
 
 Then /^I should see "(.*?)"$/ do |string|
+  unless page.has_content?(string)
+    puts page.body
+  end
   assert_equal true, page.has_content?(string)
 end
 
@@ -20,13 +23,18 @@ Given /^I visit (.*?)_path$/ do |resource_name|
   visit send("#{resource_name}_path")
 end
 
-Given /^I click "(.*?)"$/ do |button_string|
+Given /^I click "([^"]*?)"$/ do |button_string|
+  puts "trying to click #{button_string}"
   click_on button_string
 end
 
 Given(/^I fill in "(.*?)" with "(.*?)"$/) do |field_name, field_value|
   assert page.has_field?(field_name)
   fill_in field_name, with: field_value
+end
+
+Given /^I select "(.*?)" as "(.*?)"$/ do |option_text, field_name|
+  select option_text, from: field_name
 end
 
 Given(/^I fill in valid "(.*?)" data$/) do |resource_name|
@@ -57,8 +65,16 @@ Given(/^I confirm the alertbox$/) do
   page.driver.accept_js_confirms!
 end
 
-Then /^Resque should perform work$/  do
+Then /^Resque should perform work$/ do
+  Resque.run!
+end
+Given /^I wait for resque to perform work$/ do
   Resque.run!
 end
 
-
+Given /^I see "(.*?)" in the page$/ do |string|
+  unless page.has_content? string
+    puts page.body
+  end
+  assert page.has_content? string
+end

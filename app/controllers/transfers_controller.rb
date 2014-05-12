@@ -2,7 +2,7 @@ class TransfersController < ApplicationController
   load_and_authorize_resource
 
   # Since load_and_authorize doesnt do this for non crud actions.
-  before_filter :find_transaction, only: [:send_package, :receive_package]
+  before_filter :find_transfer, only: [:send_package, :receive_package]
 
   # GET /transfers
   # GET /transfers.json
@@ -57,9 +57,9 @@ class TransfersController < ApplicationController
 
   private
 
-    def find_transaction
-      @transaction = Transaction.find params[:id]
-      authorize! :manage, @transaction
+    def find_transfer
+      @transfer = Transfer.find params[:id]
+      authorize! :manage, @transfer
     end
 
     def comments_params
