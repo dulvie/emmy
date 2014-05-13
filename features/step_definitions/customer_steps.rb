@@ -16,3 +16,7 @@ end
 def customer_valid_form_data
   fill_in "customer_name", with: "test customer"
 end
+
+def customer_invalid_form_data
+  fill_in "customer_name", with: ""
+end

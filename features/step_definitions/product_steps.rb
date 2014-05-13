@@ -16,3 +16,7 @@ end
 def product_valid_form_data
   fill_in "product_name", with: "test product"
 end
+
+def product_invalid_form_data
+  fill_in "product_name", with: ""
+end

@@ -1,0 +1,22 @@
+%table{:class => 'table table-striped'}
+  %thead
+    %tr
+      %th Transfer
+      %th= t(:from_warehouse)
+      %th= t(:to_warehouse)
+      %th= t(:product)
+      %th= t(:quantity)
+      %th= t(:state)
+      %th
+    %tbody
+      - @transfers.each do |transfer|
+        %tr
+          %td= link_to(transfer.created_at, transfer)
+          %td= link_to(transfer.from_warehouse.name, edit_warehouse_path(transfer.from_warehouse))
+          %td= link_to(transfer.to_warehouse.name, edit_warehouse_path(transfer.to_warehouse))
+          %td= link_to(transfer.product.name, edit_product_path(transfer.product))
+          %td= transfer.quantity
+          %td= transfer.state
+          %td= transfer.state_change_button
+
+= link_to 'Create Transfer', new_transfer_path, class: 'btn btn-default'

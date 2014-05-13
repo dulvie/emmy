@@ -16,6 +16,9 @@ en:
   order: "Order"
   products: "Products"
   reception: "Reception"
+  sales: "Sales"
+  suppliers: "Suppliers"
+  transfers: "Transfers"
   warehouses: "Warehouses"
   payment: "Payment"
   

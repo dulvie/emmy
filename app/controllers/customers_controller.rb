@@ -1,6 +1,9 @@
 class CustomersController < ApplicationController
   load_and_authorize_resource
 
+  before_filter :new_breadcrumbs, only: [:new, :create]
+  before_filter :edit_breadcrumbs, only: [:edit, :update]
+
   # GET /customers
   # GET /customers.json
   def index
@@ -15,12 +18,10 @@ class CustomersController < ApplicationController
 
   # GET /customers/new
   def new
-    @breadcrumbs = [['Customers', customers_path], ['New customer']]
   end
 
   # GET /customers/1/edit
   def edit
-    @breadcrumbs = [['Customers', customers_path], [@customer.name]]
   end
 
   # POST /customers
@@ -33,6 +34,7 @@ class CustomersController < ApplicationController
         format.html { redirect_to edit_customer_path(@customer), notice: 'customer was successfully created.' }
         #format.json { render action: 'show', status: :created, location: @customer }
       else
+        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:customer)}"
         format.html { render action: 'new' }
         #format.json { render json: @customer.errors, status: :unprocessable_entity }
       end
@@ -47,6 +49,7 @@ class CustomersController < ApplicationController
         format.html { redirect_to edit_customer_path(@customer), notice: 'customer was successfully updated.' }
         #format.json { head :no_content }
       else
+        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:customer)}"
         format.html { render action: 'edit' }
         #format.json { render json: @customer.errors, status: :unprocessable_entity }
       end
@@ -68,6 +71,13 @@ class CustomersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def customer_params
       params.require(:customer).permit(Customer.accessible_attributes.to_a)
+    end
 
+    def new_breadcrumbs
+      @breadcrumbs = [['Customers', customers_path], ["#{t(:new)} #{t(:customer)}"]]
+    end
+
+    def edit_breadcrumbs
+      @breadcrumbs = [['Customers', customers_path], [@customer.name]]
     end
 end

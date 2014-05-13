@@ -11,6 +11,14 @@ Feature: Crud products
     And I click "Create Product"
     Then I should see "product was successfully created."
 
+  Scenario: create with invalid data
+    Given I am a signed in user
+    And I visit products_path
+    And I click "Create Product"
+    And I fill in invalid "product" data
+    And I click "Create Product"
+    Then I should see "Failed to create"
+
   Scenario: update
     Given I am a signed in user
     And a "product" with "name" equals to "test product" exists
@@ -20,6 +28,15 @@ Feature: Crud products
     And I click "Update Product"
     Then I should see "Product was successfully updated."
     And I should see "test product 2"
+
+  Scenario: update with invalid data
+    Given I am a signed in user
+    And a "product" with "name" equals to "test product" exists
+    And I visit products_path
+    And I click edit link for "test product" product
+    And I fill in invalid "product" data
+    And I click "Update Product"
+    Then I should see "Failed to update"
 
   @javascript
   Scenario: delete

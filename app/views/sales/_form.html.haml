@@ -1,0 +1,6 @@
+= simple_form_for(@sale) do |f|
+  = f.error_notification
+
+  = f.association :customer
+
+  = form_submit(f)

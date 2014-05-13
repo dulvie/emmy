@@ -11,6 +11,14 @@ Feature: Crud customers
     And I click "Create Customer"
     Then I should see "customer was successfully created."
 
+  Scenario: create with invalid data
+    Given I am a signed in user
+    And I visit customers_path
+    And I click "Create Customer"
+    And I fill in invalid "customer" data
+    And I click "Create Customer"
+    Then I should see "Failed to create"
+
   Scenario: update
     Given I am a signed in user
     And a "customer" with "name" equals to "test customer" exists
@@ -20,6 +28,15 @@ Feature: Crud customers
     And I click "Update Customer"
     Then I should see "customer was successfully updated."
     And I should see "test customer 2"
+
+  Scenario: Update with invalid data
+    Given I am a signed in user
+    And a "customer" with "name" equals to "test customer" exists
+    And I visit customers_path
+    And I click edit link for "test customer" customer
+    And I fill in invalid "customer" data
+    And I click "Update Customer"
+    Then I should see "Failed to update"
 
   @javascript
   Scenario: delete

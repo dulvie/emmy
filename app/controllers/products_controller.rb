@@ -1,6 +1,9 @@
 class ProductsController < ApplicationController
   load_and_authorize_resource
 
+  before_filter :new_breadcrumbs, only: [:new, :create]
+  before_filter :edit_breadcrumbs, only: [:edit, :update]
+
   # GET /products
   # GET /products.json
   def index
@@ -16,19 +19,11 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
-    @breadcrumbs = [
-      ['Products', products_path],
-      ['New product']
-    ]
   end
 
   # GET /products/1/edit
   def edit
     @product = @product.decorate
-    @breadcrumbs = [
-      ['Products', products_path],
-      [@product.name]
-    ]
   end
 
   # POST /products
@@ -41,6 +36,7 @@ class ProductsController < ApplicationController
         format.html { redirect_to products_path, notice: 'product was successfully created.' }
         #format.json { render action: 'show', status: :created, location: @product }
       else
+        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:product)}"
         format.html { render action: 'new' }
         #format.json { render json: @product.errors, status: :unprocessable_entity }
       end
@@ -55,6 +51,7 @@ class ProductsController < ApplicationController
         format.html { redirect_to edit_product_path(@product), notice: 'Product was successfully updated.' }
         #format.json { head :no_content }
       else
+        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:product)}"
         format.html { render action: 'edit' }
         #format.json { render json: @product.errors, status: :unprocessable_entity }
       end
@@ -76,5 +73,13 @@ class ProductsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
       params.require(:product).permit(Product.accessible_attributes.to_a)
+    end
+
+    def new_breadcrumbs
+      @breadcrumbs = [['Products', products_path], ["#{t(:new)} #{t(:product)}"]]
+    end
+
+    def edit_breadcrumbs
+      @breadcrumbs = [['Products', products_path], [@product.name]]
     end
 end

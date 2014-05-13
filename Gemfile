@@ -58,8 +58,12 @@ group :test, :development do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'guard'
   gem 'guard-zeus'
+end
+
+group :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'capybara-webkit'
   gem 'resque_unit'
+  gem 'simplecov', '~> 0.7.1'
 end

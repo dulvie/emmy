@@ -1,3 +1,17 @@
+Priorities:
+  Sales!
+    - Create sales with data(customer,seller,due_date etc)
+    - Create sales_item, joins products and sales, also saves quantity and price
+    - Create transaction to subtract the products from the selling warehouse
+    - A resource to download a PDF(VAT number, bankgiro/plusgiro etc)
+    - Implement state_machine
+      state(incomplete, complete)
+      goods_state(not_delivered, delivered) [goods_delivered_at]
+      money_state(not_paid, paid) [paid_at]
+      email_state(not_sent, sent) [email_sent_at]
+
+
+
 Javascript:
   app/view/products/_form.html.haml:
     * need js to show calculated retail price including vat.
@@ -18,16 +32,21 @@ Rails:
 
 
 Features:
-  *  as a user, I can create, read, edit and delete suppliers.
+  [x] - As a user, I can create, read, edit and delete suppliers.
+  [x] - As a user, I can create, send and confirm transfers of
+        products between warehouses.
   [x] - as a user, I can create, read, edit and delete products.
   [x] - as a user, I can create, read, edit and delete customers.
   [x] - as a user, I can create, read, edit and delete warehouses.
-  - as a user, I can create and confirm invoices.
+  - as a user, I can create and confirm sales.
     - This includes, subtracking items from a warehouse.
-    - Invoices should be tied to a customer, warehouse and a seller.
+    - Sales should be tied to a customer, warehouse and a seller.
+  - a sale invoice should have bankgiro etc from app/models/organisation.rb file.
   ... More needed
 
-    
+Add tests for:
+  [x] Creation and state change when doing transfers.
+  [x] Supplier CRUD
 
 Version 2 (or should this be done sooner?)
 * Add support for multiple projects.
