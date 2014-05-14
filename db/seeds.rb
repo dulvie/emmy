@@ -36,14 +36,16 @@ espresso = Product.create({
   name: "Espresso",
   in_price: 3000,
   distributor_price: 8000,
-  retail_price: 9500
+  retail_price: 9500,
+  vat: 12
 })
 
 brewd = Product.create({
   name: "Brygg",
   in_price: 3000,
   distributor_price: 6000,
-  retail_price: 6500
+  retail_price: 6500,
+  vat: 12
 })
 
 espresso_in_ankeborg = Shelf.new
@@ -60,7 +62,7 @@ brewd_in_ankeborg.save
   transaction = Transaction.new(
     warehouse: ankeborg_warehouse,
     product: pr,
-    quantity: (5..100).to_a.sample
+    quantity: (10..100).to_a.sample
   )
   m = Manual.new
   m.user = jtest
@@ -69,6 +71,15 @@ brewd_in_ankeborg.save
   transaction.parent = m
   transaction.save
 end
+
+tr = Transfer.new
+tr.from_warehouse = ankeborg_warehouse
+tr.to_warehouse = flea_bottom
+tr.quantity = 10
+tr.product = espresso
+tr.save
+tr.send_package
+tr.receive_package
 
 
 donald = Customer.create(name: "Donald duck")
