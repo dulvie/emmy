@@ -8,9 +8,11 @@ class Sale < ActiveRecord::Base
   # t.timestamp :goods_delivered_at
   # t.timestamp :paid_at
   # t.datetime :due_date
+
   belongs_to :user
   belongs_to :customer
   belongs_to :warehouse
+  has_many :sale_items
 
   attr_accessible :customer_id
 

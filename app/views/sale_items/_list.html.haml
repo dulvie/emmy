@@ -1,0 +1,16 @@
+%table{:class => 'table table-striped'}
+  %thead
+    %tr
+      %th= t(:product)
+      %th= t(:quantity)
+      %th= t(:price)
+      %th= t(:price_sum)
+      %th
+    %tbody
+      - sale_items.each do |item|
+        %tr
+          %td= item.product.name
+          %td= item.quantity 
+          %td= item.price
+          %td= item.price_sum
+          %td remove?

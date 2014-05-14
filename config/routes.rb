@@ -13,7 +13,10 @@ Emmy::Application.routes.draw do
   resources :manuals
   resources :suppliers
   resources :sales do
-    resources :sale_tiems
+    resources :sale_items
+    member do
+      post 'mark_complete', as: :mark_complete
+    end
   end
   resources :products
   get "statistics/index"

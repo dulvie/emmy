@@ -1,0 +1,6 @@
+- if @sale.sale_items.count > 0
+  = render partial: 'sale_items/list', locals: {sale_items: @sale.sale_items}
+
+- if @sale.is_updateable?
+  %h4= t(:add_product)
+  = render partial: 'sale_items/form', locals: {sale_item: SaleItem.new(sale: @sale)}

@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 20140512152302) do
     t.integer  "quantity"
     t.integer  "price"
     t.integer  "price_inc_vat"
+    t.integer  "price_sum"
     t.integer  "vat"
     t.datetime "created_at"
     t.datetime "updated_at"

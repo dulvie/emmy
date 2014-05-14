@@ -29,3 +29,8 @@ se:
   state: "Status"
   not_delivered: "ej levererad"
   not_paid: "ej betald"
+  price: "Pris"
+  price_sum: "Prissumma"
+  add_product: "Lägg till produkt"
+  mark_complete: "Märk som färdig"
+  sale_marked_complete: "Forsäljning markerades som färdig"

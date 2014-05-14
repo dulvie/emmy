@@ -21,6 +21,7 @@ class Product < ActiveRecord::Base
 
   validates :name, :uniqueness => true
   validates :name, :presence => true
+  validates :vat, :presence => true # Needed for other models as well.
 
   validates :product_type, inclusion: {in: TYPES}
 

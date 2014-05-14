@@ -1,0 +1,13 @@
+= simple_form_for([@sale, sale_item]) do |f|
+  = f.error_notification
+  = f.association :product
+  = f.input :quantity
+  = f.input :price
+
+  = form_submit(f)
+
+:javascript
+  $(document).ready(function() {
+  }
+
+

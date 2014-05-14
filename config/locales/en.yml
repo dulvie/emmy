@@ -51,3 +51,8 @@ en:
   state: "State"
   not_delivered: "not delivered"
   not_paid: "not paid"
+  price: "Price"
+  price_sum: "Price sum"
+  add_product: "Add product"
+  mark_complete: "Mark complete"
+  sale_marked_complete: "Sale was marked complete"

@@ -3,4 +3,6 @@
 
   = f.association :customer
 
-  = form_submit(f)
+  = f.submit class: 'btn btn-primary'
+  - if @sale.is_updateable? && !@sale.new_record?
+    = link_to t(:mark_complete), mark_complete_sale_path(@sale), method: :post, class: 'btn btn-success'

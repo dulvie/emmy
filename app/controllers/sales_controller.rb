@@ -49,6 +49,14 @@ class SalesController < ApplicationController
     end
   end
 
+  def mark_complete
+    @sale = Sale.find(params[:id])
+    @sale.mark_complete
+    respond_to do |format|
+      format.html { redirect_to sales_path, notice: "#{t(:sale_marked_complete)}" }
+    end
+  end
+
   private
 
     def sale_params

@@ -6,6 +6,7 @@ class CreateSaleItems < ActiveRecord::Migration
       t.integer :quantity
       t.integer :price
       t.integer :price_inc_vat
+      t.integer :price_sum
       t.integer :vat
 
       t.timestamps
