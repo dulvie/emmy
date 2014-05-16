@@ -14,7 +14,7 @@ class Sale < ActiveRecord::Base
   belongs_to :warehouse
   has_many :sale_items
 
-  attr_accessible :customer_id
+  attr_accessible :customer_id, :warehouse_id
 
   state_machine :state, initial: :incomplete do
     event :mark_complete do
