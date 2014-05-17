@@ -5,6 +5,8 @@ app.controller('SalesCtrl', function ($scope, ajaxService) {
 	$scope.customers = [];
 	$scope.warehouseModel = {};
 	$scope.customerModel = {};
+	$scope.productModel = {};
+	$scope.priceModel = 0;
 	$scope.selectWarehouse = function() {
 		//alert($scope.warehouseModel);
 		var m = ajaxService.gett("getCustomer", '&warehouse='+$scope.warehouseModel);
@@ -12,5 +14,7 @@ app.controller('SalesCtrl', function ($scope, ajaxService) {
 		//$scope.customers = [{"name":"ett"}];
 		$scope.customers = m;
 	};
-	
+	$scope.selectProduct = function() {		
+		$scope.priceModel = 10;
+	};
 });

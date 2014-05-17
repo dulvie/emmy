@@ -1,11 +1,10 @@
-%div{ng_controller: 'SalesCtrl'  }
-  = simple_form_for(@sale) do |f|
-    = f.error_notification
+= simple_form_for(@sale) do |f|
+  = f.error_notification
 
-    = f.association :warehouse, :input_html => {:ng_model => "warehouseModel", :ng_change => "selectWarehouse();"}
-    = f.association :customer, :input_html => {:ng_model => "customerModel", :ng_options => "c.name for c in customers", :ng_select => "true"}   
+  = f.association :warehouse, :input_html => {:ng_model => "warehouseModel", :ng_change => "selectWarehouse();"}
+  = f.association :customer, :input_html => {:ng_model => "customerModel", :ng_options => "c.name for c in customers", :ng_select => "true"}   
 
-    = f.submit class: 'btn btn-primary'
-    - if @sale.is_updateable? && !@sale.new_record?
-      = link_to t(:mark_complete), mark_complete_sale_path(@sale), method: :post, class: 'btn btn-success'
+  = f.submit class: 'btn btn-primary'
+  - if @sale.is_updateable? && !@sale.new_record?
+    = link_to t(:mark_complete), mark_complete_sale_path(@sale), method: :post, class: 'btn btn-success'
  
