@@ -1,4 +1,5 @@
 class CustomersController < ApplicationController
+  respond_to :html, :json
   load_and_authorize_resource
 
   before_filter :new_breadcrumbs, only: [:new, :create]
@@ -8,12 +9,14 @@ class CustomersController < ApplicationController
   # GET /customers.json
   def index
     @breadcrumbs = [['Customers']]
+    respond_with @customers
   end
 
   # GET /customers/1
   # GET /customers/1.json
   def show
     @breadcrumbs = [['Customers', customers_path], [@customer.name]]
+    respond_with @customer
   end
 
   # GET /customers/new

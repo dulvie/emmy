@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  respond_to :html, :json
   load_and_authorize_resource
 
   before_filter :new_breadcrumbs, only: [:new, :create]
@@ -9,11 +10,13 @@ class ProductsController < ApplicationController
   def index
     @products = Product.all.decorate
     @breadcrumbs = [['Products']]
+    respond_with @products
   end
 
   # GET /products/1
   # GET /products/1.json
   def show
+    respond_with @product
   end
 
   # GET /products/new
