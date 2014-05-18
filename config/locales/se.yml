@@ -34,3 +34,4 @@ se:
   add_product: "Lägg till produkt"
   mark_complete: "Märk som färdig"
   sale_marked_complete: "Forsäljning markerades som färdig"
+  was_successfully_updated: "uppdaterades"
