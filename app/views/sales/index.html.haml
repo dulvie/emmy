@@ -4,11 +4,12 @@
       %th= t(:sale)
       %th= t(:state)
       %th
+      %th
     %tbody
       - @sales.each do |sale|
         %tr
           %td= link_to("##{sale.id}", sale)
           %td= sale.states
           %td= link_to settings_icon, edit_sale_path(sale)
-
+          %td= link_to delete_icon, sale, method: :delete, data: { confirm: 'Are you Sure?' }
 = link_to 'Create Sale', new_sale_path, class: 'btn btn-default'
