@@ -1,7 +1,7 @@
 var app= angular.module('emmy', []);
 app.service('ajaxService', function($http, $q) {
 
-	var server = "http://localhost:8080/service/";
+	var server = "http://192.168.56.2:5000/";
 	this.get = function(service, parm) {
 		var deferred = $q.defer();
 		$http({

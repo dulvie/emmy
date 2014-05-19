@@ -2,7 +2,7 @@
   = f.error_notification
 
   = f.association :warehouse, :input_html => {:ng_model => "warehouseModel", :ng_change => "selectWarehouse();"}
-  = f.association :customer, :input_html => {:ng_model => "customerModel", :ng_options => "c.name for c in customers", :ng_select => "true"}   
+  = f.association :customer, :input_html => {:ng_model => "customerModel", :ng_options => "c.id as c.name for c in customers"}   
 
   = f.submit class: 'btn btn-primary'
   - if @sale.is_updateable? && !@sale.new_record?

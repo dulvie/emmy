@@ -1,10 +1,11 @@
-= simple_form_for([@sale, sale_item]) do |f|
-  = f.error_notification
-  = f.association :product, :input_html => {:ng_model => "productModel", :ng_change => "selectProduct();"}
-  = f.input :quantity
-  = f.input :price, :input_html => {:ng_model => "priceModel"}
+%div{:ng_init => 'init()'}
+  = simple_form_for([@sale, sale_item]) do |f|
+    = f.error_notification
+    = f.association :product, :input_html => {:ng_model => "productModel", :ng_options => "p.id as p.name for p in products", :ng_change => "selectProduct()"}
+    = f.input :quantity
+    = f.input :price, :input_html => {:ng_model => "priceModel"}
 
-  = form_submit(f)
+    = form_submit(f)
 
 :javascript
   $(document).ready(function() {
