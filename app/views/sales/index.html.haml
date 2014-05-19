@@ -2,13 +2,17 @@
   %thead
     %tr
       %th= t(:sale)
+      %th= t(:customer)
       %th= t(:state)
       %th
     %tbody
       - @sales.each do |sale|
         %tr
           %td= link_to("##{sale.id}", sale)
-          %td= sale.states
+          %td= link_to sale.customer.name, sale.customer
+          %td
+            - sale.states.each do |s|
+              = s
           %td= link_to settings_icon, edit_sale_path(sale)
 
 = link_to 'Create Sale', new_sale_path, class: 'btn btn-default'
