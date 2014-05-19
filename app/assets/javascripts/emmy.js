@@ -1,7 +1,7 @@
 var app= angular.module('emmy', []);
 app.service('ajaxService', function($http, $q) {
 
-	var server = "http://192.168.56.2:5000/";
+	var server = "/";
 	this.get = function(service, parm) {
 		var deferred = $q.defer();
 		$http({
@@ -14,11 +14,6 @@ app.service('ajaxService', function($http, $q) {
 				deferred.reject();  });
 		return deferred.promise;
 	};
-	this.gett = function(service, parm) {
-		//alert(service + parm);
-		var x = [{'name':'ett','id':'1'},{'name':'two','id':'2'}];
-		return x;
-	}
 });
 $(document).on('ready page:load', function(){
 	  angular.bootstrap(document.body, ['emmy']);

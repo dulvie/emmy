@@ -10,7 +10,7 @@ app.controller('SalesCtrl', function ($scope, ajaxService) {
 	$scope.productModel = 0;
 	$scope.priceModel = 0;
 	
-	$scope.selectWarehouse = function() {
+	$scope.initSales = function() {
 		ajaxService.get("customers.json", "").then(function(data) {
 			$scope.customers = data.customers;	
 		});
