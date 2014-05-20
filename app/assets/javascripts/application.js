@@ -13,6 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+
+//= require angular
+
 //= require modernizr
 //= require modernizr
 //= require bootstrap

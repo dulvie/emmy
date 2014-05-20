@@ -1,23 +1,23 @@
 class WarehousesController < ApplicationController
-  #before_action :set_warehouse, only: [:show, :edit, :update, :destroy]
+  respond_to :html, :json
   load_and_authorize_resource
 
   # GET /warehouses
   # GET /warehouses.json
   def index
-    @warehouses = Warehouse.all
     @breadcrumbs = [['Warehouses']]
+    respond_with @warehouses
   end
 
   # GET /warehouses/1
   # GET /warehouses/1.json
   def show
     @breadcrumbs = [['Warehouses', warehouses_path], [@warehouse.name]]
+    respond_with @warehouse
   end
 
   # GET /warehouses/new
   def new
-    @warehouse = Warehouse.new
     @breadcrumbs = [['Warehouses', warehouses_path], ['New warehouse']]
   end
 
@@ -67,10 +67,6 @@ class WarehousesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    #def set_warehouse
-    #  @warehouse = Warehouse.find(params[:id])
-    #end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def warehouse_params

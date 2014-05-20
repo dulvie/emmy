@@ -1,9 +1,13 @@
-= simple_form_for(@sale) do |f|
-  = f.error_notification
+%div{:ng_init => 'initSales()'}
+  = simple_form_for(@sale) do |f|
+    = f.error_notification
 
-  = f.association :customer
-  = f.association :warehouse, input_html: {ng_model: "warehouseModel", ng_change: "selectWarehouse();"}
+    = f.association :warehouse
+    %input{:ng_model => "searchCustomer"}
+    = f.association :customer, :input_html => {:ng_model => "customerModel", :ng_options => "c.id as c.name for c in customers | filter: searchCustomer"}   
 
-  = f.submit class: 'btn btn-primary'
-  - if @sale.is_updateable? && !@sale.new_record?
-    = link_to t(:mark_complete), mark_complete_sale_path(@sale), method: :post, class: 'btn btn-success'
+    - if @sale.is_updateable?
+      = f.submit class: 'btn btn-primary'
+      - unless @sale.new_record?
+        = link_to t(:mark_complete), mark_complete_sale_path(@sale), method: :post, class: 'btn btn-success'
+ 

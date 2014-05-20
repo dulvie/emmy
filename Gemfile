@@ -52,6 +52,9 @@ gem 'modernizr-rails'
 gem 'state_machine'
 gem 'draper', '~> 1.3'
 gem 'haml', '~> 4.0'
+gem 'angularjs-rails'
+gem 'active_model_serializers'
+gem 'gon'
 
 group :test, :development do
   gem 'debugger'

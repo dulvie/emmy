@@ -1,3 +1,4 @@
-%h1 #{t(:edit)} #{t(:sale)}
-= render 'form'
-= render partial: 'sale_items/index'
+%div{ng_controller: 'SalesCtrl'}
+  %h1 #{t(:edit)} #{t(:sale)}
+  = render 'form'
+  = render partial: 'sale_items/index'

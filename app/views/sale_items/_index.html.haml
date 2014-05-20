@@ -2,5 +2,4 @@
   = render partial: 'sale_items/list', locals: {sale_items: @sale.sale_items}
 
 - if @sale.is_updateable?
-  %h4= t(:add_product)
-  = render partial: 'sale_items/form', locals: {sale_item: SaleItem.new(sale: @sale)}
+  = link_to t(:add_product), new_sale_sale_item_path(@sale)
