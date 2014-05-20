@@ -3,19 +3,31 @@
 
 app.controller('SalesCtrl', function ($scope, ajaxService) {
 	$scope.customers = [];
-	$scope.products = [];
-	
-	$scope.warehouseModel = {};
-	$scope.customerModel = "";
-	$scope.productModel = 0;
-	$scope.priceModel = 0;
+	$scope.selected = undefined;
 	
 	$scope.initSales = function() {
-		ajaxService.get("customers.json", "").then(function(data) {
-			$scope.customers = data.customers;	
-		});
 		
+		ajaxService.get("customers.json", "").then(function(data) {
+			var customer = data.customers;
+			$scope.customer = customer;
+			//for (var i = 0; i < $scope.customers.length; i++) {
+			//	if ($scope.customers[i].name == selected)
+			//		$scope.customerModel = $scope.customers[i];
+			//};			
+		});		
 	};	
+	$scope.onSelect = function (item, model, label) {
+	    alert(item.id);
+	    //alert(model);
+	    //alert(label);
+	};
+	
+	//--------------------
+	$scope.products = [];
+	$scope.warehouseModel = {};
+	//$scope.customerModel = "";
+	$scope.productModel = 0;
+	$scope.priceModel = 0;
 	
 	$scope.init = function() {
 		

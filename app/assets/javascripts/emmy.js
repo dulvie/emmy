@@ -1,4 +1,4 @@
-var app= angular.module('emmy', []);
+var app= angular.module('emmy', ["ui.bootstrap"]);
 app.service('ajaxService', function($http, $q) {
 
 	var server = "/";
@@ -15,6 +15,16 @@ app.service('ajaxService', function($http, $q) {
 		return deferred.promise;
 	};
 });
+app.directive('ngBlur', ['$parse', function($parse) {
+	return function(scope, element, attr) {
+		var fn = $parse(attr['ngBlur']);
+		element.bind('blur', function(event) {
+			scope.$apply(function() {
+				fn(scope, {$event:event});
+			});
+		});
+	}
+}]);
 $(document).on('ready page:load', function(){
 	  angular.bootstrap(document.body, ['emmy']);
 	});

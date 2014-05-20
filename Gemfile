@@ -55,6 +55,7 @@ gem 'haml', '~> 4.0'
 gem 'angularjs-rails'
 gem 'active_model_serializers'
 gem 'gon'
+gem 'angular-ui-bootstrap-rails'
 
 group :test, :development do
   gem 'debugger'

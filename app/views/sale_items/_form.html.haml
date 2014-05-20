@@ -1,8 +1,7 @@
-%div{:ng_init => 'init()'}
-  = simple_form_for([@sale, @sale_item]) do |f|
-    = f.error_notification
-    = f.association :product, :input_html => {:ng_model => "productModel", :ng_options => "p.id as p.name for p in products", :ng_change => "selectProduct()"}
-    = f.input :quantity
-    = f.input :price, :input_html => {:ng_model => "priceModel"}
+= simple_form_for([@sale, @sale_item]) do |f|
+  = f.error_notification
+  = f.association :product
+  = f.input :quantity
+  = f.input :price
 
-    = form_submit(f)
+  = form_submit(f)

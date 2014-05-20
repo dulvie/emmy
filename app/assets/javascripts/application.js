@@ -20,3 +20,4 @@
 //= require modernizr
 //= require bootstrap
 //= require_tree .
+//= require angular-ui-bootstrap-tpls

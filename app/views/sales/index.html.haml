@@ -10,7 +10,7 @@
       - @sales.each do |sale|
         %tr
           %td= link_to("##{sale.id}", sale)
-          %td= link_to sale.customer.name, sale.customer
+          %td= link_to sale.customer.try(:name), sale.customer
           %td
             - sale.states.each do |s|
               = s
