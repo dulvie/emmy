@@ -37,7 +37,6 @@ class SalesController < ApplicationController
   end
 
   def update
-    logger.info "RUNNING UPDATE CODE WOOOOOOT"
     respond_to do |format|
       if @sale.update_attributes(sale_params)
         format.html { redirect_to edit_sale_path(@sale), notice: "#{t(:sale)} #{t(:was_successfully_updated)}" }
