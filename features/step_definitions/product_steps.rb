@@ -15,6 +15,8 @@ end
 
 def product_valid_form_data
   fill_in "product_name", with: "test product"
+  fill_in "product_vat", with: "25"
+  select 'refined', from: 'product_product_type'
 end
 
 def product_invalid_form_data
