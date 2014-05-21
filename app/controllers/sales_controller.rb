@@ -1,11 +1,9 @@
+# @TODO check state on update/destroy before doing anything.
 class SalesController < ApplicationController
   load_and_authorize_resource
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update]
-
-  before_filter :ensure_updateable, only: [:update]
-
 
   def create
     @sale = Sale.new sale_params
@@ -46,6 +44,14 @@ class SalesController < ApplicationController
     end
   end
 
+  def destroy
+    @sale.destroy
+    respond_to do |format|
+      format.html { redirect_to sales_path, notice: "#{t(:sale)} #{t(:was_successfully_deleted)}" }
+      #format.json { head :no_content }
+    end
+  end
+
   def mark_meta_complete
     @sale = Sale.find(params[:id])
     @sale.mark_meta_complete
@@ -68,10 +74,4 @@ class SalesController < ApplicationController
       @breadcrumbs = [[t(:sales), sales_path], ["##{@sale.id}"]]
     end
 
-    def ensure_updateable
-      unless @sale.can_edit_base_info?
-        flash[:danger] = "#{t(:sale)} #{t(:cant_be_changed_after_marked_complete)}"
-        redirect_to edit_sale_path(@sale)
-      end
-    end
 end
