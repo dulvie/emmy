@@ -1,6 +1,7 @@
 %table{:class => 'table table-striped'}
   %thead
     %tr
+      %th= t(:sale_id)
       %th= t(:warehouse)
       %th= t(:customer)
       %th= t(:state)
@@ -10,6 +11,7 @@
     %tbody
       - @sales.each do |sale|
         %tr
+          %td= link_to "##{sale.id}", sale
           %td= link_to sale.warehouse.try(:name), sale.warehouse
           %td= link_to sale.customer.try(:name), sale.customer
           %td
