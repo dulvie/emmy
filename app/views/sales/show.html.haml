@@ -1,8 +1,25 @@
 %h2 #{t(:sale)}
-- if @sale.can_update_base_info?
+- if @sale.new_record?
   =render partial: 'form'
 - else
   %h3= @sale.customer_name
   %h3= @sale.warehouse_name
-  %h4
-    = link_to t(:add_product), new_sale_sale_item_path(@sale), class: 'btn btn-info'
+
+  = render partial: 'sale_items/index'
+
+  - unless ! @sale.is_completed?
+    = link_to t(@sale.next_step),
+      state_change_sale_path(@sale, new_state: @sale.next_step),
+      class: 'btn btn-info',
+      method: :post
+  - unless @sale.is_delivered?
+    = link_to t(:deliver),
+      state_change_sale_path(@sale, new_state: :deliver_goods),
+      class: 'btn btn-info',
+      method: :post
+
+  - unless @sale.is_paid?
+    = link_to t(:pay),
+      state_change_sale_path(@sale, new_state: :pay),
+      class: 'btn btn-info',
+      method: :post

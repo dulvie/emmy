@@ -13,4 +13,4 @@
           %td= item.quantity 
           %td= item.price
           %td= item.price_sum
-          %td remove?
+          %td= delete_button_for item, sale_sale_item_path(@sale, item)

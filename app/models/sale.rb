@@ -19,10 +19,13 @@ class Sale < ActiveRecord::Base
   validates :customer_id, presence: true
   validates :warehouse_id, presence: true
 
-  state_machine :state, initial: :new do
-    event :mark_meta_complete do
-      transition :new => :meta_complete
-    end
+  STATE_CHANGES = [
+    :mark_item_complete, :start_processing, :mark_complete, # Generic state
+    :deliver_goods, # Goods
+    :pay,           # Money
+  ]
+
+  state_machine :state, initial: :meta_complete do
 
     event :mark_item_complete do
       transition :meta_complete => :item_complete
@@ -49,10 +52,6 @@ class Sale < ActiveRecord::Base
     end
   end
 
-  def can_update_base_info?
-    state.eql? 'new'
-  end
-
   def can_edit_items?
     state.eql? 'meta_complete'
   end
@@ -62,10 +61,24 @@ class Sale < ActiveRecord::Base
     true
   end
 
+  def is_completed?
+    state.eql? 'completed'
+  end
+
+  def is_delivered?
+    goods_state.eql? 'delivered'
+  end
+  def is_paid?
+    money_state.eql? 'paid'
+  end
+
+  def state_change(new_state)
+    return false unless STATE_CHANGES.include?(new_state.to_sym)
+    self.send("#{new_state}")
+  end
+
   def next_step
     case state
-    when 'new'
-      :mark_meta_complete
     when 'meta_complete'
       :mark_item_complete
     when 'item_complete'
@@ -73,7 +86,7 @@ class Sale < ActiveRecord::Base
     when 'processing'
       :mark_complete
     else
-      raise RuntimeError, "Unknown state of sale#{self.id}"
+      raise RuntimeError, "Unknown state#{state} of sale#{self.id}"
     end
   end
 

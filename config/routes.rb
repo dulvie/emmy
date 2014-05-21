@@ -15,7 +15,7 @@ Emmy::Application.routes.draw do
   resources :sales do
     resources :sale_items
     member do
-      post 'mark_meta_complete', as: :mark_meta_complete
+      post 'state_change', as: :state_change
     end
   end
   resources :products

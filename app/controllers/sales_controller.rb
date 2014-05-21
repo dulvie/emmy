@@ -52,11 +52,15 @@ class SalesController < ApplicationController
     end
   end
 
-  def mark_meta_complete
+  def state_change
     @sale = Sale.find(params[:id])
-    @sale.mark_meta_complete
+    if @sale.state_change(params[:new_state])
+      msg = t(:success)
+    else
+      msg = t(:fail)
+    end
     respond_to do |format|
-      format.html { redirect_to sales_path, notice: "#{t(:sale_marked_complete)}" }
+      format.html { redirect_to @sale, notice: msg}
     end
   end
 

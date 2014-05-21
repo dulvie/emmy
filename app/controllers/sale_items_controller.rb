@@ -20,6 +20,20 @@ class SaleItemsController < ApplicationController
     end
   end
 
+  def destroy
+    @sale = Sale.find(params[:sale_id])
+    if @sale.can_edit_items?
+      item = @sale.sale_items.find(params[:id])
+      item.destroy
+      msg = "#{t(:sale_item)} #{t(:was_successfully_deleted)}"
+    end
+
+    respond_to do |format|
+      format.html { redirect_to sale_path(@sale), notice: msg }
+      #format.json { head :no_content }
+    end
+  end
+
   private
 
     def sale_item_params

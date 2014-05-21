@@ -14,6 +14,10 @@ class SaleItem < ActiveRecord::Base
 
   before_validation :collect_and_calculate
 
+  def can_delete?
+    sale.can_edit_items?
+  end
+
   private
 
   # before_validation

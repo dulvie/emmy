@@ -12,11 +12,11 @@
       - @sales.each do |sale|
         %tr
           %td= link_to "##{sale.id}", sale
-          %td= link_to sale.warehouse.try(:name), sale.warehouse
-          %td= link_to sale.customer.try(:name), sale.customer
+          %td= link_to sale.warehouse_name, sale.warehouse
+          %td= link_to sale.customer_name, sale.customer
           %td
             - sale.states.each do |s|
               = s
-          %td= link_to settings_icon, edit_sale_path(sale)
-          %td= sale.delete_button
+          %td= link_to settings_icon, sale
+          %td= delete_button_for sale
 = link_to 'Create Sale', new_sale_path, class: 'btn btn-default'

@@ -1,5 +1,13 @@
 module ApplicationHelper
 
+  # Prints a delete link button
+  # depends that the object responds to a .can_delete? method
+  def delete_button_for(obj, other_path = nil)
+    p = other_path || obj
+    return unless obj.can_delete?
+    link_to delete_icon, p, method: :delete, data: { confirm: 'Are you Sure?' }
+  end
+
   # @todo Refactor this into an module or something.
   # A couple of short hand methods to make the html a bit nicer.
   # To short to be in a partial, but doesn't belong in a helper...
