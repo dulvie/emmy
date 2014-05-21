@@ -6,6 +6,12 @@
     %input{:type=>"text", :ng_model=>"selected", :typeahead_on_select => "onSelect($item, $model, $label)", :typeahead=>"c.name for c in customer | filter:$viewValue | limitTo:8", :class=>"form-control"}
     = f.association :customer
 
+    %div{:class=>"input-group col-md-4"}
+      %input{:type => "text", :class => "form-control", :datepicker_popup=>"yyyy-MM-dd", :ng_model=>"datevar", :is_open=>"isOpen1", :datepicker_options=>"dateOptions1", :show_button_bar=>"false", :readonly =>"true"}
+        %span{:class => "input-group-btn"}
+          %button{:class => "btn btn-default", :ng_click=>"open1($event)" }
+            %i{ :class => "glyphicon glyphicon-calendar"}
+
     - if @sale.is_updateable?
       = f.submit class: 'btn btn-primary'
       - unless @sale.new_record?
