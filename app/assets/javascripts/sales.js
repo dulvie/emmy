@@ -22,6 +22,16 @@ app.controller('SalesCtrl', function ($scope, ajaxService) {
 	    //alert(label);
 	};
 	
+	$scope.datevar = new Date();
+	$scope.dateOptions1 = {
+		    'starting-day': 1,
+			'show-weeks': false
+			};
+    $scope.open1 = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.isOpen1 = true;
+    	};
 	//--------------------
 	$scope.products = [];
 	$scope.warehouseModel = {};
