@@ -11,4 +11,9 @@ class Customer < ActiveRecord::Base
   attr_accessible :name, :vat_number, :address, :zip, :city
 
   validates :name, presence: true
+
+  # @TODO implement
+  def primary_email
+    "email@example.com"
+  end
 end

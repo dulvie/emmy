@@ -65,6 +65,10 @@ class SaleDecorator < Draper::Decorator
     object.customer.name
   end
 
+  def customer_email
+    object.customer.primary_email
+  end
+
   def warehouse_name
     object.warehouse.name
   end

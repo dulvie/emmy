@@ -20,7 +20,7 @@ class SaleItem < ActiveRecord::Base
 
   private
 
-  # before_validation
+  # Callback: before_validation
   def collect_and_calculate
     self.vat = product.vat unless vat
     self.price_inc_vat = price * (1 + vat / 100.0)

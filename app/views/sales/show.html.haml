@@ -1,9 +1,18 @@
-%h2 #{t(:sale)}
 - if @sale.new_record?
   =render partial: 'form'
 - else
-  %h3= @sale.customer_name
-  %h3= @sale.warehouse_name
+  .row
+    .col-md-2.col-lg-2
+      %h3 #{t(:customer)}:
+    .col-md-6
+      %h3
+        #{@sale.customer_name}
+        %small #{@sale.customer_email}
+  .row
+    .col-md-2
+      %h3 #{t(:warehouse)}:
+    .col-md-4
+      %h3 #{@sale.warehouse_name}
 
   = render partial: 'sale_items/index'
 

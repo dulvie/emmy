@@ -1,5 +1,4 @@
-- if @sale.sale_items.count > 0
-  = render partial: 'sale_items/list', locals: {sale_items: @sale.sale_items}
+= render partial: 'sale_items/list', locals: {sale_items: @sale.sale_items}
 
 - if @sale.can_edit_items?
   = link_to t(:add_product), new_sale_sale_item_path(@sale), class: 'btn btn-info'
