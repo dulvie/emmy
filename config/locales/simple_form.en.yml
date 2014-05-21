@@ -29,3 +29,12 @@ en:
     # prompts:
     #   defaults:
     #     age: 'Select your age'
+se:
+  simple_form:
+    "yes": 'Ja'
+    "no": 'Nej'
+    required:
+      text: 'obligatorisk'
+      mark: '*'
+    error_notification:
+      default_message: "Observera problemen nedan:"
