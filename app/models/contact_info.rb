@@ -17,4 +17,6 @@ class ContactInfo < ActiveRecord::Base
             unless: Proc.new { |cinfo| cinfo.customer_id.present? } 
   validates :customer_id, presence: true,
             unless: Proc.new { |cinfo| cinfo.user_id.present? } 
+
+  attr_accessible :email
 end
