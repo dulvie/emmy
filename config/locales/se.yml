@@ -23,6 +23,7 @@ se:
   not_delivered: "ej levererad"
   not_paid: "ej betald"
   pay: "Betala"
+  paid: "Betalad"
   price: "Pris"
   price_sum: "Prissumma"
   product: "Produkt"

@@ -17,7 +17,7 @@ app.controller('SalesCtrl', function ($scope, ajaxService) {
 		});		
 	};	
 	$scope.onSelect = function (item, model, label) {
-	    alert(item.id);
+	    $('#sale_customer_id').val(item.id); 
 	    //alert(model);
 	    //alert(label);
 	};

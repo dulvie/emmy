@@ -45,6 +45,7 @@ en:
   not_delivered: "not delivered"
   not_paid: "not paid"
   pay: "Pay"
+  paid: "Paid"
   price: "Price"
   price_sum: "Price sum"
   product: "Product"
