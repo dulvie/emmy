@@ -31,6 +31,7 @@ class SalesController < ApplicationController
   end
 
   def show
+    @sale = @sale.decorate
   end
 
   def update
@@ -45,9 +46,9 @@ class SalesController < ApplicationController
     end
   end
 
-  def mark_complete
+  def mark_meta_complete
     @sale = Sale.find(params[:id])
-    @sale.mark_complete
+    @sale.mark_meta_complete
     respond_to do |format|
       format.html { redirect_to sales_path, notice: "#{t(:sale_marked_complete)}" }
     end

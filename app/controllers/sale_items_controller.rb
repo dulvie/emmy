@@ -4,6 +4,7 @@ class SaleItemsController < ApplicationController
 
   def new
     gon.push sale: @sale, sale_item: @sale_item
+    @breadcrumbs = [[t(:sales), sales_path], ["##{@sale.id}", sale_path(@sale)], [t(:add_product)]]
   end
 
   def create

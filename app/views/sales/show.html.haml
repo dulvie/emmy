@@ -4,3 +4,5 @@
 - else
   %h3= @sale.customer_name
   %h3= @sale.warehouse_name
+  %h4
+    = link_to t(:add_product), new_sale_sale_item_path(@sale), class: 'btn btn-info'

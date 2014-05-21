@@ -8,12 +8,18 @@ class SaleDecorator < Draper::Decorator
   def pretty_state
     l = 'default'
     case object.state
-    when 'complete'
-      l = 'success'
-      str = 'complete'
-    when 'incomplete'
+    when 'meta_complete'
+      l = 'info'
+      str = h.t(:has_base_info)
+    when 'item_complete'
+      l = 'info'
+      str = h.t(:item_complete)
+    when 'processing'
       l = 'warning'
-      str = 'incomplete'
+      str = h.t(:processing)
+    when 'completed'
+      l = 'success'
+      str = h.t(:completed)
     end
     labelify(str, l)
   end
