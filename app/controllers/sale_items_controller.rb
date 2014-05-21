@@ -11,7 +11,7 @@ class SaleItemsController < ApplicationController
     @sale_item = @sale.sale_items.build sale_item_params
     respond_to do |format|
       if @sale_item.save
-        format.html { redirect_to edit_sale_path(@sale), notice: "#{t(:product_added)}" }
+        format.html { redirect_to sale_path(@sale), notice: "#{t(:product_added)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_add)} #{t(:product)}"
         format.html { render :new }

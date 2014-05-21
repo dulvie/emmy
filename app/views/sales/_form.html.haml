@@ -6,7 +6,4 @@
     %input{:type=>"text", :ng_model=>"selected", :typeahead_on_select => "onSelect($item, $model, $label)", :typeahead=>"c.name for c in customer | filter:$viewValue | limitTo:8", :class=>"form-control"}
     = f.association :customer
 
-    - if @sale.is_updateable?
-      = f.submit class: 'btn btn-primary'
-      - unless @sale.new_record?
-        = link_to t(:mark_complete), mark_complete_sale_path(@sale), method: :post, class: 'btn btn-success'
+    = f.submit class: 'btn btn-primary'

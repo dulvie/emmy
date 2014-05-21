@@ -14,6 +14,5 @@
           %td
             - sale.states.each do |s|
               = s
-          %td= link_to settings_icon, edit_sale_path(sale)
-          %td= link_to delete_icon, sale, method: :delete, data: { confirm: 'Are you Sure?' }
+          %td= sale.delete_button
 = link_to 'Create Sale', new_sale_path, class: 'btn btn-default'

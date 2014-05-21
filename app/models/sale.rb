@@ -16,9 +16,24 @@ class Sale < ActiveRecord::Base
 
   attr_accessible :customer_id, :warehouse_id
 
-  state_machine :state, initial: :incomplete do
+  validates :customer_id, presence: true
+  validates :warehouse_id, presence: true
+
+  state_machine :state, initial: :new do
+    event :mark_meta_complete do
+      transition :new => :meta_complete
+    end
+
+    event :mark_item_complete do
+      transition :meta_complete => :item_complete
+    end
+
+    event :start_processing do
+      transition :item_complete => :processing
+    end
+
     event :mark_complete do
-      transition :incomplete => :complete
+      transition :processing => :completed
     end
   end
 
@@ -34,8 +49,32 @@ class Sale < ActiveRecord::Base
     end
   end
 
-  def is_updateable?
-    state.eql? 'incomplete'
+  def can_update_base_info?
+    state.eql? 'new'
+  end
+
+  def can_edit_items?
+    state.eql? 'meta_complete'
+  end
+
+  def can_delete?
+    return false if ['processing','completed'].include? state
+    true
+  end
+
+  def next_step
+    case state
+    when 'new'
+      :mark_meta_complete
+    when 'meta_complete'
+      :mark_item_complete
+    when 'item_complete'
+      :start_processing
+    when 'processing'
+      :mark_complete
+    else
+      raise RuntimeError, "Unknown state of sale#{self.id}"
+    end
   end
 
 end

@@ -50,4 +50,17 @@ class SaleDecorator < Draper::Decorator
     end
   end
 
+  def delete_button
+    return unless object.can_delete?
+    h.link_to h.delete_icon, object, method: :delete, data: { confirm: 'Are you Sure?' }
+  end
+
+  def customer_name
+    object.customer.name
+  end
+
+  def warehouse_name
+    object.warehouse.name
+  end
+
 end

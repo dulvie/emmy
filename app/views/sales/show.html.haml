@@ -1,4 +1,6 @@
-%h2 #{t(:show)} #{t(:sale)}
-%h3= @sale.warehouse.try(:name) 
-%h3= @sale.customer.try(:name)
-= link_to 'Back', sales_path
+%h2 #{t(:sale)}
+- if @sale.can_update_base_info?
+  =render partial: 'form'
+- else
+  %h3= @sale.customer_name
+  %h3= @sale.warehouse_name

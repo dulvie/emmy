@@ -2,7 +2,7 @@ class SalesController < ApplicationController
   load_and_authorize_resource
 
   before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :edit_breadcrumbs, only: [:edit, :update, :show]
+  before_filter :show_breadcrumbs, only: [:show, :update]
 
   before_filter :ensure_updateable, only: [:update]
 
@@ -12,7 +12,7 @@ class SalesController < ApplicationController
     @sale.user = current_user
     respond_to do |format|
       if @sale.save
-        format.html { redirect_to edit_sale_path(@sale), notice: "#{t(:sale)} #{t(:was_successfully_created)}" }
+        format.html { redirect_to sale_path(@sale), notice: "#{t(:sale)} #{t(:was_successfully_created)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:sale)}"
         format.html { render action: :new }
@@ -20,9 +20,6 @@ class SalesController < ApplicationController
       end
     end
 
-  end
-
-  def edit
   end
 
   def index
@@ -39,10 +36,10 @@ class SalesController < ApplicationController
   def update
     respond_to do |format|
       if @sale.update_attributes(sale_params)
-        format.html { redirect_to edit_sale_path(@sale), notice: "#{t(:sale)} #{t(:was_successfully_updated)}" }
+        format.html { redirect_to sale_path(@sale), notice: "#{t(:sale)} #{t(:was_successfully_updated)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:sale)}"
-        format.html { render action: :edit }
+        format.html { render action: :show }
         #format.json { render json: @sale.errors, status: :unprocessable_entity }
       end
     end
@@ -66,12 +63,12 @@ class SalesController < ApplicationController
       @breadcrumbs = [[t(:sales), sales_path], ["#{t(:new)} #{t(:sale)}"]]
     end
 
-    def edit_breadcrumbs
+    def show_breadcrumbs
       @breadcrumbs = [[t(:sales), sales_path], ["##{@sale.id}"]]
     end
 
     def ensure_updateable
-      unless @sale.is_updateable?
+      unless @sale.can_edit_base_info?
         flash[:danger] = "#{t(:sale)} #{t(:cant_be_changed_after_marked_complete)}"
         redirect_to edit_sale_path(@sale)
       end
