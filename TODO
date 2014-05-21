@@ -1,6 +1,17 @@
 Priorities:
+  Contacts
+    - implement gui for contacts
+    - add flag to contacts "primary" or not (1/0)
+    - contacs should be polymorphic, always connected to customer, supplier or warehouse
+    - customer, supplier, warehouse should have:
+      - 'add new contact' button
+      - list of all connected contacts
+        - edit button
+        - remove button
+
   Sales!
     - Create sales with data(customer,seller,due_date etc)
+      - must be able to choose contact_email, but primary should be first choice.
     - Create sales_item, joins products and sales, also saves quantity and price
     - Create transaction to subtract the products from the selling warehouse
     - A resource to download a PDF(VAT number, bankgiro/plusgiro etc)
