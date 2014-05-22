@@ -1,6 +1,6 @@
 = simple_form_for([@sale, @sale_item]) do |f|
   = f.error_notification
-  = f.association :product
+  = f.association :product, collection: @shelves
   = f.input :quantity
   = f.input :price
 

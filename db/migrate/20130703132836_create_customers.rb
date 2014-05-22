@@ -6,6 +6,7 @@ class CreateCustomers < ActiveRecord::Migration
       t.string :vat_number
       t.string :name
       t.string :zip
+      t.boolean :reseller
       t.timestamps
     end
   end

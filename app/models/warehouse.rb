@@ -12,4 +12,8 @@ class Warehouse < ActiveRecord::Base
 
   attr_accessible :name, :address, :zip, :city
 
+  def products_in_stock
+    @products_in_stock ||= shelves.includes(:product).collect{|s| s.product}
+  end
+
 end

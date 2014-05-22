@@ -3,7 +3,9 @@ class SaleItemsController < ApplicationController
   load_and_authorize_resource :sale_item, through: :sale
 
   def new
-    gon.push sale: @sale, sale_item: @sale_item
+    @shelves = @sale.warehouse.shelves.includes(:product)
+    @sale = @sale.decorate
+    gon.push sale: @sale, sale_item: @sale_item, shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer)
     @breadcrumbs = [[t(:sales), sales_path], ["##{@sale.id}", sale_path(@sale)], [t(:add_product)]]
   end
 
