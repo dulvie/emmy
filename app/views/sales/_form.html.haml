@@ -1,27 +1,60 @@
 %div{:ng_init => 'initSales()'}
   = simple_form_for(@sale) do |f|
     = f.error_notification
-    = f.association :warehouse
-    %div{:class=>"form-group"}
-      %label= t(:customer)
-      %input{:type => "hidden", :id => "sale_customer_id", :name=> "sale[customer_id]", :value => ""}
+    = f.association :warehouse, disabled: !@sale.new_record?
+    - if @sale.new_record?
+      = f.input :customer_id, as: :hidden
       %input{:ng_model=>"selected", :typeahead_on_select => "onSelect($item, $model, $label)", :typeahead=>"c.name for c in customer | filter:$viewValue | limitTo:8", :class=>"form-control"}
+      %div{:class=>"form-group"}
+        %label= t(:customer_reference)
+        %input{:id => "customer_reference_id", :name=> "sale[customer_reference_id]", :value => "", :hidden => "hidden"}
+        %input{:ng_model=>"custref", :typeahead_on_select => "onSelectRef($item, $model, $label)", :typeahead=>"r.name for r in reference | filter:$viewValue | limitTo:8", :class=>"form-control"}
+    - else
+      = f.association :customer, disabled: true
 
-    = f.input :contact_email
-    = f.input :contact_name
+    = f.input :contact_email, disabled: !@sale.new_record?
+    = f.input :contact_name, disabled: !@sale.new_record?
 
-    %div{:class=>"form-group"}
-      %label= t(:approved_date)
-      %input{:type => "hidden", :id => "sale_approved_at", :name=> "sale[approved_at]", :value => "{{datevar}}"}
-      %div{:class=>"input-group col-md-4"}
-        %input{:type => "text", :class => "form-control", :datepicker_popup=>"yyyy-MM-dd", :ng_model=>"datevar", :is_open=>"isOpen1", :datepicker_options=>"dateOptions1", :show_button_bar=>"false", :readonly =>"true"}
-          %span{:class => "input-group-btn"}
-            %button{:class => "btn btn-default", :ng_click=>"open1($event)" }
-              %i{ :class => "glyphicon glyphicon-calendar"}
+    - if @sale.can_edit_items?
+      %div{:class=>"form-group"}
+        %label= t(:approved_date)
+        %input{:type => "hidden", :id => "sale_approved_at", :name=> "sale[approved_at]", :value => "{{datevar}}"}
+        %div{:class=>"input-group col-md-4"}
+          %input{:type => "text", :class => "form-control", :datepicker_popup=>"yyyy-MM-dd", :ng_model=>"datevar", :is_open=>"isOpen1", :datepicker_options=>"dateOptions1", :show_button_bar=>"false", :readonly =>"true"}
+            %span{:class => "input-group-btn"}
+              %button{:class => "btn btn-default", :ng_click=>"open1($event)" }
+                %i{ :class => "glyphicon glyphicon-calendar"}
+    - else
+      = label_tag :approved_at
+      %div{:class=>"form-group"}
+        %input{:type=>"text", :class=>"form-control", :value => @sale.approved_at.strftime('%Y-%m-%d'), :readonly=>"readonly" }
+      -if !@sale.is_delivered?
+        %div{:class=>"form-group"}
+          = label_tag :goods_delivered_at
+          %input{:type => "hidden", :id => "goods_delivered_at", :name=> "sale[goods_delivered_at]", :value => "{{datevar}}"}
+          %div{:class=>"input-group col-md-4"}
+            %input{:type => "text", :class => "form-control", :datepicker_popup=>"yyyy-MM-dd", :ng_model=>"datevar", :is_open=>"isOpen1", :datepicker_options=>"dateOptions1", :show_button_bar=>"false", :readonly =>"true"}
+              %span{:class => "input-group-btn"}
+                %button{:class => "btn btn-default", :ng_click=>"openApprovedDate($event)"}
+                  %i{ :class => "glyphicon glyphicon-calendar"}
+      - else
+        = label_tag :goods_delivered_at
+        %div{:class=>"form-group"}
+          %input{:type=>"text", :class=>"form-control", :value => @sale.goods_delivered_at, :readonly=>"readonly" }
+        - if !@sale.is_paid?
+          %div{:class=>"form-group"}
+            = label_tag :paid
+            %input{:type => "hidden", :id => "paid_at", :name=> "sale[paid_at]", :value => "{{datevar}}"}
+            %div{:class=>"input-group col-md-4"}
+              %input{:type => "text", :class => "form-control", :datepicker_popup=>"yyyy-MM-dd", :ng_model=>"datevar", :is_open=>"isOpen1", :datepicker_options=>"dateOptions1", :show_button_bar=>"false", :readonly =>"true"}
+                %span{:class => "input-group-btn"}
+                  %button{:class => "btn btn-default", :ng_click=>"openApprovedDate($event)"}
+                    %i{ :class => "glyphicon glyphicon-calendar"}
+        - else
+          = label_tag :paid_at
+          %div{:class=>"form-group"}
+            %input{:type=>"text", :class=>"form-control", :value => @sale.paid_at, :readonly=>"readonly" }
 
-    %div{:class=>"form-group"}
-      %label= t(:customer_reference)
-      %input{:id => "customer_reference_id", :name=> "sale[customer_reference_id]", :value => "", :hidden => "hidden"}
-      %input{:ng_model=>"custref", :typeahead_on_select => "onSelectRef($item, $model, $label)", :typeahead=>"r.name for r in reference | filter:$viewValue | limitTo:8", :class=>"form-control"}
+
 
     = f.submit class: 'btn btn-primary'
