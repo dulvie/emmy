@@ -9,13 +9,12 @@
 
     %div{:class=>"form-group"}
       %label= t(:approved_date)
-
+      %input{:type => "hidden", :id => "sale_approved_at", :name=> "sale[approved_at]", :value => "{{datevar}}"}
       %div{:class=>"input-group col-md-4"}
         %input{:type => "text", :class => "form-control", :datepicker_popup=>"yyyy-MM-dd", :ng_model=>"datevar", :is_open=>"isOpen1", :datepicker_options=>"dateOptions1", :show_button_bar=>"false", :readonly =>"true"}
           %span{:class => "input-group-btn"}
             %button{:class => "btn btn-default", :ng_click=>"open1($event)" }
               %i{ :class => "glyphicon glyphicon-calendar"}
-    %input{:type => "hidden", :id => "sale_approved_at", :name=> "sale[approved_at]", :value => "{{datevar}}"}
 
     %div{:class=>"form-group"}
       %label= t(:customer_reference)

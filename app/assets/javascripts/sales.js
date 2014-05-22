@@ -1,7 +1,7 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 
-app.controller('SalesCtrl', function ($scope, ajaxService) {
+app.controller('salesCtrl', function ($scope, ajaxService) {
 	$scope.customers = [];
 	$scope.selected = undefined;
 	
@@ -63,5 +63,11 @@ app.controller('SalesCtrl', function ($scope, ajaxService) {
 			//$scope.priceModel = 10.00;
 		}
 		
+	};
+	
+});
+app.controller('saleItemsCtrl', function ($scope) {
+	$scope.init = function() {
+		alert(gon.sale.warehouse_id);
 	};
 });
