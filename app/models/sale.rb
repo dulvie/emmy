@@ -17,7 +17,7 @@ class Sale < ActiveRecord::Base
   belongs_to :warehouse
   has_many :sale_items
 
-  attr_accessible :customer_id, :warehouse_id, :approved_at
+  attr_accessible :customer_id, :warehouse_id, :approved_at, :contact_email, :contact_name
 
   validates :customer_id, presence: true
   validates :warehouse_id, presence: true
