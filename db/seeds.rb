@@ -59,17 +59,17 @@ brewd_in_ankeborg.product = brewd
 brewd_in_ankeborg.save
 
 [espresso, brewd].each do |pr|
-  transaction = Transaction.new(
+  product_transaction = ProductTransaction.new(
     warehouse: ankeborg_warehouse,
     product: pr,
     quantity: (10..100).to_a.sample
   )
   m = Manual.new
   m.user = jtest
-  m.comments.build(user_id: jtest.id, body: "Initial seed manual transaction")
+  m.comments.build(user_id: jtest.id, body: "Initial seed manual product_transaction")
   m.save
-  transaction.parent = m
-  transaction.save
+  product_transaction.parent = m
+  product_transaction.save
 end
 
 tr = Transfer.new

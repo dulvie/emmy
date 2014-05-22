@@ -8,7 +8,7 @@ class Warehouse < ActiveRecord::Base
   has_many :contacts, as: :parent
   has_many :comments, as: :parent
   has_many :manuals
-  has_many :transactions
+  has_many :product_transactions
 
   attr_accessible :name, :address, :zip, :city
 

@@ -9,11 +9,17 @@ class Contact < ActiveRecord::Base
   # t.string :city
   # t.string :country
   # t.text :comment
-  # t.integer :user_id
-  # t.integer :customer_id
-
 
   belongs_to :parent, polymorphic: true
 
-  attr_accessible :email
+  attr_accessible :email, :name, :telephone, :address, :zip, :city, :country
+
+  VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse']
+
+  # For ApplicationHelper#delete_button
+  def can_delete?; true; end
+
+  def parent_name
+    parent.name
+  end
 end

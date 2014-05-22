@@ -1,7 +1,7 @@
 %h2= @manual.created_at
 %h3= @manual.product.name
 %h3= @manual.warehouse.name
-%h3= @manual.transaction.quantity
+%h3= @manual.product_transaction.quantity
 
 - @manual.comments.each do |comment|
   .comment

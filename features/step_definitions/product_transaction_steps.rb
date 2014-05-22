@@ -9,9 +9,9 @@ end
 
 Given /^I fill in data for a manual transaction$/ do
   assert_equal true, page.has_content?('New manual')
-  select product_name, from: 'transaction_product_id'
-  select warehouse_name, from: 'transaction_warehouse_id'
-  fill_in 'transaction_quantity', with: product_quantity
+  select product_name, from: 'product_transaction_product_id'
+  select warehouse_name, from: 'product_transaction_warehouse_id'
+  fill_in 'product_transaction_quantity', with: product_quantity
 end
 
 Then /^warehouse should have test products$/ do

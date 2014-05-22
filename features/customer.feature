@@ -23,7 +23,7 @@ Feature: Crud customers
     Given I am a signed in user
     And a "customer" with "name" equals to "test customer" exists
     And I visit customers_path
-    And I click edit link for "test customer" customer
+    And I click "test customer"
     And I fill in "customer_name" with "test customer 2"
     And I click "Update Customer"
     Then I should see "customer was successfully updated."
@@ -33,7 +33,7 @@ Feature: Crud customers
     Given I am a signed in user
     And a "customer" with "name" equals to "test customer" exists
     And I visit customers_path
-    And I click edit link for "test customer" customer
+    And I click "test customer"
     And I fill in invalid "customer" data
     And I click "Update Customer"
     Then I should see "Failed to update"

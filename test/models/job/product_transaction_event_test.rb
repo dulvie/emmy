@@ -1,17 +1,22 @@
 require 'test_helper'
 
-class TransactionEventTest < ActiveSupport::TestCase
+class ProductTransactionEventTest < ActiveSupport::TestCase
+
   def setup
+    DatabaseCleaner.clean
+    Warehouse.destroy_all
+    Product.destroy_all
     Resque.reset!
   end
 
-  def test_recalculate_shelf
+  test "recalculate_shelf" do
     w = FactoryGirl.create :warehouse
     p = FactoryGirl.create :product
-    t = Transaction.new product: p, warehouse: w
+    t = ProductTransaction.new product: p, warehouse: w
+    assert_equal t.warehouse, w
+    assert_equal t.product, p
     t.quantity = 5
     t.save
-    assert_queued(Job::TransactionEvent)
     Resque.run!
     shelves = w.shelves.where(product_id: p.id)
     assert shelves.size > 0

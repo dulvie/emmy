@@ -1,4 +1,4 @@
-class Transaction < ActiveRecord::Base
+class ProductTransaction < ActiveRecord::Base
   # t.string :parent_type
   # t.integer :parent_id
   # t.integer :product_id
@@ -20,7 +20,7 @@ class Transaction < ActiveRecord::Base
 
   # Callback: after_save
   def enqueue_event
-    Resque.enqueue(Job::TransactionEvent, self.id)
+    Resque.enqueue(Job::ProductTransactionEvent, self.id)
   end
 
 end

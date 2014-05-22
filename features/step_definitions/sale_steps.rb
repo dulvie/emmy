@@ -4,7 +4,7 @@ Given /^database posts exists to create a new sale$/ do
   p = FactoryGirl.create :product
   w = FactoryGirl.create :warehouse
   m = FactoryGirl.create :manual
-  t = m.build_transaction quantity: 100
+  t = m.build_product_transaction quantity: 100
   m.product = p
   m.warehouse = w
   m.save

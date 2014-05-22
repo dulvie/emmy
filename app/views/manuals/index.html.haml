@@ -12,6 +12,6 @@
           %td= link_to(manual.created_at, manual)
           %td= link_to(manual.warehouse.name, edit_warehouse_path(manual.warehouse))
           %td= link_to(manual.product.name, edit_product_path(manual.product))
-          %td= manual.transaction.quantity
+          %td= manual.product_transaction.quantity
 
-= link_to 'Create Manual', new_manual_path, class: 'btn btn-default'
+= link_to "#{t(:create)} #{t(:manual_transaction)}", new_manual_path, class: 'btn btn-default'

@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0'
+#gem 'rails', '4.0.0'
+gem 'rails', '4.1.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -44,7 +45,7 @@ gem 'simple_form', git: 'https://github.com/plataformatec/simple_form.git'
 gem 'bootstrap-sass', '~> 3.1'
 
 # Adds backward compatibility.
-gem 'protected_attributes'
+gem 'protected_attributes', '~> 1.0.5'
 
 gem 'foreman'
 gem 'cancan'
@@ -56,6 +57,7 @@ gem 'angularjs-rails'
 gem 'active_model_serializers'
 gem 'gon'
 gem 'angular-ui-bootstrap-rails'
+gem 'country_select'
 
 group :test, :development do
   gem 'debugger'
@@ -65,6 +67,7 @@ group :test, :development do
 end
 
 group :test do
+  gem 'minitest'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'capybara-webkit'

@@ -1,0 +1,16 @@
+%table{:class => 'table table-striped'}
+  %thead
+    %tr
+      %th= t(:name)
+      %th= t(:email)
+      %th
+    %tbody
+      - contacts.each do |contact|
+        %tr
+          %td= link_to contact.name, contact
+          %td= link_to contact.email, contact
+          %td= delete_button_for contact
+
+// Beware, here be logic!
+- add_contact_url = new_contact_path({parent_id: parent.id, parent_type: parent.class.name})
+= link_to t(:add_contact), add_contact_url, class: 'btn btn-info'

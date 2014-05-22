@@ -15,7 +15,7 @@ class ManualsController < ApplicationController
 
   # GET /manuals/new
   def new
-    @manual.transaction = Transaction.new
+    @manual.product_transaction = ProductTransaction.new
     @manual.comments.build
     @breadcrumbs = [['Manuals', manuals_path], ['New manual']]
   end
@@ -27,7 +27,7 @@ class ManualsController < ApplicationController
 
     respond_to do |format|
       if @manual.save
-        format.html { redirect_to manual_path(@manual), notice: 'Manual transaction was successfully created.' }
+        format.html { redirect_to manual_path(@manual), notice: "#{t(:manual_transaction)} #{t(:was_successfully_created)}" }
         #format.json { render action: 'show', status: :created, location: @manual }
       else
         format.html { render action: 'new' }
@@ -40,8 +40,8 @@ class ManualsController < ApplicationController
   private
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def transaction_params
-      params.require(:transaction).permit(Transaction.accessible_attributes.to_a)
+    def product_transaction_params
+      params.require(:product_transaction).permit(ProductTransaction.accessible_attributes.to_a)
     end
 
     def comments_params
@@ -51,7 +51,7 @@ class ManualsController < ApplicationController
     def new_manual
       manual = Manual.new
       manual.user_id = current_user.id
-      manual.transaction = Transaction.new transaction_params
+      manual.product_transaction = ProductTransaction.new product_transaction_params
       comment_p = comments_params.dup
       comment_p[:user_id] = current_user.id
       manual.comments.build(comment_p)

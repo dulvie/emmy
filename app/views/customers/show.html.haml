@@ -1,4 +1,2 @@
-%h2= @customer.name
-= link_to 'Edit', edit_customer_path(@customer)
-|
-= link_to 'Back', customers_path
+= render 'form'
+= render partial: 'contacts/index', locals: {contacts: @customer.contacts, parent: @customer}
