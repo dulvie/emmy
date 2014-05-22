@@ -71,3 +71,18 @@ app.controller('saleItemsCtrl', function ($scope) {
 		alert(gon.sale.warehouse_id);
 	};
 });
+app.controller('saleEditCtrl', function ($scope) {
+	$scope.showHeader = false;
+	$scope.datevar = new Date();
+	$scope.dateOptions1 = {
+		    'starting-day': 1,
+			'show-weeks': false
+			};
+    	
+	$scope.openApprovedDate = function($event) {
+		  $event.preventDefault();
+	      $event.stopPropagation();
+	      $scope.isOpen1 = true;
+	};
+
+});
