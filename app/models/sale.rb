@@ -5,6 +5,7 @@ class Sale < ActiveRecord::Base
   # t.string :state
   # t.string :goods_state
   # t.string :money_state
+  # t.timestamp :approved_at
   # t.timestamp :goods_delivered_at
   # t.timestamp :paid_at
   # t.datetime :due_date
@@ -14,7 +15,7 @@ class Sale < ActiveRecord::Base
   belongs_to :warehouse
   has_many :sale_items
 
-  attr_accessible :customer_id, :warehouse_id
+  attr_accessible :customer_id, :warehouse_id, :approved_at
 
   validates :customer_id, presence: true
   validates :warehouse_id, presence: true

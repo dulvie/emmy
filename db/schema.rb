@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(version: 20140512152302) do
     t.string   "state"
     t.string   "goods_state"
     t.string   "money_state"
+    t.datetime "approved_at"
     t.datetime "goods_delivered_at"
     t.datetime "paid_at"
     t.datetime "due_date"
@@ -121,11 +122,11 @@ ActiveRecord::Schema.define(version: 20140512152302) do
 
   create_table "suppliers", force: true do |t|
     t.string   "name"
-    t.string   "vat_number"
     t.string   "address"
     t.string   "zip"
     t.string   "city"
     t.string   "bg_number"
+    t.string   "vat_number"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

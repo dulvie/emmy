@@ -10,6 +10,7 @@ app.controller('SalesCtrl', function ($scope, ajaxService) {
 		ajaxService.get("customers.json", "").then(function(data) {
 			var customer = data.customers;
 			$scope.customer = customer;
+			$scope.reference = [{"id":1, "name":"adam"},{"id":2, "name":"alvar"},{"id":3, "name":"Bertil"}];
 			//for (var i = 0; i < $scope.customers.length; i++) {
 			//	if ($scope.customers[i].name == selected)
 			//		$scope.customerModel = $scope.customers[i];
@@ -18,6 +19,11 @@ app.controller('SalesCtrl', function ($scope, ajaxService) {
 	};	
 	$scope.onSelect = function (item, model, label) {
 	    $('#sale_customer_id').val(item.id); 
+	    //alert(model);
+	    //alert(label);
+	};
+	$scope.onSelectRef = function (item, model, label) {
+	    $('#sale_customer_reference').val(item.id); 
 	    //alert(model);
 	    //alert(label);
 	};
