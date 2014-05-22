@@ -8,7 +8,7 @@ Emmy::Application.routes.draw do
     end
   end
   resources :comments
-  resources :contact_infos
+  resources :contacts
   resources :customers
   resources :manuals
   resources :suppliers

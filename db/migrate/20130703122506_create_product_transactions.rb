@@ -1,6 +1,6 @@
-class CreateTransactions  < ActiveRecord::Migration
+class CreateProductTransactions  < ActiveRecord::Migration
   def change
-    create_table :transactions do |t|
+    create_table :product_transactions do |t|
       t.string :parent_type
       t.integer :parent_id
       t.integer :product_id

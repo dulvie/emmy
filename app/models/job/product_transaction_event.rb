@@ -1,9 +1,9 @@
-class Job::TransactionEvent
-  @queue = :transaction_events
+class Job::ProductTransactionEvent
+  @queue = :product_transaction_events
 
-  def self.perform(transaction_id)
-    Rails.logger.info "TransactionEvent.perform(#{transaction_id})"
-    t = Transaction.find(transaction_id)
+  def self.perform(product_transaction_id)
+    Rails.logger.info "ProductTransactionEvent.perform(#{product_transaction_id})"
+    t = ProductTransaction.find(product_transaction_id)
     recalculate_shelf(t)
   end
 

@@ -24,11 +24,11 @@ Given /^warehouse "(.*?)" has a shelf with (\d+) of product named "(.*?)"$/ do |
   wh = Warehouse.find_by_name wh_name
   p = Product.find_by_name product_name
   m = Manual.new
-  m.build_transaction
+  m.build_product_transaction
   m.user = User.first
   m.warehouse = wh
   m.product = p
-  m.transaction.quantity = quantity
+  m.product_transaction.quantity = quantity
   m.save!
   Resque.run!
 end
@@ -39,11 +39,11 @@ Given /^the "(.*?)" warehouse have "(.*?)" of product "(.*?)"$/ do |warehouse_na
   p = Product.find_by_name product_name
   shelves = wh.shelves.where(product_id: p.id)
   unless shelves.size > 0
-    transactions = wh.transactions.where(product_id: p.id)
-    if transactions.size > 0 && transactions.sum(:quantity).eql?(quantity)
+    product_transactions = wh.product_transactions.where(product_id: p.id)
+    if product_transactions.size > 0 && product_transactions.sum(:quantity).eql?(quantity)
     else
       puts "Creating new manual transaction"
-      t = Transaction.new warehouse_id: wh.id, product_id: p.id, quantity: quantity
+      t = ProductTransaction.new warehouse_id: wh.id, product_id: p.id, quantity: quantity
       t.parent = FactoryGirl.build :manual
       t.parent.user = User.all.first
       t.save
@@ -52,7 +52,7 @@ Given /^the "(.*?)" warehouse have "(.*?)" of product "(.*?)"$/ do |warehouse_na
   end
   shelf = shelves.first
   assert_equal quantity, shelf.quantity
-  assert_equal quantity, wh.transactions.where(product_id: p.id).sum(:quantity)
+  assert_equal quantity, wh.product_transactions.where(product_id: p.id).sum(:quantity)
 end
 
 Given /^a transfer of (\d+) "(.*?)" product from "(.*?)" to "(.*?)" is created$/ do |quantity, product_name, from_warehouse, to_warehouse|
@@ -88,36 +88,3 @@ Then /^"(.*?)" warehouse should have (\d+) "(.*?)" products on the shelves$/ do 
   p = Product.find_by_name product_name
   assert_equal quantity, wh.shelves.where(product_id: p.id).sum(:quantity).to_i
 end
-
-
-=begin
-
-
-# @todo Refactor needed, can better factories make this one cleaner?
-
-
-Given /^a transfer is created for product "(.*?)" between "(.*?)" and "(.*?)" warehouses$/ do |product_name, from_wh, to_wh|
-  product = Product.find_by_name product_name
-  to_warehouse = Warehouse.find_by_name to_wh 
-  from_warehouse = Warehouse.find_by_name from_wh
-  tr = Transfer.new
-  tr.product = product
-  tr.from_warehouse = from_warehouse
-  tr.to_warehouse = to_warehouse
-  tr.quantity = 50
-  assert tr.save
-  #Resque.run!
-  #puts Resque.info.inspect
-  assert Transfer.where(product_id: product.id).where(to_warehouse_id: to_warehouse.id).count > 0
-  assert Transfer.where(product_id: product.id).where(from_warehouse_id: from_warehouse.id).count > 0
-end
-
-Then /^"(.*?)" warehouse should have (\d+) products on the shelves$/ do |wh_name, quantity|
-  quantity = quantity.to_i
-  wh = Warehouse.find_by_name wh_name
-  puts "warehouse #{wh_name} should have #{quantity} products on shelves:"
-  puts wh.shelves.all.inspect
-  assert_equal quantity, wh.shelves.sum(:quantity)
-end
-
-=end

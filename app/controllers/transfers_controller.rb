@@ -30,7 +30,7 @@ class TransfersController < ApplicationController
 
     respond_to do |format|
       if @transfer.save
-        format.html { redirect_to transfer_path(@transfer), notice: 'Transfer transaction was successfully created.' }
+        format.html { redirect_to transfer_path(@transfer), notice: "#{t(:transfer_transaction)} #{t(:was_successfully_created)}" }
         #format.json { render action: 'show', status: :created, location: @transfer }
       else
         format.html { render action: 'new' }

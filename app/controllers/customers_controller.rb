@@ -3,7 +3,7 @@ class CustomersController < ApplicationController
   load_and_authorize_resource
 
   before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :edit_breadcrumbs, only: [:edit, :update]
+  before_filter :show_breadcrumbs, only: [:show, :update]
 
   # GET /customers
   # GET /customers.json
@@ -12,19 +12,12 @@ class CustomersController < ApplicationController
     respond_with @customers
   end
 
-  # GET /customers/1
-  # GET /customers/1.json
-  def show
-    @breadcrumbs = [['Customers', customers_path], [@customer.name]]
-    respond_with @customer
-  end
-
   # GET /customers/new
   def new
   end
 
-  # GET /customers/1/edit
-  def edit
+  # GET /customers/1
+  def show
   end
 
   # POST /customers
@@ -34,7 +27,7 @@ class CustomersController < ApplicationController
 
     respond_to do |format|
       if @customer.save
-        format.html { redirect_to edit_customer_path(@customer), notice: 'customer was successfully created.' }
+        format.html { redirect_to @customer, notice: 'customer was successfully created.' }
         #format.json { render action: 'show', status: :created, location: @customer }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:customer)}"
@@ -49,11 +42,11 @@ class CustomersController < ApplicationController
   def update
     respond_to do |format|
       if @customer.update(customer_params)
-        format.html { redirect_to edit_customer_path(@customer), notice: 'customer was successfully updated.' }
+        format.html { redirect_to @customer, notice: 'customer was successfully updated.' }
         #format.json { head :no_content }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:customer)}"
-        format.html { render action: 'edit' }
+        format.html { render action: 'show' }
         #format.json { render json: @customer.errors, status: :unprocessable_entity }
       end
     end
@@ -80,7 +73,7 @@ class CustomersController < ApplicationController
       @breadcrumbs = [['Customers', customers_path], ["#{t(:new)} #{t(:customer)}"]]
     end
 
-    def edit_breadcrumbs
+    def show_breadcrumbs
       @breadcrumbs = [['Customers', customers_path], [@customer.name]]
     end
 end

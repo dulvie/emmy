@@ -7,8 +7,8 @@
     %tbody
       - @customers.each do |customer|
         %tr
-          %td= link_to(customer.name, customer)
-          %td= link_to settings_icon, edit_customer_path(customer)
+          %td= link_to customer.name, customer
+          %td= link_to settings_icon, customer
           %td= link_to delete_icon, customer, method: :delete, data: { confirm: 'Are you Sure?' }
 
-= link_to 'Create Customer', new_customer_path, class: 'btn btn-default'
+= link_to "#{t(:create)} #{t(:customer)}", new_customer_path, class: 'btn btn-default'

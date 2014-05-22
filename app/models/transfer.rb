@@ -7,8 +7,8 @@ class Transfer < ActiveRecord::Base
   # t.string  :state
 
 
-  has_one :from_transaction, class_name: 'Transaction', as: :parent
-  has_one :to_transaction, class_name: 'Transaction', as: :parent
+  has_one :from_transaction, class_name: 'ProductTransaction', as: :parent
+  has_one :to_transaction, class_name: 'ProductTransaction', as: :parent
   belongs_to :from_warehouse, class_name: 'Warehouse'
   belongs_to :to_warehouse, class_name: 'Warehouse'
   belongs_to :product
@@ -47,7 +47,7 @@ class Transfer < ActiveRecord::Base
     t = build_from_transaction(
       warehouse_id: from_warehouse_id,
       product_id: product_id,
-      quantity: quantity * -1 # the from transaction subtracts the quantity
+      quantity: quantity * -1 # the from_transaction subtracts the quantity
     )
     t.save!
   end

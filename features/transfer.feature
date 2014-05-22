@@ -25,7 +25,6 @@ Feature: Create and complete a transfer
     And a transfer of 10 "test product" product from "test from wh" to "test to wh" is created
     And I visit transfers_path
     And I see "Mark as sent" in the page
-    #And I click "Mark as sent" to actually create a transaction from "test from wh"
     And I click "Mark as sent"
     And I wait for resque to perform work
     Then I should see "Verify as received"
@@ -42,7 +41,6 @@ Feature: Create and complete a transfer
     And a transfer of 10 "test product" product is created and sent from "test from wh" to "test to wh"
 
     And I visit transfers_path
-    #And I click "Verify as received" to actually create a transaction to "test to wh"
     And I click "Verify as received"
     And I wait for resque to perform work
     Then I should see "received"

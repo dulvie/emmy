@@ -25,7 +25,9 @@ ActiveRecord::Schema.define(version: 20140512152302) do
     t.datetime "updated_at"
   end
 
-  create_table "contact_infos", force: true do |t|
+  create_table "contacts", force: true do |t|
+    t.string   "parent_type"
+    t.integer  "parent_id"
     t.string   "name"
     t.string   "email"
     t.string   "telephone"
@@ -34,9 +36,6 @@ ActiveRecord::Schema.define(version: 20140512152302) do
     t.string   "city"
     t.string   "country"
     t.text     "comment"
-    t.integer  "user_id"
-    t.integer  "customer_id"
-    t.integer  "warehouse_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -53,6 +52,16 @@ ActiveRecord::Schema.define(version: 20140512152302) do
 
   create_table "manuals", force: true do |t|
     t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "product_transactions", force: true do |t|
+    t.string   "parent_type"
+    t.integer  "parent_id"
+    t.integer  "product_id"
+    t.integer  "warehouse_id"
+    t.integer  "quantity"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -127,16 +136,6 @@ ActiveRecord::Schema.define(version: 20140512152302) do
     t.string   "city"
     t.string   "bg_number"
     t.string   "vat_number"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "transactions", force: true do |t|
-    t.string   "parent_type"
-    t.integer  "parent_id"
-    t.integer  "product_id"
-    t.integer  "warehouse_id"
-    t.integer  "quantity"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
