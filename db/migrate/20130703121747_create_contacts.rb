@@ -1,6 +1,8 @@
-class CreateContactInfos < ActiveRecord::Migration
+class CreateContacts < ActiveRecord::Migration
   def change
-    create_table :contact_infos do |t|
+    create_table :contacts do |t|
+      t.integer :parent_type
+      t.integer :parent_id
       t.string :name
       t.string :email
       t.string :telephone
@@ -9,10 +11,6 @@ class CreateContactInfos < ActiveRecord::Migration
       t.string :city
       t.string :country
       t.text :comment
-
-      t.integer :user_id
-      t.integer :customer_id
-      t.integer :warehouse_id
 
       t.timestamps
     end

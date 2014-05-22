@@ -15,7 +15,6 @@ class User < ActiveRecord::Base
   attr_accessible :name,
                   :email, :password, :password_confirmation, :remember_me # by devise
 
-  has_one :contact_info
   has_and_belongs_to_many :roles
   has_many :slot_changes
 
