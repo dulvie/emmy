@@ -18,6 +18,7 @@ class CustomersController < ApplicationController
 
   # GET /customers/1
   def show
+    respond_with @customer
   end
 
   # POST /customers
