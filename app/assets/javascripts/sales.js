@@ -20,11 +20,11 @@ app.controller('salesCtrl', function ($scope, ajaxService) {
 	$scope.onSelect = function (item, model, label) {
 	    $('#sale_customer_id').val(item.id); 
 	    //alert(model);
-	    //alert(label);
+	    alert($scope.customer[0].contacts);
 	};
 	$scope.onSelectRef = function (item, model, label) {
-	    $('#sale_customer_reference').val(item.id); 
-	    //alert(model);
+	    $('#sale_contact_name').val(label); 
+	    alert(label);
 	    //alert(label);
 	};
 	
@@ -72,6 +72,8 @@ app.controller('saleItemsCtrl', function ($scope) {
 	};
 });
 app.controller('saleEditCtrl', function ($scope) {
+
+	
 	$scope.showHeader = false;
 	$scope.datevar = new Date();
 	$scope.dateOptions1 = {
@@ -79,7 +81,7 @@ app.controller('saleEditCtrl', function ($scope) {
 			'show-weeks': false
 			};
     	
-	$scope.openApprovedDate = function($event) {
+	$scope.openDate = function($event) {
 		  $event.preventDefault();
 	      $event.stopPropagation();
 	      $scope.isOpen1 = true;

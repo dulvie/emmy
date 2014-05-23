@@ -1,3 +1,2 @@
-%div{ng_controller: 'salesCtrl'}
-  %h1 #{t(:new)} #{t(:sale)}
+%div{ng_controller: 'salesCtrl', :ng_init => 'initSales()'}
   = render 'form'
