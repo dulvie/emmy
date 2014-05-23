@@ -19,13 +19,19 @@ app.controller('salesCtrl', function ($scope, ajaxService) {
 		});		
 	};	
 	$scope.onSelect = function (item, model, label) {
+
 	    $('#sale_customer_id').val(item.id); 
+	    for (var i = 0; i < $scope.customer.length; i++) {
+	    	if ($scope.customer[i].id == item.id) {
+	    		$scope.reference = $scope.customer[i].contacts;
+	    	}
+	    }
 	    //alert(model);
-	    alert($scope.customer[0].contacts);
+	    //alert($scope.customer[0].contacts[0].name);
 	};
 	$scope.onSelectRef = function (item, model, label) {
-	    $('#sale_contact_name').val(label); 
-	    alert(label);
+	    $('#sale_contact_name').val(item.name); 
+	    $('#sale_contact_email').val(item.email); 
 	    //alert(label);
 	};
 	
