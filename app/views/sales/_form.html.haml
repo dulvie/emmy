@@ -23,39 +23,17 @@
     = f.submit class: 'btn btn-primary'
   - else
     - if @sale.can_edit_items?
-      %div{:class=>"form-group"}
-        = f.label :approved_at, :class => "col-sm-3 control-label"
-        %input{:type => "hidden", :id => "sale_approved_at", :name=> "sale[approved_at]", :value => "{{datevar}}"}
-        %div{:class=>"col-sm-9"}
-          %div{:class => "input-group"}
-            %input{:type => "text", :class => "form-control", :datepicker_popup=>"yyyy-MM-dd", :ng_model=>"datevar", :is_open=>"isOpen1", :datepicker_options=>"dateOptions1", :show_button_bar=>"false", :readonly =>"true"}
-              %span{:class => "input-group-btn"}
-                %button{:class => "btn btn-default", :ng_click=>"openDate($event)" }
-                  %i{ :class => "glyphicon glyphicon-calendar"}
+      = render partial: 'datepicker', :locals => {:txt => 'Approved at', :id => 'sale_approved_at', :name => 'sale[approved_at]', :value => '{{approved}}', :model => 'approved', :dpOptions=>'dateOptions1', :isOpen=>'isOpen1', :onclick=>'openDate($event)' }
     - else
       = f.input :approved_at, as: :string, disabled: true
 
       -if !@sale.is_delivered?
-        %div{:class=>"form-group"}
-          = label_tag :goods_delivered_at
-          %input{:type => "hidden", :id => "goods_delivered_at", :name=> "sale[goods_delivered_at]", :value => "{{datevar}}"}
-          %div{:class=>"input-group col-md-4"}
-            %input{:type => "text", :class => "form-control", :datepicker_popup=>"yyyy-MM-dd", :ng_model=>"datevar", :is_open=>"isOpen1", :datepicker_options=>"dateOptions1", :show_button_bar=>"false", :readonly =>"true"}
-              %span{:class => "input-group-btn"}
-                %button{:class => "btn btn-default", :ng_click=>"openDate($event)"}
-                  %i{ :class => "glyphicon glyphicon-calendar"}
+        = render partial: 'datepicker', :locals => {:txt => 'Goods deliverad at', :id => 'sale_goods_delivered_at', :name => 'sale[goods_delivered_at]', :value => '{{delivered}}', :model => 'delivered', :dpOptions=>'dateOptions1', :isOpen=>'isOpen1', :onclick=>'openDate($event)' }
       - else
         = f.input :goods_delivered_at, as: :string, disabled: true
 
         - if !@sale.is_paid?
-          %div{:class=>"form-group"}
-            = label_tag :paid
-            %input{:type => "hidden", :id => "paid_at", :name=> "sale[paid_at]", :value => "{{datevar}}"}
-            %div{:class=>"input-group col-md-4"}
-              %input{:type => "text", :class => "form-control", :datepicker_popup=>"yyyy-MM-dd", :ng_model=>"datevar", :is_open=>"isOpen1", :datepicker_options=>"dateOptions1", :show_button_bar=>"false", :readonly =>"true"}
-                %span{:class => "input-group-btn"}
-                  %button{:class => "btn btn-default", :ng_click=>"openDate($event)"}
-                    %i{ :class => "glyphicon glyphicon-calendar"}
+          = render partial: 'datepicker', :locals => {:txt => 'Paid at', :id => 'sale_paid_at', :name => 'sale[paid_at]', :value => '{{paid}}', :model => 'paid', :dpOptions=>'dateOptions1', :isOpen=>'isOpen1', :onclick=>'openDate($event)' }
         - else
-        = f.input :paid_at, as: :string, disabled: true
+          = f.input :paid_at, as: :string, disabled: true
 

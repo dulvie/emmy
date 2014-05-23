@@ -4,6 +4,7 @@
 app.controller('salesCtrl', function ($scope, ajaxService) {
 	$scope.customers = [];
 	$scope.selected = undefined;
+	$scope.isOpen1 = false;
 	
 	$scope.initSales = function() {
 		
@@ -73,9 +74,8 @@ app.controller('saleItemsCtrl', function ($scope) {
 });
 app.controller('saleEditCtrl', function ($scope) {
 
+	$scope.approved = new Date();
 	
-	$scope.showHeader = false;
-	$scope.datevar = new Date();
 	$scope.dateOptions1 = {
 		    'starting-day': 1,
 			'show-weeks': false

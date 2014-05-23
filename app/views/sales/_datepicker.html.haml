@@ -1,0 +1,10 @@
+%div{:class=>"form-group"}
+  %label{:class => "col-sm-3 control-label"}
+    =txt
+  %input{:type => "hidden", :id => id, :name=> name, :value =>value}
+  %div{:class=>"col-sm-9"}
+    %div{:class => "input-group"}
+      %input{:type => "text", :class => "form-control", :datepicker_popup=>"yyyy-MM-dd", :ng_model=>model, :is_open=>isOpen, :datepicker_options=>dpOptions, :show_button_bar=>"false", :readonly =>"true"}
+        %span{:class => "input-group-btn"}
+          %button{:class => "btn btn-default", :ng_click=>onclick }
+            %i{ :class => "glyphicon glyphicon-calendar"}
