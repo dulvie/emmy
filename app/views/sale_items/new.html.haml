@@ -1,7 +1,7 @@
-%div{ng_controller: 'saleItemsCtrl', ng_init: 'init()'}
+%div{ng_controller: 'saleItemsCtrl', ng_init: 'initSalesItem()'}
   = simple_form_for(@sale, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
     = f.association :warehouse,  disabled: true
     = f.association :customer, disabled: true
     = f.simple_fields_for :customer, @sale.customer do |q|
-      = q.input :reseller, label: "Reseller"
+      = q.input :reseller, label: "Reseller", disabled: true
   = render 'form'
