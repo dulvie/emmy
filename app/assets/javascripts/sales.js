@@ -75,7 +75,10 @@ app.controller('salesCtrl', function ($scope, ajaxService) {
 });
 app.controller('saleItemsCtrl', function ($scope) {
 	$scope.init = function() {
-		alert(gon.sale.warehouse_id);
+		//alert(gon.sale.warehouse_id);
+		alert("kvant:" + gon.shelves[0].quantity);
+		alert("distributör:" + gon.shelves[0].distributor_price);
+		alert("slutkund:" + gon.shelves[0].retail_price);
 	};
 });
 app.controller('saleEditCtrl', function ($scope) {

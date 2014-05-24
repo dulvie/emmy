@@ -1,5 +1,7 @@
 %div{ng_controller: 'saleItemsCtrl', ng_init: 'init()'}
-%h1 #{t(:add_product_to_sale)}
-%h3 #{t(:warehouse)}: #{@sale.warehouse_name}
-%h3 #{t(:customer)}: #{@sale.customer_name}
-= render 'form'
+  = simple_form_for(@sale, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+    = f.association :warehouse,  disabled: true
+    = f.association :customer, disabled: true
+    = f.simple_fields_for :customer, @sale.customer do |q|
+      = q.input :reseller, label: "Reseller"
+  = render 'form'

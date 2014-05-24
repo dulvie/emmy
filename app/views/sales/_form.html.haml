@@ -3,20 +3,22 @@
   = f.association :warehouse,  disabled: !@sale.new_record?
 
   - if @sale.new_record?
-    %div{:class=>"form-group"}
-      = f.label :customer, :class => "col-sm-3 control-label"
+    %div{:class => ((f.error :customer_id) ? "form-group select required sale_customer has-error": "form-group select required sale_customer")}
+      = f.label :customer, :class => "col-sm-3 control-label required"
       = f.input :customer_id, as: :hidden
       %div{:class=>"col-sm-9"}
-        %input{:ng_model=>"selected", :typeahead_on_select => "onSelect($item, $model, $label)", :typeahead=>"c.name for c in customer | filter:$viewValue | limitTo:8", :class=>"form-control"} 
-
+        %input{:ng_model=>"selected", :typeahead_on_select => "onSelect($item, $model, $label)", :typeahead=>"c.name for c in customer | filter:$viewValue | limitTo:8", :class=>"form-control"}
+        = f.error :customer_id
+        
     %div{:class=>"form-group"}
       = f.label :contact_name, :class => "col-sm-3 control-label"
       = f.input :contact_name, as: :hidden
       %div{:class=>"col-sm-9"}
         %input{:ng_model=>"custref", :typeahead_on_select => "onSelectRef($item, $model, $label)", :typeahead=>"r.name for r in reference | filter:$viewValue | limitTo:8", :class=>"form-control"}
   - else
-    = f.association :customer, disabled: true
-  = f.input :contact_name, disabled: !@sale.new_record?
+    = f.association :customer, disabled: true    
+    = f.input :contact_name, disabled: !@sale.new_record?
+    
   = f.input :contact_email, disabled: !@sale.new_record?
 
   - if @sale.new_record?
