@@ -23,19 +23,4 @@
 
   - if @sale.new_record?
     = f.submit class: 'btn btn-primary'
-  - else
-    - if @sale.can_edit_items?
-      = render partial: 'datepicker', :locals => {:txt => 'Approved at', :id => 'sale_approved_at', :name => 'sale[approved_at]', :value => '{{approved}}', :model => 'approved', :dpOptions=>'dateOptions1', :isOpen=>'isOpen1', :onclick=>'openDate($event)' }
-    - else
-      = f.input :approved_at, as: :string, disabled: true
-
-      -if !@sale.is_delivered?
-        = render partial: 'datepicker', :locals => {:txt => 'Goods deliverad at', :id => 'sale_goods_delivered_at', :name => 'sale[goods_delivered_at]', :value => '{{delivered}}', :model => 'delivered', :dpOptions=>'dateOptions1', :isOpen=>'isOpen1', :onclick=>'openDate($event)' }
-      - else
-        = f.input :goods_delivered_at, as: :string, disabled: true
-
-        - if !@sale.is_paid?
-          = render partial: 'datepicker', :locals => {:txt => 'Paid at', :id => 'sale_paid_at', :name => 'sale[paid_at]', :value => '{{paid}}', :model => 'paid', :dpOptions=>'dateOptions1', :isOpen=>'isOpen1', :onclick=>'openDate($event)' }
-        - else
-          = f.input :paid_at, as: :string, disabled: true
-
+ 

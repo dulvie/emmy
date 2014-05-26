@@ -3,21 +3,28 @@
   %br
   .row
     .col-md-12
-      - unless @sale.is_completed?
-        = link_to t(@sale.next_step),
-          state_change_sale_path(@sale, new_state: @sale.next_step),
-          class: 'btn btn-info',
-          method: :post
-      - unless @sale.is_delivered?
-        = link_to t(:deliver),
-          state_change_sale_path(@sale, new_state: :deliver_goods),
-          class: 'btn btn-info',
-          method: :post
-      - unless @sale.is_paid?
-        = link_to t(:pay),
-          state_change_sale_path(@sale, new_state: :pay),
-          class: 'btn btn-info',
-          method: :post
+      .d{:ng_show => '!togg'}
+        - unless @sale.completed?
+          %button{:class => 'btn btn-primary', :ng_click => "openDate($event,'next')"} Next step
+        - unless (@sale.is_delivered? || @sale.completed? || @sale.can_edit_items?)
+          %button{:class => 'btn btn-primary', :ng_click => "openDate($event,'deliver')"} Deliver
+        - unless (@sale.is_paid? || @sale.completed? || @sale.can_edit_items?)
+          %button{:class => 'btn btn-primary', :ng_click => "openDate($event,'pay')"} Pay
+    -unless @sale.completed?
+      .col-md-12{:ng_show => 'togg'}
+        .d{:ng_switch=>'type'}
+          .d{:ng_switch_when=>'next'}
+            = link_to t(@sale.next_step), state_change_sale_path(@sale, new_state: @sale.next_step), class: 'btn btn-info', method: :post
+            = simple_form_for(@sale, url: state_change_sale_path(@sale, new_state: @sale.next_step)) do |f|
+              %input{:type => 'date', :id => 'sale_approved_at', :name=> 'sale[approved_at]', :value =>'{{dt}}'}
+              = f.submit class: 'btn btn-primary'
+          .d{:ng_switch_when=>'deliver'}
+            = link_to t(:deliver), state_change_sale_path(@sale, new_state: :deliver_goods), class: 'btn btn-info', method: :post
+          .d{:ng_switch_when=>'pay'}
+            = link_to t(:pay), state_change_sale_path(@sale, new_state: :pay), class: 'btn btn-info', method: :post
+          .d{:ng_switch_default=>'x'}
+        %div{:style => "display:inline-block; min-height:290px;"}
+          %datepicker{:ng_model=>'dt',  :show_weeks => 'false', :starting_day => '1', :class=>'well well-sm'}
   .row
     .col-md-12
       = render partial: 'sale_items/index'

@@ -40,15 +40,18 @@ app.controller('salesNewCtrl', function ($scope, ajaxService) {
     	};
 });
 
-app.controller('saleItemsCtrl', function ($scope) {
+app.controller('saleItemsCtrl', function ($scope, $modal) {
 	$scope.initSalesItem = function() {
 		//alert("kvant:" + gon.shelves[0].quantity);
+		//alert("nu ska priset komma");
 		//alert("distributör:" + gon.shelves[0].distributor_price);
 		//alert("slutkund:" + gon.shelves[0].retail_price);
 	};
-
+	$scope.togg = false;
+	
 	$scope.selectProduct = function() {
 		//alert ($scope.productId);
+		
 		//alert(item);
 		var dPrice = 0;
 		var rPrice = 0;
@@ -58,7 +61,9 @@ app.controller('saleItemsCtrl', function ($scope) {
 				dPrice = gon.shelves[i].distributor_price;
 				rPrice = gon.shelves[i].retail_price;
 			}
-		}
+		$scope.togg = true;
+		};
+		//$scope.togg = false;
 		if (reseller) {
 			$('#sale_item_price').val(dPrice);
 		}
@@ -67,6 +72,10 @@ app.controller('saleItemsCtrl', function ($scope) {
 		}
 		
 	};
+	$scope.modalClose = function() {
+		$scope.togg = false
+		alert($scope.dt);
+	}
 	$scope.selectQuantity = function() {
 		var qty = 0;
 		for (i=0; i< gon.shelves.length; i++) {
@@ -77,20 +86,23 @@ app.controller('saleItemsCtrl', function ($scope) {
 		}
 	}
 });
-
+app.controller('stateModalCtrl', function ($scope) {
+	$scope.dt = new Date();
+	$scope.minDate = new Date();
+});
 app.controller('saleEditCtrl', function ($scope) {
-
-	$scope.approved = new Date();
-
-	$scope.dateOptions1 = {
-		'starting-day': 1,
-		'show-weeks': false
-		};
-
-	$scope.openDate = function($event) {
+	
+	$scope.togg = false;
+	$scope.next = false;
+	$scope.dt = new Date();
+	$scope.type = "next";
+	
+	$scope.openDate = function($event, btn) {
 		$event.preventDefault();
 		$event.stopPropagation();
-		$scope.isOpen1 = true;
-	};
+		$scope.togg = true;
+		$scope.type = btn;
+	}
+	$scope.approved = new Date();
 
 });
