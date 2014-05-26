@@ -13,7 +13,7 @@
         %ul.nav.navbar-nav
           = nav_link "Dashboard", dashboard_path
           %li.dropdown
-            %a.dropdown-toggle{'data-toggle' => 'dropdown', 'href' => '#'}
+            %a.dropdown-toggle{'href' => '#'}
               = t(:general)
               %b.caret
             %ul.dropdown-menu
@@ -26,7 +26,7 @@
               = nav_link t(:users), users_path
               = nav_link t(:warehouses), warehouses_path
           %li.dropdown
-            %a.dropdown-toggle{'data-toggle' => 'dropdown', 'href' => '#'}
+            %a.dropdown-toggle{'href' => '#'}
               = t(:imports)
               %b.caret
             %ul.dropdown-menu
@@ -35,7 +35,7 @@
               %li= link_to t(:payment), "#"
 
           %li.dropdown
-            %a.dropdown-toggle{'data-toggle' => 'dropdown', 'href' => '#'}
+            %a.dropdown-toggle{'href' => '#'}
               = t(:process_roast)
               %b.caret
             %ul.dropdown-menu
@@ -47,7 +47,7 @@
 
         %ul.nav.navbar-nav.navbar-right
           %li.dropdown
-            %a.dropdown-toggle{'data-toggle' => 'dropdown', 'href' => '#'}
+            %a.dropdown-toggle{'href' => '#'}
               = current_user.name
               %b.caret
             %ul.dropdown-menu
