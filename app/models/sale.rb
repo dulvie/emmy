@@ -71,6 +71,7 @@ class Sale < ActiveRecord::Base
   def is_delivered?
     goods_state.eql? 'delivered'
   end
+
   def is_paid?
     money_state.eql? 'paid'
   end

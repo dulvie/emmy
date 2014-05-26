@@ -13,7 +13,42 @@ Given /^database posts exists to create a new sale$/ do
   assert w.shelves.count > 0
 end
 
-def sale_valid_form_data
-  select 'Coffee place', from: "sale_warehouse_id"
-  select 'CoffeeHouse foobar', from: "sale_customer_id"
+Given /^a fresh sale exists$/ do
+  step "database posts exists to create a new sale"
+  s = Sale.new warehouse_id: Warehouse.all.first.id, customer_id: Customer.all.first.id
+  s.user_id = User.all.first.id
+  assert s.save
+end
+
+Given /^I click the first sale$/  do
+  sale = Sale.all.first
+  click_on "##{sale.id}"
+end
+
+Given /^a sale in state item_complete with some one sale_item$/ do
+  step "a fresh sale exists"
+  s = Sale.all.first
+  p = Product.all.first
+  item = s.sale_items.build(product_id: p.id, quantity: 2, price: p.retail_price)
+  assert item.save
+  assert s.mark_item_complete
+end
+
+
+Given /^a sale in state start_processing$/ do
+  step "a sale in state item_complete with some one sale_item"
+  s = Sale.all.first
+  assert s.start_processing
+end
+
+Given /^a sale in state start_processing and delivered$/ do
+  step "a sale in state start_processing"
+  s = Sale.all.first
+  assert s.deliver_goods
+end
+
+Given /^a sale in state start_processing and paid$/ do
+  step "a sale in state start_processing"
+  s = Sale.all.first
+  assert s.pay
 end

@@ -1,3 +1,7 @@
+Given /^database is clean$/ do
+  DatabaseCleaner.clean
+end
+
 Given /^I am on the home page$/  do
   visit "/"
 end
@@ -77,4 +81,32 @@ Given /^I see "(.*?)" in the page$/ do |string|
     puts page.body
   end
   assert page.has_content? string
+end
+
+Then /^I should not see "(.*?)"$/ do |string|
+  assert (! page.has_content?(string))
+end
+
+
+Given /^I click the first row$/ do
+  page.execute_script(%Q{$('table tbody td:first-child a').click();})
+end
+
+Then(/^I should see a button with text "(.*?)"$/) do |string|
+  if (page.has_button?(string) || page.has_selector?('a.btn', text: string))
+    assert true
+  else
+    puts page.body
+    assert false
+  end
+end
+
+Then(/^I should not see a button with text "(.*?)"$/) do |string|
+  #if  || page.has_link?(string, text: string))
+  if (page.has_button?(string) || page.has_selector?('a.btn', text: string))
+    puts page.body
+    assert false
+  else
+    assert true
+  end
 end
