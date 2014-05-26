@@ -2,11 +2,12 @@ class SaleItemsController < ApplicationController
   load_and_authorize_resource :sale
   load_and_authorize_resource :sale_item, through: :sale
 
+  before_filter :set_breadcrumbs, only: [:new, :create]
+
   def new
     @shelves = @sale.warehouse.shelves.includes(:product)
     @sale = @sale.decorate
     gon.push sale: @sale, sale_item: @sale_item, shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer)
-    @breadcrumbs = [[t(:sales), sales_path], ["##{@sale.id}", sale_path(@sale)], [t(:add_product)]]
   end
 
   def create
@@ -40,5 +41,9 @@ class SaleItemsController < ApplicationController
 
     def sale_item_params
       params.require(:sale_item).permit(SaleItem.accessible_attributes.to_a)
+    end
+
+    def set_breadcrumbs
+      @breadcrumbs = [[t(:sales), sales_path], ["##{@sale.id}", sale_path(@sale)], [t(:add_product)]]
     end
 end
