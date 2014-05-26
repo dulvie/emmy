@@ -1,5 +1,11 @@
 module ApplicationHelper
 
+  # @todo make currency a setting.
+  # we currently only support one currency, with the format of 5600 = 56.00 SEK
+  def as_sek(integer_number)
+    number_to_currency(integer_number / 100.0, precision: 2, format: "%n %u", unit: "SEK")
+  end
+
   # Prints a delete link button
   # depends that the object responds to a .can_delete? method
   def delete_button_for(obj, other_path = nil)

@@ -4,6 +4,7 @@
       %th= t(:product)
       %th= t(:quantity)
       %th= t(:price)
+      %th= t(:price_inc_vat)
       %th= t(:price_sum)
       %th
     %tbody
@@ -11,6 +12,7 @@
         %tr
           %td= item.product.name
           %td= item.quantity 
-          %td= item.price
-          %td= item.price_sum
+          %td= as_sek(item.price)
+          %td= as_sek(item.price_inc_vat)
+          %td= as_sek(item.price_sum)
           %td= delete_button_for item, sale_sale_item_path(@sale, item)
