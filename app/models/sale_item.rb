@@ -14,6 +14,12 @@ class SaleItem < ActiveRecord::Base
 
   before_validation :collect_and_calculate
 
+  validates :product_id, presence: true
+  validates :quantity, presence: true
+  validates :price_inc_vat, presence: true
+  validates :price_sum, presence: true
+  validates :vat, presence: true
+
   def can_delete?
     sale.can_edit_items?
   end
@@ -22,9 +28,21 @@ class SaleItem < ActiveRecord::Base
 
   # Callback: before_validation
   def collect_and_calculate
-    self.vat = product.vat unless vat
-    self.price_inc_vat = price * (1 + vat / 100.0)
-    self.price_sum = price_inc_vat * quantity
+    self.vat = self.vat || default_from_product(:vat)
+    self.price = self.price || default_from_product(:price)
+    self.price_inc_vat = price * (1 + (vat / 100.0))
+    if quantity
+      self.price_sum = price_inc_vat * quantity
+    end
+  end
+
+  def default_from_product field
+    if product
+      if v = product.send(field)
+        return v
+      end
+    end
+    return 0
   end
 
 end
