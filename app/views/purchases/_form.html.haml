@@ -1,0 +1,11 @@
+= simple_form_for(@purchase, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+
+  = f.association :supplier,  disabled: !@purchase.new_record?
+  = f.input :contact_name, disabled: !@purchase.new_record?
+  = f.input :contact_email, disabled: !@purchase.new_record?
+  = f.association :our_reference, disabled: !@purchase.new_record?
+  = f.association :to_warehouse,  disabled: !@purchase.new_record?
+
+  - if @purchase.new_record?
+    = f.submit class: 'btn btn-primary'

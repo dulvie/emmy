@@ -1,0 +1,22 @@
+%table{:class => 'table table-striped'}
+  %thead
+    %tr
+      %th= t(:ordered_at)
+      %th= t(:supplier)
+      %th= t(:sum)
+      %th= t(:state)
+      %th
+      %th
+    %tbody
+      - @purchases.each do |purchase|
+        %tr
+          %td= purchase.ordered_at
+          %td= link_to purchase.supplier_name, purchase.supplier
+          %td= purchase.sum
+          %td
+            - purchase.states.each do |s|
+              = s
+   
+          %td= link_to settings_icon, purchase
+          %td= delete_button_for purchase
+= link_to 'Create Purchase', new_purchase_path, class: 'btn btn-default'

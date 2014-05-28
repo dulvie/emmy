@@ -28,6 +28,8 @@ class Ability
     can :manage, Manual
     can :manage, Product
     can :manage, ProductTransaction
+    can :manage, Purchase
+    can :manage, PurchaseItem
     can :manage, Transfer
     can :manage, Supplier
     can :manage, Sale

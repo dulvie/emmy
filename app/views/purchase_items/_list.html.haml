@@ -1,0 +1,16 @@
+%table{:class => 'table table-striped'}
+  %thead
+    %tr
+      %th= t(:product)
+      %th= t(:quantity)
+      %th= t(:price)
+      %th= t(:price_sum)
+      %th
+    %tbody
+      - purchase_items.each do |item|
+        %tr
+          %td= item.product.name
+          %td= item.quantity 
+          %td= as_sek(item.price)
+          %td= as_sek(item.price_sum)
+          %td= delete_button_for item, purchase_purchase_item_path(@purchase, item)

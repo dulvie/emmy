@@ -18,6 +18,12 @@ Emmy::Application.routes.draw do
       post 'state_change', as: :state_change
     end
   end
+  resources :purchases do
+    resources :purchase_items
+    member do
+      post 'state_change', as: :state_change
+    end
+  end
   resources :products
   get "statistics/index"
   resources :warehouses

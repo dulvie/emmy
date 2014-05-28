@@ -1,0 +1,19 @@
+=render partial: 'form'
+
+%br
+.row
+  .col-md-12
+    - if @purchase.can_edit_items?
+      = link_to t(:add_product), new_purchase_purchase_item_path(@purchase), class: 'btn btn-primary'
+    - if @purchase.can_edit_items?
+      = link_to t(@purchase.next_step), edit_purchase_path(@purchase, new_state: @purchase.next_step), class: 'btn btn-primary'
+    - if @purchase.is_ordered?
+      = link_to t(@purchase.next_step), edit_purchase_path(@purchase, new_state: @purchase.next_step), class: 'btn btn-primary'
+    - if (@purchase.is_ordered? && !@purchase.is_received?)
+      = link_to t(:receive), edit_purchase_path(@purchase, new_state: :receive_goods), class: 'btn btn-primary'
+    - if (@purchase.is_ordered? && !@purchase.is_paid?)
+      = link_to t(:pay), edit_purchase_path(@purchase, new_state: :pay), class: 'btn btn-primary'
+
+.row
+  .col-md-12
+    = render partial: 'purchase_items/index'
