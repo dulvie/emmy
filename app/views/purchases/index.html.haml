@@ -10,7 +10,7 @@
     %tbody
       - @purchases.each do |purchase|
         %tr
-          %td= purchase.ordered_at
+          %td= purchase.ordered_at.nil? ? ' ': purchase.ordered_at.strftime("%Y-%d-%m") 
           %td= link_to purchase.supplier_name, purchase.supplier
           %td= purchase.sum
           %td

@@ -3,7 +3,7 @@ class PurchasesController < ApplicationController
   load_and_authorize_resource
 
   before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :show_breadcrumbs, only: [:show, :update]
+  before_filter :show_breadcrumbs, only: [:show, :update, :edit]
 
   def create
     @purchase = Purchase.new purchase_params

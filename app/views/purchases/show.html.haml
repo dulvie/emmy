@@ -13,7 +13,7 @@
       = link_to t(:receive), edit_purchase_path(@purchase, new_state: :receive_goods), class: 'btn btn-primary'
     - if (@purchase.is_ordered? && !@purchase.is_paid?)
       = link_to t(:pay), edit_purchase_path(@purchase, new_state: :pay), class: 'btn btn-primary'
-
+    = link_to 'Back', purchases_path, class: 'btn btn-default'
 .row
   .col-md-12
     = render partial: 'purchase_items/index'
