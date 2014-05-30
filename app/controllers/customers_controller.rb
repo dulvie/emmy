@@ -9,7 +9,7 @@ class CustomersController < ApplicationController
   # GET /customers.json
   def index
     @breadcrumbs = [['Customers']]
-    respond_with @customers
+    @customers = Customer.paginate :page => params[:page], :per_page => 5
   end
 
   # GET /customers/new

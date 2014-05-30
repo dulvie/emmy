@@ -1,14 +1,17 @@
-%table{:class => 'table table-striped'}
-  %thead
-    %tr
-      %th Customer
-      %th
-      %th
-    %tbody
-      - @customers.each do |customer|
-        %tr
-          %td= link_to customer.name, customer
-          %td= link_to settings_icon, customer
-          %td= link_to delete_icon, customer, method: :delete, data: { confirm: 'Are you Sure?' }
-
-= link_to "#{t(:create)} #{t(:customer)}", new_customer_path, class: 'btn btn-default'
+.well
+  = link_to "#{t(:create)} #{t(:customer)}", new_customer_path, class: 'btn btn-default'
+.col-sm-7
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th Customer
+        %th
+        %th
+      %tbody
+        - @customers.each do |customer|
+          %tr
+            %td= link_to customer.name, customer
+            %td= link_to settings_icon, customer
+            %td= link_to delete_icon, customer, method: :delete, data: { confirm: 'Are you Sure?' }
+  = will_paginate @customers, renderer: BootstrapPagination::Rails         
+            

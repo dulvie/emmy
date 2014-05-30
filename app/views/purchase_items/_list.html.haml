@@ -2,15 +2,21 @@
   %thead
     %tr
       %th= t(:product)
-      %th= t(:quantity)
-      %th= t(:price)
-      %th= t(:price_sum)
+      %th{:style => "text-align:right"}
+        = t(:quantity)
+      %th{:style => "text-align:right"}
+        = t(:price)
+      %th{:style => "text-align:right"}
+        = t(:price_sum)
       %th
     %tbody
       - purchase_items.each do |item|
         %tr
           %td= item.product.name
-          %td= item.quantity 
-          %td= as_sek(item.price)
-          %td= as_sek(item.price_sum)
+          %td{:style => "text-align:right"}
+            = item.quantity 
+          %td{:style => "text-align:right"}
+            = as_sek(item.price)
+          %td{:style => "text-align:right"}
+            = as_sek(item.price_sum)
           %td= delete_button_for item, purchase_purchase_item_path(@purchase, item)

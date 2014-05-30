@@ -96,4 +96,8 @@ class Purchase < ActiveRecord::Base
     end
   end
 
+  def items_total
+    self.purchase_items.sum(:price_sum)
+  end
+
 end

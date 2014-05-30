@@ -1,9 +1,10 @@
-%table{:class => 'table table-striped'}
+%table{:class => 'table table-striped well'}
   %thead
     %tr
       %th= t(:ordered_at)
       %th= t(:supplier)
-      %th= t(:sum)
+      %th{:style => "text-align:right"}
+        = t(:sum)
       %th= t(:state)
       %th
       %th
@@ -12,11 +13,11 @@
         %tr
           %td= purchase.ordered_at.nil? ? ' ': purchase.ordered_at.strftime("%Y-%d-%m") 
           %td= link_to purchase.supplier_name, purchase.supplier
-          %td= purchase.sum
+          %td{:style => "text-align:right"}
+            = as_sek(purchase.items_total)
           %td
             - purchase.states.each do |s|
               = s
-   
           %td= link_to settings_icon, purchase
           %td= delete_button_for purchase
 = link_to 'Create Purchase', new_purchase_path, class: 'btn btn-default'

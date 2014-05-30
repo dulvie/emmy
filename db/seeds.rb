@@ -83,8 +83,10 @@ tr.receive_package
 
 
 donald = Customer.create(name: "Donald duck")
-
 coffehouse = Customer.create(name: 'Coffe House by Foobar')
+1.upto(15) do |i|
+	Customer.create(name: "Kund #{i}")
+end
 
 bigsupp = Supplier.create(name: "Big supplier of coffee")
 
