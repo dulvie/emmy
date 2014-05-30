@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 20140527125233) do
     t.integer  "supplier_id"
     t.string   "contact_email"
     t.string   "contact_name"
+    t.string   "description"
     t.integer  "our_reference_id"
     t.integer  "to_warehouse_id"
     t.integer  "sum"

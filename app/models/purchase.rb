@@ -3,6 +3,7 @@ class Purchase < ActiveRecord::Base
   # t.integer :supplier_id
   # t.string :contact_email
   # t.string :contact_name
+  # t.string :description
   # t.integer :our_reference_id
   # t.integer :to_warehouse_id
   # t.integer :sum
@@ -22,8 +23,9 @@ class Purchase < ActiveRecord::Base
   belongs_to :to_warehouse, class_name: 'Warehouse'
   has_many :purchase_items
 
-  attr_accessible :supplier_id, :contact_name, :contact_email, :our_reference_id, :to_warehouse_id, :ordered_at
+  attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id, :to_warehouse_id, :ordered_at
 
+  validates :description, presence: true
   validates :supplier_id, presence: true
 
   STATE_CHANGES = [

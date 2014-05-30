@@ -31,6 +31,7 @@ en:
   customer: "Customer"
   deliver: "Deliver"
   delivered: "Delivered"
+  description: "Description"
   edit: "Edit"
   email: "Email"
   failed_to_add: "Failed to add"

@@ -10,6 +10,7 @@ se:
   customer: "Kund"
   deliver: "Leverera"
   delivered: "Levererad"
+  description: "Beskrivning"
   edit: "Uppdatera"
   email: "Email"
   failed_to_add: "Kunde inte lägga till"

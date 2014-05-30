@@ -1,6 +1,7 @@
 %table{:class => 'table table-striped well'}
   %thead
     %tr
+      %th= t(:description)
       %th= t(:ordered_at)
       %th= t(:supplier)
       %th{:style => "text-align:right"}
@@ -11,6 +12,7 @@
     %tbody
       - @purchases.each do |purchase|
         %tr
+          %td= purchase.description
           %td= purchase.ordered_at.nil? ? ' ': purchase.ordered_at.strftime("%Y-%d-%m") 
           %td= link_to purchase.supplier_name, purchase.supplier
           %td{:style => "text-align:right"}
