@@ -26,10 +26,10 @@ class PurchaseDecorator < Draper::Decorator
     case object.goods_state
     when 'not_received'
       l = 'warning'
-      str = h.t(:not_delivered)
+      str = h.t(:not_received)
     when 'delivered'
       l = 'success'
-      str = h.t(:delivered)
+      str = h.t(:received)
     end
     labelify(str, l)
   end

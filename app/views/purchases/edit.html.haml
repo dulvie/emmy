@@ -1,16 +1,6 @@
-= render 'form'
-.alert.alert-info
-  - case params['new_state']
-  - when "start_processing"
-    Registreringen klar. Godkänn ordern med datum. Beställning skapas.
-  - when "order_complete"
-    Ordern avslutas eller makuleras.
-  - when "receive_goods"
-    Leveransen godkänns. Alla lagerförda artiklar på ordern raporteras in. Om ordern betald sätts slutmarkering
-  - when "pay"
-    Ordern betald. Om leveransen godkänd sätts slutmarkering.
 %div{ :ng_controller => 'purchaseEditCtrl' }
   = simple_form_for(@purchase, url: state_change_purchase_path(@purchase, new_state: params['new_state']), :method => 'post', wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+    = f.input :description ,  disabled: true
     .form-group
       .col-sm-3.control-label
         - case params['new_state']
@@ -36,7 +26,16 @@
 
     .form-group
       .col-sm-3.control-label
-       
+        .alert.alert-info.text-left
+          - case params['new_state']
+          - when "start_processing"
+            Registreringen klar. Godkänn ordern med datum. Beställning skapas.
+          - when "order_complete"
+            Ordern avslutas eller makuleras.
+          - when "receive_goods"
+            Leveransen godkänns. Alla lagerförda artiklar på ordern raporteras in. Om ordern betald sätts slutmarkering
+          - when "pay"
+            Ordern betald. Om leveransen godkänd sätts slutmarkering.      
       .col-sm-9.col-md-2.col-lg-3.control-label
         .input-group
           %div{:style => "display:inline-block;"}
