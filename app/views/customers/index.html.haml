@@ -1,5 +1,6 @@
-.well
-  = link_to "#{t(:create)} #{t(:customer)}", new_customer_path, class: 'btn btn-default'
+.container.row
+  = link_to "#{t(:create)} #{t(:customer)}", new_customer_path, class: 'btn btn-primary'
+%br
 .col-sm-7
   %table{:class => 'table table-striped'}
     %thead
