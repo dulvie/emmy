@@ -4,6 +4,7 @@ se:
   add_product_to_sale: "Lägg till produkt till försäljningen"
   back: "Tillbaka"
   cant_be_changed_after_marked_complete: "Kan inte ändras efter markerad som komplett"
+  city: "Ort"
   completed: "Färdig"
   comment: "Kommentar"
   create: "Skapa"

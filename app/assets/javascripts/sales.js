@@ -14,7 +14,7 @@ app.controller('salesNewCtrl', function ($scope, ajaxService) {
 		});		
 	};
 
-	$scope.onSelect = function (item, model, label) {
+	$scope.onSelect = function (item, model, label) {		
 	    $('#sale_customer_id').val(item.id); 
 	    for (var i = 0; i < $scope.customer.length; i++) {
 	    	if ($scope.customer[i].id == item.id) {

@@ -8,8 +8,11 @@ class CustomersController < ApplicationController
   # GET /customers
   # GET /customers.json
   def index
-    @breadcrumbs = [['Customers']]
-    @customers = Customer.paginate :page => params[:page], :per_page => 5
+    respond_to do |format|
+    	@breadcrumbs = [['Customers']]
+    	format.html {@customers = Customer.order("name").paginate :page => params[:page], :per_page => 5}
+    	format.json {render json: @customers}
+    end	
   end
 
   # GET /customers/new

@@ -5,14 +5,16 @@
   %table{:class => 'table table-striped'}
     %thead
       %tr
-        %th Customer
+        %th= t(:customer)
+        %th= t(:city)
         %th
         %th
       %tbody
         - @customers.each do |customer|
           %tr
             %td= link_to customer.name, customer
+            %td= customer.city
             %td= link_to settings_icon, customer
             %td= link_to delete_icon, customer, method: :delete, data: { confirm: 'Are you Sure?' }
-  = will_paginate @customers, renderer: BootstrapPagination::Rails         
+  = will_paginate @customers, renderer: BootstrapPagination::Rails
             

@@ -25,6 +25,7 @@ en:
   add_product_to_sale: "Add product to the sale"
   back: "Back"
   cant_be_changed_after_marked_complete: "Can't be changed after marked complete"
+  city: "City"
   comment: "Comment"
   completed: "Completed"
   create: "Create"
