@@ -1,9 +1,13 @@
-%h1 Warehouse #{@warehouse.name}
 %ul{:class => 'nav nav-tabs'}
   %li.active= link_to "Base information", "#warehouse-form", {"data-toggle" => "tab"}
   %li= link_to "Shelves", "#shelf-index", {"data-toggle" => "tab"}
+  %li= link_to "Contacts", "#contact-index", {"data-toggle" => "tab"}
+  %li= link_to "Comments", "#comment-index", {"data-toggle" => "tab"}
 .tab-content
   #warehouse-form.tab-pane.active
     = render 'form'
   #shelf-index.tab-pane
     = render "shelves/index", {shelves: @warehouse.shelves}
+  #contact-index.tab-pane
+    = render partial: 'contacts/index', locals: {contacts: @warehouse.contacts, parent: @warehouse}
+  #comment-index.tab-pane

@@ -1,11 +1,14 @@
-= simple_form_for(@customer) do |f|
-  = f.error_notification
+.col-sm-7.panel.panel-default.well
+  %br
+  = simple_form_for(@customer, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+    = f.error_notification
 
-  = f.input :name, required: true, autofocus: true
-  = f.input :reseller, as: :radio_buttons, wrapper: :horizontal_radio_and_checkboxes
-  = f.input :vat_number
-  = f.input :address
-  = f.input :zip
-  = f.input :city
+    = f.input :name, required: true, autofocus: true
+    = f.input :reseller, as: :radio_buttons, wrapper: :horizontal_radio_and_checkboxes
+    = f.input :vat_number
+    = f.input :address
+    = f.input :zip
+    = f.input :city
 
-  = f.submit class: 'btn btn-primary'
+    = f.submit class: 'btn btn-primary'
+.row
