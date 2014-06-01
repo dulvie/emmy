@@ -1,0 +1,6 @@
+= simple_form_for(@comment, url: @comment_form_url) do |f|
+  = f.error_notification
+
+  = f.input :body
+
+  = form_submit(f)

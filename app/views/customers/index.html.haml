@@ -1,7 +1,7 @@
 .container.row
   = link_to "#{t(:create)} #{t(:customer)}", new_customer_path, class: 'btn btn-primary'
-%br
-.col-sm-7.panel.panel-default
+%br  
+.panel.panel-default.col-sm-7
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -9,12 +9,11 @@
         %th= t(:city)
         %th
         %th
-      %tbody
-        - @customers.each do |customer|
-          %tr
-            %td= link_to customer.name, customer
-            %td= customer.city
-            %td= link_to settings_icon, customer
-            %td= link_to delete_icon, customer, method: :delete, data: { confirm: 'Are you Sure?' }
+    %tbody
+      - @customers.each do |customer|
+        %tr
+        %td= link_to customer.name, customer
+        %td= customer.city
+        %td= link_to settings_icon, customer
+        %td= link_to delete_icon, customer, method: :delete, data: { confirm: 'Are you Sure?' }
   = will_paginate @customers, renderer: BootstrapPagination::Rails
-            

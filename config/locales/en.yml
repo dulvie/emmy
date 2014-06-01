@@ -20,6 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  add_comment: "Add comment"
   add_contact: "Add contact"
   add_product: "Add product"
   add_product_to_sale: "Add product to the sale"
@@ -29,6 +30,7 @@ en:
   comment: "Comment"
   completed: "Completed"
   create: "Create"
+  created_at: "Create at"
   customer: "Customer"
   deliver: "Deliver"
   delivered: "Delivered"
@@ -82,6 +84,7 @@ en:
   state: "State"
   sum: "Sum"
   supplier: "Supplier"
+  text: "Text"
   to: "To"
   to_warehouse: "To warehouse"
   transfer_marked_as_received: "Marked as received"

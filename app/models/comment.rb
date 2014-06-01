@@ -8,4 +8,13 @@ class Comment < ActiveRecord::Base
   belongs_to :parent, polymorphic: true
 
   attr_accessible :body, :user, :parent, :user_id, :parent_id, :parent_type
+  
+  VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', Transfer]
+ 
+  # For ApplicationHelper#delete_button
+  def can_delete?; true; end
+    
+  def parent_name
+    parent.name
+  end
 end
