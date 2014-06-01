@@ -24,6 +24,11 @@ class CustomersController < ApplicationController
     respond_with @customer
   end
 
+  # GET /customer/1/edit
+  def edit
+    @breadcrumbs = [['Customers', customers_path], [@customer.name]]
+  end
+  
   # POST /customers
   # POST /customers.json
   def create

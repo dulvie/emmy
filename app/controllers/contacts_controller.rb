@@ -20,7 +20,7 @@ class ContactsController < ApplicationController
     @contact = @parent.contacts.build contact_params
     respond_to do |format|
       if @contact.save
-        format.html { redirect_to @parent, notice: "#{t(:contact_added)}" }
+        format.html { redirect_to edit_polymorphic_path(@parent), notice: "#{t(:contact_added)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_add)} #{t(:contact)}"
         format.html { render :new }
@@ -31,7 +31,7 @@ class ContactsController < ApplicationController
   def update
     respond_to do |format|
       if @contact.update(contact_params)
-        format.html { redirect_to @contact, notice: "#{t(:contact)} #{t(:was_successfully_updated)}" }
+        format.html { redirect_to edit_polymorphic_path(@parent), notice: "#{t(:contact)} #{t(:was_successfully_updated)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:contact)}"
         format.html { render :show }
@@ -42,7 +42,7 @@ class ContactsController < ApplicationController
   def destroy
     @contact.destroy
     respond_to do |format|
-      format.html { redirect_to @parent, notice: "#{t(:contact)} #{t(:was_destroyed)}" }
+      format.html { redirect_to edit_polymorphic_path(@parent), notice: "#{t(:contact)} #{t(:was_destroyed)}" }
       #format.json { head :no_content }
     end
   end
