@@ -11,7 +11,7 @@
       - sale_items.each do |item|
         %tr
           %td= item.product.name
-          %td= item.quantity 
+          %td= item.quantity
           %td= as_sek(item.price)
           %td= as_sek(item.price_inc_vat)
           %td= as_sek(item.price_sum)
