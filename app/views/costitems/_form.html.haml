@@ -1,0 +1,15 @@
+= simple_form_for(@costitem, wrapper: :horizontal_form, html: {class: 'form-horizontal'}, url: @costitem_form_url) do |f|
+
+  = f.error_notification
+
+  = f.input :description
+  = f.association :supplier
+  = f.input :contact_email
+  = f.input :contact_name
+  = f.association :product
+  = f.input :quantity
+  = f.input :price
+  = f.input :price_sum
+  = f.input :vat_amount
+
+  = form_submit(f)

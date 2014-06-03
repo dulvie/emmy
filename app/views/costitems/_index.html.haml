@@ -1,0 +1,28 @@
+.container.row
+  %br
+  - add_costitem_url = new_costitem_path({parent_id: parent.id, parent_type: parent.class.name})
+  = link_to t(:add_costitem), add_costitem_url, class: 'btn btn-info'
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:description)
+        %th= t(:supplier)
+        %th= t(:product)
+        %th= t(:quantity)
+        %th= t(:price_sum)
+        %th= t(:status) 
+        %th
+        %th
+      %tbody
+        - @costitems.each do |costitem|
+          %tr
+            %td= costitem.description
+            %td= link_to costitem.supplier.name, costitem
+            %td= link_to costitem.product.name, costitem
+            %td= costitem.quantity
+            %td= costitem.price_sum
+            %td
+              - costitem.states.each do |s|
+                = s
+            %td= link_to settings_icon, costitem
+            %td= delete_button_for costitem

@@ -1,0 +1,5 @@
+=render partial: 'form'
+%br
+.row
+  .col-md-12
+    = render partial: 'costitems/index' , locals: {costitems: @import.costitems, parent: @import}
