@@ -1,5 +1,31 @@
 %div{ng_controller: 'saleEditCtrl'}
-  =render partial: 'form'
+  = render partial: 'form'
+  = render partial: 'sale_items/index'
+  - # Don't show next-step unless there are items in the sale.
+  - if @sale.next_step.eql?(:mark_item_complete) && @sale.sale_items.count < 1
+    &nbsp;
+  - else
+
+    // This should go into a partial or helper.
+    .state-change-wrapper{'style' => 'position: relative'}
+      = button_tag @sale.next_step, class: 'btn btn-primary toggler'
+      .state-change-form.row.hide
+        .state-change-weller.col-md-2
+          = simple_form_for(@sale, url: state_change_sale_path(@sale)) do |f|
+            = hidden_field_tag 'new_state', @sale.next_step
+            .form-group
+              .input-group
+                = text_field_tag "#{@sale.next_step}_at".to_sym, Time.now, class: 'form-control'
+                %span{:class => 'input-group-addon'}
+                  %span{:class => 'glyphicon glyphicon-calendar'}
+              = submit_tag t(:confirm), class: 'btn btn-primary'
+              = button_tag t(:back), class: 'btn btn-danger reseter', type: 'reset'
+
+    .col-lg-12
+      stuff belof the state change buttons
+
+
+-#
   %br
   .row
     .col-md-12
@@ -25,6 +51,5 @@
           .d{:ng_switch_default=>'x'}
         %div{:style => "display:inline-block; min-height:290px;"}
           %datepicker{:ng_model=>'dt',  :show_weeks => 'false', :starting_day => '1', :class=>'well well-sm'}
-  .row
-    .col-md-12
+
       = render partial: 'sale_items/index'

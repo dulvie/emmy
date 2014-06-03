@@ -9,8 +9,9 @@
       %th
     %tbody
       - sale_items.each do |item|
+        - item = item.decorate
         %tr
-          %td= item.product.name
+          %td= item.product_name
           %td= item.quantity
           %td= as_sek(item.price)
           %td= as_sek(item.price_inc_vat)

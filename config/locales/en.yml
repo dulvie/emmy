@@ -29,6 +29,7 @@ en:
   city: "City"
   comment: "Comment"
   completed: "Completed"
+  confirm: "Confirm"
   create: "Create"
   created_at: "Create at"
   customer: "Customer"

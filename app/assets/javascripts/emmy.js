@@ -27,4 +27,5 @@ app.directive('ngBlur', ['$parse', function($parse) {
 }]);
 $(document).on('ready page:load', function(){
 	  angular.bootstrap(document.body, ['emmy']);
+    Setup.init();
 	});
