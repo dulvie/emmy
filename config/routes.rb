@@ -7,9 +7,12 @@ Emmy::Application.routes.draw do
       post 'receive_package', as: :receive_package
     end
   end
+
   resources :comments
   resources :contacts
+  resources :costitems
   resources :customers
+  resources :imports
   resources :manuals
   resources :suppliers
   resources :sales do
