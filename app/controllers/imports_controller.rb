@@ -36,7 +36,7 @@ class ImportsController < ApplicationController
 
     respond_to do |format|
       if @import.save
-        format.html { redirect_to imports_path, notice: 'import was successfully created.' }
+        format.html { redirect_to edit_import_path(@import), notice: 'import was successfully created.' }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:import)}"
         format.html { render action: 'new' }

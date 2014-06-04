@@ -2,4 +2,5 @@
 %br
 - add_costitem_url = new_costitem_path({parent_id: @import.id, parent_type: @import.class.name})
 = link_to t(:add_costitem), add_costitem_url, class: 'btn btn-primary'
+= link_to 'Back', imports_path, class: 'btn btn-primary'
 = render partial: 'costitems/index' , locals: {costitems: @import.costitems, parent: @import}

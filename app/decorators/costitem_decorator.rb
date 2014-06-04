@@ -48,7 +48,7 @@ class CostitemDecorator < Draper::Decorator
   end
 
   def labelify(str, label_state)
-    h.content_tag :span, class: "label label-#{label_state}" do
+    h.content_tag :span, class: "label label-#{label_state}", onclick: 'alert()' do
       str
     end
   end

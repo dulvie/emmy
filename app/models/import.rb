@@ -14,10 +14,11 @@ class Import < ActiveRecord::Base
   has_many :costitems, as: :parent
   has_many :comments, as: :parent
 
-  attr_accessible :description, :our_reference, :to_warehouse_id, :started_at, :completed_at
+  attr_accessible :description, :our_reference_id, :to_warehouse_id, :started_at, :completed_at
 
   validates :description, presence: true
-
+  validates :to_warehouse_id, presence: true
+  
   STATE_CHANGES = [
     :started, :complete, # Generic state
   ]
