@@ -1,6 +1,7 @@
 se:
   add_comment: "Lägg till kommentar"
   add_contact: "Lägg till kontakt"
+  add_costitem: "Lägg till kostnad"
   add_product: "Lägg till produkt"
   add_product_to_sale: "Lägg till produkt till försäljningen"
   back: "Tillbaka"
@@ -32,8 +33,9 @@ se:
   new_manual_transaction: "Ny manuell transaktion"
   new_transfer: "Ny försändelse"
   not_delivered: "ej levererad"
-  not_received: "ej mottagen"
   not_paid: "ej betald"
+  not_received: "ej mottagen"
+  not_started: "ej startad"
   ordered_at: "Orderdatum"
   order_complete: "Inköp avslutas"
   pay: "Betala"

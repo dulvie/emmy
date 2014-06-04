@@ -29,6 +29,12 @@ class Costitem < ActiveRecord::Base
   attr_accessible  :description, :supplier_id, :contact_email, :contact_name, :product_id, :quantity, 
                    :price, :price_sum, :vat_amount, :ordered_at, :completed_at, :received_at,:paid_at, :due_date
 
+  validates :description, presence: true
+  validates :supplier_id, presence: true
+  validates :product_id, presence: true
+  validates :price_sum, presence: true
+  validates :vat_amount, presence: true
+    
   VALID_PARENT_TYPES = ['Import', 'Process', 'Transfer']
 
   STATE_CHANGES = [

@@ -22,6 +22,7 @@
 en:
   add_comment: "Add comment"
   add_contact: "Add contact"
+  add_costitem: "Add costitem"
   add_product: "Add product"
   add_product_to_sale: "Add product to the sale"
   back: "Back"
@@ -54,8 +55,9 @@ en:
   new_manual_transaction: "New manual transaction"
   new_transfer: "New transfer"
   not_delivered: "not delivered"
-  not_received: "not received"
   not_paid: "not paid"
+  not_received: "not received"
+  not_started: "not started"
   ordered_at: "Ordered at"
   order_complete: "Purchase complete"
   pay: "Pay"

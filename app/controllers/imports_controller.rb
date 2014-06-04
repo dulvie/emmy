@@ -17,6 +17,7 @@ class ImportsController < ApplicationController
   # GET /imports/1.json
   def show
     @breadcrumbs = [['Imports', imports_path], [@import.description]]
+    @import = @import.decorate
   end
   
   # GET /imports/new
@@ -42,6 +43,15 @@ class ImportsController < ApplicationController
       end
     end
   end
+  
+  def destroy
+    @import.destroy
+    respond_to do |format|
+      format.html { redirect_to imports_path, notice: "#{t(:import)} #{t(:was_successfully_deleted)}" }
+      #format.json { head :no_content }
+    end
+  end
+  
   
   private
 

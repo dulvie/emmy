@@ -12,4 +12,5 @@
   = f.input :price_sum
   = f.input :vat_amount
 
-  = form_submit(f)
+  = f.submit class: 'btn btn-primary'
+  = link_to 'Back', edit_polymorphic_path(@parent), class: 'btn btn-info'
