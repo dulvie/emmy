@@ -1,55 +1,23 @@
 %div{ng_controller: 'saleEditCtrl'}
   = render partial: 'form'
-  = render partial: 'sale_items/index'
+
   - # Don't show next-step unless there are items in the sale.
-  - if @sale.next_step.eql?(:mark_item_complete) && @sale.sale_items.count < 1
+  - if @sale.sale_items.count < 1
     &nbsp;
+  - elsif @sale.is_completed?
+    = t(:sale_is_complete)
   - else
+    - if @sale.next_step
+      = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: @sale.next_step}
 
-    // This should go into a partial or helper.
-    .state-change-wrapper{'style' => 'position: relative'}
-      = button_tag @sale.next_step, class: 'btn btn-primary toggler'
-      .state-change-form.row.hide
-        .state-change-weller.col-md-2
-          = simple_form_for(@sale, url: state_change_sale_path(@sale)) do |f|
-            = hidden_field_tag 'new_state', @sale.next_step
-            .form-group
-              .input-group
-                = text_field_tag "#{@sale.next_step}_at".to_sym, Time.now, class: 'form-control'
-                %span{:class => 'input-group-addon'}
-                  %span{:class => 'glyphicon glyphicon-calendar'}
-              = submit_tag t(:confirm), class: 'btn btn-primary'
-              = button_tag t(:back), class: 'btn btn-danger reseter', type: 'reset'
+    - unless @sale.can_edit_items?
+      - if @sale.is_delivered?
+        = "#{t(:delivered_at)} #{@sale.delivered_at}"
+      - else
+        = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'deliver'}
+      - if @sale.is_paid?
+        = "#{t(:paid_at)} #{@sale.paid_at}"
+      - else
+        = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'pay'}
 
-    .col-lg-12
-      stuff belof the state change buttons
-
-
--#
-  %br
-  .row
-    .col-md-12
-      .d{:ng_show => '!togg'}
-        - unless @sale.completed?
-          %button{:class => 'btn btn-primary', :ng_click => "openDate($event,'next')"} Next step
-        - unless (@sale.is_delivered? || @sale.completed? || @sale.can_edit_items?)
-          %button{:class => 'btn btn-primary', :ng_click => "openDate($event,'deliver')"} Deliver
-        - unless (@sale.is_paid? || @sale.completed? || @sale.can_edit_items?)
-          %button{:class => 'btn btn-primary', :ng_click => "openDate($event,'pay')"} Pay
-    -unless @sale.completed?
-      .col-md-12{:ng_show => 'togg'}
-        .d{:ng_switch=>'type'}
-          .d{:ng_switch_when=>'next'}
-            = link_to t(@sale.next_step), state_change_sale_path(@sale, new_state: @sale.next_step), class: 'btn btn-info', method: :post
-            = simple_form_for(@sale, url: state_change_sale_path(@sale, new_state: @sale.next_step)) do |f|
-              %input{:type => 'date', :id => 'sale_approved_at', :name=> 'sale[approved_at]', :value =>'{{dt}}'}
-              = f.submit class: 'btn btn-primary'
-          .d{:ng_switch_when=>'deliver'}
-            = link_to t(:deliver), state_change_sale_path(@sale, new_state: :deliver_goods), class: 'btn btn-info', method: :post
-          .d{:ng_switch_when=>'pay'}
-            = link_to t(:pay), state_change_sale_path(@sale, new_state: :pay), class: 'btn btn-info', method: :post
-          .d{:ng_switch_default=>'x'}
-        %div{:style => "display:inline-block; min-height:290px;"}
-          %datepicker{:ng_model=>'dt',  :show_weeks => 'false', :starting_day => '1', :class=>'well well-sm'}
-
-      = render partial: 'sale_items/index'
+  = render partial: 'sale_items/index'

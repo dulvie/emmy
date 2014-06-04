@@ -24,3 +24,7 @@
 
   - if @sale.new_record?
     = f.submit class: 'btn btn-primary'
+  - else
+    = f.input :state, disabled: true
+    = f.input :goods_state, disabled: true
+    = f.input :money_state, disabled: true

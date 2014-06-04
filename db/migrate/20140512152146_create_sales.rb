@@ -10,7 +10,7 @@ class CreateSales < ActiveRecord::Migration
       t.string :goods_state
       t.string :money_state
       t.timestamp :approved_at
-      t.timestamp :goods_delivered_at
+      t.timestamp :delivered_at
       t.timestamp :paid_at
       t.datetime :due_date
 
