@@ -13,8 +13,8 @@
       - @costitems.each do |costitem|
         %tr
           %td= costitem.description
-          %td= link_to costitem.supplier.name, costitem
-          %td= link_to costitem.product.name, costitem
+          %td= link_to costitem.supplier.name, costitem.supplier
+          %td= link_to costitem.product.name, costitem.product
           %td= costitem.quantity
           %td= costitem.price_sum
           %td
