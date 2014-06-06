@@ -14,6 +14,10 @@ Emmy::Application.routes.draw do
   resources :customers
   resources :imports
   resources :manuals
+  resources :materials
+  resources :productions do
+    resources :materials
+  end
   resources :suppliers
   resources :sales do
     resources :sale_items

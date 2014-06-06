@@ -36,8 +36,17 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.save
-        format.html { redirect_to products_path, notice: 'product was successfully created.' }
+        logger.info "product param: #{params.inspect}"
+        obj_id = params[:object]
+        if params[:class]=='Production'
+          production = Production.find(obj_id)
+          production.product = @product
+          production.save
+          format.html { redirect_to edit_production_path(obj_id), notice: 'product was successfully created.'}
+        else
+          format.html { redirect_to products_path, notice: 'product was successfully created.' }
         #format.json { render action: 'show', status: :created, location: @product }
+        end
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:product)}"
         format.html { render action: 'new' }

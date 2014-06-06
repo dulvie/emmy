@@ -1,0 +1,7 @@
+= simple_form_for([@production, @material]) do |f|
+  = f.error_notification
+  = f.association :product
+  = f.input :quantity
+
+  = f.submit class: 'btn btn-primary'
+  = link_to 'Back', edit_production_path(@production), class: 'btn btn-default'

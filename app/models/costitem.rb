@@ -35,7 +35,7 @@ class Costitem < ActiveRecord::Base
   validates :price_sum, presence: true
   validates :vat_amount, presence: true
     
-  VALID_PARENT_TYPES = ['Import', 'Process', 'Transfer']
+  VALID_PARENT_TYPES = ['Import', 'Production', 'Transfer']
 
   STATE_CHANGES = [
     :start_processing, :end_processing, # Generic state

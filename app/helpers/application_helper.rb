@@ -23,6 +23,9 @@ module ApplicationHelper
   def delete_icon
     "<i class=\"glyphicon glyphicon-trash delete-icon\"> </i>".html_safe
   end
+  def plus_icon
+    "<i class=\"glyphicon glyphicon-plus-sign plus-icon\"> </i>".html_safe
+  end
   def list_icon
     "<i class=\"glyphicon glyphicon-align-justify\"> </i>".html_safe
   end

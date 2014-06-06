@@ -1,0 +1,25 @@
+.container.row
+  = link_to 'Create Production', new_production_path, class: 'btn btn-primary'
+%br
+%table{:class => 'table table-striped'}
+  %thead
+    %tr
+      %th= t(:description)
+      %th= t(:started_at)
+      %th{:style => "text-align:right"}
+        = t(:sum)
+      %th= t(:state)
+      %th
+      %th
+    %tbody
+      - @productions.each do |production|
+        %tr
+          %td= production.description
+          %td= production.started_at.nil? ? ' ': import.started_at.strftime("%Y-%d-%m") 
+          %td{:style => "text-align:right"}
+            = production.id
+          %td
+            - production.states.each do |s|
+              = s
+          %td= link_to settings_icon, edit_production_path(production) 
+          %td= delete_button_for production

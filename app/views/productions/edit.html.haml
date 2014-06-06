@@ -1,0 +1,9 @@
+%ul{:class => 'nav nav-tabs'}
+  %li.active= link_to "Base information", "#production-form", {"data-toggle" => "tab"}
+  %li= link_to "Comments", "#comment-index", {"data-toggle" => "tab"}
+.tab-content
+  #production-form.tab-pane.active
+    %br
+    = render partial: 'form'
+  #comment-index.tab-pane
+    = render partial: 'comments/index', locals: {comments: @production.comments, parent: @production}
