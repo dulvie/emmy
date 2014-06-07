@@ -10,7 +10,8 @@ class CustomersController < ApplicationController
   def index
     respond_to do |format|
     	@breadcrumbs = [['Customers']]
-    	format.html {@customers = Customer.order("name").paginate :page => params[:page], :per_page => 10}
+    	#format.html {@customers = Customer.order("name").paginate :page => params[:page], :per_page => 10}
+    	format.html {@customers = Customer.order("name").page(params[:page]).per(9)} 
     	format.json {render json: @customers}
     end	
   end
