@@ -9,7 +9,7 @@ class Costitem < ActiveRecord::Base
   # t.integer :product_id
   # t.integer :quantity
   # t.integer :price
-  # t.integer :price_sum
+  # t.integer :total_amount
   # t.integer :vat_amount
 
   # t.string :state
@@ -27,12 +27,12 @@ class Costitem < ActiveRecord::Base
   belongs_to :product
 
   attr_accessible  :description, :supplier_id, :contact_email, :contact_name, :product_id, :quantity, 
-                   :price, :price_sum, :vat_amount, :ordered_at, :completed_at, :received_at,:paid_at, :due_date
+                   :price, :total_amount, :vat_amount, :ordered_at, :completed_at, :received_at,:paid_at, :due_date
 
   validates :description, presence: true
   validates :supplier_id, presence: true
   validates :product_id, presence: true
-  validates :price_sum, presence: true
+  validates :total_amount, presence: true
   validates :vat_amount, presence: true
     
   VALID_PARENT_TYPES = ['Import', 'Production', 'Transfer']

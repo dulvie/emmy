@@ -16,9 +16,9 @@ class Production < ActiveRecord::Base
   belongs_to :warehouse
   belongs_to :product
   
-  has_many :comments, as: :parent
-  has_many :materials
-  has_many :costitems, as: :parent
+  has_many :comments, as: :parent, :dependent => :destroy
+  has_many :materials, :dependent => :destroy
+  has_many :costitems, as: :parent, :dependent => :destroy
   accepts_nested_attributes_for :costitems, :materials
 
   attr_accessible :description, :our_reference_id, :warehouse_id, :product_id, :quantity, :cost_price,

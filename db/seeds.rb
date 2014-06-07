@@ -71,7 +71,13 @@ custom = Product.create({
   retail_price: 3000,
   vat: 0
 })
-
+rost = Product.create({
+  name: "Rostning",
+  in_price: 3000,
+  distributor_price: 3000,
+  retail_price: 3000,
+  vat: 0
+})
 espresso_in_ankeborg = Shelf.new
 espresso_in_ankeborg.warehouse = ankeborg_warehouse
 espresso_in_ankeborg.product = espresso

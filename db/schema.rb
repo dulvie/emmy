@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 201406063081826) do
     t.integer  "product_id"
     t.integer  "quantity"
     t.integer  "price"
-    t.integer  "price_sum"
+    t.integer  "total_amount"
     t.integer  "vat_amount"
     t.string   "state"
     t.string   "goods_state"
