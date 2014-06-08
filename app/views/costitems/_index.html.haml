@@ -5,7 +5,7 @@
       %th= t(:supplier)
       %th= t(:product)
       %th= t(:quantity)
-      %th= t(:price_sum)
+      %th= t(:total_amount)
       %th= t(:state) 
       %th
       %th
@@ -16,7 +16,7 @@
           %td= link_to costitem.supplier.name, costitem.supplier
           %td= link_to costitem.product.name, costitem.product
           %td= costitem.quantity
-          %td= costitem.price_sum
+          %td= costitem.total_amount
           %td
             - costitem.states.each do |s|
               = s
