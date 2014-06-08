@@ -11,7 +11,11 @@ Emmy::Application.routes.draw do
   resources :comments
   resources :contacts
   resources :costitems
-  resources :customers
+  resources :customers do
+    collection do
+      get 'name_search', as: :name_search
+    end
+  end  
   resources :imports
   resources :manuals
   resources :materials

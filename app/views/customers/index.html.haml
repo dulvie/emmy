@@ -1,11 +1,12 @@
-.container-fluid.well
+%div{:class=> 'container-fluid well', :ng_controller=>'customerIndexCtrl'}
   .btn.btn-group.col-sm-12
     = link_to "#{t(:create)} #{t(:customer)}", new_customer_path, class: 'btn btn-primary'
     .input-group.col-sm-2
-      %input{:class=> 'form-control', :placeholder=>'Search'}
+      %input{:class=> 'form-control', :placeholder=>'Search', :ng_model=>'searchname'}
       .input-group-addon
-        = link_to search_icon
-        
+        %a{:href => name_search_customers_path + "?name={{searchname}}"}
+          %i{ :class=>"glyphicon glyphicon-search search_icon"}
+                 
 
   .panel.panel-default.col-sm-offset-2.col-sm-8
     %i
