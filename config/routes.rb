@@ -46,7 +46,7 @@ Emmy::Application.routes.draw do
     end
   end
   get "dashboard", to: "dashboard#index"
-  [:about,:start,:formats].each do |p|
+  [:about,:start,:formats, :test].each do |p|
     get "/#{p}", to: "pages##{p}"
   end
   constraints lambda { |request| request.env['warden'].authenticate? && request.env['warden'].user.role?(:admin) } do

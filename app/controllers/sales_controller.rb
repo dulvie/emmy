@@ -54,7 +54,7 @@ class SalesController < ApplicationController
 
   def state_change
     @sale = Sale.find(params[:id])
-    if @sale.state_change(params[:new_state])
+    if @sale.state_change(params[:new_state], params[:state_change_at])
       msg = t(:success)
     else
       msg = t(:fail)

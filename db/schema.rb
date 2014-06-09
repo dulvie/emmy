@@ -211,7 +211,7 @@ ActiveRecord::Schema.define(version: 201406063081826) do
     t.string   "goods_state"
     t.string   "money_state"
     t.datetime "approved_at"
-    t.datetime "goods_delivered_at"
+    t.datetime "delivered_at"
     t.datetime "paid_at"
     t.datetime "due_date"
     t.datetime "created_at"

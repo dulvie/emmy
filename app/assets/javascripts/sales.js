@@ -1,6 +1,19 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
-
+app.controller('dateCtrl', function ($scope) {
+  $scope.dpOptions = {
+    'starting-day': 1,
+    'show-weeks': false
+  };
+  $scope.openDp = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.isDpOpen = true;
+  };
+  $scope.openDateForm = function() {
+    $scope.date = new Date();
+  };
+});
 app.controller('salesNewCtrl', function ($scope, ajaxService) {
 	$scope.customers = [];
 	$scope.selected = undefined;

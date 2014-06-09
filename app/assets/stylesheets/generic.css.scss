@@ -21,3 +21,17 @@
   background: #c00;
   color: #fff;
 }
+
+.state-change-form {
+  form {
+    @extend .well;
+    background: $body-bg;
+    z-index: 10;
+    position: absolute;
+
+  }
+}
+
+.numeric {
+  text-align: right;
+}
