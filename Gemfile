@@ -47,6 +47,7 @@ gem 'bootstrap-sass', '~> 3.1'
 # Adds backward compatibility.
 gem 'protected_attributes', '~> 1.0.5'
 
+gem 'wicked_pdf'
 gem 'foreman'
 gem 'cancan'
 gem 'modernizr-rails'

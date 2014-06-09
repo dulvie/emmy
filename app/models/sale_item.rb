@@ -24,6 +24,10 @@ class SaleItem < ActiveRecord::Base
     sale.can_edit_items?
   end
 
+  def total_vat
+    self.price_inc_vat - self.price
+  end
+
   private
 
   # Callback: before_validation

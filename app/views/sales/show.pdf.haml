@@ -1,0 +1,63 @@
+.container
+  .row
+    .col-md-12
+      %h1
+        = t(:invoice)
+        "- K'INAL"
+  .row
+    .col-md-12
+      = t(:invoice_number)
+      = @sale.id
+  .row
+    .col-md-6
+      .row
+        .col-md-3
+          = t(:our_reference)
+          = @sale.user_name
+        .col-md-3
+          = t(:our_reference_email)
+          = @sale.user_email
+    .col-md-6
+      .row
+        .col-md-3
+          = t(:your_reference)
+          = @sale.customer_name
+        .col-md-3
+          = t(:your_reference_email)
+          = @sale.customer_email
+
+    %table{:class => 'table table-striped'}
+      %thead
+        %tr
+          %th= t(:product)
+          %th= t(:quantity)
+          %th.numeric= t(:price)
+          %th.numeric= t(:vat)
+          %th.numeric= t(:price_sum)
+          %th
+        %tbody
+          - @sale.sale_items.each do |item|
+            - item = item.decorate
+            %tr
+              %td= item.product_name
+              %td= item.quantity
+              %td.numeric= as_sek(item.price)
+              %td.numeric
+                = as_sek(item.total_vat)
+                = "(#{item.vat}%)"
+              %td.numeric= as_sek(item.price_sum)
+              %td= delete_button_for item, sale_sale_item_path(@sale, item)
+        %tfoot
+          %tr
+            %td= t(:total_sum)
+            %td
+            %td.numeric= as_sek(@sale.total_price)
+            %td.numeric= as_sek(@sale.total_vat)
+            %td.numeric= as_sek(@sale.total_price_inc_vat)
+  .row
+    .col-md-6
+      "Kinal VAT:"
+      "SE9182739812DUMMY"
+    .col-md-6
+      "postgiro"
+      "8127-3982-173DUMMY"
