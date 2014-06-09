@@ -1,3 +1,5 @@
+= link_to 'Create Warehouse', new_warehouse_path, class: 'btn btn-primary'
+
 %table{:class => 'table table-striped'}
   %thead
     %tr
@@ -16,5 +18,3 @@
         %td= warehouse.city
         %td= link_to settings_icon, edit_warehouse_path(warehouse)
         %td= link_to delete_icon, warehouse, method: :delete, data: { confirm: 'Are you sure?' }
-
-= link_to 'Create Warehouse', new_warehouse_path, class: 'btn btn-default'

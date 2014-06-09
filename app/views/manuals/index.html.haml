@@ -1,3 +1,5 @@
+= link_to "#{t(:create)} #{t(:manual_transaction)}", new_manual_path, class: 'btn btn-primary'
+
 %table{:class => 'table table-striped'}
   %thead
     %tr
@@ -14,4 +16,3 @@
           %td= link_to(manual.product.name, edit_product_path(manual.product))
           %td= manual.product_transaction.quantity
 
-= link_to "#{t(:create)} #{t(:manual_transaction)}", new_manual_path, class: 'btn btn-default'

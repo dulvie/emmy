@@ -1,3 +1,5 @@
+= link_to 'Create Supplier', new_supplier_path, class: 'btn btn-primary'
+
 %table{:class => 'table table-striped'}
   %thead
     %tr
@@ -11,4 +13,3 @@
           %td= link_to settings_icon, edit_supplier_path(supplier)
           %td= link_to delete_icon, supplier, method: :delete, data: { confirm: 'Are you Sure?' }
 
-= link_to 'Create Supplier', new_supplier_path, class: 'btn btn-default'

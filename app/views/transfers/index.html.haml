@@ -1,3 +1,5 @@
+= link_to 'Create Transfer', new_transfer_path, class: 'btn btn-primary'
+
 %table{:class => 'table table-striped'}
   %thead
     %tr
@@ -19,4 +21,3 @@
           %td= transfer.state
           %td= transfer.state_change_button
 
-= link_to 'Create Transfer', new_transfer_path, class: 'btn btn-default'

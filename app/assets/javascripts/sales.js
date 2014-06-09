@@ -57,7 +57,7 @@ app.controller('saleItemsCtrl', function ($scope) {
 	$scope.initSalesItem = function() {
 		//alert("kvant:" + gon.shelves[0].quantity);
 		//alert("nu ska priset komma");
-		alert("distributör:" + gon.shelves[0].distributor_price);
+		//alert("distributör:" + gon.shelves[0].distributor_price);
 		//alert("slutkund:" + gon.shelves[0].retail_price);
 	};
 
