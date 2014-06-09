@@ -7,6 +7,9 @@
     .panel-body
       = f.error_notification
 
+      %input{:type => 'hidden', :name => 'class', :value => params['class']}
+      %input{:type => 'hidden', :name => 'object', :value => params['object']}
+      
       = f.input :product_type,
         as: 'select',
         collection: Product::TYPES,

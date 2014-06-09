@@ -23,10 +23,15 @@ module ApplicationHelper
   def delete_icon
     "<i class=\"glyphicon glyphicon-trash delete-icon\"> </i>".html_safe
   end
+  def plus_icon
+    "<i class=\"glyphicon glyphicon-plus-sign plus-icon\"> </i>".html_safe
+  end
   def list_icon
     "<i class=\"glyphicon glyphicon-align-justify\"> </i>".html_safe
   end
-
+  def search_icon
+    "<i class=\"glyphicon glyphicon-search search_icon\"> </i>".html_safe
+  end
   # This is hairy, please simplify/shorten
   # Sets class="active" on a navigation <li><a href=".. block.
   def nav_link link_text, link_path

@@ -57,7 +57,7 @@ class CommentsController < ApplicationController
         params[:parent_id] = @comment.parent_id
       end
 
-      unless Contact::VALID_PARENT_TYPES.include? params[:parent_type]
+      unless Comment::VALID_PARENT_TYPES.include? params[:parent_type]
         logger.info "SECURITY: invalid parent_type(#{params[:parent_type]}) sent to #{request.original_url} "
         redirect_to '/'
         return false

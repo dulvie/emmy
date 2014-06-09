@@ -5,12 +5,21 @@ class CustomersController < ApplicationController
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update]
 
+  def name_search
+    @breadcrumbs = [['Customers'],['name_search']]
+    logger.info "search: #{ params[:name]}"
+    name =params[:name]+'%'
+    @customers = Customer.where("name LIKE ?", name).order("name").page(params[:page]).per(8)
+    render action: 'index' 
+  end
+  
   # GET /customers
   # GET /customers.json
   def index
     respond_to do |format|
     	@breadcrumbs = [['Customers']]
-    	format.html {@customers = Customer.order("name").paginate :page => params[:page], :per_page => 5}
+    	#format.html {@customers = Customer.order("name").paginate :page => params[:page], :per_page => 10}
+    	format.html {@customers = Customer.order("name").page(params[:page]).per(8)} 
     	format.json {render json: @customers}
     end	
   end

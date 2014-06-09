@@ -27,8 +27,8 @@
             %ul.dropdown-menu
               = nav_link t(:suppliers), suppliers_path
               = nav_link t(:purchases), purchases_path
-              %li= link_to t(:imports), "#"
-              %li= link_to t(:process_roast), "#"
+              = nav_link t(:imports), imports_path
+              = nav_link t(:productions), productions_path
           %li.dropdown
             %a.dropdown-toggle{'href' => '#'}
               = t(:transfers)

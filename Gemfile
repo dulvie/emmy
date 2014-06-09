@@ -58,8 +58,10 @@ gem 'active_model_serializers'
 gem 'gon'
 gem 'angular-ui-bootstrap-rails'
 gem 'country_select'
-gem 'will_paginate'
-gem 'will_paginate-bootstrap'
+#gem 'will_paginate'
+#gem 'will_paginate-bootstrap'
+gem 'kaminari'
+gem 'bootstrap-kaminari-views'
 
 group :test, :development do
   gem 'debugger'

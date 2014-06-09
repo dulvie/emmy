@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140527125233) do
+ActiveRecord::Schema.define(version: 201406063081826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,30 @@ ActiveRecord::Schema.define(version: 20140527125233) do
     t.datetime "updated_at"
   end
 
+  create_table "costitems", force: true do |t|
+    t.string   "parent_type"
+    t.integer  "parent_id"
+    t.string   "description"
+    t.integer  "supplier_id"
+    t.string   "contact_email"
+    t.string   "contact_name"
+    t.integer  "product_id"
+    t.integer  "quantity"
+    t.integer  "price"
+    t.integer  "total_amount"
+    t.integer  "vat_amount"
+    t.string   "state"
+    t.string   "goods_state"
+    t.string   "money_state"
+    t.datetime "ordered_at"
+    t.datetime "completed_at"
+    t.datetime "received_at"
+    t.datetime "paid_at"
+    t.datetime "due_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "customers", force: true do |t|
     t.string   "address"
     t.string   "city"
@@ -51,8 +75,31 @@ ActiveRecord::Schema.define(version: 20140527125233) do
     t.datetime "updated_at"
   end
 
+  create_table "imports", force: true do |t|
+    t.integer  "user_id"
+    t.string   "description"
+    t.integer  "our_reference_id"
+    t.integer  "to_warehouse_id"
+    t.string   "state"
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "manuals", force: true do |t|
     t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "materials", force: true do |t|
+    t.integer  "production_id"
+    t.integer  "product_id"
+    t.integer  "quantity"
+    t.string   "state"
+    t.datetime "started_at"
+    t.datetime "completed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -63,6 +110,21 @@ ActiveRecord::Schema.define(version: 20140527125233) do
     t.integer  "product_id"
     t.integer  "warehouse_id"
     t.integer  "quantity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "productions", force: true do |t|
+    t.integer  "user_id"
+    t.string   "description"
+    t.integer  "our_reference_id"
+    t.integer  "warehouse_id"
+    t.integer  "product_id"
+    t.integer  "quantity"
+    t.integer  "cost_price"
+    t.string   "state"
+    t.datetime "started_at"
+    t.datetime "completed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

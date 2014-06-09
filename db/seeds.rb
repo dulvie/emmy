@@ -48,6 +48,36 @@ brewd = Product.create({
   vat: 12
 })
 
+coffe = Product.create({
+  name: "Råkaffe",
+  in_price: 6000,
+  distributor_price: 6000,
+  retail_price: 6000,
+  vat: 0
+})
+
+freight = Product.create({
+  name: "Skeppning",
+  in_price: 3000,
+  distributor_price: 3000,
+  retail_price: 3000,
+  vat: 0
+})
+
+custom = Product.create({
+  name: "Tulldeklarering",
+  in_price: 3000,
+  distributor_price: 3000,
+  retail_price: 3000,
+  vat: 0
+})
+rost = Product.create({
+  name: "Rostning",
+  in_price: 3000,
+  distributor_price: 3000,
+  retail_price: 3000,
+  vat: 0
+})
 espresso_in_ankeborg = Shelf.new
 espresso_in_ankeborg.warehouse = ankeborg_warehouse
 espresso_in_ankeborg.product = espresso
@@ -89,5 +119,8 @@ coffehouse = Customer.create(name: 'Coffe House by Foobar')
 end
 
 bigsupp = Supplier.create(name: "Big supplier of coffee")
+coffesupp = Supplier.create(name: "Kaffekooperativ")
+freightsupp = Supplier.create(name: "Shipping LTD")
+tullsupp = Supplier.create(name: "Tullverket")
 
 # @TODO create invoice(s)

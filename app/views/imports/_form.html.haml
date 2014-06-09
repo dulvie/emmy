@@ -1,0 +1,10 @@
+= simple_form_for(@import, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+
+  = f.input :description,  disabled: !@import.new_record?
+  = f.association :our_reference,  disabled: !@import.new_record?
+  = f.association :to_warehouse,  disabled: !@import.new_record?
+
+  - if @import.new_record?
+    = f.submit class: 'btn btn-primary'
+    = link_to 'Back', imports_path, class: 'btn btn-primary'
