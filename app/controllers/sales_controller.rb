@@ -30,6 +30,16 @@ class SalesController < ApplicationController
 
   def show
     @sale = @sale.decorate
+    respond_to do |format|
+      format.pdf {
+        render(
+          pdf: "show",
+          template: 'sales/show.pdf.haml',
+          layout: 'pdf'
+        )
+      }
+      format.html
+    end
   end
 
   def update

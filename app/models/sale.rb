@@ -111,4 +111,22 @@ class Sale < ActiveRecord::Base
     end
   end
 
+  # Summarize methods.
+
+  # Not sure about the total_* methods, maybe they should go into the decorator...
+  def total_price
+    return 0 if sale_items.count <= 0
+    sale_items.inject(0){|i, item| (item.price * item.quantity) + i}
+  end
+
+  def total_price_inc_vat
+    return 0 if sale_items.count <= 0
+    sale_items.inject(0){|i, item| item.price_sum + i}
+  end
+
+  def total_vat
+    return 0 if sale_items.count <= 0
+    sale_items.inject(0){|i, item| item.total_vat + i}
+  end
+
 end
