@@ -78,13 +78,19 @@ class Sale < ActiveRecord::Base
     return false unless STATE_CHANGES.include?(new_state.to_sym)
 
     if self.send("#{new_state}")
-      # Set state_change date if deliver or pay.
+      # Set state_change date.
+      # Since the date for the action might be another than 'now'
+      # and state changes doesn't take params, this needs to be done here.
+      # It would be much nicer to do this in a state_machine after_transition hook.
       case new_state
       when 'deliver'
         self.delivered_at = changed_at || Time.now
         return self.save
       when 'pay'
         self.paid_at = changed_at || Time.now
+        return self.save
+      when 'mark_item_complete'
+        self.approved_at = changed_at || Time.now
         return self.save
       end
       return true
