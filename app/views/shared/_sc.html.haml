@@ -1,0 +1,22 @@
+%div{ :ng_controller=>"ModalDemoCtrl"}
+  %script{ :type=>"text/ng_template", :id=>"myModalContent"}
+    .modal-header
+      %h3{ :class=>"modal-title"}
+        Set date for state
+    .modal-body
+      = simple_form_for(model, url: form_path, method: :post) do |f|
+        = hidden_field_tag 'new_state', next_step
+        .form-group
+          .input-group
+            = hidden_field_tag "#{next_step}_at_full", "{{date}}"
+            = text_field_tag "state_change_at", '', class: 'form-control', ng_model: 'date', datepicker_popup: 'yyyy-MM-dd', is_open: 'isOpen', datepicker_options: 'dpOptions', show_button_bar: 'false', readonly: true
+            %span{:class => "input-group-btn"}
+              %button{:class => "btn btn-default", :ng_click=>'openDate($event)' }
+                %span{ :class => "glyphicon glyphicon-calendar"}
+        = submit_tag t(:confirm), class: 'btn btn-primary'
+        = button_tag t(:back), class: 'btn btn-danger reseter', type: 'reset', :ng_click=>"cancel()"
+  %span{:class => "input-group-btn"}
+    %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm')"}
+      %span{ :class => "glyphicon glyphicon-flag"} 
+      = next_step
+

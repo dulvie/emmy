@@ -84,6 +84,7 @@ en:
   sales: "Sales"
   send_package: "Mark as sent"
   sign_in: "Sign in"
+  started: "Started"
   started_at: "Started at"
   start_processing: "Start processing"
   state: "State"

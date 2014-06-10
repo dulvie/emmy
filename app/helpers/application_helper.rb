@@ -32,6 +32,9 @@ module ApplicationHelper
   def search_icon
     "<i class=\"glyphicon glyphicon-search search_icon\"> </i>".html_safe
   end
+  def status_icon
+    "<i class=\"glyphicon glyphicon-flag status_icon\"> </i>".html_safe
+  end
   # This is hairy, please simplify/shorten
   # Sets class="active" on a navigation <li><a href=".. block.
   def nav_link link_text, link_path

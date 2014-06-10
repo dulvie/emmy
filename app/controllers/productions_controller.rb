@@ -16,7 +16,7 @@ class ProductionsController < ApplicationController
   # GET /productions/1
   # GET /productions/1.json
   def show
-    @breadcrumbs = [['Productions', products_path], [@production.description]]
+    @breadcrumbs = [['Productions', productions_path], [@production.description]]
     @production = @production.decorate
   end
   
@@ -24,9 +24,9 @@ class ProductionsController < ApplicationController
   def new
     @costitems_size = 0
     @materials_size = 0
-    @warehouse = Warehouse.find(1);
-    @production = Production.new({description: "Ny rostning", warehouse_id: @warehouse.id})
-    @production.save
+    #@warehouse = Warehouse.find(1);
+    #@production = Production.new({description: "Ny rostning", warehouse_id: @warehouse.id})
+    #@production.save
   end
   
   # GET /productions/1/edit
@@ -42,7 +42,7 @@ class ProductionsController < ApplicationController
 
     respond_to do |format|
       if @production.save
-        format.html { redirect_to new_production_path(@production), notice: 'production was successfully created.'}
+        format.html { redirect_to edit_production_path(@production), notice: 'production was successfully created.'}
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:import)}"
         format.html { render action: 'new' }
@@ -68,7 +68,18 @@ class ProductionsController < ApplicationController
     end
   end
   
-  
+  def state_change
+    @production = Production.find(params[:id])
+    if @production.state_change(params[:new_state], params[:state_change_at])
+      msg = t(:success)
+    else
+      msg = t(:fail)
+    end
+    respond_to do |format|
+      format.html { redirect_to edit_production_path(@production), notice: msg}
+    end
+  end
+    
   private
 
     # Never trust parameters from the scary internet, only allow the white list through.

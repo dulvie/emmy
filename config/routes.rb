@@ -21,6 +21,9 @@ Emmy::Application.routes.draw do
   resources :materials
   resources :productions do
     resources :materials
+    member do
+      post 'state_change', as: :state_change
+    end
   end
   resources :suppliers
   resources :sales do

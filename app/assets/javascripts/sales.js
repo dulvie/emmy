@@ -10,8 +10,11 @@ app.controller('dateCtrl', function ($scope) {
     $event.stopPropagation();
     $scope.isDpOpen = true;
   };
-  $scope.openDateForm = function() {
-    $scope.date = new Date();
+  $scope.openDateForm = function($event) {
+	$scope.date = new Date();  
+	$event.preventDefault();  
+    $event.stopPropagation();  
+
   };
 });
 app.controller('salesNewCtrl', function ($scope, ajaxService) {

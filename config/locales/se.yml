@@ -61,6 +61,7 @@ se:
   sale_marked_complete: "Forsäljning markerades färdig"
   send_package: "Markera som skickat"
   sign_in: "Logga in"
+  started: "Startad"
   started_at: "Startdatum"
   start_processing: "Starta hantering"
   state: "Status"

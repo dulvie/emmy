@@ -5,65 +5,69 @@
   = f.association :our_reference
   = f.association :warehouse
 
-
-  - if @production.product.nil?
-    .form-group
-      .col-sm-3.col-md-2.col-lg-3.control-label
-        = f.label :product
-      %div{:class=> 'col-sm-9 col-md-10 col-lg-9 input-group', :style=>'padding-left:15px; padding-right:15px'}
-        .input-group-addon
-          - set_product_url = new_product_path({class:@production.class.name, object:@production.id})
-          = link_to plus_icon, set_product_url
-        %input{:class=>'form-control', :readonly=>'readonly'}
-  - else 
-    = f.association :product, disabled: true
-
-  = f.input :quantity
-  = f.input :cost_price
-  
-  %hr
-  - if @materials_size == 0
-    .form-group
-      .col-sm-3.col-md-2.col-lg-3.control-label
-        = f.label :materials
-      %div{:class=> 'col-sm-9 col-md-10 col-lg-9 input-group', :style=>'padding-left:15px; padding-right:15px'}
-        .input-group-addon    
-          - add_material_url = new_production_material_path(@production)
-          = link_to plus_icon, add_material_url
-        %input{:class=>'form-control', :readonly=>'readonly'}
-  - else
-    = f.simple_fields_for :materials do |ff|
+  - if !@production.new_record?
+    - if @production.product.nil?
       .form-group
-        .col-sm-3.col-md-2.col-lg-3.control-label  
-          = f.label :materials
-        %div{:class=> 'col-sm-9 col-md-10 col-lg-9 input-group', :style=>'padding-left:15px; padding-right:15px'}
-          %input{:value => ff.object.product.name, :readonly=>'readonly', :class=>'form-control input-group'}
-          .input-group-addon  
-            = link_to settings_icon, production_material_path(@production, ff.object.id)
-          .input-group-addon  
-            = link_to delete_icon, production_material_path(@production, ff.object.id), :confirm => "Are you sure you want to delete this attachment?", :method => :delete
-
-
-  - if  @costitems_size == 0
-    .form-group
-      .col-sm-3.col-md-2.col-lg-3.control-label
-        = f.label :costitems
-      %div{:class=> 'col-sm-9 col-md-10 col-lg-9 input-group', :style=>'padding-left:15px; padding-right:15px'}
-        .input-group-addon
-          - add_costitem_url = new_costitem_path({parent_id: @production.id, parent_type: @production.class.name})
-          = link_to plus_icon, add_costitem_url
-        %input{:class=>'form-control', :readonly=>'readonly'}
-  - else
-    = f.simple_fields_for :costitems do |ff|
-      .form-group
-        .col-sm-3.col-md-2.col-lg-3.control-label  
-          = f.label :costitems
-        %div{:class=> 'col-sm-9 col-md-10 col-lg-9 input-group', :style=>'padding-left:15px; padding-right:15px'}
-          %input{:value => ff.object.description, :readonly=>'readonly', :class=>'form-control'}
+        .col-sm-3.col-md-2.control-label
+          = f.label :product
+        %div{:class=> 'col-sm-9 col-md-10 input-group', :style=>'padding-left:15px; padding-right:15px'}
           .input-group-addon
-            = link_to settings_icon, costitem_path(ff.object.id)
-          .input-group-addon  
-            = link_to delete_icon, costitem_path(ff.object.id), :confirm => "Are you sure you want to delete this attachment?", :method => :delete
+            - set_product_url = new_product_path({class:@production.class.name, object:@production.id})
+            = link_to plus_icon, set_product_url
+          %input{:class=>'form-control', :readonly=>'readonly'}
+    - else 
+      = f.association :product, disabled: true
+      = f.input :quantity
+ 
+    .form-group
+      = f.label :state, class: 'string optional col-sm-3 col-md-2 control-label', for: 'state', disabled: true
+      %div{:class=>"col-sm-9 col-md-10 input-group", :ng_controller=>'dateCtrl', :style=>'padding-left:15px; padding-right:15px'}
+        %input{:class=>'form-control', :readonly=>'readonly', :value => f.object.state}
+        - unless @production.is_completed? || @production.product.nil? || @materials_size == 0 || @costitems_size == 0
+          %span{:class=>"input-group-btn"}
+            = render partial: 'shared/sc', locals: {model: @production, form_path: state_change_production_path(@production), next_step: @production.next_step}      
+
+    - if @materials_size == 0
+      .form-group
+        .col-sm-3.col-md-2.control-label
+          = f.label :materials
+        %div{:class=> 'col-sm-9 col-md-10 input-group', :style=>'padding-left:15px; padding-right:15px'}
+          .input-group-addon    
+            - add_material_url = new_production_material_path(@production)
+            = link_to plus_icon, add_material_url
+          %input{:class=>'form-control', :readonly=>'readonly'}
+    - else
+      = f.simple_fields_for :materials do |ff|
+        .form-group
+          .col-sm-3.col-md-2.control-label
+            = f.label :materials
+          %div{:class=> 'col-sm-9 col-md-10 input-group', :style=>'padding-left:15px; padding-right:15px'}
+            %input{:value => ff.object.product.name, :readonly=>'readonly', :class=>'form-control input-group'}
+            .input-group-addon
+              = link_to settings_icon, production_material_path(@production, ff.object.id)
+            .input-group-addon  
+              = link_to delete_icon, production_material_path(@production, ff.object.id), :confirm => "Are you sure you want to delete this attachment?", :method => :delete
+
+    - if  @costitems_size == 0
+      .form-group
+        .col-sm-3.col-md-2.control-label
+          = f.label :costitems
+        %div{:class=> 'col-sm-9 col-md-10 input-group', :style=>'padding-left:15px; padding-right:15px'}
+          .input-group-addon
+            - add_costitem_url = new_costitem_path({parent_id: @production.id, parent_type: @production.class.name})
+            = link_to plus_icon, add_costitem_url
+          %input{:class=>'form-control', :readonly=>'readonly'}
+    - else
+      = f.simple_fields_for :costitems do |ff|
+        .form-group
+          .col-sm-3.col-md-2.control-label
+            = f.label :costitems
+          %div{:class=> 'col-sm-9 col-md-10 input-group', :style=>'padding-left:15px; padding-right:15px'}
+            %input{:value => ff.object.description, :readonly=>'readonly', :class=>'form-control'}
+            .input-group-addon
+              = link_to settings_icon, costitem_path(ff.object.id)
+            .input-group-addon  
+              = link_to delete_icon, costitem_path(ff.object.id), :confirm => "Are you sure you want to delete this attachment?", :method => :delete
 
   = f.submit class: 'btn btn-primary'
   = link_to 'Back', productions_path, class: 'btn btn-primary'

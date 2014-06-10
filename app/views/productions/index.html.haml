@@ -15,7 +15,7 @@
       - @productions.each do |production|
         %tr
           %td= production.description
-          %td= production.started_at.nil? ? ' ': import.started_at.strftime("%Y-%d-%m") 
+          %td= production.started_at.nil? ? ' ': production.started_at.strftime("%Y-%m-%d") 
           %td{:style => "text-align:right"}
             = production.id
           %td
