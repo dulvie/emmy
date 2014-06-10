@@ -16,14 +16,14 @@ class Purchase < ActiveRecord::Base
   # t.timestamp :goods_received_at
   # t.timestamp :paid_at
   # t.datetime :due_date
-
+  
   belongs_to :user
   belongs_to :supplier
   belongs_to :our_reference, class_name: 'User'
   belongs_to :to_warehouse, class_name: 'Warehouse'
   has_many :purchase_items
 
-  attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id, :to_warehouse_id, :ordered_at
+  attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id, :to_warehouse_id, :ordered_at, :import_id
 
   validates :description, presence: true
   validates :supplier_id, presence: true

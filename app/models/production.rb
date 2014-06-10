@@ -46,6 +46,14 @@ class Production < ActiveRecord::Base
     state.eql? 'not_started'
   end
 
+  def can_edit_state?
+     return false if state.eql? 'complete'
+     return false if costitems_size < 1
+     return false if materials_size < 1
+     return false if self.product_id.nil? 
+     return true
+  end
+  
   def can_delete?
     return true if ['not_started', 'started'].include? state
     false

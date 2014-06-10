@@ -1,10 +1,14 @@
 class PurchasesController < ApplicationController
 
   load_and_authorize_resource
-
+  
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update, :edit]
 
+  def new
+
+  end
+  
   def create
     @purchase = Purchase.new purchase_params
     @purchase.user = current_user
@@ -14,13 +18,11 @@ class PurchasesController < ApplicationController
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:purchase)}"
         format.html { render action: :new }
-        #format.json { render json: @sale.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  def new
-  end
+
 
   def update
     respond_to do |format|

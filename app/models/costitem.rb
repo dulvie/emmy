@@ -70,15 +70,41 @@ class Costitem < ActiveRecord::Base
     end
   end
  
-   def state_change(new_state)
+  def state_change(new_state, changed_at = nil)
     return false unless STATE_CHANGES.include?(new_state.to_sym)
-    self.send("#{new_state}")
-  end
 
+    if self.send("#{new_state}")
+      # Set state_change date if started or complete.
+      case new_state
+      when 'started'
+        self.started_at = changed_at || Time.now
+        return self.save
+      when 'complete'
+        self.completed_at = changed_at || Time.now
+        return self.save
+      when 'receive'
+        self.received_at = changed_at || Time.now
+        return self.save
+      when 'pay'
+        self.paid_at = changed_at || Time.now
+        return self.save
+      end
+      return true
+    else
+      return false
+    end
+  end
+  
   def next_step
     case state
     when 'not_started'
       :start_processing
+    when 'end_processing'
+      :completed
+    when 'not_paid'
+      :pay
+    when 'not_received'
+      :receive
     when 'end_processing'
       :completed
     else

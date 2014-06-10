@@ -10,7 +10,11 @@ Emmy::Application.routes.draw do
 
   resources :comments
   resources :contacts
-  resources :costitems
+  resources :costitems do
+    member do
+      post 'state_change', as: :state_change
+    end
+  end
   resources :customers do
     collection do
       get 'name_search', as: :name_search

@@ -44,7 +44,19 @@ class CostitemsController < ApplicationController
     end
   end
 
-
+  def state_change
+    @costitem = Costitem.find(params[:id])
+    if @costitem.state_change(params[:new_state], params[:state_change_at])
+      msg = t(:success)
+    else
+      msg = t(:fail)
+    end
+    respond_to do |format|
+         format.html { redirect_to edit_polymorphic_path(@parent), notice: "#{t(:costitem)} #{t(:was_successfully_updated)}" }
+      #format.json { head :no_content }
+    end
+  end
+  
   private
 
     def find_and_authorize_parent

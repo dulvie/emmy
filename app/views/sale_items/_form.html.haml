@@ -1,7 +1,8 @@
 = simple_form_for([@sale, @sale_item]) do |f|
   = f.error_notification
-  = f.association :product, collection: @shelves, :input_html => {:ng_model =>'productId', :ng_change => 'selectProduct()'}
-  = f.input :quantity, :input_html => {:ng_model => 'quantity', :ng_change => 'selectQuantity()'}
+  = f.association :product, :collection => @shelves, :input_html => {:ng_model =>'productId', :ng_change => 'selectProduct()'}
+  = f.input :quantity, :input_html => {:ng_model => 'quantity', :ng_change => 'selectQuantity()', :pattern=>"[0-9]"}
   = f.input :price
 
   = form_submit(f)
+ 
