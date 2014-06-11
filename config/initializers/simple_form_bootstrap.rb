@@ -92,10 +92,10 @@ SimpleForm.setup do |config|
     b.use :placeholder
 
     #b.use :label, class: 'col-sm-3 control-label'
-    b.use :label, class: 'col-sm-3 col-md-2 col-lg-3 control-label'
+    b.use :label, class: 'col-sm-3 col-md-2 control-label'
 
     #b.wrapper tag: 'div', class: 'col-sm-9' do |ba|
-    b.wrapper tag: 'div', class: 'col-sm-9 col-md-10 col-lg-9' do |ba|
+    b.wrapper tag: 'div', class: 'col-sm-9 col-md-10' do |ba|
       ba.use :input
       ba.use :error, wrap_with: { tag: 'span', class: 'help-block' }
       ba.use :hint,  wrap_with: { tag: 'p', class: 'help-block' }
