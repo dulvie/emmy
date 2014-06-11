@@ -33,7 +33,7 @@ class SalesController < ApplicationController
     respond_to do |format|
       format.pdf {
         render(
-          pdf: "show",
+          pdf: "invoice_#{@sale.id}",
           template: 'sales/show.pdf.haml',
           layout: 'pdf'
         )

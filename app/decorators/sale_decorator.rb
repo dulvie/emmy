@@ -1,6 +1,16 @@
 class SaleDecorator < Draper::Decorator
   delegate_all
 
+  def due_date
+    return l(object.due_date) if object.due_date
+    ""
+  end
+
+  def approved_at
+    return l(object.approved_at) if object.approved_at
+    ""
+  end
+
   def states
     [pretty_state, pretty_goods_state, pretty_money_state]
   end
