@@ -4,7 +4,7 @@ class PurchaseItem < ActiveRecord::Base
   #t.integer :product_id
   #t.integer :quantity
   #t.integer :price
-  #t.integer :price_sum
+  #t.integer :total_amount
 
   belongs_to :purchase
   belongs_to :product
@@ -25,7 +25,7 @@ class PurchaseItem < ActiveRecord::Base
   # Callback: before_validation
   def calculate
     if quantity
-      self.price_sum = price * quantity
+      self.total_amount = price * quantity
     end
   end
 end

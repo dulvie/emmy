@@ -10,7 +10,7 @@ class CreatePurchases < ActiveRecord::Migration
       t.string :description
       t.integer :our_reference_id
       t.integer :to_warehouse_id
-      t.integer :sum
+      t.integer :total_amount
       t.integer :vat_amount
       t.string :state
       t.string :goods_state

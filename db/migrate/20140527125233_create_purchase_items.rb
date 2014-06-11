@@ -5,7 +5,7 @@ class CreatePurchaseItems < ActiveRecord::Migration
       t.integer :product_id
       t.integer :quantity
       t.integer :price
-      t.integer :price_sum
+      t.integer :total_amount
       t.integer :vat
   
       t.timestamps

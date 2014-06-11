@@ -6,7 +6,7 @@ class Purchase < ActiveRecord::Base
   # t.string :description
   # t.integer :our_reference_id
   # t.integer :to_warehouse_id
-  # t.integer :sum
+  # t.integer :total_amount
   # t.integer :vat_amount
   # t.string :state
   # t.string :goods_state
@@ -99,7 +99,7 @@ class Purchase < ActiveRecord::Base
   end
 
   def items_total
-    self.purchase_items.sum(:price_sum)
+    self.purchase_items.sum(:total_amount)
   end
 
 end
