@@ -69,6 +69,7 @@ group :test, :development do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'guard'
   gem 'guard-zeus'
+  gem 'i18n-tasks'
 end
 
 group :test do
