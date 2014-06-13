@@ -1,7 +1,8 @@
 class CreatePurchases < ActiveRecord::Migration
   def change
     create_table :purchases do |t|
-
+      t.integer :parent_id
+      t.string :parent_type
       t.integer :user_id
       t.integer :supplier_id
       t.string :contact_email

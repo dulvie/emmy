@@ -123,4 +123,7 @@ coffesupp = Supplier.create(name: "Kaffekooperativ")
 freightsupp = Supplier.create(name: "Shipping LTD")
 tullsupp = Supplier.create(name: "Tullverket")
 
+unit1 = Unit.create(name: "Paket (1/2 kg)", weight: "1/2 kg")
+unit2 = Unit.create(name: "St")
+
 # @TODO create invoice(s)

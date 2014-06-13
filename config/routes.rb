@@ -22,6 +22,7 @@ Emmy::Application.routes.draw do
   end  
   resources :imports
   resources :manuals
+  resources :units
   resources :materials
   resources :productions do
     resources :materials
@@ -40,7 +41,9 @@ Emmy::Application.routes.draw do
     resources :purchase_items
     member do
       post 'state_change', as: :state_change
+
     end
+    post 'single_purchase', as: :single_purchase
   end
   resources :products
   get "statistics/index"

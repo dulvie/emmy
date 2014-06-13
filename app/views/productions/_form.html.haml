@@ -4,7 +4,7 @@
 
     = f.input :description
     = f.association :our_reference
-    = f.association :warehouse
+    = f.association :warehouse,  disabled: !@production.new_record?
 
     - if !@production.new_record?
       - if @production.product.nil?
@@ -19,16 +19,6 @@
       - else 
         = f.association :product, disabled: true
         = f.input :quantity
- 
-      .form-group
-        = f.label :state, class: 'string optional col-sm-3 col-md-2 control-label', for: 'state', disabled: true
-        %div{:class=>"col-sm-9 col-md-10 input-group", :ng_controller=>'dateCtrl', :style=>'padding-left:15px; padding-right:15px'}
-          %input{:class=>'form-control', :readonly=>'readonly', :value => f.object.state}
-            - if @production.can_edit_state?
-              %span{:class=>"input-group-btn"}
-                %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
-                  %span{ :class => "glyphicon glyphicon-flag"} 
-                    = f.object.next_step
 
       - if @materials_size == 0
         .form-group
@@ -51,43 +41,45 @@
               .input-group-addon  
                 = link_to delete_icon, production_material_path(@production, ff.object.id), :confirm => "Are you sure you want to delete this attachment?", :method => :delete
 
-      - if  @costitems_size == 0
+      - if  @production.work.nil?
         .form-group
           .col-sm-3.col-md-2.control-label
-            = f.label :costitem
+            = f.label :work
           %div{:class=> 'col-sm-9 col-md-10 input-group', :style=>'padding-left:15px; padding-right:15px'}
             .input-group-addon
-              - add_costitem_url = new_costitem_path({parent_id: @production.id, parent_type: @production.class.name})
-              = link_to plus_icon, add_costitem_url
+              - add_single_purchase_url = new_purchase_path({parent_id: @production.id, parent_type: @production.class.name, form: 'single_purchase'})
+              = link_to plus_icon, add_single_purchase_url
             %input{:class=>'form-control', :readonly=>'readonly'}
       - else
-        = f.simple_fields_for :costitems do |ff|
-          .form-group
-            .col-sm-3.col-md-2.control-label
-              = f.label :costitems
-            %div{:class=> 'col-sm-9 col-md-10 input-group', :style=>'padding-left:15px; padding-right:15px'}
-              %input{:value => ff.object.description, :readonly=>'readonly', :class=>'form-control'}
+        .form-group
+          .col-sm-3.col-md-2.control-label
+            = f.label :work
+          %div{:class=> 'col-sm-9 col-md-10 input-group', :style=>'padding-left:15px; padding-right:15px'}
+            %input{:value => f.object.work.description, :readonly=>'readonly', :class=>'form-control'}
               .input-group-addon
-                = link_to settings_icon, costitem_path(ff.object.id)
+                = link_to settings_icon, purchase_path(f.object.work.id)
               .input-group-addon  
-                = link_to delete_icon, costitem_path(ff.object.id), :confirm => "Are you sure you want to delete this attachment?", :method => :delete
-          .form-group
-            .col-sm-3.col-md-2.control-label
-              = ff.label :money_state
-            %div{:class=> 'col-sm-9 col-md-10 input-group', :style=>'padding-left:15px; padding-right:15px'}
-              %input{:value => ff.object.money_state, :readonly=>'readonly', :class=>'form-control'}
-              - if !@production.is_completed? && ff.object.money_state != 'paid'
-                %span{:class=>"input-group-btn"}
-                  %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','costitemContent' )"}
-                    %span{ :class => "glyphicon glyphicon-flag"} 
-                      Pay
- 
-            
+                = link_to delete_icon, purchase_path(f.object.work.id), :confirm => "Are you sure you?", :method => :delete
+        .form-group
+          .col-sm-3.col-md-2.control-label
+            = f.label :money_state
+          %div{:class=> 'col-sm-9 col-md-10 input-group', :style=>'padding-left:15px; padding-right:15px'}
+            %input{:value => f.object.work.money_state, :readonly=>'readonly', :class=>'form-control'}
+            - if !@production.is_completed? && f.object.work.money_state != 'paid'
+              %span{:class=>"input-group-btn"}
+                %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','workContent' )"}
+                  %span{ :class => "glyphicon glyphicon-flag"} 
+                    Pay
 
-    = f.submit class: 'btn btn-primary'
-    = link_to 'Back', productions_path, class: 'btn btn-primary'
+    .input-group
+      = f.submit class: 'btn btn-primary'
+      - if @production.can_edit_state?
+        %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
+          %span{ :class => "glyphicon glyphicon-flag"} 
+            = f.object.next_step   
+      = link_to 'Back', productions_path, class: 'btn btn-primary'
  
   - unless  @production.new_record? || @production.is_completed?
     = render partial: 'shared/sc', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), next_step: @production.next_step}   
-  - if  @production.costitems_size > 0
-    = render partial: 'shared/sc', locals: {idx: 'costitemContent', model: @production.costitems.first, form_path: state_change_costitem_path(@production.costitems.first.id), next_step: 'pay'}
+  - if  !@production.work.nil?
+    = render partial: 'shared/sc', locals: {idx: 'workContent', model: @production.work, form_path: state_change_purchase_path(@production.work), next_step: 'pay'}

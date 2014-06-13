@@ -15,12 +15,13 @@ class CostitemsController < ApplicationController
 
   def create
     @costitem = @parent.costitems.build costitem_params
+    @costitem_form_url = costitems_path(parent_type: @costitem.parent_type, parent_id: @costitem.parent_id)
     respond_to do |format|
       if @costitem.save
         format.html { redirect_to edit_polymorphic_path(@parent), notice: "#{t(:costitem_added)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_add)} #{t(:costitem)}"
-        format.html { render :new }
+        format.html { render :show }
       end
     end
   end

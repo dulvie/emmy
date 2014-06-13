@@ -10,6 +10,7 @@
       %th{:style => "text-align:right"}
         = t(:total_amount)
       %th= t(:state)
+      %th= t(:parent_type)
       %th
       %th
     %tbody
@@ -23,5 +24,6 @@
           %td
             - purchase.states.each do |s|
               = s
+          %td= purchase.parent_type
           %td= link_to settings_icon, purchase
           %td= delete_button_for purchase

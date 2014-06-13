@@ -39,6 +39,7 @@ class Ability
     can :manage, Supplier
     can :manage, Sale
     can :manage, SaleItem
+    can :manage, Unit
     can :manage, Warehouse
     can :read, Statistics::Report
   end

@@ -1,4 +1,7 @@
 class Purchase < ActiveRecord::Base
+
+  # t.integer :parent_id
+  # t.string :parent_type  
   # t.integer :user_id
   # t.integer :supplier_id
   # t.string :contact_email
@@ -22,11 +25,15 @@ class Purchase < ActiveRecord::Base
   belongs_to :our_reference, class_name: 'User'
   belongs_to :to_warehouse, class_name: 'Warehouse'
   has_many :purchase_items
-
-  attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id, :to_warehouse_id, :ordered_at, :import_id
-
+  
+  accepts_nested_attributes_for :purchase_items
+  attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id, :to_warehouse_id, 
+  :total_amount, :vat_amount, :ordered_at, :import_id, :parent_type, :parent_id
+  
   validates :description, presence: true
   validates :supplier_id, presence: true
+
+  VALID_PARENT_TYPES = ['Purchase', 'Production']
 
   STATE_CHANGES = [
     :start_processing, :order_complete, # Generic state

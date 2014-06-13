@@ -9,23 +9,20 @@ class PurchaseItem < ActiveRecord::Base
   belongs_to :purchase
   belongs_to :product
 
-  attr_accessible :product_id, :quantity, :price
+  attr_accessible :product_id, :quantity, :price, :total_amount
 
-  before_validation :calculate
-  
   validates :product_id, presence: true
-  validates :quantity, presence: true
+  after_initialize :defaults, unless: :persisted?
 
   def can_delete?
     purchase.can_edit_items?
   end
-
+  
   private
-
-  # Callback: before_validation
-  def calculate
-    if quantity
-      self.total_amount = price * quantity
-    end
+  
+  def defaults
+    self.price ||= 0
+    self.total_amount ||= 0
   end
+
 end

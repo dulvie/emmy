@@ -19,7 +19,10 @@ class Production < ActiveRecord::Base
   has_many :comments, as: :parent, :dependent => :destroy
   has_many :materials, :dependent => :destroy
   has_many :costitems, as: :parent, :dependent => :destroy
-  accepts_nested_attributes_for :costitems, :materials
+  
+  has_one :work, as: :parent, class_name: 'Purchase'
+  
+  accepts_nested_attributes_for :costitems, :materials, :work
 
   attr_accessible :description, :our_reference_id, :warehouse_id, :product_id, :quantity, :cost_price,
                   :started_at, :completed_at
@@ -48,9 +51,10 @@ class Production < ActiveRecord::Base
 
   def can_edit_state?
      return false if state.eql? 'complete'
-     return false if costitems_size < 1
-     return false if materials_size < 1
      return false if self.product_id.nil? 
+     return false if self.quantity.nil?
+     return false if self.materials.nil?
+     return false if self.work.nil?
      return true
   end
   

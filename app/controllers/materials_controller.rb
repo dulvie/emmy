@@ -20,7 +20,7 @@ class MaterialsController < ApplicationController
         format.html { redirect_to edit_production_path(@production), notice: "#{t(:material_added)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_add)} #{t(:material)}"
-        format.html { render :new }
+        format.html { render :edit }
       end
     end
   end

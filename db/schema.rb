@@ -158,6 +158,8 @@ ActiveRecord::Schema.define(version: 201406063081826) do
   end
 
   create_table "purchases", force: true do |t|
+    t.integer  "parent_id"
+    t.string   "parent_type"
     t.integer  "user_id"
     t.integer  "supplier_id"
     t.string   "contact_email"
@@ -244,6 +246,14 @@ ActiveRecord::Schema.define(version: 201406063081826) do
     t.integer  "quantity"
     t.integer  "user_id"
     t.string   "state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "units", force: true do |t|
+    t.string   "name"
+    t.string   "weight"
+    t.string   "package_dimensions"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
