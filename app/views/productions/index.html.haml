@@ -6,8 +6,9 @@
     %tr
       %th= t(:description)
       %th= t(:started_at)
-      %th{:style => "text-align:right"}
-        = t(:total_amount)
+      %th= t(:completed_at)
+      %th= t(:product)
+      %th= t(:quantity)
       %th= t(:state)
       %th
       %th
@@ -16,8 +17,9 @@
         %tr
           %td= production.description
           %td= production.started_at.nil? ? ' ': production.started_at.strftime("%Y-%m-%d") 
-          %td{:style => "text-align:right"}
-            = production.id
+          %td= production.completed_at.nil? ? ' ': production.completed_at.strftime("%Y-%m-%d") 
+          %td= production.product.name
+          %td= production.quantity
           %td
             - production.states.each do |s|
               = s

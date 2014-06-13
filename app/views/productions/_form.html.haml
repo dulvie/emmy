@@ -1,4 +1,5 @@
 %div{:ng_controller => "ModalDemoCtrl"}
+  - next_step = "No step"
   = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal', }) do |f|
     = f.error_notification
 
@@ -18,9 +19,9 @@
             %input{:class=>'form-control', :readonly=>'readonly'}
       - else 
         = f.association :product, disabled: true
-        = f.input :quantity
+        = f.input :quantity,  disabled: !@production.can_edit?
 
-      - if @materials_size == 0
+      - if @production.materials.size == 0
         .form-group
           .col-sm-3.col-md-2.control-label
             = f.label :materials
@@ -36,10 +37,11 @@
               = f.label :materials
             %div{:class=> 'col-sm-9 col-md-10 input-group', :style=>'padding-left:15px; padding-right:15px'}
               %input{:value => ff.object.product.name, :readonly=>'readonly', :class=>'form-control input-group'}
-              .input-group-addon
-                = link_to settings_icon, production_material_path(@production, ff.object.id)
-              .input-group-addon  
-                = link_to delete_icon, production_material_path(@production, ff.object.id), :confirm => "Are you sure you want to delete this attachment?", :method => :delete
+              - if @production.can_edit?
+                .input-group-addon
+                  = link_to settings_icon, production_material_path(@production, ff.object.id), disabled: !@production.can_edit?
+                .input-group-addon  
+                  = link_to delete_icon, production_material_path(@production, ff.object.id), :confirm => "Are you sure you want to delete this attachment?", :method => :delete
 
       - if  @production.work.nil?
         .form-group
@@ -56,30 +58,41 @@
             = f.label :work
           %div{:class=> 'col-sm-9 col-md-10 input-group', :style=>'padding-left:15px; padding-right:15px'}
             %input{:value => f.object.work.description, :readonly=>'readonly', :class=>'form-control'}
-              .input-group-addon
-                = link_to settings_icon, purchase_path(f.object.work.id)
-              .input-group-addon  
-                = link_to delete_icon, purchase_path(f.object.work.id), :confirm => "Are you sure you?", :method => :delete
-        .form-group
-          .col-sm-3.col-md-2.control-label
-            = f.label :money_state
-          %div{:class=> 'col-sm-9 col-md-10 input-group', :style=>'padding-left:15px; padding-right:15px'}
-            %input{:value => f.object.work.money_state, :readonly=>'readonly', :class=>'form-control'}
-            - if !@production.is_completed? && f.object.work.money_state != 'paid'
-              %span{:class=>"input-group-btn"}
-                %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','workContent' )"}
-                  %span{ :class => "glyphicon glyphicon-flag"} 
-                    Pay
+              -if @production.can_edit?
+                .input-group-addon
+                  = link_to settings_icon, purchase_path(f.object.work.id)
+                .input-group-addon  
+                  = link_to delete_icon, purchase_path(f.object.work.id), :confirm => "Are you sure you?", :method => :delete
+      
+      - if @production.is_started?
+        = f.simple_fields_for :work do |w|  
+          - if w.object.is_completed?
+            = w.input :completed_at, :as => :string
+          - else
+            -if @production.work.is_paid?
+              = w.input :paid_at, :as => :string
+            - else
+              .form-group
+                .col-sm-3.col-md-2.control-label
+                  %label Work state
+                %div{:class=> 'col-sm-9 col-md-10 input-group', :style=>'padding-left:15px; padding-right:15px'}
+                  - if f.object.work.money_state != 'paid'
+                    %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','workPayContent' )"}
+                      %i{ :class => "glyphicon glyphicon-flag"} 
+                      = t(:paid_at)
 
     .input-group
       = f.submit class: 'btn btn-primary'
       - if @production.can_edit_state?
         %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
           %span{ :class => "glyphicon glyphicon-flag"} 
-            = f.object.next_step   
+          = f.object.next_step   
       = link_to 'Back', productions_path, class: 'btn btn-primary'
  
   - unless  @production.new_record? || @production.is_completed?
-    = render partial: 'shared/sc', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), next_step: @production.next_step}   
+    = render partial: 'shared/sc', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), next_step: @production.next_step, return_path: edit_production_path(@production)}   
   - if  !@production.work.nil?
-    = render partial: 'shared/sc', locals: {idx: 'workContent', model: @production.work, form_path: state_change_purchase_path(@production.work), next_step: 'pay'}
+    = render partial: 'shared/sc', locals: {idx: 'workPayContent', model: @production.work, form_path: state_change_purchase_path(@production.work), next_step: 'pay', return_path: edit_production_path(@production)}
+    = render partial: 'shared/sc', locals: {idx: 'workContent', model: @production.work, form_path: state_change_purchase_path(@production.work), next_step: next_step, return_path: edit_production_path(@production)}
+    
+    

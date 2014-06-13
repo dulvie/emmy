@@ -31,8 +31,7 @@ class ProductionsController < ApplicationController
   
   # GET /productions/1/edit
   def edit
-    @materials_size = @production.materials_size
-    @costitems_size = @production.costitems_size
+    @purchase = @purchase
   end
 
   # POST /productions
@@ -53,7 +52,7 @@ class ProductionsController < ApplicationController
   def update
     respond_to do |format|
       if @production.update_attributes(production_params)
-        format.html { redirect_to productions_path(@production), notice: "#{t(:production)} #{t(:was_successfully_updated)}" }
+        format.html { redirect_to edit_production_path(@production), notice: "#{t(:production)} #{t(:was_successfully_updated)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:production)}"
       end

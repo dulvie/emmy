@@ -20,7 +20,7 @@ class MaterialsController < ApplicationController
         format.html { redirect_to edit_production_path(@production), notice: "#{t(:material_added)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_add)} #{t(:material)}"
-        format.html { render :edit }
+        format.html { render :show }
       end
     end
   end
@@ -32,7 +32,7 @@ class MaterialsController < ApplicationController
         format.html { redirect_to edit_production_path(@production), notice: "#{t(:material)} #{t(:was_successfully_updated)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:material)}"
-        format.html { render action: :edit }
+        format.html { render :show }
         #format.json { render json: @sale.errors, status: :unprocessable_entity }
       end
     end

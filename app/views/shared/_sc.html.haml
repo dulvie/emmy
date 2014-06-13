@@ -6,6 +6,7 @@
   .modal-body
     = simple_form_for(model, url: form_path, method: :post, :ng_submit=>'sbm($event)') do |f|
       = hidden_field_tag 'new_state', next_step
+      = hidden_field_tag 'return_path', return_path
       .form-group
         .input-group
           = hidden_field_tag "#{next_step}_at_full", "{{date}}"

@@ -9,6 +9,7 @@ class CreateProductions < ActiveRecord::Migration
       t.integer :product_id
       t.integer :quantity
       t.integer :cost_price
+      t.integer :total_amount
 
       t.string :state
       t.timestamp :started_at

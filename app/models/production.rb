@@ -7,6 +7,7 @@ class Production < ActiveRecord::Base
   # t.integer :product_id
   # t.integer :quantity
   # t.integer :cost_price
+  # t.integer :total_amount
 
   # t.string :state
   # t.timestamp :started_at
@@ -18,11 +19,9 @@ class Production < ActiveRecord::Base
   
   has_many :comments, as: :parent, :dependent => :destroy
   has_many :materials, :dependent => :destroy
-  has_many :costitems, as: :parent, :dependent => :destroy
+  has_one :work, as: :parent, class_name: 'Purchase', :dependent => :destroy
   
-  has_one :work, as: :parent, class_name: 'Purchase'
-  
-  accepts_nested_attributes_for :costitems, :materials, :work
+  accepts_nested_attributes_for :materials, :work
 
   attr_accessible :description, :our_reference_id, :warehouse_id, :product_id, :quantity, :cost_price,
                   :started_at, :completed_at
@@ -45,7 +44,7 @@ class Production < ActiveRecord::Base
     end
   end
 
-  def can_edit_items?
+  def can_edit?
     state.eql? 'not_started'
   end
 
@@ -53,20 +52,20 @@ class Production < ActiveRecord::Base
      return false if state.eql? 'complete'
      return false if self.product_id.nil? 
      return false if self.quantity.nil?
-     return false if self.materials.nil?
+     return false if self.materials.size == 0
      return false if self.work.nil?
      return true
   end
   
   def can_delete?
-    return true if ['not_started', 'started'].include? state
-    false
+    return false if ['started', 'complete'].include? state
+    true
   end
 
-  def is_ordered?
+  def is_started?
     state.eql? 'started'
   end
-  
+
   def is_completed?
     state.eql? 'complete'
   end
@@ -79,9 +78,11 @@ class Production < ActiveRecord::Base
       case new_state
       when 'started'
         self.started_at = changed_at || Time.now
+        self.work.state_change('mark_item_complete', changed_at)
         return self.save
       when 'complete'
         self.completed_at = changed_at || Time.now
+        self.work.state_change('receive', changed_at)
         return self.save
       end
       return true
@@ -100,18 +101,7 @@ class Production < ActiveRecord::Base
       raise RuntimeError, "Unknown state#{state} of production#{self.id}"
     end
   end
- 
-  def costitems_size
-    self.costitems.size
-  end
-  
-  def materials_size
-    self.materials.size
-  end
-     
-  # For ApplicationHelper#delete_button
-  def can_delete?; true; end
-  
+
   private
 
 end

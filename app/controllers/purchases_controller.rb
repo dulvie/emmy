@@ -11,7 +11,7 @@ class PurchasesController < ApplicationController
     @purchase.user = current_user
    
     @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
-       logger.info "param 1: #{params[:purchase]}"
+
        logger.info "param 2: #{params[:parent_id]}"
        logger.info "param 3: #{params[:parent_type]}"
     respond_to do |format|
@@ -82,14 +82,17 @@ class PurchasesController < ApplicationController
  
   def state_change
     @purchase = Purchase.find(params[:id])
-    if @purchase.state_change(params[:new_state])
-      @purchase.update(purchase_params)
+    if @purchase.state_change(params[:new_state], params[:state_change_at])
       msg = t(:success)
     else
       msg = t(:fail)
     end
     respond_to do |format|
-      format.html { redirect_to purchase_path(@purchase), notice: msg}
+      return_path = purchase_path(@purchase)
+      if params[:return_path]
+        return_path = params[:return_path]
+      end
+      format.html { redirect_to return_path, notice: msg}
     end
   end
 
@@ -122,7 +125,7 @@ class PurchasesController < ApplicationController
     end
     
     def purchase_params
-      params.require(:purchase).permit(Purchase.accessible_attributes.to_a, purchase_items_attributes:[:product_id, :quantity])
+      params.require(:purchase).permit(Purchase.accessible_attributes.to_a)
     end
 
     def new_breadcrumbs

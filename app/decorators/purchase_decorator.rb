@@ -8,10 +8,10 @@ class PurchaseDecorator < Draper::Decorator
   def pretty_state
     l = 'default'
     case object.state
-    when 'registration'
+    when 'meta_complete'
       l = 'info'
       str = h.t(:has_base_info)
-    when 'processing'
+    when 'item_complete'
       l = 'warning'
       str = h.t(:processing)
     when 'completed'
