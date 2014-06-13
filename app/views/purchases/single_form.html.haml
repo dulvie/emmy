@@ -1,0 +1,19 @@
+= simple_form_for(@purchase, wrapper: :horizontal_form, html: {class: 'form-horizontal'}, url: purchase_single_purchase_path(purchase_id: 0)) do |f|
+  = f.error_notification
+  
+  = f.input :parent_type, :as => :hidden
+  = f.input :parent_id, :as => :hidden
+  
+  = f.input :description
+  = f.association :supplier
+  = f.input :contact_name
+  = f.input :contact_email
+  = f.input :vat_amount
+  = f.simple_fields_for(:purchase_items) do |ff|
+    = ff.association :product 
+    = ff.input :quantity
+    = ff.input :total_amount
+  = f.submit class: 'btn btn-primary'
+  - if @purchase.parent_type == 'Production'
+    - back_url = edit_production_path(@purchase.parent_id)
+    = link_to 'Back', back_url, class: 'btn btn-primary'
