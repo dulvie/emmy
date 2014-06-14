@@ -53,7 +53,7 @@ class Purchase < ActiveRecord::Base
   end
 
   state_machine :goods_state, initial: :not_received do
-    after_transition :not_delivered => :paid, do: :check_for_completeness
+    after_transition :not_received => :received, do: :check_for_completeness
     event :receive do
       transition :not_received => :received
     end
@@ -92,11 +92,6 @@ class Purchase < ActiveRecord::Base
     money_state.eql? 'paid'
   end
 
-  def state_change(new_state)
-    return false unless STATE_CHANGES.include?(new_state.to_sym)
-    self.send("#{new_state}")
-  end
-  
   def state_change(new_state, changed_at = nil)
     return false unless STATE_CHANGES.include?(new_state.to_sym)
 
@@ -107,16 +102,16 @@ class Purchase < ActiveRecord::Base
       # It would be much nicer to do this in a state_machine after_transition hook.
       case new_state
       when 'mark_item_complete'
-        self.ordered_at = changed_at || Time.now
+        self.ordered_at = changed_at
         return self.save
       when 'receive'
-        self.received_at = changed_at || Time.now
+        self.received_at = changed_at
         return self.save
       when 'pay'
-        self.paid_at = changed_at || Time.now
+        self.paid_at = changed_at
         return self.save
       when 'mark_complete'
-        self.completed_at = changed_at || Time.now
+        self.completed_at = changed_at
         return self.save
       end
       return true

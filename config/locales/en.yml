@@ -64,6 +64,7 @@ en:
   not_paid: "not paid"
   not_received: "not received"
   not_started: "not started"
+  ordered: "Ordered"
   ordered_at: "Ordered at"
   order_complete: "Purchase complete"
   our_reference: "Our reference"

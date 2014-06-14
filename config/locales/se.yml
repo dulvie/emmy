@@ -36,6 +36,7 @@ se:
   not_paid: "ej betald"
   not_received: "ej mottagen"
   not_started: "ej startad"
+  ordered: "Beställd"
   ordered_at: "Orderdatum"
   order_complete: "Inköp avslutas"
   package_dimensions: "Dimensioner"

@@ -1,5 +1,5 @@
 %div{:class=> 'container-fluid well', :ng_controller=>'customerIndexCtrl'}
-  .btn.btn-group.col-sm-12
+  .btn.btn-group.col-sm-offset-2.col-sm-12
     = link_to "#{t(:create)} #{t(:customer)}", new_customer_path, class: 'btn btn-primary'
     .input-group.col-sm-2
       %input{:class=> 'form-control', :placeholder=>'Search', :ng_model=>'searchname'}

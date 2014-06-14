@@ -82,6 +82,8 @@ class PurchasesController < ApplicationController
  
   def state_change
     @purchase = Purchase.find(params[:id])
+          logger.info "param X: #{params[:state_change_at]}"
+          logger.info "param X: #{params[:full]}"
     if @purchase.state_change(params[:new_state], params[:state_change_at])
       msg = t(:success)
     else

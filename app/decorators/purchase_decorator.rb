@@ -27,7 +27,7 @@ class PurchaseDecorator < Draper::Decorator
     when 'not_received'
       l = 'warning'
       str = h.t(:not_received)
-    when 'delivered'
+    when 'received'
       l = 'success'
       str = h.t(:received)
     end

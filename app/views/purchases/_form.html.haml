@@ -8,6 +8,14 @@
   = f.input :contact_email, disabled: !@purchase.new_record?
   = f.association :to_warehouse,  disabled: !@purchase.new_record?
 
+  - if !@purchase.can_edit_items?
+    = f.input :ordered_at,  disabled: true, :as=> :string, :input_html => { :value => localize(f.object.ordered_at, :format => "%Y-%m-%d") }
+
+  - if @purchase.is_received?
+    = f.input :received_at,  disabled: true, :as=> :string, :input_html => { :value => localize(f.object.received_at, :format => "%Y-%m-%d") }
+  - if @purchase.is_paid?
+    = f.input :paid_at,  disabled: true, :as=> :string, :input_html => { :value => localize(f.object.paid_at, :format => "%Y-%m-%d") }
+        
   - if @purchase.new_record?
     = f.submit class: 'btn btn-primary'
     = link_to 'Back', purchases_path, class: 'btn btn-primary'

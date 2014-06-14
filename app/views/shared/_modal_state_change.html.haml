@@ -9,8 +9,8 @@
       = hidden_field_tag 'return_path', return_path
       .form-group
         .input-group
-          = hidden_field_tag "#{next_step}_at_full", "{{date}}"
-          = text_field_tag "state_change_at", '', class: 'form-control', ng_model: 'date', datepicker_popup: 'yyyy-MM-dd', is_open: 'isOpen', datepicker_options: 'dpOptions', show_button_bar: 'false', readonly: true
+          = hidden_field_tag "state_change_at", "{{date}}"
+          = text_field_tag "short_date", '', class: 'form-control', ng_model: 'date', datepicker_popup: 'yyyy-MM-dd', is_open: 'isOpen', datepicker_options: 'dpOptions', show_button_bar: 'false', readonly: true
           %span{:class => "input-group-btn"}
             %button{:class => "btn btn-default", :ng_click=>'openDate($event)' }
               %span{ :class => "glyphicon glyphicon-calendar"}
