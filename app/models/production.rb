@@ -21,7 +21,7 @@ class Production < ActiveRecord::Base
   has_many :materials, :dependent => :destroy
   has_one :work, as: :parent, class_name: 'Purchase', :dependent => :destroy
   
-  accepts_nested_attributes_for :materials, :work
+  accepts_nested_attributes_for :materials, :work, :product
 
   attr_accessible :description, :our_reference_id, :warehouse_id, :product_id, :quantity, :cost_price,
                   :started_at, :completed_at
