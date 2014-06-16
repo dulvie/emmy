@@ -1,0 +1,38 @@
+= simple_form_for(@item, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+
+  = f.input :name
+  = f.input :comment
+  = f.input :item_type, as: 'select', collection: Item::TYPES, include_blank: false
+  = f.input :item_group, as: 'select', collection: Item::GROUPS, include_blank: false
+  = f.input :stocked
+  = f.association :unit
+  = f.input :vat, as: 'select', collection: Item::VATS, include_blank: false
+  
+  #date-fields-wrapper
+    = f.input :in_price
+    = f.input :distributor_price
+    = f.input :retail_price
+
+
+  = f.button :submit, class: 'btn btn-primary'
+  = link_to 'Back', items_path, class: 'btn btn-primary'
+
+:javascript
+  $(document).ready(function() {
+
+    // hide expire/refined at fields when type is not refined.
+    $("#item_item_group").change(function() {
+      var $me = $(this);
+      if ($me.val() == 'refined') {
+        $('#date-fields-wrapper').show();
+      } else {
+        $('#date-fields-wrapper').hide();
+      }
+    });
+    if ($('#product_item_group').val() == 'refined') {
+      $('#date-fields-wrapper').show();
+    } else {
+      $('#date-fields-wrapper').hide();
+    }
+  });

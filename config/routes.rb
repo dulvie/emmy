@@ -27,6 +27,7 @@ Emmy::Application.routes.draw do
       post 'update_imported_product', as: :update_imported_product
     end
   end  
+  resources :items
   resources :manuals
   resources :units
   resources :materials

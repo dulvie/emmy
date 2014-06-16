@@ -33,7 +33,7 @@ ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg"})
 flea_bottom = Warehouse.create({name: "Flea bottom", city: "King's landing"})
 
 espresso = Product.create({
-  name: "Espresso",
+  name: "Espresso 14:01",
   in_price: 3000,
   distributor_price: 8000,
   retail_price: 9500,
@@ -41,41 +41,72 @@ espresso = Product.create({
 })
 
 brewd = Product.create({
-  name: "Brygg",
+  name: "Brygg 14:01",
   in_price: 3000,
   distributor_price: 6000,
   retail_price: 6500,
   vat: 12
 })
 
-coffe = Product.create({
+unit1 = Unit.create(name: "Paket (1/2 kg)", weight: "1/2 kg")
+unit2 = Unit.create(name: "St")
+unit3 = Unit.create(name: "Säck (50 kg)", weight: "50 kg")
+
+espresso_i = Item.create({
+  name: "Espresso",
+  item_type: 'sales',
+  item_group: 'refined',
+  in_price: 3000,
+  distributor_price: 8000,
+  retail_price: 9500,
+  stocked: 'true',
+  unit:  'Paket (1/2 kg)',
+  vat: 12
+})
+
+brewd_i = Item.create({
+  name: "Brygg",
+  item_type: 'sales',
+  item_group: 'refined',
+  in_price: 3000,
+  distributor_price: 6000,
+  retail_price: 6500,
+  stocked: 'true',
+  unit: 'Paket (1/2 kg)',
+  vat: 12
+})
+coffe = Item.create({
   name: "Råkaffe",
+  item_type: 'both',
+  item_group: 'unrefined',
   in_price: 6000,
   distributor_price: 6000,
   retail_price: 6000,
+  stocked: 'true',
+  unit: 'Säck (50 kg)',
   vat: 0
 })
 
-freight = Product.create({
+freight = Item.create({
   name: "Skeppning",
-  in_price: 3000,
-  distributor_price: 3000,
-  retail_price: 3000,
+  item_type: 'purchases',
+  item_group: ' ',
+  unit: 'St',
   vat: 0
 })
 
-custom = Product.create({
+custom = Item.create({
   name: "Tulldeklarering",
-  in_price: 3000,
-  distributor_price: 3000,
-  retail_price: 3000,
+  item_type: 'purchases',
+  item_group: ' ',
+  unit: 'St',
   vat: 0
 })
-rost = Product.create({
+rost = Item.create({
   name: "Rostning",
-  in_price: 3000,
-  distributor_price: 3000,
-  retail_price: 3000,
+  item_type: 'purchases',
+  item_group: ' ',
+  unit: 'St',
   vat: 0
 })
 espresso_in_ankeborg = Shelf.new
@@ -123,7 +154,6 @@ coffesupp = Supplier.create(name: "Kaffekooperativ")
 freightsupp = Supplier.create(name: "Shipping LTD")
 tullsupp = Supplier.create(name: "Tullverket")
 
-unit1 = Unit.create(name: "Paket (1/2 kg)", weight: "1/2 kg")
-unit2 = Unit.create(name: "St")
+
 
 # @TODO create invoice(s)

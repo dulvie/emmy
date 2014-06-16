@@ -5,7 +5,7 @@ class CreateUnits < ActiveRecord::Migration
       t.string    :name
       t.string    :weight
       t.string    :package_dimensions
-      
+
       t.timestamps
 
     end

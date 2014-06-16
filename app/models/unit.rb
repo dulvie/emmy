@@ -6,6 +6,8 @@ class Unit < ActiveRecord::Base
   
   attr_accessible :name, :weight, :package_dimensions
 
+  has_many :items
+
   validates :name, :uniqueness => true
   validates :name, :presence => true
   

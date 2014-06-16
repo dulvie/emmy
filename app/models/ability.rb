@@ -28,6 +28,7 @@ class Ability
     can :manage, Costitem
     can :manage, Customer
     can :manage, Import
+    can :manage, Item
     can :manage, Manual
     can :manage, Material
     can :manage, Production

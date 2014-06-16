@@ -1,6 +1,9 @@
 class CreateProducts < ActiveRecord::Migration
   def change
     create_table :products do |t|
+
+      t.integer :item_id
+
       t.string :name
       t.text :comment
       t.string :product_type, default: Product::TYPES.first 
