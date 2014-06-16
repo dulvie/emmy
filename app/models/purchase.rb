@@ -34,7 +34,7 @@ class Purchase < ActiveRecord::Base
   validates :description, presence: true
   validates :supplier_id, presence: true
 
-  VALID_PARENT_TYPES = ['Purchase', 'Import']
+  VALID_PARENT_TYPES = ['Purchase', 'Production', 'Import']
 
   STATE_CHANGES = [
     :mark_item_complete, :mark_complete, # Generic state
