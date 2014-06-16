@@ -24,6 +24,7 @@ class Purchase < ActiveRecord::Base
   belongs_to :supplier
   belongs_to :our_reference, class_name: 'User'
   belongs_to :to_warehouse, class_name: 'Warehouse'
+  belongs_to :parent, polymorphic: true
   has_many :purchase_items
   
   accepts_nested_attributes_for :purchase_items
@@ -33,7 +34,7 @@ class Purchase < ActiveRecord::Base
   validates :description, presence: true
   validates :supplier_id, presence: true
 
-  VALID_PARENT_TYPES = ['Purchase', 'Production']
+  VALID_PARENT_TYPES = ['Purchase', 'Import']
 
   STATE_CHANGES = [
     :mark_item_complete, :mark_complete, # Generic state
@@ -134,6 +135,7 @@ class Purchase < ActiveRecord::Base
   # after_transition filter for money_state and goods_state.
   def check_for_completeness
     if is_paid? and is_received?
+      self.completed_at = Time.now
       self.mark_complete
     end
   end

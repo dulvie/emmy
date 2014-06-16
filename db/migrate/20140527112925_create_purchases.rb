@@ -13,9 +13,12 @@ class CreatePurchases < ActiveRecord::Migration
       t.integer :to_warehouse_id
       t.integer :total_amount
       t.integer :vat_amount
+      
       t.string :state
       t.string :goods_state
       t.string :money_state
+       
+      t.timestamp :completed_at
       t.timestamp :ordered_at
       t.timestamp :received_at
       t.timestamp :paid_at

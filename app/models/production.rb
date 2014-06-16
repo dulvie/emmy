@@ -19,7 +19,7 @@ class Production < ActiveRecord::Base
   
   has_many :comments, as: :parent, :dependent => :destroy
   has_many :materials, :dependent => :destroy
-  has_one :work, as: :parent, class_name: 'Purchase', :dependent => :destroy
+  has_one :work, as: :parent, class_name: 'Purchase'
   
   accepts_nested_attributes_for :materials, :work, :product
 

@@ -20,7 +20,13 @@ Emmy::Application.routes.draw do
       get 'name_search', as: :name_search
     end
   end  
-  resources :imports
+  resources :imports do
+    member do
+      post 'state_change', as: :state_change
+      get 'edit_imported_product', as: :edit_imported_product
+      post 'update_imported_product', as: :update_imported_product
+    end
+  end  
   resources :manuals
   resources :units
   resources :materials
@@ -41,7 +47,6 @@ Emmy::Application.routes.draw do
     resources :purchase_items
     member do
       post 'state_change', as: :state_change
-
     end
     post 'single_purchase', as: :single_purchase
   end

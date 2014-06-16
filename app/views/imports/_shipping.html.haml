@@ -1,0 +1,62 @@
+- if @shipping.nil?
+  = simple_form_for(@import, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |y|
+
+    .form-group
+      .col-sm-3.col-md-2.control-label
+        = y.label :shipping
+      .col-sm-9.col-md-10
+        .input-group  
+          .input-group-addon  
+            - add_single_purchase_url = edit_imported_product_import_path(@import.id, :parent_column => 'shipping')
+            = link_to plus_icon, add_single_purchase_url
+          %input{:class=>'form-control', :readonly=>'readonly'}
+
+- if !@shipping.nil?
+
+  %div{:ng_controller => "ModalCtrl"}
+    = simple_form_for(@shipping, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+      = f.error_notification
+
+      .form-group
+        .col-sm-3.col-md-2.control-label
+          = f.label :shipping
+        .col-sm-9.col-md-10
+          .input-group  
+            %input{:value => f.object.description, :readonly=>'readonly', :class=>'form-control'}
+            -if @import.can_edit_items?
+              .input-group-addon
+                = link_to settings_icon, purchase_path(@shipping)
+              .input-group-addon  
+                = link_to delete_icon, purchase_path(@shipping), :confirm => "Are you sure you?", :method => :delete
+            - else
+              .input-group-addon
+
+      - if !f.object.can_edit_items?
+        = f.input :ordered_at, :as => :string,  disabled: true
+      - if f.object.is_completed?
+        = f.input :completed_at, :as => :string,  disabled: true
+      - if f.object.is_received?
+        = f.input :received_at, :as => :string,  disabled: true
+      - if f.object.is_paid?
+        = f.input :paid_at, :as => :string,  disabled: true
+
+      .input-group
+        - if  !@import.can_edit_items? && f.object.can_edit_items?
+          %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','shippingContent' )"}
+            = status_icon
+            = t(:started)
+
+        - if  !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_received?
+          %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','shippingGoodsContent' )"}
+            = status_icon
+            = t(:received)     
+
+        - if  !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_paid?
+          %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','shippingPayContent' )"}
+            = status_icon
+            = t(:paid)
+      %hr
+      
+    = render partial: 'shared/modal_state_change', locals: {idx: 'shippingContent', model: @shipping, form_path: state_change_purchase_path(@shipping), next_step: 'mark_item_complete', return_path: edit_import_path(@import)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'shippingGoodsContent', model: @shipping, form_path: state_change_purchase_path(@shipping), next_step: 'receive', return_path: edit_import_path(@import)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'shippingPayContent', model: @shipping, form_path: state_change_purchase_path(@shipping), next_step: 'pay', return_path: edit_import_path(@import)}   

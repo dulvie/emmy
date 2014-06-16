@@ -26,7 +26,15 @@ class ImportsController < ApplicationController
   
   # GET /imports/1/edit
   def edit
-    @costitems = @import.costitems.collect{|costitem| costitem.decorate}
+    if !@import.importing_id.nil?
+      @importing = Purchase.find(@import.importing_id)
+    end
+    if !@import.shipping_id.nil?      
+      @shipping = Purchase.find(@import.shipping_id)
+    end      
+    if !@import.customs_id.nil? 
+      @customs = Purchase.find(@import.customs_id)
+    end
   end
 
   # POST /imports
@@ -52,6 +60,16 @@ class ImportsController < ApplicationController
     end    
   end
   
+  def update
+    respond_to do |format|
+      if @import.update_attributes(import_params)
+        format.html { redirect_to edit_import_path(@import), notice: "#{t(:import)} #{t(:was_successfully_updated)}" }
+      else
+        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:import)}"
+      end
+    end
+  end
+  
   def destroy
     @import.destroy
     respond_to do |format|
@@ -60,7 +78,66 @@ class ImportsController < ApplicationController
     end
   end
   
+  def edit_imported_product 
+    @purchase = Purchase.new
+
+    if params[:parent_column] == 'importing'
+      @purchase.purchase_items.build product_id: @import.product.id
+    end
+    if params[:parent_column] == 'shipping'
+      @purchase.purchase_items.build
+    end
+    if params[:parent_column] == 'customs'
+      @purchase.purchase_items.build
+    end
+    @parent_column = params[:parent_column]   
+    @purchase.to_warehouse = @import.to_warehouse
+    @purchase.parent_type = 'Import'
+    @purchase.parent_id = @import.id
+  end
+
+  def update_imported_product 
+    purchase = Purchase.new params[:purchase]
+    purchase.user = current_user
+    purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
+    logger.info "param Z: #{params[:parent_column]}"
+    respond_to do |format|
+      if purchase.save 
+        if params[:parent_column] == 'importing'
+          @import.importing_id = purchase.id
+          @import.importing = purchase
+          @import.save
+        end  
+        if params[:parent_column] == 'shipping'
+          @import.shipping_id = purchase.id
+          @import.shipping = purchase
+          @import.save
+        end  
+        if params[:parent_column] == 'customs'
+          @import.customs_id = purchase.id
+          @import.customs = purchase
+          @import.save
+        end     
+        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:purchase_item)}"
+        format.html { redirect_to edit_import_path(params[:purchase][:parent_id]) }
+      else
+        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:import)}"
+      end  
+    end
+  end
   
+  def state_change
+    @import = Import.find(params[:id])
+    if @import.state_change(params[:new_state], params[:state_change_at])
+      msg = t(:success)
+    else
+      msg = t(:fail)
+    end
+    respond_to do |format|
+      format.html { redirect_to edit_import_path(@import), notice: msg}
+    end
+  end
+      
   private
 
     # Never trust parameters from the scary internet, only allow the white list through.

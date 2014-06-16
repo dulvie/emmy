@@ -12,11 +12,15 @@ class PurchasesController < ApplicationController
    
     @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
 
-       logger.info "param 2: #{params[:parent_id]}"
-       logger.info "param 3: #{params[:parent_type]}"
+       logger.info "param 2: #{params[:purchase][:parent_id]}"
+       logger.info "param 3: #{params[:purchase][:parent_type]}"
     respond_to do |format|
       if @purchase.save
-        format.html { redirect_to edit_production_path(params[:purchase][:parent_id]), notice: "#{t(:purchase)} #{t(:was_successfully_created)}" }
+        if params[:purchase][:parent_type]=='Import'
+          format.html { redirect_to edit_import_path(params[:purchase][:parent_id]), notice: "#{t(:purchase)} #{t(:was_successfully_created)}" }
+        else
+          format.html { redirect_to edit_production_path(params[:purchase][:parent_id]), notice: "#{t(:purchase)} #{t(:was_successfully_created)}" }
+        end
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:purchase_item)}"
         format.html { redirect_to edit_production_path(params[:purchase][:parent_id]) }

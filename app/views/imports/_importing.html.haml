@@ -1,0 +1,93 @@
+- if @importing.nil? && @import.product.nil?
+  = simple_form_for(@import, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |x|
+ 
+    .form-group
+      .col-sm-3.col-md-2.control-label
+        = x.label :product
+      .col-sm-9.col-md-10
+        .input-group
+          .input-group-addon
+            - set_product_url = new_product_path({class:@import.class.name, object:@import.id})
+            = link_to plus_icon, set_product_url
+          %input{:class=>'form-control', :readonly=>'readonly'}
+
+- if @importing.nil? && !@import.product.nil?
+  = simple_form_for(@import, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |y|
+
+    .form-group
+      .col-sm-3.col-md-2.control-label
+        = y.label :product
+      .col-sm-9.col-md-10
+        %input{:value => @import.product.name, :readonly=>'readonly', :class=>'form-control'} 
+
+    .form-group
+      .col-sm-3.col-md-2.control-label
+        = y.label :importing
+      .col-sm-9.col-md-10
+        .input-group  
+          .input-group-addon  
+            - add_single_purchase_url = edit_imported_product_import_path(@import.id, :parent_column => 'importing')
+            = link_to plus_icon, add_single_purchase_url
+          %input{:class=>'form-control', :readonly=>'readonly'}
+
+- if !@importing.nil?
+  %div{:ng_controller => "ModalCtrl"}
+    = simple_form_for(@importing, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+      = f.error_notification
+      
+      .form-group
+        .col-sm-3.col-md-2.control-label
+          = f.label :product
+        .col-sm-9.col-md-10
+          %input{:value => f.object.purchase_items.first.product.name, :readonly=>'readonly', :class=>'form-control'}
+
+      .form-group
+        .col-sm-3.col-md-2.control-label
+          = f.label t(:quantity)
+        .col-sm-9.col-md-10
+          %input{:value => f.object.purchase_items.first.quantity, :readonly=>'readonly', :class=>'form-control'}
+      
+         
+      .form-group
+        .col-sm-3.col-md-2.control-label
+          = f.label :importing
+        .col-sm-9.col-md-10
+          .input-group
+            %input{:value => f.object.description, :readonly=>'readonly', :class=>'form-control'}
+            -if @import.can_edit_items?
+              .input-group-addon
+                = link_to settings_icon, purchase_path(f.object.id)
+              .input-group-addon  
+                = link_to delete_icon, purchase_path(f.object.id), :confirm => "Are you sure you?", :method => :delete
+            - else
+              .input-group-addon       
+
+      - if !f.object.can_edit_items?
+        = f.input :ordered_at, :as => :string,  disabled: true
+      - if f.object.is_completed?
+        = f.input :completed_at, :as => :string,  disabled: true
+      - if f.object.is_received?
+        = f.input :received_at, :as => :string, disabled: true
+      - if f.object.is_paid?
+        = f.input :paid_at, :as => :string,  disabled: true
+
+      .input-group
+        - if !@import.can_edit_items? && f.object.can_edit_items?
+          %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importedContent' )"}
+            = status_icon
+            = t(:started)
+
+        - if !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_received?
+          %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importedGoodsContent' )"}
+            = status_icon
+            = t(:received)     
+
+        - if !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_paid?
+          %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importedPayContent' )"}
+            = status_icon
+            = t(:paid)
+      %hr
+        
+    = render partial: 'shared/modal_state_change', locals: {idx: 'importedContent', model: @importing, form_path: state_change_purchase_path(@importing), next_step: 'mark_item_complete', return_path: edit_import_path(@import)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'importedGoodsContent', model: @importing, form_path: state_change_purchase_path(@importing), next_step: 'receive', return_path: edit_import_path(@import)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'importedPayContent', model: @importing, form_path: state_change_purchase_path(@importing), next_step: 'pay', return_path: edit_import_path(@import)}   

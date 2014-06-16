@@ -6,6 +6,12 @@ class CreateImports < ActiveRecord::Migration
       t.string :description
       t.integer :our_reference_id
       t.integer :to_warehouse_id
+      t.integer :product_id
+      t.integer :quantity
+      t.integer :importing_id
+      t.integer :shipping_id
+      t.integer :customs_id 
+      
       t.string :state
       t.timestamp :started_at
       t.timestamp :completed_at

@@ -4,10 +4,10 @@
 .tab-content
   #import-form.tab-pane.active
     %br
-    = render partial: 'form'
-    - add_costitem_url = new_costitem_path({parent_id: @import.id, parent_type: @import.class.name})
-    = link_to t(:add_costitem), add_costitem_url, class: 'btn btn-primary'
-    = link_to 'Back', imports_path, class: 'btn btn-primary'
-    = render partial: 'costitems/index' , locals: {costitems: @import.costitems, parent: @import}
+    = render  'form'
+    - if !@import.new_record?
+      = render  'importing'
+      = render  'shipping'
+      = render  'customs' 
   #comment-index.tab-pane
     = render partial: 'comments/index', locals: {comments: @import.comments, parent: @import}

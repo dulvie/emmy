@@ -43,9 +43,14 @@ class ProductsController < ApplicationController
           production.product = @product
           production.save
           format.html { redirect_to edit_production_path(obj_id), notice: 'product was successfully created.'}
+        elsif params[:class]=='Import'
+          production = Import.find(obj_id)
+          production.product = @product
+          production.save
+          format.html { redirect_to edit_import_path(obj_id), notice: 'product was successfully created.'} 
         else
           format.html { redirect_to products_path, notice: 'product was successfully created.' }
-        #format.json { render action: 'show', status: :created, location: @product }
+          #format.json { render action: 'show', status: :created, location: @product }
         end
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:product)}"
