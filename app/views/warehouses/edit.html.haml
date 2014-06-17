@@ -5,6 +5,7 @@
   %li= link_to "Comments", "#comment-index", {"data-toggle" => "tab"}
 .tab-content
   #warehouse-form.tab-pane.active
+    %br
     = render 'form'
   #shelf-index.tab-pane
     = render "shelves/index", {shelves: @warehouse.shelves}

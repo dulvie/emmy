@@ -1,34 +1,25 @@
-.panel.panel-primary.col-xs-12.col-md-10.col-lg-6.well
-  .panel-heading
-    %h3.panel-title Product Information
+= simple_form_for(@product, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
 
-  = simple_form_for(@product, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  %input{:type => 'hidden', :name => 'class', :value => params['class']}
+  %input{:type => 'hidden', :name => 'object', :value => params['object']}
 
-    .panel-body
-      = f.error_notification
+  = f.input :product_type,
+    as: 'select',
+    collection: Product::TYPES,
+    include_blank: false
 
-      %input{:type => 'hidden', :name => 'class', :value => params['class']}
-      %input{:type => 'hidden', :name => 'object', :value => params['object']}
-      
-      = f.input :product_type,
-        as: 'select',
-        collection: Product::TYPES,
-        include_blank: false
-
-      = f.input :name
-      = f.input :in_price
-      = f.input :distributor_price
-      = f.input :retail_price
-      = f.input :vat
-      = f.input :weight
-      #date-fields-wrapper
-        = f.input :expire_at, as: :date
-        = f.input :refined_at, as: :date
-
-    .panel-footer
-      .pull-right
-        = f.button :submit, class: 'btn btn-primary'
-        = link_to 'Back', products_path, class: 'btn btn-default'
+  = f.input :name
+  = f.input :in_price
+  = f.input :distributor_price
+  = f.input :retail_price
+  = f.input :vat
+  = f.input :weight
+  #date-fields-wrapper
+    = f.input :expire_at, as: :date
+    = f.input :refined_at, as: :date
+  = f.button :submit, class: 'btn btn-primary'
+  = link_to 'Back', products_path, class: 'btn btn-primary'
 
 :javascript
   $(document).ready(function() {
