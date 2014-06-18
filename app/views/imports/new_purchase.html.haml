@@ -1,8 +1,8 @@
-= simple_form_for(@purchase, wrapper: :horizontal_form, html: {class: 'form-horizontal'}, url: update_imported_product_import_path(@import)) do |f|
+= simple_form_for(@purchase, wrapper: :horizontal_form, html: {class: 'form-horizontal'}, url: create_pruchase_import_path(@import)) do |f|
   = f.error_notification
   
-  = f.input :parent_type, :as => :hidden
-  = f.input :parent_id, :as => :hidden
+  = f.input :parent_type
+  = f.input :parent_id
   %input{:name=>'parent_column', :value=>@parent_column, :type=>'hidden' }
   
   = f.input :description

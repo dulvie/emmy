@@ -78,24 +78,21 @@
                   = link_to delete_icon, purchase_path(f.object.work.id), :confirm => "Are you sure you?", :method => :delete
               - else
                 .input-group-addon
-      
-      - if @production.is_started?
-        = f.simple_fields_for :work do |w|  
-          - if w.object.is_completed?
-            = w.input :completed_at, :as => :string
-          - else
-            -if @production.work.is_paid?
-              = w.input :paid_at, :as => :string
-            - else
-              .form-group
-                .col-sm-3.col-md-2.control-label
-                  %label Work state
-                .col-sm-9.col-md-10
-                  .input-group
-                  - if f.object.work.money_state != 'paid'
-                    %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','workPayContent' )"}
-                      = status_icon
-                      = t(:paid_at)
+
+      - if @production.is_started? || @production.is_completed?
+        = f.simple_fields_for :work do |w|
+          - if @production.work.is_paid? || w.object.is_completed?
+            = w.input :paid_at, :as => :string
+          - if !@production.work.is_paid? 
+            .form-group
+              .col-sm-3.col-md-2.control-label
+                %label Work state
+              .col-sm-9.col-md-10
+                .input-group
+                - if f.object.work.money_state != 'paid'
+                  %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','workPayContent' )"}
+                    = status_icon
+                    = t(:paid_at)
 
     .input-group
       = f.submit class: 'btn btn-primary'

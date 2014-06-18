@@ -11,6 +11,7 @@
         = t(:total_amount)
       %th= t(:state)
       %th= t(:parent_type)
+      %th= t(:parent_id)
       %th
       %th
     %tbody
@@ -25,5 +26,6 @@
             - purchase.states.each do |s|
               = s
           %td= purchase.parent_type
+          %td= purchase.parent_id
           %td= link_to settings_icon, purchase
           %td= delete_button_for purchase

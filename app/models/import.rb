@@ -17,9 +17,9 @@ class Import < ActiveRecord::Base
   belongs_to :our_reference, class_name: 'User'
   belongs_to :to_warehouse, class_name: 'Warehouse'
   belongs_to :product
-  has_one :importing, as: :parent, class_name: 'Purchase'
-  has_one :shipping, as: :parent, class_name: 'Purchase'
-  has_one :customs, as: :parent, class_name: 'Purchase'
+  has_many :importing, as: :parent, class_name: 'Purchase'
+  has_many :shipping, as: :parent, class_name: 'Purchase'
+  has_many :customs, as: :parent, class_name: 'Purchase'
   has_many :comments, as: :parent
 
   attr_accessible :description, :our_reference_id, :to_warehouse_id,  :product_id, :quantity,
@@ -99,6 +99,14 @@ class Import < ActiveRecord::Base
     end
   end
 
+  def check_for_completeness
+    if importing.first.is_completed? and shipping.first.is_completed? and customs.first.is_completed?
+      self.completed_at = Time.now
+      self.complete
+      self.save
+    end
+  end
+  
   def import_quantity
     self.importing.purchase_items.first.quantity
   end

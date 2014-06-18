@@ -9,7 +9,7 @@ class PurchasesController < ApplicationController
   def single_purchase
     @purchase = Purchase.new params[:purchase]
     @purchase.user = current_user
-   
+
     @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
 
        logger.info "param 2: #{params[:purchase][:parent_id]}"
@@ -88,11 +88,15 @@ class PurchasesController < ApplicationController
     @purchase = Purchase.find(params[:id])
           logger.info "param X: #{params[:state_change_at]}"
           logger.info "param X: #{params[:full]}"
-    if @purchase.state_change(params[:new_state], params[:state_change_at])
+    if @purchase.state_change(params[:new_state], params[:state_change_at])    
       msg = t(:success)
     else
       msg = t(:fail)
     end
+    if @purchase.is_completed? and @purchase.parent_type == 'Import'
+      @parent = Import.find(@purchase.parent_id)
+      @parent.check_for_completeness
+    end  
     respond_to do |format|
       return_path = purchase_path(@purchase)
       if params[:return_path]

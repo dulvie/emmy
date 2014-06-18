@@ -78,46 +78,61 @@ class ImportsController < ApplicationController
     end
   end
   
-  def edit_imported_product 
-    @purchase = Purchase.new
+  def new_purchase
 
     if params[:parent_column] == 'importing'
+      @purchase = @import.importing.build
       @purchase.purchase_items.build product_id: @import.product.id
     end
     if params[:parent_column] == 'shipping'
+      @purchase = @import.shipping.build
       @purchase.purchase_items.build
     end
     if params[:parent_column] == 'customs'
+      @purchase = @import.customs.build
       @purchase.purchase_items.build
     end
+
     @parent_column = params[:parent_column]   
     @purchase.to_warehouse = @import.to_warehouse
     @purchase.parent_type = 'Import'
     @purchase.parent_id = @import.id
+
   end
 
-  def update_imported_product 
-    purchase = Purchase.new params[:purchase]
-    purchase.user = current_user
-    purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
-    logger.info "param Z: #{params[:parent_column]}"
+  def create_purchase
+
+    if params[:parent_column] == 'importing'  
+      @purchase = @import.importing.build params[:purchase]
+      @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
+    end
+
+    if params[:parent_column] == 'shipping'
+      @purchase = @import.shipping.build params[:purchase]
+      @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
+    end
+
+    if params[:parent_column] == 'customs'
+      @purchase = @import.customs.build params[:purchase]
+      @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
+    end
+
+    @purchase.save
+
+    if params[:parent_column] == 'importing'  
+       @import.importing_id = @purchase.id
+    end
+
+    if params[:parent_column] == 'shipping'
+       rtn = @import.shipping_id = @purchase.id
+    end
+
+    if params[:parent_column] == 'customs'
+      rtn = @import.customs_id = @purchase.id
+    end
+
     respond_to do |format|
-      if purchase.save 
-        if params[:parent_column] == 'importing'
-          @import.importing_id = purchase.id
-          @import.importing = purchase
-          @import.save
-        end  
-        if params[:parent_column] == 'shipping'
-          @import.shipping_id = purchase.id
-          @import.shipping = purchase
-          @import.save
-        end  
-        if params[:parent_column] == 'customs'
-          @import.customs_id = purchase.id
-          @import.customs = purchase
-          @import.save
-        end     
+      if @import.save
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:purchase_item)}"
         format.html { redirect_to edit_import_path(params[:purchase][:parent_id]) }
       else

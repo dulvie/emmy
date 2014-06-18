@@ -7,7 +7,7 @@
       .col-sm-9.col-md-10
         .input-group  
           .input-group-addon  
-            - add_single_purchase_url = edit_imported_product_import_path(@import.id, :parent_column => 'shipping')
+            - add_single_purchase_url = new_purchase_import_path(@import, :parent_column => 'shipping')
             = link_to plus_icon, add_single_purchase_url
           %input{:class=>'form-control', :readonly=>'readonly'}
 

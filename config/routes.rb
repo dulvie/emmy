@@ -23,8 +23,8 @@ Emmy::Application.routes.draw do
   resources :imports do
     member do
       post 'state_change', as: :state_change
-      get 'edit_imported_product', as: :edit_imported_product
-      post 'update_imported_product', as: :update_imported_product
+      get 'new_purchase', as: :new_purchase
+      post 'create_purchase', as: :create_pruchase
     end
   end  
   resources :items
