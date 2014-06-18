@@ -27,7 +27,7 @@ class PurchasesController < ApplicationController
       end  
     end
   end
-  
+
   def new
     if params[:form]=='single_purchase'
       @purchase.purchase_items.build
@@ -38,7 +38,7 @@ class PurchasesController < ApplicationController
       end  
     end  
   end
-  
+
   def create  
      @purchase = Purchase.new purchase_params
      @purchase.user = current_user
@@ -64,7 +64,7 @@ class PurchasesController < ApplicationController
       end
     end
   end
-  
+
   def edit
   end
 
@@ -83,7 +83,7 @@ class PurchasesController < ApplicationController
       #format.json { head :no_content }
     end
   end
- 
+
   def state_change
     @purchase = Purchase.find(params[:id])
           logger.info "param X: #{params[:state_change_at]}"
@@ -128,8 +128,7 @@ class PurchasesController < ApplicationController
         authorize! :manage, @parent
       end
     end
-    
-    
+
     def purchase_item_params
       params.permit(PurchaseItem.accessible_attributes.to_a, purchase_items_attributes: [])
     end
@@ -144,5 +143,6 @@ class PurchasesController < ApplicationController
 
     def show_breadcrumbs
       @breadcrumbs = [[t(:purchases), purchases_path], ["##{@purchase.id}"]]
-    end 
+    end
+
 end

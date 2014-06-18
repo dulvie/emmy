@@ -18,7 +18,7 @@
       .col-sm-3.col-md-2.control-label
         = y.label :product
       .col-sm-9.col-md-10
-        %input{:value => @import.product.name, :readonly=>'readonly', :class=>'form-control'} 
+        %input{:value => @import.product.name, :readonly=>'readonly', :class=>'form-control'}
 
     .form-group
       .col-sm-3.col-md-2.control-label
@@ -34,7 +34,7 @@
   %div{:ng_controller => "ModalCtrl"}
     = simple_form_for(@importing, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
       = f.error_notification
-      
+
       .form-group
         .col-sm-3.col-md-2.control-label
           = f.label :product
@@ -45,9 +45,8 @@
         .col-sm-3.col-md-2.control-label
           = f.label t(:quantity)
         .col-sm-9.col-md-10
-          %input{:value => f.object.purchase_items.first.quantity, :readonly=>'readonly', :class=>'form-control'}
-      
-         
+          %input{:value => f.object.purchase_items.first.quantity, :readonly=>'readonly', :class=>'form-control'
+
       .form-group
         .col-sm-3.col-md-2.control-label
           = f.label :importing
@@ -57,10 +56,10 @@
             -if @import.can_edit_items?
               .input-group-addon
                 = link_to settings_icon, purchase_path(f.object.id)
-              .input-group-addon  
+              .input-group-addon
                 = link_to delete_icon, purchase_path(f.object.id), :confirm => "Are you sure you?", :method => :delete
             - else
-              .input-group-addon       
+              .input-group-addon
 
       - if !f.object.can_edit_items?
         = f.input :ordered_at, :as => :string,  disabled: true
@@ -80,14 +79,14 @@
         - if !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_received?
           %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importedGoodsContent' )"}
             = status_icon
-            = t(:received)     
+            = t(:received)
 
         - if !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_paid?
           %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importedPayContent' )"}
             = status_icon
             = t(:paid)
       %hr
-        
+
     = render partial: 'shared/modal_state_change', locals: {idx: 'importedContent', model: @importing, form_path: state_change_purchase_path(@importing), next_step: 'mark_item_complete', return_path: edit_import_path(@import)}
     = render partial: 'shared/modal_state_change', locals: {idx: 'importedGoodsContent', model: @importing, form_path: state_change_purchase_path(@importing), next_step: 'receive', return_path: edit_import_path(@import)}
-    = render partial: 'shared/modal_state_change', locals: {idx: 'importedPayContent', model: @importing, form_path: state_change_purchase_path(@importing), next_step: 'pay', return_path: edit_import_path(@import)}   
+    = render partial: 'shared/modal_state_change', locals: {idx: 'importedPayContent', model: @importing, form_path: state_change_purchase_path(@importing), next_step: 'pay', return_path: edit_import_path(@import)}

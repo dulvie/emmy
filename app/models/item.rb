@@ -14,10 +14,10 @@ class Item < ActiveRecord::Base
   TYPES = ['sales', 'purchases', 'both']
   GROUPS = [' ', 'refined', 'unrefined']
   VATS = [0, 12, 25]
-     
+
   belongs_to :unit
   has_many :products
- 
+
   attr_accessible :name, :comment, :item_type, :item_group, :stocked, :unit_id,
   :in_price, :distributor_price, :retail_price, :vat
 

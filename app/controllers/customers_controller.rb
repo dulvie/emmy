@@ -12,7 +12,7 @@ class CustomersController < ApplicationController
     @customers = Customer.where("name LIKE ?", name).order("name").page(params[:page]).per(8)
     render action: 'index' 
   end
-  
+
   # GET /customers
   # GET /customers.json
   def index
@@ -37,7 +37,7 @@ class CustomersController < ApplicationController
   def edit
     @breadcrumbs = [['Customers', customers_path], [@customer.name]]
   end
-  
+
   # POST /customers
   # POST /customers.json
   def create

@@ -98,8 +98,8 @@
       = f.submit class: 'btn btn-primary'
       - if @production.can_edit_state?
         %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
-          %span{ :class => "glyphicon glyphicon-flag"} 
-          = f.object.next_step   
+          %span{ :class => "glyphicon glyphicon-flag"}
+          = f.object.next_step
       = link_to 'Back', productions_path, class: 'btn btn-primary'
  
   - unless  @production.new_record? || @production.is_completed?

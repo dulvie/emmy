@@ -9,7 +9,7 @@ class Import < ActiveRecord::Base
   # t.integer :importing_id
   # t.integer :shipping_id
   # t.integer :customs_id 
-  
+
   # t.string :state
   # t.timestamp :started_at
   # t.timestamp :completed_at
@@ -27,7 +27,7 @@ class Import < ActiveRecord::Base
 
   validates :description, presence: true
   validates :to_warehouse_id, presence: true
-  
+
   STATE_CHANGES = [
     :started, :complete, # Generic state
   ]
@@ -63,7 +63,7 @@ class Import < ActiveRecord::Base
   def is_ordered?
     state.eql? 'started'
   end
-  
+
   def is_completed?
     state.eql? 'complete'
   end
@@ -87,7 +87,7 @@ class Import < ActiveRecord::Base
       return false
     end
   end
-  
+
   def next_step
     case state
     when 'not_started'
@@ -106,9 +106,9 @@ class Import < ActiveRecord::Base
       self.save
     end
   end
-  
+
   def import_quantity
     self.importing.purchase_items.first.quantity
   end
-  
+
 end

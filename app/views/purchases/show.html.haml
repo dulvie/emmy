@@ -2,31 +2,30 @@
 
 .row
   .col-md-12{:ng_controller=>'ModalCtrl'}
-  
+
     - if @purchase.can_edit_items?
       = link_to t(:add_product), new_purchase_purchase_item_path(@purchase), class: 'btn btn-primary'
 
     - if @purchase.can_edit_items? && @purchase.purchase_items.count > 0
       %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','purchaseContent' )"}
-        %i{ :class => "glyphicon glyphicon-flag"} 
+        %i{ :class => "glyphicon glyphicon-flag"}
         = t(:ordered)
       = render partial: 'shared/modal_state_change', locals: {idx: 'purchaseContent', model: @purchase, form_path: state_change_purchase_path(@purchase), next_step: @purchase.next_step, return_path: purchase_path(@purchase)}
 
     - if (@purchase.is_ordered? && !@purchase.is_received?)
       %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','goodsContent' )"}
-        %i{ :class => "glyphicon glyphicon-flag"} 
+        %i{ :class => "glyphicon glyphicon-flag"}
         = t(:received)
       = render partial: 'shared/modal_state_change', locals: {idx: 'goodsContent', model: @purchase, form_path: state_change_purchase_path(@purchase), next_step: 'receive', return_path: purchase_path(@purchase)}
-    
+
     - if (@purchase.is_ordered? && !@purchase.is_paid?)
       %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','payContent' )"}
         %i{ :class => "glyphicon glyphicon-flag"} 
-        = t(:paid) 
-      = render partial: 'shared/modal_state_change', locals: {idx: 'payContent', model: @purchase, form_path: state_change_purchase_path(@purchase), next_step: 'pay', return_path: purchase_path(@purchase)}   
+        = t(:paid)
+      = render partial: 'shared/modal_state_change', locals: {idx: 'payContent', model: @purchase, form_path: state_change_purchase_path(@purchase), next_step: 'pay', return_path: purchase_path(@purchase)}
     
     = link_to 'Back', purchases_path, class: 'btn btn-primary'
- 
+
 .row
   .col-md-12
     = render partial: 'purchase_items/index'
-    

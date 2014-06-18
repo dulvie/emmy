@@ -12,7 +12,7 @@
     - if !@import.new_record? && @import.can_edit_state? && @import.can_edit_items?
       %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importContent' )"}
         %span{ :class => "glyphicon glyphicon-flag"} 
-        = f.object.next_step   
+        = f.object.next_step
     = link_to 'Back', imports_path, class: 'btn btn-primary'
 %br
   - if !@import.new_record? && @import.can_edit_state?

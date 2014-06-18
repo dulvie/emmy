@@ -15,11 +15,11 @@
       - @imports.each do |import|
         %tr
           %td= import.description
-          %td= import.started_at.nil? ? ' ': import.started_at.strftime("%Y-%d-%m") 
+          %td= import.started_at.nil? ? ' ': import.started_at.strftime("%Y-%d-%m")
           %td{:style => "text-align:right"}
             = import.id
           %td
             - import.states.each do |s|
               = s
-          %td= link_to settings_icon, edit_import_path(import) 
+          %td= link_to settings_icon, edit_import_path(import)
           %td= delete_button_for import

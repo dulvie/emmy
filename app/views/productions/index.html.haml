@@ -17,7 +17,7 @@
         %tr
           %td= production.description
           %td= production.started_at.nil? ? ' ': production.started_at.strftime("%Y-%m-%d") 
-          %td= production.completed_at.nil? ? ' ': production.completed_at.strftime("%Y-%m-%d") 
+          %td= production.completed_at.nil? ? ' ': production.completed_at.strftime("%Y-%m-%d")
           %td= production.product.nil? ? ' ': production.product.name
           %td= production.quantity
           %td

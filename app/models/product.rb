@@ -1,4 +1,5 @@
 class Product < ActiveRecord::Base
+
   # t.integer :item_id
   # t.string :name
   # t.text :comment
@@ -14,12 +15,12 @@ class Product < ActiveRecord::Base
   # t.timestamp :refined_at
 
   TYPES = ['refined', 'unrefined']
-  
+
   belongs_to :item
   has_many :transactions
   has_many :shelves, through: :transactions
 
-  attr_accessible :name, :product_type, :in_price, :distributor_price, :retail_price, :vat, :unit, :weight, :expire_at, :refined_at
+  attr_accessible :item_id, :name, :product_type, :in_price, :distributor_price, :retail_price, :vat, :unit, :weight, :expire_at, :refined_at
 
   validates :name, :uniqueness => true
   validates :name, :presence => true

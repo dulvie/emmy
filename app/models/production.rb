@@ -16,11 +16,11 @@ class Production < ActiveRecord::Base
   belongs_to :our_reference, class_name: 'User'
   belongs_to :warehouse
   belongs_to :product
-  
+
   has_many :comments, as: :parent, :dependent => :destroy
   has_many :materials, :dependent => :destroy
   has_one :work, as: :parent, class_name: 'Purchase'
-  
+
   accepts_nested_attributes_for :materials, :work, :product
 
   attr_accessible :description, :our_reference_id, :warehouse_id, :product_id, :quantity, :cost_price,
@@ -90,7 +90,7 @@ class Production < ActiveRecord::Base
       return false
     end
   end
-  
+
   def next_step
     case state
     when 'not_started'

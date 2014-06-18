@@ -1,11 +1,10 @@
 class ImportsController < ApplicationController
 
   load_and_authorize_resource
- 
+
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :edit_breadcrumbs, only: [:edit, :update]
- 
- 
+
   # GET /imports
   # GET /imports.json
   def index
@@ -19,11 +18,11 @@ class ImportsController < ApplicationController
     @breadcrumbs = [['Imports', imports_path], [@import.description]]
     @import = @import.decorate
   end
-  
+
   # GET /imports/new
   def new
   end
-  
+
   # GET /imports/1/edit
   def edit
     if !@import.importing_id.nil?
@@ -44,14 +43,13 @@ class ImportsController < ApplicationController
 
     respond_to do |format|
       if @import.save
-      
         #citems = Import.find(1).costitems        
         #citems.each do |ci|
         #  copy = ci.dup
         #  copy.parent_id = @import.id
         #  copy.save
         #end
-                
+
         format.html { redirect_to edit_import_path(@import), notice: 'import was successfully created.'}
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:import)}"
@@ -59,7 +57,7 @@ class ImportsController < ApplicationController
       end
     end    
   end
-  
+
   def update
     respond_to do |format|
       if @import.update_attributes(import_params)
@@ -69,7 +67,7 @@ class ImportsController < ApplicationController
       end
     end
   end
-  
+
   def destroy
     @import.destroy
     respond_to do |format|
@@ -77,7 +75,7 @@ class ImportsController < ApplicationController
       #format.json { head :no_content }
     end
   end
-  
+
   def new_purchase
 
     if params[:parent_column] == 'importing'
@@ -140,7 +138,7 @@ class ImportsController < ApplicationController
       end  
     end
   end
-  
+
   def state_change
     @import = Import.find(params[:id])
     if @import.state_change(params[:new_state], params[:state_change_at])
@@ -152,7 +150,7 @@ class ImportsController < ApplicationController
       format.html { redirect_to edit_import_path(@import), notice: msg}
     end
   end
-      
+
   private
 
     # Never trust parameters from the scary internet, only allow the white list through.

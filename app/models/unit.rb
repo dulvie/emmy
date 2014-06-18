@@ -10,7 +10,7 @@ class Unit < ActiveRecord::Base
 
   validates :name, :uniqueness => true
   validates :name, :presence => true
-  
+
   private
 
 end

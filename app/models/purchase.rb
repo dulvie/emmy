@@ -19,18 +19,18 @@ class Purchase < ActiveRecord::Base
   # t.timestamp :received_at
   # t.timestamp :paid_at
   # t.datetime :due_date
-  
+
   belongs_to :user
   belongs_to :supplier
   belongs_to :our_reference, class_name: 'User'
   belongs_to :to_warehouse, class_name: 'Warehouse'
   belongs_to :parent, polymorphic: true
   has_many :purchase_items
-  
+
   accepts_nested_attributes_for :purchase_items
-  attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id, :to_warehouse_id, 
-  :total_amount, :vat_amount, :ordered_at, :import_id, :parent_type, :parent_id
-  
+  attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id, 
+  :to_warehouse_id, :total_amount, :vat_amount, :ordered_at, :import_id, :parent_type, :parent_id
+
   validates :description, presence: true
   validates :supplier_id, presence: true
 
@@ -120,7 +120,7 @@ class Purchase < ActiveRecord::Base
       return false
     end
   end
-  
+
   def next_step
     case state
     when 'meta_complete'

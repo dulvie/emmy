@@ -4,6 +4,7 @@
   %input{:type => 'hidden', :name => 'class', :value => params['class']}
   %input{:type => 'hidden', :name => 'object', :value => params['object']}
 
+  = f.association :item, collection: Item.where("stocked=?", 'true') 
   = f.input :product_type,
     as: 'select',
     collection: Product::TYPES,

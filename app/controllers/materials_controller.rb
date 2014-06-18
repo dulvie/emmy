@@ -11,7 +11,7 @@ class MaterialsController < ApplicationController
   def show
     @production = @production
   end
-  
+
   def create
     @production = Production.find(params[:production_id])
     @material = @production.materials.build material_params
@@ -37,7 +37,7 @@ class MaterialsController < ApplicationController
       end
     end
   end
-  
+
   def destroy
     @production = Production.find(params[:production_id])
     if @production.can_edit_items?

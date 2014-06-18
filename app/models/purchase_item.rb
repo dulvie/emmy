@@ -17,9 +17,9 @@ class PurchaseItem < ActiveRecord::Base
   def can_delete?
     purchase.can_edit_items?
   end
-  
+
   private
-  
+
   def defaults
     self.price ||= 0
     self.total_amount ||= 0
