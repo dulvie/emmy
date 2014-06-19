@@ -32,22 +32,6 @@ ktest.save
 ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg"})
 flea_bottom = Warehouse.create({name: "Flea bottom", city: "King's landing"})
 
-espresso = Product.create({
-  name: "Espresso 14:01",
-  in_price: 3000,
-  distributor_price: 8000,
-  retail_price: 9500,
-  vat: 12
-})
-
-brewd = Product.create({
-  name: "Brygg 14:01",
-  in_price: 3000,
-  distributor_price: 6000,
-  retail_price: 6500,
-  vat: 12
-})
-
 unit1 = Unit.create(name: "Paket (1/2 kg)", weight: "1/2 kg")
 unit2 = Unit.create(name: "St")
 unit3 = Unit.create(name: "Säck (50 kg)", weight: "50 kg")
@@ -60,7 +44,7 @@ espresso_i = Item.create({
   distributor_price: 8000,
   retail_price: 9500,
   stocked: 'true',
-  unit:  'Paket (1/2 kg)',
+  unit_id: unit1.id,
   vat: 12
 })
 
@@ -72,7 +56,7 @@ brewd_i = Item.create({
   distributor_price: 6000,
   retail_price: 6500,
   stocked: 'true',
-  unit: 'Paket (1/2 kg)',
+  unit_id: unit1.id,
   vat: 12
 })
 coffe = Item.create({
@@ -83,7 +67,7 @@ coffe = Item.create({
   distributor_price: 6000,
   retail_price: 6000,
   stocked: 'true',
-  unit: 'Säck (50 kg)',
+  unit_id: unit3.id,
   vat: 0
 })
 
@@ -91,7 +75,8 @@ freight = Item.create({
   name: "Skeppning",
   item_type: 'purchases',
   item_group: ' ',
-  unit: 'St',
+  stocked: 'false',
+  unit_id: unit2.id,
   vat: 0
 })
 
@@ -99,16 +84,37 @@ custom = Item.create({
   name: "Tulldeklarering",
   item_type: 'purchases',
   item_group: ' ',
-  unit: 'St',
+  stocked: 'false',
+  unit_id: unit2.id,
   vat: 0
 })
 rost = Item.create({
   name: "Rostning",
   item_type: 'purchases',
   item_group: ' ',
-  unit: 'St',
+  stocked: 'false',
+  unit: unit2.id,
   vat: 0
 })
+
+espresso = Product.create({
+  item_id: espresso_i.id,
+  name: "Espresso 14:1",
+  in_price: 3000,
+  distributor_price: 8000,
+  retail_price: 9500,
+  vat: 12
+})
+
+brewd = Product.create({
+  item_id: brewd_i.id,
+  name: "Brygg 14:1",
+  in_price: 3000,
+  distributor_price: 6000,
+  retail_price: 6500,
+  vat: 12
+})
+
 espresso_in_ankeborg = Shelf.new
 espresso_in_ankeborg.warehouse = ankeborg_warehouse
 espresso_in_ankeborg.product = espresso

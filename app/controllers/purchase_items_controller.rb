@@ -5,14 +5,19 @@ class PurchaseItemsController < ApplicationController
   before_filter :set_breadcrumbs, only: [:new, :create]
 
   def new
-    @purchase = @purchase.decorate
-    #gon.push sale: @sale, sale_item: @sale_item, shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer)
+    if @purchase.to_warehouse.nil?
+      @item_selections = Item.where("stocked = false")
+    else
+      item_types = ['purchases', 'both']
+      @item_selections = Item.where(item_type: item_types)
+    end
+    gon.push items: ActiveModel::ArraySerializer.new(@item_selections, each_serializer: ItemSerializer)
   end
 
   def create
     @purchase = Purchase.find(params[:purchase_id])
     @purchase_item = @purchase.purchase_items.build purchase_item_params
-    respond_to do |format|
+    respond_to do |format| 
       if @purchase_item.save
         format.html { redirect_to purchase_path(@purchase), notice: "#{t(:product_added)}" }
       else

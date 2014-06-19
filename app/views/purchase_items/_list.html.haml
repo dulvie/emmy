@@ -1,6 +1,7 @@
 %table{:class => 'table table-striped'}
   %thead
     %tr
+      %th= t(:item)
       %th= t(:product)
       %th{:style => "text-align:right"}
         = t(:quantity)
@@ -10,13 +11,14 @@
         = t(:total_amount)
       %th
     %tbody
-      - purchase_items.each do |item|
+      - purchase_items.each do |i|
         %tr
-          %td= item.product.name
+          %td= i.item_id? ? i.item.name : ' '
+          %td= i.product_id? ? i.product.name : ' '
           %td{:style => "text-align:right"}
-            = item.quantity 
+            = i.quantity 
           %td{:style => "text-align:right"}
-            = as_sek(item.price)
+            = as_sek(i.price)
           %td{:style => "text-align:right"}
-            = as_sek(item.total_amount)
-          %td= delete_button_for item, purchase_purchase_item_path(@purchase, item)
+            = as_sek(i.total_amount)
+          %td= delete_button_for i, purchase_purchase_item_path(@purchase, i)

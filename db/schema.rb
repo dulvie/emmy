@@ -171,6 +171,7 @@ ActiveRecord::Schema.define(version: 20140616121826) do
 
   create_table "purchase_items", force: true do |t|
     t.integer  "purchase_id"
+    t.integer  "item_id"
     t.integer  "product_id"
     t.integer  "quantity"
     t.integer  "price"
