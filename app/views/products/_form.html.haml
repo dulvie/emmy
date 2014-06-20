@@ -1,42 +1,39 @@
-= simple_form_for(@product, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-  = f.error_notification
+%div{ :ng_controller => 'product_form_ctrl', :ng_init => 'init()'}
+  = simple_form_for(@product, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+    = f.error_notification
 
-  %input{:type => 'hidden', :name => 'class', :value => params['class']}
-  %input{:type => 'hidden', :name => 'object', :value => params['object']}
+    %input{:type => 'hidden', :name => 'class',  :value => params['class']}
+    %input{:type => 'hidden', :name => 'object', :value => params['object']}
 
-  = f.association :item, collection: Item.where("stocked=?", 'true') 
-  = f.input :product_type,
-    as: 'select',
-    collection: Product::TYPES,
-    include_blank: false
+    = f.association :item, collection: Item.where("stocked=?", 'true') 
+ 
+    = f.input :name
+    = f.input :comment
+    = f.input :in_price
+    = f.input :distributor_price
+    = f.input :retail_price
 
-  = f.input :name
-  = f.input :in_price
-  = f.input :distributor_price
-  = f.input :retail_price
-  = f.input :vat
-  = f.input :weight
-  #date-fields-wrapper
-    = f.input :expire_at, as: :date
-    = f.input :refined_at, as: :date
-  = f.button :submit, class: 'btn btn-primary'
-  = link_to 'Back', products_path, class: 'btn btn-primary'
+    .form-group
+      = f.label :refined_at, class: 'string optional col-sm-3 col-md-2 control-label', for: 'refined_at'
+      %div{:class=>"col-sm-9 col-md-10"}
+        = hidden_field_tag "in_refined_at", @product.refined_at
+        = hidden_field_tag "product[refined_at]", "{{re_date}}"
+        .input-group
+          = text_field_tag "ex_short_date", '', class: 'form-control', ng_model: 're_date', datepicker_popup: 'yyyy-MM-dd', is_open: 'reOpen', datepicker_options: 'reOptions', show_button_bar: 'false', readonly: true
+          %span{:class => "input-group-btn"}
+            %button{:class => "btn btn-default", :ng_click=>'open_re_date($event)'}
+              %span{ :class => "glyphicon glyphicon-calendar"}
 
-:javascript
-  $(document).ready(function() {
+    .form-group
+      = f.label :expire_at, class: 'string optional col-sm-3 col-md-2 control-label', for: 'expire_at'
+      %div{:class=>"col-sm-9 col-md-10"}
+        = hidden_field_tag "in_expire_at", @product.expire_at
+        = hidden_field_tag "product[expire_at]", "{{ex_date}}"
+        .input-group
+          = text_field_tag "ex_short_date", '', class: 'form-control', ng_model: 'ex_date', datepicker_popup: 'yyyy-MM-dd', is_open: 'exOpen', datepicker_options: 'exOptions', show_button_bar: 'false', readonly: true
+          %span{:class => "input-group-btn"}
+            %button{:class => "btn btn-default", :ng_click=>'open_ex_date($event)'}
+              %span{ :class => "glyphicon glyphicon-calendar"}
 
-    // hide expire/refined at fields when type is not refined.
-    $("#product_product_type").change(function() {
-      var $me = $(this);
-      if ($me.val() == 'refined') {
-        $('#date-fields-wrapper').show();
-      } else {
-        $('#date-fields-wrapper').hide();
-      }
-    });
-    if ($('#product_product_type').val() == 'refined') {
-      $('#date-fields-wrapper').show();
-    } else {
-      $('#date-fields-wrapper').hide();
-    }
-  });
+    = f.button :submit, class: 'btn btn-primary'
+    = link_to 'Back', products_path, class: 'btn btn-primary'

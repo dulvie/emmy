@@ -94,7 +94,7 @@ rost = Item.create({
   item_group: ' ',
   stocked: 'false',
   unit: unit2.id,
-  vat: 0
+  vat: 25
 })
 
 espresso = Product.create({
@@ -103,7 +103,6 @@ espresso = Product.create({
   in_price: 3000,
   distributor_price: 8000,
   retail_price: 9500,
-  vat: 12
 })
 
 brewd = Product.create({
@@ -112,7 +111,6 @@ brewd = Product.create({
   in_price: 3000,
   distributor_price: 6000,
   retail_price: 6500,
-  vat: 12
 })
 
 espresso_in_ankeborg = Shelf.new

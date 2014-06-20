@@ -7,7 +7,7 @@ class ProductTest < ActiveSupport::TestCase
   end
 
   test "Saving price as integer" do
-    p = Product.new(name: "foobar", product_type: 'refined', in_price: 1000, vat: 12)
+    p = Product.new(name: "foobar", in_price: 1000, vat: 12)
     unless p.save
       puts p.errors.full_messages
       assert p.save

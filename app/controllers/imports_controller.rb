@@ -80,7 +80,7 @@ class ImportsController < ApplicationController
 
     if params[:parent_column] == 'importing'
       @purchase = @import.importing.build
-      @purchase.purchase_items.build product_id: @import.product.id
+      @purchase.purchase_items.build(:product_id=>@import.product.id, :item_id=>@import.product.item.id)
     end
     if params[:parent_column] == 'shipping'
       @purchase = @import.shipping.build
@@ -100,33 +100,37 @@ class ImportsController < ApplicationController
 
   def create_purchase
 
-    if params[:parent_column] == 'importing'  
+    if params[:parent_column] == 'importing'
+       logger.info "params 1: #{params[:purchase][:purchase_items_attributes][:'0']}"
+       logger.info "params 2: #{params[:purchase][:purchase_items_attributes][:'0'][:item_id]}"
+       logger.info "params 3: #{params[:purchase][:purchase_items_attributes][:'0'][:product_id]}"
       @purchase = @import.importing.build params[:purchase]
       @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
+      @purchase.save
     end
 
     if params[:parent_column] == 'shipping'
       @purchase = @import.shipping.build params[:purchase]
       @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
+      @purchase.save
     end
 
     if params[:parent_column] == 'customs'
       @purchase = @import.customs.build params[:purchase]
       @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
+      @purchase.save
     end
 
-    @purchase.save
-
-    if params[:parent_column] == 'importing'  
-       @import.importing_id = @purchase.id
+    if params[:parent_column] == 'importing'
+      @import.importing_id = @purchase.id
     end
 
     if params[:parent_column] == 'shipping'
-       rtn = @import.shipping_id = @purchase.id
+      @import.shipping_id = @purchase.id
     end
 
-    if params[:parent_column] == 'customs'
-      rtn = @import.customs_id = @purchase.id
+    if params[:purchase][:parent_column] == 'customs'
+      @import.customs_id = @purchase.id
     end
 
     respond_to do |format|
@@ -135,6 +139,7 @@ class ImportsController < ApplicationController
         format.html { redirect_to edit_import_path(params[:purchase][:parent_id]) }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:import)}"
+        format.html { render :edit }
       end  
     end
   end

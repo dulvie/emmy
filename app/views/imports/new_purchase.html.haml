@@ -1,20 +1,21 @@
 = simple_form_for(@purchase, wrapper: :horizontal_form, html: {class: 'form-horizontal'}, url: create_pruchase_import_path(@import)) do |f|
   = f.error_notification
 
-  = f.input :parent_type
-  = f.input :parent_id
+  = f.input :parent_type, :as => :hidden
+  = f.input :parent_id, :as => :hidden
   %input{:name=>'parent_column', :value=>@parent_column, :type=>'hidden' }
 
   = f.input :description
   = f.association :supplier
   = f.input :contact_name
   = f.input :contact_email
-  = f.association :to_warehouse, disabled: true
-  = f.input :vat_amount
+  = f.association :to_warehouse
   = f.simple_fields_for(:purchase_items) do |ff|
-    = ff.association :product 
+    = ff.association :item
+    = ff.association :product
     = ff.input :quantity
     = ff.input :total_amount
+
   = f.submit class: 'btn btn-primary'
   - back_url = edit_import_path(@import)
   = link_to 'Back', back_url, class: 'btn btn-primary'

@@ -18,7 +18,7 @@ class SaleItemsController < ApplicationController
         format.html { redirect_to sale_path(@sale), notice: "#{t(:product_added)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_add)} #{t(:product)}"
-        format.html { render :new }
+        format.html { render :edit }
       end
     end
   end
