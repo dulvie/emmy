@@ -6,10 +6,12 @@ class MaterialsController < ApplicationController
 
   def new
      @production = @production
+     @product_selections = Product.where(:item => Item.where(item_group: 'unrefined'))
   end
 
   def show
     @production = @production
+    @product_selections = Product.where(:item => Item.where(item_group: 'unrefined'))
   end
 
   def create

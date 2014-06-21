@@ -15,7 +15,8 @@ class Product < ActiveRecord::Base
   has_many :transactions
   has_many :shelves, through: :transactions
 
-  attr_accessible :item_id, :name, :comment, :in_price, :distributor_price, :retail_price, :expire_at, :refined_at
+  attr_accessible :item_id, :name, :comment, :in_price, :distributor_price, :retail_price, 
+    :expire_at, :refined_at
 
   delegate :item_group, :vat, :unit, to: :item
 

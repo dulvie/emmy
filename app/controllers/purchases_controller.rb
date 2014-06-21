@@ -33,6 +33,8 @@ class PurchasesController < ApplicationController
       @purchase.purchase_items.build
       @purchase.parent_type = params[:parent_type]
       @purchase.parent_id = params[:parent_id]
+      item_types = ['purchases', 'both']
+      @item_selections = Item.where(item_type: item_types)
       respond_to do |format|
         format.html { render  "single_form" }
       end  

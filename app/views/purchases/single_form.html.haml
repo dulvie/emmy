@@ -10,7 +10,7 @@
   = f.input :contact_email
   = f.input :vat_amount
   = f.simple_fields_for(:purchase_items) do |ff|
-    = ff.association :product 
+    = ff.association :item, collection: @item_selections, include_blank: false
     = ff.input :quantity
     = ff.input :total_amount
   = f.submit class: 'btn btn-primary'
