@@ -81,14 +81,20 @@ class ImportsController < ApplicationController
     if params[:parent_column] == 'importing'
       @purchase = @import.importing.build
       @purchase.purchase_items.build(:product_id=>@import.product.id, :item_id=>@import.product.item.id)
+      @item_selections = Item.where(id: @import.product.item.id)
+      @product_selections = Product.where(id: @import.product.id)
     end
     if params[:parent_column] == 'shipping'
       @purchase = @import.shipping.build
       @purchase.purchase_items.build
+       item_types = ['purchases', 'both']
+      @item_selections = Item.where(item_type: item_types)
     end
     if params[:parent_column] == 'customs'
       @purchase = @import.customs.build
       @purchase.purchase_items.build
+       item_types = ['purchases', 'both']
+      @item_selections = Item.where(item_type: item_types)
     end
 
     @parent_column = params[:parent_column]   
@@ -129,7 +135,7 @@ class ImportsController < ApplicationController
       @import.shipping_id = @purchase.id
     end
 
-    if params[:purchase][:parent_column] == 'customs'
+    if params[:parent_column] == 'customs'
       @import.customs_id = @purchase.id
     end
 

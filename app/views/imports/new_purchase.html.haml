@@ -11,8 +11,16 @@
   = f.input :contact_email
   = f.association :to_warehouse
   = f.simple_fields_for(:purchase_items) do |ff|
-    = ff.association :item
-    = ff.association :product
+
+    = ff.association :item,
+      collection: @item_selections,
+      include_blank: false
+
+    - if @parent_column == 'importing'
+      = ff.association :product,
+        collection: @product_selections,
+        include_blank: false
+
     = ff.input :quantity
     = ff.input :total_amount
 

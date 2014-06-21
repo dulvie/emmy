@@ -17,10 +17,10 @@ class Import < ActiveRecord::Base
   belongs_to :our_reference, class_name: 'User'
   belongs_to :to_warehouse, class_name: 'Warehouse'
   belongs_to :product
-  has_many :importing, as: :parent, class_name: 'Purchase'
-  has_many :shipping, as: :parent, class_name: 'Purchase'
-  has_many :customs, as: :parent, class_name: 'Purchase'
-  has_many :comments, as: :parent
+  has_many :importing, as: :parent, class_name: 'Purchase', :dependent => :delete_all
+  has_many :shipping, as: :parent, class_name: 'Purchase', :dependent => :delete_all
+  has_many :customs, as: :parent, class_name: 'Purchase', :dependent => :delete_all
+  has_many :comments, as: :parent, :dependent => :delete_all
 
   attr_accessible :description, :our_reference_id, :to_warehouse_id,  :product_id, :quantity,
     :importing_id, :shipping_id, :started_at, :completed_at

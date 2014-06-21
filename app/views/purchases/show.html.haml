@@ -24,8 +24,13 @@
         = t(:paid)
       = render partial: 'shared/modal_state_change', locals: {idx: 'payContent', model: @purchase, form_path: state_change_purchase_path(@purchase), next_step: 'pay', return_path: purchase_path(@purchase)}
     
-    = link_to 'Back', purchases_path, class: 'btn btn-primary'
 
+    - if @purchase.parent_type == 'Import'
+      - back_url = edit_import_path(@purchase.parent_id)
+    - else
+      - back_url = purchases_path
+    = link_to 'Back', back_url, class: 'btn btn-primary'
+      
 .row
   .col-md-12
     = render partial: 'purchase_items/index'
