@@ -1,4 +1,4 @@
-= simple_form_for(@contact, url: @contact_form_url) do |f|
+= simple_form_for(@contact, wrapper: :horizontal_form, html: {class: 'form-horizontal'}, url: @contact_form_url) do |f|
   = f.error_notification
 
   = f.input :name

@@ -1,0 +1,9 @@
+%ul{:class => 'nav nav-tabs'}
+  %li.active= link_to "Base information", "#transfer-form", {"data-toggle" => "tab"}
+  %li= link_to "Comments", "#comment-index", {"data-toggle" => "tab"}
+.tab-content
+  #transfer-form.tab-pane.active
+    %br
+    = render 'show'
+  #comment-index.tab-pane
+    = render partial: 'comments/index', locals: {comments: @transfer.comments, parent: @transfer}

@@ -1,4 +1,4 @@
-= simple_form_for(@transfer) do |f|
+= simple_form_for(@transfer, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
   = f.error_notification
 
   = f.input :quantity

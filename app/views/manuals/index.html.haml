@@ -8,11 +8,14 @@
       %th= t(:product)
       %th= t(:quantity)
       %th
+      %th
     %tbody
       - @manuals.each do |manual|
         %tr
-          %td= link_to(manual.created_at, manual)
+          %td= manual.created_at
           %td= link_to(manual.warehouse.name, edit_warehouse_path(manual.warehouse))
           %td= link_to(manual.product.name, edit_product_path(manual.product))
           %td= manual.product_transaction.quantity
+          %td= link_to settings_icon, edit_manual_path(manual)
+          %td= link_to delete_icon, manual, method: :delete, data: { confirm: 'Are you Sure?' }
 

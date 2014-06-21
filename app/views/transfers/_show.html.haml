@@ -1,0 +1,21 @@
+= simple_form_for(@transfer, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+  = f.input :created_at, as: :string, disabled: true
+  = f.simple_fields_for @transfer.product do |p|
+    = p.input :name, disabled: true
+  = f.simple_fields_for @transfer.from_warehouse do |fw|
+    .form-group
+      .col-sm-3.col-md-2.control-label
+        = fw.label :from_warehouse
+      .col-sm-9.col-md-10
+        = fw.input :name, disabled: true, label: false
+  = f.simple_fields_for @transfer.to_warehouse do |tw|
+    .form-group
+      .col-sm-3.col-md-2.control-label
+        = tw.label :to_warehouse
+      .col-sm-9.col-md-10
+        = tw.input :name, disabled: true, label: false
+  = f.input :quantity, disabled: true
+  = f.input :state, disabled: true
+
+  = link_to 'Back', transfers_path, class: 'btn btn-primary'

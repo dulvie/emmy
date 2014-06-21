@@ -1,4 +1,4 @@
-= simple_form_for(@supplier) do |f|
+= simple_form_for(@supplier, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
   = f.error_notification
 
   = f.input :name, required: true, autofocus: true

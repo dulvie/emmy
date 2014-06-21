@@ -36,6 +36,15 @@ class ManualsController < ApplicationController
     end
   end
 
+  # DELETE /manuals/1
+  # DELETE /manuals/1.json
+  def destroy
+    @manual.destroy
+    respond_to do |format|
+      format.html { redirect_to manuals_url, notice: 'manual was successfully deleted.' }
+      #format.json { head :no_content }
+    end
+  end
 
   private
 

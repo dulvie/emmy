@@ -10,14 +10,16 @@
       %th= t(:quantity)
       %th= t(:state)
       %th
+      %th
     %tbody
       - @transfers.each do |transfer|
         %tr
-          %td= link_to(transfer.created_at, transfer)
+          %td= transfer.created_at
           %td= link_to(transfer.from_warehouse.name, edit_warehouse_path(transfer.from_warehouse))
           %td= link_to(transfer.to_warehouse.name, edit_warehouse_path(transfer.to_warehouse))
           %td= link_to(transfer.product.name, edit_product_path(transfer.product))
           %td= transfer.quantity
           %td= transfer.state
           %td= transfer.state_change_button
+          %td= link_to settings_icon, edit_transfer_path(transfer)
 
