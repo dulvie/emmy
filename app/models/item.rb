@@ -28,5 +28,10 @@ class Item < ActiveRecord::Base
   validates :item_type, inclusion: {in: TYPES}
   validates :item_group, inclusion: {in: GROUPS}
   validates :vat, inclusion: {in: VATS}
-  
+
+  def can_delete?
+    return true if products.size == 0
+    false
+  end
+
 end

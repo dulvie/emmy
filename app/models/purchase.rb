@@ -26,6 +26,7 @@ class Purchase < ActiveRecord::Base
   belongs_to :to_warehouse, class_name: 'Warehouse'
   belongs_to :parent, polymorphic: true
   has_many :purchase_items
+  has_many :to_transaction, class_name: 'ProductTransaction', as: :parent
 
   accepts_nested_attributes_for :purchase_items
   attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id, 
@@ -54,10 +55,12 @@ class Purchase < ActiveRecord::Base
   end
 
   state_machine :goods_state, initial: :not_received do
+    after_transition :not_received => :received, do: :create_to_transactions
     after_transition :not_received => :received, do: :check_for_completeness
     event :receive do
       transition :not_received => :received
     end
+
   end
 
   state_machine :money_state, initial: :not_paid do
@@ -118,6 +121,19 @@ class Purchase < ActiveRecord::Base
       return true
     else
       return false
+    end
+  end
+
+  def create_to_transactions
+    purchase_items.each do |purchase_item|
+      if purchase_item.item.stocked == true
+        product_transaction = ProductTransaction.new(
+          parent: self,
+          warehouse: to_warehouse, 
+          product: purchase_item.product, 
+          quantity: purchase_item.quantity)
+        product_transaction.save
+      end
     end
   end
 

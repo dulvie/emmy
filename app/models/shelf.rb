@@ -11,7 +11,7 @@ class Shelf < ActiveRecord::Base
   validates :product_id, presence: true
   validates :warehouse_id, presence: true
 
-  delegate :name, :in_price, :distributor_price, :retail_price, :vat, :unit, to: :product
+  delegate :name, :in_price, :distributor_price, :retail_price, :vat, :unit, :item_group, to: :product
 
   # Cache the product_transaction quantity sum of product in the warehouse.
   def recalculate

@@ -20,7 +20,8 @@ class Production < ActiveRecord::Base
   has_many :comments, as: :parent, :dependent => :destroy
   has_many :materials, :dependent => :destroy
   has_one :work, as: :parent, class_name: 'Purchase'
-
+  has_one :from_transaction, class_name: 'ProductTransaction', as: :parent
+  
   accepts_nested_attributes_for :materials, :work, :product
 
   attr_accessible :description, :our_reference_id, :warehouse_id, :product_id, :quantity, :cost_price,
@@ -34,6 +35,9 @@ class Production < ActiveRecord::Base
   ]
 
   state_machine :state, initial: :not_started do
+
+    after_transition :not_started => :started, do: :create_from_transaction
+    after_transition :started => :complete, do: :create_to_transaction
 
     event :started do
       transition :not_started => :started
@@ -89,6 +93,24 @@ class Production < ActiveRecord::Base
     else
       return false
     end
+  end
+
+  def create_from_transaction
+    product_transaction = ProductTransaction.new(
+          parent: self,
+          warehouse: warehouse, 
+          product: materials.first.product, 
+          quantity: materials.first.quantity * -1)
+    product_transaction.save
+  end
+
+  def create_to_transaction
+    product_transaction = ProductTransaction.new(
+          parent: self,
+          warehouse: warehouse, 
+          product: product, 
+          quantity: quantity)
+    product_transaction.save
   end
 
   def next_step

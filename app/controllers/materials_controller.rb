@@ -5,18 +5,24 @@ class MaterialsController < ApplicationController
   #before_filter :set_breadcrumbs, only: [:new, :create]
 
   def new
-     @production = @production
-     @product_selections = Product.where(:item => Item.where(item_group: 'unrefined'))
+   #@shelves = @sale.warehouse.shelves.includes(:product)
+     @product_selections = @production.warehouse.shelves.select("product_id", "product_id as id").
+       where(:product => Product.where(:item => Item.where(:item_group =>'unrefined')))
+     gon.push shelves: ActiveModel::ArraySerializer.new(@production.warehouse.shelves, each_serializer: ShelfSerializer)
   end
 
   def show
-    @production = @production
-    @product_selections = Product.where(:item => Item.where(item_group: 'unrefined'))
+    @product_selections = @production.warehouse.shelves.select("product_id", "product_id as id").
+      where(:product => Product.where(:item => Item.where(:item_group =>'unrefined')))
+    gon.push shelves: ActiveModel::ArraySerializer.new(@production.warehouse.shelves, each_serializer: ShelfSerializer)
   end
 
   def create
+      logger.info "product: #{params[:material][:product_id]}"
+
     @production = Production.find(params[:production_id])
     @material = @production.materials.build material_params
+
     respond_to do |format|
       if @material.save
         format.html { redirect_to edit_production_path(@production), notice: "#{t(:material_added)}" }
@@ -28,6 +34,7 @@ class MaterialsController < ApplicationController
   end
 
   def update
+        logger.info "product: #{params[:material][:product_id]}"
     @production = Production.find(params[:production_id])
     respond_to do |format|
       if @material.update_attributes(material_params)
@@ -42,7 +49,7 @@ class MaterialsController < ApplicationController
 
   def destroy
     @production = Production.find(params[:production_id])
-    if @production.can_edit_items?
+    if @production.can_edit?
       item = @production.materials.find(params[:id])
       item.destroy
       msg = "#{t(:material)} #{t(:was_successfully_deleted)}"

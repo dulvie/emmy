@@ -23,4 +23,9 @@ class Product < ActiveRecord::Base
   validates :name, :uniqueness => true
   validates :name, :presence => true
 
+  def can_delete?
+    return false if Shelf.where('product_id' => self.id).size > 0 
+    return true
+  end
+
 end

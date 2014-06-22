@@ -12,7 +12,7 @@
     %tbody
     - @warehouses.each do |warehouse|
       %tr
-        %td #{link_to(warehouse.name, warehouse)}
+        %td= warehouse.name
         %td= warehouse.address
         %td= warehouse.zip
         %td= warehouse.city

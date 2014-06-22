@@ -15,4 +15,4 @@
         %td #{item.distributor_price} (ex vat)
         %td #{item.retail_price} (ink vat)
         %td= link_to settings_icon, edit_item_path(item) 
-        %td= link_to delete_icon, item, method: :delete, data: { confirm: 'Are you sure?' }
+        %td= delete_button_for item
