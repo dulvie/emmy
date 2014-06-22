@@ -11,7 +11,7 @@ class UnitsController < ApplicationController
   def index
     respond_to do |format|
     	@breadcrumbs = [['Units']]
-    	format.html {@units = Unit.page(params[:page]).per(8)} 
+    	format.html {@units = Unit.page(params[:page]).per(4)} 
     	format.json {render json: @units}
     end	
   end

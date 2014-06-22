@@ -1,27 +1,23 @@
 %div{:class=> 'container-fluid well'}
-  .btn.btn-group.col-sm-offset-2.col-sm-8
+  .btn-group
     = link_to "#{t(:create)} #{t(:unit)}", new_unit_path, class: 'btn btn-primary'
 
-  .panel.panel-default.col-sm-offset-2.col-sm-8
-    %i
-      %h3
-        Unit list
-    .panel-body
-      %table{:class => 'table table-striped'}
-        %thead
+  .panel.panel-default{:style=>'margin-top:10px; margin-bottom: -10px'}
+    %table{:class => 'table'}
+      %thead{:class =>'alert-info'}
+        %tr
+          %th= t(:name)
+          %th= t(:weight)
+          %th= t(:package_dimensions)
+          %th
+          %th
+      %tbody{}
+        - @units.each do |unit|
           %tr
-            %th= t(:name)
-            %th= t(:weight)
-            %th= t(:package_dimensions)
-            %th
-            %th
-        %tbody{}
-          - @units.each do |unit|
-            %tr
-              %td= link_to unit.name, unit
-              %td= unit.weight
-              %td= unit.package_dimensions
-              %td= link_to settings_icon, edit_unit_path(unit)
-              %td= link_to delete_icon, unit, method: :delete, data: { confirm: 'Are you Sure?' }
+            %td= link_to unit.name, unit
+            %td= unit.weight
+            %td= unit.package_dimensions
+            %td= link_to settings_icon, edit_unit_path(unit)
+            %td= link_to delete_icon, unit, method: :delete, data: { confirm: 'Are you Sure?' }
 
-      = paginate @units, :theme => 'twitter-bootstrap-3'
+  = paginate @units, :theme => 'twitter-bootstrap-3'

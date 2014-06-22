@@ -35,6 +35,8 @@ flea_bottom = Warehouse.create({name: "Flea bottom", city: "King's landing"})
 unit1 = Unit.create(name: "Paket (1/2 kg)", weight: "1/2 kg")
 unit2 = Unit.create(name: "St")
 unit3 = Unit.create(name: "Säck (50 kg)", weight: "50 kg")
+unit4 = Unit.create(name: "Pall", weight: "100 kg")
+unit5 = Unit.create(name: "Tim")
 
 espresso_i = Item.create({
   name: "Espresso",
