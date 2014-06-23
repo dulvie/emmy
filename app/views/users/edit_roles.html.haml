@@ -1,8 +1,7 @@
-%h1 Change authorization for #{@user.name}
-
-= simple_form_for(@user, :url => edit_roles_user_path(@user), :method => :patch) do |f|
+= simple_form_for(@user, wrapper: :horizontal_form, html: {class: 'form-horizontal'}, :url => edit_roles_user_path(@user), :method => :patch) do |f|
   = f.error_notification
-
+  %label Change authorization for #{@user.name}
   = f.association :roles, as: :check_boxes
 
-  = form_submit(f)
+  = f.submit class: 'btn btn-primary'
+  = link_to 'Back', users_path, class: 'btn btn-primary'

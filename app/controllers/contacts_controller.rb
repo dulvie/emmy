@@ -1,7 +1,6 @@
 class ContactsController < ApplicationController
   load_and_authorize_resource
   before_filter :find_and_authorize_parent
-
   before_filter :show_breadcrumbs, only: [:show, :update]
 
   def new

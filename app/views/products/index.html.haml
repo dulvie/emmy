@@ -14,5 +14,5 @@
         %td= product.name 
         %td #{product.distributor_price} (ex vat)
         %td #{product.product_price} (ink vat)
-        %td= link_to settings_icon, edit_product_path(product) 
+        %td= link_to settings_icon, product_path(product) 
         %td= delete_button_for product

@@ -9,10 +9,12 @@
         %th= t(:created_at)
         %th= t(:text)
         %th
+        %th
       %tbody
         - comments.each do |comment|
           %tr
-            %td= link_to comment.created_at, comment
-            %td= link_to comment.body, comment
+            %td= comment.created_at
+            %td= comment.body
+            %td= link_to settings_icon, comment_path(comment)
             %td= delete_button_for comment
             

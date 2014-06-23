@@ -17,6 +17,7 @@ class Item < ActiveRecord::Base
 
   belongs_to :unit
   has_many :products
+  has_many :purchase_items
 
   attr_accessible :name, :comment, :item_type, :item_group, :stocked, :unit_id,
   :in_price, :distributor_price, :retail_price, :vat
@@ -30,8 +31,9 @@ class Item < ActiveRecord::Base
   validates :vat, inclusion: {in: VATS}
 
   def can_delete?
-    return true if products.size == 0
-    false
+    return false if products.size > 0
+    return false if purchase_items.size > 0
+    true
   end
 
 end

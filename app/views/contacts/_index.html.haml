@@ -8,10 +8,13 @@
       %tr
         %th= t(:name)
         %th= t(:email)
+        %th= t(:telephone)
         %th
       %tbody
         - contacts.each do |contact|
           %tr
-            %td= link_to contact.name, contact
-            %td= link_to contact.email, contact
+            %td= contact.name
+            %td= contact.email
+            %td= contact.telephone
+            %td= link_to settings_icon, contact_path(contact)
             %td= delete_button_for contact

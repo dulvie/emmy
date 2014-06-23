@@ -12,8 +12,16 @@ class Warehouse < ActiveRecord::Base
 
   attr_accessible :name, :address, :zip, :city
 
+  validates :name, :uniqueness => true
+  validates :name, :presence => true
+
   def products_in_stock
     @products_in_stock ||= shelves.includes(:product).collect{|s| s.product}
+  end
+
+  def can_delete?
+    return false if  products_in_stock.size > 0
+    true
   end
 
 end

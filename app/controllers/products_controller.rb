@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
   load_and_authorize_resource
 
   before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :edit_breadcrumbs, only: [:edit, :update]
+  before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
 
   # GET /products
   # GET /products.json
@@ -65,7 +65,7 @@ class ProductsController < ApplicationController
   def update
     respond_to do |format|
       if @product.update(product_params)
-        format.html { redirect_to edit_product_path(@product), notice: 'Product was successfully updated.' }
+        format.html { redirect_to products_path, notice: 'Product was successfully updated.' }
         #format.json { head :no_content }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:product)}"
