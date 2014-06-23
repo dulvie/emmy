@@ -11,7 +11,6 @@
         = t(:total_amount)
       %th= t(:state)
       %th= t(:parent_type)
-      %th= t(:parent_id)
       %th
       %th
     %tbody
@@ -25,7 +24,13 @@
           %td
             - purchase.states.each do |s|
               = s
-          %td= purchase.parent_type
-          %td= purchase.parent_id
+          - if purchase.parent_type == 'Production'
+            %td= link_to purchase.parent_type, edit_production_path(purchase.parent_id)
+          - elsif purchase.parent_type == 'Import'
+            %td= link_to purchase.parent_type, edit_import_path(purchase.parent_id)
+          - elsif
+            %td  
           %td= link_to settings_icon, purchase
           %td= delete_button_for purchase
+
+= paginate @purchases, :theme => 'twitter-bootstrap-3'

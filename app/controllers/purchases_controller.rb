@@ -72,7 +72,9 @@ class PurchasesController < ApplicationController
 
   def index
     @breadcrumbs = [[t(:purchases)]]
-    @purchases = @purchases.collect{|purchase| purchase.decorate}
+    #p = @purchases.page(params[:page]).per(4)
+    @purchases = Kaminari.paginate_array(@purchases.collect{|purchase| purchase.decorate}).page(params[:page]).per(8)
+    #@purchases = Purchase.page(params[:page]).per(4).collect{|purchase| purchase.decorate}
   end
 
   def show

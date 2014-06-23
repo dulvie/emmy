@@ -56,8 +56,8 @@ class Import < ActiveRecord::Base
   end
 
   def can_delete?
-    return true if ['not_started', 'started'].include? state
-    false
+    return false if ['started', 'complete'].include? state
+    true
   end
 
   def is_ordered?

@@ -4,6 +4,7 @@
   %li= link_to "Comments", "#comment-index", {"data-toggle" => "tab"}
 .tab-content
   #supplier-form.tab-pane.active
+    %br
     = render 'form'
   #contact-index.tab-pane
     = render partial: 'contacts/index', locals: {contacts: @supplier.contacts, parent: @supplier}
