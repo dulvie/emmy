@@ -18,3 +18,5 @@
         %td= warehouse.city
         %td= link_to settings_icon, edit_warehouse_path(warehouse)
         %td= delete_button_for warehouse
+
+= paginate @warehouses, :theme => 'twitter-bootstrap-3'

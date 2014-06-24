@@ -29,4 +29,8 @@ class Product < ActiveRecord::Base
     return true
   end
 
+  def quantity
+    qty = Shelf.where('product_id' => self.id).sum('quantity')
+    return qty
+  end
 end

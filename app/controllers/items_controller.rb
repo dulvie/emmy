@@ -8,7 +8,7 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.all
+    @items = Item.all.order(:name).page(params[:page]).per(8)
     @breadcrumbs = [['Items']]
     respond_with @items
   end

@@ -6,6 +6,7 @@ class WarehousesController < ApplicationController
   # GET /warehouses.json
   def index
     @breadcrumbs = [['Warehouses']]
+    @warehouses = @warehouses.order(:name).page(params[:page]).per(8)
     respond_with @warehouses
   end
 

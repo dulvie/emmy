@@ -16,3 +16,5 @@
         %td #{item.retail_price} (ink vat)
         %td= link_to settings_icon, edit_item_path(item) 
         %td= delete_button_for item
+
+= paginate @items, :theme => 'twitter-bootstrap-3'

@@ -8,8 +8,9 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.all.decorate
     @breadcrumbs = [['Products']]
+    products = @products.order(:name).collect{|product| product.decorate}
+    @products = Kaminari.paginate_array(products).page(params[:page]).per(8)
     respond_with @products
   end
 

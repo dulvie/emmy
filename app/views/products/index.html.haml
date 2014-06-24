@@ -3,16 +3,26 @@
 %table{:class => 'table table-striped'}
   %thead
     %tr
-      %th Name
-      %th Reseller
-      %th End customer
+      %th= t(:name)
+      %th{:style => "text-align:right"}
+        = t(:reseller)
+      %th{:style => "text-align:right"}
+        = t(:end_customer)
+      %th{:style => "text-align:right"}
+        = t(:quantity)
       %th
       %th
     %tbody
     - @products.each do |product|
       %tr
         %td= product.name 
-        %td #{product.distributor_price} (ex vat)
-        %td #{product.product_price} (ink vat)
+        %td{:style => "text-align:right"}
+          #{product.distributor_price} (ex vat)
+        %td{:style => "text-align:right"}
+          #{product.product_price} (ink vat)
+        %td{:style => "text-align:right"}
+          = product.quantity
         %td= link_to settings_icon, product_path(product) 
         %td= delete_button_for product
+
+= paginate @products, :theme => 'twitter-bootstrap-3'
