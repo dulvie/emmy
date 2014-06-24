@@ -5,6 +5,7 @@ class ManualsController < ApplicationController
   # GET /manuals.json
   def index
     @breadcrumbs = [['Manuals']]
+    @manuals = Manual.page(params[:page]).per(8)
   end
 
   # GET /manuals/1
@@ -13,6 +14,11 @@ class ManualsController < ApplicationController
     @breadcrumbs = [['Manuals', manuals_path], [@manual.created_at]]
   end
 
+  # GET /manuals/1/edit
+  def edit
+    @breadcrumbs = [['Manuals', manuals_path], [@manual.created_at]]
+  end
+  
   # GET /manuals/new
   def new
     @manual.product_transaction = ProductTransaction.new

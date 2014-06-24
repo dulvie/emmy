@@ -22,7 +22,8 @@ class SalesController < ApplicationController
 
   def index
     @breadcrumbs = [[t(:sales)]]
-    @sales = @sales.collect{|sale| sale.decorate}
+    sales = @sales.collect{|sale| sale.decorate}
+    @sales = Kaminari.paginate_array(sales).page(params[:page]).per(8)
   end
 
   def new

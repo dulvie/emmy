@@ -21,3 +21,5 @@
               = s
           %td= link_to settings_icon, sale
           %td= delete_button_for sale
+
+= paginate @sales, :theme => 'twitter-bootstrap-3'

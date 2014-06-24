@@ -7,8 +7,9 @@ class TransfersController < ApplicationController
   # GET /transfers
   # GET /transfers.json
   def index
-    @transfers = TransferDecorator.decorate_collection(@transfers)
     @breadcrumbs = [['Transfers']]
+    transfers = TransferDecorator.decorate_collection(@transfers)
+    @transfers = Kaminari.paginate_array(transfers).page(params[:page]).per(8)
   end
 
   # GET /transfers/1
@@ -16,6 +17,13 @@ class TransfersController < ApplicationController
   def show
     @breadcrumbs = [['Transfers', transfers_path], [@transfer.created_at]]
   end
+
+  # GET /transfers/1/edit
+  # GET /transfers/1/edit.json
+  def edit
+    @breadcrumbs = [['Transfers', transfers_path], [@transfer.created_at]]
+  end
+
 
   # GET /transfers/new
   def new
