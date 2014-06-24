@@ -8,6 +8,7 @@ class SuppliersController < ApplicationController
   # GET /suppliers.json
   def index
     @breadcrumbs = [['Suppliers']]
+    @suppliers = Supplier.order(:name).page(params[:page]).per(8)
   end
 
   # GET /suppliers/1

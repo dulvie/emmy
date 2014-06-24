@@ -9,7 +9,15 @@ class ProductionsController < ApplicationController
   # GET /productions.json
   def index
     @breadcrumbs = [[t(:productions)]]
-    @productions = @productions.collect{|production| production.decorate}
+    if params[:state] == 'not_started'
+      productions = @productions.where("state = ?", 'not_started').collect{|production| production.decorate}
+    elsif params[:state] == 'started'
+      productions = @productions.where("state = ?", 'started').collect{|production| production.decorate}
+    else
+      productions = @productions.order(:started_at).collect{|production| production.decorate}
+    end
+
+    @productions = Kaminari.paginate_array(productions).page(params[:page]).per(8)
   end
 
   # GET /productions/1

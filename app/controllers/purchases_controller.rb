@@ -71,10 +71,15 @@ class PurchasesController < ApplicationController
   end
 
   def index
-    @breadcrumbs = [[t(:purchases)]]
-    #p = @purchases.page(params[:page]).per(4)
-    @purchases = Kaminari.paginate_array(@purchases.collect{|purchase| purchase.decorate}).page(params[:page]).per(8)
-    #@purchases = Purchase.page(params[:page]).per(4).collect{|purchase| purchase.decorate}
+    @breadcrumbs = [[t(:purchases)]]    
+    if params[:state] == 'meta_complete'
+      purchases = @purchases.where("state = ?", 'meta_complete').collect{|purchase| purchase.decorate}
+    elsif params[:state] == 'item_complete'
+      purchases = @purchases.where("state = ?", 'item_complete').collect{|purchase| purchase.decorate}
+    else
+      purchases = @purchases.order(:ordered_at).collect{|purchase| purchase.decorate} 
+    end
+    @purchases = Kaminari.paginate_array(purchases).page(params[:page]).per(8)
   end
 
   def show

@@ -8,8 +8,15 @@ class ImportsController < ApplicationController
   # GET /imports
   # GET /imports.json
   def index
-    @breadcrumbs = [[t(:imports)]]
-    @imports = @imports.collect{|import| import.decorate}
+    @breadcrumbs = [[t(:imports)]]    
+    if params[:state] == 'not_started'
+      imports = @imports.where("state = ?", 'not_started').collect{|import| import.decorate}
+    elsif params[:state] == 'started'
+      imports = @imports.where("state = ?", 'started').collect{|import| import.decorate}
+    else
+      imports = @imports.order(:started_at).collect{|import| import.decorate}
+    end
+    @imports = Kaminari.paginate_array(imports).page(params[:page]).per(8)
   end
 
   # GET /imports/1

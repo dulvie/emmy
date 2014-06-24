@@ -108,7 +108,7 @@ class Import < ActiveRecord::Base
   end
 
   def import_quantity
-    self.importing.purchase_items.first.quantity
+    self.importing.first.purchase_items.first.quantity
   end
 
 end

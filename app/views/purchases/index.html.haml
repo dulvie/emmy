@@ -1,5 +1,9 @@
 .container.row
   = link_to 'Create Purchase', new_purchase_path, class: 'btn btn-primary'
+  %select{id: 'selp', class: 'btn btn-primary', onchange: 'location = this.options[this.selectedIndex].value;'}
+    %option{value: purchases_path} #{t(:all)}
+    %option{value: purchases_path + '?state=meta_complete'} #{t(:not_ordered)}
+    %option{value: purchases_path + '?state=item_complete'} #{t(:processing)}
 %br
 %table{:class => 'table table-striped well'}
   %thead
@@ -34,3 +38,10 @@
           %td= delete_button_for purchase
 
 = paginate @purchases, :theme => 'twitter-bootstrap-3'
+
+:javascript
+  $(document).ready(function() {
+    var path = document.location.pathname + document.location.search
+    $('#selp').val(path);
+  });
+ 

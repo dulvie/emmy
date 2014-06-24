@@ -25,6 +25,9 @@ class Transfer < ActiveRecord::Base
   validates :product, presence: true
   validates :quantity, presence: true
 
+  def name
+    from_warehouse.name + ' => ' + to_warehouse.name 
+  end
 
   # State changes go through not_sent -> sent -> received
   state_machine :state, initial: :not_sent do

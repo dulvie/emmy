@@ -27,7 +27,7 @@ class ManualsController < ApplicationController
 
     respond_to do |format|
       if @manual.save
-        format.html { redirect_to manual_path(@manual), notice: "#{t(:manual_transaction)} #{t(:was_successfully_created)}" }
+        format.html { redirect_to manuals_path, notice: "#{t(:manual_transaction)} #{t(:was_successfully_created)}" }
         #format.json { render action: 'show', status: :created, location: @manual }
       else
         format.html { render action: 'new' }
