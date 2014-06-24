@@ -1,5 +1,5 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
-app.controller('purchaseEditCtrl', function ($scope, ajaxService) {
+app.controller('purchase_edit_ctrl', function ($scope, ajaxService) {
 	$scope.dt = new Date();
 });

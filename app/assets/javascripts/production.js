@@ -1,5 +1,5 @@
 app.controller('production_material_form_ctrl', function ($scope) {
-	
+
 	$scope.init = function() {
 
 		$scope.shelf_qty = 0;
@@ -11,7 +11,7 @@ app.controller('production_material_form_ctrl', function ($scope) {
 			}
 		}
 	};
-	
+
 	$scope.change_product = function() {
 		for (x=0; x < gon.shelves.length; x++) {
 			if (gon.shelves[x].product_id == $scope.prod) {
@@ -20,9 +20,4 @@ app.controller('production_material_form_ctrl', function ($scope) {
 		}
 	};
 
-	$scope.test = function() {
-		var idx = $('#material_product_id').val()
-		alert(idx);
-		alert($scope.prod);
-	}
 });
