@@ -16,6 +16,9 @@
     $ echo "DISPLAY=localhost:1.0" >> ~/.bashrc
     $ echo "alias cucu='xvfb-run bundle exec cucumber'" >> ~/.bashrc
 
+  xvfb-run command can be installed by
+    $ apt-get install xvfb
+
   Redis (used by resque gem)
     $ apt-get install redis-server
 
