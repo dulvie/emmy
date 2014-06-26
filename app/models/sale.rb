@@ -40,7 +40,8 @@ class Sale < ActiveRecord::Base
   end
 
   state_machine :goods_state, initial: :not_delivered do
-    after_transition :not_delivered => :paid, do: :check_for_completeness
+    after_transition :not_delivered => :delivered, do: :check_for_completeness
+
     event :deliver do
       transition :not_delivered => :delivered
     end
