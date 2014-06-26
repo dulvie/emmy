@@ -29,70 +29,48 @@ class Production < ActiveRecord::Base
 
   validates :description, presence: true
   validates :warehouse_id, presence: true
-  
-  STATE_CHANGES = [
-    :started, :complete, # Generic state
-  ]
+
+  def state_change(event, changed_at = nil)
+   return false unless EVENTS.include?(event.to_sym)
+   self.send(event, changed_at)
+  end
+
+  EVENTS = [:start, :complete]
+  def next_event
+    case state
+    when 'not_started'
+      :start
+    when 'started'
+      :complete
+    else
+      raise RuntimeError, "Unknown state#{state} of production#{self.id}"
+    end
+  end
 
   state_machine :state, initial: :not_started do
 
-    after_transition :not_started => :started, do: :create_from_transaction
-    after_transition :started => :complete, do: :create_to_transaction
-
-    event :started do
+    event :start do
       transition :not_started => :started
     end
+    before_transition :not_started => :started, do:  :set_started
+    after_transition :not_started => :started, do: :create_from_transaction
 
     event :complete do
-      transition :started => :complete
+      transition :started => :completed
     end
+    before_transition :started => :completed, do:  :set_completed
+    after_transition :started => :completed, do: :create_to_transaction
+
   end
 
-  def can_edit?
-    state.eql? 'not_started'
+  def set_started(transition)
+    self.started_at = transition.args[0]
+    self.work.state_change('mark_item_complete', self.started_at)
   end
 
-  def can_edit_state?
-     return false if state.eql? 'complete'
-     return false if self.product_id.nil? 
-     return false if self.quantity.nil?
-     return false if self.materials.size == 0
-     return false if self.work.nil?
-     return true
-  end
-  
-  def can_delete?
-    return false if ['started', 'complete'].include? state
-    true
-  end
-
-  def is_started?
-    state.eql? 'started'
-  end
-
-  def is_completed?
-    state.eql? 'complete'
-  end
-
-  def state_change(new_state, changed_at = nil)
-    return false unless STATE_CHANGES.include?(new_state.to_sym)
-
-    if self.send("#{new_state}")
-      # Set state_change date if started or complete.
-      case new_state
-      when 'started'
-        self.started_at = changed_at || Time.now
-        self.work.state_change('mark_item_complete', changed_at)
-        return self.save
-      when 'complete'
-        self.completed_at = changed_at || Time.now
-        self.work.state_change('receive', changed_at)
-        return self.save
-      end
-      return true
-    else
-      return false
-    end
+  def set_completed(transition)
+    self.completed_at = transition.args[0]
+    self.work.state_change('receive', self.completed_at)
   end
 
   def create_from_transaction
@@ -113,17 +91,40 @@ class Production < ActiveRecord::Base
     product_transaction.save
   end
 
-  def next_step
-    case state
-    when 'not_started'
-      :started
-    when 'started'
-      :complete
-    else
-      raise RuntimeError, "Unknown state#{state} of production#{self.id}"
-    end
+
+  def can_edit?
+    state.eql? 'not_started'
   end
 
+  def can_edit_state?
+     return false if state.eql? 'completed'
+     return false if self.product_id.nil? 
+     return false if self.quantity.nil?
+     return false if self.materials.size == 0
+     return false if self.work.nil?
+     return true
+  end
+
+  def can_delete?
+    return false if ['started', 'completed'].include? state
+    true
+  end
+
+  def is_started?
+    state.eql? 'started'
+  end
+
+  def can_complete?
+    return self.work.is_paid?
+  end
+
+  def is_completed?
+    state.eql? 'completed'
+  end
+
+  def parent_name
+    description
+  end
   private
 
 end

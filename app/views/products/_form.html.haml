@@ -5,7 +5,7 @@
     %input{:type => 'hidden', :name => 'class',  :value => params['class']}
     %input{:type => 'hidden', :name => 'object', :value => params['object']}
 
-    = f.association :item, collection: Item.where("stocked=?", 'true') 
+    = f.association :item, collection: @items, :input_html => {:ng_model => 'item_id', :ng_change => 'select_item()'}
  
     = f.input :name
     = f.input :comment
@@ -19,7 +19,7 @@
         = hidden_field_tag "in_refined_at", @product.refined_at
         = hidden_field_tag "product[refined_at]", "{{re_date}}"
         .input-group
-          = text_field_tag "ex_short_date", '', class: 'form-control', ng_model: 're_date', datepicker_popup: 'yyyy-MM-dd', is_open: 'reOpen', datepicker_options: 'reOptions', show_button_bar: 'false', readonly: true
+          = text_field_tag "ex_short_date", '', class: 'form-control', ng_model: 're_date', datepicker_popup: 'yyyy-MM-dd', is_open: 're_open', datepicker_options: 're_options', show_button_bar: 'false', readonly: true
           %span{:class => "input-group-btn"}
             %button{:class => "btn btn-default", :ng_click=>'open_re_date($event)'}
               %span{ :class => "glyphicon glyphicon-calendar"}
@@ -30,7 +30,7 @@
         = hidden_field_tag "in_expire_at", @product.expire_at
         = hidden_field_tag "product[expire_at]", "{{ex_date}}"
         .input-group
-          = text_field_tag "ex_short_date", '', class: 'form-control', ng_model: 'ex_date', datepicker_popup: 'yyyy-MM-dd', is_open: 'exOpen', datepicker_options: 'exOptions', show_button_bar: 'false', readonly: true
+          = text_field_tag "ex_short_date", '', class: 'form-control', ng_model: 'ex_date', datepicker_popup: 'yyyy-MM-dd', is_open: 'ex_open', datepicker_options: 'ex_options', show_button_bar: 'false', readonly: true
           %span{:class => "input-group-btn"}
             %button{:class => "btn btn-default", :ng_click=>'open_ex_date($event)'}
               %span{ :class => "glyphicon glyphicon-calendar"}

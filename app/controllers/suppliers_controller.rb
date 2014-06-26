@@ -2,7 +2,7 @@ class SuppliersController < ApplicationController
   load_and_authorize_resource
 
   before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :edit_breadcrumbs, only: [:edit, :update]
+  before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
 
   # GET /suppliers
   # GET /suppliers.json
@@ -14,7 +14,7 @@ class SuppliersController < ApplicationController
   # GET /suppliers/1
   # GET /suppliers/1.json
   def show
-    @breadcrumbs = [['Suppliers', suppliers_path], [@supplier.name]]
+    render 'edit'
   end
 
   # GET /suppliers/new
@@ -29,10 +29,9 @@ class SuppliersController < ApplicationController
   # POST /suppliers.json
   def create
     @supplier = Supplier.new(supplier_params)
-
     respond_to do |format|
       if @supplier.save
-        format.html { redirect_to edit_supplier_path(@supplier), notice: 'supplier was successfully created.' }
+        format.html { redirect_to suppliers_path, notice: 'supplier was successfully created.' }
         #format.json { render action: 'show', status: :created, location: @supplier }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:supplier)}"
@@ -47,7 +46,7 @@ class SuppliersController < ApplicationController
   def update
     respond_to do |format|
       if @supplier.update(supplier_params)
-        format.html { redirect_to edit_supplier_path(@supplier), notice: 'supplier was successfully updated.' }
+        format.html { redirect_to suppliers_path, notice: 'supplier was successfully updated.' }
         #format.json { head :no_content }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:supplier)}"

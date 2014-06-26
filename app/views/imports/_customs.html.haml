@@ -44,18 +44,18 @@
         - if  !@import.can_edit_items? && f.object.can_edit_items?
           %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','customsContent' )"}
             = status_icon
-            = t(:started)
+            = t(:start)
 
         - if  !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_received?
           %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','customsGoodsContent' )"}
             = status_icon
-            = t(:received)
+            = t(:receive)
 
         - if  !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_paid?
           %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','customsPayContent' )"}
             = status_icon
-            = t(:paid)
+            = t(:pay)
 
-    = render partial: 'shared/modal_state_change', locals: {idx: 'customsContent', model: @customs, form_path: state_change_purchase_path(@customs), next_step: 'mark_item_complete', return_path: edit_import_path(@import)}
-    = render partial: 'shared/modal_state_change', locals: {idx: 'customsGoodsContent', model: @customs, form_path: state_change_purchase_path(@customs), next_step: 'receive', return_path: edit_import_path(@import)}
-    = render partial: 'shared/modal_state_change', locals: {idx: 'customsPayContent', model: @customs, form_path: state_change_purchase_path(@customs), next_step: 'pay', return_path: edit_import_path(@import)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'customsContent', model: @customs, form_path: state_change_purchase_path(@customs), event: 'mark_item_complete', return_path: edit_import_path(@import)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'customsGoodsContent', model: @customs, form_path: state_change_purchase_path(@customs), event: 'receive', return_path: edit_import_path(@import)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'customsPayContent', model: @customs, form_path: state_change_purchase_path(@customs), event: 'pay', return_path: edit_import_path(@import)}

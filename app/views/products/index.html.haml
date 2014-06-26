@@ -22,7 +22,7 @@
           #{product.product_price} (ink vat)
         %td{:style => "text-align:right"}
           = product.quantity
-        %td= link_to settings_icon, product_path(product) 
+        %td= link_to settings_icon, edit_product_path(product) 
         %td= delete_button_for product
 
 = paginate @products, :theme => 'twitter-bootstrap-3'

@@ -92,20 +92,17 @@
                 - if f.object.work.money_state != 'paid'
                   %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','workPayContent' )"}
                     = status_icon
-                    = t(:paid_at)
+                    = t(:pay)
 
     .input-group
       = f.submit class: 'btn btn-primary'
-      - if @production.can_edit_state?
+      - if (@production.can_edit_state? && !@production.is_started?) || (@production.is_started? && @production.can_complete?)
         %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
           %span{ :class => "glyphicon glyphicon-flag"}
-          = f.object.next_step
+          = f.object.next_event
       = link_to 'Back', productions_path, class: 'btn btn-primary'
  
   - unless  @production.new_record? || @production.is_completed?
-    = render partial: 'shared/modal_state_change', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), next_step: @production.next_step, return_path: edit_production_path(@production)}   
+    = render partial: 'shared/modal_state_change', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), event: @production.next_event, return_path: edit_production_path(@production)}   
   - if  !@production.work.nil?
-    = render partial: 'shared/modal_state_change', locals: {idx: 'workPayContent', model: @production.work, form_path: state_change_purchase_path(@production.work), next_step: 'pay', return_path: edit_production_path(@production)}
-    = render partial: 'shared/modal_state_change', locals: {idx: 'workContent', model: @production.work, form_path: state_change_purchase_path(@production.work), next_step: next_step, return_path: edit_production_path(@production)}
-    
-    
+    = render partial: 'shared/modal_state_change', locals: {idx: 'workPayContent', model: @production.work, form_path: state_change_purchase_path(@production.work), event: 'pay', return_path: edit_production_path(@production)}

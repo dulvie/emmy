@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+
   respond_to :html, :json
   load_and_authorize_resource
 
@@ -8,8 +9,8 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.all.order(:name).page(params[:page]).per(8)
     @breadcrumbs = [['Items']]
+    @items = Item.all.order(:name).page(params[:page]).per(8)
     respond_with @items
   end
 
@@ -26,14 +27,12 @@ class ItemsController < ApplicationController
 
   # GET /items/1/edit
   def edit
-
   end
 
   # POST /items
   # POST /items.json
   def create
     @item = Item.new(item_params)
-
     respond_to do |format|
       if @item.save
         format.html { redirect_to items_path, notice: 'product was successfully created.' }

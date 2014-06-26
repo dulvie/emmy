@@ -96,7 +96,7 @@ rost = Item.create({
   item_group: ' ',
   stocked: 'false',
   unit: unit2.id,
-  vat: 25
+  vat: 25,
 })
 
 espresso = Product.create({

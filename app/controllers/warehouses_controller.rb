@@ -1,37 +1,35 @@
 class WarehousesController < ApplicationController
+
   respond_to :html, :json
   load_and_authorize_resource
+  before_filter :show_breadcrumbs, only: [:show, :edit, :update]
+  before_filter :new_breadcrumbs, only: [:new, :create]
 
   # GET /warehouses
   # GET /warehouses.json
   def index
     @breadcrumbs = [['Warehouses']]
     @warehouses = @warehouses.order(:name).page(params[:page]).per(8)
-    respond_with @warehouses
   end
 
   # GET /warehouses/1
   # GET /warehouses/1.json
   def show
-    @breadcrumbs = [['Warehouses', warehouses_path], [@warehouse.name]]
-    respond_with @warehouse
+    render 'edit'
   end
 
   # GET /warehouses/new
   def new
-    @breadcrumbs = [['Warehouses', warehouses_path], ['New warehouse']]
   end
 
   # GET /warehouses/1/edit
   def edit
-    @breadcrumbs = [['Warehouses', warehouses_path], [@warehouse.name]]
   end
 
   # POST /warehouses
   # POST /warehouses.json
   def create
     @warehouse = Warehouse.new(warehouse_params)
-
     respond_to do |format|
       if @warehouse.save
         format.html { redirect_to  warehouses_path, notice: 'Warehouse was successfully created.' }
@@ -73,4 +71,13 @@ class WarehousesController < ApplicationController
     def warehouse_params
       params.require(:warehouse).permit(:name, :address, :zip, :city)
     end
+    
+    def show_breadcrumbs
+      @breadcrumbs = [['Warehouses', warehouses_path], [@warehouse.name]]
+    end
+
+    def new_breadcrumbs
+      @breadcrumbs = [['Warehouses', warehouses_path], ['New warehouse']]
+    end
+
 end

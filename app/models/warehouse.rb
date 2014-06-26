@@ -24,4 +24,7 @@ class Warehouse < ActiveRecord::Base
     true
   end
 
+  def parent_name
+    name
+  end
 end

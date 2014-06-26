@@ -1,7 +1,10 @@
 class ContactsController < ApplicationController
+
   load_and_authorize_resource
+
   before_filter :find_and_authorize_parent
   before_filter :show_breadcrumbs, only: [:show, :update]
+  before_filter :new_breadcrumbs, only: [:new, :create]
 
   def new
     @contact = @parent.contacts.build
@@ -72,8 +75,14 @@ class ContactsController < ApplicationController
         params.require(:contact).permit(Contact.accessible_attributes.to_a)
     end
 
+    def new_breadcrumbs
+      @breadcrumbs = [["#{@parent.class.name.pluralize}", send("#{@parent.class.name.downcase}s_path")], 
+        [@parent.parent_name, @parent], ["#{t(:new)} #{t(:contact)}"]]
+    end
+    
     def show_breadcrumbs
-      @breadcrumbs = [["#{@contact.parent_type.pluralize}", send("#{@parent.class.name.downcase}_path")], [@contact.parent_name, @contact.parent], ["#{t(:contacts)}(#{@contact.name})"]]
+      @breadcrumbs = [["#{@contact.parent_type.pluralize}", send("#{@parent.class.name.downcase}s_path")], 
+        [@contact.parent_name, @contact.parent], ["#{t(:contacts)}(#{@contact.name})"]]
     end
 
 end

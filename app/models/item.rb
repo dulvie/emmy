@@ -24,6 +24,7 @@ class Item < ActiveRecord::Base
 
   validates :name, :uniqueness => true
   validates :name, :presence => true
+  validates :unit, :presence => true
   validates :vat, :presence => true # Needed for other models as well.
 
   validates :item_type, inclusion: {in: TYPES}

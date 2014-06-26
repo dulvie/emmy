@@ -6,26 +6,19 @@ class PurchasesController < ApplicationController
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update, :edit]
 
-  def single_purchase
-    @purchase = Purchase.new params[:purchase]
-    @purchase.user = current_user
-
-    @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
-
-       logger.info "param 2: #{params[:purchase][:parent_id]}"
-       logger.info "param 3: #{params[:purchase][:parent_type]}"
-    respond_to do |format|
-      if @purchase.save
-        if params[:purchase][:parent_type]=='Import'
-          format.html { redirect_to edit_import_path(params[:purchase][:parent_id]), notice: "#{t(:purchase)} #{t(:was_successfully_created)}" }
-        else
-          format.html { redirect_to edit_production_path(params[:purchase][:parent_id]), notice: "#{t(:purchase)} #{t(:was_successfully_created)}" }
-        end
-      else
-        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:purchase_item)}"
-        format.html { redirect_to edit_production_path(params[:purchase][:parent_id]) }
-      end  
+  def index
+    @breadcrumbs = [[t(:purchases)]]    
+    if params[:state] == 'meta_complete'
+      purchases = @purchases.where("state = ?", 'meta_complete').collect{|purchase| purchase.decorate}
+    elsif params[:state] == 'item_complete'
+      purchases = @purchases.where("state = ?", 'item_complete').collect{|purchase| purchase.decorate}
+    else
+      purchases = @purchases.order(:ordered_at).collect{|purchase| purchase.decorate} 
     end
+    @purchases = Kaminari.paginate_array(purchases).page(params[:page]).per(8)
+  end
+
+  def show
   end
 
   def new
@@ -61,7 +54,7 @@ class PurchasesController < ApplicationController
         #format.json { head :no_content }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:purchase)}"
-        format.html { render action: 'edit' }
+        format.html { render action: 'show' }
         #format.json { render json: @supplier.errors, status: :unprocessable_entity }
       end
     end
@@ -70,20 +63,6 @@ class PurchasesController < ApplicationController
   def edit
   end
 
-  def index
-    @breadcrumbs = [[t(:purchases)]]    
-    if params[:state] == 'meta_complete'
-      purchases = @purchases.where("state = ?", 'meta_complete').collect{|purchase| purchase.decorate}
-    elsif params[:state] == 'item_complete'
-      purchases = @purchases.where("state = ?", 'item_complete').collect{|purchase| purchase.decorate}
-    else
-      purchases = @purchases.order(:ordered_at).collect{|purchase| purchase.decorate} 
-    end
-    @purchases = Kaminari.paginate_array(purchases).page(params[:page]).per(8)
-  end
-
-  def show
-  end
 
   def destroy
     @purchase.destroy
@@ -96,8 +75,8 @@ class PurchasesController < ApplicationController
   def state_change
     @purchase = Purchase.find(params[:id])
           logger.info "param X: #{params[:state_change_at]}"
-          logger.info "param X: #{params[:full]}"
-    if @purchase.state_change(params[:new_state], params[:state_change_at])    
+          logger.info "param event: #{params[:event]}"
+    if @purchase.state_change(params[:event], params[:state_change_at])    
       msg = t(:success)
     else
       msg = t(:fail)
@@ -113,6 +92,26 @@ class PurchasesController < ApplicationController
       end
       format.html { redirect_to return_path, notice: msg}
     end
+  end
+
+  def single_purchase
+    @purchase = Purchase.new params[:purchase]
+    @purchase.user = current_user
+    @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
+
+    respond_to do |format|
+      if @purchase.save
+        if params[:purchase][:parent_type]=='Import'
+          format.html { redirect_to edit_import_path(params[:purchase][:parent_id]), notice: "#{t(:purchase)} #{t(:was_successfully_created)}" }
+        else
+          format.html { redirect_to edit_production_path(params[:purchase][:parent_id]), notice: "#{t(:purchase)} #{t(:was_successfully_created)}" }
+        end
+      else
+        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:purchase_item)}"
+        format.html { redirect_to edit_production_path(params[:purchase][:parent_id]) }
+      end  
+    end
+
   end
 
   private

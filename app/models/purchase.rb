@@ -39,39 +39,100 @@ class Purchase < ActiveRecord::Base
 
   VALID_PARENT_TYPES = ['Purchase', 'Production', 'Import']
 
-  STATE_CHANGES = [
+
+  EVENTS = [
     :mark_item_complete, :mark_complete, # Generic state
-    :receive,  # Goods
-    :pay,      # Money
-  ]
+    :receive,   # Goods
+    :pay,       # Money
+    ]
+
+  def state_change(event, changed_at = nil)
+   return false unless EVENTS.include?(event.to_sym)
+   self.send(event, changed_at)
+  end
+
+  def next_event
+    case state
+    when 'meta_complete'
+      :mark_item_complete
+    when 'item_complete' || 'completed'
+      nil 
+    else
+      raise RuntimeError, "Unknown state#{state} of purchase#{self.id}"
+    end
+  end
+
 
   state_machine :state, initial: :meta_complete do
 
     event :mark_item_complete do
       transition :meta_complete => :item_complete
     end
+    before_transition :meta_complete => :item_complete, do:  :set_ordered
 
     event :mark_complete do
       transition :item_complete => :completed
     end
+    before_transition :item_complete => :completed, do:  :set_completed
+  end
+  
+  def set_ordered(transition)
+    self.ordered_at = transition.args[0]
   end
 
+  def set_completed(transition)
+    self.completed_at = transition.args[0]
+  end
+
+
   state_machine :goods_state, initial: :not_received do
+    before_transition :not_received => :received, do:  :set_received
     after_transition :not_received => :received, do: :create_to_transactions
     after_transition :not_received => :received, do: :check_for_completeness
     event :receive do
       transition :not_received => :received
     end
-
   end
 
+  def set_received(transition)
+    self.received_at = transition.args[0]
+  end
+
+  def create_to_transactions
+    purchase_items.each do |purchase_item|
+      if purchase_item.item.stocked == true
+        product_transaction = ProductTransaction.new(
+          parent: self,
+          warehouse: to_warehouse, 
+          product: purchase_item.product, 
+          quantity: purchase_item.quantity)
+        product_transaction.save
+      end
+    end
+  end
+
+
   state_machine :money_state, initial: :not_paid do
+    before_transition :not_paid => :paid, do:  :set_paid
     after_transition :not_paid => :paid, do: :check_for_completeness
     event :pay do
       transition :not_paid => :paid
     end
   end
 
+  def set_paid(transition)
+    self.paid_at = transition.args[0]
+  end
+
+
+  # after_transition filter for money_state and goods_state.
+  def check_for_completeness
+    if is_paid? and is_received?
+      self.mark_complete(Time.now)
+    end
+  end
+ 
+ 
   def can_edit_items?
     state.eql? 'meta_complete'
   end
@@ -98,66 +159,6 @@ class Purchase < ActiveRecord::Base
     money_state.eql? 'paid'
   end
 
-  def state_change(new_state, changed_at = nil)
-    return false unless STATE_CHANGES.include?(new_state.to_sym)
-
-    if self.send("#{new_state}")
-      # Set state_change date.
-      # Since the date for the action might be another than 'now'
-      # and state changes doesn't take params, this needs to be done here.
-      # It would be much nicer to do this in a state_machine after_transition hook.
-      case new_state
-      when 'mark_item_complete'
-        self.ordered_at = changed_at
-        return self.save
-      when 'receive'
-        self.received_at = changed_at
-        return self.save
-      when 'pay'
-        self.paid_at = changed_at
-        return self.save
-      when 'mark_complete'
-        self.completed_at = changed_at
-        return self.save
-      end
-      return true
-    else
-      return false
-    end
-  end
-
-  def create_to_transactions
-    purchase_items.each do |purchase_item|
-      if purchase_item.item.stocked == true
-        product_transaction = ProductTransaction.new(
-          parent: self,
-          warehouse: to_warehouse, 
-          product: purchase_item.product, 
-          quantity: purchase_item.quantity)
-        product_transaction.save
-      end
-    end
-  end
-
-  def next_step
-    case state
-    when 'meta_complete'
-      :mark_item_complete
-    when 'item_complete' || 'completed'
-      nil 
-    else
-      raise RuntimeError, "Unknown state#{state} of purchase#{self.id}"
-    end
-  end
-
-  # after_transition filter for money_state and goods_state.
-  def check_for_completeness
-    if is_paid? and is_received?
-      self.completed_at = Time.now
-      self.mark_complete
-    end
-  end
-  
   def items_total
     self.purchase_items.sum(:total_amount)
   end

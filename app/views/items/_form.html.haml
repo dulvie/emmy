@@ -8,9 +8,9 @@
   = f.input :stocked
   = f.association :unit
   = f.input :vat, as: 'select', collection: Item::VATS, include_blank: false
+  = f.input :in_price
 
   #date-fields-wrapper
-    = f.input :in_price
     = f.input :distributor_price
     = f.input :retail_price
 
@@ -29,7 +29,7 @@
         $('#date-fields-wrapper').hide();
       }
     });
-    if ($('#product_item_group').val() == 'refined') {
+    if ($('#item_item_group').val() == 'refined') {
       $('#date-fields-wrapper').show();
     } else {
       $('#date-fields-wrapper').hide();

@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+
   respond_to :html, :json
   load_and_authorize_resource
 
@@ -14,20 +15,18 @@ class ProductsController < ApplicationController
     respond_with @products
   end
 
-  # GET /products/1
-  # GET /products/1.json
-  def show
-    respond_with @product
-  end
-
   # GET /products/new
   def new
     @product = Product.new
+    @items = Item.where("stocked=?", 'true')
+    gon.push items: @items
   end
 
   # GET /products/1/edit
   def edit
     @product = @product.decorate
+    @items = Item.where("stocked=?", 'true')
+    gon.push items: @items
   end
 
   # POST /products

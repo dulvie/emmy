@@ -7,6 +7,8 @@ class Manual < ActiveRecord::Base
   belongs_to :user
   has_many :comments, as: :parent
 
+  validates :product, presence: true
+  
   delegate :quantity, :product_id, :warehouse_id, to: :product_transaction
 
 end

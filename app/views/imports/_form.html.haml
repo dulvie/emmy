@@ -2,18 +2,19 @@
   = simple_form_for(@import, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
     = f.error_notification
 
-    = f.input :description
-    = f.association :our_reference
+    = f.input :description, disabled: @import.is_completed?
+    = f.association :our_reference, disabled: @import.is_completed?
     = f.association :to_warehouse,  disabled: !@import.new_record?
     - if !@import.new_record?
       = f.input:state, disabled: true
 
-    = f.submit class: 'btn btn-primary'
+    - if !@import.is_completed? 
+      = f.submit class: 'btn btn-primary'
     - if !@import.new_record? && @import.can_edit_state? && @import.can_edit_items?
       %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importContent' )"}
         %span{ :class => "glyphicon glyphicon-flag"} 
-        = f.object.next_step
+        = f.object.next_event
     = link_to 'Back', imports_path, class: 'btn btn-primary'
 %br
   - if !@import.new_record? && @import.can_edit_state?
-    = render partial: 'shared/modal_state_change', locals: {idx: 'importContent', model: @import, form_path: state_change_import_path(@import), next_step: 'started', return_path: edit_import_path(@import)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'importContent', model: @import, form_path: state_change_import_path(@import), event: 'start', return_path: edit_import_path(@import)}

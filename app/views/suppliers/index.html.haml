@@ -3,13 +3,19 @@
 %table{:class => 'table table-striped'}
   %thead
     %tr
-      %th Supplier
+      %th= t(:supplier)
+      %th= t(:address)
+      %th= t(:zip)
+      %th= t(:city)
       %th
       %th
     %tbody
       - @suppliers.each do |supplier|
         %tr
-          %td= link_to(supplier.name, supplier)
+          %td= supplier.name
+          %td= supplier.address
+          %td= supplier.zip
+          %td= supplier.city
           %td= link_to settings_icon, edit_supplier_path(supplier)
           %td= link_to delete_icon, supplier, method: :delete, data: { confirm: 'Are you Sure?' }
 

@@ -14,7 +14,7 @@
       %tbody{}
         - @units.each do |unit|
           %tr
-            %td= link_to unit.name, unit
+            %td= unit.name
             %td= unit.weight
             %td= unit.package_dimensions
             %td= link_to settings_icon, edit_unit_path(unit)

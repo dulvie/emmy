@@ -64,4 +64,7 @@ class Transfer < ActiveRecord::Base
     t.save!
   end
 
+  def parent_name
+    name
+  end
 end

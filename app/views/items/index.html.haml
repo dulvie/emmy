@@ -3,17 +3,21 @@
 %table{:class => 'table table-striped'}
   %thead
     %tr
-      %th Name
-      %th Reseller
-      %th End customer
+      %th= t(:name)
+      %th= t(:item_type)
+      %th= t(:item_group)
+      %th= t(:stocked)
+      %th= t(:unit)
       %th
       %th
     %tbody
     - @items.each do |item|
       %tr
         %td= item.name 
-        %td #{item.distributor_price} (ex vat)
-        %td #{item.retail_price} (ink vat)
+        %td= item.item_type
+        %td= item.item_group
+        %td= item.stocked
+        %td= item.unit.name
         %td= link_to settings_icon, edit_item_path(item) 
         %td= delete_button_for item
 

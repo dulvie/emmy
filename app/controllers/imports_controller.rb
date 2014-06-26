@@ -3,7 +3,7 @@ class ImportsController < ApplicationController
   load_and_authorize_resource
 
   before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :edit_breadcrumbs, only: [:edit, :update]
+  before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
 
   # GET /imports
   # GET /imports.json
@@ -22,8 +22,7 @@ class ImportsController < ApplicationController
   # GET /imports/1
   # GET /imports/1.json
   def show
-    @breadcrumbs = [['Imports', imports_path], [@import.description]]
-    @import = @import.decorate
+    render 'edit'
   end
 
   # GET /imports/new
@@ -50,14 +49,7 @@ class ImportsController < ApplicationController
 
     respond_to do |format|
       if @import.save
-        #citems = Import.find(1).costitems        
-        #citems.each do |ci|
-        #  copy = ci.dup
-        #  copy.parent_id = @import.id
-        #  copy.save
-        #end
-
-        format.html { redirect_to edit_import_path(@import), notice: 'import was successfully created.'}
+         format.html { redirect_to edit_import_path(@import), notice: 'import was successfully created.'}
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:import)}"
         format.html { render action: 'new' }
@@ -114,9 +106,6 @@ class ImportsController < ApplicationController
   def create_purchase
 
     if params[:parent_column] == 'importing'
-       logger.info "params 1: #{params[:purchase][:purchase_items_attributes][:'0']}"
-       logger.info "params 2: #{params[:purchase][:purchase_items_attributes][:'0'][:item_id]}"
-       logger.info "params 3: #{params[:purchase][:purchase_items_attributes][:'0'][:product_id]}"
       @purchase = @import.importing.build params[:purchase]
       @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
       @purchase.save
@@ -159,7 +148,7 @@ class ImportsController < ApplicationController
 
   def state_change
     @import = Import.find(params[:id])
-    if @import.state_change(params[:new_state], params[:state_change_at])
+    if @import.state_change(params[:event], params[:state_change_at])
       msg = t(:success)
     else
       msg = t(:fail)

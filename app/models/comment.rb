@@ -15,6 +15,6 @@ class Comment < ActiveRecord::Base
   def can_delete?; true; end
 
   def parent_name
-    parent.name
+    parent.parent_name
   end
 end

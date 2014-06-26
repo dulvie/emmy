@@ -4,14 +4,14 @@ class UnitsController < ApplicationController
   load_and_authorize_resource
 
   before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :show_breadcrumbs, only: [:show, :update]
+  before_filter :show_breadcrumbs, only: [:edit, :show, :update]
 
   # GET /units
   # GET /units.json
   def index
     respond_to do |format|
     	@breadcrumbs = [['Units']]
-    	format.html {@units = Unit.page(params[:page]).per(4)} 
+    	format.html {@units = Unit.order(:name).page(params[:page]).per(4)} 
     	format.json {render json: @units}
     end	
   end
@@ -22,19 +22,16 @@ class UnitsController < ApplicationController
 
   # GET /units/1
   def show
-    respond_with @unit
   end
 
   # GET /unit/1/edit
   def edit
-    @breadcrumbs = [['Units', units_path], [@unit.name]]
   end
-  
+
   # POST /units
   # POST /units.json
   def create
     @unit = Unit.new(unit_params)
-
     respond_to do |format|
       if @unit.save
         format.html { redirect_to units_url, notice: 'unit was successfully created.' }

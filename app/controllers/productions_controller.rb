@@ -3,12 +3,13 @@ class ProductionsController < ApplicationController
   load_and_authorize_resource
 
   before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :edit_breadcrumbs, only: [:edit, :update]
+  before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
 
   # GET /productions
   # GET /productions.json
   def index
     @breadcrumbs = [[t(:productions)]]
+
     if params[:state] == 'not_started'
       productions = @productions.where("state = ?", 'not_started').collect{|production| production.decorate}
     elsif params[:state] == 'started'
@@ -23,29 +24,23 @@ class ProductionsController < ApplicationController
   # GET /productions/1
   # GET /productions/1.json
   def show
-    @breadcrumbs = [['Productions', productions_path], [@production.description]]
-    @production = @production.decorate
+    render 'edit'
   end
 
   # GET /productions/new
   def new
     @costitems_size = 0
     @materials_size = 0
-    #@warehouse = Warehouse.find(1);
-    #@production = Production.new({description: "Ny rostning", warehouse_id: @warehouse.id})
-    #@production.save
   end
 
   # GET /productions/1/edit
-  def edit
-    @purchase = @purchase
+  def edit    
   end
 
   # POST /productions
   # POST /productions.json
   def create
     @production = Production.new(production_params)
-
     respond_to do |format|
       if @production.save
         format.html { redirect_to edit_production_path(@production), notice: 'production was successfully created.'}
@@ -76,7 +71,7 @@ class ProductionsController < ApplicationController
 
   def state_change
     @production = Production.find(params[:id])
-    if @production.state_change(params[:new_state], params[:state_change_at])
+    if @production.state_change(params[:event], params[:state_change_at])
       msg = t(:success)
     else
       msg = t(:fail)

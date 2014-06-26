@@ -32,19 +32,48 @@ class Import < ActiveRecord::Base
     :started, :complete, # Generic state
   ]
 
-  state_machine :state, initial: :not_started do
+  def state_change(event, changed_at = nil)
+   return false unless EVENTS.include?(event.to_sym)
+   self.send(event, changed_at)
+  end
 
-    event :started do
-      transition :not_started => :started
-    end
+  EVENTS = [:start, :complete]
 
-    event :complete do
-      transition :started => :complete
+  def next_event
+    case state
+    when 'not_started'
+      :start
+    when 'started'
+      :complete
+    else
+      raise RuntimeError, "Unknown state#{state} of purchase#{self.id}"
     end
   end
 
+  state_machine :state, initial: :not_started do
+
+    event :start do
+      transition :not_started => :started
+    end
+    before_transition :not_started => :started, do:  :set_started
+
+    event :complete do
+      transition :started => :completed
+    end
+    before_transition :started => :completed, do:  :set_completed
+
+  end
+
+  def set_started(transition)
+    self.started_at = transition.args[0]
+  end
+
+  def set_completed(transition)
+    self.completed_at = transition.args[0]
+  end
+
   def can_edit_state?
-     return false if state.eql? 'complete'
+     return false if state.eql? 'completed'
      return false if self.importing_id.nil? 
      return false if self.shipping_id.nil?
      return false if self.customs_id.nil?
@@ -56,7 +85,7 @@ class Import < ActiveRecord::Base
   end
 
   def can_delete?
-    return false if ['started', 'complete'].include? state
+    return false if ['started', 'completed'].include? state
     true
   end
 
@@ -65,50 +94,22 @@ class Import < ActiveRecord::Base
   end
 
   def is_completed?
-    state.eql? 'complete'
-  end
-
-
-  def state_change(new_state, changed_at = nil)
-    return false unless STATE_CHANGES.include?(new_state.to_sym)
-
-    if self.send("#{new_state}")
-      # Set state_change date if started or complete.
-      case new_state
-      when 'started'
-        self.started_at = changed_at
-        return self.save
-      when 'complete'
-        self.completed_at = changed_at
-        return self.save
-      end
-      return true
-    else
-      return false
-    end
-  end
-
-  def next_step
-    case state
-    when 'not_started'
-      :started
-    when 'started'
-      :complete
-    else
-      raise RuntimeError, "Unknown state#{state} of purchase#{self.id}"
-    end
+    state.eql? 'completed'
   end
 
   def check_for_completeness
     if importing.first.is_completed? and shipping.first.is_completed? and customs.first.is_completed?
-      self.completed_at = Time.now
-      self.complete
-      self.save
+      self.complete(Time.now)
     end
   end
 
   def import_quantity
+    return 0 if self.importing.first.nil?
     self.importing.first.purchase_items.first.quantity
+  end
+  
+  def parent_name
+    description
   end
 
 end
