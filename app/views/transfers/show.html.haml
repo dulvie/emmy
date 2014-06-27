@@ -1,15 +1,1 @@
-%h2= @transfer.created_at
-%h3= @transfer.product.name
-%h3 #{t(:from)} #{@transfer.from_warehouse.name}
-%h3 #{t(:to)} #{@transfer.to_warehouse.name}
-%h3= @transfer.quantity
-%h3= @transfer.state
-
-- @transfer.comments.each do |comment|
-  .comment
-    %h4
-      = comment.created_at
-      %small=comment.user.email
-    .comment-body
-      = comment.body
-= link_to 'Back', transfers_path
+= hej hop

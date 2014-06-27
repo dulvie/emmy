@@ -4,6 +4,6 @@
 .tab-content
   #transfer-form.tab-pane.active
     %br
-    = render 'show'
+    = render 'form'
   #comment-index.tab-pane
     = render partial: 'comments/index', locals: {comments: @transfer.comments, parent: @transfer}

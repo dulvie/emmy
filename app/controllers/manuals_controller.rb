@@ -1,6 +1,9 @@
 class ManualsController < ApplicationController
-  load_and_authorize_resource
 
+  load_and_authorize_resource
+  before_filter :new_breadcrumbs, only: [:new, :create]
+  before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
+  
   # GET /manuals
   # GET /manuals.json
   def index
@@ -11,26 +14,23 @@ class ManualsController < ApplicationController
   # GET /manuals/1
   # GET /manuals/1.json
   def show
-    @breadcrumbs = [['Manuals', manuals_path], [@manual.created_at]]
+    render 'edit'
   end
 
   # GET /manuals/1/edit
   def edit
-    @breadcrumbs = [['Manuals', manuals_path], [@manual.created_at]]
   end
   
   # GET /manuals/new
   def new
     @manual.product_transaction = ProductTransaction.new
-    @manual.comments.build
-    @breadcrumbs = [['Manuals', manuals_path], ['New manual']]
+    @manual.comments.build    
   end
 
   # POST /manuals
   # POST /manuals.json
   def create
     @manual = new_manual
-
     respond_to do |format|
       if @manual.save
         format.html { redirect_to manuals_path, notice: "#{t(:manual_transaction)} #{t(:was_successfully_created)}" }
@@ -54,9 +54,17 @@ class ManualsController < ApplicationController
 
   private
 
+    def new_breadcrumbs
+      @breadcrumbs = [['Manuals', manuals_path], ["#{t(:new)} #{t(:manual)}"]]
+    end
+
+    def edit_breadcrumbs
+      @breadcrumbs = [['Manuals', manuals_path], [@manual.created_at]]
+    end
+    
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_transaction_params
-      params.require(:product_transaction).permit(ProductTransaction.accessible_attributes.to_a)
+      params.require(:manual).permit(ProductTransaction.accessible_attributes.to_a)
     end
 
     def comments_params

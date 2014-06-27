@@ -9,10 +9,12 @@ class Comment < ActiveRecord::Base
 
   attr_accessible :body, :user, :parent, :user_id, :parent_id, :parent_type
 
-  VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', 'Transfer', 'Import', 'Production']
+  VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', 'Manual', 'Transfer', 'Import', 'Production']
 
   # For ApplicationHelper#delete_button
-  def can_delete?; true; end
+  def can_delete?
+    true 
+  end
 
   def parent_name
     parent.parent_name

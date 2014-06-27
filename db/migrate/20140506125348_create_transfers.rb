@@ -6,7 +6,10 @@ class CreateTransfers < ActiveRecord::Migration
       t.integer :product_id
       t.integer :quantity
       t.integer :user_id
+
       t.string  :state
+      t.timestamp :sent_at
+      t.timestamp :received_at
 
       t.timestamps
     end

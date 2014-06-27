@@ -134,9 +134,8 @@ brewd_in_ankeborg.save
   m = Manual.new
   m.user = jtest
   m.comments.build(user_id: jtest.id, body: "Initial seed manual product_transaction")
+  m.product_transaction = product_transaction
   m.save
-  product_transaction.parent = m
-  product_transaction.save
 end
 
 tr = Transfer.new
@@ -144,6 +143,7 @@ tr.from_warehouse = ankeborg_warehouse
 tr.to_warehouse = flea_bottom
 tr.quantity = 10
 tr.product = espresso
+tr.comments.build(user_id: jtest.id, body: "Initial seed manual product_transaction")
 tr.save
 tr.send_package
 tr.receive_package

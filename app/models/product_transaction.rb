@@ -16,11 +16,15 @@ class ProductTransaction < ActiveRecord::Base
   validates :quantity, presence: true
 
   after_save :enqueue_event
-
+  after_destroy :enqueue_destroy_event
 
   # Callback: after_save
   def enqueue_event
     Resque.enqueue(Job::ProductTransactionEvent, self.id)
+  end
+
+  def enqueue_destroy_event
+    Resque.enqueue(Job::ProductTransactionDestroyEvent, self.warehouse.id, self.product.id)
   end
 
 end

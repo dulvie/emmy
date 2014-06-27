@@ -1,5 +1,8 @@
 class TransfersController < ApplicationController
+
   load_and_authorize_resource
+  before_filter :new_breadcrumbs, only: [:new, :create]
+  before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
 
   # Since load_and_authorize doesnt do this for non crud actions.
   before_filter :find_transfer, only: [:send_package, :receive_package]
@@ -15,20 +18,20 @@ class TransfersController < ApplicationController
   # GET /transfers/1
   # GET /transfers/1.json
   def show
-    @breadcrumbs = [['Transfers', transfers_path], [@transfer.created_at]]
+    render 'edit'
   end
 
   # GET /transfers/1/edit
   # GET /transfers/1/edit.json
   def edit
-    @breadcrumbs = [['Transfers', transfers_path], [@transfer.created_at]]
   end
 
 
   # GET /transfers/new
   def new
     @transfer.comments.build
-    @breadcrumbs = [['Transfers', transfers_path], ['New transfer']]
+    @warehouses = Warehouse.all
+    gon.push warehouses: ActiveModel::ArraySerializer.new(@warehouses, each_serializer: WarehouseSerializer)
   end
 
   # POST /transfers
@@ -38,7 +41,7 @@ class TransfersController < ApplicationController
 
     respond_to do |format|
       if @transfer.save
-        format.html { redirect_to transfer_path(@transfer), notice: "#{t(:transfer_transaction)} #{t(:was_successfully_created)}" }
+        format.html { redirect_to transfers_path, notice: "#{t(:transfer_transaction)} #{t(:was_successfully_created)}" }
         #format.json { render action: 'show', status: :created, location: @transfer }
       else
         format.html { render action: 'new' }
@@ -48,7 +51,7 @@ class TransfersController < ApplicationController
   end
 
   def send_package
-    @transfer.send_package
+    @transfer.send_package(params[:state_change_at])
     respond_to do |format|
       format.html { redirect_to transfers_path, notice: t(:transfer_marked_as_sent) }
       #format.json { render action: 'show', status: :created, location: @transfer }
@@ -56,7 +59,7 @@ class TransfersController < ApplicationController
   end
 
   def receive_package
-    @transfer.receive_package
+    @transfer.receive_package(params[:state_change_at])
     respond_to do |format|
       format.html { redirect_to transfers_path, notice: t(:transfer_marked_as_received) }
       #format.json { render action: 'show', status: :created, location: @transfer }
@@ -64,6 +67,14 @@ class TransfersController < ApplicationController
   end
 
   private
+
+    def new_breadcrumbs
+      @breadcrumbs = [['Transfers', transfers_path], ['New transfer']]
+    end
+
+    def edit_breadcrumbs
+      @breadcrumbs = [['Transfers', transfers_path], [@transfer.created_at]]
+    end
 
     def find_transfer
       @transfer = Transfer.find params[:id]

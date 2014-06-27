@@ -4,6 +4,6 @@
 .tab-content
   #manual-form.tab-pane.active
     %br
-    = render 'show'
+    = render 'form'
   #comment-index.tab-pane
     = render partial: 'comments/index', locals: {comments: @manual.comments, parent: @manual}
