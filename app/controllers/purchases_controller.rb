@@ -13,7 +13,7 @@ class PurchasesController < ApplicationController
     elsif params[:state] == 'item_complete'
       purchases = @purchases.where("state = ?", 'item_complete').collect{|purchase| purchase.decorate}
     else
-      purchases = @purchases.order(:ordered_at).collect{|purchase| purchase.decorate} 
+      purchases = @purchases.order("ordered_at DESC").collect{|purchase| purchase.decorate} 
     end
     @purchases = Kaminari.paginate_array(purchases).page(params[:page]).per(8)
   end

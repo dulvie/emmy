@@ -27,6 +27,7 @@ en:
   add_product: "Add product"
   add_product_to_sale: "Add product to the sale"
   address: "Address"
+  approved_at: "Approved at"
   available: "Available"
   back: "Back"
   buyer: "Buyer"

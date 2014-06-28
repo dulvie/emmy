@@ -48,7 +48,12 @@ app.controller('sales_new_ctrl', function ($scope, ajaxService) {
 });
 
 app.controller('sale_items_new_ctrl', function ($scope) {
+	var prod_id = $('#sale_item_product_id').val();
+	$scope.product_id = prod_id;
+
+	
 	$scope.init = function() {
+		$scope.select_product();
 	};
 
 	$scope.select_product = function() {
@@ -57,7 +62,7 @@ app.controller('sale_items_new_ctrl', function ($scope) {
 		var rPrice = 0;
 		var reseller = $('#sale_customer_reseller').is(":checked");
 		for (i=0; i< gon.shelves.length; i++) {
-			if (gon.shelves[i].id == $scope.productId) {
+			if (gon.shelves[i].id == $scope.product_id) {
 				dPrice = gon.shelves[i].distributor_price;
 				rPrice = gon.shelves[i].retail_price;
 			}
@@ -72,7 +77,6 @@ app.controller('sale_items_new_ctrl', function ($scope) {
 	};
 
 	$scope.select_quantity = function() {
-		var qty = 0;
 		for (i=0; i< gon.shelves.length; i++) {
 			if (gon.shelves[i].id == $scope.product_id) {
 				if ($scope.quantity > gon.shelves[i].quantity)

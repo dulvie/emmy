@@ -6,6 +6,7 @@ se:
   add_product: "Lägg till produkt"
   add_product_to_sale: "Lägg till produkt till försäljningen"
   address: "Adress"
+  approved_at: "Godkänd"
   available: "Tillgängligt"
   back: "Tillbaka"
   buyer: "Köpare"

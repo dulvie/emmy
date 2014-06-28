@@ -1,7 +1,12 @@
 = simple_form_for([@sale, @sale_item], wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
   = f.error_notification
-  = f.association :product, :collection => @shelves, :input_html => {:ng_model =>'product_id', :ng_change => 'select_product()'}
-  = f.input :quantity, :input_html => {:ng_model => 'quantity', :ng_change => 'select_quantity()', :pattern=>"[0-9]"}
+
+  = f.association :product,
+  collection: @shelves,
+  include_blank: false,
+  :input_html => {:ng_model =>'product_id', :ng_change => 'select_product()'}
+
+  = f.input :quantity, :input_html => {:ng_model => 'quantity', :ng_change => 'select_quantity()'}
   = f.input :price
 
   = form_submit(f)

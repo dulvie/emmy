@@ -30,7 +30,7 @@ class CustomersController < ApplicationController
 
   # GET /customers/1
   def show
-    respond_with @customer
+    render 'edit'
   end
 
   # GET /customer/1/edit
@@ -45,7 +45,7 @@ class CustomersController < ApplicationController
 
     respond_to do |format|
       if @customer.save
-        format.html { redirect_to @customer, notice: 'customer was successfully created.' }
+        format.html { redirect_to customers_url, notice: 'customer was successfully created.' }
         #format.json { render action: 'show', status: :created, location: @customer }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:customer)}"
@@ -60,7 +60,7 @@ class CustomersController < ApplicationController
   def update
     respond_to do |format|
       if @customer.update(customer_params)
-        format.html { redirect_to @customer, notice: 'customer was successfully updated.' }
+        format.html { redirect_to customers_url, notice: 'customer was successfully updated.' }
         #format.json { head :no_content }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:customer)}"

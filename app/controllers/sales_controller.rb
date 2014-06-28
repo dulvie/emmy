@@ -22,7 +22,17 @@ class SalesController < ApplicationController
 
   def index
     @breadcrumbs = [[t(:sales)]]
-    sales = @sales.collect{|sale| sale.decorate}
+    if params[:state] == 'meta_complete'
+      sales = @sales.where("state = ?", 'meta_complete').collect{|sale| sale.decorate}
+    elsif params[:state] == 'item_complete'
+      sales = @sales.where("state = ?", 'item_complete').collect{|sale| sale.decorate}
+    elsif params[:money_state] == 'not_paid'
+      sales = @sales.where("money_state = ?", 'not_paid').collect{|sale| sale.decorate}
+    elsif params[:goods_state] == 'not_delivered'
+      sales = @sales.where("goods_state = ?", 'not_delivered').collect{|sale| sale.decorate}
+    else
+       sales = @sales.order("approved_at DESC").collect{|sale| sale.decorate}
+    end   
     @sales = Kaminari.paginate_array(sales).page(params[:page]).per(8)
   end
 

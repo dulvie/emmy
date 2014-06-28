@@ -1,5 +1,5 @@
 .container-fluid.well
-  .btn.btn-group.col-sm-offset-2.col-sm-12
+  .btn.btn-group.col-sm-offset-1.col-sm-10
     = link_to "#{t(:create)} #{t(:customer)}", new_customer_path, class: 'btn btn-primary'
     .input-group.col-sm-2
       %input{:class=> 'form-control', :placeholder=>'Search', :ng_model=>'searchname'}
@@ -7,7 +7,7 @@
         %a{:href => name_search_customers_path + "?name={{searchname}}"}
           %i{ :class=>"glyphicon glyphicon-search search_icon"}
 
-  .panel.panel-default.col-sm-offset-2.col-sm-8
+  .panel.panel-default.col-sm-offset-1.col-sm-10
     %i
       %h3
         Customer list
@@ -16,13 +16,17 @@
         %thead
           %tr
             %th= t(:customer)
+            %th= t(:address)
+            %th= t(:zip)
             %th= t(:city)
             %th
             %th
         %tbody{}
           - @customers.each do |customer|
             %tr
-              %td= link_to customer.name, customer
+              %td= customer.name
+              %td= customer.address
+              %td= customer.zip
               %td= customer.city
               %td= link_to settings_icon, edit_customer_path(customer)
               %td= link_to delete_icon, customer, method: :delete, data: { confirm: 'Are you Sure?' }

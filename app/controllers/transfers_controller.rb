@@ -38,7 +38,6 @@ class TransfersController < ApplicationController
   # POST /transfers.json
   def create
     @transfer = new_transfer
-
     respond_to do |format|
       if @transfer.save
         format.html { redirect_to transfers_path, notice: "#{t(:transfer_transaction)} #{t(:was_successfully_created)}" }

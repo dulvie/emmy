@@ -18,7 +18,9 @@ class SaleItemsController < ApplicationController
         format.html { redirect_to sale_path(@sale), notice: "#{t(:product_added)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_add)} #{t(:product)}"
-        format.html { render :edit }
+        @shelves = @sale.warehouse.shelves.includes(:product)
+        gon.push shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer)
+        format.html {render action: 'new' }
       end
     end
   end

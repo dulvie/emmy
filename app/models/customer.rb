@@ -13,6 +13,10 @@ class Customer < ActiveRecord::Base
 
   validates :name, presence: true
 
+  def parent_name
+    name
+  end
+
   def primary_email
     "tbd@implement.now"
   end

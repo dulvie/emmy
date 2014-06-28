@@ -1,21 +1,15 @@
 = render partial: 'form'
 
 - # Don't show next-step unless there are items in the sale.
-- if @sale.sale_items.count < 1
-  &nbsp;
-- elsif @sale.is_completed?
-  = t(:sale_is_complete)
-- else
+- if @sale.sale_items.count > 0 && !@sale.is_completed?
   - if @sale.next_step
     = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: @sale.next_step}
   - unless @sale.can_edit_items?
-    - if @sale.is_delivered?
-      = "#{t(:delivered_at)} #{@sale.delivered_at}"
-    - else
+    - if !@sale.is_delivered?
       = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'deliver'}
-    - if @sale.is_paid?
-      = "#{t(:paid_at)} #{@sale.paid_at}"
-    - else
+    - if !@sale.is_paid?
       = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'pay'}
+
 = render partial: 'sale_items/index'
 = link_to t(:download_as_pdf), sale_path(@sale, format: :pdf), class: 'btn btn-info'
+= link_to 'Back', sales_path, class: 'btn btn-primary'
