@@ -57,7 +57,7 @@ class Transfer < ActiveRecord::Base
   def set_received(transition)
     self.received_at = transition.args[0]
   end
-  
+
   def create_from_transaction
     t = build_from_transaction(
       warehouse_id: from_warehouse_id,
