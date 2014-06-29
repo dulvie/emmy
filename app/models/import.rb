@@ -14,6 +14,8 @@ class Import < ActiveRecord::Base
   # t.timestamp :started_at
   # t.timestamp :completed_at
 
+  # OBS! Användningen av importing/shipping/customs går fel då sökning sker från purchases parent id
+
   belongs_to :our_reference, class_name: 'User'
   belongs_to :to_warehouse, class_name: 'Warehouse'
   belongs_to :product
@@ -98,7 +100,7 @@ class Import < ActiveRecord::Base
   end
 
   def check_for_completeness
-    if importing.first.is_completed? and shipping.first.is_completed? and customs.first.is_completed?
+    if Purchase.find(importing_id).is_completed? && Purchase.find(shipping_id).is_completed? && Purchase.find(customs_id).is_completed?
       self.complete(Time.now)
     end
   end

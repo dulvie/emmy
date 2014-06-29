@@ -14,7 +14,7 @@ class ImportDecorator < Draper::Decorator
     when 'started'
       l = 'warning'
       str = h.t(:processing)
-    when 'complete'
+    when 'completed'
       l = 'success'
       str = h.t(:completed)
     end

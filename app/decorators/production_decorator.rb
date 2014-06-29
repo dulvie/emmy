@@ -14,7 +14,7 @@ class ProductionDecorator < Draper::Decorator
     when 'started'
       l = 'warning'
       str = h.t(:started)
-    when 'complete'
+    when 'completed'
       l = 'success'
       str = h.t(:completed)
     end

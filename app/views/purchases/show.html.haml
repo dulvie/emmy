@@ -27,6 +27,8 @@
 
     - if @purchase.parent_type == 'Import'
       - back_url = edit_import_path(@purchase.parent_id)
+    - elsif @purchase.parent_type == 'Production'
+      - back_url = edit_production_path(@purchase.parent_id)
     - else
       - back_url = purchases_path
     = link_to 'Back', back_url, class: 'btn btn-primary'
