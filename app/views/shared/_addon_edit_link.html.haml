@@ -1,0 +1,13 @@
+.form-group
+  .col-sm-3.col-md-2.control-label
+    = form.label label
+  .col-sm-9.col-md-10
+    .input-group  
+      %input{:value => value, :readonly=>'readonly', :class=>'form-control'}
+      - if can_edit
+        .input-group-addon
+          = link_to settings_icon, link
+        .input-group-addon  
+          = link_to delete_icon, link, :confirm => "Are you sure you?", :method => :delete
+      - else
+        .input-group-addon

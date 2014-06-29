@@ -1,0 +1,8 @@
+.form-group
+  .col-sm-3.col-md-2.control-label
+    = form.label  label
+  .col-sm-9.col-md-10
+    .input-group
+      .input-group-addon
+        = link_to plus_icon, link
+      %input{:class=>'form-control', :readonly=>'readonly'}

@@ -14,11 +14,14 @@
     = f.input :retail_price
 
     .form-group
+      = render partial: 'shared/date_field', locals: {form: f, field: :refined_at, in_id: 'in_refined_at', in_field: @product.refined_at, out_id: 'product[refined_at]', out_value: '{{re_date}}'}
+
+    .form-group
       = f.label :refined_at, class: 'string optional col-sm-3 col-md-2 control-label', for: 'refined_at'
       %div{:class=>"col-sm-9 col-md-10"}
         = hidden_field_tag "in_refined_at", @product.refined_at
         = hidden_field_tag "product[refined_at]", "{{re_date}}"
-        .input-group
+        .input-group.date
           = text_field_tag "ex_short_date", '', class: 'form-control', ng_model: 're_date', datepicker_popup: 'yyyy-MM-dd', is_open: 're_open', datepicker_options: 're_options', show_button_bar: 'false', readonly: true
           %span{:class => "input-group-btn"}
             %button{:class => "btn btn-default", :ng_click=>'open_re_date($event)'}
@@ -29,7 +32,7 @@
       %div{:class=>"col-sm-9 col-md-10"}
         = hidden_field_tag "in_expire_at", @product.expire_at
         = hidden_field_tag "product[expire_at]", "{{ex_date}}"
-        .input-group
+        .input-group.date
           = text_field_tag "ex_short_date", '', class: 'form-control', ng_model: 'ex_date', datepicker_popup: 'yyyy-MM-dd', is_open: 'ex_open', datepicker_options: 'ex_options', show_button_bar: 'false', readonly: true
           %span{:class => "input-group-btn"}
             %button{:class => "btn btn-default", :ng_click=>'open_ex_date($event)'}

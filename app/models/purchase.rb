@@ -64,16 +64,16 @@ class Purchase < ActiveRecord::Base
 
 
   state_machine :state, initial: :meta_complete do
+    before_transition on: :mark_item_complete, do: :set_ordered
+    before_transition on: :mark_complete, do: :set_completed
 
     event :mark_item_complete do
       transition :meta_complete => :item_complete
     end
-    before_transition :meta_complete => :item_complete, do:  :set_ordered
 
     event :mark_complete do
       transition :item_complete => :completed
     end
-    before_transition :item_complete => :completed, do:  :set_completed
   end
   
   def set_ordered(transition)
@@ -86,9 +86,10 @@ class Purchase < ActiveRecord::Base
 
 
   state_machine :goods_state, initial: :not_received do
-    before_transition :not_received => :received, do:  :set_received
-    after_transition :not_received => :received, do: :create_to_transactions
-    after_transition :not_received => :received, do: :check_for_completeness
+    before_transition on: :receive, do:  :set_received
+    after_transition on: :receive, do: :create_to_transactions
+    after_transition on: :receive, do: :check_for_completeness
+
     event :receive do
       transition :not_received => :received
     end
@@ -113,8 +114,8 @@ class Purchase < ActiveRecord::Base
 
 
   state_machine :money_state, initial: :not_paid do
-    before_transition :not_paid => :paid, do:  :set_paid
-    after_transition :not_paid => :paid, do: :check_for_completeness
+    before_transition on: :pay, do: :set_paid
+    after_transition on: :pay, do: :check_for_completeness
     event :pay do
       transition :not_paid => :paid
     end

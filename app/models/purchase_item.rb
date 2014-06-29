@@ -16,8 +16,11 @@ class PurchaseItem < ActiveRecord::Base
   accepts_nested_attributes_for :item, :product
 
   validates :item_id, presence: true
+  validates :quantity, presence: true
+  validates :price, presence: true
 
   after_initialize :defaults, unless: :persisted?
+  after_validation :calculate_amount
 
   def can_delete?
     purchase.can_edit_items?
@@ -26,9 +29,14 @@ class PurchaseItem < ActiveRecord::Base
   private
 
   def defaults
-    self.quantity ||= 0
-    self.price ||= 0
-    self.total_amount ||= 0
+  end
+
+  def calculate_amount
+    if self.quantity && self.price
+      self.total_amount = self.quantity * self.price
+    else
+      self.total_amount = 0
+    end
   end
 
 end

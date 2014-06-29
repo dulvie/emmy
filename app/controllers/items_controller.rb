@@ -50,7 +50,7 @@ class ItemsController < ApplicationController
   def update
     respond_to do |format|
       if @item.update(item_params)
-        format.html { redirect_to edit_item_path(@item), notice: 'item was successfully updated.' }
+        format.html { redirect_to items_path, notice: 'item was successfully updated.' }
         #format.json { head :no_content }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:item)}"

@@ -9,14 +9,14 @@
   = f.association :our_reference, disabled: !@purchase.new_record?
 
   - if !@purchase.can_edit_items?
-    = f.input :ordered_at,  disabled: true, :as=> :string, :input_html => { :value => localize(f.object.ordered_at, :format => "%Y-%m-%d") }
+    = f.input :ordered_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.ordered_at, :format => "%Y-%m-%d") }
 
   - if @purchase.is_received?
-    = f.input :received_at,  disabled: true, :as=> :string, :input_html => { :value => localize(f.object.received_at, :format => "%Y-%m-%d") }
+    = f.input :received_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.received_at, :format => "%Y-%m-%d") }
   - if @purchase.is_paid?
-    = f.input :paid_at,  disabled: true, :as=> :string, :input_html => { :value => localize(f.object.paid_at, :format => "%Y-%m-%d") }
+    = f.input :paid_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.paid_at, :format => "%Y-%m-%d") }
   - if @purchase.is_completed?
-    = f.input :completed_at,  disabled: true, :as=> :string, :input_html => { :value => localize(f.object.completed_at, :format => "%Y-%m-%d") }
+    = f.input :completed_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d") }
             
   - if @purchase.new_record?
     = f.submit class: 'btn btn-primary'

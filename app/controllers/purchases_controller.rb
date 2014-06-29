@@ -30,8 +30,9 @@ class PurchasesController < ApplicationController
       @item_selections = Item.where(item_type: item_types)
       respond_to do |format|
         format.html { render  "single_form" }
-      end  
-    end  
+      end
+    end
+    @purchase.our_reference = current_user
   end
 
   def create  

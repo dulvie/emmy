@@ -73,8 +73,16 @@ coffe = Item.create({
   vat: 0
 })
 
-freight = Item.create({
+ship = Item.create({
   name: "Skeppning",
+  item_type: 'purchases',
+  item_group: ' ',
+  stocked: 'false',
+  unit_id: unit2.id,
+  vat: 0
+})
+freight = Item.create({
+  name: "Frakt",
   item_type: 'purchases',
   item_group: ' ',
   stocked: 'false',
@@ -159,7 +167,7 @@ bigsupp = Supplier.create(name: "Big supplier of coffee")
 coffesupp = Supplier.create(name: "Kaffekooperativ")
 freightsupp = Supplier.create(name: "Shipping LTD")
 tullsupp = Supplier.create(name: "Tullverket")
-
+rostsupp = Supplier.create(name: "AB Rosteri")
 
 
 # @TODO create invoice(s)

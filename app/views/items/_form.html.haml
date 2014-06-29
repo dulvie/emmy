@@ -3,11 +3,11 @@
 
   = f.input :name
   = f.input :comment
-  = f.input :item_type, as: 'select', collection: Item::TYPES, include_blank: false
-  = f.input :item_group, as: 'select', collection: Item::GROUPS, include_blank: false
+  = f.input :item_type, as: 'select', collection: Item::TYPES, include_blank: false, :input_html => {:class=>'medium'}
+  = f.input :item_group, as: 'select', collection: Item::GROUPS, include_blank: false, :input_html => {:class=>'medium'}
   = f.input :stocked
-  = f.association :unit
-  = f.input :vat, as: 'select', collection: Item::VATS, include_blank: false
+  = f.association :unit, :input_html => {:class=>'medium'}
+  = f.input :vat, as: 'select', collection: Item::VATS, include_blank: false, :input_html => {:class=>'short'}
   = f.input :in_price
 
   #date-fields-wrapper

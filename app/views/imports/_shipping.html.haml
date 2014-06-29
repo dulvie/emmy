@@ -1,15 +1,7 @@
 - if @shipping.nil?
   = simple_form_for(@import, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |y|
-
-    .form-group
-      .col-sm-3.col-md-2.control-label
-        = y.label :shipping
-      .col-sm-9.col-md-10
-        .input-group  
-          .input-group-addon
-            - add_single_purchase_url = new_purchase_import_path(@import, :parent_column => 'shipping')
-            = link_to plus_icon, add_single_purchase_url
-          %input{:class=>'form-control', :readonly=>'readonly'}
+    - add_single_purchase_url = new_purchase_import_path(@import, :parent_column => 'shipping')
+    = render partial: 'shared/addon_plus_link', locals: {form: y, label: :shipping, link: add_single_purchase_url}
 
 - if !@shipping.nil?
 
@@ -17,19 +9,7 @@
     = simple_form_for(@shipping, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
       = f.error_notification
 
-      .form-group
-        .col-sm-3.col-md-2.control-label
-          = f.label :shipping
-        .col-sm-9.col-md-10
-          .input-group  
-            %input{:value => f.object.description, :readonly=>'readonly', :class=>'form-control'}
-            -if @import.can_edit_items?
-              .input-group-addon
-                = link_to settings_icon, purchase_path(@shipping)
-              .input-group-addon  
-                = link_to delete_icon, purchase_path(@shipping), :confirm => "Are you sure you?", :method => :delete
-            - else
-              .input-group-addon
+      = render partial: 'shared/addon_edit_link', locals: {form: f, label: :shipping, value: f.object.description, can_edit:  @import.can_edit_items?, link: purchase_path(@shipping)}
 
       - if !f.object.can_edit_items?
         = f.input :ordered_at, :as => :string,  disabled: true

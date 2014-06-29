@@ -27,6 +27,7 @@ class ImportsController < ApplicationController
 
   # GET /imports/new
   def new
+    @import.our_reference = current_user
   end
 
   # GET /imports/1/edit
@@ -108,19 +109,19 @@ class ImportsController < ApplicationController
     if params[:parent_column] == 'importing'
       @purchase = @import.importing.build params[:purchase]
       @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
-      @purchase.save
+      rtn = @purchase.save
     end
 
     if params[:parent_column] == 'shipping'
       @purchase = @import.shipping.build params[:purchase]
       @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
-      @purchase.save
+      rtn = @purchase.save
     end
 
     if params[:parent_column] == 'customs'
       @purchase = @import.customs.build params[:purchase]
       @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
-      @purchase.save
+      rtn = @purchase.save
     end
 
     if params[:parent_column] == 'importing'
@@ -136,12 +137,13 @@ class ImportsController < ApplicationController
     end
 
     respond_to do |format|
-      if @import.save
+      if rtn && @import.save
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:purchase_item)}"
         format.html { redirect_to edit_import_path(params[:purchase][:parent_id]) }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:import)}"
-        format.html { render :edit }
+        init_purchase
+        format.html { render :new_purchase }
       end  
     end
   end
@@ -171,5 +173,32 @@ class ImportsController < ApplicationController
 
     def edit_breadcrumbs
       @breadcrumbs = [['Imports', imports_path], [@import.description]]
+    end
+    
+    def init_purchase
+      if params[:parent_column] == 'importing'
+        @purchase = @import.importing.build
+        @purchase.purchase_items.build(:product_id=>@import.product.id, :item_id=>@import.product.item.id)
+        @item_selections = Item.where(id: @import.product.item.id)
+        @product_selections = Product.where(id: @import.product.id)
+      end
+      if params[:parent_column] == 'shipping'
+        @purchase = @import.shipping.build
+        @purchase.purchase_items.build
+        item_types = ['purchases', 'both']
+        @item_selections = Item.where(item_type: item_types)
+      end
+      if params[:parent_column] == 'customs'
+        @purchase = @import.customs.build
+        @purchase.purchase_items.build
+        item_types = ['purchases', 'both']
+        @item_selections = Item.where(item_type: item_types)
+      end
+
+      @parent_column = params[:parent_column]   
+      @purchase.to_warehouse = @import.to_warehouse
+      @purchase.parent_type = 'Import'
+      @purchase.parent_id = @import.id
+
     end
 end

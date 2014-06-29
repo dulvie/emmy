@@ -6,7 +6,7 @@
     = f.association :our_reference, disabled: @import.is_completed?
     = f.association :to_warehouse,  disabled: !@import.new_record?
     - if !@import.new_record?
-      = f.input:state, disabled: true
+      = f.input:state, disabled: true, :input_html => {:class => 'medium'}
 
     - if !@import.is_completed? 
       = f.submit class: 'btn btn-primary'

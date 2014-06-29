@@ -3,10 +3,10 @@
 
   = f.input :name
   = f.input :email
-  = f.input :telephone
+  = f.input :telephone, :input_html => {:class => 'medium'}
   = f.input :address
-  = f.input :zip
+  = f.input :zip, :input_html => {:class => 'short'}
   = f.input :city
-  = f.input :country
+  = f.input :country, :input_html => {:class => 'medium'}
 
   = f.submit class: 'btn btn-primary'

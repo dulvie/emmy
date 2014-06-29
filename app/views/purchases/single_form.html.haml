@@ -12,7 +12,7 @@
   = f.simple_fields_for(:purchase_items) do |ff|
     = ff.association :item, collection: @item_selections, include_blank: false
     = ff.input :quantity
-    = ff.input :total_amount
+    = ff.input :price
   = f.submit class: 'btn btn-primary'
   - if @purchase.parent_type == 'Production'
     - back_url = edit_production_path(@purchase.parent_id)

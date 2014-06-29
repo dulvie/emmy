@@ -5,13 +5,7 @@ class PurchaseItemsController < ApplicationController
   before_filter :set_breadcrumbs, only: [:new, :create]
 
   def new
-    if @purchase.to_warehouse.nil?
-      @item_selections = Item.where("stocked = false")
-    else
-      item_types = ['purchases', 'both']
-      @item_selections = Item.where(item_type: item_types)
-    end
-    gon.push items: ActiveModel::ArraySerializer.new(@item_selections, each_serializer: ItemSerializer)
+    init_new
   end
 
   def create
@@ -22,6 +16,7 @@ class PurchaseItemsController < ApplicationController
         format.html { redirect_to purchase_path(@purchase), notice: "#{t(:product_added)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_add)} #{t(:product)}"
+        init_new
         format.html { render :new }
       end
     end
@@ -49,5 +44,15 @@ class PurchaseItemsController < ApplicationController
 
     def set_breadcrumbs
       @breadcrumbs = [[t(:purchases), purchases_path], ["##{@purchase.id}", purchase_path(@purchase)], [t(:add_product)]]
+    end
+    
+    def init_new
+      if @purchase.to_warehouse.nil?
+        @item_selections = Item.where("stocked = false")
+      else
+        item_types = ['purchases', 'both']
+        @item_selections = Item.where(item_type: item_types)
+      end
+      gon.push items: ActiveModel::ArraySerializer.new(@item_selections, each_serializer: ItemSerializer)
     end
 end
