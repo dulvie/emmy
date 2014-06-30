@@ -2,14 +2,14 @@ class MaterialsController < ApplicationController
   load_and_authorize_resource :production
   load_and_authorize_resource :material, through: :production
 
-  #before_filter :set_breadcrumbs, only: [:new, :create]
+  before_filter :new_breadcrumbs, only: [:new, :create]
 
   def new
     init_new
   end
 
   def show
-    init_new    
+    init_new
   end
 
   def create
@@ -64,10 +64,10 @@ class MaterialsController < ApplicationController
       params.require(:material).permit(Material.accessible_attributes.to_a)
     end
 
-    def set_breadcrumbs
-      @breadcrumbs = [[t(:production), production_path], ["##{@production.id}", production_path(@production)], [t(:add_material)]]
+    def new_breadcrumbs
+      @breadcrumbs = [[t(:productions), productions_path], ["#{@production.parent_name}", production_path(@production)], [t(:add_material)]]
     end
-    
+
     def init_new
       @product_selections = @production.warehouse.shelves.select("product_id", "product_id as id").
         where(:product => Product.where(:item => Item.where(:item_group =>'unrefined')))

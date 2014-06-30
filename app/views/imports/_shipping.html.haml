@@ -12,13 +12,13 @@
       = render partial: 'shared/addon_edit_link', locals: {form: f, label: :shipping, value: f.object.description, can_edit:  @import.can_edit_items?, link: purchase_path(@shipping)}
 
       - if !f.object.can_edit_items?
-        = f.input :ordered_at, :as => :string,  disabled: true
+        = f.input :ordered_at, :as => :string,  disabled: true, :input_html => { :class => 'date', :value => localize(f.object.ordered_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
       - if f.object.is_completed?
-        = f.input :completed_at, :as => :string,  disabled: true
+        = f.input :completed_at, :as => :string,  disabled: true, :input_html => { :class => 'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
       - if f.object.is_received?
-        = f.input :received_at, :as => :string,  disabled: true
+        = f.input :received_at, :as => :string,  disabled: true, :input_html => { :class => 'date', :value => localize(f.object.received_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
       - if f.object.is_paid?
-        = f.input :paid_at, :as => :string,  disabled: true
+        = f.input :paid_at, :as => :string,  disabled: true, :input_html => { :class => 'date', :value => localize(f.object.paid_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
 
       .input-group
         - if  !@import.can_edit_items? && f.object.can_edit_items?

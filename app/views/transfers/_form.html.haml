@@ -16,7 +16,7 @@
           %label  
             = t(:available)
         .col-sm-9.col-md-10
-          %input{:class=>'form-control', :value=>'{{quantity}}', :readonly => 'readonly'}
+          %input{:class=>'form-control  numeric', :value=>'{{quantity}}', :readonly => 'readonly'}
 
     - if !@transfer.new_record?
       = f.association :from_warehouse, disabled: true
