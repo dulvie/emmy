@@ -65,12 +65,16 @@ class Production < ActiveRecord::Base
 
   def set_started(transition)
     self.started_at = transition.args[0]
-    self.work.state_change('mark_item_complete', self.started_at)
+    if self.work.state == 'meta_complete'
+      self.work.state_change('mark_item_complete', self.started_at)
+    end  
   end
 
   def set_completed(transition)
     self.completed_at = transition.args[0]
-    self.work.state_change('receive', self.completed_at)
+    if self.work.goods_state == 'not_received'
+      self.work.state_change('receive', self.completed_at)
+    end  
   end
 
   def create_from_transaction
@@ -115,7 +119,7 @@ class Production < ActiveRecord::Base
   end
 
   def can_complete?
-    return self.work.is_paid?
+     return self.work.is_paid?
   end
 
   def is_completed?

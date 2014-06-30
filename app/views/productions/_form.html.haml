@@ -3,11 +3,17 @@
   = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal', }) do |f|
     = f.error_notification
 
-    = f.input :description
-    = f.association :our_reference
+    = f.input :description, disabled: !@production.can_edit?
+    = f.association :our_reference, disabled: !@production.can_edit?
     = f.association :warehouse,  disabled: !@production.new_record?
 
     - if !@production.new_record?
+
+      = f.input :state, disabled: true, :class => 'medium'
+      - if !@production.can_edit?
+        = f.input :started_at, :as => :string, :input_html => { :class => 'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d"), :readonly => 'readonly'} 
+      - if @production.is_completed?
+        = f.input :completed_at, :as => :string, :input_html => { :class => 'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d"), :readonly => 'readonly'} 
 
       - if @production.product.nil?
         - set_product_url = new_product_path({class:@production.class.name, object:@production.id})
@@ -40,7 +46,7 @@
       - if @production.is_started? || @production.is_completed?
         = f.simple_fields_for :work do |w|
           - if @production.work.is_paid? || w.object.is_completed?
-            = w.input :paid_at, :as => :string
+            = w.input :paid_at, :as => :string, :input_html => { :class => 'date', :value => localize(w.object.paid_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
           - if !@production.work.is_paid? 
             .form-group
               .col-sm-3.col-md-2.control-label
@@ -53,8 +59,9 @@
                     = t(:pay)
 
     .input-group
-      = f.submit class: 'btn btn-primary'
-      - if (@production.can_edit_state? && !@production.is_started?) || (@production.is_started? && @production.can_complete?)
+      - if @production.can_edit?
+        = f.submit class: 'btn btn-primary'
+      - if (@production.can_edit_state? && !@production.is_started?) || (@production.can_edit_state? && @production.can_complete?)
         %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
           %span{ :class => "glyphicon glyphicon-flag"}
           = f.object.next_event

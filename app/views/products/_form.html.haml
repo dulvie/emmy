@@ -13,30 +13,9 @@
     = f.input :distributor_price
     = f.input :retail_price
 
-    .form-group
-      = render partial: 'shared/date_field', locals: {form: f, field: :refined_at, in_id: 'in_refined_at', in_field: @product.refined_at, out_id: 'product[refined_at]', out_value: '{{re_date}}'}
+    = render partial: 'shared/date_field', locals: {form: f, field: :refined_at, in_id: 'in_refined_at', in_value: @product.refined_at, out_id: 'product[refined_at]', field_id: 're_short_date',  model: 're_date', dp_open: 're_open', dp_options: 're_options', dp_click: 'open_re_date($event)'}
 
-    .form-group
-      = f.label :refined_at, class: 'string optional col-sm-3 col-md-2 control-label', for: 'refined_at'
-      %div{:class=>"col-sm-9 col-md-10"}
-        = hidden_field_tag "in_refined_at", @product.refined_at
-        = hidden_field_tag "product[refined_at]", "{{re_date}}"
-        .input-group.date
-          = text_field_tag "ex_short_date", '', class: 'form-control', ng_model: 're_date', datepicker_popup: 'yyyy-MM-dd', is_open: 're_open', datepicker_options: 're_options', show_button_bar: 'false', readonly: true
-          %span{:class => "input-group-btn"}
-            %button{:class => "btn btn-default", :ng_click=>'open_re_date($event)'}
-              %span{ :class => "glyphicon glyphicon-calendar"}
-
-    .form-group
-      = f.label :expire_at, class: 'string optional col-sm-3 col-md-2 control-label', for: 'expire_at'
-      %div{:class=>"col-sm-9 col-md-10"}
-        = hidden_field_tag "in_expire_at", @product.expire_at
-        = hidden_field_tag "product[expire_at]", "{{ex_date}}"
-        .input-group.date
-          = text_field_tag "ex_short_date", '', class: 'form-control', ng_model: 'ex_date', datepicker_popup: 'yyyy-MM-dd', is_open: 'ex_open', datepicker_options: 'ex_options', show_button_bar: 'false', readonly: true
-          %span{:class => "input-group-btn"}
-            %button{:class => "btn btn-default", :ng_click=>'open_ex_date($event)'}
-              %span{ :class => "glyphicon glyphicon-calendar"}
+    = render partial: 'shared/date_field', locals: {form: f, field: :expire_at, in_id: 'in_expire_at', in_value: @product.expire_at, out_id: 'product[expire_at]', field_id: 'ex_short_date',  model: 'ex_date', dp_open: 'ex_open', dp_options: 'ex_options', dp_click: 'open_ex_date($event)'}
 
     = f.button :submit, class: 'btn btn-primary'
     = link_to 'Back', products_path, class: 'btn btn-primary'

@@ -18,15 +18,12 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
-    @items = Item.where("stocked=?", 'true')
-    gon.push items: @items
+    init_new
   end
 
   # GET /products/1/edit
   def edit
-    @product = @product.decorate
-    @items = Item.where("stocked=?", 'true')
-    gon.push items: @items
+    init_new
   end
 
   # POST /products
@@ -54,6 +51,7 @@ class ProductsController < ApplicationController
         end
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:product)}"
+        init_new
         format.html { render action: 'new' }
         #format.json { render json: @product.errors, status: :unprocessable_entity }
       end
@@ -69,6 +67,7 @@ class ProductsController < ApplicationController
         #format.json { head :no_content }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:product)}"
+        init_new
         format.html { render action: 'edit' }
         #format.json { render json: @product.errors, status: :unprocessable_entity }
       end
@@ -86,6 +85,10 @@ class ProductsController < ApplicationController
   end
 
   private
+    def init_new
+      @items = Item.where("stocked=?", 'true')
+      gon.push items: @items 
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params

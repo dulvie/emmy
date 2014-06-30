@@ -5,16 +5,11 @@ class MaterialsController < ApplicationController
   #before_filter :set_breadcrumbs, only: [:new, :create]
 
   def new
-   #@shelves = @sale.warehouse.shelves.includes(:product)
-     @product_selections = @production.warehouse.shelves.select("product_id", "product_id as id").
-       where(:product => Product.where(:item => Item.where(:item_group =>'unrefined')))
-     gon.push shelves: ActiveModel::ArraySerializer.new(@production.warehouse.shelves, each_serializer: ShelfSerializer)
+    init_new
   end
 
   def show
-    @product_selections = @production.warehouse.shelves.select("product_id", "product_id as id").
-      where(:product => Product.where(:item => Item.where(:item_group =>'unrefined')))
-    gon.push shelves: ActiveModel::ArraySerializer.new(@production.warehouse.shelves, each_serializer: ShelfSerializer)
+    init_new    
   end
 
   def create
@@ -28,6 +23,7 @@ class MaterialsController < ApplicationController
         format.html { redirect_to edit_production_path(@production), notice: "#{t(:material_added)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_add)} #{t(:material)}"
+        init_new
         format.html { render :show }
       end
     end
@@ -41,6 +37,7 @@ class MaterialsController < ApplicationController
         format.html { redirect_to edit_production_path(@production), notice: "#{t(:material)} #{t(:was_successfully_updated)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:material)}"
+        init_new
         format.html { render :show }
         #format.json { render json: @sale.errors, status: :unprocessable_entity }
       end
@@ -69,5 +66,11 @@ class MaterialsController < ApplicationController
 
     def set_breadcrumbs
       @breadcrumbs = [[t(:production), production_path], ["##{@production.id}", production_path(@production)], [t(:add_material)]]
+    end
+    
+    def init_new
+      @product_selections = @production.warehouse.shelves.select("product_id", "product_id as id").
+        where(:product => Product.where(:item => Item.where(:item_group =>'unrefined')))
+      gon.push shelves: ActiveModel::ArraySerializer.new(@production.warehouse.shelves, each_serializer: ShelfSerializer)
     end
 end

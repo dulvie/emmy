@@ -31,6 +31,7 @@ class ProductionsController < ApplicationController
   def new
     @costitems_size = 0
     @materials_size = 0
+    @production.our_reference = current_user
   end
 
   # GET /productions/1/edit

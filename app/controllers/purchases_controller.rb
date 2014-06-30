@@ -26,8 +26,7 @@ class PurchasesController < ApplicationController
       @purchase.purchase_items.build
       @purchase.parent_type = params[:parent_type]
       @purchase.parent_id = params[:parent_id]
-      item_types = ['purchases', 'both']
-      @item_selections = Item.where(item_type: item_types)
+      init_new
       respond_to do |format|
         format.html { render  "single_form" }
       end
@@ -75,8 +74,6 @@ class PurchasesController < ApplicationController
 
   def state_change
     @purchase = Purchase.find(params[:id])
-          logger.info "param X: #{params[:state_change_at]}"
-          logger.info "param event: #{params[:event]}"
     if @purchase.state_change(params[:event], params[:state_change_at])    
       msg = t(:success)
     else
@@ -99,7 +96,6 @@ class PurchasesController < ApplicationController
     @purchase = Purchase.new params[:purchase]
     @purchase.user = current_user
     @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
-
     respond_to do |format|
       if @purchase.save
         if params[:purchase][:parent_type]=='Import'
@@ -109,10 +105,10 @@ class PurchasesController < ApplicationController
         end
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:purchase_item)}"
-        format.html { redirect_to edit_production_path(params[:purchase][:parent_id]) }
+        init_new
+        format.html { render  "single_form" }
       end  
     end
-
   end
 
   private
@@ -136,6 +132,11 @@ class PurchasesController < ApplicationController
         @parent = parent_class.find(params[:parent_id])
         authorize! :manage, @parent
       end
+    end
+    
+    def init_new
+      item_types = ['purchases', 'both']
+      @item_selections = Item.where(item_type: item_types)
     end
 
     def purchase_item_params
