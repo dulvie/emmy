@@ -91,7 +91,7 @@ class Import < ActiveRecord::Base
     true
   end
 
-  def is_ordered?
+  def is_started?
     state.eql? 'started'
   end
 

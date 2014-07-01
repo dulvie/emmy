@@ -1,16 +1,17 @@
 %div{:ng_controller => 'production_material_form_ctrl', :ng_init => 'init()'}
   = simple_form_for([@production, @material], wrapper: :horizontal_form, html: {class: 'form-horizontal', }) do |f|
     = f.error_notification
-    = f.association :product, collection: @product_selections, include_blank: false, input_html: {:ng_model =>'prod',  :ng_change => 'change_product()'}
+    = f.association :product, disabled: !@material.can_edit?, collection: @product_selections, include_blank: false, input_html: {:ng_model =>'prod',  :ng_change => 'change_product()'}
 
     .form-group
       .col-sm-3.col-md-2.control-label
         %label Availible
       .col-sm-9.col-md-10
-        %input{:value => '{{shelf_qty}}', :class => 'form-control', :readonly => 'readonly'}
+        %input{:value => '{{shelf_qty}}', :class => 'form-control numeric', :readonly => 'readonly'}
 
-    = f.input :quantity
+    = f.input :quantity, disabled: !@material.can_edit?
 
-    = f.submit class: 'btn btn-primary'
+    -if @material.can_edit?
+      = f.submit class: 'btn btn-primary'
     = link_to 'Back', edit_production_path(@production), class: 'btn btn-primary'
-  %button{ :ng_click => 'test()', :class=>'btn-primary'}
+

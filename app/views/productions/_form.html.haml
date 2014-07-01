@@ -27,7 +27,17 @@
             = f.label :quantity
           .col-sm-9.col-md-10.form-inline  
             = f.input :quantity, :label=>false, disabled: !@production.can_edit?
- 
+
+    .input-group
+      - if @production.can_edit?
+        = f.submit class: 'btn btn-primary'
+      - if (@production.can_edit_state? && !@production.is_started?) || (@production.can_edit_state? && @production.can_complete?)
+        %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
+          %span{ :class => "glyphicon glyphicon-flag"}
+          = f.object.next_event
+      = link_to 'Back', productions_path, class: 'btn btn-primary'
+
+    %hr
       - if @production.materials.size == 0
         - add_material_url = new_production_material_path(@production)
         = render partial: 'shared/addon_plus_link', locals: {form: f, label: :materials, link: add_material_url}
@@ -45,8 +55,6 @@
 
       - if @production.is_started? || @production.is_completed?
         = f.simple_fields_for :work do |w|
-          - if @production.work.is_paid? || w.object.is_completed?
-            = w.input :paid_at, :as => :string, :input_html => { :class => 'date', :value => localize(w.object.paid_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
           - if !@production.work.is_paid? 
             .form-group
               .col-sm-3.col-md-2.control-label
@@ -58,14 +66,7 @@
                     = status_icon
                     = t(:pay)
 
-    .input-group
-      - if @production.can_edit?
-        = f.submit class: 'btn btn-primary'
-      - if (@production.can_edit_state? && !@production.is_started?) || (@production.can_edit_state? && @production.can_complete?)
-        %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
-          %span{ :class => "glyphicon glyphicon-flag"}
-          = f.object.next_event
-      = link_to 'Back', productions_path, class: 'btn btn-primary'
+
  
   - unless  @production.new_record? || @production.is_completed?
     = render partial: 'shared/modal_state_change', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), event: @production.next_event, return_path: edit_production_path(@production)}   

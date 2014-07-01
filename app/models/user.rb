@@ -25,4 +25,7 @@ class User < ActiveRecord::Base
     @rlz.include? role.to_s
   end
 
+  def can_delete?
+    true
+  end
 end

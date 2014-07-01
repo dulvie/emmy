@@ -76,6 +76,10 @@ class Transfer < ActiveRecord::Base
     t.save!
   end
 
+  def can_delete?
+     state.eql? 'not_sent'
+  end
+
   def parent_name
     name
   end

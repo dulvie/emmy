@@ -12,6 +12,10 @@ class Material < ActiveRecord::Base
   validates :product_id, presence: true
   validates :quantity, presence: true
 
+  def can_edit?
+    production.can_edit?
+  end
+  
   private
 
 end

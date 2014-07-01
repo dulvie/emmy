@@ -1,16 +1,5 @@
-- if @importing.nil? && @import.product.nil?
-  = simple_form_for(@import, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |x|
-    - set_product_url = new_product_path({class:@import.class.name, object:@import.id})
-    = render partial: 'shared/addon_plus_link', locals: {form: x, label: :product, link: set_product_url}
-
-- if @importing.nil? && !@import.product.nil?
+- if @importing.nil?
   = simple_form_for(@import, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |y|
-
-    .form-group
-      .col-sm-3.col-md-2.control-label
-        = y.label :product
-      .col-sm-9.col-md-10
-        %input{:value => @import.product.name, :readonly=>'readonly', :class=>'form-control'}
 
     - add_single_purchase_url = new_purchase_import_path(@import.id, :parent_column => 'importing')
     = render partial: 'shared/addon_plus_link', locals: {form: y, label: :importing, link: add_single_purchase_url}
@@ -20,46 +9,27 @@
     = simple_form_for(@importing, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
       = f.error_notification
 
-      .form-group
-        .col-sm-3.col-md-2.control-label
-          = f.label :product
-        .col-sm-9.col-md-10
-          %input{:value => f.object.purchase_items.first.product.name, :readonly=>'readonly', :class=>'form-control'}
-
-      .form-group
-        .col-sm-3.col-md-2.control-label
-          = f.label t(:quantity)
-        .col-sm-9.col-md-10
-          %input{:value => f.object.purchase_items.first.quantity, :readonly=>'readonly', :class=>'form-control numeric'}
-
       = render partial: 'shared/addon_edit_link', locals: {form: f, label: :importing, value: f.object.description, can_edit:  @import.can_edit_items?, link: purchase_path(@importing)}
 
-      - if !f.object.can_edit_items?
-        = f.input :ordered_at, :as => :string,  disabled: true, :input_html => { :class => 'date', :value => localize(f.object.ordered_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
-      - if f.object.is_completed?
-        = f.input :completed_at, :as => :string,  disabled: true, :input_html => { :class => 'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
-      - if f.object.is_received?
-        = f.input :received_at, :as => :string, disabled: true, :input_html => { :class => 'date', :value => localize(f.object.received_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
-      - if f.object.is_paid?
-        = f.input :paid_at, :as => :string,  disabled: true, :input_html => { :class => 'date', :value => localize(f.object.paid_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
-
-      .input-group
-        - if !@import.can_edit_items? && f.object.can_edit_items?
-          %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importedContent' )"}
-            = status_icon
-            = t(:start)
-
-        - if !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_received?
-          %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importedGoodsContent' )"}
-            = status_icon
-            = t(:receive)
-
-        - if !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_paid?
-          %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importedPayContent' )"}
-            = status_icon
-            = t(:pay)
-      %hr
-
+      .form-group
+        .col-sm-3.col-md-2.control-label
+          = f.label :state
+        .col-sm-9.col-md-10
+          - if !@import.can_edit_items? && f.object.can_edit_items?
+            %button{:class=>"btn btn-primary inline", :ng_click=>"open($event, 'sm','importedContent' )"}
+              = status_icon
+              = t(:start)
+          - if !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_received?
+            %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importedGoodsContent' )"}
+              = status_icon
+              = t(:receive)
+          - if !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_paid?
+            %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importedPayContent' )"}
+              = status_icon
+              = t(:pay)
+          - if f.object.is_completed?
+            = f.input :state, label: false, disabled: true, :input_html => {:class => 'medium'}
+    %hr
     = render partial: 'shared/modal_state_change', locals: {idx: 'importedContent', model: @importing, form_path: state_change_purchase_path(@importing), event: 'mark_item_complete', return_path: edit_import_path(@import)}
     = render partial: 'shared/modal_state_change', locals: {idx: 'importedGoodsContent', model: @importing, form_path: state_change_purchase_path(@importing), event: 'receive', return_path: edit_import_path(@import)}
     = render partial: 'shared/modal_state_change', locals: {idx: 'importedPayContent', model: @importing, form_path: state_change_purchase_path(@importing), event: 'pay', return_path: edit_import_path(@import)}

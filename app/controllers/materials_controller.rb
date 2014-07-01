@@ -2,7 +2,7 @@ class MaterialsController < ApplicationController
   load_and_authorize_resource :production
   load_and_authorize_resource :material, through: :production
 
-  before_filter :new_breadcrumbs, only: [:new, :create]
+  before_filter :new_breadcrumbs, only: [:new, :create, :show]
 
   def new
     init_new

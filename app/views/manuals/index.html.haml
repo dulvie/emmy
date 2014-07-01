@@ -17,6 +17,6 @@
           %td= link_to(manual.product.name, edit_product_path(manual.product))
           %td= manual.product_transaction.quantity
           %td= link_to settings_icon, edit_manual_path(manual)
-          %td= link_to delete_icon, manual, method: :delete, data: { confirm: 'Are you Sure?' }
+          %td= delete_button_for manual
 
 = paginate @manuals, :theme => 'twitter-bootstrap-3'

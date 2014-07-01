@@ -17,6 +17,11 @@ class Customer < ActiveRecord::Base
     name
   end
 
+  def can_delete?
+    return false if Sale.where('customer_id = ?', self.id).size > 0
+    true
+  end
+
   def primary_email
     "tbd@implement.now"
   end

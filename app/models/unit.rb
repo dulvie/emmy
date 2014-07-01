@@ -11,6 +11,10 @@ class Unit < ActiveRecord::Base
   validates :name, :uniqueness => true
   validates :name, :presence => true
 
+  def can_delete?
+    true
+  end
+
   private
   
 end

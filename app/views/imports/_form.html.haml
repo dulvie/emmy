@@ -7,6 +7,31 @@
     = f.association :to_warehouse,  disabled: !@import.new_record?
     - if !@import.new_record?
       = f.input:state, disabled: true, :input_html => {:class => 'medium'}
+    - if @import.is_started? || @import.is_completed?
+      = f.input :started_at, :as => :string,  disabled: true, :input_html => { :class => 'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}     
+
+    - if @importing.nil? && @import.product.nil?
+      - set_product_url = new_product_path({class:@import.class.name, object:@import.id})
+      = render partial: 'shared/addon_plus_link', locals: {form: f, label: :product, link: set_product_url}
+
+    - if @importing.nil? && !@import.product.nil?
+      .form-group
+        .col-sm-3.col-md-2.control-label
+          = f.label :product
+        .col-sm-9.col-md-10
+          %input{:value => @import.product.name, :readonly=>'readonly', :class=>'form-control'}
+
+    - if !@importing.nil?
+      .form-group
+        .col-sm-3.col-md-2.control-label
+          = f.label :product
+        .col-sm-9.col-md-10
+          %input{:value => @importing.purchase_items.first.product.name, :readonly=>'readonly', :class=>'form-control'}
+      .form-group
+        .col-sm-3.col-md-2.control-label
+          = f.label t(:quantity)
+        .col-sm-9.col-md-10
+          %input{:value => @importing.purchase_items.first.quantity, :readonly=>'readonly', :class=>'form-control numeric'}
 
     - if !@import.is_completed? 
       = f.submit class: 'btn btn-primary'
@@ -15,6 +40,6 @@
         %span{ :class => "glyphicon glyphicon-flag"} 
         = f.object.next_event
     = link_to 'Back', imports_path, class: 'btn btn-primary'
-%br
+    %hr
   - if !@import.new_record? && @import.can_edit_state?
     = render partial: 'shared/modal_state_change', locals: {idx: 'importContent', model: @import, form_path: state_change_import_path(@import), event: 'start', return_path: edit_import_path(@import)}

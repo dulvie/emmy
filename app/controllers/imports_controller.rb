@@ -23,6 +23,7 @@ class ImportsController < ApplicationController
   # GET /imports/1
   # GET /imports/1.json
   def show
+    get_purchases
     render 'edit'
   end
 
@@ -33,15 +34,7 @@ class ImportsController < ApplicationController
 
   # GET /imports/1/edit
   def edit
-    if !@import.importing_id.nil?
-      @importing = Purchase.find(@import.importing_id)
-    end
-    if !@import.shipping_id.nil?      
-      @shipping = Purchase.find(@import.shipping_id)
-    end      
-    if !@import.customs_id.nil? 
-      @customs = Purchase.find(@import.customs_id)
-    end
+    get_purchases
   end
 
   # POST /imports
@@ -196,5 +189,17 @@ class ImportsController < ApplicationController
 
       @parent_column = params[:parent_column]   
  
+    end
+    
+    def get_purchases
+      if !@import.importing_id.nil?
+        @importing = Purchase.find(@import.importing_id)
+      end
+      if !@import.shipping_id.nil?      
+        @shipping = Purchase.find(@import.shipping_id)
+      end      
+      if !@import.customs_id.nil? 
+        @customs = Purchase.find(@import.customs_id)
+      end
     end
 end

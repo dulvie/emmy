@@ -20,5 +20,9 @@ class Manual < ActiveRecord::Base
     return warehouse.name + "=> "
   end
 
+  def can_delete?
+    true
+  end
+
 end
   

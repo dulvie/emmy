@@ -2,7 +2,7 @@
   = f.error_notification
   = f.input :warehouse_id, as: :select, collection: Warehouse.all, disabled: !@manual.new_record?
   = f.input :product_id, as: :select, collection: Product.all, disabled: !@manual.new_record?
-  = f.input :quantity, disabled: !@manual.new_record?
+  = f.input :quantity, disabled: !@manual.new_record?, :input_html => {:class => 'numeric'}
   - if @manual.new_record?
     = simple_fields_for :comments do |c|
       .form-group
