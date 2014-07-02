@@ -18,6 +18,8 @@
               %b.caret
             %ul.dropdown-menu
               = nav_link t(:users), users_path
+              - path_to_comment = comments_path
+              = nav_link t(:comments), path_to_comment
               = nav_link t(:warehouses), warehouses_path
               = nav_link t(:items), items_path
               = nav_link t(:products), products_path

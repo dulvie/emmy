@@ -39,6 +39,10 @@
   .row
     &nbsp;
   .row
+    &nbsp;
+  .row
+    &nbsp;
+  .row
     .col-md-12
       %table{:class => 'table table-striped'}
         %thead
@@ -47,7 +51,7 @@
             %th= t(:quantity)
             %th.numeric= t(:price)
             %th.numeric= t(:vat)
-            %th.numeric= t(:price_sum)
+            %th.numeric= t(:amount)
 
           %tbody
             - @sale.sale_items.each do |item|
@@ -57,14 +61,14 @@
                 %td= item.quantity
                 %td.numeric= as_sek(item.price)
                 %td.numeric
+                  = "(#{item.vat}%) "
                   = as_sek(item.total_vat)
-                  = "(#{item.vat}%)"
                 %td.numeric= as_sek(item.price_sum)
           %tfoot
             %tr
-              %td= t(:total_amount)
+              %td= t(:total)
               %td
-              %td.numeric= as_sek(@sale.total_price)
+              %td
               %td.numeric= as_sek(@sale.total_vat)
               %td.numeric= as_sek(@sale.total_price_inc_vat)
   .row

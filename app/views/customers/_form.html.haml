@@ -9,9 +9,9 @@
 
         = f.input :name, required: true, autofocus: true
         = f.input :reseller, as: :radio_buttons, wrapper: :horizontal_radio_and_checkboxes
-        = f.input :vat_number
+        = f.input :vat_number, :input_html => {:class => 'short'}
         = f.input :address
-        = f.input :zip
+        = f.input :zip, :input_html => {:class => 'short'}
         = f.input :city
 
         = f.submit class: 'btn btn-primary'
