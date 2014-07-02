@@ -41,30 +41,6 @@ ActiveRecord::Schema.define(version: 20140616121826) do
     t.datetime "updated_at"
   end
 
-  create_table "costitems", force: true do |t|
-    t.string   "parent_type"
-    t.integer  "parent_id"
-    t.string   "description"
-    t.integer  "supplier_id"
-    t.string   "contact_email"
-    t.string   "contact_name"
-    t.integer  "product_id"
-    t.integer  "quantity"
-    t.integer  "price"
-    t.integer  "total_amount"
-    t.integer  "vat_amount"
-    t.string   "state"
-    t.string   "goods_state"
-    t.string   "money_state"
-    t.datetime "ordered_at"
-    t.datetime "completed_at"
-    t.datetime "received_at"
-    t.datetime "paid_at"
-    t.datetime "due_date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "customers", force: true do |t|
     t.string   "address"
     t.string   "city"

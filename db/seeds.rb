@@ -103,7 +103,7 @@ rost = Item.create({
   item_type: 'purchases',
   item_group: ' ',
   stocked: 'false',
-  unit: unit2.id,
+  unit_id: unit2.id,
   vat: 25,
 })
 
@@ -153,8 +153,9 @@ tr.quantity = 10
 tr.product = espresso
 tr.comments.build(user_id: jtest.id, body: "Initial seed manual product_transaction")
 tr.save
-tr.send_package
-tr.receive_package
+date_now = Time.now
+tr.send_package(date_now)
+tr.receive_package(date_now)
 
 
 donald = Customer.create(name: "Donald duck")
