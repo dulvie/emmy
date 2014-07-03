@@ -1,0 +1,8 @@
+-if !@production.new_record?
+  = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |m|
+    - if @production.materials.size == 0
+      - add_material_url = new_production_material_path(@production)
+      = render partial: 'shared/addon_plus_link', locals: {form: m, label: :materials, link: add_material_url}
+    - else
+      = m.simple_fields_for :materials do |mf|
+        = render partial: 'shared/addon_edit_link', locals: {form: mf, label: :materials, value: mf.object.product.name, can_edit:  @production.can_edit?, link: production_material_path(@production, mf.object.id)}

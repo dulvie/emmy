@@ -20,7 +20,6 @@ class PurchaseItem < ActiveRecord::Base
   validates :quantity, presence: true
   validates :price, presence: true
 
-  after_initialize :defaults, unless: :persisted?
   after_validation :collect_and_calculate
 
   def can_delete?

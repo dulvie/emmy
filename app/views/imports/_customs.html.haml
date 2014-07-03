@@ -15,6 +15,8 @@
         .col-sm-3.col-md-2.control-label
           = f.label :state
         .col-sm-9.col-md-10
+          - if @import.can_edit_items?
+            = f.input :state, label: false, disabled: true, :input_html => {:class => 'medium'}
           - if !@import.can_edit_items? && f.object.can_edit_items?
             %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','customsContent' )"}
               = status_icon

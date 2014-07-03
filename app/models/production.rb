@@ -52,14 +52,14 @@ class Production < ActiveRecord::Base
     event :start do
       transition :not_started => :started
     end
-    before_transition :not_started => :started, do:  :set_started
-    after_transition :not_started => :started, do: :create_from_transaction
+    before_transition on: :start, do:  :set_started
+    after_transition on: :start, do: :create_from_transaction
 
     event :complete do
       transition :started => :completed
     end
-    before_transition :started => :completed, do:  :set_completed
-    after_transition :started => :completed, do: :create_to_transaction
+    before_transition on: :complete, do:  :set_completed
+    after_transition on: :complete, do: :create_to_transaction
 
   end
 

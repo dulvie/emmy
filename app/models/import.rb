@@ -57,12 +57,12 @@ class Import < ActiveRecord::Base
     event :start do
       transition :not_started => :started
     end
-    before_transition :not_started => :started, do:  :set_started
+    before_transition on: :start, do:  :set_started
 
     event :complete do
       transition :started => :completed
     end
-    before_transition :started => :completed, do:  :set_completed
+    before_transition on: :complete, do:  :set_completed
 
   end
 

@@ -10,7 +10,7 @@
     - if @import.is_started? || @import.is_completed?
       = f.input :started_at, :as => :string,  disabled: true, :input_html => { :class => 'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}     
 
-    - if @importing.nil? && @import.product.nil?
+    - if !@import.new_record? && @importing.nil? && @import.product.nil?
       - set_product_url = new_product_path({class:@import.class.name, object:@import.id})
       = render partial: 'shared/addon_plus_link', locals: {form: f, label: :product, link: set_product_url}
 

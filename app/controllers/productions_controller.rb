@@ -24,6 +24,7 @@ class ProductionsController < ApplicationController
   # GET /productions/1
   # GET /productions/1.json
   def show
+    @pdummy = @production
     render 'edit'
   end
 

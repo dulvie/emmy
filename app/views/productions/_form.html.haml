@@ -1,6 +1,5 @@
 %div{:ng_controller => "ModalCtrl"}
-  - next_step = "No step"
-  = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal', }) do |f|
+  = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
     = f.error_notification
 
     = f.input :description, disabled: !@production.can_edit?
@@ -28,47 +27,14 @@
           .col-sm-9.col-md-10.form-inline  
             = f.input :quantity, :label=>false, disabled: !@production.can_edit?
 
-    .input-group
-      - if @production.can_edit?
-        = f.submit class: 'btn btn-primary'
-      - if (@production.can_edit_state? && !@production.is_started?) || (@production.can_edit_state? && @production.can_complete?)
-        %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
-          %span{ :class => "glyphicon glyphicon-flag"}
-          = f.object.next_event
-      = link_to 'Back', productions_path, class: 'btn btn-primary'
-
-    %hr
-      - if @production.materials.size == 0
-        - add_material_url = new_production_material_path(@production)
-        = render partial: 'shared/addon_plus_link', locals: {form: f, label: :materials, link: add_material_url}
-
-      - else
-        = f.simple_fields_for :materials do |ff|
-          = render partial: 'shared/addon_edit_link', locals: {form: ff, label: :materials, value: ff.object.product.name, can_edit:  @production.can_edit?, link: production_material_path(@production, ff.object.id)}
-
-      - if  @production.work.nil?
-        - add_single_purchase_url = new_purchase_path({parent_id: @production.id, parent_type: @production.class.name, form: 'single_purchase'})
-        = render partial: 'shared/addon_plus_link', locals: {form: f, label: :work, link: add_single_purchase_url}
-
-      - else
-        = render partial: 'shared/addon_edit_link', locals: {form: f, label: :work, value: f.object.work.description, can_edit: @production.can_edit?, link: purchase_path(@production.work)}
-
-      - if @production.is_started? || @production.is_completed?
-        = f.simple_fields_for :work do |w|
-          - if !@production.work.is_paid? 
-            .form-group
-              .col-sm-3.col-md-2.control-label
-                %label Work state
-              .col-sm-9.col-md-10
-                .input-group
-                - if f.object.work.money_state != 'paid'
-                  %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','workPayContent' )"}
-                    = status_icon
-                    = t(:pay)
-
-
- 
-  - unless  @production.new_record? || @production.is_completed?
-    = render partial: 'shared/modal_state_change', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), event: @production.next_event, return_path: edit_production_path(@production)}   
-  - if  !@production.work.nil?
-    = render partial: 'shared/modal_state_change', locals: {idx: 'workPayContent', model: @production.work, form_path: state_change_purchase_path(@production.work), event: 'pay', return_path: edit_production_path(@production)}
+    - if @production.can_edit?
+      = f.submit class: 'btn btn-primary'
+    - if (@production.can_edit_state? && !@production.is_started?) || (@production.can_edit_state? && @production.can_complete?)
+      %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
+        %span{ :class => "glyphicon glyphicon-flag"}
+        = @production.next_event
+    = link_to 'Back', productions_path, class: 'btn btn-primary'
+  %hr
+  - if !@production.new_record? && !@production.is_completed?
+    = render partial: 'shared/modal_state_change', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), event: @production.next_event, return_path: edit_production_path(@production)}     
+  

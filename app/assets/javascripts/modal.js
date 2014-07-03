@@ -23,7 +23,7 @@ app.controller('ModalCtrl', function ($scope, $modal, $log) {
 			$log.info('Modal dismissed at: ' + new Date());
 		});
 		$event.preventDefault();
-		$event.stopPropagation();	   
+		$event.stopPropagation();
 	};
 });
 
