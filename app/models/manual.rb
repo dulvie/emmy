@@ -21,7 +21,7 @@ class Manual < ActiveRecord::Base
   end
 
   def can_delete?
-    true
+    false
   end
 
 end

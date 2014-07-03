@@ -3,22 +3,35 @@
     %tr
       %th= t(:item)
       %th= t(:product)
-      %th{:style => "text-align:right"}
+      %th.numeric
         = t(:quantity)
-      %th{:style => "text-align:right"}
+      %th.numeric
         = t(:price)
-      %th{:style => "text-align:right"}
+      %th.numeric
+        = t(:vat)
+      %th.numeric
         = t(:total_amount)
       %th
     %tbody
-      - purchase_items.each do |i|
+      - purchase_items.each do |item|
         %tr
-          %td= i.item_id? ? i.item.name : ' '
-          %td= i.product_id? ? i.product.name : ' '
-          %td{:style => "text-align:right"}
-            = i.quantity 
-          %td{:style => "text-align:right"}
-            = as_sek(i.price)
-          %td{:style => "text-align:right"}
-            = as_sek(i.total_amount)
-          %td= delete_button_for i, purchase_purchase_item_path(@purchase, i)
+          %td= item.item_id? ? item.item.name : ' '
+          %td= item.product_id? ? item.product.name : ' '
+          %td.numeric
+            = item.quantity 
+          %td.numeric
+            = as_sek(item.price)
+          %td.numeric
+            = "(#{item.vat}%) "
+            = as_sek(item.vat_amount)
+          %td.numeric
+            = as_sek(item.amount)
+          %td= delete_button_for item, purchase_purchase_item_path(@purchase, item)
+    %tfoot
+      %tr
+        %td= t(:total)
+        %td
+        %td
+        %td
+        %td.numeric= as_sek(@purchase.total_vat)
+        %td.numeric= as_sek(@purchase.total_amount)

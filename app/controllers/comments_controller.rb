@@ -7,6 +7,7 @@ class CommentsController < ApplicationController
   before_filter :new_breadcrumbs, only: [:new, :create]
 
   def index
+    @breadcrumbs = [['Comments']]
     @comments = Comment.where('parent_id= ?', 0)
   end
 
@@ -112,6 +113,9 @@ class CommentsController < ApplicationController
       if !@parent.nil?  
         @breadcrumbs = [["#{@comment.parent_type.pluralize}", send("#{@parent.class.name.downcase}s_path")], 
         [@comment.parent_name, @comment.parent], ["#{t(:comments)}(#{@comment.body})"]]
+      else
+        @breadcrumbs = [["#{@comment.class.name.pluralize}", send("#{@comment.class.name.downcase}s_path")], 
+        ["#{t(:comments)}(#{@comment.body})"]]
       end  
     end
 
@@ -119,6 +123,9 @@ class CommentsController < ApplicationController
       if !@parent.nil?
         @breadcrumbs = [["#{@parent.class.name.pluralize}", send("#{@parent.class.name.downcase}s_path")], 
         [@parent.parent_name, @parent], ["#{t(:new)} #{t(:comment)}"]]
+      else
+        @breadcrumbs = [["#{@comment.class.name.pluralize}", send("#{@comment.class.name.downcase}s_path")], 
+        ["#{t(:new)} #{t(:comment)}"]]  
       end  
     end
 

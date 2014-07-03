@@ -160,8 +160,14 @@ class Purchase < ActiveRecord::Base
     money_state.eql? 'paid'
   end
 
-  def items_total
-    self.purchase_items.sum(:total_amount)
+  def total_amount
+    return 0 if purchase_items.count <= 0
+    purchase_items.inject(0){|i, item| item.amount + i}
+  end
+  
+  def total_vat
+    return 0 if purchase_items.count <= 0
+    purchase_items.inject(0){|i, item| item.vat_amount + i}
   end
 
 end

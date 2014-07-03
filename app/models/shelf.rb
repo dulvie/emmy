@@ -17,5 +17,9 @@ class Shelf < ActiveRecord::Base
   def recalculate
     self.quantity = ProductTransaction.where(warehouse_id: warehouse_id).where(product_id: product_id).sum(:quantity)
     save!
+    Rails.logger.info "OBS! kvantitet: #{self.quantity}"
+    if self.quantity == 0
+      destroy
+    end
   end
 end

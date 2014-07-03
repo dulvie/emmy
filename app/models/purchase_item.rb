@@ -6,7 +6,8 @@ class PurchaseItem < ActiveRecord::Base
 
   #t.integer :quantity
   #t.integer :price
-  #t.integer :total_amount
+  #t.integer :amount
+  #t.integer :vat
 
   belongs_to :purchase
   belongs_to :item
@@ -20,22 +21,25 @@ class PurchaseItem < ActiveRecord::Base
   validates :price, presence: true
 
   after_initialize :defaults, unless: :persisted?
-  after_validation :calculate_amount
+  after_validation :collect_and_calculate
 
   def can_delete?
     purchase.can_edit_items?
   end
+  
+  def vat_amount
+    return self.price * self.quantity * self.vat / 100
+  end
+
 
   private
 
-  def defaults
-  end
-
-  def calculate_amount
+  def collect_and_calculate
+    self.vat = self.vat || item.vat
     if self.quantity && self.price
-      self.total_amount = self.quantity * self.price
+      self.amount = self.quantity * self.price + vat_amount
     else
-      self.total_amount = 0
+      self.amount = 0
     end
   end
 

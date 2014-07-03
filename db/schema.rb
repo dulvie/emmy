@@ -146,7 +146,7 @@ ActiveRecord::Schema.define(version: 20140616121826) do
     t.integer  "product_id"
     t.integer  "quantity"
     t.integer  "price"
-    t.integer  "total_amount"
+    t.integer  "amount"
     t.integer  "vat"
     t.datetime "created_at"
     t.datetime "updated_at"
