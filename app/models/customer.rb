@@ -4,12 +4,13 @@ class Customer < ActiveRecord::Base
   # t.string  :address
   # t.string  :zip
   # t.string  :city
+  # t.string  :country
   # t.boolean :reseller
 
   has_many :contacts, as: :parent
   has_many :comments, as: :parent
 
-  attr_accessible :name, :vat_number, :address, :zip, :city, :reseller
+  attr_accessible :name, :vat_number, :address, :zip, :city, :country, :reseller
 
   validates :name, presence: true
 

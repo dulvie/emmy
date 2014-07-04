@@ -14,6 +14,8 @@ class Contact < ActiveRecord::Base
 
   attr_accessible :email, :name, :telephone, :address, :zip, :city, :country
 
+  validates :name, presence: true
+
   VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse']
 
   # For ApplicationHelper#delete_button

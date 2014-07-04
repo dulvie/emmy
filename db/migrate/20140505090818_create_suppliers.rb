@@ -5,6 +5,7 @@ class CreateSuppliers < ActiveRecord::Migration
       t.string :address
       t.string :zip
       t.string :city
+      t.string :country
       t.string :bg_number
       t.string :vat_number
       t.timestamps

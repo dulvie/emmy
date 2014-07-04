@@ -62,7 +62,7 @@ app.controller('sale_items_new_ctrl', function ($scope) {
 		var rPrice = 0;
 		var reseller = $('#sale_customer_reseller').is(":checked");
 		for (i=0; i< gon.shelves.length; i++) {
-			if (gon.shelves[i].id == $scope.product_id) {
+			if (gon.shelves[i].product_id == $scope.product_id) {
 				dPrice = gon.shelves[i].distributor_price;
 				rPrice = gon.shelves[i].retail_price;
 			}

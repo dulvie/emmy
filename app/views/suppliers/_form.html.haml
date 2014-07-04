@@ -2,10 +2,12 @@
   = f.error_notification
 
   = f.input :name, required: true, autofocus: true
+  = f.input :bg_number, :input_html => {:class => 'medium'} 
   = f.input :vat_number, :input_html => {:class => 'short'}
   = f.input :address
   = f.input :zip, :input_html => {:class => 'short'}
   = f.input :city
+  = f.input :country, :input_html => {:class => 'medium'}
 
   = f.submit class: 'btn btn-primary'
   = link_to 'Back', suppliers_path, class: 'btn btn-primary'
