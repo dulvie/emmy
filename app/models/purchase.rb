@@ -28,6 +28,7 @@ class Purchase < ActiveRecord::Base
   belongs_to :to_warehouse, class_name: 'Warehouse'
   belongs_to :parent, polymorphic: true
   has_many :purchase_items
+  has_many :documents, as: :parent
   has_many :to_transaction, class_name: 'ProductTransaction', as: :parent
 
   accepts_nested_attributes_for :purchase_items
@@ -170,4 +171,7 @@ class Purchase < ActiveRecord::Base
     purchase_items.inject(0){|i, item| item.vat_amount + i}
   end
 
+  def parent_name
+    description
+  end
 end

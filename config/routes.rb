@@ -15,6 +15,7 @@ Emmy::Application.routes.draw do
       get 'name_search', as: :name_search
     end
   end  
+  resources :documents
   resources :imports do
     member do
       post 'state_change', as: :state_change

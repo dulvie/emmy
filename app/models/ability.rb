@@ -26,6 +26,7 @@ class Ability
     can :manage, Comment
     can :manage, Contact
     can :manage, Customer
+    can :manage, Document
     can :manage, Import
     can :manage, Item
     can :manage, Manual
