@@ -2,7 +2,7 @@
   %thead
     %tr
       %th= t(:product)
-      %th= t(:quantity)
+      %th.numeric= t(:quantity)
       %th.numeric= t(:price)
       %th.numeric= t(:vat)
       %th.numeric= t(:amount)
@@ -12,7 +12,7 @@
         - item = item.decorate
         %tr
           %td= item.product_name
-          %td= item.quantity
+          %td.numeric= item.quantity
           %td.numeric= as_sek(item.price)
           %td.numeric
             = "(#{item.vat}%) "

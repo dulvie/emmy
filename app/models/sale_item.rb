@@ -25,7 +25,7 @@ class SaleItem < ActiveRecord::Base
   end
 
   def total_vat
-    self.price_inc_vat - self.price
+    self.quantity * (self.price_inc_vat - self.price)
   end
 
   private
