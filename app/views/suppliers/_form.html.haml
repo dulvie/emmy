@@ -2,6 +2,7 @@
   = f.error_notification
 
   = f.input :name, required: true, autofocus: true
+  = f.input :primary_contact_id, as: :select, collection: @contacts
   = f.input :bg_number, :input_html => {:class => 'medium'} 
   = f.input :vat_number, :input_html => {:class => 'short'}
   = f.input :address

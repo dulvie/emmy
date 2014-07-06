@@ -6,11 +6,12 @@ class Customer < ActiveRecord::Base
   # t.string  :city
   # t.string  :country
   # t.boolean :reseller
+  # t.integer :primary_contact_id
 
   has_many :contacts, as: :parent
   has_many :comments, as: :parent
 
-  attr_accessible :name, :vat_number, :address, :zip, :city, :country, :reseller
+  attr_accessible :name, :vat_number, :address, :zip, :city, :country, :reseller, :primary_contact_id
 
   validates :name, presence: true
 

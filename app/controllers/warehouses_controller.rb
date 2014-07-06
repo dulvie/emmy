@@ -4,6 +4,7 @@ class WarehousesController < ApplicationController
   load_and_authorize_resource
   before_filter :show_breadcrumbs, only: [:show, :edit, :update]
   before_filter :new_breadcrumbs, only: [:new, :create]
+  before_filter :load_contats, only: [:show, :new, :edit, :create, :update]
 
   # GET /warehouses
   # GET /warehouses.json
@@ -69,7 +70,7 @@ class WarehousesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def warehouse_params
-      params.require(:warehouse).permit(:name, :address, :zip, :city)
+      params.require(:warehouse).permit(Warehouse.accessible_attributes.to_a)
     end
     
     def show_breadcrumbs
@@ -80,4 +81,7 @@ class WarehousesController < ApplicationController
       @breadcrumbs = [['Warehouses', warehouses_path], ['New warehouse']]
     end
 
+    def load_contats
+     @contacts = Contact.where('parent_type = ? and parent_id = ?', 'Warehouse', @warehouse)
+    end
 end

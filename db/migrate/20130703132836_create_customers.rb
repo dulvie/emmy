@@ -1,6 +1,7 @@
 class CreateCustomers < ActiveRecord::Migration
   def change
     create_table :customers do |t|
+
       t.string  :address
       t.string  :city
       t.string  :vat_number
@@ -8,6 +9,8 @@ class CreateCustomers < ActiveRecord::Migration
       t.string  :zip
       t.string  :country
       t.boolean :reseller
+      t.integer :primary_contact_id
+
       t.timestamps
     end
   end

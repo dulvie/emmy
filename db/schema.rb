@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(version: 20140704195123) do
   create_table "contacts", force: true do |t|
     t.string   "parent_type"
     t.integer  "parent_id"
-    t.integer  "item_id"
     t.string   "name"
     t.string   "email"
     t.string   "telephone"
@@ -49,6 +48,7 @@ ActiveRecord::Schema.define(version: 20140704195123) do
     t.string   "zip"
     t.string   "country"
     t.boolean  "reseller"
+    t.integer  "primary_contact_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -246,6 +246,7 @@ ActiveRecord::Schema.define(version: 20140704195123) do
     t.string   "country"
     t.string   "bg_number"
     t.string   "vat_number"
+    t.integer  "primary_contact_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -292,6 +293,7 @@ ActiveRecord::Schema.define(version: 20140704195123) do
 
   create_table "warehouses", force: true do |t|
     t.string   "name"
+    t.integer  "primary_contact_id"
     t.string   "address"
     t.string   "zip"
     t.string   "city"

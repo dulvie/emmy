@@ -12,7 +12,7 @@ class Contact < ActiveRecord::Base
 
   belongs_to :parent, polymorphic: true
 
-  attr_accessible :email, :name, :telephone, :address, :zip, :city, :country
+  attr_accessible :email, :name, :telephone, :address, :zip, :city, :country, :comment
 
   validates :name, presence: true
 

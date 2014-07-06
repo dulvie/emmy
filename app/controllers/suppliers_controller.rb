@@ -3,6 +3,7 @@ class SuppliersController < ApplicationController
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
+  before_filter :load_contats, only: [:show, :new, :edit, :create, :update]
 
   # GET /suppliers
   # GET /suppliers.json
@@ -49,7 +50,7 @@ class SuppliersController < ApplicationController
         format.html { redirect_to suppliers_path, notice: 'supplier was successfully updated.' }
         #format.json { head :no_content }
       else
-        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:supplier)}"
+        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:supplier)}"       
         format.html { render action: 'edit' }
         #format.json { render json: @supplier.errors, status: :unprocessable_entity }
       end
@@ -79,5 +80,9 @@ class SuppliersController < ApplicationController
 
     def edit_breadcrumbs
       @breadcrumbs = [['Suppliers', suppliers_path], [@supplier.name]]
+    end
+
+    def load_contats
+     @contacts = Contact.where('parent_type = ? and parent_id = ?', 'Supplier', @supplier)
     end
 end

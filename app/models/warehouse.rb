@@ -3,6 +3,7 @@ class Warehouse < ActiveRecord::Base
   # t.string :address
   # t.string :zip
   # t.string :city
+  # t.integer :primary_contact_id
 
   has_many :shelves, :dependent => :destroy
   has_many :contacts, as: :parent
@@ -10,7 +11,7 @@ class Warehouse < ActiveRecord::Base
   has_many :manuals
   has_many :product_transactions
 
-  attr_accessible :name, :address, :zip, :city
+  attr_accessible :name, :address, :zip, :city, :primary_contact_id
 
   validates :name, :uniqueness => true
   validates :name, :presence => true
