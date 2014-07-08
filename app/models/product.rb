@@ -31,6 +31,19 @@ class Product < ActiveRecord::Base
 
   def quantity
     qty = Shelf.where('product_id' => self.id).sum('quantity')
+    ext = Transfer.where('state' => 'sent', 'product_id' => self.id).sum('quantity')
+    return qty+ext
+  end
+
+  def in_quantity
+    qty = Purchase.where('state' => 'item_complete', 'goods_state' => 'not_received').joins(:purchase_items).where('purchase_items.product_id' => self.id).sum('quantity')
+    ext = Production.where('state' => 'started', 'product_id' => self.id).sum('quantity')
+    return qty+ext
+  end
+  
+  def out_quantity
+    qty = Sale.where('state' => 'item_complete', 'goods_state' => 'not_delivered').joins(:sale_items).where('sale_items.product_id' => self.id).sum('quantity')
     return qty
   end
+
 end

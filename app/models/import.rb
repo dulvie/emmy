@@ -6,6 +6,8 @@ class Import < ActiveRecord::Base
   # t.integer :to_warehouse_id
   # t.integer :product_id
   # t.integer :quantity
+  # t.integer :amount
+  # t.integer :cost_price
   # t.integer :importing_id
   # t.integer :shipping_id
   # t.integer :customs_id 
@@ -29,10 +31,6 @@ class Import < ActiveRecord::Base
 
   validates :description, presence: true
   validates :to_warehouse_id, presence: true
-
-  STATE_CHANGES = [
-    :started, :complete, # Generic state
-  ]
 
   def state_change(event, changed_at = nil)
    return false unless EVENTS.include?(event.to_sym)
@@ -62,7 +60,7 @@ class Import < ActiveRecord::Base
     event :complete do
       transition :started => :completed
     end
-    before_transition on: :complete, do:  :set_completed
+    before_transition on: :complete, do:  :set_completed_and_calculate
 
   end
 
@@ -70,8 +68,11 @@ class Import < ActiveRecord::Base
     self.started_at = transition.args[0]
   end
 
-  def set_completed(transition)
+  def set_completed_and_calculate(transition)
     self.completed_at = transition.args[0]
+    amount = Purchase.find(importing_id).total_amount + Purchase.find(shipping_id).total_amount + Purchase.find(customs_id).total_amount
+    self.amount = amount
+    self.cost_price = amount / self.import_quantity
   end
 
   def can_edit_state?

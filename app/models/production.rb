@@ -58,7 +58,7 @@ class Production < ActiveRecord::Base
     event :complete do
       transition :started => :completed
     end
-    before_transition on: :complete, do:  :set_completed
+    before_transition on: :complete, do:  :set_completed_and_calculate
     after_transition on: :complete, do: :create_to_transaction
 
   end
@@ -67,14 +67,17 @@ class Production < ActiveRecord::Base
     self.started_at = transition.args[0]
     if self.work.state == 'meta_complete'
       self.work.state_change('mark_item_complete', self.started_at)
-    end  
+    end    
   end
 
-  def set_completed(transition)
+  def set_completed_and_calculate(transition)
     self.completed_at = transition.args[0]
     if self.work.goods_state == 'not_received'
       self.work.state_change('receive', self.completed_at)
-    end  
+    end
+    material_amount = materials.first.product.in_price * materials.first.quantity
+    self.total_amount = work.total_amount + material_amount
+    self.cost_price = self.total_amount / self.quantity
   end
 
   def create_from_transaction

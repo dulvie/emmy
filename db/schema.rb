@@ -73,6 +73,8 @@ ActiveRecord::Schema.define(version: 20140704195123) do
     t.integer  "to_warehouse_id"
     t.integer  "product_id"
     t.integer  "quantity"
+    t.integer  "amount"
+    t.integer  "cost_price"
     t.integer  "importing_id"
     t.integer  "shipping_id"
     t.integer  "customs_id"

@@ -33,9 +33,13 @@
         .col-sm-9.col-md-10
           %input{:value => @importing.purchase_items.first.quantity, :readonly=>'readonly', :class=>'form-control numeric'}
 
+    - if @import.is_completed?
+      = f.input :amount, disabled: true
+      = f.input :cost_price, disabled: true
+
     - if !@import.is_completed? 
       = f.submit class: 'btn btn-primary'
-    - if !@import.new_record? && @import.can_edit_state? && @import.can_edit_items?
+    - if !@import.new_record? && @import.can_edit_state? && !@import.can_edit_items?
       %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importContent' )"}
         %span{ :class => "glyphicon glyphicon-flag"} 
         = f.object.next_event

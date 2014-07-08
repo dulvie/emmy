@@ -4,24 +4,22 @@
   %thead
     %tr
       %th= t(:name)
-      %th{:style => "text-align:right"}
-        = t(:reseller)
-      %th{:style => "text-align:right"}
-        = t(:end_customer)
-      %th{:style => "text-align:right"}
-        = t(:quantity)
+      %th.numeric= t(:reseller)
+      %th.numeric= t(:end_customer)
+      %th.numeric= t(:quantity)
+      %th.tabnum= t(:in_qty)
+      %th.tabnum= t(:out_qty)
       %th
       %th
     %tbody
     - @products.each do |product|
       %tr
         %td= product.name 
-        %td{:style => "text-align:right"}
-          #{product.distributor_price} (ex vat)
-        %td{:style => "text-align:right"}
-          #{product.product_price} (ink vat)
-        %td{:style => "text-align:right"}
-          = product.quantity
+        %td.numeric  #{product.distributor_price} (ex vat)
+        %td.numeric  #{product.product_price} (ink vat)
+        %td.tabnum= product.quantity
+        %td.tabnum= product.in_quantity
+        %td.tabnum= product.out_quantity
         %td= link_to settings_icon, edit_product_path(product) 
         %td= delete_button_for product
 
