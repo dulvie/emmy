@@ -28,6 +28,8 @@ class Ability
     can :manage, Customer
     can :manage, Document
     can :manage, Import
+    can :manage, Inventory
+    can :manage, InventoryItem 
     can :manage, Item
     can :manage, Manual
     can :manage, Material

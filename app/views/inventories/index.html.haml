@@ -1,0 +1,22 @@
+= link_to 'Create Inventory', new_inventory_path, class: 'btn btn-primary'
+%br
+%table{:class => 'table table-striped'}
+  %thead
+    %tr
+      %th= t(:inventory)
+      %th= t(:started_at)
+      %th= t(:warehouse)
+      %th= t(:state)
+      %th
+      %th
+    %tbody
+      - @inventories.each do |inventory|
+        %tr
+          %td= link_to "##{inventory.id}", inventory
+          %td= inventory.started_at.nil? ? ' ': inventory.started_at.strftime("%Y-%m-%d") 
+          %td= link_to inventory.warehouse.name, inventory.warehouse
+          %td= inventory.state
+          %td= link_to settings_icon, inventory
+          %td= delete_button_for inventory
+
+= paginate @inventories, :theme => 'twitter-bootstrap-3'

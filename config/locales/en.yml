@@ -20,6 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  actual_quantity: "Actual quantity"
   add_comment: "Add comment"
   add_contact: "Add contact"
   add_document: "Add document"
@@ -38,6 +39,7 @@ en:
   comment: "Comment"
   comment_added: "Comment added"
   comments: "Comments"
+  complete: "Complete"
   completed: "Completed"
   completed_at: "Completed at"
   confirm: "Confirm"
@@ -74,6 +76,8 @@ en:
   import: "Import"
   imports: "Imports"
   in_qty: "In qty"
+  inventory: "Inventory"
+  inventories: "Inventories"
   invoice: "Invoice"
   invoice_number: "Invoice no."
   item: "Item"
@@ -123,6 +127,7 @@ en:
   received: "Received"
   receive_package: "Verify as received"
   reference: "Reference"
+  report: "Report"
   reseller: "Reseller"
   sale: "Sale"
   sale_id: "Sale id"
@@ -132,6 +137,7 @@ en:
   sales: "Sales"
   send: "Send"
   send_package: "Mark as sent"
+  shelf_quantity: "Shelf quantity"
   show: "Show"
   sign_in: "Sign in"
   start: "Start"

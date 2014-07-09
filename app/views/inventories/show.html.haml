@@ -1,0 +1,14 @@
+= render partial: 'form'
+
+- if !@inventory.is_completed?
+  %div{:ng_controller => "ModalCtrl"}
+    %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','inventoryContent' )"}
+      %i{ :class => "glyphicon glyphicon-flag"}
+      #{t(@inventory.next_event)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'inventoryContent', model: @inventory, form_path: state_change_inventory_path(@inventory), event: @inventory.next_event, return_path: inventory_path(@inventory)}
+    = link_to 'Back', inventories_path, class: 'btn btn-primary'
+
+- if @inventory.is_completed?
+  = link_to 'Back', inventories_path, class: 'btn btn-primary'
+
+= render partial: 'inventory_items/index'

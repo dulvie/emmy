@@ -1,0 +1,24 @@
+%div{:ng_controller => 'inventory_item_list_ctrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:product)
+        %th.numeric= t(:shelf_quantity)
+        %th.numeric= t(:actual_quantity)
+        %th
+      %tbody
+        - inventory_items.each_with_index do |item, index|
+          %tr
+            %td= item.product.name
+            %td.numeric= item.shelf_quantity
+            - if @inventory.is_completed?
+              %td.numeric= item.actual_quantity
+            - else
+              - qty_id = 'qty_'+index.to_s
+              %td
+                %input{:type=>"number", :id=>qty_id, :class=>'form-control numeric', :value=>item.actual_quantity}
+              %td
+                - call = "report_item('" + item.inventory_id.to_s + "','"+ item.id.to_s + "','" + qty_id + "');"
+                %button{:class=>"btn btn-primary", :ng_click=>call}
+                  %span{ :class => "glyphicon glyphicon-ok"} 
+                  = t(:report)

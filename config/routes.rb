@@ -22,7 +22,13 @@ Emmy::Application.routes.draw do
       get 'new_purchase', as: :new_purchase
       post 'create_purchase', as: :create_pruchase
     end
-  end  
+  end
+  resources :inventories do
+    resources :inventory_items
+    member do
+      post 'state_change', as: :state_change
+    end
+  end
   resources :items
   resources :manuals
   resources :units
