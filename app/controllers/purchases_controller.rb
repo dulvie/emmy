@@ -32,6 +32,8 @@ class PurchasesController < ApplicationController
       end
     end
     @purchase.our_reference = current_user
+    @suppliers = Supplier.all
+    gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
   end
 
   def create  
@@ -42,6 +44,8 @@ class PurchasesController < ApplicationController
         format.html { redirect_to purchase_path(@purchase), notice: "#{t(:purchase)} #{t(:was_successfully_created)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:purchase)}"
+        @suppliers = Supplier.all
+        gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
         format.html { render action: :new }
       end      
     end
