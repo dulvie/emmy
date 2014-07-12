@@ -10,3 +10,19 @@
     = render partial: 'contacts/index', locals: {contacts: @supplier.contacts, parent: @supplier}
   #comment-index.tab-pane
     = render partial: 'comments/index', locals: {comments: @supplier.comments, parent: @supplier}
+
+:javascript
+  $(document).ready(function() {
+ 
+  $('a[data-toggle="tab"]').on("click", function(e) {
+   localStorage.setItem('lastTab', $(e.target).attr("href").substr(1));
+  });
+
+  var lastTab = localStorage.getItem('lastTab');
+  if (lastTab) {
+    $('ul.nav-tabs').children().removeClass('active');
+    $('a[href=#'+ lastTab +']').parents('li:first').addClass('active');
+    $('div.tab-content').children().removeClass('active');
+    $('#'+lastTab).addClass('active');
+  }
+  });

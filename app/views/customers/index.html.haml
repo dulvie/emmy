@@ -32,3 +32,8 @@
               %td= delete_button_for customer
 
     = paginate @customers, :theme => 'twitter-bootstrap-3'
+
+:javascript
+  $(document).ready(function() {
+   localStorage.removeItem('lastTab');
+  });
