@@ -95,6 +95,10 @@ class Inventory < ActiveRecord::Base
     state.eql? 'not_started'
   end
 
+  def can_start?
+    #kontrollera så inte det finns transfer sent men inte received
+  end
+
   def is_started?
     state.eql? 'item_started'
   end

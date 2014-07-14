@@ -1,11 +1,11 @@
 %ul{:class => 'nav nav-tabs'}
   %li.active= link_to "Base information", "#purchase-form", {"data-toggle" => "tab"}
-  %li= link_to "Documents", "#contact-index", {"data-toggle" => "tab"}
+  %li= link_to "Documents", "#document-index", {"data-toggle" => "tab"}
 .tab-content
   #purchase-form.tab-pane.active
     %br
     = render 'form'
     = render 'buttons'
     = render partial: 'purchase_items/index'
-  #contact-index.tab-pane
+  #document-index.tab-pane
     = render partial: 'documents/index', locals: {documents: @purchase.documents, parent: @purchase}

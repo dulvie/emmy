@@ -16,6 +16,7 @@
       %th= t(:state)
       %th
       %th
+      %th
     %tbody
       - @sales.each do |sale|
         %tr
@@ -26,7 +27,11 @@
           %td
             - sale.states.each do |s|
               = s
-
+          - if sale.item_complete?
+            - show =  link_to doc_icon, sale_path(sale, format: :pdf), :target => "_blank"
+          - else
+            - show = ' '
+          %td= show
           %td= link_to settings_icon, sale
           %td= delete_button_for sale
 
