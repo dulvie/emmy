@@ -7,13 +7,15 @@ class Customer < ActiveRecord::Base
   # t.string  :country
   # t.boolean :reseller
   # t.integer :primary_contact_id
+  # t.integer :payment_term
 
   has_many :contacts, as: :parent
   has_many :comments, as: :parent
 
-  attr_accessible :name, :vat_number, :address, :zip, :city, :country, :reseller, :primary_contact_id
+  attr_accessible :name, :vat_number, :address, :zip, :city, :country, :reseller, :primary_contact_id, :payment_term
 
   validates :name, presence: true
+  validates :payment_term, presence: true
 
   def parent_name
     name

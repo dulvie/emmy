@@ -6,6 +6,7 @@ class CreateSales < ActiveRecord::Migration
       t.integer :warehouse_id
       t.string :contact_email
       t.string :contact_name
+      t.integer :payment_term
       t.string :state
       t.string :goods_state
       t.string :money_state

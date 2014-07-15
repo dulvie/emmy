@@ -5,6 +5,7 @@ class Sale < ActiveRecord::Base
   # t.integer :warehouse_id
   # t.string :contact_email
   # t.string :contact_name
+  # t.integer :payment_term
 
   # t.string :state
   # t.string :goods_state
@@ -20,7 +21,7 @@ class Sale < ActiveRecord::Base
   has_many :sale_items
   has_many :from_transaction, class_name: 'ProductTransaction', as: :parent
   
-  attr_accessible :customer_id, :warehouse_id, :approved_at, :contact_email, :contact_name
+  attr_accessible :customer_id, :warehouse_id, :approved_at, :contact_email, :contact_name, :payment_term
 
   validates :customer_id, presence: true
   validates :warehouse_id, presence: true
@@ -61,7 +62,7 @@ class Sale < ActiveRecord::Base
 
   def set_approved_and_due_date(transition)
     self.approved_at = transition.args[0] || Time.now
-    self.due_date = self.approved_at + 30.days
+    self.due_date = self.approved_at + self.payment_term.days
   end
 
 

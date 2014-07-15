@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20140708152302) do
     t.string   "country"
     t.boolean  "reseller"
     t.integer  "primary_contact_id"
+    t.integer  "payment_term"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -241,6 +242,7 @@ ActiveRecord::Schema.define(version: 20140708152302) do
     t.integer  "warehouse_id"
     t.string   "contact_email"
     t.string   "contact_name"
+    t.integer  "payment_term"
     t.string   "state"
     t.string   "goods_state"
     t.string   "money_state"

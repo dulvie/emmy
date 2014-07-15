@@ -10,6 +10,7 @@ class CreateCustomers < ActiveRecord::Migration
       t.string  :country
       t.boolean :reseller
       t.integer :primary_contact_id
+      t.integer :payment_term
 
       t.timestamps
     end

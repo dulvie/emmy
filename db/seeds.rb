@@ -158,10 +158,10 @@ tr.send_package(date_now)
 tr.receive_package(date_now)
 
 
-donald = Customer.create(name: "Donald duck")
-coffehouse = Customer.create(name: 'Coffe House by Foobar')
+donald = Customer.create(name: "Donald duck", payment_term: 10)
+coffehouse = Customer.create(name: 'Coffe House by Foobar', payment_term: 10)
 1.upto(15) do |i|
-	Customer.create(name: "Kund #{i}")
+	Customer.create(name: "Kund #{i}", payment_term: 30)
 end
 
 bigsupp = Supplier.create(name: "Big supplier of coffee")
