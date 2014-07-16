@@ -4,10 +4,10 @@
   = f.input :product_id, as: :select, collection: Product.all, disabled: !@manual.new_record?
   = f.input :quantity, disabled: !@manual.new_record?, :input_html => {:class => 'numeric'}
   - if @manual.new_record?
-    = simple_fields_for :comments do |c|
-      .form-group
-        .col-sm-3.col-md-2.control-label
-          = c.label t(:comment)
+    = simple_fields_for :comments,  wrapper: :horizontal_form, html: {class: 'form-horizontal'} do |c|
+      .form-group.required.manual_comment
+        .col-sm-3.col-md-2.required.control-label
+          = c.label :comment
         .col-sm-9.col-md-10
           = c.input :body, as: :text, label: false, :class => 'form-control'
   - if @manual.new_record?

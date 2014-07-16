@@ -27,6 +27,8 @@ class Transfer < ActiveRecord::Base
   validates :to_warehouse, presence: true
   validates :product, presence: true
   validates :quantity, presence: true
+  validates_exclusion_of :quantity, :in => 0..0, :message => "Positive or negative quantities"
+  
 
   def name
     from_warehouse.name + ' => ' + to_warehouse.name 

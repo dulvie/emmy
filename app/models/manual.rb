@@ -10,7 +10,8 @@ class Manual < ActiveRecord::Base
   validates :product_id, presence: true
   validates :warehouse_id, presence: true
   validates :quantity, presence: true
-  
+  validates_exclusion_of :quantity, :in => 0..0, :message => "Positive or negative quantities"
+
   delegate :quantity, :product_id, :warehouse_id, to: :product_transaction
 
   def parent_name

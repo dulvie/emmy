@@ -43,9 +43,21 @@ class TransfersController < ApplicationController
         format.html { redirect_to transfers_path, notice: "#{t(:transfer_transaction)} #{t(:was_successfully_created)}" }
         #format.json { render action: 'show', status: :created, location: @transfer }
       else
+        @warehouses = Warehouse.all
+        gon.push warehouses: ActiveModel::ArraySerializer.new(@warehouses, each_serializer: WarehouseSerializer)
         format.html { render action: 'new' }
         #format.json { render json: @transfer.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  # DELETE /transfer/1
+  # DELETE /transfer/1.json
+  def destroy
+    @transfer.destroy
+    respond_to do |format|
+      format.html { redirect_to transfers_url, notice: 'transfer was successfully deleted.' }
+      #format.json { head :no_content }
     end
   end
 
