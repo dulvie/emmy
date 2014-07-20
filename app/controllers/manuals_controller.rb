@@ -24,7 +24,7 @@ class ManualsController < ApplicationController
   # GET /manuals/new
   def new
     @manual.product_transaction = ProductTransaction.new
-    @manual.comments.build    
+    @manual.comments.build
   end
 
   # POST /manuals
@@ -67,15 +67,19 @@ class ManualsController < ApplicationController
       params.require(:manual).permit(ProductTransaction.accessible_attributes.to_a)
     end
 
-    def comments_params
+    def commentsx_params
       params.require(:comments).permit(Comment.accessible_attributes.to_a)
+    end
+
+    def comments_params
+      params.require([:comments_attributes][:'0'])
     end
 
     def new_manual
       manual = Manual.new
       manual.user_id = current_user.id
       manual.product_transaction = ProductTransaction.new product_transaction_params
-      comment_p = comments_params.dup
+      comment_p = params[:manual][:comments_attributes][:"0"]
       comment_p[:user_id] = current_user.id
       manual.comments.build(comment_p)
       manual

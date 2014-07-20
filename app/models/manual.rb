@@ -11,8 +11,11 @@ class Manual < ActiveRecord::Base
   validates :warehouse_id, presence: true
   validates :quantity, presence: true
   validates_exclusion_of :quantity, :in => 0..0, :message => "Positive or negative quantities"
+  validates_associated :comments
 
   delegate :quantity, :product_id, :warehouse_id, to: :product_transaction
+  
+  accepts_nested_attributes_for :comments
 
   def parent_name
     if product_transaction.quantity > 0

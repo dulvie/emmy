@@ -19,6 +19,7 @@ class Transfer < ActiveRecord::Base
   has_many :comments, as: :parent, :dependent => :destroy
 
   attr_accessible :from_warehouse_id, :to_warehouse_id, :product_id, :quantity
+  accepts_nested_attributes_for :comments
 
   STATES=['not_sent', 'sent', 'received']
 
@@ -28,7 +29,7 @@ class Transfer < ActiveRecord::Base
   validates :product, presence: true
   validates :quantity, presence: true
   validates_exclusion_of :quantity, :in => 0..0, :message => "Positive or negative quantities"
-  
+  validates_associated :comments
 
   def name
     from_warehouse.name + ' => ' + to_warehouse.name 
@@ -76,6 +77,14 @@ class Transfer < ActiveRecord::Base
       quantity: quantity
     )
     t.save!
+  end
+
+  def is_sent?
+    ['sent','received'].include? state
+  end
+ 
+  def is_received?
+    state.eql? 'received'
   end
 
   def can_delete?

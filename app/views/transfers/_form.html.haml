@@ -26,16 +26,14 @@
     = f.association :to_warehouse, disabled: !@transfer.new_record?
 
     - if @transfer.new_record?
-      = simple_fields_for :comments ,  wrapper: :horizontal_form, html: {class: 'form-horizontal'} do |c|
-        .form-group
-          .col-sm-3.col-md-2.control-label
-            = c.label t(:comment)
-          .col-sm-9.col-md-10
-            = c.input :body, as: :text, label: false, :class => 'form-control'
+      = f.simple_fields_for :comments do |c|
+        = c.input :body, as: :text
 
     - if !@transfer.new_record? 
       = f.input :state, disabled: true, :input_html => {:class => 'medium'}
+    - if @transfer.is_sent?
       = f.input :sent_at, as: :string, disabled: true,  :input_html => { :class => 'date', :value => localize(f.object.sent_at, :format => "%Y-%m-%d") }
+    - if @transfer.is_received?
       = f.input :received_at, as: :string, disabled: true, :input_html => { :class => 'date', :value => localize(f.object.received_at, :format => "%Y-%m-%d") }
 
     - if @transfer.new_record?

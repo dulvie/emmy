@@ -102,7 +102,7 @@ class TransfersController < ApplicationController
     def new_transfer
       transfer = Transfer.new transfer_params
       transfer.user_id = current_user.id
-      comment_p = comments_params.dup
+      comment_p = params[:transfer][:comments_attributes][:"0"]
       comment_p[:user_id] = current_user.id
       transfer.comments.build(comment_p)
       transfer

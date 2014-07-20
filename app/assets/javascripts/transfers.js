@@ -2,6 +2,8 @@ app.controller('transfer_form_ctrl', function ($scope) {
 	$scope.options = {}
 	$scope.init = function() {
 		var warehouse = gon.warehouses[0];
+		$scope.warehouse_id = $('#transfer_from_warehouse_id').val();
+		$scope.product_id = $('#transfer_product_id').val();
 		//alert(warehouse.shelves[0].quantity + " : " + warehouse.shelves[1].quantity);
 		
 		

@@ -7,6 +7,8 @@ class Comment < ActiveRecord::Base
   belongs_to :user
   belongs_to :parent, polymorphic: true
 
+  validates :body, presence: true
+
   attr_accessible :body, :user, :parent, :user_id, :parent_id, :parent_type
 
   VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', 'Manual', 'Transfer', 'Import', 'Production', 'nil']
