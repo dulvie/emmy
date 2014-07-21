@@ -7,6 +7,8 @@ class Manual < ActiveRecord::Base
   belongs_to :user
   has_many :comments, as: :parent, :dependent => :destroy
 
+  before_create :check_inventory
+
   validates :product_id, presence: true
   validates :warehouse_id, presence: true
   validates :quantity, presence: true
@@ -16,6 +18,15 @@ class Manual < ActiveRecord::Base
   delegate :quantity, :product_id, :warehouse_id, to: :product_transaction
   
   accepts_nested_attributes_for :comments
+
+  def check_inventory
+    if  Inventory.where('warehouse_id = ? AND state = ?', self.warehouse_id, 'started').count > 0
+      self.errors.add(:warehouse_id, 'Inventory must complete before transfer')
+      return false
+    else
+      return true
+    end
+  end
 
   def parent_name
     if product_transaction.quantity > 0

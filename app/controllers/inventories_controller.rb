@@ -59,14 +59,15 @@ class InventoriesController < ApplicationController
     if @inventory.state_change(params[:event], params[:state_change_at])    
       msg = t(:success)
     else
-      msg = t(:fail)
+      msg = @inventory.errors.first
+      
     end
     respond_to do |format|
       return_path = inventory_path(@inventory)
       if params[:return_path]
         return_path = params[:return_path]
       end
-      format.html { redirect_to return_path, notice: msg}
+      format.html { render 'show', notice: msg}
     end
   end
 

@@ -15,7 +15,9 @@ class Inventory < ActiveRecord::Base
 
   accepts_nested_attributes_for :inventory_items
   attr_accessible :description, :user_id, :warehouse_id, :inventory_date
- 
+
+  before_create :check_transfer
+
   validates :warehouse, presence: true
   validates :inventory_date, presence: true
 
@@ -53,7 +55,19 @@ class Inventory < ActiveRecord::Base
       transition :started => :completed
     end
   end
-  
+
+  def check_transfer
+    if  Transfer.where('to_warehouse_id = ? AND state <> ?', self.warehouse_id, 'received').count > 0
+      self.errors.add(:warehouse, 'Transfer to not received')
+      return false
+    elsif Transfer.where('from_warehouse_id = ? AND state <> ?', self.warehouse_id, 'received').count > 0
+      self.errors.add(:warehouse, 'Transfer from not received')
+      return false
+    else
+      return true
+    end
+  end
+
   def set_started(transition)
     self.started_at = transition.args[0]
   end

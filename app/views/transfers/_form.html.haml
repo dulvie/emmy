@@ -4,12 +4,13 @@
 
     - if @transfer.new_record?
       = f.association :from_warehouse, :input_html => {:ng_model => 'warehouse_id', :ng_change => 'select_warehouse()'}
+      .hidden
+        = f.association :product
 
       .form-group.select.required.transfer_product
         = f.label :product, :class=>'select required col-sm-3 col-md-2 control-label' 
         .col-sm-9.col-md-10
-          %input{:id => "transfer_product_id", :name => "transfer[product_id]", :value => '{{product_id}}', :type => 'hidden'}
-          %select{:ng_model=>'product_id', :ng_options=>"opt.product_id as opt.name for opt in options", :ng_change => 'select_product()', :class=>'select required form-control', :include_blank=>false}
+          %select{:ng_model=>'prod_id', :ng_options=>"opt.product_id as opt.name for opt in options", :ng_change => 'select_product()', :include_blank=>false, :class=>'select required form-control'}
 
       .form-group
         .col-sm-3.col-md-2.control-label

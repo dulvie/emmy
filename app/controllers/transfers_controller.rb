@@ -61,18 +61,26 @@ class TransfersController < ApplicationController
     end
   end
 
-  def send_package
-    @transfer.send_package(params[:state_change_at])
+  def send_package   
+    if  @transfer.send_package(params[:state_change_at])
+      notice = t(:transfer_marked_as_sent)
+    else
+      notice = t(:fail)
+    end
     respond_to do |format|
-      format.html { redirect_to transfers_path, notice: t(:transfer_marked_as_sent) }
+      format.html { redirect_to transfers_path, notice: notice}
       #format.json { render action: 'show', status: :created, location: @transfer }
     end
   end
 
   def receive_package
-    @transfer.receive_package(params[:state_change_at])
+    if @transfer.receive_package(params[:state_change_at])
+      notice = t(:transfer_marked_as_received)
+    else
+      notice = t(:fail)
+    end
     respond_to do |format|
-      format.html { redirect_to transfers_path, notice: t(:transfer_marked_as_received) }
+      format.html { redirect_to transfers_path, notice: notice }
       #format.json { render action: 'show', status: :created, location: @transfer }
     end
   end

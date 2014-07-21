@@ -10,6 +10,8 @@ class Transfer < ActiveRecord::Base
   # t.timestamp :sent_at
   # t.timestamp :received_at
 
+  before_create :check_inventory
+
   has_one :from_transaction, class_name: 'ProductTransaction', as: :parent, :dependent => :destroy
   has_one :to_transaction, class_name: 'ProductTransaction', as: :parent, :dependent => :destroy
   belongs_to :from_warehouse, class_name: 'Warehouse'
@@ -51,6 +53,18 @@ class Transfer < ActiveRecord::Base
     before_transition on: :receive_package, do:  :set_received
     after_transition on: :receive_package, do: :create_to_transaction
 
+  end
+
+  def check_inventory
+    if  Inventory.where('warehouse_id = ? AND state = ?', self.from_warehouse_id, 'started').count > 0
+      self.errors.add(:from_warehouse, 'Inventory must complete before transfer')
+      return false
+    elsif Inventory.where('warehouse_id = ? AND state = ?', self.to_warehouse_id, 'started').count > 0
+      self.errors.add(:to_warehouse, 'Inventory must complete before transfer')
+      return false
+    else
+      return true
+    end
   end
 
   def set_sent(transition)
