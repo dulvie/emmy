@@ -26,6 +26,8 @@ class Product < ActiveRecord::Base
   
   def can_delete?
     return false if Shelf.where('product_id' => self.id).size > 0
+    return false if Import.where('product_id = ? and state = ? ', self.id, 'started').count > 0
+    return false if Production.where('product_id = ? and state = ? ', self.id, 'started').count > 0
     return true
   end
 
