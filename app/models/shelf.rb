@@ -13,6 +13,10 @@ class Shelf < ActiveRecord::Base
 
   delegate :name, :in_price, :distributor_price, :retail_price, :vat, :unit, :item_group, to: :product
 
+  def outgoing
+    Sale.where('state' => 'item_complete', 'goods_state' => 'not_delivered').joins(:sale_items).where('sale_items.product_id' => self.product_id).sum('quantity')
+  end
+
   # Cache the product_transaction quantity sum of product in the warehouse.
   def recalculate
     self.quantity = ProductTransaction.where(warehouse_id: warehouse_id).where(product_id: product_id).sum(:quantity)
