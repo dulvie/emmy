@@ -11,6 +11,6 @@
       = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'pay'}
 
 = render partial: 'sale_items/index'
-- if @sale.item_complete?
+- if !@sale.can_edit_items?
   = link_to t(:download_as_pdf), sale_path(@sale, format: :pdf), class: 'btn btn-info', :target => "_blank"
 = link_to 'Back', sales_path, class: 'btn btn-primary'
