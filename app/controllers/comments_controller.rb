@@ -41,6 +41,7 @@ class CommentsController < ApplicationController
         format.html { redirect_to redirect_path, notice: "#{t(:comment_added)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_add)} #{t(:comment)}"
+        init_new
         format.html { render :new }
       end
     end
@@ -103,6 +104,14 @@ class CommentsController < ApplicationController
         @parent = parent_class.find(params[:parent_id])
         authorize! :manage, @parent
       end  
+    end
+
+    def init_new
+      if @parent.nil?
+        @comment_form_url = comments_path(parent_type: 'nil', parent_id: 0)
+      else
+        @comment_form_url = comments_path(parent_type: @comment.parent_type, parent_id: @comment.parent_id)
+      end
     end
 
     def comment_params
