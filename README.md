@@ -1,6 +1,6 @@
 # Emmy
 
-Emmy is an application to handle logistics and invoicing for small organisations that sell some kind of products.
+### Emmy is an application to handle logistics and invoicing for small organisations that sell some kind of products.
 
 db/seed.rb contains sample data, Don't use this in production!
 
