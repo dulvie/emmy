@@ -1,3 +1,17 @@
+/*
+  This is sad, why can't this be specified in the variables file?
+  Well, the font-family-base can be set,
+  and then you can specify font-family for headlines,
+  but not input textarea select button and a tags...
+*/
+body {
+  font-family: $font-family-serif;
+}
+h1,h2,h3,h4,h5,input,textarea,select,a,button,label, .panel-heading {
+  font-family: $font-family-sans-serif;
+}
+
+/* end default style customizations */
 .single-center {
   margin: 0 auto;
   width: 300px;

@@ -1,2 +1,8 @@
-$navbar-default-bg: #fff;
-$navbar-default-border: #fff;
+$body-bg: #fcfdfd;
+$navbar-default-bg: $body-bg;
+$navbar-default-border: $body-bg;
+
+// ? this is the default bootstrap value, why can't we just uses the variable instead?
+$font-family-serif: Georgia, "Times New Roman", Times, serif;
+$font-family-sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-base: $font-family-sans-serif;
