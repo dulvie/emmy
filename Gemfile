@@ -42,7 +42,7 @@ gem 'resque', '~> 1.25'
 #
 gem 'devise'
 gem 'simple_form', git: 'https://github.com/plataformatec/simple_form.git'
-gem 'bootstrap-sass', '~> 3.1'
+gem 'bootstrap-sass', '~> 3.2'
 
 # Adds backward compatibility.
 gem 'protected_attributes', '~> 1.0.5'
