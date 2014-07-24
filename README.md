@@ -4,7 +4,7 @@
 
 db/seed.rb contains sample data, Don't use this in production!
 
-[dependencies](docs/os_deps)
+[dependencies](doc/os_deps)
 
 Everything besides login, about and start page is(should be) locked down using CanCan.
 
