@@ -2,6 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    # Users without the roles method can't do anything.
     return nil unless user.try(:roles)
 
     admin_permissions(user) if user.role? :admin
@@ -12,6 +13,8 @@ class Ability
     can :manage, User do |user_to_manage|
       user_to_manage == user
     end
+    # All users can read other users
+    can :read, User
   end
 
   def admin_permissions(user)

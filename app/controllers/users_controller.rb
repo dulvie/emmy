@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   # @fixme CanCan authorization MUST be implemented here.
   # all actions needs to be locked down to admin only.
 
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_roles, :update_roles]
+  before_action :set_user, only: [:show, :update, :destroy, :update_roles]
 
   before_action :check_authorization
 
@@ -25,15 +25,11 @@ class UsersController < ApplicationController
     @breadcrumbs = [['Users', users_path], ['New user']]
   end
 
-  # GET /users/1/edit
-  def edit
-    @breadcrumbs = [['Users', users_path], [@user.email]]
-  end
-
   # POST /users
   # POST /users.json
   def create
     @user = User.new(user_params)
+    authorize! :create, @user
 
     respond_to do |format|
       if @user.save
@@ -54,7 +50,7 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
+        format.html { render action: 'show' }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -68,14 +64,6 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url }
       format.json { head :no_content }
     end
-  end
-
-  # Some admin only stuff
-  # The find stuff/authorize stuff is done by load_and_authorize_resource
-  # for the other actions..
-  def edit_roles
-    authorize! :manage, Role
-    @breadcrumbs = [['Users', users_path], [@user.name, edit_user_path(@user)], ['Roles']]
   end
 
   # @todo Refactor me!
@@ -114,10 +102,10 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to edit_roles_user_path(@user), notice: 'User roles was successfully updated.' }
+        format.html { redirect_to user_path(@user), notice: 'User roles was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit_roles' }
+        format.html { render action: 'show' }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -136,7 +124,11 @@ class UsersController < ApplicationController
 
     def check_authorization
       if @user
-        authorize! :manage, @user
+        if params[:action].eql? 'show' # Let everybody that has read access see the user info.
+          authorize! :read, @user
+        else
+          authorize! :manage, @user
+        end
       else
         authorize! :manage, User
       end
