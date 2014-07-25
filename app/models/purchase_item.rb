@@ -34,7 +34,7 @@ class PurchaseItem < ActiveRecord::Base
   private
 
   def collect_and_calculate
-    self.vat = self.vat || item.vat
+    self.vat = self.vat || item.vat.vat_percent
     if self.quantity && self.price
       self.amount = self.quantity * self.price + vat_amount
     else

@@ -32,12 +32,21 @@ class SaleItem < ActiveRecord::Base
 
   # Callback: before_validation
   def collect_and_calculate
-    self.vat = self.vat || default_from_product(:vat)
+    self.vat = self.vat || default_vat_from_product
     self.price = self.price || default_from_product(:price)
     self.price_inc_vat = price * (1 + (vat / 100.0))
     if quantity
       self.price_sum = price_inc_vat * quantity
     end
+  end
+
+  def default_vat_from_product
+    if product
+      if v = product.vat.send('vat_percent')
+        return v
+      end
+    end
+    return 0
   end
 
   def default_from_product field
