@@ -11,7 +11,7 @@ class VatsController < ApplicationController
   def index
     respond_to do |format|
     	@breadcrumbs = [['Vats']]
-    	format.html {@vats = Vat.order(:name).page(params[:page]).per(8)} 
+    	format.html {@vats = Vat.order(:name).page(params[:page]).per(8)}
     	format.json {render json: @vats}
     end	
   end
