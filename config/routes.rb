@@ -32,6 +32,7 @@ Emmy::Application.routes.draw do
   resources :items
   resources :manuals
   resources :units
+  resources :vats
   resources :materials
   resources :productions do
     resources :materials
@@ -63,6 +64,7 @@ Emmy::Application.routes.draw do
       patch "edit_roles", to: "users#update_roles" 
     end
   end
+  
   get "dashboard", to: "dashboard#index"
   [:about,:start,:formats, :test].each do |p|
     get "/#{p}", to: "pages##{p}"

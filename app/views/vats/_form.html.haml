@@ -1,0 +1,19 @@
+.container
+  = simple_form_for(@vat, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+    .col-sm-offset-1.col-sm-10
+      .panel.panel-info
+        .panel-heading
+          %i
+            %b
+              = t(:vat_information)
+        .panel-body
+        = f.error_notification
+        = f.input :name
+        = f.input :vat_percent
+        - if !@vat.new_record?
+          = f.input :add_factor, :input_html => {class: 'numeric', value: number_with_precision(f.object.add_factor, precision: 4)}, disabled: true
+          = f.input :sub_factor, :input_html => {class: 'numeric', value: number_with_precision(f.object.sub_factor, precision: 4)}, disabled: true
+
+    .col-sm-offset-1.col-sm-10
+      = f.submit class: 'btn btn-primary'
+      = link_to 'Back', vats_path, class: 'btn btn-primary'
