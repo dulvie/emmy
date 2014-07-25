@@ -16,21 +16,21 @@
 
     - if @importing.nil? && !@import.product.nil?
       .form-group
-        .col-sm-3.col-md-2.control-label
+        .col-sm-9.col-md-7.col-lg-6.control-label
           = f.label :product
-        .col-sm-9.col-md-10
+        .col-sm-39.col-md-41.col-lg-42
           %input{:value => @import.product.name, :readonly=>'readonly', :class=>'form-control'}
 
     - if !@importing.nil?
       .form-group
-        .col-sm-3.col-md-2.control-label
+        .col-sm-9.col-md-7.col-lg-6.control-label
           = f.label :product
-        .col-sm-9.col-md-10
+        .col-sm-39.col-md-41.col-lg-42
           %input{:value => @importing.purchase_items.first.product.name, :readonly=>'readonly', :class=>'form-control'}
       .form-group
-        .col-sm-3.col-md-2.control-label
+        .col-sm-9.col-md-7.col-lg-6.control-label
           = f.label t(:quantity)
-        .col-sm-9.col-md-10
+        .col-sm-39.col-md-41.col-lg-42
           %input{:value => @importing.purchase_items.first.quantity, :readonly=>'readonly', :class=>'form-control numeric'}
 
     - if @import.is_completed?

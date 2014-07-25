@@ -1,7 +1,7 @@
-.col-sm-12
+.col-sm-48
   - add_comment_url = new_comment_path({parent_id: 0, parent_type: 'nil'})
   = link_to t(:add_comment), add_comment_url, class: 'btn btn-primary'
-.col-sm-6
+.col-sm-24
   .list-group
   - @comments.each do |comment|
     .list-group-item
