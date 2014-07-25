@@ -16,7 +16,7 @@ class Manual < ActiveRecord::Base
   validates_associated :comments
 
   delegate :quantity, :product_id, :warehouse_id, to: :product_transaction
-  
+
   accepts_nested_attributes_for :comments
 
   def check_inventory
@@ -31,7 +31,7 @@ class Manual < ActiveRecord::Base
   def parent_name
     if product_transaction.quantity > 0
       then return "=> " + warehouse.name
-    end  
+    end
     return warehouse.name + "=> "
   end
 
@@ -40,4 +40,3 @@ class Manual < ActiveRecord::Base
   end
 
 end
-  

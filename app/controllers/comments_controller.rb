@@ -98,12 +98,12 @@ class CommentsController < ApplicationController
         redirect_to '/'
         return false
       end
-      
+
       if params[:parent_type] != 'nil'
         parent_class = params[:parent_type].constantize
         @parent = parent_class.find(params[:parent_id])
         authorize! :manage, @parent
-      end  
+      end
     end
 
     def init_new
@@ -120,22 +120,22 @@ class CommentsController < ApplicationController
 
     def show_breadcrumbs
       if !@parent.nil?  
-        @breadcrumbs = [["#{@comment.parent_type.pluralize}", send("#{@parent.class.name.downcase}s_path")], 
+        @breadcrumbs = [["#{@comment.parent_type.pluralize}", send("#{@parent.class.name.downcase}s_path")],
         [@comment.parent_name, @comment.parent], ["#{t(:comments)}(#{@comment.body})"]]
       else
-        @breadcrumbs = [["#{@comment.class.name.pluralize}", send("#{@comment.class.name.downcase}s_path")], 
+        @breadcrumbs = [["#{@comment.class.name.pluralize}", send("#{@comment.class.name.downcase}s_path")],
         ["#{t(:comments)}(#{@comment.body})"]]
-      end  
+      end
     end
 
     def new_breadcrumbs
       if !@parent.nil?
-        @breadcrumbs = [["#{@parent.class.name.pluralize}", send("#{@parent.class.name.downcase}s_path")], 
+        @breadcrumbs = [["#{@parent.class.name.pluralize}", send("#{@parent.class.name.downcase}s_path")],
         [@parent.parent_name, @parent], ["#{t(:new)} #{t(:comment)}"]]
       else
-        @breadcrumbs = [["#{@comment.class.name.pluralize}", send("#{@comment.class.name.downcase}s_path")], 
-        ["#{t(:new)} #{t(:comment)}"]]  
-      end  
+        @breadcrumbs = [["#{@comment.class.name.pluralize}", send("#{@comment.class.name.downcase}s_path")],
+        ["#{t(:new)} #{t(:comment)}"]]
+      end
     end
 
 end

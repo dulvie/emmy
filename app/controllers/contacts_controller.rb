@@ -79,7 +79,7 @@ class ContactsController < ApplicationController
       @breadcrumbs = [["#{@parent.class.name.pluralize}", send("#{@parent.class.name.downcase}s_path")], 
         [@parent.parent_name, @parent], ["#{t(:new)} #{t(:contact)}"]]
     end
-    
+
     def show_breadcrumbs
       @breadcrumbs = [["#{@contact.parent_type.pluralize}", send("#{@parent.class.name.downcase}s_path")], 
         [@contact.parent_name, @contact.parent], ["#{t(:contacts)}(#{@contact.name})"]]

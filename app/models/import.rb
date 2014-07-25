@@ -77,12 +77,12 @@ class Import < ActiveRecord::Base
 
   def can_edit_state?
      return false if state.eql? 'completed'
-     return false if self.importing_id.nil? 
+     return false if self.importing_id.nil?
      return false if self.shipping_id.nil?
      return false if self.customs_id.nil?
      return true
   end
-  
+
   def can_edit_items?
     state.eql? 'not_started'
   end
@@ -110,7 +110,7 @@ class Import < ActiveRecord::Base
     return 0 if self.importing.first.nil?
     self.importing.first.purchase_items.first.quantity
   end
-  
+
   def parent_name
     description
   end

@@ -32,8 +32,8 @@ class Purchase < ActiveRecord::Base
   has_many :to_transaction, class_name: 'ProductTransaction', as: :parent
 
   accepts_nested_attributes_for :purchase_items
-  attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id, 
-  :to_warehouse_id, :total_amount, :vat_amount, :ordered_at, :parent_type, :parent_id
+  attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id,
+    :to_warehouse_id, :total_amount, :vat_amount, :ordered_at, :parent_type, :parent_id
 
   validates :description, presence: true
   validates :supplier_id, presence: true
@@ -45,7 +45,7 @@ class Purchase < ActiveRecord::Base
     :mark_item_complete, :mark_complete, # Generic state
     :receive,   # Goods
     :pay,       # Money
-    ]
+  ]
 
   def state_change(event, changed_at = nil)
    return false unless EVENTS.include?(event.to_sym)
@@ -57,7 +57,7 @@ class Purchase < ActiveRecord::Base
     when 'meta_complete'
       :mark_item_complete
     when 'item_complete' || 'completed'
-      nil 
+      nil
     else
       raise RuntimeError, "Unknown state#{state} of purchase#{self.id}"
     end
@@ -76,7 +76,7 @@ class Purchase < ActiveRecord::Base
       transition :item_complete => :completed
     end
   end
-  
+
   def set_ordered(transition)
     self.ordered_at = transition.args[0]
   end
@@ -105,8 +105,8 @@ class Purchase < ActiveRecord::Base
       if purchase_item.item.stocked == true
         product_transaction = ProductTransaction.new(
           parent: self,
-          warehouse: to_warehouse, 
-          product: purchase_item.product, 
+          warehouse: to_warehouse,
+          product: purchase_item.product,
           quantity: purchase_item.quantity)
         product_transaction.save
       end
@@ -133,14 +133,13 @@ class Purchase < ActiveRecord::Base
       self.mark_complete(Time.now)
     end
   end
- 
- 
+
   def can_edit_items?
     state.eql? 'meta_complete'
   end
 
   def can_delete?
-    return false if  ['Production','Import'].include? self.parent_type
+    return false if ['Production','Import'].include? self.parent_type
     return false if ['item_complete','completed'].include? state
     true
   end
@@ -148,7 +147,7 @@ class Purchase < ActiveRecord::Base
   def is_ordered?
     state.eql? 'item_complete'
   end
-  
+
   def is_completed?
     state.eql? 'completed'
   end
@@ -165,7 +164,7 @@ class Purchase < ActiveRecord::Base
     return 0 if purchase_items.count <= 0
     purchase_items.inject(0){|i, item| item.amount + i}
   end
-  
+
   def total_vat
     return 0 if purchase_items.count <= 0
     purchase_items.inject(0){|i, item| item.vat_amount + i}
@@ -174,4 +173,5 @@ class Purchase < ActiveRecord::Base
   def parent_name
     description
   end
+
 end

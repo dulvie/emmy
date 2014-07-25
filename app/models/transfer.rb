@@ -96,7 +96,7 @@ class Transfer < ActiveRecord::Base
   def is_sent?
     ['sent','received'].include? state
   end
- 
+
   def is_received?
     state.eql? 'received'
   end

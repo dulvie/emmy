@@ -25,7 +25,7 @@ class PurchaseItem < ActiveRecord::Base
   def can_delete?
     purchase.can_edit_items?
   end
-  
+
   def vat_amount
     return self.price * self.quantity * self.vat / 100
   end

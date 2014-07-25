@@ -92,8 +92,8 @@ class Inventory < ActiveRecord::Base
       if item.actual_quantity != shelf.quantity
         product_transaction = ProductTransaction.new(
           parent: self,
-          warehouse: warehouse, 
-          product: item.product, 
+          warehouse: warehouse,
+          product: item.product,
           quantity: item.actual_quantity - shelf.quantity)
         product_transaction.save
       end
@@ -116,7 +116,7 @@ class Inventory < ActiveRecord::Base
   def is_started?
     state.eql? 'item_started'
   end
-  
+
   def is_completed?
     state.eql? 'completed'
   end

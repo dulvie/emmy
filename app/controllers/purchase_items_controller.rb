@@ -45,7 +45,7 @@ class PurchaseItemsController < ApplicationController
     def set_breadcrumbs
       @breadcrumbs = [[t(:purchases), purchases_path], ["##{@purchase.id}", purchase_path(@purchase)], [t(:add_product)]]
     end
-    
+
     def init_new
       if @purchase.to_warehouse.nil?
         @item_selections = Item.where("stocked = false")

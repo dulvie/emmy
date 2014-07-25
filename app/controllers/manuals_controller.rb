@@ -3,7 +3,7 @@ class ManualsController < ApplicationController
   load_and_authorize_resource
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
-  
+
   # GET /manuals
   # GET /manuals.json
   def index
@@ -20,7 +20,7 @@ class ManualsController < ApplicationController
   # GET /manuals/1/edit
   def edit
   end
-  
+
   # GET /manuals/new
   def new
     @manual.product_transaction = ProductTransaction.new
@@ -61,7 +61,7 @@ class ManualsController < ApplicationController
     def edit_breadcrumbs
       @breadcrumbs = [['Manuals', manuals_path], [@manual.created_at]]
     end
-    
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_transaction_params
       params.require(:manual).permit(ProductTransaction.accessible_attributes.to_a)

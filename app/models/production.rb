@@ -21,7 +21,7 @@ class Production < ActiveRecord::Base
   has_many :materials, :dependent => :destroy
   has_one :work, as: :parent, class_name: 'Purchase'
   has_one :from_transaction, class_name: 'ProductTransaction', as: :parent
-  
+
   accepts_nested_attributes_for :materials, :work, :product
 
   attr_accessible :description, :our_reference_id, :warehouse_id, :product_id, :quantity, :cost_price,
@@ -83,8 +83,8 @@ class Production < ActiveRecord::Base
   def create_from_transaction
     product_transaction = ProductTransaction.new(
           parent: self,
-          warehouse: warehouse, 
-          product: materials.first.product, 
+          warehouse: warehouse,
+          product: materials.first.product,
           quantity: materials.first.quantity * -1)
     product_transaction.save
   end
@@ -92,8 +92,8 @@ class Production < ActiveRecord::Base
   def create_to_transaction
     product_transaction = ProductTransaction.new(
           parent: self,
-          warehouse: warehouse, 
-          product: product, 
+          warehouse: warehouse,
+          product: product,
           quantity: quantity)
     product_transaction.save
   end
@@ -105,7 +105,7 @@ class Production < ActiveRecord::Base
 
   def can_edit_state?
      return false if state.eql? 'completed'
-     return false if self.product_id.nil? 
+     return false if self.product_id.nil?
      return false if self.quantity.nil?
      return false if self.materials.size == 0
      return false if self.work.nil?
@@ -132,6 +132,5 @@ class Production < ActiveRecord::Base
   def parent_name
     description
   end
-  private
 
 end

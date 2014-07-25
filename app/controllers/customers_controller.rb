@@ -95,7 +95,7 @@ class CustomersController < ApplicationController
     def show_breadcrumbs
       @breadcrumbs = [['Customers', customers_path], [@customer.name]]
     end
-    
+
     def load_contats
       @contacts = Contact.where('parent_type = ? and parent_id = ?', 'Customer', @customer)
     end

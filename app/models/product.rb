@@ -10,7 +10,7 @@ class Product < ActiveRecord::Base
 
   # t.timestamp :refined_at
   # t.timestamp :expire_at
-  
+
   belongs_to :item
   has_many :transactions
   has_many :shelves, through: :transactions
@@ -23,7 +23,7 @@ class Product < ActiveRecord::Base
   validates :name, :uniqueness => true
   validates :name, :presence => true
   validates :item, :presence => true
-  
+
   def can_delete?
     return false if Shelf.where('product_id' => self.id).size > 0
     return false if Import.where('product_id = ? and state = ? ', self.id, 'started').count > 0
@@ -44,7 +44,7 @@ class Product < ActiveRecord::Base
     ext = Production.where('state' => 'started', 'product_id' => self.id).sum('quantity')
     return qty+ext
   end
-  
+
   def out_quantity
     qty = Sale.where('state' => 'item_complete', 'goods_state' => 'not_delivered').joins(:sale_items).where('sale_items.product_id' => self.id).sum('quantity')
     return qty

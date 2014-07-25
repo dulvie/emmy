@@ -2,7 +2,7 @@ class PurchasesController < ApplicationController
 
   load_and_authorize_resource
   before_filter :find_and_authorize_parent
-    
+
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update, :edit]
 
@@ -116,7 +116,7 @@ class PurchasesController < ApplicationController
   end
 
   private
-  
+
     def find_and_authorize_parent
 
       # if contact exists, but no parent_type, add from contact.
@@ -137,7 +137,7 @@ class PurchasesController < ApplicationController
         authorize! :manage, @parent
       end
     end
-    
+
     def init_new
       item_types = ['purchases', 'both']
       @item_selections = Item.where(item_type: item_types)
@@ -146,7 +146,7 @@ class PurchasesController < ApplicationController
     def purchase_item_params
       params.permit(PurchaseItem.accessible_attributes.to_a, purchase_items_attributes: [])
     end
-    
+
     def purchase_params
       params.require(:purchase).permit(Purchase.accessible_attributes.to_a)
     end

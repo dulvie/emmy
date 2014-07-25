@@ -188,9 +188,8 @@ class ImportsController < ApplicationController
       end
 
       @parent_column = params[:parent_column]   
- 
     end
-    
+
     def get_purchases
       if !@import.importing_id.nil?
         @importing = Purchase.find(@import.importing_id)
@@ -202,4 +201,5 @@ class ImportsController < ApplicationController
         @customs = Purchase.find(@import.customs_id)
       end
     end
+
 end

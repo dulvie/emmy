@@ -15,6 +15,4 @@ class Unit < ActiveRecord::Base
     true
   end
 
-  private
-  
 end

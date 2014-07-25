@@ -15,7 +15,5 @@ class Material < ActiveRecord::Base
   def can_edit?
     production.can_edit?
   end
-  
-  private
 
 end

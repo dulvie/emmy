@@ -2,7 +2,7 @@ class DocumentsController < ApplicationController
 
   load_and_authorize_resource
   before_filter :find_and_authorize_parent
-  
+
   before_filter :show_breadcrumbs, only: [:show, :update]
   before_filter :new_breadcrumbs, only: [:new, :create]
 
@@ -97,7 +97,7 @@ class DocumentsController < ApplicationController
         redirect_to '/'
         return false
       end
-      
+
       if params[:parent_type] != 'nil'
         parent_class = params[:parent_type].constantize
         @parent = parent_class.find(params[:parent_id])

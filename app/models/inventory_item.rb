@@ -18,9 +18,5 @@ class InventoryItem < ActiveRecord::Base
   def can_delete?
     inventory.can_edit_items?
   end
-  
-
-  private
-
 
 end

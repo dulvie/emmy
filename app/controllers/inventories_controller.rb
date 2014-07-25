@@ -60,7 +60,7 @@ class InventoriesController < ApplicationController
       msg = t(:success)
     else
       msg = @inventory.errors.first
-      
+
     end
     respond_to do |format|
       return_path = inventory_path(@inventory)

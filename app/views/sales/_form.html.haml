@@ -15,7 +15,6 @@
       = f.input :contact_name, as: :hidden, input_html: { value: '{{custref}}'}
       %div{:class=>"col-sm-9 col-md-10"}
         %input{:ng_model=>"custref", :typeahead_on_select => "type_ahead_customer_reference($item, $model, $label)", :typeahead=>"r.name for r in reference | filter:$viewValue | limitTo:8", :class=>"form-control"}
-     
 
 
   - else
@@ -24,7 +23,7 @@
 
   = f.input :contact_email, disabled: !@sale.new_record?
   = f.input :payment_term, as: :select, collection: ['10', '30'], include_blank: false, disabled: !@sale.new_record?, :input_html =>{:class=>'numeric form_control'}
-    
+
   - if @sale.new_record?
     = f.submit class: 'btn btn-primary'
     = link_to 'Back', sales_path, class: 'btn btn-primary'

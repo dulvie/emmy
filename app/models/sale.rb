@@ -20,7 +20,7 @@ class Sale < ActiveRecord::Base
   belongs_to :warehouse
   has_many :sale_items
   has_many :from_transaction, class_name: 'ProductTransaction', as: :parent
-  
+
   attr_accessible :customer_id, :warehouse_id, :approved_at, :contact_email, :contact_name, :payment_term
 
   validates :customer_id, presence: true
@@ -106,7 +106,7 @@ class Sale < ActiveRecord::Base
   end
 
 
-  # after_transition filter for money_state and goods_state.
+  # After_transition filter for money_state and goods_state.
   def check_for_completeness
     if is_paid? and is_delivered?
       self.mark_complete

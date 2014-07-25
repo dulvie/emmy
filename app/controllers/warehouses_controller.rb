@@ -72,7 +72,7 @@ class WarehousesController < ApplicationController
     def warehouse_params
       params.require(:warehouse).permit(Warehouse.accessible_attributes.to_a)
     end
-    
+
     def show_breadcrumbs
       @breadcrumbs = [['Warehouses', warehouses_path], [@warehouse.name]]
     end
@@ -84,4 +84,5 @@ class WarehousesController < ApplicationController
     def load_contats
      @contacts = Contact.where('parent_type = ? and parent_id = ?', 'Warehouse', @warehouse)
     end
+
 end
