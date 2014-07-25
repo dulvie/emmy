@@ -3,18 +3,16 @@
 %table{:class => 'table table-striped'}
   %thead
     %tr
-      %th Email
-      - if can? :manage, Role
-        %th
-        %th
-        %th
+      %th= t(:user)
+      %th= t(:email)
+      %th
+      %th
     %tbody
     - @users.each do |user|
       %tr
-        %td #{link_to(user.email, user)}
-        - if can? :manage, Role
-          %td #{link_to 'Roles', edit_roles_user_path(user)}
-          %td= link_to settings_icon, edit_user_path(user)
-          %td= delete_button_for user
+        %td= user.name
+        %td= user.email
+        %td= link_to settings_icon, user_path(user)
+        %td= delete_button_for user
 
 = paginate @users, :theme => 'twitter-bootstrap-3'
