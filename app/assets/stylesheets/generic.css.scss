@@ -25,9 +25,14 @@
 .state-change-form {
   form {
     @extend .well;
+    margin-left: 1em;
+    top: 0;
     background: $body-bg;
     z-index: 10;
     position: absolute;
+
+    /* Since absolute, the width needs to be enforced. */
+    width: 177px;
 
   }
 }

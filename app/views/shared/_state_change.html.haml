@@ -1,17 +1,15 @@
-// Require model and form path
-.col-md-2
-  .state-change-wrapper{'style' => 'position: relative', ng_controller: 'date_ctrl' }
-    = button_tag next_step, class: 'btn btn-primary toggler', ng_click: 'openDateForm($event)'
-    .state-change-form.row.hide
-      .state-change-weller
-        = simple_form_for(model, url: form_path, method: :post) do |f|
-          = hidden_field_tag 'new_state', next_step
-          .form-group
-            .input-group
-              = hidden_field_tag "#{next_step}_at_full", "{{date}}"
-              = text_field_tag "state_change_at", '', class: 'form-control', ng_model: 'date', datepicker_popup: 'yyyy-MM-dd', is_open: 'isDpOpen', datepicker_options: 'dpOptions', show_button_bar: 'false', readonly: true
-              %span{:class => "input-group-btn"}
-                %button{:class => "btn btn-default", :ng_click=>'openDp($event)' }
-                  %span{ :class => "glyphicon glyphicon-calendar"}
-          = submit_tag t(:confirm), class: 'btn btn-primary'
-          = button_tag t(:back), class: 'btn btn-danger reseter', type: 'reset'
+.state-change-wrapper{'style' => 'position: relative; float: left; margin-right: 0.2em;', ng_controller: 'date_ctrl' }
+  = button_tag next_step, class: 'btn btn-primary toggler'
+  .state-change-form.row.hide
+    .state-change-weller
+      = simple_form_for(model, url: form_path, method: :post) do |f|
+        = hidden_field_tag 'new_state', next_step
+        .form-group
+          .input-group
+            = hidden_field_tag "#{next_step}_at_full", "{{date}}"
+            = text_field_tag "state_change_at", '', class: 'form-control', ng_model: 'date', datepicker_popup: 'yyyy-MM-dd', is_open: 'isDpOpen', datepicker_options: 'dpOptions', show_button_bar: 'false', readonly: true
+            %span{:class => "input-group-btn"}
+              %button{:class => "btn btn-default", :ng_click=>'openDp($event)' }
+                %span{ :class => "glyphicon glyphicon-calendar"}
+        = submit_tag t(:confirm), class: 'btn btn-primary'
+        = button_tag t(:back), class: 'btn btn-danger reseter', type: 'reset'
