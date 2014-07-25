@@ -12,17 +12,17 @@
       :input_html => {:ng_model =>"item_id", :ng_change => 'item_changed()'}
 
     .form-group
-      = f.label :product, class: 'string optional col-sm-9 col-md-7 col-lg-6 control-label', for: 'product'
-      .col-sm-39.col-md-41.col-lg-42
+      = f.label :product, class: 'string optional labels_width control-label', for: 'product'
+      .fields_width
         = hidden_field_tag "purchase_item[product_id]", "{{product.id}}"
         %select{:ng_model=>'product.id', :ng_options=>"opt.id as opt.name for opt in options",  :class=>'form-control', :include_blank=>false}
 
     = f.input :quantity
 
     .form-group
-      %label{:class => 'col-sm-9 col-md-7 col-lg-6 control-label'}
+      %label{:class => 'labels_width control-label'}
         = t(:unit)
-      .col-sm-39.col-md-41.col-lg-42
+      .fields_width
         %input{:value => '{{unit}}', :class => 'form-control medium', :readonly=>'readonly'}
 
     = f.input :price

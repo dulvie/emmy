@@ -38,6 +38,11 @@ unit3 = Unit.create(name: "Säck (50 kg)", weight: "50 kg")
 unit4 = Unit.create(name: "Pall", weight: "100 kg")
 unit5 = Unit.create(name: "Tim")
 
+vat0 = Vat.create(name: "Ingen", vat_percent: 0)
+vat6 = Vat.create(name: "(6 procent)", vat_percent: 6)
+vat12 = Vat.create(name: "(12 procent)", vat_percent: 12)
+vat25 = Vat.create(name: "(25 procent)", vat_percent: 25)
+
 espresso_i = Item.create({
   name: "Espresso",
   item_type: 'sales',
@@ -47,7 +52,7 @@ espresso_i = Item.create({
   retail_price: 9500,
   stocked: 'true',
   unit_id: unit1.id,
-  vat: 12
+  vat_id: vat12.id
 })
 
 brewd_i = Item.create({
@@ -59,7 +64,7 @@ brewd_i = Item.create({
   retail_price: 6500,
   stocked: 'true',
   unit_id: unit1.id,
-  vat: 12
+  vat_id: vat12.id
 })
 coffe = Item.create({
   name: "Råkaffe",
@@ -70,7 +75,7 @@ coffe = Item.create({
   retail_price: 6000,
   stocked: 'true',
   unit_id: unit3.id,
-  vat: 0
+  vat_id: vat0.id
 })
 
 ship = Item.create({
@@ -79,7 +84,7 @@ ship = Item.create({
   item_group: ' ',
   stocked: 'false',
   unit_id: unit2.id,
-  vat: 0
+  vat_id: vat0.id
 })
 freight = Item.create({
   name: "Frakt",
@@ -87,7 +92,7 @@ freight = Item.create({
   item_group: ' ',
   stocked: 'false',
   unit_id: unit2.id,
-  vat: 0
+  vat_id: vat0.id
 })
 
 custom = Item.create({
@@ -96,7 +101,7 @@ custom = Item.create({
   item_group: ' ',
   stocked: 'false',
   unit_id: unit2.id,
-  vat: 0
+  vat_id: vat0.id
 })
 rost = Item.create({
   name: "Rostning",
@@ -104,7 +109,7 @@ rost = Item.create({
   item_group: ' ',
   stocked: 'false',
   unit_id: unit2.id,
-  vat: 25,
+  vat_id: vat25.id
 })
 
 espresso = Product.create({

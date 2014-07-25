@@ -8,15 +8,15 @@
         = f.association :product
 
       .form-group.select.required.transfer_product
-        = f.label :product, :class=>'select required col-sm-3 col-md-2 control-label' 
-        .col-sm-9.col-md-10
+        = f.label :product, :class=>'select required labels_width control-label' 
+        .fields_width
           %select{:ng_model=>'prod_id', :ng_options=>"opt.product_id as opt.name for opt in options", :ng_change => 'select_product()', :include_blank=>false, :class=>'select required form-control'}
 
       .form-group
-        .col-sm-3.col-md-2.control-label
+        .labels_width.control-label
           %label  
             = t(:available)
-        .col-sm-9.col-md-10
+        .fields_width
           %input{:class=>'form-control  numeric', :value=>'{{quantity}}', :readonly => 'readonly'}
 
     - if !@transfer.new_record?

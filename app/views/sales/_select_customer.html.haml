@@ -1,14 +1,14 @@
 %div{:class => ((f.error :customer_id) ? "form-group select required sale_customer has-error": "form-group select required sale_customer")}
-  = f.label :customer, class: 'string optional col-sm-3 col-md-2 control-label', for: 'customer_ref', required: true
+  = f.label :customer, class: 'string optional labels_width control-label', for: 'customer_ref', required: true
   = f.input :customer_id, as: :hidden
-  %div{:class=>"col-sm-9 col-md-10"}
+  %div{:class=>"fields_width"}
     %input{:id => 'customer_ref', :ng_model=>"selected", :typeahead_on_select => "type_ahead_customer($item, $model, $label)", :typeahead=>"c.name for c in customer | filter:$viewValue | limitTo:8", :class=>"form-control"}
     = f.error :customer_id
 
 .form-group
-  = f.label :contact_name, :class => "col-sm-3 col-md-2 control-label"
+  = f.label :contact_name, :class => "labels_width control-label"
   = f.input :contact_name, as: :hidden, input_html: { value: '{{custref}}'}
-  %div{:class=>"col-sm-9 col-md-10"}
+  %div{:class=>"fields_width"}
     %input{:ng_model=>"custref", :typeahead_on_select => "type_ahead_customer_reference($item, $model, $label)", :typeahead=>"r.name for r in reference | filter:$viewValue | limitTo:8", :class=>"form-control"}
 
 = f.input :contact_email, disabled: !@sale.new_record?

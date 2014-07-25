@@ -5,15 +5,15 @@
     = p.input :name, disabled: true
   = f.simple_fields_for @transfer.from_warehouse do |fw|
     .form-group
-      .col-sm-3.col-md-2.control-label
+      .labels_width.control-label
         = fw.label :from_warehouse
-      .col-sm-9.col-md-10
+      .fields_width
         = fw.input :name, disabled: true, label: false
   = f.simple_fields_for @transfer.to_warehouse do |tw|
     .form-group
-      .col-sm-3.col-md-2.control-label
+      .labels_width.control-label
         = tw.label :to_warehouse
-      .col-sm-9.col-md-10
+      .fields_width
         = tw.input :name, disabled: true, label: false
   = f.input :quantity, disabled: true
   = f.input :state, disabled: true

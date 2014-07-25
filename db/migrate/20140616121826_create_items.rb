@@ -3,7 +3,7 @@ class CreateItems < ActiveRecord::Migration
     create_table :items do |t|
 
         t.integer :unit_id
-
+        t.integer :vat_id
         t.string :name
         t.text :comment
         t.string :item_type
@@ -12,7 +12,6 @@ class CreateItems < ActiveRecord::Migration
         t.integer :in_price
         t.integer :distributor_price
         t.integer :retail_price
-        t.integer :vat
 
        t.timestamps
 

@@ -1,7 +1,7 @@
 .form-group
-  .col-sm-3.col-md-2.control-label
+  .labels_width.control-label
     = form.label label
-  .col-sm-9.col-md-10
+  .fields_width
     .input-group  
       %input{:value => value, :readonly=>'readonly', :class=>'form-control'}
       - if can_edit

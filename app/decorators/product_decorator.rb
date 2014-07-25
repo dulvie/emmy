@@ -10,7 +10,7 @@ class ProductDecorator < Draper::Decorator
 
   def product_price
     return 0 unless retail_price.to_i > 0
-    retail_price + (retail_price * vat_modifier)
+    retail_price + (retail_price * vat.add_factor)
   end
 
   # This might be stupid, maybe always use % instead?

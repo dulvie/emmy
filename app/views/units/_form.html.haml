@@ -1,6 +1,6 @@
 .container-fluid
   = simple_form_for(@unit, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    .col-sm-offset-4.col-sm-40
+    .panel_form_width
       .panel.panel-default
         = f.error_notification
         .relform
@@ -11,6 +11,6 @@
         = f.input :weight
         = f.input :package_dimensions
 
-    .col-sm-offset-4.col-sm-40
+    .panel_form_width
       = f.submit class: 'btn btn-primary'
       = link_to 'Back', units_path, class: 'btn btn-primary'

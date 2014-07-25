@@ -1,13 +1,14 @@
-.container-fluid.well
-  .btn.btn-group.col-sm-offset-4.col-sm-40
+.container-fluid
+  .btn.btn-group.col-sm-48
     = link_to "#{t(:create)} #{t(:customer)}", new_customer_path, class: 'btn btn-primary'
     .input-group.col-sm-10
       %input{:class=> 'form-control', :placeholder=>'Search', :ng_model=>'searchname'}
       .input-group-addon
         %a{:href => name_search_customers_path + "?name={{searchname}}"}
           %i{ :class=>"glyphicon glyphicon-search search_icon"}
+  .col-sm-48
 
-  .panel.panel-default.col-sm-offset-4.col-sm-40
+  .panel.panel-default.col-sm-48
     %i
       %h3
         Customer list
@@ -31,7 +32,7 @@
               %td= link_to settings_icon, edit_customer_path(customer)
               %td= delete_button_for customer
 
-    = paginate @customers, :theme => 'twitter-bootstrap-3'
+  = paginate @customers, :theme => 'twitter-bootstrap-3'
 
 :javascript
   $(document).ready(function() {

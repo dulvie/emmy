@@ -22,9 +22,9 @@
         = f.association :product, disabled: true
 
         .form-group
-          .col-sm-9.col-md-7.col-lg-6.control-label
+          .labels_width.control-label
             = f.label :quantity
-          .col-sm-39.col-md-41.col-lg-42.form-inline  
+          .fields_width.form-inline  
             = f.input :quantity, :label=>false, disabled: !@production.can_edit?
       - if @production.completed?
         = f.input :total_amount, disabled: true

@@ -7,7 +7,7 @@
   = f.input :item_group, as: 'select', collection: Item::GROUPS, include_blank: false, :input_html => {:class=>'medium'}
   = f.input :stocked
   = f.association :unit, :input_html => {:class=>'medium'}
-  = f.input :vat, as: 'select', collection: Item::VATS, include_blank: false, :input_html => {:class=>'short'}
+  = f.association :vat,  :input_html => {:class=>'medium'}
   = f.input :in_price
 
   #date-fields-wrapper

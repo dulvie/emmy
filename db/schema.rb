@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(version: 20140724121826) do
 
   create_table "items", force: true do |t|
     t.integer  "unit_id"
+    t.integer  "vat_id"
     t.string   "name"
     t.text     "comment"
     t.string   "item_type"
@@ -116,7 +117,6 @@ ActiveRecord::Schema.define(version: 20140724121826) do
     t.integer  "in_price"
     t.integer  "distributor_price"
     t.integer  "retail_price"
-    t.integer  "vat"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
