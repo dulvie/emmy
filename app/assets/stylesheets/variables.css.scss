@@ -1,7 +1,13 @@
+// Grid
+$grid-columns: 48;
+
+
+// Colors
 $body-bg: #fcfdfd;
 $navbar-default-bg: $body-bg;
 $navbar-default-border: $body-bg;
 
+// Font
 // ? this is the default bootstrap value, why can't we just uses the variable instead?
 $font-family-serif: Georgia, "Times New Roman", Times, serif;
 $font-family-sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
