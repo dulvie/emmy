@@ -121,10 +121,10 @@ class CommentsController < ApplicationController
     def show_breadcrumbs
       if !@parent.nil?  
         @breadcrumbs = [["#{@comment.parent_type.pluralize}", send("#{@parent.class.name.downcase}s_path")],
-        [@comment.parent_name, @comment.parent], ["#{t(:comments)}(#{@comment.body})"]]
+        [@comment.parent_name, @comment.parent], ["#{t(:comments)}(#{@comment.body.to(10)+" ..."})"]]
       else
         @breadcrumbs = [["#{@comment.class.name.pluralize}", send("#{@comment.class.name.downcase}s_path")],
-        ["#{t(:comments)}(#{@comment.body})"]]
+        ["#{t(:comments)}(#{@comment.body.to(10)+" ..."})"]]
       end
     end
 
