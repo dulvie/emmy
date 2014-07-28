@@ -21,13 +21,3 @@
         %i{ :class => "glyphicon glyphicon-flag"} 
         = t(:paid)
       = render partial: 'shared/modal_state_change', locals: {idx: 'payContent', model: @purchase, form_path: state_change_purchase_path(@purchase), event: 'pay', return_path: purchase_path(@purchase)}
-    
-
-    - if @purchase.parent_type == 'Import'
-      - back_url = edit_import_path(@purchase.parent_id)
-    - elsif @purchase.parent_type == 'Production'
-      - back_url = edit_production_path(@purchase.parent_id)
-    - else
-      - back_url = purchases_path
-    = link_to 'Back', back_url, class: 'btn btn-primary'
-
