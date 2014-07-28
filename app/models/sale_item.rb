@@ -42,7 +42,7 @@ class SaleItem < ActiveRecord::Base
 
   def default_vat_from_product
     if product
-      if v = product.vat.send('vat_percent')
+      if v = product.vat.vat_percent
         return v
       end
     end
