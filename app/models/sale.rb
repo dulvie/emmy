@@ -61,7 +61,8 @@ class Sale < ActiveRecord::Base
   end
 
   def set_approved_and_due_date(transition)
-    self.approved_at = transition.args[0] || Time.now
+    self.approved_at = transition.args[0]
+    self.approved_at ||= Time.now
     self.due_date = self.approved_at + self.payment_term.days
   end
 
