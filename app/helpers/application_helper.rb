@@ -41,6 +41,9 @@ module ApplicationHelper
   def doc_icon
     "<i class=\"glyphicon glyphicon-file file_icon\"> </i>".html_safe
   end
+  def edit_icon
+    "<i class=\"glyphicon glyphicon-edit edit_icon\"> </i>".html_safe
+  end
   # This is hairy, please simplify/shorten
   # Sets class="active" on a navigation <li><a href=".. block.
   def nav_link link_text, link_path

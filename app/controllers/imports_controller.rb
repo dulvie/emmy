@@ -91,7 +91,7 @@ class ImportsController < ApplicationController
       @item_selections = Item.where(item_type: item_types)
     end
 
-    @parent_column = params[:parent_column]   
+    @parent_column = params[:parent_column]
     @purchase.to_warehouse = @import.to_warehouse
     @purchase.parent_type = 'Import'
     @purchase.parent_id = @import.id

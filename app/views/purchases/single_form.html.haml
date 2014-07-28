@@ -14,6 +14,3 @@
     = ff.input :quantity
     = ff.input :price
   = f.submit class: 'btn btn-primary'
-  - if @purchase.parent_type == 'Production'
-    - back_url = edit_production_path(@purchase.parent_id)
-    = link_to 'Back', back_url, class: 'btn btn-primary'

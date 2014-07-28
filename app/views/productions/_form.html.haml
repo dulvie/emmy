@@ -36,7 +36,6 @@
       %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
         %span{ :class => "glyphicon glyphicon-flag"}
         = @production.next_event
-    = link_to 'Back', productions_path, class: 'btn btn-primary'
   %hr
   - if !@production.new_record? && !@production.is_completed?
     = render partial: 'shared/modal_state_change', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), event: @production.next_event, return_path: edit_production_path(@production)}     

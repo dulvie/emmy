@@ -152,7 +152,15 @@ class PurchasesController < ApplicationController
     end
 
     def new_breadcrumbs
-      @breadcrumbs = [[t(:purchases), purchases_path], ["#{t(:new)} #{t(:purchase)}"]]
+      if params[:form]=='single_purchase'
+        obj_id = params[:parent_id]
+        @breadcrumbs = [[t(:productions), productions_path], [Production.find(obj_id).description, production_path(obj_id)], ["#{t(:new)} #{t(:purchase)}"]]
+      else
+        @breadcrumbs = [[t(:purchases), purchases_path], ["#{t(:new)} #{t(:purchase)}"]]
+      end
+      @purchase.parent_type = params[:parent_type]
+      @purchase.parent_id = params[:parent_id]
+
     end
 
     def show_breadcrumbs

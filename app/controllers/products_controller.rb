@@ -96,7 +96,14 @@ class ProductsController < ApplicationController
     end
 
     def new_breadcrumbs
-      @breadcrumbs = [['Products', products_path], ["#{t(:new)} #{t(:product)}"]]
+      obj_id = params[:object]
+      if params[:class]=='Production'
+        @breadcrumbs = [['Productions', productions_path], [Production.find(obj_id).description, production_path(obj_id)], ["#{t(:new)} #{t(:product)}"]]
+      elsif params[:class]=='Import'
+        @breadcrumbs = [['Imports', imports_path], [Import.find(obj_id).description, import_path(obj_id)], ["#{t(:new)} #{t(:product)}"]]
+      else
+        @breadcrumbs = [['Products', products_path], ["#{t(:new)} #{t(:product)}"]]
+      end
     end
 
     def edit_breadcrumbs
