@@ -7,12 +7,12 @@
 body {
   font-family: $font-family-serif;
 }
-h1,h2,h3,h4,h5,input,textarea,select,a,button,label,thead, .panel-heading {
+h1,h2,h3,h4,h5,input,textarea,select,a,button,label,thead, .panel-heading, .control-label, .label {
   font-family: $font-family-sans-serif;
 }
 
-
 /* end default style customizations */
+
 .single-center {
   margin: 0 auto;
   width: 300px;
@@ -28,6 +28,26 @@ a:hover .settings-icon:hover {
 a {
   transition: color .2s ease-in-out;
 }
+
+select.btn {
+  text-align: left;
+}
+
+.form-button-group {
+  border-top: 2px solid darken($body-bg, 15%);
+  padding: 1em 0;
+  background: darken($body-bg, 5%);
+}
+
+.form-button-group .btn {
+  float: left;
+  margin-right: 0.2em;
+  * .btn {
+    float: none;
+    margin-right: 0;
+  }
+}
+
 
 form.form-signin {
   input[type=email] {

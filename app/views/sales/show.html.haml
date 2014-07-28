@@ -1,16 +1,31 @@
+- if !@sale.can_edit_items?
+  .form-horizontal
+    .form-group
+      .col-sm-9.col-md-7.col-lg-6.control-label
+      .col-sm-39.col-md-41.col-lg-42
+        = link_to t(:download_as_pdf), sale_path(@sale, format: :pdf), class: 'btn btn-info', :target => "_blank"
+
 = render partial: 'form'
 
-- # Don't show next-step unless there are items in the sale.
-- if @sale.sale_items.count > 0 && !@sale.is_completed?
-  - if @sale.next_step
-    = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: @sale.next_step}
-  - unless @sale.can_edit_items?
-    - if !@sale.is_delivered?
-      = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'deliver'}
-    - if !@sale.is_paid?
-      = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'pay'}
+.row.form-horizontal
+  .col-sm-9.col-md-7.col-lg-6.control-label
+    %strong= t(:items)
+  .col-sm-39.col-md-41.col-lg-42
+    = render partial: 'sale_items/list', locals: {sale_items: @sale.sale_items}
 
-= render partial: 'sale_items/index'
-- if !@sale.can_edit_items?
-  = link_to t(:download_as_pdf), sale_path(@sale, format: :pdf), class: 'btn btn-info', :target => "_blank"
-= link_to 'Back', sales_path, class: 'btn btn-primary'
+.form-button-group
+  .row
+    .col-sm-offset-9.col-md-offset-7.col-lg-offset-6.col-sm-39.col-md-41.col-lg-42
+      - if @sale.can_edit_items?
+        = link_to t(:add_product), new_sale_sale_item_path(@sale), class: 'btn btn-primary pull-left'
+      - # Don't show next-step unless there are items in the sale.
+      - if @sale.sale_items.count > 0 && !@sale.is_completed?
+        - if @sale.can_edit_items?
+          = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'mark_item_complete'}
+        - unless @sale.can_edit_items?
+          - if !@sale.is_delivered?
+            = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'deliver'}
+          - if !@sale.is_paid?
+            = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'pay'}
+
+

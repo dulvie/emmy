@@ -1,7 +1,7 @@
-= link_to 'Create Sale', new_sale_path, class: 'btn btn-primary'
-%select{id: 'selp', class: 'btn btn-primary', onchange: 'location = this.options[this.selectedIndex].value;'}
-  %option{value: sales_path} #{t(:all)}
-  %option{value: sales_path + '?state=meta_complete'} #{t(:not_approved)}
+= link_to 'Create Sale', new_sale_path, class: 'btn btn-default'
+%select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
+  %option{value: sales_path} #{t(:filter)}: #{t(:all)}
+  %option{value: sales_path + '?state=meta_complete'} #{t(:filter)} #{t(:not_approved)}
   %option{value: sales_path + '?state=item_complete'} #{t(:approved)}
   %option{value: sales_path + '?goods_state=not_delivered'} #{t(:not_delivered)}
   %option{value: sales_path + '?money_state=not_paid'} #{t(:not_paid)}

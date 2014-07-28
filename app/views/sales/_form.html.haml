@@ -13,16 +13,13 @@
   = f.input :payment_term, as: :select, collection: ['10', '30'], include_blank: false, disabled: !@sale.new_record?, :input_html =>{:class=>'numeric form_control'}
 
   - if @sale.new_record?
-    = f.submit class: 'btn btn-primary'
-    = link_to 'Back', sales_path, class: 'btn btn-primary'
+    .form-button-group
+      .row
+        .col-sm-offset-9.col-md-offset-7.col-lg-offset-6.col-sm-39.col-md-41.col-lg-42
+          = f.submit class: 'btn btn-primary'
   - else
-    = f.input :state, disabled: true
-    - if !@sale.can_edit_items?
-      = f.input :approved_at, as: :string, disabled: true
-    = f.input :goods_state, disabled: true
-    - if @sale.is_delivered?
-      = f.input :delivered_at, as: :string, disabled: true
-    = f.input :money_state, disabled: true
-    - if @sale.is_paid?
-      = f.input :paid_at, as: :string, disabled: true
-
+    .form-group
+      %label{class: 'col-sm-9 col-md-7 col-lg-6 control-label'}= t(:state)
+      .col-sm-39.col-md-41.col-lg-42.form-control-static
+        - @sale.states.each do |s|
+          = s
