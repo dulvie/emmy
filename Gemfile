@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 #gem 'rails', '4.0.0'
-gem 'rails', '4.1.1'
+gem 'rails', '4.1.4'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -37,9 +37,6 @@ gem 'unicorn'
 gem 'resque', '~> 1.25'
 
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]
-#
 gem 'devise'
 gem 'simple_form', git: 'https://github.com/plataformatec/simple_form.git'
 gem 'bootstrap-sass', '~> 3.2'
@@ -64,7 +61,7 @@ gem 'bootstrap-kaminari-views'
 gem 'paperclip'
 
 group :test, :development do
-  gem 'debugger'
+  gem 'byebug'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'guard'
   gem 'guard-zeus'
