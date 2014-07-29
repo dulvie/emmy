@@ -55,6 +55,7 @@ se:
   in_qty: "In kv"
   incoming: "Inkommande"
   inventory: "Inventering"
+  inventoy_information: "Inventering uppgifter"
   inventories: "Inventeringar"
   invoice: "Faktura"
   invoice_number: "Faktura nummer"
