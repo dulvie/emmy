@@ -3,7 +3,7 @@
   Well, the font-family-base can be set,
   and then you can specify font-family for headlines,
   but not input textarea select button and a tags...
-*/
+ */
 body {
   font-family: $font-family-serif;
 }
@@ -65,49 +65,48 @@ form.form-signin {
   margin-left: -15px;
 }
 .absform-sm {
- position: absolute;
- margin-top: -16px;
- height: 178px;
- z-index: 0; 
- padding-right: 25px;
- border-right: 5px solid #f5f5f5; 
- width: 142px;
- 
+  position: absolute;
+  margin-top: -16px;
+  height: 178px;
+  z-index: 0; 
+  padding-right: 25px;
+  border-right: 5px solid #f5f5f5; 
+  width: 142px;
 }
 .absform-md {
- position: absolute;
- margin-top: -16px;
- height: 178px;
- z-index: 0; 
- padding-right: 25px;
- border-right: 5px solid #f5f5f5; 
- width: 149px;
+  position: absolute;
+  margin-top: -16px;
+  height: 178px;
+  z-index: 0; 
+  padding-right: 25px;
+  border-right: 5px solid #f5f5f5; 
+  width: 149px;
 }
 .absform-lg {
- position: absolute;
- margin-top: -16px;
- height: 178px;
- z-index: 0; 
- padding-right: 25px;
- border-right: 5px solid #f5f5f5; 
- width: 159px;
+  position: absolute;
+  margin-top: -16px;
+  height: 178px;
+  z-index: 0; 
+  padding-right: 25px;
+  border-right: 5px solid #f5f5f5; 
+  width: 159px;
 }
 .lblform{
- z-index: 3;
+  z-index: 3;
 }
 .labels_width {
-@extend .col-sm-9;
-@extend .col-md-7;
-@extend .col-lg-6;
+  @extend .col-sm-9;
+  @extend .col-md-7;
+  @extend .col-lg-6;
 }
 .fields_width{
-@extend  .col-sm-39;
-@extend  .col-md-41;
-@extend  .col-lg-42;
+  @extend  .col-sm-39;
+  @extend  .col-md-41;
+  @extend  .col-lg-42;
 }
 .panel_form_width{
-@extend  .col-sm-offset-4;
-@extend  .col-sm-40;
-@extend  .col-md-32;
-@extend  .col-lg-28;
+  @extend  .col-sm-offset-4;
+  @extend  .col-sm-40;
+  @extend  .col-md-32;
+  @extend  .col-lg-28;
 }
