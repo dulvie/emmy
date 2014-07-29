@@ -1,4 +1,4 @@
-= link_to 'Create Transfer', new_transfer_path, class: 'btn btn-primary'
+= link_to 'Create Transfer', new_transfer_path, class: 'btn btn-default'
 
 %div{:ng_controller => "ModalCtrl"}
   %table{:class => 'table table-striped'}
@@ -22,7 +22,7 @@
             %td= link_to(transfer.product.name, edit_product_path(transfer.product))
             %td= transfer.quantity
             %td= transfer.state
-            %td  
+            %td
               - if transfer.state == 'not_sent'
                 %button{:class => 'btn btn-info', :ng_click=>"open($event, 'sm','transfer_content_" + transfer.id.to_s + "')"}
                   %span{ :class => "glyphicon glyphicon-flag"}
@@ -34,7 +34,7 @@
                   = t(:receive)
                 = render partial: 'shared/modal_state_change', locals: {idx: 'transfer_content_' + transfer.id.to_s, model: transfer, form_path: receive_package_transfer_path(transfer), event: 'receive_package', return_path: transfers_path}
 
-            %td= link_to settings_icon, edit_transfer_path(transfer)
+            %td= link_to settings_icon, transfer_path(transfer)
             %td= delete_button_for transfer
            
   = paginate @transfers, :theme => 'twitter-bootstrap-3'

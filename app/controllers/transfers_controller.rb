@@ -2,7 +2,7 @@ class TransfersController < ApplicationController
 
   load_and_authorize_resource
   before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
+  before_filter :show_breadcrumbs, only: [:show, :update]
 
   # Since load_and_authorize doesnt do this for non crud actions.
   before_filter :find_transfer, only: [:send_package, :receive_package]
@@ -18,14 +18,7 @@ class TransfersController < ApplicationController
   # GET /transfers/1
   # GET /transfers/1.json
   def show
-    render 'edit'
   end
-
-  # GET /transfers/1/edit
-  # GET /transfers/1/edit.json
-  def edit
-  end
-
 
   # GET /transfers/new
   def new
@@ -91,7 +84,7 @@ class TransfersController < ApplicationController
       @breadcrumbs = [['Transfers', transfers_path], ['New transfer']]
     end
 
-    def edit_breadcrumbs
+    def show_breadcrumbs
       @breadcrumbs = [['Transfers', transfers_path], [@transfer.created_at]]
     end
 

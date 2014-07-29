@@ -38,4 +38,6 @@
       = f.input :received_at, as: :string, disabled: true, :input_html => { :class => 'date', :value => localize(f.object.received_at, :format => "%Y-%m-%d") }
 
     - if @transfer.new_record?
-      = f.submit class: 'btn btn-primary'
+      .form-button-group
+        .actions
+          = f.submit class: 'btn btn-primary'
