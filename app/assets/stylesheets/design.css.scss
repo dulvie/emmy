@@ -35,8 +35,9 @@ select.btn {
 
 .form-button-group {
   border-top: 2px solid darken($body-bg, 15%);
-  padding: 1em 0;
+  padding: 1em 15px;
   background: darken($body-bg, 5%);
+  @extend .row;
 }
 
 .form-button-group .btn {
@@ -46,6 +47,10 @@ select.btn {
     float: none;
     margin-right: 0;
   }
+}
+
+.navbar-inverse {
+  border-radius: 0;
 }
 
 
