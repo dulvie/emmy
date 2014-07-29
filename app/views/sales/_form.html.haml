@@ -14,9 +14,8 @@
 
   - if @sale.new_record?
     .form-button-group
-      .row
-        .col-sm-offset-9.col-md-offset-7.col-lg-offset-6.col-sm-39.col-md-41.col-lg-42
-          = f.submit class: 'btn btn-primary'
+      .actions
+        = f.submit class: 'btn btn-primary'
 
   - else
     .form-group

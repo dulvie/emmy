@@ -1,16 +1,15 @@
 .form-button-group
-  .row
-    .col-sm-offset-9.col-md-offset-7.col-lg-offset-6.col-sm-39.col-md-20.col-lg-12
+  .actions
+    - if @sale.can_edit_items?
+      = link_to t(:add_product), new_sale_sale_item_path(@sale), class: 'btn btn-primary pull-left'
+    - # Don't show next-step unless there are items in the sale.
+    - if @sale.sale_items.count > 0 && !@sale.is_completed?
       - if @sale.can_edit_items?
-        = link_to t(:add_product), new_sale_sale_item_path(@sale), class: 'btn btn-primary pull-left'
-      - # Don't show next-step unless there are items in the sale.
-      - if @sale.sale_items.count > 0 && !@sale.is_completed?
-        - if @sale.can_edit_items?
-          = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'mark_item_complete'}
-        - unless @sale.can_edit_items?
-          - if !@sale.is_delivered?
-            = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'deliver'}
-          - if !@sale.is_paid?
-            = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'pay'}
+        = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'mark_item_complete'}
+      - unless @sale.can_edit_items?
+        - if !@sale.is_delivered?
+          = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'deliver'}
+        - if !@sale.is_paid?
+          = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'pay'}
 
 

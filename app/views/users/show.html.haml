@@ -5,4 +5,6 @@
     = f.error_notification
     %label Change authorization for #{@user.name}
     = f.association :roles, as: :check_boxes, wrapper: :horizontal_radio_and_checkboxes
-    = f.submit class: 'btn btn-primary'
+    .form-button-group
+      .actions
+        = f.button :submit, t(:update_roles), class: 'btn btn-primary'

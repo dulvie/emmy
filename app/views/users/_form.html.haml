@@ -6,4 +6,7 @@
   - if can? :manage, @user
     = f.input :password, required: true
     = f.input :password_confirmation, required: true
-    = f.submit class: 'btn btn-primary'
+
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'

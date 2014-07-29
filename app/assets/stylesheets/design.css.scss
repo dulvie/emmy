@@ -35,9 +35,17 @@ select.btn {
 
 .form-button-group {
   border-top: 2px solid darken($body-bg, 15%);
-  padding: 1em 15px;
+  padding: 1em 0;
   background: darken($body-bg, 5%);
   @extend .row;
+  .actions {
+    @extend .col-sm-offset-9;
+    @extend .col-md-offset-7;
+    @extend .col-lg-offset-6;
+    @extend .col-sm-39;
+    @extend .col-md-41;
+    @extend .col-lg-42;
+  }
 }
 
 .form-button-group .btn {
