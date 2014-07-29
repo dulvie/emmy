@@ -2,7 +2,7 @@
 .container.row
   %br
   - add_contact_url = new_contact_path({parent_id: parent.id, parent_type: parent.class.name})
-  = link_to t(:add_contact), add_contact_url, class: 'btn btn-primary'
+  = link_to t(:add_contact), add_contact_url, class: 'btn btn-default'
   %table{:class => 'table table-striped'}
     %thead
       %tr

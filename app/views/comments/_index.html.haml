@@ -2,7 +2,7 @@
 .container.row
   %br
   - add_comment_url = new_comment_path({parent_id: parent.id, parent_type: parent.class.name})
-  = link_to t(:add_comment), add_comment_url, class: 'btn btn-primary'
+  = link_to t(:add_comment), add_comment_url, class: 'btn btn-default'
 
   %table{:class => 'table table-striped'}
     %thead
