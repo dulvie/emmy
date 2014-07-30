@@ -1,5 +1,5 @@
-.row
-  .col-md-12{:ng_controller=>'ModalCtrl'}
+.form-button-group{:ng_controller=>'ModalCtrl'}
+  .actions
 
     - if @purchase.can_edit_items?
       = link_to t(:add_product), new_purchase_purchase_item_path(@purchase), class: 'btn btn-primary'

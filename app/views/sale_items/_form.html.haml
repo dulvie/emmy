@@ -10,4 +10,6 @@
   = f.input :quantity, :input_html => {:ng_model => 'quantity', :ng_change => 'select_quantity()'}
   = f.input :price
 
-  = f.button :submit, class: 'btn btn-primary'
+  .form-button-group
+    .actions
+      = f.submit class: 'btn btn-primary'

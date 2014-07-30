@@ -20,4 +20,6 @@
       = f.input :completed_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d") }
             
     - if @purchase.new_record?
-      = f.submit class: 'btn btn-primary'
+      .form-button-group
+        .actions
+          = f.submit class: 'btn btn-primary'

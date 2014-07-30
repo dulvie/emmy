@@ -38,11 +38,14 @@
       = f.input :cost_price, disabled: true
 
     - if !@import.is_completed? 
-      = f.submit class: 'btn btn-primary'
+      .form-button-group
+        .actions
+          = f.submit class: 'btn btn-primary'
+
     - if !@import.new_record? && @import.can_edit_state? && @import.can_edit_items?
       %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importContent' )"}
         %span{ :class => "glyphicon glyphicon-flag"} 
         = f.object.next_event
-    %hr
+    %br
   - if !@import.new_record? && @import.can_edit_state?
     = render partial: 'shared/modal_state_change', locals: {idx: 'importContent', model: @import, form_path: state_change_import_path(@import), event: 'start', return_path: edit_import_path(@import)}

@@ -2,8 +2,8 @@
   = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
     = f.error_notification
 
-    = f.input :description, disabled: !@production.can_edit?
-    = f.association :our_reference, disabled: !@production.can_edit?
+    = f.input :description, disabled: !@production.new_record?
+    = f.association :our_reference, disabled: !@production.new_record?
     = f.association :warehouse,  disabled: !@production.new_record?
 
     - if !@production.new_record?
@@ -31,12 +31,15 @@
         = f.input :cost_price, disabled: true
 
     - if @production.can_edit?
-      = f.submit class: 'btn btn-primary'
+      .form-button-group
+        .actions
+          = f.submit class: 'btn btn-primary'
+
     - if (@production.can_edit_state? && !@production.is_started?) || (@production.can_edit_state? && @production.can_complete?)
       %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
         %span{ :class => "glyphicon glyphicon-flag"}
         = @production.next_event
-  %hr
+  %br
   - if !@production.new_record? && !@production.is_completed?
     = render partial: 'shared/modal_state_change', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), event: @production.next_event, return_path: edit_production_path(@production)}     
   
