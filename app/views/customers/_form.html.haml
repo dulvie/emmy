@@ -1,20 +1,15 @@
-.container-fluid.well
-  .panel.panel-default.panel_form_width
-    %i
-      %h3
-        Customer information 
-    .panel-body
-      = simple_form_for(@customer, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-        = f.error_notification
+= simple_form_for(@customer, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
 
-        = f.input :name, required: true, autofocus: true
-        = f.input :primary_contact_id, as: :select, collection: @contacts
-        = f.input :reseller, as: :radio_buttons, wrapper: :horizontal_radio_and_checkboxes
-        = f.input :vat_number, :input_html => {:class => 'short'}
-        = f.input :payment_term, as: :select, collection: ['10', '30'], include_blank: false, :input_html => {:class => 'short'}
-        = f.input :address
-        = f.input :zip, :input_html => {:class => 'short'}
-        = f.input :city
-        = f.input :country, :input_html => {:class => 'medium'}
-  
-        = f.submit class: 'btn btn-primary'
+  = f.input :name, required: true, autofocus: true
+  = f.input :primary_contact_id, as: :select, collection: @contacts
+  = f.input :reseller, as: :radio_buttons, wrapper: :horizontal_radio_and_checkboxes
+  = f.input :vat_number, :input_html => {:class => 'short'}
+  = f.input :payment_term, as: :select, collection: ['10', '30'], include_blank: false, :input_html => {:class => 'short'}
+  = f.input :address
+  = f.input :zip, :input_html => {:class => 'short'}
+  = f.input :city
+  = f.input :country, :input_html => {:class => 'medium'}
+  .form-button-group
+    .actions  
+      = f.submit class: 'btn btn-primary'

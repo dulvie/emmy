@@ -1,40 +1,32 @@
-.container-fluid
-  .btn.btn-group.col-sm-48
-    = link_to "#{t(:create)} #{t(:customer)}", new_customer_path, class: 'btn btn-default'
-    .input-group.col-sm-10
-      %input{:class=> 'form-control', :placeholder=>'Search', :ng_model=>'searchname'}
-      .input-group-addon
-        %a{:href => name_search_customers_path + "?name={{searchname}}"}
-          %i{ :class=>"glyphicon glyphicon-search search_icon"}
-  .col-sm-48
+.btn-group
+  = link_to "#{t(:create)} #{t(:customer)}", new_customer_path, class: 'btn btn-default'
+  .input-group.col-sm-10
+    %input{:class=> 'form-control', :placeholder=>'Search', :ng_model=>'searchname'}
+    .input-group-addon
+      %a{:href => name_search_customers_path + "?name={{searchname}}"}
+        %i{ :class=>"glyphicon glyphicon-search search_icon"}
+%br
+%br
+%table{:class => 'table table-border'}
+  %thead{:class => 'well'}
+    %tr
+      %th= t(:customer)
+      %th= t(:address)
+      %th= t(:zip)
+      %th= t(:city)
+      %th
+      %th
+  %tbody{}
+    - @customers.each do |customer|
+      %tr
+        %td= customer.name
+        %td= customer.address
+        %td= customer.zip
+        %td= customer.city
+        %td= link_to settings_icon, edit_customer_path(customer)
+        %td= delete_button_for customer
 
-  .panel.panel-default.col-sm-48
-    %i
-      %h3
-        Customer list
-    .panel-body
-      %table{:class => 'table table-striped'}
-        %thead
-          %tr
-            %th= t(:customer)
-            %th= t(:address)
-            %th= t(:zip)
-            %th= t(:city)
-            %th
-            %th
-        %tbody{}
-          - @customers.each do |customer|
-            %tr
-              %td= customer.name
-              %td= customer.address
-              %td= customer.zip
-              %td= customer.city
-              %td= link_to settings_icon, edit_customer_path(customer)
-              %td= delete_button_for customer
-
-  = paginate @customers, :theme => 'twitter-bootstrap-3'
+= paginate @customers, :theme => 'twitter-bootstrap-3'
 
 :javascript
-  $(document).ready(function() {
-   localStorage.removeItem('lastTab');
-  });
+  $(document).ready(function() {localStorage.removeItem('lastTab');});
