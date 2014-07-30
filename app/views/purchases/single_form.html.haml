@@ -13,4 +13,6 @@
     = ff.association :item, collection: @item_selections, include_blank: false
     = ff.input :quantity
     = ff.input :price
-  = f.submit class: 'btn btn-primary'
+  .form-button-group
+    .actions
+      = f.submit class: 'btn btn-primary'

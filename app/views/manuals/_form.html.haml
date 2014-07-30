@@ -6,4 +6,6 @@
   - if @manual.new_record?
     = f.simple_fields_for :comments do |c|
       = c.input :body, as: :text
-    = f.submit class: 'btn btn-primary'
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'

@@ -14,7 +14,9 @@
     = f.input :distributor_price
     = f.input :retail_price
 
-  = f.button :submit, class: 'btn btn-primary'
+  .form-button-group
+    .actions
+      = f.submit class: 'btn btn-primary'
 
 :javascript
   $(document).ready(function() {

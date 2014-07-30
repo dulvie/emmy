@@ -17,4 +17,6 @@
 
     = render partial: 'shared/date_field', locals: {form: f, field: :expire_at, in_id: 'in_expire_at', in_value: @product.expire_at, out_id: 'product[expire_at]', field_id: 'ex_short_date',  model: 'ex_date', dp_open: 'ex_open', dp_options: 'ex_options', dp_click: 'open_ex_date($event)'}
 
-    = f.button :submit, class: 'btn btn-primary'
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'

@@ -10,4 +10,6 @@
   = f.input :city
   = f.input :country, :input_html => {:class => 'medium'}
 
-  = f.submit class: 'btn btn-primary'
+  .form-button-group
+    .actions
+      = f.submit class: 'btn btn-primary'

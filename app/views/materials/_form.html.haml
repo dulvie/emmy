@@ -12,5 +12,7 @@
     = f.input :quantity, disabled: !@material.can_edit?
 
     -if @material.can_edit?
-      = f.submit class: 'btn btn-primary'
+      .form-button-group
+        .actions
+          = f.submit class: 'btn btn-primary'
 
