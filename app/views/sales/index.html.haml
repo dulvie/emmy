@@ -6,8 +6,9 @@
   %option{value: sales_path + '?goods_state=not_delivered'} #{t(:not_delivered)}
   %option{value: sales_path + '?money_state=not_paid'} #{t(:not_paid)}
 %br
+%br
 %table{:class => 'table table-striped'}
-  %thead
+  %thead{:class => 'well table-border'}
     %tr
       %th= t(:sale_id)
       %th= t(:approved_at)

@@ -1,15 +1,7 @@
-.container-fluid
-  = simple_form_for(@unit, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    .panel_form_width
-      .panel.panel-default
-        = f.error_notification
-        .relform
-          .absform-sm.alert-info.visible-sm
-          .absform-md.alert-info.visible-md
-          .absform-lg.alert-info.visible-lg
-        = f.input :name, required: true, autofocus: true 
-        = f.input :weight
-        = f.input :package_dimensions
+= simple_form_for(@unit, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+  = f.input :name, required: true, autofocus: true 
+  = f.input :weight
+  = f.input :package_dimensions
 
-    .panel_form_width
-      = f.submit class: 'btn btn-primary'
+  = f.submit class: 'btn btn-primary'

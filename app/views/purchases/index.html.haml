@@ -5,8 +5,8 @@
     %option{value: purchases_path + '?state=meta_complete'} #{t(:not_ordered)}
     %option{value: purchases_path + '?state=item_complete'} #{t(:processing)}
 %br
-%table{:class => 'table table-striped well'}
-  %thead
+%table{:class => 'table table-border'}
+  %thead{:class => 'well'}
     %tr
       %th= t(:description)
       %th= t(:ordered_at)

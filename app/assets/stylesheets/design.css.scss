@@ -61,7 +61,6 @@ select.btn {
   border-radius: 0;
 }
 
-
 form.form-signin {
   input[type=email] {
     border-bottom-left-radius: 0;
@@ -71,41 +70,6 @@ form.form-signin {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
-}
-.relform {
-  position: relative;
-  margin-top: 15px;
-  margin-left: -15px;
-}
-.absform-sm {
-  position: absolute;
-  margin-top: -16px;
-  height: 178px;
-  z-index: 0; 
-  padding-right: 25px;
-  border-right: 5px solid #f5f5f5; 
-  width: 142px;
-}
-.absform-md {
-  position: absolute;
-  margin-top: -16px;
-  height: 178px;
-  z-index: 0; 
-  padding-right: 25px;
-  border-right: 5px solid #f5f5f5; 
-  width: 149px;
-}
-.absform-lg {
-  position: absolute;
-  margin-top: -16px;
-  height: 178px;
-  z-index: 0; 
-  padding-right: 25px;
-  border-right: 5px solid #f5f5f5; 
-  width: 159px;
-}
-.lblform{
-  z-index: 3;
 }
 .labels_width {
   @extend .col-sm-9;
@@ -122,4 +86,7 @@ form.form-signin {
   @extend  .col-sm-40;
   @extend  .col-md-32;
   @extend  .col-lg-28;
+}
+.table-border{
+  border: 1px solid lightgray;
 }
