@@ -18,7 +18,7 @@ class CommentsController < ApplicationController
     else
       @comment = @parent.comments.build
       @comment_form_url = comments_path(parent_type: @comment.parent_type, parent_id: @comment.parent_id)
-    end   
+    end
   end
 
   def show
@@ -119,7 +119,7 @@ class CommentsController < ApplicationController
     end
 
     def show_breadcrumbs
-      if !@parent.nil?  
+      if !@parent.nil?
         @breadcrumbs = [["#{@comment.parent_type.pluralize}", send("#{@parent.class.name.downcase}s_path")],
         [@comment.parent_name, @comment.parent], ["#{t(:comments)}(#{@comment.body.to(10)+" ..."})"]]
       else

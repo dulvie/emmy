@@ -11,7 +11,7 @@ class CustomersController < ApplicationController
     logger.info "search: #{ params[:name]}"
     name =params[:name]+'%'
     @customers = Customer.where("name LIKE ?", name).order("name").page(params[:page]).per(8)
-    render action: 'index' 
+    render action: 'index'
   end
 
   # GET /customers
@@ -20,7 +20,7 @@ class CustomersController < ApplicationController
     respond_to do |format|
     	@breadcrumbs = [['Customers']]
     	#format.html {@customers = Customer.order("name").paginate :page => params[:page], :per_page => 10}
-    	format.html {@customers = Customer.order("name").page(params[:page]).per(8)} 
+    	format.html {@customers = Customer.order("name").page(params[:page]).per(8)}
     	format.json {render json: @customers}
     end	
   end

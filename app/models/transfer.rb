@@ -34,7 +34,7 @@ class Transfer < ActiveRecord::Base
   validates_associated :comments
 
   def name
-    from_warehouse.name + ' => ' + to_warehouse.name 
+    from_warehouse.name + ' => ' + to_warehouse.name
   end
 
 

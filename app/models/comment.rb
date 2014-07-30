@@ -15,7 +15,7 @@ class Comment < ActiveRecord::Base
 
   # For ApplicationHelper#delete_button
   def can_delete?
-    true 
+    true
   end
 
   def parent_name

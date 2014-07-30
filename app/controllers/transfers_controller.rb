@@ -54,7 +54,7 @@ class TransfersController < ApplicationController
     end
   end
 
-  def send_package   
+  def send_package
     if  @transfer.send_package(params[:state_change_at])
       notice = t(:transfer_marked_as_sent)
     else

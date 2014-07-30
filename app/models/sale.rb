@@ -85,8 +85,8 @@ class Sale < ActiveRecord::Base
     sale_items.each do |sale_item|
       product_transaction = ProductTransaction.new(
           parent: self,
-          warehouse: warehouse, 
-          product: sale_item.product, 
+          warehouse: warehouse,
+          product: sale_item.product,
           quantity: sale_item.quantity * -1)
         product_transaction.save
     end

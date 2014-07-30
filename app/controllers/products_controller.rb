@@ -44,7 +44,7 @@ class ProductsController < ApplicationController
           production = Import.find(obj_id)
           production.product = @product
           production.save
-          format.html { redirect_to edit_import_path(obj_id), notice: 'product was successfully created.'} 
+          format.html { redirect_to edit_import_path(obj_id), notice: 'product was successfully created.'}
         else
           format.html { redirect_to products_path, notice: 'product was successfully created.' }
           #format.json { render action: 'show', status: :created, location: @product }
@@ -87,7 +87,7 @@ class ProductsController < ApplicationController
   private
     def init_new
       @items = Item.where("stocked=?", 'true')
-      gon.push items: @items 
+      gon.push items: @items
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

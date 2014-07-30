@@ -10,7 +10,7 @@ class Import < ActiveRecord::Base
   # t.integer :cost_price
   # t.integer :importing_id
   # t.integer :shipping_id
-  # t.integer :customs_id 
+  # t.integer :customs_id
 
   # t.string :state
   # t.timestamp :started_at

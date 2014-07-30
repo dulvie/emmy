@@ -31,8 +31,8 @@ class SalesController < ApplicationController
     elsif params[:goods_state] == 'not_delivered'
       sales = @sales.where("goods_state = ?", 'not_delivered').collect{|sale| sale.decorate}
     else
-       sales = @sales.order("approved_at DESC").collect{|sale| sale.decorate}
-    end   
+      sales = @sales.order("approved_at DESC").collect{|sale| sale.decorate}
+    end
     @sales = Kaminari.paginate_array(sales).page(params[:page]).per(8)
   end
 

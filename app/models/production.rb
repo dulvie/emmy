@@ -67,7 +67,7 @@ class Production < ActiveRecord::Base
     self.started_at = transition.args[0]
     if self.work.state == 'meta_complete'
       self.work.state_change('mark_item_complete', self.started_at)
-    end    
+    end
   end
 
   def set_completed_and_calculate(transition)
