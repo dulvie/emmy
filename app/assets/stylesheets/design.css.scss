@@ -33,6 +33,29 @@ select.btn {
   text-align: left;
 }
 
+.navbar-brand {
+  font-weight: bold;
+}
+
+.btn-default {
+  color: black;
+  border-color: #adadad;
+  background-color: #e6e6e6;
+  &:hover {
+    border-color: darken(#adadad, 10%);
+    background-color: darken(#e6e6e6, 10%);
+  }
+}
+select.btn-default {
+  color: #333;
+  border-color: #ccc;
+  background-color: #fff;
+  &:hover {
+    border-color: #adadad;
+    background-color: #e6e6e6;
+  }
+}
+
 .form-button-group {
   border-top: 2px solid darken($body-bg, 15%);
   padding: 1em 0;
