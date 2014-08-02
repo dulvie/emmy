@@ -192,13 +192,28 @@ class ImportsController < ApplicationController
 
     def get_purchases
       if !@import.importing_id.nil?
-        @importing = Purchase.find(@import.importing_id)
+        if !Purchase.exists? id: @import.importing_id
+          @import.importing_id = nil
+          @import.save
+        else
+          @importing = Purchase.find(@import.importing_id)
+        end
       end
-      if !@import.shipping_id.nil?      
-        @shipping = Purchase.find(@import.shipping_id)
-      end      
-      if !@import.customs_id.nil? 
-        @customs = Purchase.find(@import.customs_id)
+      if !@import.shipping_id.nil?
+        if !Purchase.exists? id: @import.shipping_id
+          @import.shipping_id = nil
+          @import.save
+        else
+          @shipping = Purchase.find(@import.shipping_id)
+        end
+      end
+      if !@import.customs_id.nil?
+        if !Purchase.exists? id: @import.customs_id
+          @import.customs_id = nil
+          @import.save
+        else
+          @customs = Purchase.find(@import.customs_id)
+        end
       end
     end
 

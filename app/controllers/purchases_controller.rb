@@ -71,7 +71,7 @@ class PurchasesController < ApplicationController
   def destroy
     @purchase.destroy
     respond_to do |format|
-      format.html { redirect_to purchases_path, notice: "#{t(:purchase)} #{t(:was_successfully_deleted)}" }      
+      format.html { redirect_to :back, notice: "#{t(:purchase)} #{t(:was_successfully_deleted)}" }      
       #format.json { head :no_content }
     end
   end
