@@ -1,6 +1,8 @@
 app.controller('product_form_ctrl', function ($scope) {
 
 	$scope.init = function() {
+		$scope.refined = true;
+		$scope.sales = true;
 		
 		$scope.item_id = $('#product_item_id').val();
 
@@ -9,6 +11,8 @@ app.controller('product_form_ctrl', function ($scope) {
 
 		var re = $('#in_refined_at').val().split(/\D/);
 		re.length == 1 ? $scope.re_date = new Date() : $scope.re_date = new Date(re[0], --re[1], re[2]);
+
+		$scope.select_item();
 	};
 
 	$scope.ex_options = {'starting-day': 1,'show-weeks': false};
@@ -26,12 +30,22 @@ app.controller('product_form_ctrl', function ($scope) {
 	};
 
 	$scope.select_item = function() {
+		$scope.refined = true;
+		$scope.sales = true;
 		for (x=0; x < gon.items.length; x++) {
 			if (gon.items[x].id == $scope.item_id) {
 				$('#product_in_price').val(gon.items[x].in_price);
 				$('#product_distributor_price').val(gon.items[x].distributor_price);
 				$('#product_retail_price').val(gon.items[x].retail_price);
+				
+				if (gon.items[x].item_group == 'refined') {
+					$scope.refined = false;
+				}
+				if ((gon.items[x].item_type == 'sales') || (gon.items[x].item_type == 'both')) {
+					$scope.sales = false;
+				}
 			}
 		}
 	}
+
 });
