@@ -28,4 +28,9 @@ class Warehouse < ActiveRecord::Base
   def parent_name
     name
   end
+
+  def has_contacts?
+    return true if contacts.size > 0
+    return false
+  end
 end
