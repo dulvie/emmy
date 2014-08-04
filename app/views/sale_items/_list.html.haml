@@ -1,30 +1,31 @@
-%table{:class => 'table table-striped'}
-  %thead
-    %tr
-      %th= t(:product)
-      %th.numeric= t(:quantity)
-      %th.numeric= t(:price)
-      %th.numeric= t(:vat)
-      %th.numeric= t(:amount)
-      %th
-    %tbody
-      - sale_items.each do |item|
-        - item = item.decorate
-        %tr
-          %td= item.product_name
-          %td.numeric= item.quantity
-          %td.numeric= as_sek(item.price)
-          %td.numeric
-            = "(#{item.vat}%) "
-            = as_sek(item.total_vat)
-
-          %td.numeric= as_sek(item.price_sum)
-          %td= delete_button_for item, sale_sale_item_path(@sale, item)
-    %tfoot
+.table-border
+  %table{:class => 'table table-striped  fix-bottom'}
+    %thead
       %tr
-        %td= t(:total)
-        %td
-        %td
-        %td.numeric= as_sek(@sale.total_vat)
-        %td.numeric= as_sek(@sale.total_price_inc_vat)
-        %td
+        %th= t(:product)
+        %th.numeric= t(:quantity)
+        %th.numeric= t(:price)
+        %th.numeric= t(:vat)
+        %th.numeric= t(:amount)
+        %th
+      %tbody
+        - sale_items.each do |item|
+          - item = item.decorate
+          %tr
+            %td= item.product_name
+            %td.numeric= item.quantity
+            %td.numeric= as_sek(item.price)
+            %td.numeric
+              = "(#{item.vat}%) "
+              = as_sek(item.total_vat)
+  
+            %td.numeric= as_sek(item.price_sum)
+            %td= delete_button_for item, sale_sale_item_path(@sale, item)
+      %tfoot
+        %tr
+          %td= t(:total)
+          %td
+          %td
+          %td.numeric= as_sek(@sale.total_vat)
+          %td.numeric= as_sek(@sale.total_price_inc_vat)
+          %td

@@ -67,6 +67,7 @@ en:
   failed_to_add: "Failed to add"
   failed_to_create: "Failed to create"
   failed_to_update: "Failed to update"
+  form_items: "Items"
   from: "From"
   from_warehouse: "From warehouse"
   general: "General"

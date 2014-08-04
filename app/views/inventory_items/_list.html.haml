@@ -1,5 +1,5 @@
-%div{:ng_controller => 'inventory_item_list_ctrl'}
-  %table{:class => 'table'}
+.table-border{:ng_controller => 'inventory_item_list_ctrl'}
+  %table{:class => 'table  fix-bottom'}
     %thead
       %tr
         %th= t(:product)
@@ -13,6 +13,7 @@
             %td.numeric= item.shelf_quantity
             - if @inventory.is_completed?
               %td.numeric= item.actual_quantity
+              %td
             - else
               - qty_id = 'qty_'+index.to_s
               %td
