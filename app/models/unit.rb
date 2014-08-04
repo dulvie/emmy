@@ -12,6 +12,7 @@ class Unit < ActiveRecord::Base
   validates :name, :presence => true
 
   def can_delete?
+    return false if items.size > 0
     true
   end
 
