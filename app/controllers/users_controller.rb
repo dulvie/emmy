@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all.order(:email).page(params[:page]).per(8)
+    @users = User.all.order(:name).page(params[:page]).per(8)
     @breadcrumbs = [['Users']]
   end
 
