@@ -33,4 +33,5 @@ class Warehouse < ActiveRecord::Base
     return true if contacts.size > 0
     return false
   end
+
 end

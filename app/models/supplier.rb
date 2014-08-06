@@ -20,6 +20,11 @@ class Supplier < ActiveRecord::Base
     true
   end
 
+  def has_contacts?
+    return true if contacts.size > 0
+    return false
+  end
+
   def parent_name
     name
   end

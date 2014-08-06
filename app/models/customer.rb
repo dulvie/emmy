@@ -26,6 +26,11 @@ class Customer < ActiveRecord::Base
     true
   end
 
+  def has_contacts?
+    return true if contacts.size > 0
+    return false
+  end
+
   def primary_email
     "tbd@implement.now"
   end

@@ -2,7 +2,8 @@
   = f.error_notification
 
   = f.input :name, required: true, autofocus: true
-  = f.input :primary_contact_id, as: :select, collection: @contacts
+  - if !@customer.new_record? && @customer.has_contacts?
+    = f.input :primary_contact_id, as: :select, collection: @contacts
   = f.input :reseller, as: :radio_buttons, wrapper: :horizontal_radio_and_checkboxes
   = f.input :vat_number, :input_html => {:class => 'short'}
   = f.input :payment_term, as: :select, collection: ['10', '30'], include_blank: false, :input_html => {:class => 'short'}
