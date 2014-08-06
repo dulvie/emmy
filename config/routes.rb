@@ -73,6 +73,10 @@ Emmy::Application.routes.draw do
     mount Resque::Server.new, at: "/resque"
   end
 
+  namespace :api do
+    resources :warehouses, :defaults => {:format => 'json'}
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
