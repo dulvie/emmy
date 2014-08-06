@@ -18,7 +18,6 @@
             %td.numeric
               = "(#{item.vat}%) "
               = as_sek(item.total_vat)
-  
             %td.numeric= as_sek(item.price_sum)
             %td= delete_button_for item, sale_sale_item_path(@sale, item)
       %tfoot

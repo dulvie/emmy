@@ -7,7 +7,7 @@ class PurchasesController < ApplicationController
   before_filter :show_breadcrumbs, only: [:show, :update, :edit]
 
   def index
-    @breadcrumbs = [[t(:purchases)]]    
+    @breadcrumbs = [[t(:purchases)]]
     if params[:state] == 'meta_complete'
       purchases = @purchases.where("state = ?", 'meta_complete').collect{|purchase| purchase.decorate}
     elsif params[:state] == 'item_complete'
@@ -36,7 +36,7 @@ class PurchasesController < ApplicationController
     gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
   end
 
-  def create  
+  def create
      @purchase = Purchase.new purchase_params
      @purchase.user = current_user
      respond_to do |format|
@@ -47,7 +47,7 @@ class PurchasesController < ApplicationController
         @suppliers = Supplier.all
         gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
         format.html { render action: :new }
-      end      
+      end
     end
   end
 
@@ -71,14 +71,14 @@ class PurchasesController < ApplicationController
   def destroy
     @purchase.destroy
     respond_to do |format|
-      format.html { redirect_to :back, notice: "#{t(:purchase)} #{t(:was_successfully_deleted)}" }      
+      format.html { redirect_to :back, notice: "#{t(:purchase)} #{t(:was_successfully_deleted)}" }
       #format.json { head :no_content }
     end
   end
 
   def state_change
     @purchase = Purchase.find(params[:id])
-    if @purchase.state_change(params[:event], params[:state_change_at])    
+    if @purchase.state_change(params[:event], params[:state_change_at])
       msg = t(:success)
     else
       msg = t(:fail)
@@ -86,7 +86,7 @@ class PurchasesController < ApplicationController
     if @purchase.is_completed? and @purchase.parent_type == 'Import'
       @parent = Import.find(@purchase.parent_id)
       @parent.check_for_completeness
-    end  
+    end
     respond_to do |format|
       return_path = purchase_path(@purchase)
       if params[:return_path]
@@ -111,7 +111,7 @@ class PurchasesController < ApplicationController
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:purchase_item)}"
         init_new
         format.html { render  "single_form" }
-      end  
+      end
     end
   end
 

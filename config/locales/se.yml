@@ -47,7 +47,7 @@ se:
   failed_to_create: "Kunde inte skapa"
   failed_to_update: "Kunde inte uppdatera"
   form_items: "Artiklar"
-  from: "Från"  
+  from: "Från"
   from_warehouse: "Från lagerställe"
   general: "Allmän"
   has_base_info: "Har bas info"
