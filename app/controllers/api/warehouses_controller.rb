@@ -9,7 +9,7 @@ class Api::WarehousesController < ApplicationController
     @warehouse = Warehouse.new(warehouse_params)
     respond_to do |format|
       if @warehouse.save
-        format.json { render json: @warehouse, status: :created }
+        format.json { render json: @warehouse.id, status: :created }
        else
         format.json { render json: @warehouse.errors, status: :unprocessable_entity }
       end

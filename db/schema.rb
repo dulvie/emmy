@@ -47,6 +47,8 @@ ActiveRecord::Schema.define(version: 20140724121826) do
     t.string   "name"
     t.string   "zip"
     t.string   "country"
+    t.string   "email"
+    t.string   "telephone"
     t.boolean  "reseller"
     t.integer  "primary_contact_id"
     t.integer  "payment_term"

@@ -1,6 +1,8 @@
 class Customer < ActiveRecord::Base
   # t.string  :name
   # t.integer :vat_number
+  # t.string :email
+  # t.string :telephone
   # t.string  :address
   # t.string  :zip
   # t.string  :city
@@ -12,9 +14,10 @@ class Customer < ActiveRecord::Base
   has_many :contacts, as: :parent
   has_many :comments, as: :parent
 
-  attr_accessible :name, :vat_number, :address, :zip, :city, :country, :reseller, :primary_contact_id, :payment_term
+  attr_accessible :name, :vat_number, :email, :telephone, :address, :zip, :city, :country, :reseller, :primary_contact_id, :payment_term
 
   validates :name, presence: true
+  validates :name, :uniqueness => true
   validates :payment_term, presence: true
 
   def parent_name

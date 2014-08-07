@@ -14,6 +14,7 @@ class Supplier < ActiveRecord::Base
   attr_accessible :name, :address, :zip, :city, :country, :bg_number, :vat_number, :primary_contact_id
 
   validates :name, presence: true
+  validates :name, :uniqueness => true
 
   def can_delete?
     return false if Purchase.where("supplier_id = ?", self.id).size > 0

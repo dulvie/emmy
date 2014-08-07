@@ -17,7 +17,7 @@ class Api::UsersController < ApplicationController
           @user.roles <<  Role.last
           @user.save
         end
-        format.json { render json: @user, status: :created }
+        format.json { render json: @user.id, status: :created }
        else
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
