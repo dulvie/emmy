@@ -10,7 +10,7 @@ class SaleItem < ActiveRecord::Base
   belongs_to :sale
   belongs_to :product
 
-  attr_accessible :product_id, :quantity, :price
+  attr_accessible :product_id, :quantity, :price, :vat
 
   before_validation :collect_and_calculate
 

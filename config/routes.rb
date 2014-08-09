@@ -78,6 +78,8 @@ Emmy::Application.routes.draw do
     resources :users, :defaults => {:format => 'json'}
     resources :customers, :defaults => {:format => 'json'}
     resources :products, :defaults => {:format => 'json'}
+    resources :manuals, :defaults => {:format => 'json'}
+    resources :sales, :defaults => {:format => 'json'}
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

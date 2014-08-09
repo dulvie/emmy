@@ -11,8 +11,9 @@ class Sale < ActiveRecord::Base
   # t.string :goods_state
   # t.string :money_state
   # t.timestamp :approved_at
-  # t.timestamp :goods_delivered_at
+  # t.timestamp :delivered_at
   # t.timestamp :paid_at
+  # t.integer :invoice_number
   # t.datetime :due_date
 
   belongs_to :user
@@ -21,7 +22,9 @@ class Sale < ActiveRecord::Base
   has_many :sale_items
   has_many :from_transaction, class_name: 'ProductTransaction', as: :parent
 
-  attr_accessible :customer_id, :warehouse_id, :approved_at, :contact_email, :contact_name, :payment_term
+  attr_accessible :user_id, :warehouse_id, :customer_id, :contact_email, :contact_name,
+    :payment_term, :state, :approved_at, :goods_state, :delivered_at,
+    :money_state,  :paid_at, :invoice_number
 
   validates :customer_id, presence: true
   validates :warehouse_id, presence: true

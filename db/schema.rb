@@ -251,6 +251,7 @@ ActiveRecord::Schema.define(version: 20140724121826) do
     t.datetime "approved_at"
     t.datetime "delivered_at"
     t.datetime "paid_at"
+    t.integer  "invoice_number"
     t.datetime "due_date"
     t.datetime "created_at"
     t.datetime "updated_at"
