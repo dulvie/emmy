@@ -2,6 +2,7 @@
   %li.active= link_to "Base information", "#customer-form", {"data-toggle" => "tab"}
   %li= link_to "Contacts", "#contact-index", {"data-toggle" => "tab"}
   %li= link_to "Comments", "#comment-index", {"data-toggle" => "tab"}
+  %li= link_to "Sales", "#sale-index", {"data-toggle" => "tab"}
 .tab-content
   #customer-form.tab-pane.active
     %br
@@ -10,7 +11,10 @@
     = render partial: 'contacts/index', locals: {contacts: @customer.contacts, parent: @customer}
   #comment-index.tab-pane
     = render partial: 'comments/index', locals: {comments: @customer.comments, parent: @customer}
-    
+  #sale-index.tab-pane
+    = render partial: 'sales/list', locals: {sales: Kaminari.paginate_array(@customer.sales.collect{|sale| sale.decorate}).page(params[:page]).per(8)}
+
+
 :javascript
   $(document).ready(function() {
  
