@@ -8,16 +8,18 @@ class Api::SalesController < ApplicationController
   def create
     @sale = Sale.new sale_params
     @sale.user = User.find(params[:sale][:user_id])
-    if @sale.save
-      items = params[:sale][:items]
-      items.each do |item|
-        @sale_item = @sale.sale_items.build item
-        @sale_item.save
+    respond_to do |format|
+      if @sale.save
+        items = params[:sale][:sale_items]
+        items.each do |item|
+          @sale_item = @sale.sale_items.build item
+          @sale_item.save
+        end
+        format.json { render json: @sale.id, status: :created }
+      else
+        format.json { render json: @sale.errors, status: :unprocessable_entity }
       end
-      format.json { render json: @sale.id, status: :created }
-    else
-      format.json { render json: @sale.errors, status: :unprocessable_entity }
-    end
+    end  
   end
 
   private
