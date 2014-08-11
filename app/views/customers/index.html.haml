@@ -19,7 +19,7 @@
   %tbody{}
     - @customers.each do |customer|
       %tr
-        %td= customer.name
+        %td= link_to customer.name, customer
         %td= customer.address
         %td= customer.zip
         %td= customer.city
