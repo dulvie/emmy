@@ -1,26 +1,17 @@
-# @todo Change this into dynamic and updateable content
-class Organisation
+class Organisation < ActiveRecord::Base
+  # t.string :name
+  # t.string :address
+  # t.string :zip
+  # t.string :city
+  # t.string :vat_number
+  # t.string :bankgiro
+  # t.string :postgiro
+  # t.string :plusgiro
+  # t.timestamps
 
-  def self.name
-    "Kinal"
+  attr_accessible :name, :address, :zip, :vat_number, :bankgiro, :postgiro, :plusgiro, :city
+
+  def can_delete?
+    false
   end
-
-  def self.address
-  end
-
-  def self.zip
-  end
-
-  def self.vat_number
-  end
-
-  def self.bankgiro
-  end
-
-  def self.postgiro
-  end
-
-  def self.plusgiro
-  end
-
 end

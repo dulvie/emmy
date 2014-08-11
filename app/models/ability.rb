@@ -20,6 +20,7 @@ class Ability
   def admin_permissions(user)
     can :manage, User
     can :manage, Role
+    can :manage, Organisation
 
     # :admin Also have seller permissions.
     seller_permissions(user)

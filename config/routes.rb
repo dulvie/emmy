@@ -1,6 +1,8 @@
 require 'resque/server'
 Emmy::Application.routes.draw do
 
+  resources :organisations
+
   resources :transfers do
     member do
       post 'send_package', as: :send_package
