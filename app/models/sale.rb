@@ -3,6 +3,7 @@ class Sale < ActiveRecord::Base
   # t.integer :user_id
   # t.integer :customer_id
   # t.integer :warehouse_id
+  # t.integer :organisation_id
   # t.string :contact_email
   # t.string :contact_name
   # t.integer :payment_term
@@ -19,6 +20,7 @@ class Sale < ActiveRecord::Base
   belongs_to :user
   belongs_to :customer
   belongs_to :warehouse
+  belongs_to :organisation
   has_many :sale_items
   has_many :from_transaction, class_name: 'ProductTransaction', as: :parent
 
@@ -156,6 +158,16 @@ class Sale < ActiveRecord::Base
   def total_vat
     return 0 if sale_items.count <= 0
     sale_items.inject(0){|i, item| item.total_vat + i}
+  end
+
+
+  # Callback: before_create
+  # @todo Refactor into service object instead.
+  def ensure_organisation_id
+    org = Organisation.first
+    raise RuntimeError, "no organisation found!", unless org
+
+    self.organisation_id = org.id
   end
 
 end

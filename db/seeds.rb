@@ -6,6 +6,8 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+o = Organisation.new name: "Default organisation"
+o.save
 
 # Default users, jtest(admin) and ktest(normal user)
 roles = Role.create([{ name: "admin"}, {name: "seller"}])
