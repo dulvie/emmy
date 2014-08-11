@@ -165,7 +165,9 @@ class Sale < ActiveRecord::Base
   # @todo Refactor into service object instead.
   def ensure_organisation_id
     org = Organisation.first
-    raise RuntimeError, "no organisation found!", unless org
+    unless org
+      raise RuntimeError, "no organisation found!"
+    end
 
     self.organisation_id = org.id
   end
