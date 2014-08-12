@@ -17,8 +17,8 @@
       include_blank: false
 
     - if @parent_column == 'importing'
-      = ff.association :product,
-        collection: @product_selections,
+      = ff.association :batch,
+        collection: @batch_selections,
         include_blank: false
 
     = ff.input :quantity

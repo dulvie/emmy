@@ -11,7 +11,7 @@
       %th= t(:description)
       %th= t(:started_at)
       %th= t(:completed_at)
-      %th= t(:product)
+      %th= t(:batch)
       %th{:style => "text-align:right"}
         = t(:quantity)
       %th= t(:state)
@@ -23,7 +23,7 @@
           %td= import.description
           %td= import.started_at.nil? ? ' ': import.started_at.strftime("%Y-%m-%d")
           %td= import.completed_at.nil? ? ' ': import.completed_at.strftime("%Y-%m-%d")
-          %td= import.product.nil? ? ' ' : import.product.name
+          %td= import.batch.nil? ? ' ' : import.batch.name
           %td{:style => "text-align:right"}
             = import.import_quantity
           %td

@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
     t.string   "description"
     t.integer  "our_reference_id"
     t.integer  "to_warehouse_id"
-    t.integer  "product_id"
+    t.integer  "batch_id"
     t.integer  "quantity"
     t.integer  "amount"
     t.integer  "cost_price"
@@ -318,7 +318,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   create_table "transfers", force: true do |t|
     t.integer  "from_warehouse_id"
     t.integer  "to_warehouse_id"
-    t.integer  "product_id"
+    t.integer  "batch_id"
     t.integer  "quantity"
     t.integer  "user_id"
     t.string   "state"

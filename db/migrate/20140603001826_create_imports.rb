@@ -6,7 +6,7 @@ class CreateImports < ActiveRecord::Migration
       t.string :description
       t.integer :our_reference_id
       t.integer :to_warehouse_id
-      t.integer :product_id
+      t.integer :batch_id
       t.integer :quantity
       t.integer :amount
       t.integer :cost_price 

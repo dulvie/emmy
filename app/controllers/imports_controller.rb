@@ -74,9 +74,9 @@ class ImportsController < ApplicationController
 
     if params[:parent_column] == 'importing'
       @purchase = @import.importing.build
-      @purchase.purchase_items.build(:product_id=>@import.product.id, :item_id=>@import.product.item.id)
-      @item_selections = Item.where(id: @import.product.item.id)
-      @product_selections = Product.where(id: @import.product.id)
+      @purchase.purchase_items.build(:batch_id=>@import.batch.id, :item_id=>@import.batch.item.id)
+      @item_selections = Item.where(id: @import.batch.item.id)
+      @batch_selections = Batch.where(id: @import.batch.id)
     end
     if params[:parent_column] == 'shipping'
       @purchase = @import.shipping.build
@@ -175,8 +175,8 @@ class ImportsController < ApplicationController
 
     def init_purchase
       if params[:parent_column] == 'importing'
-        @item_selections = Item.where(id: @import.product.item.id)
-        @product_selections = Product.where(id: @import.product.id)
+        @item_selections = Item.where(id: @import.batch.item.id)
+        @batch_selections = Batch.where(id: @import.batch.id)
       end
       if params[:parent_column] == 'shipping'
         item_types = ['purchases', 'both']

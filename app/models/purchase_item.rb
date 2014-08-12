@@ -2,7 +2,7 @@ class PurchaseItem < ActiveRecord::Base
 
   #t.integer :purchase_id
   #t.integer :item_id
-  #t.integer :product_id
+  #t.integer :batch_id
 
   #t.integer :quantity
   #t.integer :price
@@ -11,10 +11,10 @@ class PurchaseItem < ActiveRecord::Base
 
   belongs_to :purchase
   belongs_to :item
-  belongs_to :product
+  belongs_to :batch
 
-  attr_accessible :product_id, :item_id, :quantity, :price, :total_amount
-  accepts_nested_attributes_for :item, :product
+  attr_accessible :batch_id, :item_id, :quantity, :price, :total_amount
+  accepts_nested_attributes_for :item, :batch
 
   validates :item_id, presence: true
   validates :quantity, presence: true

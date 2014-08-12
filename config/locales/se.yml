@@ -1,5 +1,6 @@
 se:
   actual_quantity: "Faktisk kvantitet"
+  add_batch: "Lägg till sats"
   add_comment: "Lägg till kommentar"
   add_contact: "Lägg till kontakt"
   add_document: "Lägg till document"
