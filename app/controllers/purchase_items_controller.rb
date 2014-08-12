@@ -13,9 +13,9 @@ class PurchaseItemsController < ApplicationController
     @purchase_item = @purchase.purchase_items.build purchase_item_params
     respond_to do |format| 
       if @purchase_item.save
-        format.html { redirect_to purchase_path(@purchase), notice: "#{t(:product_added)}" }
+        format.html { redirect_to purchase_path(@purchase), notice: "#{t(:batch_added)}" }
       else
-        flash.now[:danger] = "#{t(:failed_to_add)} #{t(:product)}"
+        flash.now[:danger] = "#{t(:failed_to_add)} #{t(:batch)}"
         init_new
         format.html { render :new }
       end
@@ -43,7 +43,7 @@ class PurchaseItemsController < ApplicationController
     end
 
     def set_breadcrumbs
-      @breadcrumbs = [[t(:purchases), purchases_path], ["##{@purchase.id}", purchase_path(@purchase)], [t(:add_product)]]
+      @breadcrumbs = [[t(:purchases), purchases_path], ["##{@purchase.id}", purchase_path(@purchase)], [t(:add_batch)]]
     end
 
     def init_new

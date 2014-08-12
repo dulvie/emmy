@@ -16,7 +16,7 @@ class Item < ActiveRecord::Base
 
   belongs_to :unit
   belongs_to :vat
-  has_many :products
+  has_many :batches
   has_many :purchase_items
 
   attr_accessible :name, :comment, :item_type, :item_group, :stocked, :unit_id,
@@ -31,7 +31,7 @@ class Item < ActiveRecord::Base
   validates :item_group, inclusion: {in: GROUPS}
 
   def can_delete?
-    return false if products.size > 0
+    return false if batches.size > 0
     return false if purchase_items.size > 0
     true
   end

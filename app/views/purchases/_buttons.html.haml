@@ -2,7 +2,7 @@
   .actions
 
     - if @purchase.can_edit_items?
-      = link_to t(:add_product), new_purchase_purchase_item_path(@purchase), class: 'btn btn-primary'
+      = link_to t(:add_batch), new_purchase_purchase_item_path(@purchase), class: 'btn btn-primary'
 
     - if @purchase.can_edit_items? && @purchase.purchase_items.count > 0
       %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','purchaseContent' )"}

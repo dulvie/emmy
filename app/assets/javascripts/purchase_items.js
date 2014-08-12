@@ -8,7 +8,7 @@ app.controller('purchase_items_form_ctrl', function ($scope) {
 		$scope.product = {};
 		for (var x=0; x < gon.items.length; x++) {
 			if ($scope.item_id == gon.items[x].id) {
-				$scope.options = gon.items[x].products;
+				$scope.options = gon.items[x].batches;
 				$scope.unit = gon.items[x].unit.name;
 				$('#purchase_item_price').val(gon.items[x].in_price);
 				if (typeof($scope.options[0]) != "undefined")

@@ -4,7 +4,7 @@ class CreatePurchaseItems < ActiveRecord::Migration
 
       t.integer :purchase_id
       t.integer :item_id
-      t.integer :product_id
+      t.integer :batch_id
       t.integer :quantity
       t.integer :price
       t.integer :amount

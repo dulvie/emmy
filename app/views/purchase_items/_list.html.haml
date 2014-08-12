@@ -3,7 +3,7 @@
     %thead
       %tr
         %th= t(:item)
-        %th= t(:product)
+        %th= t(:batch)
         %th.numeric
           = t(:quantity)
         %th.numeric
@@ -17,7 +17,7 @@
         - purchase_items.each do |item|
           %tr
             %td= item.item_id? ? item.item.name : ' '
-            %td= item.product_id? ? item.product.name : ' '
+            %td= item.batch_id? ? item.batch.name : ' '
             %td.numeric
               = item.quantity
             %td.numeric

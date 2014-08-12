@@ -29,7 +29,7 @@ class Purchase < ActiveRecord::Base
   belongs_to :parent, polymorphic: true
   has_many :purchase_items
   has_many :documents, as: :parent, :dependent => :delete_all
-  has_many :to_transaction, class_name: 'ProductTransaction', as: :parent
+  has_many :to_transaction, class_name: 'BatchTransaction', as: :parent
 
   accepts_nested_attributes_for :purchase_items
   attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id,
@@ -103,12 +103,12 @@ class Purchase < ActiveRecord::Base
   def create_to_transactions
     purchase_items.each do |purchase_item|
       if purchase_item.item.stocked == true
-        product_transaction = ProductTransaction.new(
+        batch_transaction = BatchTransaction.new(
           parent: self,
           warehouse: to_warehouse,
-          product: purchase_item.product,
+          batch: purchase_item.batch,
           quantity: purchase_item.quantity)
-        product_transaction.save
+        batch_transaction.save
       end
     end
   end
