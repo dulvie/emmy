@@ -4,7 +4,7 @@ class Production < ActiveRecord::Base
   # t.string :description
   # t.integer :our_reference_id
   # t.integer :warehouse_id
-  # t.integer :product_id
+  # t.integer :batch_id
   # t.integer :quantity
   # t.integer :cost_price
   # t.integer :total_amount
@@ -15,16 +15,16 @@ class Production < ActiveRecord::Base
 
   belongs_to :our_reference, class_name: 'User'
   belongs_to :warehouse
-  belongs_to :product
+  belongs_to :batch
 
   has_many :comments, as: :parent, :dependent => :destroy
   has_many :materials, :dependent => :destroy
   has_one :work, as: :parent, class_name: 'Purchase'
-  has_one :from_transaction, class_name: 'ProductTransaction', as: :parent
+  has_one :from_transaction, class_name: 'BatchTransaction', as: :parent
 
-  accepts_nested_attributes_for :materials, :work, :product
+  accepts_nested_attributes_for :materials, :work, :batch
 
-  attr_accessible :description, :our_reference_id, :warehouse_id, :product_id, :quantity, :cost_price,
+  attr_accessible :description, :our_reference_id, :warehouse_id, :batch_id, :quantity, :cost_price,
                   :started_at, :completed_at
 
   validates :description, presence: true
@@ -75,27 +75,27 @@ class Production < ActiveRecord::Base
     if self.work.goods_state == 'not_received'
       self.work.state_change('receive', self.completed_at)
     end
-    material_amount = materials.first.product.in_price * materials.first.quantity
+    material_amount = materials.first.batch.in_price * materials.first.quantity
     self.total_amount = work.total_amount + material_amount
     self.cost_price = self.total_amount / self.quantity
   end
 
   def create_from_transaction
-    product_transaction = ProductTransaction.new(
+    batch_transaction = BatchTransaction.new(
           parent: self,
           warehouse: warehouse,
-          product: materials.first.product,
+          batch: materials.first.batch,
           quantity: materials.first.quantity * -1)
-    product_transaction.save
+    batch_transaction.save
   end
 
   def create_to_transaction
-    product_transaction = ProductTransaction.new(
+    batch_transaction = BatchTransaction.new(
           parent: self,
           warehouse: warehouse,
-          product: product,
+          batch: batch,
           quantity: quantity)
-    product_transaction.save
+    batch_transaction.save
   end
 
 
@@ -105,7 +105,7 @@ class Production < ActiveRecord::Base
 
   def can_edit_state?
      return false if state.eql? 'completed'
-     return false if self.product_id.nil?
+     return false if self.batch_id.nil?
      return false if self.quantity.nil?
      return false if self.materials.size == 0
      return false if self.work.nil?

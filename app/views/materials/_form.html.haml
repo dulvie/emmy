@@ -1,7 +1,7 @@
 %div{:ng_controller => 'production_material_form_ctrl', :ng_init => 'init()'}
   = simple_form_for([@production, @material], wrapper: :horizontal_form, html: {class: 'form-horizontal', }) do |f|
     = f.error_notification
-    = f.association :product, disabled: !@material.can_edit?, collection: @product_selections, include_blank: false, input_html: {:ng_model =>'prod',  :ng_change => 'change_product()'}
+    = f.association :batch, disabled: !@material.can_edit?, collection: @batch_selections, include_blank: false, input_html: {:ng_model =>'bch',  :ng_change => 'change_batch()'}
 
     .form-group
       .col-sm-9.col-md-7.col-lg-6.control-label

@@ -1,14 +1,14 @@
 %table{:class => 'table table-striped'}
   %thead
     %tr
-      %th= t(:product)
+      %th= t(:batch)
       %th{:style => "text-align:right"}
         = t(:quantity)
       %th
     %tbody
       - materials.each do |item|
         %tr
-          %td= item.product.name
+          %td= item.batch.name
           %td{:style => "text-align:right"}
             = item.quantity 
-          %td= delete_button_for item, purchase_purchase_item_path(@purchase, item)
+          %td= delete_button_for item, production_material_path(@production, item)

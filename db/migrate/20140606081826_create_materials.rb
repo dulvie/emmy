@@ -3,7 +3,7 @@ class CreateMaterials < ActiveRecord::Migration
     create_table :materials do |t|
 
       t.integer :production_id
-      t.integer :product_id
+      t.integer :batch_id
       t.integer :quantity
 
       t.string :state

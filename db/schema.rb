@@ -154,7 +154,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
 
   create_table "materials", force: true do |t|
     t.integer  "production_id"
-    t.integer  "product_id"
+    t.integer  "batch_id"
     t.integer  "quantity"
     t.string   "state"
     t.datetime "started_at"
@@ -191,7 +191,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
     t.string   "description"
     t.integer  "our_reference_id"
     t.integer  "warehouse_id"
-    t.integer  "product_id"
+    t.integer  "batch_id"
     t.integer  "quantity"
     t.integer  "cost_price"
     t.integer  "total_amount"

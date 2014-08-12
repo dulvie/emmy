@@ -10,9 +10,9 @@
           = w.simple_fields_for :work do |wf|
             - if !@production.work.is_paid? 
               .form-group
-                .col-sm-3.col-md-2.control-label
+                .labels_width.control-label
                   %label Work state
-                .col-sm-9.col-md-10
+                .fields_width
                   .input-group
                   - if w.object.work.money_state != 'paid'
                     %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','workPayContent' )"}

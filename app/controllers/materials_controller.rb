@@ -13,7 +13,7 @@ class MaterialsController < ApplicationController
   end
 
   def create
-      logger.info "product: #{params[:material][:product_id]}"
+      logger.info "batch: #{params[:material][:batch_id]}"
 
     @production = Production.find(params[:production_id])
     @material = @production.materials.build material_params
@@ -30,7 +30,7 @@ class MaterialsController < ApplicationController
   end
 
   def update
-        logger.info "product: #{params[:material][:product_id]}"
+        logger.info "batch: #{params[:material][:batch_id]}"
     @production = Production.find(params[:production_id])
     respond_to do |format|
       if @material.update_attributes(material_params)
@@ -69,8 +69,8 @@ class MaterialsController < ApplicationController
     end
 
     def init_new
-      @product_selections = @production.warehouse.shelves.select("product_id", "product_id as id").
-        where(:product => Product.where(:item => Item.where(:item_group =>'unrefined')))
+      @batch_selections = @production.warehouse.shelves.select("batch_id", "batch_id as id").
+        where(:batch => Batch.where(:item => Item.where(:item_group =>'unrefined')))
       gon.push shelves: ActiveModel::ArraySerializer.new(@production.warehouse.shelves, each_serializer: ShelfSerializer)
     end
 end

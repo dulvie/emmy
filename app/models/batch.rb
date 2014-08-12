@@ -27,7 +27,7 @@ class Batch < ActiveRecord::Base
   def can_delete?
     return false if Shelf.where('batch_id' => self.id).size > 0
     return false if Import.where('batch_id = ? and state = ? ', self.id, 'started').count > 0
-    return false if Production.where('product_id = ? and state = ? ', self.id, 'started').count > 0
+    return false if Production.where('batch_id = ? and state = ? ', self.id, 'started').count > 0
     return false if SaleItem.where('batch_id = ? ', self.id).count > 0
     return false if PurchaseItem.where('batch_id = ? ', self.id).count > 0
     return true
@@ -41,7 +41,7 @@ class Batch < ActiveRecord::Base
 
   def in_quantity
     qty = Purchase.where('state' => 'item_complete', 'goods_state' => 'not_received').joins(:purchase_items).where('purchase_items.batch_id' => self.id).sum('quantity')
-    ext = Production.where('state' => 'started', 'product_id' => self.id).sum('quantity')
+    ext = Production.where('state' => 'started', 'batch_id' => self.id).sum('quantity')
     return qty+ext
   end
 
