@@ -5,12 +5,12 @@
     - if @transfer.new_record?
       = f.association :from_warehouse, :input_html => {:ng_model => 'warehouse_id', :ng_change => 'select_warehouse()'}
       .hidden
-        = f.association :product
+        = f.association :batch
 
-      .form-group.select.required.transfer_product
-        = f.label :product, :class=>'select required labels_width control-label' 
+      .form-group.select.required.transfer_batch
+        = f.label :batch, :class=>'select required labels_width control-label' 
         .fields_width
-          %select{:ng_model=>'prod_id', :ng_options=>"opt.product_id as opt.name for opt in options", :ng_change => 'select_product()', :include_blank=>false, :class=>'select required form-control'}
+          %select{:ng_model=>'bch_id', :ng_options=>"opt.batch_id as opt.name for opt in options", :ng_change => 'select_batch()', :include_blank=>false, :class=>'select required form-control'}
 
       .form-group
         .labels_width.control-label
@@ -21,7 +21,7 @@
 
     - if !@transfer.new_record?
       = f.association :from_warehouse, disabled: true
-      = f.association :product, disabled: true
+      = f.association :batch, disabled: true
 
     = f.input :quantity, disabled: !@transfer.new_record?
     = f.association :to_warehouse, disabled: !@transfer.new_record?

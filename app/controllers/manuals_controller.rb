@@ -23,7 +23,7 @@ class ManualsController < ApplicationController
 
   # GET /manuals/new
   def new
-    @manual.product_transaction = ProductTransaction.new
+    @manual.batch_transaction = BatchTransaction.new
     @manual.comments.build
   end
 
@@ -63,8 +63,8 @@ class ManualsController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def product_transaction_params
-      params.require(:manual).permit(ProductTransaction.accessible_attributes.to_a)
+    def batch_transaction_params
+      params.require(:manual).permit(BatchTransaction.accessible_attributes.to_a)
     end
 
     def commentsx_params
@@ -78,7 +78,7 @@ class ManualsController < ApplicationController
     def new_manual
       manual = Manual.new
       manual.user_id = current_user.id
-      manual.product_transaction = ProductTransaction.new product_transaction_params
+      manual.batch_transaction = BatchTransaction.new batch_transaction_params
       comment_p = params[:manual][:comments_attributes][:"0"]
       comment_p[:user_id] = current_user.id
       manual.comments.build(comment_p)

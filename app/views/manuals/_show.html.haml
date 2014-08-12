@@ -1,9 +1,9 @@
 = simple_form_for(@manual, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
   = f.error_notification
   = f.input :created_at, as: :string, disabled: true
-  = f.simple_fields_for @manual.product do |p|
+  = f.simple_fields_for @manual.batch do |p|
     = p.input :name, disabled: true
   = f.simple_fields_for @manual.warehouse do |w|
     = w.input :name, disabled: true
-  = f.simple_fields_for @manual.product_transaction do |t|
+  = f.simple_fields_for @manual.batch_transaction do |t|
     = t.input :quantity, disabled: true

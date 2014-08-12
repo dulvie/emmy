@@ -11,11 +11,11 @@ app.controller('transfer_form_ctrl', function ($scope) {
 			};
 		};
 
-		var product_id = $('#transfer_product_id').val();
+		var batch_id = $('#transfer_batch_id').val();
 		for (x=0; x < $scope.options.length; x++) {
-			if (product_id == $scope.options[x].product_id) {
+			if (batch_id == $scope.options[x].batch_id) {
 				$scope.quantity = $scope.options[x].quantity;
-				$scope.prod_id = parseInt(product_id);
+				$scope.bch_id = parseInt(batch_id);
 			};
 		};
 		
@@ -27,18 +27,18 @@ app.controller('transfer_form_ctrl', function ($scope) {
 		for (x=0; x < gon.warehouses.length; x++) {
 			if ($scope.warehouse_id == gon.warehouses[x].id) {
 				$scope.options = gon.warehouses[x].shelves;
-				$scope.prod_id = $scope.options[0].product_id
+				$scope.bch_id = $scope.options[0].batch_id
 				$scope.quantity = $scope.options[0].quantity
-				$('#transfer_product_id').val($scope.prod_id);
+				$('#transfer_batch_id').val($scope.bch_id);
 			};
 		};
 	};
 
-	$scope.select_product = function() {
+	$scope.select_batch = function() {
 		for (x=0; x < $scope.options.length; x++) {
-			if ($scope.prod_id == $scope.options[x].product_id) {
+			if ($scope.bch_id == $scope.options[x].batch_id) {
 				$scope.quantity = $scope.options[x].quantity
-				$('#transfer_product_id').val($scope.prod_id);
+				$('#transfer_batch_id').val($scope.bch_id);
 			};
 		};
 	};
