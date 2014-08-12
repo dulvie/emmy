@@ -9,19 +9,19 @@ class Warehouse < ActiveRecord::Base
   has_many :contacts, as: :parent
   has_many :comments, as: :parent
   has_many :manuals
-  has_many :product_transactions
+  has_many :batch_transactions
 
   attr_accessible :name, :address, :zip, :city, :primary_contact_id
 
   validates :name, :uniqueness => true
   validates :name, :presence => true
 
-  def products_in_stock
-    @products_in_stock ||= shelves.includes(:product).collect{|s| s.product}
+  def batches_in_stock
+    @batches_in_stock ||= shelves.includes(:batch).collect{|s| s.batch}
   end
 
   def can_delete?
-    return false if  products_in_stock.size > 0
+    return false if  batches_in_stock.size > 0
     true
   end
 

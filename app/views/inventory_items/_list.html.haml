@@ -2,14 +2,14 @@
   %table{:class => 'table  fix-bottom'}
     %thead
       %tr
-        %th= t(:product)
+        %th= t(:batch)
         %th.numeric= t(:shelf_quantity)
         %th.numeric= t(:actual_quantity)
         %th
       %tbody
         - inventory_items.each_with_index do |item, index|
           %tr
-            %td= item.product.name
+            %td= item.batch.name
             %td.numeric= item.shelf_quantity
             - if @inventory.is_completed?
               %td.numeric= item.actual_quantity

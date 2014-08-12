@@ -124,7 +124,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
 
   create_table "inventory_items", force: true do |t|
     t.integer  "inventory_id"
-    t.integer  "product_id"
+    t.integer  "batch_id"
     t.integer  "shelf_quantity"
     t.integer  "actual_quantity"
     t.datetime "created_at"

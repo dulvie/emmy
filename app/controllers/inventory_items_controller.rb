@@ -14,9 +14,9 @@ class InventoryItemsController < ApplicationController
     @inventory_item = @inventory.inventory_items.build inventory_item_params
     respond_to do |format| 
       if @inventory_item.save
-        format.html { redirect_to inventory_path(@inventory), notice: "#{t(:product_added)}" }
+        format.html { redirect_to inventory_path(@inventory), notice: "#{t(:batch_added)}" }
       else
-        flash.now[:danger] = "#{t(:failed_to_add)} #{t(:product)}"
+        flash.now[:danger] = "#{t(:failed_to_add)} #{t(:batch)}"
         format.html { render :new }
       end
     end

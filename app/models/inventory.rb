@@ -11,7 +11,7 @@ class Inventory < ActiveRecord::Base
   belongs_to :user
   belongs_to :warehouse
   has_many :inventory_items
-  has_many :inventory_transactions, class_name: 'ProductTransaction', as: :parent
+  has_many :inventory_transactions, class_name: 'BatchTransaction', as: :parent
 
   accepts_nested_attributes_for :inventory_items
   attr_accessible :description, :user_id, :warehouse_id, :inventory_date
@@ -75,7 +75,7 @@ class Inventory < ActiveRecord::Base
   def add_inventory_items
     self.warehouse.shelves.each do |shelf|
       @inventory_item = self.inventory_items.new(
-        product_id: shelf.product_id,
+        batch_id: shelf.batch_id,
         shelf_quantity: shelf.quantity,
         actual_quantity: shelf.quantity)
       @inventory_item.save
@@ -88,14 +88,14 @@ class Inventory < ActiveRecord::Base
 
   def create_inventory_transactions
     inventory_items.each do |item|
-      shelf = Shelf.where('warehouse_id' => self.warehouse_id, 'product_id' => item.product_id).first
+      shelf = Shelf.where('warehouse_id' => self.warehouse_id, 'batch_id' => item.batch_id).first
       if item.actual_quantity != shelf.quantity
-        product_transaction = ProductTransaction.new(
+        batch_transaction = BatchTransaction.new(
           parent: self,
           warehouse: warehouse,
-          product: item.product,
+          batch: item.batch,
           quantity: item.actual_quantity - shelf.quantity)
-        product_transaction.save
+        batch_transaction.save
       end
     end
   end

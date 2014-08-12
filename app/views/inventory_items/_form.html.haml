@@ -1,6 +1,6 @@
 = simple_form_for([@inventory, @inventory_item], wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
   = f.error_notification
-  = f.association :product,
+  = f.association :batch,
   = f.input :quantity
 
   = form_submit(f)

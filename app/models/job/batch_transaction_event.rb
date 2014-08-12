@@ -7,8 +7,8 @@ class Job::BatchTransactionEvent
     recalculate_shelf(t)
   end
 
-  # Recalculate (cache) the quantity of how many products a warehouse currently has.
-  # A new shelf is created if there aren't already one for this warehouse/product combination.
+  # Recalculate (cache) the quantity of how many batches a warehouse currently has.
+  # A new shelf is created if there aren't already one for this warehouse/batch combination.
   def self.recalculate_shelf(t)
     shelves = t.warehouse.shelves.where(batch_id: t.batch_id)
     unless shelves.size > 0

@@ -2,7 +2,7 @@ class InventoriesController < ApplicationController
 
   load_and_authorize_resource
   before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :show_breadcrumbs, only: [:show, :update, :edit]
+  before_filter :show_breadcrumbs, only: [:show, :update, :edit, :state_change]
 
   def index
     @breadcrumbs = [['Inventories']]
@@ -56,7 +56,7 @@ class InventoriesController < ApplicationController
 
   def state_change
     @inventory = Inventory.find(params[:id])
-    if @inventory.state_change(params[:event], params[:state_change_at])    
+    if @inventory.state_change(params[:event], params[:state_change_at])
       msg = t(:success)
     else
       msg = @inventory.errors.first
