@@ -3,7 +3,7 @@ class CreateTransfers < ActiveRecord::Migration
     create_table :transfers do |t|
       t.integer :from_warehouse_id
       t.integer :to_warehouse_id
-      t.integer :product_id
+      t.integer :batch_id
       t.integer :quantity
       t.integer :user_id
 

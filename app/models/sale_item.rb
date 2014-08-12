@@ -1,6 +1,6 @@
 class SaleItem < ActiveRecord::Base
   #t.integer :sale_id
-  #t.integer :product_id
+  #t.integer :batch_id
   #t.integer :quantity
   #t.integer :price
   #t.integer :price_inc_vat
@@ -8,13 +8,13 @@ class SaleItem < ActiveRecord::Base
   #t.integer :vat
 
   belongs_to :sale
-  belongs_to :product
+  belongs_to :batch
 
-  attr_accessible :product_id, :quantity, :price, :vat
+  attr_accessible :batch_id, :quantity, :price, :vat
 
   before_validation :collect_and_calculate
 
-  validates :product_id, presence: true
+  validates :batch_id, presence: true
   validates :quantity, presence: true
   validates :price_inc_vat, presence: true
   validates :price_sum, presence: true
@@ -32,26 +32,26 @@ class SaleItem < ActiveRecord::Base
 
   # Callback: before_validation
   def collect_and_calculate
-    self.vat = self.vat || default_vat_from_product
-    self.price = self.price || default_from_product(:price)
+    self.vat = self.vat || default_vat_from_batch
+    self.price = self.price || default_from_batch(:price)
     self.price_inc_vat = price * (1 + (vat / 100.0))
     if quantity
       self.price_sum = price_inc_vat * quantity
     end
   end
 
-  def default_vat_from_product
-    if product
-      if v = product.vat.vat_percent
+  def default_vat_from_batch
+    if batch
+      if v = batch.vat.vat_percent
         return v
       end
     end
     return 0
   end
 
-  def default_from_product field
-    if product
-      if v = product.send(field)
+  def default_from_batch field
+    if batch
+      if v = batch.send(field)
         return v
       end
     end

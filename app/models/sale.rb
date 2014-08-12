@@ -22,7 +22,7 @@ class Sale < ActiveRecord::Base
   belongs_to :warehouse
   belongs_to :organisation
   has_many :sale_items
-  has_many :from_transaction, class_name: 'ProductTransaction', as: :parent
+  has_many :from_transaction, class_name: 'BatchTransaction', as: :parent
   has_one :document, as: :parent
 
   attr_accessible :user_id, :warehouse_id, :customer_id, :contact_email, :contact_name,
@@ -123,12 +123,12 @@ class Sale < ActiveRecord::Base
 
   def create_from_transactions
     sale_items.each do |sale_item|
-      product_transaction = ProductTransaction.new(
+      batch_transaction = BatchTransaction.new(
           parent: self,
           warehouse: warehouse,
-          product: sale_item.product,
+          batch: sale_item.batch,
           quantity: sale_item.quantity * -1)
-        product_transaction.save
+        batch_transaction.save
     end
   end
 

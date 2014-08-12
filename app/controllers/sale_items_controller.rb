@@ -5,7 +5,7 @@ class SaleItemsController < ApplicationController
   before_filter :set_breadcrumbs, only: [:new, :create]
 
   def new
-    @shelves = @sale.warehouse.shelves.includes(:product)
+    @shelves = @sale.warehouse.shelves.includes(:batches)
     @sale = @sale.decorate
     gon.push sale: @sale, sale_item: @sale_item, shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer)
   end
@@ -15,10 +15,10 @@ class SaleItemsController < ApplicationController
     @sale_item = @sale.sale_items.build sale_item_params
     respond_to do |format|
       if @sale_item.save
-        format.html { redirect_to sale_path(@sale), notice: "#{t(:product_added)}" }
+        format.html { redirect_to sale_path(@sale), notice: "#{t(:batch_added)}" }
       else
-        flash.now[:danger] = "#{t(:failed_to_add)} #{t(:product)}"
-        @shelves = @sale.warehouse.shelves.includes(:product)
+        flash.now[:danger] = "#{t(:failed_to_add)} #{t(:batch)}"
+        @shelves = @sale.warehouse.shelves.includes(:batch)
         gon.push shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer)
         format.html {render action: 'new' }
       end
@@ -46,6 +46,6 @@ class SaleItemsController < ApplicationController
     end
 
     def set_breadcrumbs
-      @breadcrumbs = [[t(:sales), sales_path], ["##{@sale.id}", sale_path(@sale)], [t(:add_product)]]
+      @breadcrumbs = [[t(:sales), sales_path], ["##{@sale.id}", sale_path(@sale)], [t(:add_batch)]]
     end
 end

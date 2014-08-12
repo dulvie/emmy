@@ -1,8 +1,8 @@
 class SaleItemDecorator < Draper::Decorator
   delegate_all
 
-  def product_name
-    return product.name if product
-    return (:unknown_product_name)
+  def batch_name
+    return batch.name if batch
+    return (:unknown_batch_name)
   end
 end

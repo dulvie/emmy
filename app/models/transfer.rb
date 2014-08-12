@@ -2,7 +2,7 @@ class Transfer < ActiveRecord::Base
 
   # t.integer :from_warehouse_id
   # t.integer :to_warehouse_id
-  # t.integer :product_id
+  # t.integer :batch_id
   # t.integer :quantity
   # t.integer :user_id
 
@@ -12,15 +12,15 @@ class Transfer < ActiveRecord::Base
 
   before_create :check_inventory
 
-  has_one :from_transaction, class_name: 'ProductTransaction', as: :parent, :dependent => :destroy
-  has_one :to_transaction, class_name: 'ProductTransaction', as: :parent, :dependent => :destroy
+  has_one :from_transaction, class_name: 'BatchTransaction', as: :parent, :dependent => :destroy
+  has_one :to_transaction, class_name: 'BatchTransaction', as: :parent, :dependent => :destroy
   belongs_to :from_warehouse, class_name: 'Warehouse'
   belongs_to :to_warehouse, class_name: 'Warehouse'
-  belongs_to :product
+  belongs_to :batch
   belongs_to :user
   has_many :comments, as: :parent, :dependent => :destroy
 
-  attr_accessible :from_warehouse_id, :to_warehouse_id, :product_id, :quantity
+  attr_accessible :from_warehouse_id, :to_warehouse_id, :batch_id, :quantity
   accepts_nested_attributes_for :comments
 
   STATES=['not_sent', 'sent', 'received']
@@ -28,7 +28,7 @@ class Transfer < ActiveRecord::Base
   validates :state, inclusion: STATES
   validates :from_warehouse, presence: true
   validates :to_warehouse, presence: true
-  validates :product, presence: true
+  validates :batch, presence: true
   validates :quantity, presence: true
   validates_exclusion_of :quantity, :in => 0..0, :message => "Positive or negative quantities"
   validates_associated :comments
@@ -78,7 +78,7 @@ class Transfer < ActiveRecord::Base
   def create_from_transaction
     t = build_from_transaction(
       warehouse_id: from_warehouse_id,
-      product_id: product_id,
+      batch_id: batch_id,
       quantity: quantity * -1 # the from_transaction subtracts the quantity
     )
     t.save!
@@ -87,7 +87,7 @@ class Transfer < ActiveRecord::Base
   def create_to_transaction
     t = build_to_transaction(
       warehouse_id: to_warehouse_id,
-      product_id: product_id,
+      batch_id: batch_id,
       quantity: quantity
     )
     t.save!
