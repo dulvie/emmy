@@ -5,7 +5,7 @@ class SaleItemsController < ApplicationController
   before_filter :set_breadcrumbs, only: [:new, :create]
 
   def new
-    @shelves = @sale.warehouse.shelves.includes(:batches)
+    @shelves = @sale.warehouse.shelves.includes(:batch)
     @sale = @sale.decorate
     gon.push sale: @sale, sale_item: @sale_item, shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer)
   end

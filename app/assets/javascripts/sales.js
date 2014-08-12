@@ -32,7 +32,8 @@ app.controller('sales_new_ctrl', function ($scope, ajaxService) {
 	};
 
 	$scope.type_ahead_customer = function (item, model, label) {		
-	    $('#sale_customer_id').val(item.id); 
+	    $('#sale_customer_id').val(item.id);
+	    alert(item.id)
 	    for (var i = 0; i < $scope.customer.length; i++) {
 	    	if ($scope.customer[i].id == item.id) {
 	    		$scope.reference = $scope.customer[i].contacts;
@@ -49,21 +50,20 @@ app.controller('sales_new_ctrl', function ($scope, ajaxService) {
 });
 
 app.controller('sale_items_new_ctrl', function ($scope) {
-	var prod_id = $('#sale_item_product_id').val();
-	$scope.product_id = prod_id;
+	var bch_id = $('#sale_item_batch_id').val();
+	$scope.batch_id = bch_id;
 
 	
 	$scope.init = function() {
-		$scope.select_product();
+		$scope.select_batch();
 	};
 
-	$scope.select_product = function() {
-
+	$scope.select_batch = function() {
 		var dPrice = 0;
 		var rPrice = 0;
 		var reseller = $('#sale_customer_reseller').is(":checked");
 		for (i=0; i< gon.shelves.length; i++) {
-			if (gon.shelves[i].product_id == $scope.product_id) {
+			if (gon.shelves[i].batch_id == $scope.batch_id) {
 				dPrice = gon.shelves[i].distributor_price;
 				rPrice = gon.shelves[i].retail_price;
 			}
@@ -79,7 +79,7 @@ app.controller('sale_items_new_ctrl', function ($scope) {
 
 	$scope.select_quantity = function() {
 		for (i=0; i< gon.shelves.length; i++) {
-			if (gon.shelves[i].id == $scope.product_id) {
+			if (gon.shelves[i].batch_id == $scope.batch_id) {
 				if ($scope.quantity > gon.shelves[i].quantity)
 					alert("Kvantitet överstiger lagrets " + gon.shelves[i].quantity);
 			}
