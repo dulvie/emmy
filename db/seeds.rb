@@ -130,6 +130,22 @@ brewd = Product.create({
   retail_price: 6500,
 })
 
+espresso_b = Batch.create({
+  item_id: espresso_i.id,
+  name: "Espresso 14:1",
+  in_price: 3000,
+  distributor_price: 8000,
+  retail_price: 9500,
+})
+
+brewd_b = Batch.create({
+  item_id: brewd_i.id,
+  name: "Brygg 14:1",
+  in_price: 3000,
+  distributor_price: 6000,
+  retail_price: 6500,
+})
+
 espresso_in_ankeborg = Shelf.new
 espresso_in_ankeborg.warehouse = ankeborg_warehouse
 espresso_in_ankeborg.product = espresso

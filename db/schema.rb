@@ -16,6 +16,19 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "batches", force: true do |t|
+    t.integer  "item_id"
+    t.string   "name"
+    t.text     "comment"
+    t.integer  "in_price"
+    t.integer  "distributor_price"
+    t.integer  "retail_price"
+    t.datetime "refined_at"
+    t.datetime "expire_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "comments", force: true do |t|
     t.text     "body"
     t.string   "parent_type"
@@ -255,6 +268,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
     t.integer  "user_id"
     t.integer  "customer_id"
     t.integer  "warehouse_id"
+    t.integer  "organisation_id"
     t.string   "contact_email"
     t.string   "contact_name"
     t.integer  "payment_term"
