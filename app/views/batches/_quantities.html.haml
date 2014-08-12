@@ -1,0 +1,17 @@
+%table{'class' => 'table table-striped'}
+  %tr
+    %th= t(:warehouse)
+    %th= t(:incoming)
+    %th= t(:quantity)
+    %th= t(:outgoing)
+  - shelves.each do |shelf|
+    %tr
+      %td= shelf.warehouse.name
+      %td= ' '
+      %td= shelf.quantity
+      %td= shelf.outgoing
+  %tr
+    %td= t(:production)
+    %td= @batch.in_quantity
+    %td= ' '
+    %td= ' '

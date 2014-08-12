@@ -30,6 +30,7 @@ class Ability
     can :manage, Comment
     can :manage, Contact
     can :manage, Customer
+    can :manage, Batch
     can :manage, Document
     can :manage, Import
     can :manage, Inventory

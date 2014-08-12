@@ -57,6 +57,8 @@ Emmy::Application.routes.draw do
     post 'single_purchase', as: :single_purchase
   end
   resources :products
+  resources :batches
+
   get "statistics/index"
   resources :warehouses
   devise_for :users

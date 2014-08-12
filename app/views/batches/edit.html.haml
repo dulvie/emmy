@@ -1,0 +1,9 @@
+%ul{:class => 'nav nav-tabs'}
+  %li.active= link_to "Base information", "#batch-form", {"data-toggle" => "tab"}
+  %li= link_to "Quantities", "#quantity-index", {"data-toggle" => "tab"}
+.tab-content
+  #batch-form.tab-pane.active
+    %br
+    = render 'form'
+  #quantity-index.tab-pane
+    = render "quantities", {shelves: Shelf.where('batch_id = ?', @batch)}
