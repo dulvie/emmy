@@ -8,7 +8,6 @@
       %h3
         = t(:invoice_number)
         %small= "(#{t(:reference)})"
-      = @sale.id
       = @sale.invoice_number
 
     .col-md-6
@@ -80,8 +79,13 @@
     &nbsp;
   .row
     .col-md-6
-      "Kinal VAT:"
-      "SE9182739812DUMMY"
+      %p= "#{t(:address)}:"
+      %p= @sale.organisation.address
+      %p= "#{@sale.organisation.zip} #{@sale.organisation.city}"
     .col-md-6.text-right
-      "postgiro"
-      "8127-3982-173DUMMY"
+      - [:bankgiro, :plusgiro, :postgiro, :vat_number].each do |n|
+        - unless @sale.organisation.send(n).blank?
+          %p
+            = "#{t(n)}: "
+            = @sale.organisation.send(n)
+

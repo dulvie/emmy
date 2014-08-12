@@ -23,6 +23,7 @@ class Sale < ActiveRecord::Base
   belongs_to :organisation
   has_many :sale_items
   has_many :from_transaction, class_name: 'ProductTransaction', as: :parent
+  has_one :document, as: :parent
 
   attr_accessible :user_id, :warehouse_id, :customer_id, :contact_email, :contact_name,
     :payment_term, :state, :approved_at, :goods_state, :delivered_at,
@@ -30,6 +31,10 @@ class Sale < ActiveRecord::Base
 
   validates :customer_id, presence: true
   validates :warehouse_id, presence: true
+
+  # Callbacks
+  # @todo Refactor this into service objects instead.
+  before_create :ensure_organisation_id
 
   STATE_CHANGES = [
     :mark_item_complete, :mark_complete, # Generic state
@@ -55,6 +60,7 @@ class Sale < ActiveRecord::Base
 
   state_machine :state, initial: :meta_complete do
     before_transition on: :mark_item_complete, do:  :set_approved_and_due_date
+    after_transition on: :mark_item_complete, do: :generate_invoice
 
     event :mark_item_complete do
       transition :meta_complete => :item_complete
@@ -69,6 +75,35 @@ class Sale < ActiveRecord::Base
     self.approved_at = transition.args[0]
     self.approved_at ||= Time.now
     self.due_date = self.approved_at + self.payment_term.days
+  end
+
+  # @todo refactor this into a job instead.
+  def generate_invoice
+    logger.info "I should generate a pdf invoice here..."
+    d = self.build_document
+    logger.info "ok here comes the wickedpdf line"
+    pdf_string = WickedPdf.new.pdf_from_string(
+      SalesController.new.render_to_string(
+        template: '/sales/show.pdf.haml',
+        layout: 'pdf',
+        locals: {
+          :@sale => self.decorate
+        }
+      ),
+      pdf: "invoice_#{self.id}",
+    )
+    #logger.info "got a pdf string: #{pdf_string}"
+
+    logger.info "will try to write to temp file"
+    tempfile = Tempfile.new(["invoice_#{self.id}", ".pdf"], Rails.root.join('tmp'))
+    tempfile.binmode
+    tempfile.write pdf_string
+    logger.info "will now set d.upload = #{tempfile.path} or rather, content of that file"
+    d.upload = tempfile
+    logger.info "SAVING!"
+    tempfile.close
+    #tempfile.unlink
+    d.save!
   end
 
 
@@ -158,6 +193,10 @@ class Sale < ActiveRecord::Base
   def total_vat
     return 0 if sale_items.count <= 0
     sale_items.inject(0){|i, item| item.total_vat + i}
+  end
+
+  def invoice_number
+    "1000#{self.id}"
   end
 
 

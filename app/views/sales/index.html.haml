@@ -29,7 +29,7 @@
           - sale.states.each do |s|
             = s
         - if sale.item_complete?
-          - show =  link_to doc_icon, sale_path(sale, format: :pdf), :target => "_blank"
+          - show = link_to doc_icon, sale.document_url, target: '_blank'
         - else
           - show = ' '
         %td= show

@@ -1,6 +1,11 @@
 class SaleDecorator < Draper::Decorator
   delegate_all
 
+  def document_url
+    return "" unless object.document.upload
+    object.document.upload.url
+  end
+
   def due_date
     return l(object.due_date) if object.due_date
     ""
