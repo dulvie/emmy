@@ -1,25 +1,25 @@
 class Shelf < ActiveRecord::Base
   # t.integer :quantity
   # t.integer :warehouse_id
-  # t.integer :product_id
+  # t.integer :batch_id
 
   belongs_to :warehouse
-  belongs_to :product
+  belongs_to :batch
 
-  attr_accessible :quantity, :product_id, :warehouse_id
+  attr_accessible :quantity, :batch_id, :warehouse_id
 
-  validates :product_id, presence: true
+  validates :batch_id, presence: true
   validates :warehouse_id, presence: true
 
-  delegate :name, :in_price, :distributor_price, :retail_price, :vat, :unit, :item_group, to: :product
+  delegate :name, :in_price, :distributor_price, :retail_price, :vat, :unit, :item_group, to: :batch
 
   def outgoing
-    Sale.where('state' => 'item_complete', 'goods_state' => 'not_delivered').joins(:sale_items).where('sale_items.product_id' => self.product_id).sum('quantity')
+    Sale.where('state' => 'item_complete', 'goods_state' => 'not_delivered').joins(:sale_items).where('sale_items.product_id' => self.batch_id).sum('quantity')
   end
 
   # Cache the product_transaction quantity sum of product in the warehouse.
   def recalculate
-    self.quantity = ProductTransaction.where(warehouse_id: warehouse_id).where(product_id: product_id).sum(:quantity)
+    self.quantity = BatchTransaction.where(warehouse_id: warehouse_id).where(batch_id: batch_id).sum(:quantity)
     save!
     Rails.logger.info "OBS! kvantitet: #{self.quantity}"
     if self.quantity == 0

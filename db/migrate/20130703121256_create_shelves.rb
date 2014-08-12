@@ -3,7 +3,7 @@ class CreateShelves < ActiveRecord::Migration
     create_table :shelves do |t|
       t.integer :quantity, default: 0
       t.integer :warehouse_id
-      t.integer :product_id
+      t.integer :batch_id
 
       t.timestamps
     end

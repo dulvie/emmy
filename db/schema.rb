@@ -16,6 +16,16 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "batch_transactions", force: true do |t|
+    t.string   "parent_type"
+    t.integer  "parent_id"
+    t.integer  "batch_id"
+    t.integer  "warehouse_id"
+    t.integer  "quantity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "batches", force: true do |t|
     t.integer  "item_id"
     t.string   "name"
@@ -287,7 +297,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   create_table "shelves", force: true do |t|
     t.integer  "quantity",     default: 0
     t.integer  "warehouse_id"
-    t.integer  "product_id"
+    t.integer  "batch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

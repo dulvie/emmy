@@ -25,7 +25,7 @@ class Batch < ActiveRecord::Base
   validates :item, :presence => true
 
   def can_delete?
-    return false if Shelf.where('product_id' => self.id).size > 0
+    return false if Shelf.where('batch_id' => self.id).size > 0
     return false if Import.where('product_id = ? and state = ? ', self.id, 'started').count > 0
     return false if Production.where('product_id = ? and state = ? ', self.id, 'started').count > 0
     return false if SaleItem.where('product_id = ? ', self.id).count > 0
@@ -34,7 +34,7 @@ class Batch < ActiveRecord::Base
   end
 
   def quantity
-    qty = Shelf.where('product_id' => self.id).sum('quantity')
+    qty = Shelf.where('batch_id' => self.id).sum('quantity')
     ext = Transfer.where('state' => 'sent', 'product_id' => self.id).sum('quantity')
     return qty+ext
   end
