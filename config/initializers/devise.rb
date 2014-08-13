@@ -1,16 +1,15 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
-  # The secret key used by Devise. Devise uses this key to generate
-  # random tokens. Changing this key will render invalid all existing
-  # confirmation, reset password and unlock tokens in the database.
-  # config.secret_key = 'a3d793b8e71e3ee5591b44f0d5f093516dde2cf65cd17764ee1d66d3b0e759896645d7556fad8e85bd966ffd96c95756405ddacb236b9fee5a42502d1eb2a310'
+  # The secret key used by Devise is now taken from app.secrets.secret_key_base
+  # see:
+  # https://github.com/plataformatec/devise/blob/v3.2.4/lib/devise/rails.rb#L34
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'support@example.com'
+  config.mailer_sender = ENV["DEVISE_MAIL_SENDER"] || 'no-reply@dulvie.se'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -97,7 +96,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = 'a29a0517774ee0ba673dde0ee228b1cde9fc8ac746af6e53f7e7ffedaf40575377fb3169d5ac9c8de7a3ce1fddb421115db29b04fa704e3f6eea3f4a375f4816'
+  config.pepper = ENV['DEVISE_PEPPER'] || 'a29a0517774ee0ba673dde0ee228b1cde9fc8ac746af6e53f7e7ffedaf40575377fb3169d5ac9c8de7a3ce1fddb421115db29b04fa704e3f6eea3f4a375f4816'
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
