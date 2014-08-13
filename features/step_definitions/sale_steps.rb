@@ -1,11 +1,11 @@
 Given /^database posts exists to create a new sale$/ do
   c = FactoryGirl.create :customer
 
-  p = FactoryGirl.create :product
+  p = FactoryGirl.create :batch
   w = FactoryGirl.create :warehouse
   m = FactoryGirl.create :manual
   t = m.build_product_transaction quantity: 100
-  m.product = p
+  m.batch = p
   m.warehouse = w
   m.save
   Resque.run!

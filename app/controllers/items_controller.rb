@@ -35,7 +35,7 @@ class ItemsController < ApplicationController
     @item = Item.new(item_params)
     respond_to do |format|
       if @item.save
-        format.html { redirect_to items_path, notice: 'product was successfully created.' }
+        format.html { redirect_to items_path, notice: 'item was successfully created.' }
         #format.json { render action: 'show', status: :created, location: @item }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:item)}"

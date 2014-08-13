@@ -1,4 +1,4 @@
-class Api::ProductsController < ApplicationController
+class Api::BatchesController < ApplicationController
 
   http_basic_authenticate_with :name => "myfinance", :password => "credit123"
   skip_before_filter :authenticate_user!
@@ -6,18 +6,18 @@ class Api::ProductsController < ApplicationController
   skip_authorization_check
 
   def create
-    @product = Product.new(product_params)
+    @batch = Batch.new(batch_params)
     respond_to do |format|
-      if @product.save
-        format.json { render json: @product.id, status: :created }
+      if @batch.save
+        format.json { render json: @batch.id, status: :created }
        else
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+        format.json { render json: @batch.errors, status: :unprocessable_entity }
       end
     end
   end
 
   private
-    def product_params
-      params.require(:product).permit(Product.accessible_attributes.to_a)
+    def batch_params
+      params.require(:batch).permit(Batch.accessible_attributes.to_a)
     end
 end

@@ -1,7 +1,7 @@
 .form-button-group
   .actions
     - if @sale.can_edit_items?
-      = link_to t(:add_product), new_sale_sale_item_path(@sale), class: 'btn btn-primary pull-left'
+      = link_to t(:add_batch), new_sale_sale_item_path(@sale), class: 'btn btn-primary pull-left'
     - # Don't show next-step unless there are items in the sale.
     - if @sale.sale_items.count > 0 && !@sale.is_completed?
       - if @sale.can_edit_items?

@@ -11,7 +11,7 @@ Priorities:
   Sales!
     - Create sales with data(customer,seller,due_date etc)
       - must be able to choose contact_email, but primary should be first choice.
-    - Create transaction to subtract the products from the selling warehouse
+    - Create transaction to subtract the batches from the selling warehouse
     - A resource to download a PDF(VAT number, bankgiro/plusgiro etc)
     - Implement state_machine
       email_state(not_sent, sent) [email_sent_at]
@@ -19,12 +19,12 @@ Priorities:
 
 
 Javascript:
-  app/view/products/_form.html.haml:
+  app/view/batches/_form.html.haml:
     * need js to show calculated retail price including vat.
       the ex-vat price is what should be saved...?
       or should the retail price saved in db be the inc vat price?
     * a nicer date picker for expire_at and refined_at
-      - /products/new (_form)
+      - /batches/new (_form)
 
 
 Rails:
@@ -38,8 +38,8 @@ Rails:
 Features:
   [x] - As a user, I can create, read, edit and delete suppliers.
   [x] - As a user, I can create, send and confirm transfers of
-        products between warehouses.
-  [x] - as a user, I can create, read, edit and delete products.
+        batches between warehouses.
+  [x] - as a user, I can create, read, edit and delete batches.
   [x] - as a user, I can create, read, edit and delete customers.
   [x] - as a user, I can create, read, edit and delete warehouses.
   - as a user, I can create and confirm sales.

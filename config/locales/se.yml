@@ -88,6 +88,7 @@ se:
   ordered: "Beställd"
   ordered_at: "Orderdatum"
   organisation: "Organisation"
+  organisations: "Organisationer"
   our_reference: "Vår referens"
   out_qty: "Ut kv"
   outgoing: "Utgående"

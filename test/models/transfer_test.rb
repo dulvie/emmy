@@ -15,7 +15,7 @@ class TransferTest < ActiveSupport::TestCase
     qty = 50
     from_warehouse= FactoryGirl.create :warehouse
     to_warehouse = FactoryGirl.create :warehouse, name: 'to_warehouse'
-    product = FactoryGirl.create :product
+    batch = FactoryGirl.create :batch
     assert_equal 0, from_warehouse.shelves.count
     assert_equal 0, to_warehouse.shelves.count
 

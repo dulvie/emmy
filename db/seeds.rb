@@ -114,7 +114,7 @@ rost = Item.create({
   vat_id: vat25.id
 })
 
-espresso = Product.create({
+espresso = Batch.create({
   item_id: espresso_i.id,
   name: "Espresso 14:1",
   in_price: 3000,
@@ -122,23 +122,7 @@ espresso = Product.create({
   retail_price: 9500,
 })
 
-brewd = Product.create({
-  item_id: brewd_i.id,
-  name: "Brygg 14:1",
-  in_price: 3000,
-  distributor_price: 6000,
-  retail_price: 6500,
-})
-
-espresso_b = Batch.create({
-  item_id: espresso_i.id,
-  name: "Espresso 14:1",
-  in_price: 3000,
-  distributor_price: 8000,
-  retail_price: 9500,
-})
-
-brewd_b = Batch.create({
+brewd = Batch.create({
   item_id: brewd_i.id,
   name: "Brygg 14:1",
   in_price: 3000,
@@ -148,28 +132,15 @@ brewd_b = Batch.create({
 
 espresso_in_ankeborg = Shelf.new
 espresso_in_ankeborg.warehouse = ankeborg_warehouse
-espresso_in_ankeborg.batch = espresso_b
+espresso_in_ankeborg.batch = espresso
 espresso_in_ankeborg.save
 
 brewd_in_ankeborg = Shelf.new
 brewd_in_ankeborg.warehouse = ankeborg_warehouse
-brewd_in_ankeborg.batch = brewd_b
+brewd_in_ankeborg.batch = brewd
 brewd_in_ankeborg.save
 
-#[espresso, brewd].each do |pr|
-#  product_transaction = ProductTransaction.new(
-#    warehouse: ankeborg_warehouse,
-#    product: pr,
-#    quantity: (10..100).to_a.sample
-#  )
-#  m = Manual.new
-#  m.user = jtest
-#  m.comments.build(user_id: jtest.id, body: "Initial seed manual product_transaction")
-#  m.product_transaction = product_transaction
-#  m.save
-#end
-
-[espresso_b, brewd_b].each do |batch|
+[espresso, brewd].each do |batch|
   batch_transaction = BatchTransaction.new(
     warehouse: ankeborg_warehouse,
     batch: batch,
@@ -182,16 +153,16 @@ brewd_in_ankeborg.save
   m.save
 end
 
-#tr = Transfer.new
-#tr.from_warehouse = ankeborg_warehouse
-#tr.to_warehouse = flea_bottom
-#tr.quantity = 10
-#tr.product = espresso
-#tr.comments.build(user_id: jtest.id, body: "Initial seed manual product_transaction")
-#tr.save
-#date_now = Time.now
-#tr.send_package(date_now)
-#tr.receive_package(date_now)
+tr = Transfer.new
+tr.from_warehouse = ankeborg_warehouse
+tr.to_warehouse = flea_bottom
+tr.quantity = 10
+tr.batch = espresso
+tr.comments.build(user_id: jtest.id, body: "Initial seed manual batch_transaction")
+tr.save
+date_now = Time.now
+tr.send_package(date_now)
+tr.receive_package(date_now)
 
 
 donald = Customer.create(name: "Donald duck", payment_term: 10)

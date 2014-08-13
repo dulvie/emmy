@@ -7,16 +7,16 @@ class Api::ManualsController < ApplicationController
 
   def create
     warehouse = Warehouse.find(params[:manual][:warehouse_id])
-    product = Product.find(params[:manual][:product_id])
+    batch = Batch.find(params[:manual][:batch_id])
 
-    product_transaction = ProductTransaction.new(
+    batch_transaction = BatchTransaction.new(
       warehouse: warehouse,
-      product: product,
+      batch: batch,
       quantity: params[:manual][:quantity])
 
     @manual = Manual.new(manual_params)
     @manual.comments.build(user_id: 1, body: params[:manual][:comment])
-    @manual.product_transaction = product_transaction
+    @manual.batch_transaction = batch_transaction
 
     respond_to do |format|
       if @manual.save

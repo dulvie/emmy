@@ -47,7 +47,7 @@
       %table{:class => 'table table-striped'}
         %thead
           %tr
-            %th= t(:product)
+            %th= t(:batch)
             %th= t(:quantity)
             %th.numeric= t(:price)
             %th.numeric= t(:vat)
@@ -57,7 +57,7 @@
             - @sale.sale_items.each do |item|
               - item = item.decorate
               %tr
-                %td= item.product_name
+                %td= item.batch_name
                 %td= item.quantity
                 %td.numeric= as_sek(item.price)
                 %td.numeric

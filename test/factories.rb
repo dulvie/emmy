@@ -14,7 +14,7 @@ FactoryGirl.define do
     name :seller
   end
 
-  factory :product do
+  factory :batch do
     name "espresso"
     in_price 10000
     distributor_price 15000

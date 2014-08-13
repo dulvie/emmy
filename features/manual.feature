@@ -1,11 +1,11 @@
-Feature: Create/Update Manual product transactions
-  In order to adjust product stock numbers
+Feature: Create/Update Manual batch transactions
+  In order to adjust batch stock numbers
   a user should be able to create and update manual
-  product transactions.
+  batch transactions.
 
   Scenario: create
     Given I am a signed in user
-    And a product and warehouse exists
+    And a batch and warehouse exists
     And I visit manuals_path
     And I click "Create Manual transaction"
     And I fill in data for a manual transaction

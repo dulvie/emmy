@@ -1,7 +1,7 @@
-Given /^a product with name "(.*?)" exists$/ do |product_name|
-  p = Product.find_by_name product_name
+Given /^a batch with name "(.*?)" exists$/ do |batch_name|
+  p = Batch.find_by_name batch_name
   unless p
-    FactoryGirl.create :product, name: product_name
+    FactoryGirl.create :batch, name: batch_name
   end
 end
 
@@ -20,30 +20,30 @@ Given /^I fill in "(.*?)" as transfer_quantity$/ do |quantity|
   fill_in 'transfer_quantity', with: quantity
 end
 
-Given /^warehouse "(.*?)" has a shelf with (\d+) of product named "(.*?)"$/ do |wh_name, quantity, product_name|
+Given /^warehouse "(.*?)" has a shelf with (\d+) of batch named "(.*?)"$/ do |wh_name, quantity, batch_name|
   wh = Warehouse.find_by_name wh_name
-  p = Product.find_by_name product_name
+  p = Batch.find_by_name batch_name
   m = Manual.new
-  m.build_product_transaction
+  m.build_batch_transaction
   m.user = User.first
   m.warehouse = wh
-  m.product = p
-  m.product_transaction.quantity = quantity
+  m.batch = p
+  m.batch_transaction.quantity = quantity
   m.save!
   Resque.run!
 end
 
-Given /^the "(.*?)" warehouse have "(.*?)" of product "(.*?)"$/ do |warehouse_name, quantity, product_name|
+Given /^the "(.*?)" warehouse have "(.*?)" of batch "(.*?)"$/ do |warehouse_name, quantity, batch_name|
   quantity = quantity.to_i
   wh = Warehouse.find_by_name warehouse_name
-  p = Product.find_by_name product_name
-  shelves = wh.shelves.where(product_id: p.id)
+  p = Batch.find_by_name batch_name
+  shelves = wh.shelves.where(batch_id: p.id)
   unless shelves.size > 0
-    product_transactions = wh.product_transactions.where(product_id: p.id)
-    if product_transactions.size > 0 && product_transactions.sum(:quantity).eql?(quantity)
+    batch_transactions = wh.batch_transactions.where(batch_id: p.id)
+    if batch_transactions.size > 0 && batch_transactions.sum(:quantity).eql?(quantity)
     else
       puts "Creating new manual transaction"
-      t = ProductTransaction.new warehouse_id: wh.id, product_id: p.id, quantity: quantity
+      t = BatchTransaction.new warehouse_id: wh.id, batch_id: p.id, quantity: quantity
       t.parent = FactoryGirl.build :manual
       t.parent.user = User.all.first
       t.save
@@ -55,26 +55,26 @@ Given /^the "(.*?)" warehouse have "(.*?)" of product "(.*?)"$/ do |warehouse_na
   assert_equal quantity, wh.product_transactions.where(product_id: p.id).sum(:quantity)
 end
 
-Given /^a transfer of (\d+) "(.*?)" product from "(.*?)" to "(.*?)" is created$/ do |quantity, product_name, from_warehouse, to_warehouse|
-  p = Product.find_by_name product_name
+Given /^a transfer of (\d+) "(.*?)" batch from "(.*?)" to "(.*?)" is created$/ do |quantity, batch_name, from_warehouse, to_warehouse|
+  p = Batch.find_by_name batch_name
   from_wh = Warehouse.find_by_name from_warehouse
   to_wh = Warehouse.find_by_name to_warehouse
   t = Transfer.new
   t.from_warehouse = from_wh
   t.to_warehouse = to_wh
-  t.product = p
+  t.batch = p
   t.quantity = quantity
   t.save
 end
 
-Given /^a transfer of (\d+) "(.*?)" product is created and sent from "(.*?)" to "(.*?)"$/ do |quantity, product_name, from_warehouse, to_warehouse|
-  p = Product.find_by_name product_name
+Given /^a transfer of (\d+) "(.*?)" batch is created and sent from "(.*?)" to "(.*?)"$/ do |quantity, batch_name, from_warehouse, to_warehouse|
+  p = Batch.find_by_name batch_name
   from_wh = Warehouse.find_by_name from_warehouse
   to_wh = Warehouse.find_by_name to_warehouse
   t = Transfer.new
   t.from_warehouse = from_wh
   t.to_warehouse = to_wh
-  t.product = p
+  t.batch = p
   t.quantity = quantity
   t.save
   t.send_package
@@ -82,9 +82,9 @@ Given /^a transfer of (\d+) "(.*?)" product is created and sent from "(.*?)" to 
   assert t.from_transaction
 end
 
-Then /^"(.*?)" warehouse should have (\d+) "(.*?)" products on the shelves$/ do |warehouse_name, quantity, product_name|
+Then /^"(.*?)" warehouse should have (\d+) "(.*?)" batches on the shelves$/ do |warehouse_name, quantity, batch_name|
   quantity = quantity.to_i
   wh = Warehouse.find_by_name warehouse_name
-  p = Product.find_by_name product_name
-  assert_equal quantity, wh.shelves.where(product_id: p.id).sum(:quantity).to_i
+  p = Batch.find_by_name batch_name
+  assert_equal quantity, wh.shelves.where(batch_id: p.id).sum(:quantity).to_i
 end

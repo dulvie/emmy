@@ -176,16 +176,6 @@ ActiveRecord::Schema.define(version: 20140806215947) do
     t.datetime "updated_at"
   end
 
-  create_table "product_transactions", force: true do |t|
-    t.string   "parent_type"
-    t.integer  "parent_id"
-    t.integer  "product_id"
-    t.integer  "warehouse_id"
-    t.integer  "quantity"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "productions", force: true do |t|
     t.integer  "user_id"
     t.string   "description"
@@ -198,19 +188,6 @@ ActiveRecord::Schema.define(version: 20140806215947) do
     t.string   "state"
     t.datetime "started_at"
     t.datetime "completed_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "products", force: true do |t|
-    t.integer  "item_id"
-    t.string   "name"
-    t.text     "comment"
-    t.integer  "in_price"
-    t.integer  "distributor_price"
-    t.integer  "retail_price"
-    t.datetime "refined_at"
-    t.datetime "expire_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
