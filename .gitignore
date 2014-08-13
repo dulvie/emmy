@@ -15,19 +15,22 @@
 /log/*.log
 /tmp
 
-# temp/swap files for different editors and oss
+# Ignore temp/swap/project/settings files for different editors.
 *.swp
 .DS_STORE
 .project
 .settings
 
-# Obviously
+# Obviously...
 config/database.yml
 config/database.*.yml
 
-# ignore dev env specific foreman stuff
+# Ignore files saved using paperclip.
+public/system
+
+# Ignore development environment specific files used by foreman.
 .env
 Procfile.*
 
-# ignore coverage files
+# Ignore coverage files.
 coverage/*
