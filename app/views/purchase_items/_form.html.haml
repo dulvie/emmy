@@ -11,7 +11,7 @@
       include_blank: false,
       :input_html => {:ng_model =>"item_id", :ng_change => 'item_changed()'}
 
-    .form-group
+    %div{:class =>'form-group', :ng_show=>'show_batch'}
       = f.label :batch, class: 'string optional labels_width control-label', for: 'batch'
       .fields_width
         = hidden_field_tag "purchase_item[batch_id]", "{{batch.id}}"
