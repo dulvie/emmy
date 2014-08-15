@@ -33,7 +33,6 @@ app.controller('sales_new_ctrl', function ($scope, ajaxService) {
 
 	$scope.type_ahead_customer = function (item, model, label) {		
 	    $('#sale_customer_id').val(item.id);
-	    alert(item.id)
 	    for (var i = 0; i < $scope.customer.length; i++) {
 	    	if ($scope.customer[i].id == item.id) {
 	    		$scope.reference = $scope.customer[i].contacts;
