@@ -315,6 +315,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
 
   create_table "users", force: true do |t|
     t.string   "name"
+    t.integer  "default_locale",         default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "email",                  default: "", null: false

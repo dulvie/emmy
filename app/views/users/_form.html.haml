@@ -3,6 +3,9 @@
 
   = f.input :name, required: true, autofocus: true, disabled: (!can? :manage, @user)
   = f.input :email, required: true, :input_html => {:autocomplete=> "off"}
+  = f.input :default_locale, as: :radio_buttons,
+    collection: [[t(:english), :en],[t(:swedish), :se]],
+    wrapper: :horizontal_radio_and_checkboxes
   - if can? :manage, @user
     = f.input :password, required: true
     = f.input :password_confirmation, required: true

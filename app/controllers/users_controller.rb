@@ -45,11 +45,28 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+
+    # @todo Maybe this can be refactored into service objects.
+
+    # Remove password from params if no new password is supplied.
+    u_params = user_params
+    if u_params[:password] && u_params[:password].empty?
+      u_params.delete(:password)
+      u_params.delete(:password_confirmation)
+    end
+
+    # If authenticated user is updating self with new locale, change current locale.
+    if (@user.id == current_user.id && u_params[:default_locale] !=  I18n.locale)
+      I18n.locale = u_params[:default_locale]
+      params[:locale] = u_params[:default_locale]
+    end
+
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :no_content }
       else
+        @breadcrumbs = [['Users', users_path], [@user.email]]
         format.html { render action: 'show' }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end

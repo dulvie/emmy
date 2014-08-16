@@ -10,6 +10,7 @@ en:
       # html: '<abbr title="required">*</abbr>'
     error_notification:
       default_message: "Please review the problems below:"
+    labels:
     # Examples
     # labels:
     #   defaults:
@@ -38,3 +39,10 @@ se:
       mark: '*'
     error_notification:
       default_message: "Observera problemen nedan:"
+    labels:
+      user:
+        name: "Namn"
+        email: "E-post"
+        password: "Lösenord"
+        password_confirmation: "Bekräfta lösenord"
+        default_locale: "Språk"
