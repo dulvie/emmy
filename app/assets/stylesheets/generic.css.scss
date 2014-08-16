@@ -12,6 +12,12 @@
   width: 100%;
 }
 
+.error_notification {
+  @extend .alert-danger;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
 
 .breadcrumb {
   margin-top: -$line-height-computed;
