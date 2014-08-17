@@ -9,12 +9,14 @@ class ProductionsController < ApplicationController
   # GET /productions.json
   def index
     @breadcrumbs = [[t(:productions)]]
-
+    logger.info "Params:  #{params[:state]}"
     if params[:state] == 'not_started'
       productions = @productions.where("state = ?", 'not_started').collect{|production| production.decorate}
-    elsif params[:state] == 'started'
+    elsif params[:state] == "started"
+
       productions = @productions.where("state = ?", 'started').collect{|production| production.decorate}
     else
+      logger.info "Params:  #{params[:state]}"
       productions = @productions.order(:started_at).collect{|production| production.decorate}
     end
 

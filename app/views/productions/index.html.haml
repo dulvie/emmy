@@ -2,8 +2,8 @@
   = link_to "#{t(:create)} #{t(:production)}", new_production_path, class: 'btn btn-default'
   %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
     %option{value: productions_path} #{t(:all)}
-    %option{value: productions_path + '?state=not_started'} #{t(:not_started)}
-    %option{value: productions_path + '?state=started'} #{t(:processing)}
+    %option{value: productions_path + '&state=not_started'} #{t(:not_started)}
+    %option{value: productions_path + '&state=started'} #{t(:processing)}
 %br
 %table{:class => 'table table-striped'}
   %thead
