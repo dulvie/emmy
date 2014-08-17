@@ -11,9 +11,9 @@ app.controller('date_ctrl', function ($scope) {
     $scope.isDpOpen = true;
   };
   $scope.openDateForm = function($event) {
-	$scope.date = new Date();  
-	$event.preventDefault();  
-    $event.stopPropagation();  
+	$scope.date = new Date();
+	$event.preventDefault();
+    $event.stopPropagation();
   };
 });
 

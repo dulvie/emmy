@@ -1,18 +1,13 @@
 - if !@production.new_record?
   %div{:ng_controller => "ModalCtrl"}
     = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |w|
-      - if @production.work.nil?
-        - add_single_purchase_url = new_purchase_path({parent_id: @production.id, parent_type: @production.class.name, form: 'single_purchase'})
-        = render partial: 'shared/addon_plus_link', locals: {form: w, label: :work, link: add_single_purchase_url}
-      - else
+      - if !@production.work.nil?
         = render partial: 'shared/addon_edit_link', locals: {form: w, label: :work, value: w.object.work.description, can_edit: @production.can_edit?, link: purchase_path(@production.work)}
         - if @production.is_started? || @production.is_completed?
           = w.simple_fields_for :work do |wf|
             - if !@production.work.is_paid? 
-              .form-group
-                .labels_width.control-label
-                  %label Work state
-                .fields_width
+              .form-button-group
+                .actions
                   .input-group
                   - if w.object.work.money_state != 'paid'
                     %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','workPayContent' )"}

@@ -36,7 +36,10 @@ Emmy::Application.routes.draw do
   resources :units
   resources :vats
   resources :materials
+
+  resources :production_batches, only: [:new, :create]
   resources :productions do
+    resources :production_batches, only: [:new, :create]
     resources :materials
     member do
       post 'state_change', as: :state_change
