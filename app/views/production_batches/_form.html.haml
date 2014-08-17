@@ -1,0 +1,19 @@
+%div{ :ng_controller => 'production_batch_ctrl', :ng_init => 'init()'}
+  = simple_form_for(@production_batch, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+    = f.error_notification
+    = f.input :production_id, as: :hidden
+    %input{:name => 'production_id', :value => @production.id, :hidden => true}
+    = f.input :item_id, collection: @items, :input_html => {:ng_model => 'item_id', :ng_change => 'select_item(true)'}
+
+    = f.input :name
+    = f.input :comment, as: :text
+    = f.input :in_price, as: :integer
+    = f.input :distributor_price, as: :integer
+    = f.input :retail_price, as: :integer
+    = f.input :quantity, as: :integer
+    = render partial: 'shared/date_field', locals: {form: f, field: :refined_at, in_id: 'in_refined_at', in_value: @production_batch.refined_at, out_id: 'production_batch[refined_at]', field_id: 're_short_date',  model: 're_date', dp_open: 're_open', dp_options: 're_options', dp_click: 'open_re_date($event)'}
+    = render partial: 'shared/date_field', locals: {form: f, field: :expire_at, in_id: 'in_expire_at', in_value: @production_batch.expire_at, out_id: 'production_batch[expire_at]', field_id: 'ex_short_date',  model: 'ex_date', dp_open: 'ex_open', dp_options: 'ex_options', dp_click: 'open_ex_date($event)'}
+
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'
