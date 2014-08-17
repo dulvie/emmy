@@ -1,5 +1,5 @@
 .container.row
-  = link_to 'Create Import', new_import_path, class: 'btn btn-default'
+  = link_to "#{t(:create)} #{t(:import)}", new_import_path, class: 'btn btn-default'
   %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
     %option{value: imports_path} #{t(:all)}
     %option{value: imports_path + '?state=not_started'} #{t(:not_started)}

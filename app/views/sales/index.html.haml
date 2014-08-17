@@ -1,4 +1,4 @@
-= link_to 'Create Sale', new_sale_path, class: 'btn btn-default'
+= link_to "#{t(:create)} #{t(:sale)}", new_sale_path, class: 'btn btn-default'
 %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
   %option{value: sales_path} #{t(:filter)}: #{t(:all)}
   %option{value: sales_path + '?state=meta_complete'} #{t(:filter)} #{t(:not_approved)}
