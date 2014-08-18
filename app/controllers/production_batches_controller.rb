@@ -18,6 +18,9 @@ class ProductionBatchesController < ApplicationController
       if @production_batch.submit
         format.html { redirect_to edit_production_path(@production_batch.production_id), notice: 'batch was successfully created.'}
       else
+        @production_batch.production_id = @production.id
+        @items = Item.where("stocked=?", 'true')
+        gon.push items: @items
         format.html { render action: 'new' }
       end
     end  

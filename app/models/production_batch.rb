@@ -15,22 +15,19 @@ class ProductionBatch
     return false unless valid?
     @production = Production.find(self.production_id)
     ActiveRecord::Base.transaction do
-      @batch = Batch.new
-      @batch.item_id = self.item_id
-      @batch.name = self.name
-      @batch.comment = self.comment
-      @batch.in_price = self.in_price
-      @batch.distributor_price = self.distributor_price
-      @batch.retail_price = self.retail_price
-      @batch.refined_at = self.refined_at
-      @batch.expire_at = self.expire_at
+      @batch = Batch.new(self.to_hash)
       @batch.save
-
       @production.batch = @batch
       @production.quantity = self.quantity
       @production.save
     end
     return true
+  end
+
+  def to_hash
+    hash = {}
+    instance_variables.each {|var| hash[var.to_s.delete("@")] = instance_variable_get(var) }
+    hash
   end
 
 end
