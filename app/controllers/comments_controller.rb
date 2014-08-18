@@ -36,6 +36,7 @@ class CommentsController < ApplicationController
       redirect_path = edit_polymorphic_path(@parent)
     end
     @comment.user = current_user
+    @comment.organisation = current_organisation
     respond_to do |format|
       if @comment.save
         format.html { redirect_to redirect_path, notice: "#{t(:comment_added)}" }

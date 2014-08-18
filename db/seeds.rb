@@ -157,7 +157,7 @@ brewd_in_ankeborg.save
   )
   m = Manual.new
   m.user = jtest
-  m.comments.build(user_id: jtest.id, body: "Initial seed manual product_transaction")
+  m.comments.build(user_id: jtest.id, body: "Initial seed manual product_transaction", organisation: o)
   m.batch_transaction = batch_transaction
   m.save
 end
@@ -167,7 +167,7 @@ tr.from_warehouse = ankeborg_warehouse
 tr.to_warehouse = flea_bottom
 tr.quantity = 10
 tr.batch = espresso
-tr.comments.build(user_id: jtest.id, body: "Initial seed manual batch_transaction")
+tr.comments.build(user_id: jtest.id, body: "Initial seed manual batch_transaction", organisation: o)
 tr.save
 date_now = Time.now
 tr.send_package(date_now)

@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "comments", force: true do |t|
+    t.integer  "organisation_id"
     t.text     "body"
     t.string   "parent_type"
     t.integer  "parent_id"
