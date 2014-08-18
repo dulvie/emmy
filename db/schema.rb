@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "contacts", force: true do |t|
+    t.integer  "organisation_id"
     t.string   "parent_type"
     t.integer  "parent_id"
     t.string   "name"
@@ -83,6 +84,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "documents", force: true do |t|
+    t.integer  "organisation_id"
     t.string   "parent_type"
     t.integer  "parent_id"
     t.integer  "user_id"

@@ -1,4 +1,5 @@
 class Contact < ActiveRecord::Base
+  # t.integer :organisation_id
   # t.integer :parent_type
   # t.integer :parent_id
   # t.string :name
@@ -10,9 +11,10 @@ class Contact < ActiveRecord::Base
   # t.string :country
   # t.text :comment
 
+  belongs_to :organisation
   belongs_to :parent, polymorphic: true
 
-  attr_accessible :email, :name, :telephone, :address, :zip, :city, :country, :comment
+  attr_accessible :email, :name, :telephone, :address, :zip, :city, :country, :comment, :organisation
 
   validates :name, presence: true
 

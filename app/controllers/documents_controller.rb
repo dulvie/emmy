@@ -36,6 +36,7 @@ class DocumentsController < ApplicationController
       redirect_path = edit_polymorphic_path(@parent)
     end
     @document.user = current_user
+    @document.organisation = current_organisation
     respond_to do |format|
       if @document.save
         format.html { redirect_to redirect_path, notice: "#{t(:document_added)}" }

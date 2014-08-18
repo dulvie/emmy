@@ -20,6 +20,7 @@ class ContactsController < ApplicationController
 
   def create
     @contact = @parent.contacts.build contact_params
+    @contact.organisation = current_organisation
     respond_to do |format|
       if @contact.save
         format.html { redirect_to edit_polymorphic_path(@parent), notice: "#{t(:contact_added)}" }
