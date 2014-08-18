@@ -40,10 +40,10 @@ unit3 = Unit.create(name: "Säck (50 kg)", weight: "50 kg")
 unit4 = Unit.create(name: "Pall", weight: "100 kg")
 unit5 = Unit.create(name: "Tim")
 
-vat0 = Vat.create(name: "Ingen", vat_percent: 0)
-vat6 = Vat.create(name: "(6 procent)", vat_percent: 6)
-vat12 = Vat.create(name: "(12 procent)", vat_percent: 12)
-vat25 = Vat.create(name: "(25 procent)", vat_percent: 25)
+vat0 = Vat.create(name: "Ingen", vat_percent: 0, organisation: o)
+vat6 = Vat.create(name: "(6 procent)", vat_percent: 6, organisation: o)
+vat12 = Vat.create(name: "(12 procent)", vat_percent: 12, organisation: o)
+vat25 = Vat.create(name: "(25 procent)", vat_percent: 25, organisation: o)
 
 espresso_i = Item.create({
   name: "Espresso",
@@ -54,7 +54,8 @@ espresso_i = Item.create({
   retail_price: 9500,
   stocked: 'true',
   unit_id: unit1.id,
-  vat_id: vat12.id
+  vat_id: vat12.id,
+  organisation: o
 })
 
 brewd_i = Item.create({
@@ -66,7 +67,8 @@ brewd_i = Item.create({
   retail_price: 6500,
   stocked: 'true',
   unit_id: unit1.id,
-  vat_id: vat12.id
+  vat_id: vat12.id,
+  organisation: o
 })
 coffe = Item.create({
   name: "Råkaffe",
@@ -77,7 +79,8 @@ coffe = Item.create({
   retail_price: 6000,
   stocked: 'true',
   unit_id: unit3.id,
-  vat_id: vat0.id
+  vat_id: vat0.id,
+  organisation: o
 })
 
 ship = Item.create({
@@ -86,7 +89,8 @@ ship = Item.create({
   item_group: ' ',
   stocked: 'false',
   unit_id: unit2.id,
-  vat_id: vat0.id
+  vat_id: vat0.id,
+  organisation: o
 })
 freight = Item.create({
   name: "Frakt",
@@ -94,7 +98,8 @@ freight = Item.create({
   item_group: ' ',
   stocked: 'false',
   unit_id: unit2.id,
-  vat_id: vat0.id
+  vat_id: vat0.id,
+  organisation: o
 })
 
 custom = Item.create({
@@ -103,7 +108,8 @@ custom = Item.create({
   item_group: ' ',
   stocked: 'false',
   unit_id: unit2.id,
-  vat_id: vat0.id
+  vat_id: vat0.id,
+  organisation: o
 })
 rost = Item.create({
   name: "Rostning",
@@ -111,7 +117,8 @@ rost = Item.create({
   item_group: ' ',
   stocked: 'false',
   unit_id: unit2.id,
-  vat_id: vat25.id
+  vat_id: vat25.id,
+  organisation: o
 })
 
 espresso = Batch.create({
@@ -120,6 +127,7 @@ espresso = Batch.create({
   in_price: 3000,
   distributor_price: 8000,
   retail_price: 9500,
+  organisation: o
 })
 
 brewd = Batch.create({
@@ -128,6 +136,7 @@ brewd = Batch.create({
   in_price: 3000,
   distributor_price: 6000,
   retail_price: 6500,
+  organisation: o
 })
 
 espresso_in_ankeborg = Shelf.new
@@ -165,10 +174,10 @@ tr.send_package(date_now)
 tr.receive_package(date_now)
 
 
-donald = Customer.create(name: "Donald duck", payment_term: 10)
-coffehouse = Customer.create(name: 'Coffe House by Foobar', payment_term: 10)
+donald = Customer.create(name: "Donald duck", payment_term: 10, organisation: o)
+coffehouse = Customer.create(name: 'Coffe House by Foobar', payment_term: 10, organisation: o)
 1.upto(15) do |i|
-	Customer.create(name: "Kund #{i}", payment_term: 30)
+	Customer.create(name: "Kund #{i}", payment_term: 30, organisation: o)
 end
 
 bigsupp = Supplier.create(name: "Big supplier of coffee")

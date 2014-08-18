@@ -43,7 +43,7 @@ class CustomersController < ApplicationController
   # POST /customers.json
   def create
     @customer = Customer.new(customer_params)
-
+    @customer.organisation = current_organisation
     respond_to do |format|
       if @customer.save
         format.html { redirect_to customers_url, notice: 'customer was successfully created.' }

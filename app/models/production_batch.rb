@@ -2,7 +2,7 @@ class ProductionBatch
 
   include ActiveModel::Model
 
-  attr_accessor :production_id, :item_id, :name, :comment, :in_price, :distributor_price, :retail_price, :refined_at, :expire_at,
+  attr_accessor :organisation_id, :production_id, :item_id, :name, :comment, :in_price, :distributor_price, :retail_price, :refined_at, :expire_at,
     :quantity
 
   validates :name, :presence => true

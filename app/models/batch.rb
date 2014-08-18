@@ -1,5 +1,6 @@
 class Batch < ActiveRecord::Base
 
+  # t.integer :organisation_id
   # t.integer :item_id
 
   # t.string :name
@@ -11,12 +12,13 @@ class Batch < ActiveRecord::Base
   # t.timestamp :refined_at
   # t.timestamp :expire_at
 
+  belongs_to :organisation
   belongs_to :item
   has_many :transactions
   has_many :shelves, through: :transactions
 
   attr_accessible :item_id, :name, :comment, :in_price, :distributor_price, :retail_price,
-    :expire_at, :refined_at
+    :expire_at, :refined_at, :organisation, :organisation_id
 
   delegate :item_group, :vat, :unit, to: :item
 

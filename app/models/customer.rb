@@ -1,4 +1,5 @@
 class Customer < ActiveRecord::Base
+  # t.integer :organisation_id
   # t.string  :name
   # t.integer :vat_number
   # t.string :email
@@ -11,11 +12,13 @@ class Customer < ActiveRecord::Base
   # t.integer :primary_contact_id
   # t.integer :payment_term
 
+  belongs_to :organisation
   has_many :contacts, as: :parent
   has_many :comments, as: :parent
   has_many :sales
 
-  attr_accessible :name, :vat_number, :email, :telephone, :address, :zip, :city, :country, :reseller, :primary_contact_id, :payment_term
+  attr_accessible :name, :vat_number, :email, :telephone, :address, :zip, :city, :country, :reseller, 
+    :primary_contact_id, :payment_term, :organisation
 
   validates :name, presence: true
   validates :name, :uniqueness => true

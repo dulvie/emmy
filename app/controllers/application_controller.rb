@@ -22,6 +22,10 @@ class ApplicationController < ActionController::Base
     options.merge({locale: I18n.locale})
   end
 
+  def current_organisation
+    @current_organisation = Organisation.first
+  end
+
   private
   # only allow certian locales to be passed.
   def locale_from_params

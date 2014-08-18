@@ -32,6 +32,7 @@ class VatsController < ApplicationController
   # POST /vats.json
   def create
     @vat = Vat.new(vat_params)
+    @vat.organisation = current_organisation
     respond_to do |format|
       if @vat.save
         format.html { redirect_to vats_url, notice: 'Vat was successfully created.' }

@@ -1,5 +1,6 @@
 class Item < ActiveRecord::Base
 
+  # t.integer :organisation_id
   # t.integer :unit_id
   # t.integer :vat_id
   # t.string  :name
@@ -14,13 +15,14 @@ class Item < ActiveRecord::Base
   TYPES = ['sales', 'purchases', 'both']
   GROUPS = [' ', 'refined', 'unrefined']
 
+  belongs_to :organisation
   belongs_to :unit
   belongs_to :vat
   has_many :batches
   has_many :purchase_items
 
   attr_accessible :name, :comment, :item_type, :item_group, :stocked, :unit_id,
-  :in_price, :distributor_price, :retail_price, :vat_id
+  :in_price, :distributor_price, :retail_price, :vat_id, :organisation
 
   validates :name, :uniqueness => true
   validates :name, :presence => true

@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
 
   create_table "batches", force: true do |t|
     t.integer  "item_id"
+    t.integer  "organisation_id"
     t.string   "name"
     t.text     "comment"
     t.integer  "in_price"
@@ -64,6 +65,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "customers", force: true do |t|
+    t.integer  "organisation_id"
     t.string   "address"
     t.string   "city"
     t.string   "vat_number"
@@ -132,6 +134,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "items", force: true do |t|
+    t.integer  "organisation_id"
     t.integer  "unit_id"
     t.integer  "vat_id"
     t.string   "name"
@@ -334,6 +337,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "vats", force: true do |t|
+    t.integer  "organisation_id"
     t.string   "name"
     t.integer  "vat_percent"
     t.datetime "created_at"

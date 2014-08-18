@@ -3,6 +3,7 @@ class CreateBatches < ActiveRecord::Migration
     create_table :batches do |t|
 
       t.integer :item_id
+      t.integer :organisation_id
 
       t.string :name
       t.text :comment

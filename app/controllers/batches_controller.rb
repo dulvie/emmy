@@ -30,17 +30,12 @@ class BatchesController < ApplicationController
   # POST /batches.json
   def create
     @batch = Batch.new(batch_params)
-
+    @batch.organisation = current_organisation
     respond_to do |format|
       if @batch.save
         logger.info "batch param: #{params.inspect}"
-        obj_id = params[:object]
-        if params[:class]=='Production'
-          production = Production.find(obj_id)
-          production.batch = @batch
-          production.save
-          format.html { redirect_to edit_production_path(obj_id), notice: 'batch was successfully created.'}
-        elsif params[:class]=='Import'
+        obj_id = params[:object]       
+        if params[:class]=='Import'
           production = Import.find(obj_id)
           production.batch = @batch
           production.save
@@ -97,9 +92,7 @@ class BatchesController < ApplicationController
 
     def new_breadcrumbs
       obj_id = params[:object]
-      if params[:class]=='Production'
-        @breadcrumbs = [['Productions', productions_path], [Production.find(obj_id).description, production_path(obj_id)], ["#{t(:new)} #{t(:batch)}"]]
-      elsif params[:class]=='Import'
+      if params[:class]=='Import'
         @breadcrumbs = [['Imports', imports_path], [Import.find(obj_id).description, import_path(obj_id)], ["#{t(:new)} #{t(:batch)}"]]
       else
         @breadcrumbs = [['Batches', batches_path], ["#{t(:new)} #{t(:batch)}"]]
