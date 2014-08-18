@@ -142,27 +142,32 @@ brewd = Batch.create({
 espresso_in_ankeborg = Shelf.new
 espresso_in_ankeborg.warehouse = ankeborg_warehouse
 espresso_in_ankeborg.batch = espresso
+espresso_in_ankeborg.organisation_id=o.id
 espresso_in_ankeborg.save
 
 brewd_in_ankeborg = Shelf.new
 brewd_in_ankeborg.warehouse = ankeborg_warehouse
 brewd_in_ankeborg.batch = brewd
+brewd_in_ankeborg.organisation_id = o.id
 brewd_in_ankeborg.save
 
 [espresso, brewd].each do |batch|
   batch_transaction = BatchTransaction.new(
     warehouse: ankeborg_warehouse,
     batch: batch,
-    quantity: (10..100).to_a.sample
+    quantity: (10..100).to_a.sample,
+    organisation_id: o.id
   )
   m = Manual.new
   m.user = jtest
+  m.organisation_id = o.id
   m.comments.build(user_id: jtest.id, body: "Initial seed manual product_transaction", organisation: o)
   m.batch_transaction = batch_transaction
   m.save
 end
 
 tr = Transfer.new
+tr.organisation_id = o.id
 tr.from_warehouse = ankeborg_warehouse
 tr.to_warehouse = flea_bottom
 tr.quantity = 10

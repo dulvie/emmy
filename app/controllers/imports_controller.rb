@@ -41,7 +41,7 @@ class ImportsController < ApplicationController
   # POST /imports.json
   def create
     @import = Import.new(import_params)
-
+    @import.organisation = current_organisation
     respond_to do |format|
       if @import.save
          format.html { redirect_to edit_import_path(@import), notice: 'import was successfully created.'}

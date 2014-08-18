@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   enable_extension "plpgsql"
 
   create_table "batch_transactions", force: true do |t|
+    t.integer  "organisation_id"
     t.string   "parent_type"
     t.integer  "parent_id"
     t.integer  "batch_id"
@@ -98,6 +99,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "imports", force: true do |t|
+    t.integer  "organisation_id"
     t.integer  "user_id"
     t.string   "description"
     t.integer  "our_reference_id"
@@ -117,6 +119,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "inventories", force: true do |t|
+    t.integer  "organisation_id"
     t.integer  "user_id"
     t.integer  "warehouse_id"
     t.datetime "inventory_date"
@@ -128,6 +131,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "inventory_items", force: true do |t|
+    t.integer  "organisation_id"
     t.integer  "inventory_id"
     t.integer  "batch_id"
     t.integer  "shelf_quantity"
@@ -153,6 +157,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "manuals", force: true do |t|
+    t.integer  "organisation_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -278,7 +283,8 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "shelves", force: true do |t|
-    t.integer  "quantity",     default: 0
+    t.integer  "organisation_id"
+    t.integer  "quantity",        default: 0
     t.integer  "warehouse_id"
     t.integer  "batch_id"
     t.datetime "created_at"
@@ -304,6 +310,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
     t.integer  "batch_id"
     t.integer  "quantity"
     t.integer  "user_id"
+    t.integer  "organisation_id"
     t.string   "state"
     t.datetime "sent_at"
     t.datetime "received_at"

@@ -1,5 +1,5 @@
 class Transfer < ActiveRecord::Base
-
+  # t.integer :organisation_id
   # t.integer :from_warehouse_id
   # t.integer :to_warehouse_id
   # t.integer :batch_id
@@ -18,9 +18,10 @@ class Transfer < ActiveRecord::Base
   belongs_to :to_warehouse, class_name: 'Warehouse'
   belongs_to :batch
   belongs_to :user
+  belongs_to :organisation
   has_many :comments, as: :parent, :dependent => :destroy
 
-  attr_accessible :from_warehouse_id, :to_warehouse_id, :batch_id, :quantity
+  attr_accessible :from_warehouse_id, :to_warehouse_id, :batch_id, :quantity, :organisation_id
   accepts_nested_attributes_for :comments
 
   STATES=['not_sent', 'sent', 'received']
@@ -79,7 +80,8 @@ class Transfer < ActiveRecord::Base
     t = build_from_transaction(
       warehouse_id: from_warehouse_id,
       batch_id: batch_id,
-      quantity: quantity * -1 # the from_transaction subtracts the quantity
+      quantity: quantity * -1, # the from_transaction subtracts the quantity
+      organisation_id: organisation_id
     )
     t.save!
   end
@@ -88,7 +90,8 @@ class Transfer < ActiveRecord::Base
     t = build_to_transaction(
       warehouse_id: to_warehouse_id,
       batch_id: batch_id,
-      quantity: quantity
+      quantity: quantity,
+      organisation_id: organisation_id
     )
     t.save!
   end

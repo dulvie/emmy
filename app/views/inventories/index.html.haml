@@ -12,6 +12,7 @@
     %tbody
       - @inventories.each do |inventory|
         %tr
+          %td= inventory.organisation.name 
           %td= link_to "##{inventory.id}", inventory
           %td= inventory.started_at.nil? ? ' ': inventory.started_at.strftime("%Y-%m-%d") 
           %td= link_to inventory.warehouse.name, inventory.warehouse

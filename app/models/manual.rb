@@ -1,10 +1,12 @@
 class Manual < ActiveRecord::Base
   # t.integer :user_id
+  # t.integer :organisation_id
 
   has_one :batch_transaction, as: :parent, :dependent => :destroy
   has_one :warehouse, through: :batch_transaction
   has_one :batch, through: :batch_transaction
   belongs_to :user
+  belongs_to :organisation
   has_many :comments, as: :parent, :dependent => :destroy
 
   before_create :check_inventory

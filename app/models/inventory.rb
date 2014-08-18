@@ -1,5 +1,5 @@
 class Inventory < ActiveRecord::Base
-
+  # t.integer :organisation_id 
   # t.integer :user_id
   # t.integer :warehouse_id
   # t.datetime :inventory_date
@@ -8,13 +8,14 @@ class Inventory < ActiveRecord::Base
   # t.timestamp :started_at
   # t.timestamp :completed_at
 
+  belongs_to :organisation
   belongs_to :user
   belongs_to :warehouse
   has_many :inventory_items
   has_many :inventory_transactions, class_name: 'BatchTransaction', as: :parent
 
   accepts_nested_attributes_for :inventory_items
-  attr_accessible :description, :user_id, :warehouse_id, :inventory_date
+  attr_accessible :description, :user_id, :warehouse_id, :inventory_date, :organisation
 
   before_create :check_transfer
 
@@ -77,7 +78,8 @@ class Inventory < ActiveRecord::Base
       @inventory_item = self.inventory_items.new(
         batch_id: shelf.batch_id,
         shelf_quantity: shelf.quantity,
-        actual_quantity: shelf.quantity)
+        actual_quantity: shelf.quantity,
+        organisation_id: shelf.organisation_id)
       @inventory_item.save
     end
   end
@@ -94,7 +96,8 @@ class Inventory < ActiveRecord::Base
           parent: self,
           warehouse: warehouse,
           batch: item.batch,
-          quantity: item.actual_quantity - shelf.quantity)
+          quantity: item.actual_quantity - shelf.quantity,
+          organisation_id: item.organisation_id)
         batch_transaction.save
       end
     end

@@ -19,6 +19,7 @@ class InventoriesController < ApplicationController
   def create  
      @inventory = Inventory.new inventory_params
      @inventory.user = current_user
+     @inventory.organisation = current_organisation
      respond_to do |format|
       if @inventory.save
         format.html { redirect_to inventory_path(@inventory), notice: "#{t(:inventory)} #{t(:was_successfully_created)}" }

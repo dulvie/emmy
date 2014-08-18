@@ -1,15 +1,17 @@
 class InventoryItem < ActiveRecord::Base
 
-  #t.integer :inventory_id
-  #t.integer :batch_id
+  # t.integer :organisation_id
+  # t.integer :inventory_id
+  # t.integer :batch_id
 
-  #t.integer :shelf_quantity
-  #t.integer :actual_quantity
+  # t.integer :shelf_quantity
+  # t.integer :actual_quantity
 
+  belongs_to :organisation
   belongs_to :inventory
   belongs_to :batch
 
-  attr_accessible :inventory_id, :batch_id, :shelf_quantity, :actual_quantity
+  attr_accessible :inventory_id, :batch_id, :shelf_quantity, :actual_quantity, :organisation, :organisation_id
   accepts_nested_attributes_for :batch
 
   validates :batch_id, presence: true
