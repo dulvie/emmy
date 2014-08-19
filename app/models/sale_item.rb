@@ -1,16 +1,18 @@
 class SaleItem < ActiveRecord::Base
-  #t.integer :sale_id
-  #t.integer :batch_id
-  #t.integer :quantity
-  #t.integer :price
-  #t.integer :price_inc_vat
-  #t.integer :price_sum
-  #t.integer :vat
+  # t.integer :organisation_id
+  # t.integer :sale_id
+  # t.integer :batch_id
+  # t.integer :quantity
+  # t.integer :price
+  # t.integer :price_inc_vat
+  # t.integer :price_sum
+  # t.integer :vat
 
+  belongs_to :organisation
   belongs_to :sale
   belongs_to :batch
 
-  attr_accessible :batch_id, :quantity, :price, :vat
+  attr_accessible :batch_id, :quantity, :price, :vat, :organisation
 
   before_validation :collect_and_calculate
 

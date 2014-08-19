@@ -13,6 +13,7 @@ class SaleItemsController < ApplicationController
   def create
     @sale = Sale.find(params[:sale_id])
     @sale_item = @sale.sale_items.build sale_item_params
+    @sale_item.organisation = current_organisation
     respond_to do |format|
       if @sale_item.save
         format.html { redirect_to sale_path(@sale), notice: "#{t(:batch_added)}" }

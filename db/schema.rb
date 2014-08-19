@@ -206,6 +206,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "purchase_items", force: true do |t|
+    t.integer  "organisation_id"
     t.integer  "purchase_id"
     t.integer  "item_id"
     t.integer  "batch_id"
@@ -218,6 +219,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "purchases", force: true do |t|
+    t.integer  "organisation_id"
     t.integer  "parent_id"
     t.string   "parent_type"
     t.integer  "user_id"
@@ -253,6 +255,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "sale_items", force: true do |t|
+    t.integer  "organisation_id"
     t.integer  "sale_id"
     t.integer  "batch_id"
     t.integer  "quantity"

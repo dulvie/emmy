@@ -1,5 +1,5 @@
 class Purchase < ActiveRecord::Base
-
+  # t.integer :organisation_id
   # t.integer :parent_id
   # t.string :parent_type
 
@@ -22,6 +22,7 @@ class Purchase < ActiveRecord::Base
   # t.timestamp :paid_at
   # t.datetime :due_date
 
+  belongs_to :organisation
   belongs_to :user
   belongs_to :supplier
   belongs_to :our_reference, class_name: 'User'
@@ -33,7 +34,7 @@ class Purchase < ActiveRecord::Base
 
   accepts_nested_attributes_for :purchase_items
   attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id,
-    :to_warehouse_id, :total_amount, :vat_amount, :ordered_at, :parent_type, :parent_id
+    :to_warehouse_id, :total_amount, :vat_amount, :ordered_at, :parent_type, :parent_id, :organisation
 
   validates :description, presence: true
   validates :supplier_id, presence: true
@@ -107,7 +108,8 @@ class Purchase < ActiveRecord::Base
           parent: self,
           warehouse: to_warehouse,
           batch: purchase_item.batch,
-          quantity: purchase_item.quantity)
+          quantity: purchase_item.quantity,
+          organisation_id: self.organisation_id)
         batch_transaction.save
       end
     end
