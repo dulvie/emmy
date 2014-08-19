@@ -32,6 +32,7 @@ class UnitsController < ApplicationController
   # POST /units.json
   def create
     @unit = Unit.new(unit_params)
+    @unit.organisation = current_organisation
     respond_to do |format|
       if @unit.save
         format.html { redirect_to units_url, notice: 'unit was successfully created.' }

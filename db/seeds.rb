@@ -31,14 +31,14 @@ ktest.save
 ktest.roles << roles.last
 ktest.save
 
-ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg"})
-flea_bottom = Warehouse.create({name: "Flea bottom", city: "King's landing"})
+ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg", organisation: o})
+flea_bottom = Warehouse.create({name: "Flea bottom", city: "King's landing", organisation: o})
 
-unit1 = Unit.create(name: "Paket (1/2 kg)", weight: "1/2 kg")
-unit2 = Unit.create(name: "St")
-unit3 = Unit.create(name: "Säck (50 kg)", weight: "50 kg")
-unit4 = Unit.create(name: "Pall", weight: "100 kg")
-unit5 = Unit.create(name: "Tim")
+unit1 = Unit.create(name: "Paket (1/2 kg)", weight: "1/2 kg", organisation: o)
+unit2 = Unit.create(name: "St", organisation: o)
+unit3 = Unit.create(name: "Säck (50 kg)", weight: "50 kg", organisation: o)
+unit4 = Unit.create(name: "Pall", weight: "100 kg", organisation: o)
+unit5 = Unit.create(name: "Tim", organisation: o)
 
 vat0 = Vat.create(name: "Ingen", vat_percent: 0, organisation: o)
 vat6 = Vat.create(name: "(6 procent)", vat_percent: 6, organisation: o)
@@ -185,11 +185,11 @@ coffehouse = Customer.create(name: 'Coffe House by Foobar', payment_term: 10, or
 	Customer.create(name: "Kund #{i}", payment_term: 30, organisation: o)
 end
 
-bigsupp = Supplier.create(name: "Big supplier of coffee")
-coffesupp = Supplier.create(name: "Kaffekooperativ")
-freightsupp = Supplier.create(name: "Shipping LTD")
-tullsupp = Supplier.create(name: "Tullverket")
-rostsupp = Supplier.create(name: "AB Rosteri")
+bigsupp = Supplier.create(name: "Big supplier of coffee", organisation: o)
+coffesupp = Supplier.create(name: "Kaffekooperativ", organisation: o)
+freightsupp = Supplier.create(name: "Shipping LTD", organisation: o)
+tullsupp = Supplier.create(name: "Tullverket", organisation: o)
+rostsupp = Supplier.create(name: "AB Rosteri", organisation: o)
 
 
 # @TODO create invoice(s)

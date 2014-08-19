@@ -31,6 +31,7 @@ class WarehousesController < ApplicationController
   # POST /warehouses.json
   def create
     @warehouse = Warehouse.new(warehouse_params)
+    @warehouse.organisation = current_organisation
     respond_to do |format|
       if @warehouse.save
         format.html { redirect_to  warehouses_path, notice: 'Warehouse was successfully created.' }

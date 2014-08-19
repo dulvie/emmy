@@ -297,6 +297,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "suppliers", force: true do |t|
+    t.integer  "organisation_id"
     t.string   "name"
     t.string   "address"
     t.string   "zip"
@@ -324,6 +325,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "units", force: true do |t|
+    t.integer  "organisation_id"
     t.string   "name"
     t.string   "weight"
     t.string   "package_dimensions"
@@ -360,6 +362,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "warehouses", force: true do |t|
+    t.integer  "organisation_id"
     t.string   "name"
     t.integer  "primary_contact_id"
     t.string   "address"

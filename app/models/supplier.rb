@@ -1,4 +1,5 @@
 class Supplier < ActiveRecord::Base
+  # t.integer :organisation_id
   # t.string  :name
   # t.string  :address
   # t.string  :zip
@@ -8,11 +9,12 @@ class Supplier < ActiveRecord::Base
   # t.string  :vat_number
   # t.integer :primary_contact_id
 
+  belongs_to :organisation
   has_many :contacts, as: :parent
   has_many :comments, as: :parent
   has_many :purchases
 
-  attr_accessible :name, :address, :zip, :city, :country, :bg_number, :vat_number, :primary_contact_id
+  attr_accessible :name, :address, :zip, :city, :country, :bg_number, :vat_number, :primary_contact_id, :organisation
 
   validates :name, presence: true
   validates :name, :uniqueness => true

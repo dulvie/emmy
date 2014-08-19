@@ -1,17 +1,19 @@
 class Warehouse < ActiveRecord::Base
+  # t.integer :organisation_id
   # t.string :name
   # t.string :address
   # t.string :zip
   # t.string :city
   # t.integer :primary_contact_id
 
+  belongs_to :organisation
   has_many :shelves, :dependent => :destroy
   has_many :contacts, as: :parent
   has_many :comments, as: :parent
   has_many :manuals
   has_many :batch_transactions
 
-  attr_accessible :name, :address, :zip, :city, :primary_contact_id
+  attr_accessible :name, :address, :zip, :city, :primary_contact_id, :organisation
 
   validates :name, :uniqueness => true
   validates :name, :presence => true
