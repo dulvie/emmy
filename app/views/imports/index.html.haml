@@ -12,7 +12,7 @@
       %th= t(:started_at)
       %th= t(:completed_at)
       %th= t(:batch)
-      %th{:style => "text-align:right"}
+      %th.numeric
         = t(:quantity)
       %th= t(:state)
       %th
@@ -24,7 +24,7 @@
           %td= import.started_at.nil? ? ' ': import.started_at.strftime("%Y-%m-%d")
           %td= import.completed_at.nil? ? ' ': import.completed_at.strftime("%Y-%m-%d")
           %td= import.batch.nil? ? ' ' : import.batch.name
-          %td{:style => "text-align:right"}
+          %td.numeric
             = import.import_quantity
           %td
             - import.states.each do |s|

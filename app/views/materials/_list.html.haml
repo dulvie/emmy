@@ -2,13 +2,13 @@
   %thead
     %tr
       %th= t(:batch)
-      %th{:style => "text-align:right"}
+      %th.numeric
         = t(:quantity)
       %th
     %tbody
       - materials.each do |item|
         %tr
           %td= item.batch.name
-          %td{:style => "text-align:right"}
+          %td.numeric
             = item.quantity 
           %td= delete_button_for item, production_material_path(@production, item)
