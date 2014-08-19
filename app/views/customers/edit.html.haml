@@ -1,8 +1,8 @@
 %ul{:class => 'nav nav-tabs'}
-  %li.active= link_to "Base information", "#customer-form", {"data-toggle" => "tab"}
-  %li= link_to "Contacts", "#contact-index", {"data-toggle" => "tab"}
-  %li= link_to "Comments", "#comment-index", {"data-toggle" => "tab"}
-  %li= link_to "Sales", "#sale-index", {"data-toggle" => "tab"}
+  %li.active= link_to t(:base_information), "#customer-form", {"data-toggle" => "tab"}
+  %li= link_to t(:contacts), "#contact-index", {"data-toggle" => "tab"}
+  %li= link_to t(:comments), "#comment-index", {"data-toggle" => "tab"}
+  %li= link_to t(:sales), "#sale-index", {"data-toggle" => "tab"}
 .tab-content
   #customer-form.tab-pane.active
     %br
