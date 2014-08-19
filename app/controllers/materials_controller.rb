@@ -13,11 +13,11 @@ class MaterialsController < ApplicationController
   end
 
   def create
-      logger.info "batch: #{params[:material][:batch_id]}"
+    logger.info "batch: #{params[:material][:batch_id]}"
 
     @production = Production.find(params[:production_id])
     @material = @production.materials.build material_params
-
+    @material.organisation = current_organisation
     respond_to do |format|
       if @material.save
         format.html { redirect_to edit_production_path(@production), notice: "#{t(:material_added)}" }
@@ -30,7 +30,7 @@ class MaterialsController < ApplicationController
   end
 
   def update
-        logger.info "batch: #{params[:material][:batch_id]}"
+    logger.info "batch: #{params[:material][:batch_id]}"
     @production = Production.find(params[:production_id])
     respond_to do |format|
       if @material.update_attributes(material_params)

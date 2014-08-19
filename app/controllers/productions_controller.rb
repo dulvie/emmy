@@ -45,6 +45,7 @@ class ProductionsController < ApplicationController
   # POST /productions.json
   def create
     @production = Production.new(production_params)
+    @production.organisation = current_organisation
     respond_to do |format|
       if @production.save
         format.html { redirect_to edit_production_path(@production), notice: 'production was successfully created.'}

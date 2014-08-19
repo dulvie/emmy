@@ -1,9 +1,9 @@
 class CreateProductions < ActiveRecord::Migration
   def change
     create_table :productions do |t|
-
+      t.integer :organisation_id
       t.integer :user_id
-      t.string :description
+      t.string  :description
       t.integer :our_reference_id
       t.integer :warehouse_id      
       t.integer :batch_id

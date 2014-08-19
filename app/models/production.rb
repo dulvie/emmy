@@ -1,5 +1,5 @@
 class Production < ActiveRecord::Base
-
+  # t.integer :organisation_id
   # t.integer :user_id
   # t.string :description
   # t.integer :our_reference_id
@@ -13,6 +13,7 @@ class Production < ActiveRecord::Base
   # t.timestamp :started_at
   # t.timestamp :completed_at
 
+  belongs_to :organisation
   belongs_to :our_reference, class_name: 'User'
   belongs_to :warehouse
   belongs_to :batch
@@ -25,7 +26,7 @@ class Production < ActiveRecord::Base
   accepts_nested_attributes_for :materials, :work, :batch
 
   attr_accessible :description, :our_reference_id, :warehouse_id, :batch_id, :quantity, :cost_price,
-                  :started_at, :completed_at
+                  :started_at, :completed_at, :organisation
 
   validates :description, presence: true
   validates :warehouse_id, presence: true
@@ -85,7 +86,8 @@ class Production < ActiveRecord::Base
           parent: self,
           warehouse: warehouse,
           batch: materials.first.batch,
-          quantity: materials.first.quantity * -1)
+          quantity: materials.first.quantity * -1,
+          organisation_id: self.organisation_id)
     batch_transaction.save
   end
 
@@ -94,7 +96,8 @@ class Production < ActiveRecord::Base
           parent: self,
           warehouse: warehouse,
           batch: batch,
-          quantity: quantity)
+          quantity: quantity,
+          organisation_id: self.organisation_id)
     batch_transaction.save
   end
 

@@ -1,7 +1,7 @@
 class CreateMaterials < ActiveRecord::Migration
   def change
     create_table :materials do |t|
-
+      t.integer :organisation_id
       t.integer :production_id
       t.integer :batch_id
       t.integer :quantity

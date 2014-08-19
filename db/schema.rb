@@ -164,6 +164,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "materials", force: true do |t|
+    t.integer  "organisation_id"
     t.integer  "production_id"
     t.integer  "batch_id"
     t.integer  "quantity"
@@ -188,6 +189,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "productions", force: true do |t|
+    t.integer  "organisation_id"
     t.integer  "user_id"
     t.string   "description"
     t.integer  "our_reference_id"

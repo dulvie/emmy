@@ -152,6 +152,7 @@ en:
   send: "Send"
   send_package: "Mark as sent"
   set_parts_and_quantities: "Set parts and qunatities"
+  set_product_and_quantities: "Set product and qunatities"
   shelf_quantity: "Shelf quantity"
   show: "Show"
   sign_in: "Sign in"
