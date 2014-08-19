@@ -13,7 +13,7 @@ class Warehouse < ActiveRecord::Base
   has_many :manuals
   has_many :batch_transactions
 
-  attr_accessible :name, :address, :zip, :city, :primary_contact_id, :organisation
+  attr_accessible :name, :address, :zip, :city, :primary_contact_id, :organisation, :organisation_id
 
   validates :name, :uniqueness => true
   validates :name, :presence => true

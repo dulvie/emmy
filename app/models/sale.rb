@@ -27,7 +27,7 @@ class Sale < ActiveRecord::Base
 
   attr_accessible :user_id, :warehouse_id, :customer_id, :contact_email, :contact_name,
     :payment_term, :state, :approved_at, :goods_state, :delivered_at,
-    :money_state,  :paid_at, :invoice_number, :organisation
+    :money_state,  :paid_at, :invoice_number, :organisation, :organisation_id
 
   validates :customer_id, presence: true
   validates :warehouse_id, presence: true

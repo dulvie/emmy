@@ -15,7 +15,7 @@ class Api::ManualsController < ApplicationController
       quantity: params[:manual][:quantity])
 
     @manual = Manual.new(manual_params)
-    @manual.comments.build(user_id: 1, body: params[:manual][:comment])
+    @manual.comments.build(user_id: 1, body: params[:manual][:comment], organisation_id: params[:manual][:organisation_id])
     @manual.batch_transaction = batch_transaction
 
     respond_to do |format|
