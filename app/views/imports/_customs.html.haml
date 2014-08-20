@@ -1,8 +1,3 @@
-- if @customs.nil?
-  = simple_form_for(@import, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |y|
-    - add_single_purchase_url = new_purchase_import_path(@import.id, :parent_column => 'customs')
-    = render partial: 'shared/addon_plus_link', locals: {form: y, label: :customs, link: add_single_purchase_url}
-
 - if !@customs.nil?
 
   %div{:ng_controller => "ModalCtrl"}
@@ -10,29 +5,26 @@
       = f.error_notification
 
       = render partial: 'shared/addon_edit_link', locals: {form: f, label: :customs, value: f.object.description, can_edit:  @import.can_edit_items?, link: purchase_path(@customs)}
+      - if f.object.is_completed?
+        = f.input :state, disabled: true, :input_html => {:class => 'medium'}
 
-      .form-group
-        .labels_width.control-label
-          = f.label :state
-        .fields_width
-          - if @import.can_edit_items?
-            = f.input :state, label: false, disabled: true, :input_html => {:class => 'medium'}
-          - if !@import.can_edit_items? && f.object.can_edit_items?
-            %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','customsContent' )"}
-              = status_icon
-              = t(:start)
-
-          - if  !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_received?
-            %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','customsGoodsContent' )"}
-              = status_icon
-              = t(:receive)
-
-          - if  !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_paid?
-            %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','customsPayContent' )"}
-              = status_icon
-              = t(:pay)
-          - if f.object.is_completed?
-            = f.input :state, label: false, disabled: true, :input_html => {:class => 'medium'}
+      - if !@import.can_edit_items? && !f.object.is_completed?
+        .form-button-group
+          .actions
+            - if !@import.can_edit_items? && f.object.can_edit_items?
+              %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','customsContent' )"}
+                = status_icon
+                = t(:start)
+  
+            - if  !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_received?
+              %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','customsGoodsContent' )"}
+                = status_icon
+                = t(:receive)
+  
+            - if  !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_paid?
+              %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','customsPayContent' )"}
+                = status_icon
+                = t(:pay)
 
     = render partial: 'shared/modal_state_change', locals: {idx: 'customsContent', model: @customs, form_path: state_change_purchase_path(@customs), event: 'mark_item_complete', return_path: edit_import_path(@import)}
     = render partial: 'shared/modal_state_change', locals: {idx: 'customsGoodsContent', model: @customs, form_path: state_change_purchase_path(@customs), event: 'receive', return_path: edit_import_path(@import)}

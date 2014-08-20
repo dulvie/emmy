@@ -34,7 +34,7 @@ class Purchase < ActiveRecord::Base
 
   accepts_nested_attributes_for :purchase_items
   attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id,
-    :to_warehouse_id, :total_amount, :vat_amount, :ordered_at, :parent_type, :parent_id, :organisation
+    :to_warehouse_id, :total_amount, :vat_amount, :ordered_at, :parent_type, :parent_id, :organisation, :organisation_id
 
   validates :description, presence: true
   validates :supplier_id, presence: true

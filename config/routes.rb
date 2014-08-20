@@ -18,7 +18,9 @@ Emmy::Application.routes.draw do
     end
   end  
   resources :documents
+  resources :import_batches, only: [:new, :create]
   resources :imports do
+    resources :import_batches, only: [:new, :create]
     member do
       post 'state_change', as: :state_change
       get 'new_purchase', as: :new_purchase

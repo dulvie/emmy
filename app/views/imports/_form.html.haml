@@ -2,24 +2,13 @@
   = simple_form_for(@import, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
     = f.error_notification
 
-    = f.input :description, disabled: @import.is_completed?
-    = f.association :our_reference, disabled: @import.is_completed?
+    = f.input :description, disabled: !@import.new_record?
+    = f.association :our_reference, disabled: !@import.new_record?
     = f.association :to_warehouse,  disabled: !@import.new_record?
     - if !@import.new_record?
-      = f.input:state, disabled: true, :input_html => {:class => 'medium'}
+      = f.input:state, disabled: true, :input_html => {:class => 'medium'}      
     - if @import.is_started? || @import.is_completed?
       = f.input :started_at, :as => :string,  disabled: true, :input_html => { :class => 'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}     
-
-    - if !@import.new_record? && @importing.nil? && @import.batch.nil?
-      - set_batch_url = new_batch_path({class:@import.class.name, object:@import.id})
-      = render partial: 'shared/addon_plus_link', locals: {form: f, label: :batch, link: set_batch_url}
-
-    - if @importing.nil? && !@import.batch.nil?
-      .form-group
-        .labels_width.control-label
-          = f.label :batch
-        .fields_width
-          %input{:value => @import.batch.name, :readonly=>'readonly', :class=>'form-control'}
 
     - if !@importing.nil?
       .form-group
@@ -37,15 +26,30 @@
       = f.input :amount, disabled: true
       = f.input :cost_price, disabled: true
 
-    - if !@import.is_completed? 
-      .form-button-group
-        .actions
+    .form-button-group
+      .actions
+        - if @import.new_record?
           = f.submit class: 'btn btn-primary'
+        - if !@import.new_record? && @import.can_edit_state? && @import.can_edit_items?
+          %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importContent' )"}
+            %span{ :class => "glyphicon glyphicon-flag"} 
+              = f.object.next_event
+        - if !@import.new_record? && @importing.nil?
+          = link_to t(:set_product_and_quantities), new_import_import_batch_path(@import), :class => 'btn btn-primary'
+        - if !@importing.nil? && @shipping.nil? 
+          - add_single_purchase_url = new_purchase_import_path(@import, :parent_column => 'shipping')
+          = link_to t(:set_shipping), add_single_purchase_url, :class => 'btn btn-primary'
+        - if !@importing.nil? && @customs.nil?
+          - add_single_purchase_url = new_purchase_import_path(@import.id, :parent_column => 'customs')
+          = link_to t(:set_customs), add_single_purchase_url, :class => 'btn btn-primary'
 
-    - if !@import.new_record? && @import.can_edit_state? && @import.can_edit_items?
-      %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importContent' )"}
-        %span{ :class => "glyphicon glyphicon-flag"} 
-        = f.object.next_event
+    - if @importing.nil? && !@import.batch.nil?
+      .form-group
+        .labels_width.control-label
+          = f.label :batch
+        .fields_width
+          %input{:value => @import.batch.name, :readonly=>'readonly', :class=>'form-control'}
+
     %br
   - if !@import.new_record? && @import.can_edit_state?
     = render partial: 'shared/modal_state_change', locals: {idx: 'importContent', model: @import, form_path: state_change_import_path(@import), event: 'start', return_path: edit_import_path(@import)}
