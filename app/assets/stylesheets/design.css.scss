@@ -63,12 +63,12 @@ select.btn-default {
   background: darken($body-bg, 5%);
   @extend .row;
   .actions {
-    @extend .col-sm-offset-9;
-    @extend .col-md-offset-7;
-    @extend .col-lg-offset-6;
-    @extend .col-sm-39;
-    @extend .col-md-41;
-    @extend .col-lg-42;
+    @extend .col-sm-offset-11;
+    @extend .col-md-offset-8;
+    @extend .col-lg-offset-7;
+    @extend .col-sm-30;
+    @extend .col-md-30;
+    @extend .col-lg-30;
   }
 }
 
@@ -96,9 +96,9 @@ form.form-signin {
   }
 }
 .labels_width {
-  @extend .col-sm-9;
-  @extend .col-md-7;
-  @extend .col-lg-6;
+  @extend .col-sm-11;
+  @extend .col-md-9;
+  @extend .col-lg-7;
 }
 .fields_width{
   @extend  .col-sm-20;

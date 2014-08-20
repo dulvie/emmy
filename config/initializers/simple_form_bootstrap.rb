@@ -50,7 +50,7 @@ SimpleForm.setup do |config|
   config.wrappers :horizontal_form, tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
     b.use :html5
     b.use :placeholder
-    b.use :label, class: 'col-sm-9 col-md-7 col-lg-6 control-label'
+    b.use :label, class: 'col-sm-11 col-md-9 col-lg-7 control-label'
 
     b.wrapper tag: 'div', class: 'col-sm-20 col-md-20 col-lg-12' do |ba|
       ba.use :input, class: 'form-control'
@@ -62,7 +62,7 @@ SimpleForm.setup do |config|
   config.wrappers :horizontal_file_input, tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
     b.use :html5
     b.use :placeholder
-    b.use :label, class: 'col-sm-9 col-md-7 col-lg-6 control-label'
+    b.use :label, class: 'col-sm-11 col-md-9 col-lg-7 control-label'
 
     b.wrapper tag: 'div', class: 'col-sm-20 col-md-20 col-lg-12' do |ba|
       ba.use :input
@@ -88,7 +88,7 @@ SimpleForm.setup do |config|
   config.wrappers :horizontal_radio_and_checkboxes, tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
     b.use :html5
     b.use :placeholder
-    b.use :label, class: 'col-sm-9 col-md-7 col-lg-6 control-label'
+    b.use :label, class: 'col-sm-11 col-md-9 col-lg-7 control-label'
 
     b.wrapper tag: 'div', class: 'col-sm-20 col-md-20 col-lg-12' do |ba|
       ba.use :input
