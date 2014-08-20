@@ -2,7 +2,7 @@
 %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
   %option{value: sales_path} #{t(:filter)}: #{t(:all)}
   %option{value: sales_path + '&state=meta_complete'} #{t(:filter)} #{t(:not_approved)}
-  %option{value: sales_path + '&state=item_complete'} #{t(:approved)}
+  %option{value: sales_path + '&state=prepared'} #{t(:approved)}
   %option{value: sales_path + '&goods_state=not_delivered'} #{t(:not_delivered)}
   %option{value: sales_path + '&money_state=not_paid'} #{t(:not_paid)}
 %br
@@ -28,7 +28,7 @@
         %td
           - sale.states.each do |s|
             = s
-        - if sale.item_complete?
+        - if sale.prepared?
           - show = link_to doc_icon, sale.document_url, target: '_blank'
         - else
           - show = ' '

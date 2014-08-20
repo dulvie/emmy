@@ -25,8 +25,8 @@ class SalesController < ApplicationController
     @breadcrumbs = [[t(:sales)]]
     if params[:state] == 'meta_complete'
       sales = @sales.where("state = ?", 'meta_complete').collect{|sale| sale.decorate}
-    elsif params[:state] == 'item_complete'
-      sales = @sales.where("state = ?", 'item_complete').collect{|sale| sale.decorate}
+    elsif params[:state] == 'prepared'
+      sales = @sales.where("state = ?", 'prepared').collect{|sale| sale.decorate}
     elsif params[:money_state] == 'not_paid'
       sales = @sales.where("money_state = ?", 'not_paid').collect{|sale| sale.decorate}
     elsif params[:goods_state] == 'not_delivered'

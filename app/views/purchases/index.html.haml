@@ -3,7 +3,7 @@
   %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
     %option{value: purchases_path} #{t(:all)}
     %option{value: purchases_path + '&state=meta_complete'} #{t(:not_ordered)}
-    %option{value: purchases_path + '&state=item_complete'} #{t(:processing)}
+    %option{value: purchases_path + '&state=prepared'} #{t(:processing)}
 %br
 %table{:class => 'table'}
   %thead{:class => 'well'}

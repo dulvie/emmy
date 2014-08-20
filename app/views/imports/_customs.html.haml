@@ -26,6 +26,6 @@
                 = status_icon
                 = t(:pay)
 
-    = render partial: 'shared/modal_state_change', locals: {idx: 'customsContent', model: @customs, form_path: state_change_purchase_path(@customs), event: 'mark_item_complete', return_path: edit_import_path(@import)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'customsContent', model: @customs, form_path: state_change_purchase_path(@customs), event: 'mark_prepared', return_path: edit_import_path(@import)}
     = render partial: 'shared/modal_state_change', locals: {idx: 'customsGoodsContent', model: @customs, form_path: state_change_purchase_path(@customs), event: 'receive', return_path: edit_import_path(@import)}
     = render partial: 'shared/modal_state_change', locals: {idx: 'customsPayContent', model: @customs, form_path: state_change_purchase_path(@customs), event: 'pay', return_path: edit_import_path(@import)}

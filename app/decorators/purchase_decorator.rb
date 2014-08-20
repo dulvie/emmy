@@ -11,7 +11,7 @@ class PurchaseDecorator < Draper::Decorator
     when 'meta_complete'
       l = 'info'
       str = h.t(:has_base_info)
-    when 'item_complete'
+    when 'prepared'
       l = 'warning'
       str = h.t(:processing)
     when 'completed'

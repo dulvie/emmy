@@ -37,7 +37,7 @@ class Sale < ActiveRecord::Base
   before_create :ensure_organisation_id
 
   STATE_CHANGES = [
-    :mark_item_complete, :mark_complete, # Generic state
+    :mark_prepared, :mark_complete, # Generic state
     :deliver, # Goods
     :pay,     # Money
   ]
@@ -50,8 +50,8 @@ class Sale < ActiveRecord::Base
   def next_step
     case state
     when 'meta_complete'
-      :mark_item_complete
-    when 'item_complete' || 'completed'
+      :mark_prepared
+    when 'prepared' || 'completed'
       nil
     else
       raise RuntimeError, "Unknown state#{state} of sale#{self.id}"
@@ -59,15 +59,15 @@ class Sale < ActiveRecord::Base
   end
 
   state_machine :state, initial: :meta_complete do
-    before_transition on: :mark_item_complete, do:  :set_approved_and_due_date
-    after_transition on: :mark_item_complete, do: :generate_invoice
+    before_transition on: :mark_prepared, do:  :set_approved_and_due_date
+    after_transition on: :mark_prepared, do: :generate_invoice
 
-    event :mark_item_complete do
-      transition :meta_complete => :item_complete
+    event :mark_prepared do
+      transition :meta_complete => :prepared
     end
 
     event :mark_complete do
-      transition :item_complete => :completed
+      transition :prepared => :completed
     end
   end
 
@@ -161,7 +161,7 @@ class Sale < ActiveRecord::Base
   end
 
   def can_delete?
-    return false if ['completed','item_complete'].include? state
+    return false if ['completed','prepared'].include? state
     true
   end
 

@@ -42,13 +42,13 @@ class Batch < ActiveRecord::Base
   end
 
   def in_quantity
-    qty = Purchase.where('state' => 'item_complete', 'goods_state' => 'not_received').joins(:purchase_items).where('purchase_items.batch_id' => self.id).sum('quantity')
+    qty = Purchase.where('state' => 'prepared', 'goods_state' => 'not_received').joins(:purchase_items).where('purchase_items.batch_id' => self.id).sum('quantity')
     ext = Production.where('state' => 'started', 'batch_id' => self.id).sum('quantity')
     return qty+ext
   end
 
   def out_quantity
-    qty = Sale.where('state' => 'item_complete', 'goods_state' => 'not_delivered').joins(:sale_items).where('sale_items.batch_id' => self.id).sum('quantity')
+    qty = Sale.where('state' => 'prepared', 'goods_state' => 'not_delivered').joins(:sale_items).where('sale_items.batch_id' => self.id).sum('quantity')
     return qty
   end
 

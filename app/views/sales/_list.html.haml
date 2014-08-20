@@ -19,7 +19,7 @@
         %td
           - sale.states.each do |s|
             = s
-        - if sale.item_complete?
+        - if sale.prepared?
           - show =  link_to doc_icon, sale_path(sale, format: :pdf), :target => "_blank"
         - else
           - show = ' '

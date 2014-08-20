@@ -16,7 +16,7 @@ class Shelf < ActiveRecord::Base
   delegate :name, :in_price, :distributor_price, :retail_price, :vat, :unit, :item_group, to: :batch
 
   def outgoing
-    Sale.where('state' => 'item_complete', 'goods_state' => 'not_delivered').joins(:sale_items).where('sale_items.batch_id' => self.batch_id).sum('quantity')
+    Sale.where('state' => 'prepared', 'goods_state' => 'not_delivered').joins(:sale_items).where('sale_items.batch_id' => self.batch_id).sum('quantity')
   end
 
   # Cache the batch_transaction quantity sum of batch in the warehouse.

@@ -43,7 +43,7 @@ class Purchase < ActiveRecord::Base
 
 
   EVENTS = [
-    :mark_item_complete, :mark_complete, # Generic state
+    :mark_prepared, :mark_complete, # Generic state
     :receive,   # Goods
     :pay,       # Money
   ]
@@ -56,8 +56,8 @@ class Purchase < ActiveRecord::Base
   def next_event
     case state
     when 'meta_complete'
-      :mark_item_complete
-    when 'item_complete' || 'completed'
+      :mark_prepared
+    when 'prepared' || 'completed'
       nil
     else
       raise RuntimeError, "Unknown state#{state} of purchase#{self.id}"
@@ -66,15 +66,15 @@ class Purchase < ActiveRecord::Base
 
 
   state_machine :state, initial: :meta_complete do
-    before_transition on: :mark_item_complete, do: :set_ordered
+    before_transition on: :mark_prepared, do: :set_ordered
     before_transition on: :mark_complete, do: :set_completed
 
-    event :mark_item_complete do
-      transition :meta_complete => :item_complete
+    event :mark_prepared do
+      transition :meta_complete => :prepared
     end
 
     event :mark_complete do
-      transition :item_complete => :completed
+      transition :prepared => :completed
     end
   end
 
@@ -142,12 +142,12 @@ class Purchase < ActiveRecord::Base
 
   def can_delete?
     return false if ['Production','Import'].include? self.parent_type
-    return false if ['item_complete','completed'].include? state
+    return false if ['prepared','completed'].include? state
     true
   end
 
   def is_ordered?
-    state.eql? 'item_complete'
+    state.eql? 'prepared'
   end
 
   def is_completed?

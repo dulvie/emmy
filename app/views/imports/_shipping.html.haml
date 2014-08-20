@@ -28,6 +28,6 @@
                 = t(:pay)
 
     %br
-    = render partial: 'shared/modal_state_change', locals: {idx: 'shippingContent', model: @shipping, form_path: state_change_purchase_path(@shipping), event: 'mark_item_complete', return_path: edit_import_path(@import)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'shippingContent', model: @shipping, form_path: state_change_purchase_path(@shipping), event: 'mark_prepared', return_path: edit_import_path(@import)}
     = render partial: 'shared/modal_state_change', locals: {idx: 'shippingGoodsContent', model: @shipping, form_path: state_change_purchase_path(@shipping), event: 'receive', return_path: edit_import_path(@import)}
     = render partial: 'shared/modal_state_change', locals: {idx: 'shippingPayContent', model: @shipping, form_path: state_change_purchase_path(@shipping), event: 'pay', return_path: edit_import_path(@import)}

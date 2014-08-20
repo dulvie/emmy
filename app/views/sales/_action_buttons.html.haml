@@ -5,7 +5,7 @@
     - # Don't show next-step unless there are items in the sale.
     - if @sale.sale_items.count > 0 && !@sale.is_completed?
       - if @sale.can_edit_items?
-        = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'mark_item_complete'}
+        = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'mark_prepared'}
       - unless @sale.can_edit_items?
         - if !@sale.is_delivered?
           = render partial: 'shared/state_change', locals: {model: @sale, form_path: state_change_sale_path(@sale), next_step: 'deliver'}
