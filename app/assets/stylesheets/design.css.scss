@@ -122,3 +122,17 @@ form.form-signin {
 .fix-bottom {
   margin-bottom: 5px;
 }
+
+footer {
+  border-top: 2px solid $table-border-color;
+  background: $breadcrumb-bg;
+  padding: 1em;
+  ul {
+    list-style: none;
+    margin: 0;padding:0;
+  }
+  li {
+    float: left;
+    margin-right: 2em;
+  }
+}
