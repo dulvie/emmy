@@ -10,7 +10,7 @@ o = Organisation.new name: "Default organisation"
 o.save
 
 # Default users, jtest(admin) and ktest(normal user)
-roles = Role.create([{ name: "admin"}, {name: "seller"}])
+roles = Role.create([{ name: "admin"}, {name: "seller"}, {name: 'suspended'}])
 jtest = User.new({
   name: "jtest",
   email: "jtest@mailinator.com",

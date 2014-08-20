@@ -31,4 +31,9 @@ class User < ActiveRecord::Base
   def can_delete?
     true
   end
+
+  # used by Devise
+  def active_for_authentication?
+    super and !role? :suspended
+  end
 end
