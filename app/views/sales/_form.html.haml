@@ -19,7 +19,8 @@
 
   - else
     .form-group
-      %label{class: 'col-sm-11 col-md-9 col-lg-7 control-label'}= t(:state)
-      .col-sm-39.col-md-41.col-lg-42.form-control-static
+      .labels_width.control-label
+        %label= t(:state)
+      .fields_width.form-control-static
         - @sale.states.each do |s|
           = s
