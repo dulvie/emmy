@@ -1,7 +1,5 @@
 class Contact < ActiveRecord::Base
   # t.integer :organisation_id
-  # t.integer :parent_type
-  # t.integer :parent_id
   # t.string :name
   # t.string :email
   # t.string :telephone
@@ -13,7 +11,6 @@ class Contact < ActiveRecord::Base
 
   belongs_to :organisation
   has_many :contact_relations
-  has_many :warehouse, :through => :contact_relations
 
   attr_accessible :email, :name, :telephone, :address, :zip, :city, :country, :comment, :organisation
 
@@ -24,7 +21,10 @@ class Contact < ActiveRecord::Base
   VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', 'ContactRelation']
 
   # For ApplicationHelper#delete_button
-  def can_delete?; true; end
+  def can_delete?
+    return false if ContactRelation.where("contact_id=?", self.id).count > 0
+    return true
+  end
 
   def parent_name
     parent.name

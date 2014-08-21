@@ -13,7 +13,9 @@ class Customer < ActiveRecord::Base
   # t.integer :payment_term
 
   belongs_to :organisation
-  has_many :contacts, as: :parent
+
+  has_many :contact_relations, as: :parent
+  has_many :contacts, through: :contact_relations
   has_many :comments, as: :parent
   has_many :sales
 

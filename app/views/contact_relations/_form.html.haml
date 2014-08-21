@@ -22,6 +22,3 @@
     .form-button-group
       .actions
         = f.submit class: 'btn btn-primary'
-        - if @new
-          %button{:ng_click => 'new_contact(event)', :class=>'btn btn-default'}
-            = t(:new_contact)

@@ -9,9 +9,7 @@ class ContactRelation < ActiveRecord::Base
   belongs_to :parent, :polymorphic => true
 
   attr_accessible :organisation, :organisation_id, :parent_type, :parent_id, :parent
-  
-  validates_uniqueness_of :parent_id, :scope => :contact_id
-   
+
   def can_delete?
     true 
   end  

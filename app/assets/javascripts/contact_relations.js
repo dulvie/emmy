@@ -1,9 +1,11 @@
 app.controller('contact_relations_form_ctrl', function ($scope) {
 	$scope.contacts = [];
 	$scope.selected = undefined;
+	$scope.add = true;
 
 	$scope.init = function() {
 		$scope.contacts = gon.contacts;
+		$scope.add = true;
 		//$scope.selected = $('#contact_email').val();
 	};
 	$scope.type_ahead_contact = function (item, model, label) {
@@ -17,12 +19,13 @@ app.controller('contact_relations_form_ctrl', function ($scope) {
 	    		$('#contact_zip').val($scope.contacts[i].zip);
 	    		$('#contact_country').val($scope.contacts[i].country);
 	    		$('#contact_comment').val($scope.contacts[i].comment);
+	    		$scope.add = false;
 	    	}
 	    }
 	};
 	$scope.new_contact = function ($event) {
-		$('#contact_id').val(0);
-		$event.preventDefault();
-	    $event.stopPropagation();
+		//$('#contact_id').val(0);
+		//$event.preventDefault();
+	    //$event.stopPropagation();
 	}
 });

@@ -7,25 +7,18 @@ class ContactRelationsController < ApplicationController
   before_filter :new_breadcrumbs, only: [:new, :create]
 
   def new
-    @new = true
     @contact_relation = @parent.contact_relations.build
     @contact = @parent.contacts.build
-    @contact_relation_form_url = contact_relations_path(parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
-    @contacts = Contact.all
-    gon.push contacts: ActiveModel::ArraySerializer.new(@contacts, each_serializer: ContactSerializer)
+    init_new
   end
 
   def show
-    @new = false
-    @contact = @contact_relation.contact
-    @contact_relation_form_url = contact_relation_path(parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
-    @contacts = Contact.all
-    gon.push contacts: ActiveModel::ArraySerializer.new(@contacts, each_serializer: ContactSerializer)
+    init_show
   end
 
   def create
 
-    if params[:contact][:id] != '0'
+    if params[:contact][:id] != ''
       @contact = Contact.find(params[:contact][:id])
       @contact.update_attributes contact_params
     else
@@ -43,18 +36,12 @@ class ContactRelationsController < ApplicationController
           format.html { redirect_to edit_polymorphic_path(@parent), notice: "#{t(:contact_added)}" }
         else
           flash.now[:danger] = "#{t(:failed_to_add)} #{t(:contact)}"
-          @new = true
-          @contact_relation_form_url = contact_relations_path(parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
-          @contacts = Contact.all
-          gon.push contacts: ActiveModel::ArraySerializer.new(@contacts, each_serializer: ContactSerializer)
+          init_new
           format.html { render :new }
         end
       else
         flash.now[:danger] = "#{t(:failed_to_add)} #{t(:contact)}"
-        @new = true
-        @contact_relation_form_url = contact_relations_path(parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
-        @contacts = Contact.all
-        gon.push contacts: ActiveModel::ArraySerializer.new(@contacts, each_serializer: ContactSerializer)
+        init_new
         format.html { render :new }
       end
     end
@@ -66,6 +53,7 @@ class ContactRelationsController < ApplicationController
       if @contact.update(contact_params)
         format.html { redirect_to edit_polymorphic_path(@parent), notice: "#{t(:contact)} #{t(:was_successfully_updated)}" }
       else
+        init_show
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:contact)}"
         format.html { render :show }
       end
@@ -82,6 +70,19 @@ class ContactRelationsController < ApplicationController
 
 
   private
+
+    def init_new
+      @new = true
+      @contact_relation_form_url = contact_relations_path(parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
+      @contacts = Contact.where.not(id:@parent.contacts.map(&:id))
+      gon.push contacts: ActiveModel::ArraySerializer.new(@contacts, each_serializer: ContactSerializer)
+    end
+
+    def init_show
+      @new = false
+      @contact = @contact_relation.contact
+      @contact_relation_form_url = contact_relation_path(parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
+    end
 
     def find_and_authorize_parent
 
