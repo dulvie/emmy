@@ -63,8 +63,6 @@ ActiveRecord::Schema.define(version: 20140820105947) do
 
   create_table "contacts", force: true do |t|
     t.integer  "organisation_id"
-    t.string   "parent_type"
-    t.integer  "parent_id"
     t.string   "name"
     t.string   "email"
     t.string   "telephone"

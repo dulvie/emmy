@@ -96,6 +96,6 @@ class CustomersController < ApplicationController
     end
 
     def load_contats
-      @contacts = Contact.where('parent_type = ? and parent_id = ?', 'Customer', @customer)
+      @contacts = ContactRelation.where('parent_type = ? and parent_id = ?', 'Customer', @customer)
     end
 end
