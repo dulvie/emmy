@@ -16,6 +16,19 @@ class Document < ActiveRecord::Base
   validates_attachment_content_type :upload, :content_type => ['application/pdf', 'image/jpeg', 'image/png']
   VALID_PARENT_TYPES = ['Purchase', 'nil']
 
+  # Callbacks
+  before_save :name_fallback
+
+  # Callback: before_save
+  def name_fallback
+    if self.name && !self.name.empty?
+      true
+    else
+      self.name = self.upload_file_name
+    end
+  end
+
+
   # For ApplicationHelper#delete_button
   def can_delete?
     true
