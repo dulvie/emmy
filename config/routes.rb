@@ -1,6 +1,8 @@
 require 'resque/server'
 Emmy::Application.routes.draw do
 
+  resources :shelves
+
   resources :organisations
 
   resources :transfers do

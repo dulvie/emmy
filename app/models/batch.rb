@@ -14,8 +14,8 @@ class Batch < ActiveRecord::Base
 
   belongs_to :organisation
   belongs_to :item
-  has_many :transactions
-  has_many :shelves, through: :transactions
+  has_many :batch_transactions
+  has_many :shelves, through: :batch_transactions
 
   attr_accessible :item_id, :name, :comment, :in_price, :distributor_price, :retail_price,
     :expire_at, :refined_at, :organisation, :organisation_id

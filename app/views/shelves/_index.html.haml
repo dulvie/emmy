@@ -2,7 +2,9 @@
   %tr
     %th= t(:name)
     %th= t(:quantity)
+    %th
   - shelves.each do |shelf|
     %tr
       %td= shelf.name
       %td= shelf.quantity
+      %td= link_to t(:history), shelf_path(shelf)

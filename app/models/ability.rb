@@ -48,6 +48,7 @@ class Ability
     can :manage, Unit
     can :manage, Vat
     can :manage, Warehouse
+    can :manage, Shelf
     can :read, Statistics::Report
   end
 

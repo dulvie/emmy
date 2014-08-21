@@ -1,0 +1,19 @@
+%h2
+  = @shelf.batch.name
+  @
+  = @shelf.warehouse.name
+
+%table{'class' => 'table table-striped'}
+  %thead
+    %tr
+      %th= t(:the_date)
+      %th= t(:quantity)
+      %th= t(:parent_type)
+  %tbody
+    - @batch_transactions.each do |tr|
+      %tr
+        %td
+          = tr.created_at
+        %td= tr.quantity
+        %td
+          = link_to tr.parent_type, tr.parent

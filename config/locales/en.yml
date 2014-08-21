@@ -80,6 +80,7 @@ en:
   general: "General"
   has_base_info: "Has base info"
   hello: "Hello world"
+  history: "History"
   import: "Import"
   imports: "Imports"
   in_qty: "In qty"

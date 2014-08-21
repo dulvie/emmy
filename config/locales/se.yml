@@ -58,6 +58,8 @@ se:
   from_warehouse: "Från lagerställe"
   general: "Allmän"
   has_base_info: "Har bas info"
+  hello: "Hej världen"
+  history: "Historia"
   import: "Import"
   imports: "Importer"
   in_qty: "In kv"
