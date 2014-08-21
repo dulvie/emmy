@@ -13,7 +13,7 @@ class Document < ActiveRecord::Base
 
   attr_accessible :name, :user, :parent, :user_id, :parent_id, :parent_type, :organisation, :upload
 
-  validates_attachment_content_type :upload, :content_type => ["application/pdf"]
+  validates_attachment_content_type :upload, :content_type => ['application/pdf', 'image/jpeg', 'image/png']
   VALID_PARENT_TYPES = ['Purchase', 'nil']
 
   # For ApplicationHelper#delete_button
