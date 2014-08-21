@@ -9,7 +9,7 @@
         = comment.created_at.strftime("%Y-%m-%d")
         &nbsp;&nbsp;
         = comment.user.name
-        %div{:style => 'float:right'}
+        .pull-right
           = link_to settings_icon, comment_path(comment)
           = delete_button_for comment
       .list-group-item-text

@@ -2,21 +2,20 @@
   = f.error_notification
 
   = f.input :name
+
   - if @document.upload?
     = f.input :upload_file_name, disabled: true
     = f.input :upload_file_size, disabled: true
     = f.input :upload_content_type, disabled: true, :input_html => {:class => 'medium'}
-
     .form-group
       .labels_width.control-label
         = f.label t(:show)
-      .col-sm-offset-3.col-md-offset-2.col-sm-11.col-md-10
-        = link_to @document.name, @document.upload.url, :target => "_blank", :class=>'btn-primary form-control short', :style=>'margin-top:-30px; margin-bottom:-30px'
+      .fields_width
+        .form-control-text
+          = link_to @document.name, @document.upload.url, target: '_blank'
+  - else
+    = f.input :upload, wrapper: :horizontal_file_input
 
-  .form-group
-    .labels_width.control-label
-      = f.label t(:upload)
-    .col-sm-offset-3.col-md-offset-2.col-sm-11.col-md-10
-      = f.file_field :upload, :style => 'margin-top: -22px'
-
-  = f.submit class: 'btn btn-primary'
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'
