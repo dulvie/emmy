@@ -8,9 +8,12 @@
     %meta{:name=>"viewport", :content=>"width=device-width", 'initial-scale'=>"1"}
   %body
     = include_gon
-    = render partial: 'shared/navigation'
-    = render partial: 'shared/notifications'
-    = render(partial: 'shared/breadcrumb') if @breadcrumbs
-    .container-fluid
-      = yield
+    .page-wrapper
+      = render partial: 'shared/navigation'
+      = render partial: 'shared/notifications'
+      = render(partial: 'shared/breadcrumb') if @breadcrumbs
+      .container-fluid
+        = yield
+      .foot-pusher
+        &nbsp;
     = render partial: 'shared/footer'

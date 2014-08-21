@@ -14,6 +14,7 @@ h1,h2,h3,h4,h5,input,textarea,select,a,button,label,thead, .panel-heading, .cont
 
 /* end default style customizations */
 
+
 .single-center {
   margin: 0 auto;
   width: 300px;
@@ -123,17 +124,34 @@ form.form-signin {
   margin-bottom: 5px;
 }
 
+// put footer at the bottom
+html, body {
+  height: 100%;
+}
+.page-wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -2.5em;
+}
+.foot-pusher {
+  clear: both;
+  height: 2.5em;
+}
 footer {
+  height: 2.5em;
+  box-sizing: border-box;
   border-top: 2px solid $table-border-color;
   background: $breadcrumb-bg;
-  padding: 1em;
   ul {
     list-style: none;
-    margin: 0;padding:0;
+    margin: 0;
+    padding:0;
   }
   li {
+    padding-top: .5em;
     float: left;
-    margin-right: 2em;
+    margin-right: 1em;
   }
 }
 
