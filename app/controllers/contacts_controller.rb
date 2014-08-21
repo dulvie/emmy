@@ -2,14 +2,15 @@ class ContactsController < ApplicationController
 
   load_and_authorize_resource
 
-  before_filter :find_and_authorize_parent
-  before_filter :show_breadcrumbs, only: [:show, :update]
-  before_filter :new_breadcrumbs, only: [:new, :create]
+  #before_filter :find_and_authorize_parent
+  before_filter :find_parent
+  #before_filter :show_breadcrumbs, only: [:show, :update]
+  #before_filter :new_breadcrumbs, only: [:new, :create]
 
   def new
-    @contact = @parent.contacts.build
-    logger.info "contact parent: #{@contact.parent_type}"
-    logger.info "contact: #{@contact.inspect}"
+    @parent.contacts.build
+    
+    logger.info "contacrelt: #{@contact_relation.inspect}"
     logger.info "parent: #{@parent.inspect}"
     @contact_form_url = contacts_path(parent_type: @contact.parent_type, parent_id: @contact.parent_id)
   end
@@ -52,6 +53,18 @@ class ContactsController < ApplicationController
 
 
   private
+    def find_parent
+      
+      if !params.has_key?(:parent_type) && @contact_relation
+        logger.info "SECURITY: #{@contact_relation.parent_type}"
+        params[:parent_type] = @contact_relation.parent_type
+        params[:parent_id] = @contact_relation.parent_id
+      end
+      logger.info "SECURITY: #{params[:parent_type]}"
+      parent_class = params[:parent_type].constantize
+      @parent = parent_class.find(params[:parent_id])
+      authorize! :manage, @parent
+    end
 
     def find_and_authorize_parent
 
@@ -62,6 +75,7 @@ class ContactsController < ApplicationController
       end
 
       unless Contact::VALID_PARENT_TYPES.include? params[:parent_type]
+
         logger.info "SECURITY: invalid parent_type(#{params[:parent_type]}) sent to #{request.original_url} "
         redirect_to '/'
         return false

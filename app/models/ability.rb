@@ -29,6 +29,7 @@ class Ability
   def seller_permissions(user)
     can :manage, Comment
     can :manage, Contact
+    can :manage, ContactRelation
     can :manage, Customer
     can :manage, Batch
     can :manage, Document

@@ -12,13 +12,16 @@ class Contact < ActiveRecord::Base
   # t.text :comment
 
   belongs_to :organisation
-  belongs_to :parent, polymorphic: true
+  has_many :contact_relations
+  has_many :warehouse, :through => :contact_relations
 
   attr_accessible :email, :name, :telephone, :address, :zip, :city, :country, :comment, :organisation
 
   validates :name, presence: true
+  validates :email, :uniqueness => true
+  validates :email, presence: true
 
-  VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse']
+  VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', 'ContactRelation']
 
   # For ApplicationHelper#delete_button
   def can_delete?; true; end
