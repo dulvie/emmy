@@ -14,6 +14,7 @@ class Sale < ActiveRecord::Base
   # t.timestamp :approved_at
   # t.timestamp :delivered_at
   # t.timestamp :paid_at
+  # t.timestamp :sent_email_at
   # t.integer :invoice_number
   # t.datetime :due_date
 
@@ -198,6 +199,16 @@ class Sale < ActiveRecord::Base
 
   def invoice_number
     "1000#{self.id}"
+  end
+
+  def send_invoice!
+    true
+    self.sent_email_at = Time.now
+    save
+  end
+
+  def invoice_sent?
+    (self.sent_email_at)
   end
 
 

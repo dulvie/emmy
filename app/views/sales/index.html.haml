@@ -28,11 +28,14 @@
         %td
           - sale.states.each do |s|
             = s
-        - if sale.prepared?
-          - show = link_to doc_icon, sale.document_url, target: '_blank'
-        - else
-          - show = ' '
-        %td= show
+        %td
+          - if sale.prepared?
+            = link_to doc_icon, sale.document_url, target: '_blank'
+            - unless sale.invoice_sent?
+              = link_to envelope_icon,
+                send_email_sale_path(sale),
+                method: 'post',
+                data: {confirm: t(:send_email_to_customer)}
         %td= link_to settings_icon, sale
         %td= delete_button_for sale
 

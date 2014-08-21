@@ -76,6 +76,7 @@ class SalesController < ApplicationController
 
   def state_change
     @sale = Sale.find(params[:id])
+    authorize! :manage, @sale
     if @sale.state_change(params[:new_state], params[:state_change_at])
       msg = t(:success)
     else
@@ -83,6 +84,16 @@ class SalesController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to @sale, notice: msg}
+    end
+  end
+
+  def send_email
+    @sale = Sale.find(params[:id])
+    authorize! :manage, @sale
+    if @sale.send_invoice!
+      redirect_to sales_path, notice: t(:sent_email)
+    else
+      redirect_to sales_path, error: t(:unable_to_send_email)
     end
   end
 

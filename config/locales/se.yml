@@ -133,6 +133,7 @@ se:
   sale_item: "Försäljnings rad"
   sale_marked_complete: "Forsäljning markerades färdig"
   send: "Sänd"
+  send_email_to_customer: "Skicka ett mail till kunden med fakturan"
   send_package: "Markera som skickat"
   set_parts_and_quantities: "Ange sats och kvantitet"
   set_product_and_quantities: "Ange product och kvantitet"

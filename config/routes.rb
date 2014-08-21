@@ -54,6 +54,7 @@ Emmy::Application.routes.draw do
     resources :sale_items
     member do
       post 'state_change', as: :state_change
+      post 'send_email', as: :send_email
     end
   end
   resources :purchases do

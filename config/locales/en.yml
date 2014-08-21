@@ -154,6 +154,7 @@ en:
   sale_marked_complete: "Sale was marked complete"
   sales: "Sales"
   send: "Send"
+  send_email_to_customer: "Send an email with the invoice to the customer?"
   send_package: "Mark as sent"
   set_parts_and_quantities: "Set parts and qunatities"
   set_product_and_quantities: "Set product and qunatities"

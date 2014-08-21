@@ -14,6 +14,7 @@ class CreateSales < ActiveRecord::Migration
       t.timestamp :approved_at
       t.timestamp :delivered_at
       t.timestamp :paid_at
+      t.timestamp :sent_email_at
       t.integer :invoice_number
       t.datetime :due_date
 
