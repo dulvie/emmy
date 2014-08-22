@@ -1,10 +1,11 @@
 = render partial: 'form'
 
-.row.form-horizontal
-  .col-sm-11.col-md-9.col-lg-7.control-label
-    %strong= t(:form_items)
-  .col-sm-35.col-md-30.col-lg-25
-    = render partial: 'sale_items/list', locals: {sale_items: @sale.sale_items}
+.form-horizontal
+  .form-group
+    .labels_width.control-label
+      %label= t(:form_items)
+    .fields_width
+      = render partial: 'sale_items/list', locals: {sale_items: @sale.sale_items}
 
 - if @sale.can_edit_items? or @sale.sale_items.count > 0 && !@sale.is_completed?
   = render partial: 'action_buttons'
