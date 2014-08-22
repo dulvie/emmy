@@ -30,3 +30,7 @@
 ## Gems
   All needed gems should be installed with
     $ bundle install
+
+  Mailcatcher has depndencies that clashes with rails 4.1.
+  It needs to be installed outside of bundler/Gemfile
+    $ gem install mailcatcher
