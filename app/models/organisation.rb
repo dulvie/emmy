@@ -9,7 +9,7 @@ class Organisation < ActiveRecord::Base
   # t.string :plusgiro
   # t.timestamps
 
-  attr_accessible :name, :address, :zip, :vat_number, :bankgiro, :postgiro, :plusgiro, :city
+  attr_accessible :email, :name, :address, :zip, :vat_number, :bankgiro, :postgiro, :plusgiro, :city
 
   def can_delete?
     false

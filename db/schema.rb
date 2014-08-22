@@ -176,6 +176,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   end
 
   create_table "organisations", force: true do |t|
+    t.string   "email"
     t.string   "name"
     t.string   "address"
     t.string   "zip"

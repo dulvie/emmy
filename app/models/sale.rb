@@ -201,10 +201,14 @@ class Sale < ActiveRecord::Base
     "1000#{self.id}"
   end
 
+  # @todo move this to a job.
   def send_invoice!
-    true
+    return false if self.sent_email_at
+
     self.sent_email_at = Time.now
-    save
+    if InvoiceMailer.invoice_email(self).deliver
+      save
+    end
   end
 
   def invoice_sent?
