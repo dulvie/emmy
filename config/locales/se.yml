@@ -179,6 +179,7 @@ se:
   users: "Användare"
   vat: "Moms"
   vat_number: "Moms redov nr"
+  vat_not_included: "VAT ej inkluderat"
   vats: "Moms"
   vat_information: "Moms information"
   vat_percent: "Moms procent"

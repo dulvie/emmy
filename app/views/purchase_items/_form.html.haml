@@ -25,7 +25,7 @@
       .fields_width
         %input{:value => '{{unit}}', :class => 'form-control medium', :readonly=>'readonly'}
 
-    = f.input :price
+    = f.input :price, hint: t(:vat_not_included)
 
     .form-button-group
       .actions
