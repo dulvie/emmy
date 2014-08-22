@@ -33,7 +33,13 @@ class CommentsController < ApplicationController
       redirect_path = comments_path
     else
       @comment = @parent.comments.build comment_params
-      redirect_path = edit_polymorphic_path(@parent)
+
+      # @todo Clean this up.
+      if @parent.is_a? Inventory
+        redirect_path = @parent
+      else
+        redirect_path = edit_polymorphic_path(@parent)
+      end
     end
     @comment.user = current_user
     @comment.organisation = current_organisation
@@ -121,7 +127,7 @@ class CommentsController < ApplicationController
 
     def show_breadcrumbs
       if !@parent.nil?
-        @breadcrumbs = [["#{@comment.parent_type.pluralize}", send("#{@parent.class.name.downcase}s_path")],
+        @breadcrumbs = [["#{@comment.parent_type.pluralize}",send("#{@comment.parent_type.pluralize.downcase}_path")],
         [@comment.parent_name, @comment.parent], ["#{t(:comments)}(#{@comment.body.to(10)+" ..."})"]]
       else
         @breadcrumbs = [["#{@comment.class.name.pluralize}", send("#{@comment.class.name.downcase}s_path")],
@@ -131,7 +137,7 @@ class CommentsController < ApplicationController
 
     def new_breadcrumbs
       if !@parent.nil?
-        @breadcrumbs = [["#{@parent.class.name.pluralize}", send("#{@parent.class.name.downcase}s_path")],
+        @breadcrumbs = [["#{@parent.class.name.pluralize}", send("#{@parent.class.name.pluralize.downcase}_path")],
         [@parent.parent_name, @parent], ["#{t(:new)} #{t(:comment)}"]]
       else
         @breadcrumbs = [["#{@comment.class.name.pluralize}", send("#{@comment.class.name.downcase}s_path")],

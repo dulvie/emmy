@@ -1,16 +1,26 @@
-= render partial: 'form'
+%ul.nav.nav-tabs
+  %li.active= link_to t(:base_information), '#inventory-form', data:{toggle:'tab'}
+  %li= link_to t(:comments), '#inventory-comments', data:{toggle:'tab'}
 
-.row.form-horizontal
-  .col-sm-11.col-md-9.col-lg-7.control-label
-    %strong= t(:form_items)
-  .col-sm-39.col-md-30.col-lg-25
-    = render partial: 'inventory_items/index'
+.tab-content
+  #inventory-form.tab-pane.active
+    %br
+    = render partial: 'form'
 
-.form-button-group
-  .actions
-    - if !@inventory.is_completed?
-      %div{:ng_controller => "ModalCtrl"}
-        %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','inventoryContent' )"}
-          %i{ :class => "glyphicon glyphicon-flag"}
-          #{t(@inventory.next_event)}
-        = render partial: 'shared/modal_state_change', locals: {idx: 'inventoryContent', model: @inventory, form_path: state_change_inventory_path(@inventory), event: @inventory.next_event, return_path: inventory_path(@inventory)}
+    .row.form-horizontal
+      .col-sm-11.col-md-9.col-lg-7.control-label
+        %strong= t(:form_items)
+      .col-sm-39.col-md-30.col-lg-25
+        = render partial: 'inventory_items/index'
+
+    .form-button-group
+      .actions
+        - if !@inventory.is_completed?
+          %div{:ng_controller => "ModalCtrl"}
+            %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','inventoryContent' )"}
+              %i{ :class => "glyphicon glyphicon-flag"}
+              #{t(@inventory.next_event)}
+            = render partial: 'shared/modal_state_change', locals: {idx: 'inventoryContent', model: @inventory, form_path: state_change_inventory_path(@inventory), event: @inventory.next_event, return_path: inventory_path(@inventory)}
+
+  #inventory-comments.tab-pane
+    = render partial: 'comments/index', locals: {comments: @inventory.comments, parent: @inventory}

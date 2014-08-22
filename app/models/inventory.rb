@@ -13,6 +13,7 @@ class Inventory < ActiveRecord::Base
   belongs_to :warehouse
   has_many :inventory_items
   has_many :inventory_transactions, class_name: 'BatchTransaction', as: :parent
+  has_many :comments, as: :parent
 
   accepts_nested_attributes_for :inventory_items
   attr_accessible :description, :user_id, :warehouse_id, :inventory_date, :organisation
@@ -122,6 +123,11 @@ class Inventory < ActiveRecord::Base
 
   def is_completed?
     state.eql? 'completed'
+  end
+
+  # Required by comments breadcrumb.
+  def parent_name
+    "##{self.id}"
   end
 
 end
