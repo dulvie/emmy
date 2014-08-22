@@ -88,7 +88,7 @@ Emmy::Application.routes.draw do
     resources :warehouses, :defaults => {:format => 'json'}
     resources :users, :defaults => {:format => 'json'}
     resources :customers, :defaults => {:format => 'json'}
-    resources :products, :defaults => {:format => 'json'}
+    resources :batches, :defaults => {:format => 'json'}
     resources :manuals, :defaults => {:format => 'json'}
     resources :sales, :defaults => {:format => 'json'}
   end
