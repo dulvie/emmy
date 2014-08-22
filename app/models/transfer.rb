@@ -14,6 +14,7 @@ class Transfer < ActiveRecord::Base
 
   has_one :from_transaction, class_name: 'BatchTransaction', as: :parent, :dependent => :destroy
   has_one :to_transaction, class_name: 'BatchTransaction', as: :parent, :dependent => :destroy
+
   belongs_to :from_warehouse, class_name: 'Warehouse'
   belongs_to :to_warehouse, class_name: 'Warehouse'
   belongs_to :batch

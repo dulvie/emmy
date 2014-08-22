@@ -1,22 +1,20 @@
-%div{:class=> 'container-fluid'}
-  .btn-group
-    = link_to "#{t(:create)} #{t(:unit)}", new_unit_path, class: 'btn btn-default'
-  %br
-  %br
-  %table{:class => 'table'}
-    %thead
+.btn-group
+  = link_to "#{t(:create)} #{t(:unit)}", new_unit_path, class: 'btn btn-default'
+
+%table{:class => 'table'}
+  %thead
+    %tr
+      %th= t(:name)
+      %th= t(:weight)
+      %th= t(:package_dimensions)
+      %th
+      %th
+  %tbody{}
+    - @units.each do |unit|
       %tr
-        %th= t(:name)
-        %th= t(:weight)
-        %th= t(:package_dimensions)
-        %th
-        %th
-    %tbody{}
-      - @units.each do |unit|
-        %tr
-          %td= unit.name
-          %td= unit.weight
-          %td= unit.package_dimensions
-          %td= link_to settings_icon, edit_unit_path(unit)
-          %td= delete_button_for unit
-  = paginate @units, :theme => 'twitter-bootstrap-3'
+        %td= unit.name
+        %td= unit.weight
+        %td= unit.package_dimensions
+        %td= link_to settings_icon, edit_unit_path(unit)
+        %td= delete_button_for unit
+= paginate @units, :theme => 'twitter-bootstrap-3'
