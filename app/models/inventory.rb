@@ -1,5 +1,5 @@
 class Inventory < ActiveRecord::Base
-  # t.integer :organisation_id 
+  # t.integer :organisation_id
   # t.integer :user_id
   # t.integer :warehouse_id
   # t.datetime :inventory_date
