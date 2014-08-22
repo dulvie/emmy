@@ -202,6 +202,7 @@ en:
   weight: "Weight"
   vat: "VAT"
   vat_number: "VAT number"
+  vat_not_included: "VAT not included"
   vats: "VATS"
   vat_information: "VAT information"
   vat_percent: "VAT percent"
