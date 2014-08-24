@@ -10,10 +10,10 @@
     = render partial: 'contacts/index', locals: {contacts: @organisation.contacts, parent: @organisation}
   #comment-index.tab-pane
     = render partial: 'comments/index', locals: {comments: @organisation.comments, parent: @organisation}
-    
+
 :javascript
   $(document).ready(function() {
- 
+
   $('a[data-toggle="tab"]').on("click", function(e) {
    localStorage.setItem('lastTab', $(e.target).attr("href").substr(1));
   });

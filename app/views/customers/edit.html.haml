@@ -17,7 +17,7 @@
 
 :javascript
   $(document).ready(function() {
- 
+
   $('a[data-toggle="tab"]').on("click", function(e) {
    localStorage.setItem('lastTab', $(e.target).attr("href").substr(1));
   });
