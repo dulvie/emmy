@@ -12,7 +12,8 @@ class Api::ManualsController < ApplicationController
     batch_transaction = BatchTransaction.new(
       warehouse: warehouse,
       batch: batch,
-      quantity: params[:manual][:quantity])
+      quantity: params[:manual][:quantity],
+      organisation_id: params[:manual][:organisation_id])
 
     @manual = Manual.new(manual_params)
     @manual.comments.build(user_id: 1, body: params[:manual][:comment], organisation_id: params[:manual][:organisation_id])
