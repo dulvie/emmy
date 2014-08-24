@@ -18,6 +18,7 @@
               %b.caret
             %ul.dropdown-menu
               = nav_link t(:users), users_path
+              = nav_link t(:contacts), contacts_path
               - path_to_comment = comments_path
               = nav_link t(:comments), path_to_comment
               - if can?(:manage, Organisation)

@@ -19,8 +19,7 @@ class CustomersController < ApplicationController
   def index
     respond_to do |format|
     	@breadcrumbs = [['Customers']]
-    	#format.html {@customers = Customer.order("name").paginate :page => params[:page], :per_page => 10}
-    	format.html {@customers = Customer.order("name").page(params[:page]).per(8)}
+     	format.html {@customers = Customer.order("name").page(params[:page]).per(8)}
     	format.json {render json: @customers}
     end	
   end
@@ -97,6 +96,6 @@ class CustomersController < ApplicationController
     end
 
     def load_contats
-      @contacts = Contact.where('parent_type = ? and parent_id = ?', 'Customer', @customer)
+      @contacts = ContactRelation.where('parent_type = ? and parent_id = ?', 'Customer', @customer)
     end
 end

@@ -14,6 +14,7 @@ Emmy::Application.routes.draw do
 
   resources :comments
   resources :contacts
+  resources :contact_relations
   resources :customers do
     collection do
       get 'name_search', as: :name_search
@@ -68,6 +69,7 @@ Emmy::Application.routes.draw do
 
   get "statistics/index"
   resources :warehouses
+
   devise_for :users
   resources :users do
     member do

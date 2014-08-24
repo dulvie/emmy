@@ -10,7 +10,7 @@
   #shelf-index.tab-pane
     = render "shelves/index", {shelves: @warehouse.shelves}
   #contact-index.tab-pane
-    = render partial: 'contacts/index', locals: {contacts: @warehouse.contacts, parent: @warehouse}
+    = render partial: 'contact_relations/index', locals: {contact_relations: @warehouse.contact_relations, parent: @warehouse}
   #comment-index.tab-pane
     = render partial: 'comments/index', locals: {comments: @warehouse.comments, parent: @warehouse}
 

@@ -8,7 +8,7 @@
     %br
     = render 'form'
   #contact-index.tab-pane
-    = render partial: 'contacts/index', locals: {contacts: @customer.contacts, parent: @customer}
+    = render partial: 'contact_relations/index', locals: {contact_relations: @customer.contact_relations, parent: @customer}
   #comment-index.tab-pane
     = render partial: 'comments/index', locals: {comments: @customer.comments, parent: @customer}
   #sale-index.tab-pane
