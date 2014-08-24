@@ -49,22 +49,47 @@ app.controller('sales_new_ctrl', function ($scope, ajaxService) {
 });
 
 app.controller('sale_items_new_ctrl', function ($scope) {
-	var bch_id = $('#sale_item_batch_id').val();
-	$scope.batch_id = bch_id;
-
+	$scope.batch = {};
+	$scope.options = {};
+	$scope.show_batch = false;
 	
+	var bch_id = $('#sale_item_batch_id').val();
+	var item_id = $('#sale_item_item_id').val();
+
+	$scope.item_id = item_id;
+	$scope.batch.id = bch_id;
+
 	$scope.init = function() {
-		$scope.select_batch();
+		$scope.item_changed();
 	};
 
+	$scope.item_changed = function() {
+		$scope.show_batch = false;
+		$scope.batch.id = 0;
+		for (var x=0; x < gon.items.length; x++) {
+			if ($scope.item_id == gon.items[x].id) {
+				$scope.options = gon.items[x].batches;
+				if (gon.items[x].stocked == true) {
+					$scope.show_batch = true;
+				}
+				//$('#sales_item_price').val(gon.items[x].in_price);
+				if (typeof($scope.options[0]) != "undefined") {
+					$scope.batch.id = $scope.options[0].id;					
+				}
+				$scope.select_batch();
+			}
+		}
+	}
+
 	$scope.select_batch = function() {
-		var dPrice = 0;
+		var dPrice = 0;		
 		var rPrice = 0;
+		$('#sale_item_price').val(0);
 		var reseller = $('#sale_customer_reseller').is(":checked");
-		for (i=0; i< gon.shelves.length; i++) {
-			if (gon.shelves[i].batch_id == $scope.batch_id) {
-				dPrice = gon.shelves[i].distributor_price;
-				rPrice = gon.shelves[i].retail_price;
+		for (i=0; i< $scope.options.length; i++) {
+			if ($scope.options[i].id == $scope.batch.id) {
+				dPrice = $scope.options[i].distributor_price;
+				rPrice = $scope.options[i].retail_price;
 			}
 		};
 
@@ -78,7 +103,7 @@ app.controller('sale_items_new_ctrl', function ($scope) {
 
 	$scope.select_quantity = function() {
 		for (i=0; i< gon.shelves.length; i++) {
-			if (gon.shelves[i].batch_id == $scope.batch_id) {
+			if (gon.shelves[i].batch_id == $scope.batch.id) {
 				if ($scope.quantity > gon.shelves[i].quantity)
 					alert("Kvantitet överstiger lagrets " + gon.shelves[i].quantity);
 			}

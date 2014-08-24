@@ -3,6 +3,7 @@ class CreateSaleItems < ActiveRecord::Migration
     create_table :sale_items do |t|
       t.integer :organisation_id
       t.integer :sale_id
+      t.integer :item_id
       t.integer :batch_id
       t.integer :quantity
       t.integer :price

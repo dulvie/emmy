@@ -258,6 +258,7 @@ ActiveRecord::Schema.define(version: 20140806215947) do
   create_table "sale_items", force: true do |t|
     t.integer  "organisation_id"
     t.integer  "sale_id"
+    t.integer  "item_id"
     t.integer  "batch_id"
     t.integer  "quantity"
     t.integer  "price"

@@ -2,7 +2,7 @@
   %table{:class => 'table table-striped  fix-bottom'}
     %thead
       %tr
-        %th= t(:batch)
+        %th= t(:item)
         %th.numeric= t(:quantity)
         %th.numeric= t(:price)
         %th.numeric= t(:vat)
@@ -12,7 +12,7 @@
         - sale_items.each do |item|
           - item = item.decorate
           %tr
-            %td= item.batch_name
+            %td= item.item.name
             %td.numeric= item.quantity
             %td.numeric= as_sek(item.price)
             %td.numeric

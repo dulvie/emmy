@@ -94,7 +94,7 @@ ship = Item.create({
 })
 freight = Item.create({
   name: "Frakt",
-  item_type: 'purchases',
+  item_type: 'both',
   item_group: ' ',
   stocked: 'false',
   unit_id: unit2.id,

@@ -5,9 +5,8 @@ class SaleItemsController < ApplicationController
   before_filter :set_breadcrumbs, only: [:new, :create]
 
   def new
-    @shelves = @sale.warehouse.shelves.includes(:batch)
     @sale = @sale.decorate
-    gon.push sale: @sale, sale_item: @sale_item, shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer)
+    init_new
   end
 
   def create
@@ -19,8 +18,7 @@ class SaleItemsController < ApplicationController
         format.html { redirect_to sale_path(@sale), notice: "#{t(:batch_added)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_add)} #{t(:batch)}"
-        @shelves = @sale.warehouse.shelves.includes(:batch)
-        gon.push shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer)
+        init_new
         format.html {render action: 'new' }
       end
     end
@@ -41,6 +39,16 @@ class SaleItemsController < ApplicationController
   end
 
   private
+    def init_new
+      @shelves = @sale.warehouse.shelves.includes(:batch)
+      warehouse_batches = @sale.warehouse.batches_in_stock
+      item_types = ['sales', 'both']
+      @item_selections = Item.where(item_type: item_types, stocked: false) +
+                         Item.where(item_type: item_types, stocked: true).joins(:batches).where(id: warehouse_batches)
+      gon.push shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer), 
+               items: ActiveModel::ArraySerializer.new(@item_selections, each_serializer: ItemSerializer)
+
+    end
 
     def sale_item_params
       params.require(:sale_item).permit(SaleItem.accessible_attributes.to_a)
