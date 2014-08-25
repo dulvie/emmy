@@ -18,7 +18,7 @@ class DocumentsController < ApplicationController
     else
       @document = @parent.documents.build
       @document_form_url = documents_path(parent_type: @document.parent_type, parent_id: @document.parent_id)
-    end   
+    end
   end
 
   def show
@@ -103,7 +103,7 @@ class DocumentsController < ApplicationController
         parent_class = params[:parent_type].constantize
         @parent = parent_class.find(params[:parent_id])
         authorize! :manage, @parent
-      end  
+      end
     end
 
     def document_params
@@ -111,23 +111,23 @@ class DocumentsController < ApplicationController
     end
 
     def show_breadcrumbs
-      if !@parent.nil?  
-        @breadcrumbs = [["#{@document.parent_type.pluralize}", send("#{@parent.class.name.downcase}s_path")], 
+      if !@parent.nil?
+        @breadcrumbs = [["#{@document.parent_type.pluralize}", send("#{@parent.class.name.downcase}s_path")],
         [@document.parent_name, @document.parent], ["#{t(:documents)}(#{@document.name})"]]
       else
-        @breadcrumbs = [["#{@document.class.name.pluralize}", send("#{@document.class.name.downcase}s_path")], 
+        @breadcrumbs = [["#{@document.class.name.pluralize}", send("#{@document.class.name.downcase}s_path")],
         ["#{t(:documents)}(#{@document.name})"]]
-      end  
+      end
     end
 
     def new_breadcrumbs
       if !@parent.nil?
-        @breadcrumbs = [["#{@parent.class.name.pluralize}", send("#{@parent.class.name.downcase}s_path")], 
+        @breadcrumbs = [["#{@parent.class.name.pluralize}", send("#{@parent.class.name.downcase}s_path")],
         [@parent.parent_name, @parent], ["#{t(:new)} #{t(:document)}"]]
       else
-        @breadcrumbs = [["#{@document.class.name.pluralize}", send("#{@document.class.name.downcase}s_path")], 
-        ["#{t(:new)} #{t(:document)}"]]  
-      end  
+        @breadcrumbs = [["#{@document.class.name.pluralize}", send("#{@document.class.name.downcase}s_path")],
+        ["#{t(:new)} #{t(:document)}"]]
+      end
     end
 
 end

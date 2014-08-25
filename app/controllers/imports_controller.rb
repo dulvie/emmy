@@ -9,7 +9,7 @@ class ImportsController < ApplicationController
   # GET /imports
   # GET /imports.json
   def index
-    @breadcrumbs = [[t(:imports)]]    
+    @breadcrumbs = [[t(:imports)]]
     if params[:state] == 'not_started'
       imports = @imports.where("state = ?", 'not_started').collect{|import| import.decorate}
     elsif params[:state] == 'started'
@@ -49,7 +49,7 @@ class ImportsController < ApplicationController
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:import)}"
         format.html { render action: 'new' }
       end
-    end    
+    end
   end
 
   def update
@@ -138,7 +138,7 @@ class ImportsController < ApplicationController
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:import)}"
         init_purchase
         format.html { render :new_purchase }
-      end  
+      end
     end
   end
 
@@ -187,7 +187,7 @@ class ImportsController < ApplicationController
         @item_selections = Item.where(item_type: item_types)
       end
 
-      @parent_column = params[:parent_column]   
+      @parent_column = params[:parent_column]
     end
 
     def get_purchases
