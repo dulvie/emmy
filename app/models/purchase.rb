@@ -22,6 +22,9 @@ class Purchase < ActiveRecord::Base
   # t.timestamp :paid_at
   # t.datetime :due_date
 
+  scope :prepared, -> { where(state: 'prepared') }
+  scope :not_received, -> { where(goods_state: 'not_received') }
+
   belongs_to :organisation
   belongs_to :user
   belongs_to :supplier

@@ -16,6 +16,7 @@ class Batch < ActiveRecord::Base
   belongs_to :item
   has_many :batch_transactions
   has_many :shelves, through: :batch_transactions
+  has_one :production
 
   attr_accessible :item_id, :name, :comment, :in_price, :distributor_price, :retail_price,
     :expire_at, :refined_at, :organisation, :organisation_id
@@ -42,13 +43,23 @@ class Batch < ActiveRecord::Base
   end
 
   def in_quantity
-    qty = Purchase.where('state' => 'prepared', 'goods_state' => 'not_received').joins(:purchase_items).where('purchase_items.batch_id' => self.id).sum('quantity')
-    ext = Production.where('state' => 'started', 'batch_id' => self.id).sum('quantity')
+    qty = Purchase.prepared.not_received.
+      joins(:purchase_items).
+      where('purchase_items.batch_id' => self.id).
+      sum(:quantity)
+
+    ext = 0
+    if (production && production.started?)
+      ext = production.quantity
+    end
     return qty+ext
   end
 
   def out_quantity
-    qty = Sale.where('state' => 'prepared', 'goods_state' => 'not_delivered').joins(:sale_items).where('sale_items.batch_id' => self.id).sum('quantity')
+    qty = Sale.prepared.not_delivered.
+      joins(:sale_items).
+      where('sale_items.batch_id' => self.id).
+      sum(:quantity)
     return qty
   end
 

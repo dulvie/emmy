@@ -13,6 +13,9 @@ class Production < ActiveRecord::Base
   # t.timestamp :started_at
   # t.timestamp :completed_at
 
+  scope :started, -> { where(state: 'started') }
+  scope :completed, -> { where(state: 'completed') }
+
   belongs_to :organisation
   belongs_to :our_reference, class_name: 'User'
   belongs_to :warehouse
@@ -134,6 +137,10 @@ class Production < ActiveRecord::Base
 
   def parent_name
     description
+  end
+
+  def started?
+    state.eql?('started')
   end
 
 end
