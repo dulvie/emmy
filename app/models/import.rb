@@ -75,7 +75,7 @@ class Import < ActiveRecord::Base
 
   def set_completed_and_calculate(transition)
     self.completed_at = transition.args[0]
-    self.amount = purchases.sum(:total_amount)
+    self.amount = purchases.inject(0){|acc, p| acc += p.total_amount}
     self.cost_price = amount / self.import_quantity
   end
 
