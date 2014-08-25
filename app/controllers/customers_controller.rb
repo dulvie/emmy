@@ -8,10 +8,9 @@ class CustomersController < ApplicationController
 
   def name_search
     @breadcrumbs = [['Customers'],['name_search']]
-    logger.info "search: #{ params[:name]}"
-    name =params[:name]+'%'
-    @customers = Customer.where("name LIKE ?", name).order("name").page(params[:page]).per(8)
-    render action: 'index'
+    name = "%#{params[:name]}%"
+    @customers = Customer.where("name ILIKE ?", name).order("name").page(params[:page]).per(8)
+    render :index
   end
 
   # GET /customers
