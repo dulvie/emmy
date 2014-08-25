@@ -18,6 +18,9 @@ class Sale < ActiveRecord::Base
   # t.integer :invoice_number
   # t.datetime :due_date
 
+  scope :prepared, -> { where(state: 'prepared') }
+  scope :not_delivered, -> { where(goods_state: 'not_delivered') }
+
   belongs_to :user
   belongs_to :customer
   belongs_to :warehouse

@@ -10,7 +10,8 @@ class BatchesController < ApplicationController
   # GET /batches.json
   def index
     @breadcrumbs = [['Batches']]
-    @batches = @batches.order(:name).page(params[:page]).per(8).decorate
+    batches = @batches.order(:name).decorate
+    @batches = Kaminari.paginate_array(batches).page(params[:page]).per(8)
     respond_with @batches
   end
 
