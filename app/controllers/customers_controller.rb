@@ -29,12 +29,6 @@ class CustomersController < ApplicationController
 
   # GET /customers/1
   def show
-    render 'edit'
-  end
-
-  # GET /customer/1/edit
-  def edit
-    @breadcrumbs = [['Customers', customers_path], [@customer.name]]
   end
 
   # POST /customers
