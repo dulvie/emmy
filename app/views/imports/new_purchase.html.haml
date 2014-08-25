@@ -5,7 +5,7 @@
   = f.input :parent_id, :as => :hidden
   %input{:name=>'parent_column', :value=>@parent_column, :type=>'hidden' }
 
-  = f.input :description
+  = f.input :description, :autocomplete=>'off'
   = f.association :supplier
   = f.input :contact_name
   = f.input :contact_email

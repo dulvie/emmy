@@ -8,7 +8,6 @@
   = f.association :supplier
   = f.input :contact_name
   = f.input :contact_email
-  = f.input :vat_amount
   = f.simple_fields_for(:purchase_items) do |ff|
     = ff.association :item, collection: @item_selections, include_blank: false
     = ff.input :quantity

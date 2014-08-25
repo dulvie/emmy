@@ -10,8 +10,6 @@ class Purchase < ActiveRecord::Base
   # t.string :description
   # t.integer :our_reference_id
   # t.integer :to_warehouse_id
-  # t.integer :total_amount
-  # t.integer :vat_amount
 
   # t.string :state
   # t.string :goods_state
@@ -37,7 +35,7 @@ class Purchase < ActiveRecord::Base
 
   accepts_nested_attributes_for :purchase_items
   attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id,
-    :to_warehouse_id, :total_amount, :vat_amount, :ordered_at, :parent_type, :parent_id, :organisation, :organisation_id
+    :to_warehouse_id, :ordered_at, :parent_type, :parent_id, :organisation, :organisation_id
 
   validates :description, presence: true
   validates :supplier_id, presence: true
