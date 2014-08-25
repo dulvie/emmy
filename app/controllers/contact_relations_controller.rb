@@ -33,7 +33,7 @@ class ContactRelationsController < ApplicationController
       if @contact.save
         @contact_relation.contact = @contact
         if @contact_relation.save
-          format.html { redirect_to edit_polymorphic_path(@parent), notice: "#{t(:contact_added)}" }
+          format.html { redirect_to @parent, notice: "#{t(:contact_added)}" }
         else
           flash.now[:danger] = "#{t(:failed_to_add)} #{t(:contact)}"
           init_new
