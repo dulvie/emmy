@@ -32,8 +32,7 @@
           = f.submit class: 'btn btn-primary'
         - if !@import.new_record? && @import.can_edit_state? && @import.can_edit_items?
           %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importContent' )"}
-            %span{ :class => "glyphicon glyphicon-flag"} 
-              = f.object.next_event
+            = f.object.next_event
         - if !@import.new_record? && @importing.nil?
           = link_to t(:set_product_and_quantities), new_import_import_batch_path(@import), :class => 'btn btn-primary'
         - if !@importing.nil? && @shipping.nil? 

@@ -14,17 +14,14 @@
           .actions
             - if  !@import.can_edit_items? && f.object.can_edit_items?
               %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','shippingContent' )"}
-                = status_icon
                 = t(:start)
-  
+
             - if  !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_received?
               %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','shippingGoodsContent' )"}
-                = status_icon
-                = t(:receive)     
-  
+                = t(:receive)
+
             - if  !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_paid?
               %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','shippingPayContent' )"}
-                = status_icon
                 = t(:pay)
 
     %br

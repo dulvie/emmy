@@ -12,15 +12,12 @@
           .actions
             - if !@import.can_edit_items? && f.object.can_edit_items?
               %button{:class=>"btn btn-primary inline", :ng_click=>"open($event, 'sm','importedContent' )"}
-                = status_icon
                 = t(:start)
             - if !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_received?
               %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importedGoodsContent' )"}
-                = status_icon
                 = t(:receive)
             - if !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.is_paid?
               %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importedPayContent' )"}
-                = status_icon
                 = t(:pay)
 
     %br
