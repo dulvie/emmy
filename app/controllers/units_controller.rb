@@ -10,10 +10,10 @@ class UnitsController < ApplicationController
   # GET /units.json
   def index
     respond_to do |format|
-    	@breadcrumbs = [['Units']]
-    	format.html {@units = Unit.order(:name).page(params[:page]).per(8)}
-    	format.json {render json: @units}
-    end	
+      @breadcrumbs = [['Units']]
+      format.html {@units = Unit.order(:name).page(params[:page]).per(8)}
+      format.json {render json: @units}
+    end
   end
 
   # GET /units/new
