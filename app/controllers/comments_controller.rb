@@ -31,16 +31,8 @@ class CommentsController < ApplicationController
       @comment = Comment.create comment_params
       @comment.parent_type = 'nil'
       @comment.parent_id = 0
-      redirect_path = comments_path
     else
       @comment = @parent.comments.build comment_params
-
-      # @todo Clean this up.
-      if @parent.is_a? Inventory
-        redirect_path = @parent
-      else
-        redirect_path = edit_polymorphic_path(@parent)
-      end
     end
     @comment.user = current_user
     @comment.organisation = current_organisation
@@ -75,7 +67,7 @@ class CommentsController < ApplicationController
       if @parent.nil?
         return comments_path
       else
-        if @parent.is_a? Inventory
+        if [:inventory, :customer].include?(@parent.class.name.downcase.to_sym)
            return @parent
         else
           return edit_polymorphic_path(@parent)
