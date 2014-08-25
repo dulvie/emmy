@@ -53,6 +53,7 @@ class Import < ActiveRecord::Base
   end
 
   state_machine :state, initial: :not_started do
+    before_transition on: :complete, do:  :set_completed_and_calculate
 
     event :start do
       transition :not_started => :started
@@ -62,18 +63,19 @@ class Import < ActiveRecord::Base
     event :complete do
       transition :started => :completed
     end
-    before_transition on: :complete, do:  :set_completed_and_calculate
-
   end
 
   def set_started(transition)
     self.started_at = transition.args[0]
   end
 
+  def purchases
+    Purchase.where('id in (?)', [importing_id, shipping_id, customs_id])
+  end
+
   def set_completed_and_calculate(transition)
     self.completed_at = transition.args[0]
-    amount = Purchase.find(importing_id).total_amount + Purchase.find(shipping_id).total_amount + Purchase.find(customs_id).total_amount
-    self.amount = amount
+    self.amount = Purchases.sum(:total_amount)
     self.cost_price = amount / self.import_quantity
   end
 
@@ -102,8 +104,12 @@ class Import < ActiveRecord::Base
     state.eql? 'completed'
   end
 
+  # Ensures the purchases are complete (import, shopping and customs).
   def check_for_completeness
-    if Purchase.find(importing_id).is_completed? && Purchase.find(shipping_id).is_completed? && Purchase.find(customs_id).is_completed?
+    purch_states = purchases.pluck(:state)
+    unique_states = purch_states.uniq
+    return unless unique_states.size.eql? 0
+    if unique_states.eql? 'completed'
       self.complete(Time.now)
     end
   end
