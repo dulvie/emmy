@@ -45,7 +45,7 @@ class SaleItemsController < ApplicationController
       item_types = ['sales', 'both']
       @item_selections = Item.where(item_type: item_types, stocked: false) +
                          Item.where(item_type: item_types, stocked: true).joins(:batches).where(id: warehouse_batches)
-      gon.push shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer), 
+      gon.push shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer),
                items: ActiveModel::ArraySerializer.new(@item_selections, each_serializer: ItemSerializer)
 
     end

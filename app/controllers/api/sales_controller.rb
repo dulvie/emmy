@@ -19,7 +19,7 @@ class Api::SalesController < ApplicationController
       else
         format.json { render json: @sale.errors, status: :unprocessable_entity }
       end
-    end  
+    end
   end
 
   private

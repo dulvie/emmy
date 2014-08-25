@@ -11,6 +11,6 @@ class ContactRelation < ActiveRecord::Base
   attr_accessible :organisation, :organisation_id, :parent_type, :parent_id, :parent
 
   def can_delete?
-    true 
-  end  
+    true
+  end
 end

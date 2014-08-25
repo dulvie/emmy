@@ -50,7 +50,7 @@ class ContactsController < ApplicationController
 
 
   private
-   
+
     def contact_params
         params.require(:contact).permit(Contact.accessible_attributes.to_a)
     end

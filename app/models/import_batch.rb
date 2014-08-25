@@ -36,11 +36,11 @@ class ImportBatch
                                           to_warehouse_id: @import.to_warehouse_id)
       @purchase.save
 
-      @purchase_item = @purchase.purchase_items.build(organisation_id: 
-                                                      self.organisation_id, 
-                                                      item_id: item_id, 
-                                                      batch_id: @batch.id, 
-                                                      quantity: self.quantity, 
+      @purchase_item = @purchase.purchase_items.build(organisation_id:
+                                                      self.organisation_id,
+                                                      item_id: item_id,
+                                                      batch_id: @batch.id,
+                                                      quantity: self.quantity,
                                                       price: self.price)
       @purchase_item.save
 

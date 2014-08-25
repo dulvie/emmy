@@ -8,10 +8,8 @@ class Warehouse < ActiveRecord::Base
 
   belongs_to :organisation
   has_many :shelves, :dependent => :destroy
-  
   has_many :contact_relations, as: :parent
   has_many :contacts, through: :contact_relations
-  
   has_many :comments, as: :parent
   has_many :manuals
   has_many :batch_transactions

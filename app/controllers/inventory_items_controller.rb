@@ -13,7 +13,7 @@ class InventoryItemsController < ApplicationController
     @inventory = Purchase.find(params[:inventory_id])
     @inventory_item = @inventory.inventory_items.build inventory_item_params
     @inventory_item.organisation = current_organisation
-    respond_to do |format| 
+    respond_to do |format|
       if @inventory_item.save
         format.html { redirect_to inventory_path(@inventory), notice: "#{t(:batch_added)}" }
       else

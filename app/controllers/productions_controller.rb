@@ -38,7 +38,7 @@ class ProductionsController < ApplicationController
   end
 
   # GET /productions/1/edit
-  def edit    
+  def edit
   end
 
   # POST /productions
@@ -53,7 +53,7 @@ class ProductionsController < ApplicationController
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:import)}"
         format.html { render action: 'new' }
       end
-    end    
+    end
   end
 
   def update

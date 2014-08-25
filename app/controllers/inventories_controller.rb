@@ -16,7 +16,7 @@ class InventoriesController < ApplicationController
     @inventory.user = current_user
   end
 
-  def create  
+  def create
      @inventory = Inventory.new inventory_params
      @inventory.user = current_user
      @inventory.organisation = current_organisation
@@ -26,7 +26,7 @@ class InventoriesController < ApplicationController
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:inventory)}"
         format.html { render action: :new }
-      end      
+      end
     end
   end
 
@@ -50,7 +50,7 @@ class InventoriesController < ApplicationController
   def destroy
     @inventory.destroy
     respond_to do |format|
-      format.html { redirect_to inventories_path, notice: "#{t(:inventory)} #{t(:was_successfully_deleted)}" }      
+      format.html { redirect_to inventories_path, notice: "#{t(:inventory)} #{t(:was_successfully_deleted)}" }
       #format.json { head :no_content }
     end
   end

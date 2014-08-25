@@ -25,7 +25,7 @@ class ImportBatchesController < ApplicationController
         gon.push items: @items
         format.html { render action: 'new' }
       end
-    end  
+    end
   end
 
   private
