@@ -108,8 +108,9 @@ class Import < ActiveRecord::Base
   def check_for_completeness
     purch_states = purchases.pluck(:state)
     unique_states = purch_states.uniq
-    return unless unique_states.size.eql? 0
-    if unique_states.eql? 'completed'
+    return unless unique_states.size.eql? 1
+    purchases_state = unique_states.first
+    if purchases_state.eql? 'completed'
       self.complete(Time.now)
     end
   end
