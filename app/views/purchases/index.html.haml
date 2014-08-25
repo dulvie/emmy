@@ -24,7 +24,7 @@
           %td= purchase.ordered_at.nil? ? ' ': purchase.ordered_at.strftime("%Y-%m-%d")
           %td= link_to purchase.supplier_name, purchase.supplier
           %td.numeric
-            = as_sek(purchase.total_amounts)
+            = as_sek(purchase.total_amount)
           %td
             - purchase.states.each do |s|
               = s
@@ -36,7 +36,6 @@
             %td
           %td= link_to settings_icon, purchase
           %td= delete_button_for purchase
-          %td= purchase.total_amount
 
 = paginate @purchases, :theme => 'twitter-bootstrap-3'
 
