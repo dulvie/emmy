@@ -1,7 +1,7 @@
 = simple_form_for(@comment, wrapper: :horizontal_form, html: {class: 'form-horizontal'}, url: @comment_form_url) do |f|
   = f.error_notification
 
-  = f.input :body
+  = f.input :body, input_html: {rows: '10'}, wrapper: :horizontal_text_area
 
   .form-button-group
     .actions
