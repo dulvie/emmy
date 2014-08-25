@@ -25,9 +25,9 @@ class Sale < ActiveRecord::Base
   belongs_to :customer
   belongs_to :warehouse
   belongs_to :organisation
-  has_many :sale_items
+  has_many :sale_items, :dependent => :delete_all
   has_many :from_transaction, class_name: 'BatchTransaction', as: :parent
-  has_one :document, as: :parent
+  has_one :document, as: :parent, :dependent => :delete
 
   attr_accessible :user_id, :warehouse_id, :customer_id, :contact_email, :contact_name,
     :payment_term, :state, :approved_at, :goods_state, :delivered_at,

@@ -238,8 +238,6 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.string   "description"
     t.integer  "our_reference_id"
     t.integer  "to_warehouse_id"
-    t.integer  "total_amount"
-    t.integer  "vat_amount"
     t.string   "state"
     t.string   "goods_state"
     t.string   "money_state"

@@ -7,6 +7,7 @@ class ImportBatchesController < ApplicationController
 
   def new
     @import_batch = ImportBatch.new
+    @import_batch.description = "Import batch"
     @import_batch.import_id = @import.id
     @items = Item.where("stocked=? and item_type IN('both', 'purchase')", 'true')
     @suppliers = Supplier.all

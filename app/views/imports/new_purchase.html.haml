@@ -5,23 +5,19 @@
   = f.input :parent_id, :as => :hidden
   %input{:name=>'parent_column', :value=>@parent_column, :type=>'hidden' }
 
-  = f.input :description, :autocomplete=>'off'
+  = f.input :description, :as => :hidden
   = f.association :supplier
   = f.input :contact_name
   = f.input :contact_email
-  = f.association :to_warehouse
+  = f.association :to_warehouse, :as => :hidden
+  = f.association :our_reference, :as => :hidden
   = f.simple_fields_for(:purchase_items) do |ff|
 
     = ff.association :item,
       collection: @item_selections,
       include_blank: false
 
-    - if @parent_column == 'importing'
-      = ff.association :batch,
-        collection: @batch_selections,
-        include_blank: false
-
-    = ff.input :quantity
+    = ff.input :quantity, :as => :hidden
     = ff.input :price
 
   .form-button-group

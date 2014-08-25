@@ -104,6 +104,7 @@ en:
   material: "Material"
   material_added: "Material added"
   name: "Name"
+  name_of_new_batch: "Name of new Batch"
   new: "New"
   new_contact: "New contact"
   new_manual_transaction: "New manual transaction"

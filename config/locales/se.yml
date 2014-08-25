@@ -83,6 +83,7 @@ se:
   material: "Material"
   material_added: "Material lagt till"
   name: "Namn"
+  name_of_new_batch: "Namn för ny Sats"
   new: "Ny"
   new_contact: "Ny kontakt"
   new_manual_transaction: "Ny manuell transaktion"

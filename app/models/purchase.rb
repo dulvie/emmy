@@ -29,7 +29,7 @@ class Purchase < ActiveRecord::Base
   belongs_to :our_reference, class_name: 'User'
   belongs_to :to_warehouse, class_name: 'Warehouse'
   belongs_to :parent, polymorphic: true
-  has_many :purchase_items
+  has_many :purchase_items, :dependent => :delete_all
   has_many :documents, as: :parent, :dependent => :delete_all
   has_many :to_transaction, class_name: 'BatchTransaction', as: :parent
 
