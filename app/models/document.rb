@@ -1,6 +1,6 @@
 class Document < ActiveRecord::Base
 
-  # t.integer :organisation_id 
+  # t.integer :organisation_id
   # t.string  :parent_type
   # t.integer :parent_id
   # t.integer :user_id

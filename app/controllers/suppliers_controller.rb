@@ -51,7 +51,7 @@ class SuppliersController < ApplicationController
         format.html { redirect_to suppliers_path, notice: 'supplier was successfully updated.' }
         #format.json { head :no_content }
       else
-        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:supplier)}"       
+        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:supplier)}"
         format.html { render action: 'edit' }
         #format.json { render json: @supplier.errors, status: :unprocessable_entity }
       end

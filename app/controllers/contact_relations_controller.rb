@@ -106,7 +106,7 @@ class ContactRelationsController < ApplicationController
     def contact_params
         params.require(:contact).permit(Contact.accessible_attributes.to_a)
     end
-    
+
     def new_breadcrumbs
       @breadcrumbs = [["#{@parent.class.name.pluralize}", send("#{@parent.class.name.downcase}s_path")],
         [@parent.parent_name, @parent], ["#{t(:new)} #{t(:contact)}"]]
