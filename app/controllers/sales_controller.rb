@@ -9,16 +9,12 @@ class SalesController < ApplicationController
     @sale = Sale.new sale_params
     @sale.user = current_user
     @sale.organisation = current_organisation
-    respond_to do |format|
-      if @sale.save
-        format.html { redirect_to sale_path(@sale), notice: "#{t(:sale)} #{t(:was_successfully_created)}" }
-      else
-        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:sale)}"
-        format.html { render action: :new }
-        #format.json { render json: @sale.errors, status: :unprocessable_entity }
-      end
+    if @sale.save
+      redirect_to sale_path(@sale), notice: "#{t(:sale)} #{t(:was_successfully_created)}"
+    else
+      flash.now[:danger] = "#{t(:failed_to_create)} #{t(:sale)}"
+      render action: :new
     end
-
   end
 
   def index
@@ -43,6 +39,7 @@ class SalesController < ApplicationController
   def show
     @sale = @sale.decorate
     respond_to do |format|
+      format.html
       format.pdf {
         render(
           pdf: "invoice_#{@sale.id}",
@@ -50,28 +47,21 @@ class SalesController < ApplicationController
           layout: 'pdf'
         )
       }
-      format.html
     end
   end
 
   def update
-    respond_to do |format|
-      if @sale.update_attributes(sale_params)
-        format.html { redirect_to sale_path(@sale), notice: "#{t(:sale)} #{t(:was_successfully_updated)}" }
-      else
-        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:sale)}"
-        format.html { render action: :show }
-        #format.json { render json: @sale.errors, status: :unprocessable_entity }
-      end
+    if @sale.update_attributes(sale_params)
+      redirect_to sale_path(@sale), notice: "#{t(:sale)} #{t(:was_successfully_updated)}"
+    else
+      flash.now[:danger] = "#{t(:failed_to_update)} #{t(:sale)}"
+      render action: :show
     end
   end
 
   def destroy
     @sale.destroy
-    respond_to do |format|
-      format.html { redirect_to sales_path, notice: "#{t(:sale)} #{t(:was_successfully_deleted)}" }
-      #format.json { head :no_content }
-    end
+    redirect_to sales_path, notice: "#{t(:sale)} #{t(:was_successfully_deleted)}"
   end
 
   def state_change
@@ -82,9 +72,7 @@ class SalesController < ApplicationController
     else
       msg = t(:fail)
     end
-    respond_to do |format|
-      format.html { redirect_to @sale, notice: msg}
-    end
+    redirect_to @sale, notice: msg
   end
 
   def send_email

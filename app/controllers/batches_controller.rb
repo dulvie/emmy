@@ -10,8 +10,7 @@ class BatchesController < ApplicationController
   # GET /batches.json
   def index
     @breadcrumbs = [['Batches']]
-    batches = @batches.order(:name).collect{|batch| batch.decorate}
-    @batches = Kaminari.paginate_array(batches).page(params[:page]).per(8)
+    @batches = @batches.order(:name).page(params[:page]).per(8).decorate
     respond_with @batches
   end
 
@@ -27,45 +26,37 @@ class BatchesController < ApplicationController
   end
 
   # POST /batches
-  # POST /batches.json
+  # @todo Refactor this into a service object.
   def create
     @batch = Batch.new(batch_params)
     @batch.organisation = current_organisation
-    respond_to do |format|
-      if @batch.save
-        logger.info "batch param: #{params.inspect}"
-        obj_id = params[:object]       
-        if params[:class]=='Import'
-          production = Import.find(obj_id)
-          production.batch = @batch
-          production.save
-          format.html { redirect_to edit_import_path(obj_id), notice: 'batch was successfully created.'}
-        else
-          format.html { redirect_to batches_path, notice: 'batch was successfully created.' }
-          #format.json { render action: 'show', status: :created, location: @batch }
-        end
-      else
-        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:batch)}"
-        init_new
-        format.html { render action: 'new' }
-        #format.json { render json: @batch.errors, status: :unprocessable_entity }
+    if @batch.save
+
+      notice = "#{t(:batch)} #{t(:was_sucessfully_created)}"
+      redir_url = batches_path
+      if params[:class]=='Import'
+        obj_id = params[:object]
+        production = Import.find(obj_id)
+        production.batch = @batch
+        production.save
+        redir_url = edit_import_path(obj_id)
       end
+      redirect_to redir_url, notice: notice
+    else
+      flash.now[:danger] = "#{t(:failed_to_create)} #{t(:batch)}"
+      init_new
+      render action: :new
     end
   end
 
   # PATCH/PUT /batches/1
-  # PATCH/PUT /batches/1.json
   def update
-    respond_to do |format|
-      if @batch.update(batch_params)
-        format.html { redirect_to batches_path, notice: 'batch was successfully updated.' }
-        #format.json { head :no_content }
-      else
-        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:batch)}"
-        init_new
-        format.html { render action: 'edit' }
-        #format.json { render json: @batch.errors, status: :unprocessable_entity }
-      end
+    if @batch.update(batch_params)
+      redirect_to batches_path, notice: "#{t(:batch)} #{t(:was_successfully_updated)}"
+    else
+      flash.now[:danger] = "#{t(:failed_to_update)} #{t(:batch)}"
+      init_new
+      render :edit
     end
   end
 
@@ -73,10 +64,7 @@ class BatchesController < ApplicationController
   # DELETE /batches/1.json
   def destroy
     @batch.destroy
-    respond_to do |format|
-      format.html { redirect_to batches_url, notice: 'batch was successfully deleted.' }
-      #format.json { head :no_content }
-    end
+    redirect_to batches_url, notice: "#{t(:batch)} #{t(:was_successfully_deleted)}"
   end
 
   private

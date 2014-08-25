@@ -25,6 +25,7 @@ class CommentsController < ApplicationController
     @comment_form_url = comment_path(@comment, parent_type: @comment.parent_type, parent_id: @comment.parent_id)
   end
 
+  # @todo Refactor into a service object.
   def create
     if @parent.nil?
       @comment = Comment.create comment_params
@@ -43,48 +44,44 @@ class CommentsController < ApplicationController
     end
     @comment.user = current_user
     @comment.organisation = current_organisation
-    respond_to do |format|
-      if @comment.save
-        format.html { redirect_to redirect_path, notice: "#{t(:comment_added)}" }
-      else
-        flash.now[:danger] = "#{t(:failed_to_add)} #{t(:comment)}"
-        init_new
-        format.html { render :new }
-      end
+
+    if @comment.save
+      redirect_to redirect_path, notice: "#{t(:comment_added)}"
+    else
+      flash.now[:danger] = "#{t(:failed_to_add)} #{t(:comment)}"
+      init_new
+      render :new
     end
   end
 
   def update
-    if @parent.nil?
-      redirect_path = comments_path
+    if @comment.update(comment_params)
+      redirect_to redirect_path, notice: "#{t(:comment)} #{t(:was_successfully_updated)}"
     else
-      redirect_path = edit_polymorphic_path(@parent)
-    end
-    respond_to do |format|
-      if @comment.update(comment_params)
-        format.html { redirect_to redirect_path, notice: "#{t(:comment)} #{t(:was_successfully_updated)}" }
-      else
-        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:comment)}"
-        format.html { render :show }
-      end
+      flash.now[:danger] = "#{t(:failed_to_update)} #{t(:comment)}"
+      render :show
     end
   end
 
   def destroy
-    if @parent.nil?
-      redirect_path = comments_path
-    else
-      redirect_path = edit_polymorphic_path(@parent)
-    end
     @comment.destroy
-    respond_to do |format|
-      format.html { redirect_to redirect_path, notice: "#{t(:comment)} #{t(:was_destroyed)}" }
-      #format.json { head :no_comment }
-    end
+    redirect_to redirect_path, notice: "#{t(:comment)} #{t(:was_destroyed)}"
   end
 
 
   private
+
+    def redirect_path
+      if @parent.nil?
+        return comments_path
+      else
+        if @parent.is_a? Inventory
+           return @parent
+        else
+          return edit_polymorphic_path(@parent)
+        end
+      end
+    end
 
     def find_and_authorize_parent
 
