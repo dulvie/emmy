@@ -4,8 +4,7 @@
     = f.input :production_id, as: :hidden
     %input{:name => 'production_id', :value => @production.id, :hidden => true}
     = f.input :item_id, collection: @items, :input_html => {:ng_model => 'item_id', :ng_change => 'select_item(true)'}
-
-    = f.input :name
+    = f.input :name, :label => t(:name_of_new_batch)
     = f.input :comment, as: :text
     = f.input :in_price, as: :integer
     = f.input :distributor_price, as: :integer

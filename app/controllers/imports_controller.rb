@@ -93,6 +93,7 @@ class ImportsController < ApplicationController
     @purchase.to_warehouse = @import.to_warehouse
     @purchase.parent_type = 'Import'
     @purchase.parent_id = @import.id
+    gon.push suppliers: ActiveModel::ArraySerializer.new(Supplier.all, each_serializer: SupplierSerializer)
 
   end
 
@@ -172,10 +173,6 @@ class ImportsController < ApplicationController
     end
 
     def init_purchase
-      if params[:parent_column] == 'importing'
-        @item_selections = Item.where(id: @import.batch.item.id)
-        @batch_selections = Batch.where(id: @import.batch.id)
-      end
       if params[:parent_column] == 'shipping'
         item_types = ['purchases', 'both']
         @item_selections = Item.where(item_type: item_types)
@@ -186,6 +183,7 @@ class ImportsController < ApplicationController
       end
 
       @parent_column = params[:parent_column]
+      gon.push suppliers: ActiveModel::ArraySerializer.new(Supplier.all, each_serializer: SupplierSerializer)
     end
 
     def get_purchases

@@ -1,5 +1,5 @@
 %div{:ng_controller => "ModalCtrl"}
-  = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal', autocomplete: 'off'}) do |f|
     = f.error_notification
 
     = f.input :description, disabled: !@production.new_record?
@@ -23,21 +23,21 @@
         = f.input :total_amount, disabled: true
         = f.input :cost_price, disabled: true
 
-    .form-button-group
-      .actions
-        - if @production.new_record?
-          = f.submit class: 'btn btn-primary'
-        - if !@production.new_record? && @production.batch.nil?
-          = link_to t(:set_product_and_quantities), new_production_production_batch_path(@production), :class => 'btn btn-primary'
-        - if (@production.can_edit_state? && !@production.is_started?) || (@production.can_edit_state? && @production.can_complete?)
-          %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
-            %span{ :class => "glyphicon glyphicon-flag"}
-            = @production.next_event
-        - if !@production.new_record? && !@production.batch.nil? && @production.materials.size == 0
-          = link_to t(:set_parts_and_quantities), new_production_material_path(@production), :class => 'btn btn-primary'
-        - if !@production.new_record? && !@production.batch.nil? && @production.work.nil?
-          - add_single_purchase_url = new_purchase_path({parent_id: @production.id, parent_type: @production.class.name, form: 'single_purchase'})
-          = link_to t(:ordering_work), add_single_purchase_url, :class => 'btn btn-primary'
+    - if (@production.new_record? || !@production.new_record? && @production.batch.nil? || (@production.can_edit_state? && !@production.is_started?) || (@production.can_edit_state? && @production.can_complete?) || !@production.new_record? && !@production.batch.nil? && @production.materials.size == 0 || !@production.new_record? && !@production.batch.nil? && @production.work.nil?)
+      .form-button-group
+        .actions
+          - if @production.new_record?
+            = f.submit class: 'btn btn-primary'
+          - if !@production.new_record? && @production.batch.nil?
+            = link_to t(:set_product_and_quantity), new_production_production_batch_path(@production), :class => 'btn btn-primary'
+          - if (@production.can_edit_state? && !@production.is_started?) || (@production.can_edit_state? && @production.can_complete?)
+            %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
+              = @production.next_event
+          - if !@production.new_record? && !@production.batch.nil? && @production.materials.size == 0
+            = link_to t(:set_parts_and_quantities), new_production_material_path(@production), :class => 'btn btn-primary'
+          - if !@production.new_record? && !@production.batch.nil? && @production.work.nil?
+            - add_single_purchase_url = new_purchase_path({parent_id: @production.id, parent_type: @production.class.name, form: 'single_purchase'})
+            = link_to t(:ordering_work), add_single_purchase_url, :class => 'btn btn-primary'
   %br
   - if !@production.new_record? && !@production.is_completed?
     = render partial: 'shared/modal_state_change', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), event: @production.next_event, return_path: edit_production_path(@production)}     

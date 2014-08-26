@@ -9,12 +9,7 @@
     = f.input :contact_name
     = f.input :contact_email
     = f.input :item_id, collection: @items, :input_html => {:ng_model => 'item_id', :ng_change => 'select_item(true)'}
-
-    .form-group
-      %label{:class => 'labels_width control-label required'}
-        = t(:name_of_new_batch)
-      = f.input :name, :label => false
-
+    = f.input :name, :label => t(:name_of_new_batch)
     = f.input :quantity, as: :integer
     = f.input :price, as: :integer
 

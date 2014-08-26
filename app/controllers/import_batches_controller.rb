@@ -9,9 +9,7 @@ class ImportBatchesController < ApplicationController
     @import_batch = ImportBatch.new
     @import_batch.description = "Import batch"
     @import_batch.import_id = @import.id
-    @items = Item.where("stocked=? and item_type IN('both', 'purchase')", 'true')
-    @suppliers = Supplier.all
-    gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
+    init_new
   end
 
   def create
@@ -22,14 +20,19 @@ class ImportBatchesController < ApplicationController
         format.html { redirect_to edit_import_path(@import_batch.import_id), notice: 'batch was successfully created.'}
       else
         @import_batch.import_id = @import.id
-        @items = Item.where("stocked=? and item_type IN('both', 'purchase')", 'true')
-        gon.push items: @items
+        init_new
         format.html { render action: 'new' }
       end
     end
   end
 
   private
+    def init_new
+      @items = Item.where("stocked=? and item_type IN('both', 'purchase')", 'true')
+      @suppliers = Supplier.all
+      gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
+    end
+
     def load_import
       @import = Import.find(params[:import_id])
     end

@@ -23,9 +23,11 @@ class PurchasesController < ApplicationController
 
   def new
     if params[:form]=='single_purchase'
-      @purchase.purchase_items.build
+      @purchase.purchase_items.build quantity: 1
       @purchase.parent_type = params[:parent_type]
       @purchase.parent_id = params[:parent_id]
+      @suppliers = Supplier.all
+      gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
       init_new
       respond_to do |format|
         format.html { render  "single_form" }
