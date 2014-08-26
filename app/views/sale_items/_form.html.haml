@@ -10,7 +10,7 @@
     = f.label :batch, class: 'string optional labels_width control-label', for: 'batch'
     .fields_width
       = hidden_field_tag "sale_item[batch_id]", "{{batch.id}}"
-      %select{:ng_model=>'batch.id', :ng_select => 'select_batch()', :ng_options=>"opt.id as opt.name for opt in options",  :class=>'form-control', :include_blank=>false}
+      %select{:ng_model=>'batch.id', :ng_change => 'select_batch()', :ng_options=>"opt.id as opt.name for opt in options",  :class=>'form-control', :include_blank=>false}
 
   = f.input :quantity, :input_html => {:ng_model => 'quantity', :ng_change => 'select_quantity()'}
   = f.input :price
