@@ -44,7 +44,7 @@ class SaleItemsController < ApplicationController
       warehouse_batches = @sale.warehouse.batches_in_stock
       item_types = ['sales', 'both']
       @item_selections = Item.where(item_type: item_types, stocked: false) +
-                         Item.where(item_type: item_types, stocked: true).joins(:batches).where(id: warehouse_batches)
+                         Item.select("DISTINCT(items.id), items.*").where(item_type: item_types, stocked: true).joins(:batches).where(id: warehouse_batches)
       gon.push shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer),
                items: ActiveModel::ArraySerializer.new(@item_selections, each_serializer: ItemSerializer)
 

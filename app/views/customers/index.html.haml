@@ -23,7 +23,7 @@
         %td= customer.address
         %td= customer.zip
         %td= customer.city
-        %td= link_to settings_icon, edit_customer_path(customer)
+        %td= link_to settings_icon, customer_path(customer)
         %td= delete_button_for customer
 
 = paginate @customers, :theme => 'twitter-bootstrap-3'
