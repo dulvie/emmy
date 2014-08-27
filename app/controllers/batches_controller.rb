@@ -6,6 +6,7 @@ class BatchesController < ApplicationController
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
 
+
   # GET /batches
   # GET /batches.json
   def index
@@ -68,6 +69,7 @@ class BatchesController < ApplicationController
   end
 
   private
+
     def init_new
       @items = Item.where("stocked=?", 'true')
       gon.push items: @items
@@ -90,4 +92,5 @@ class BatchesController < ApplicationController
     def edit_breadcrumbs
       @breadcrumbs = [['Batches', batches_path], [@batch.name]]
     end
+
 end

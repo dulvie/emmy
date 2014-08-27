@@ -6,6 +6,7 @@ class DocumentsController < ApplicationController
   before_filter :show_breadcrumbs, only: [:show, :update]
   before_filter :new_breadcrumbs, only: [:new, :create]
 
+
   def index
     @breadcrumbs = [['Documents']]
     @documents = Documents.where('parent_id= ?', 0)
@@ -37,13 +38,11 @@ class DocumentsController < ApplicationController
     end
     @document.user = current_user
     @document.organisation = current_organisation
-    respond_to do |format|
-      if @document.save
-        format.html { redirect_to redirect_path, notice: "#{t(:document_added)}" }
-      else
-        flash.now[:danger] = "#{t(:failed_to_add)} #{t(:document)}"
-        format.html { render :new }
-      end
+    if @document.save
+      redirect_to redirect_path, notice: "#{t(:document_added)}"
+    else
+      flash.now[:danger] = "#{t(:failed_to_add)} #{t(:document)}"
+      render :new
     end
   end
 
@@ -53,13 +52,11 @@ class DocumentsController < ApplicationController
     else
       redirect_path = edit_polymorphic_path(@parent)
     end
-    respond_to do |format|
-      if @document.update(document_params)
-        format.html { redirect_to redirect_path, notice: "#{t(:document)} #{t(:was_successfully_updated)}" }
-      else
-        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:document)}"
-        format.html { render :show }
-      end
+    if @document.update(document_params)
+      redirect_to redirect_path, notice: "#{t(:document)} #{t(:was_successfully_updated)}"
+    else
+      flash.now[:danger] = "#{t(:failed_to_update)} #{t(:document)}"
+      render :show
     end
   end
 
@@ -70,17 +67,13 @@ class DocumentsController < ApplicationController
       redirect_path = edit_polymorphic_path(@parent)
     end
     @document.destroy
-    respond_to do |format|
-      format.html { redirect_to redirect_path, notice: "#{t(:document)} #{t(:was_destroyed)}" }
-      #format.json { head :no_comment }
-    end
+    redirect_to redirect_path, notice: "#{t(:document)} #{t(:was_destroyed)}"
   end
 
 
   private
 
     def find_and_authorize_parent
-
       # if comment exists, but no parent_type, add from comment.
       if !params.has_key?(:parent_type) && !@document.nil?
         params[:parent_type] = @document.parent_type

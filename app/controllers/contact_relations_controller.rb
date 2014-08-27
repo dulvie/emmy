@@ -6,6 +6,7 @@ class ContactRelationsController < ApplicationController
   before_filter :show_breadcrumbs, only: [:show, :update]
   before_filter :new_breadcrumbs, only: [:new, :create]
 
+
   def new
     @contact_relation = @parent.contact_relations.build
     @contact = @parent.contacts.build
@@ -17,7 +18,6 @@ class ContactRelationsController < ApplicationController
   end
 
   def create
-
     if params[:contact][:id] != ''
       @contact = Contact.find(params[:contact][:id])
       @contact.update_attributes contact_params
@@ -85,7 +85,6 @@ class ContactRelationsController < ApplicationController
     end
 
     def find_and_authorize_parent
-
       # if contact exists, but no parent_type, add from contact.
       unless params.has_key?(:parent_type) && @contact_relation
         params[:parent_type] = @contact_relation.parent_type
@@ -108,13 +107,17 @@ class ContactRelationsController < ApplicationController
     end
 
     def new_breadcrumbs
-      @breadcrumbs = [["#{@parent.class.name.pluralize}", send("#{@parent.class.name.downcase}s_path")],
-        [@parent.parent_name, @parent], ["#{t(:new)} #{t(:contact)}"]]
+      @breadcrumbs = [
+        ["#{@parent.class.name.pluralize}", send("#{@parent.class.name.downcase}s_path")],
+        [@parent.parent_name, @parent], ["#{t(:new)} #{t(:contact)}"]
+      ]
     end
 
     def show_breadcrumbs
-      @breadcrumbs = [["#{@parent.class.name.pluralize}", send("#{@parent.class.name.downcase}s_path")],
-        [@parent.parent_name, @parent], ["#{t(:contacts)}(#{@contact_relation.contact.name})"]]
+      @breadcrumbs = [
+        ["#{@parent.class.name.pluralize}", send("#{@parent.class.name.downcase}s_path")],
+        [@parent.parent_name, @parent], ["#{t(:contacts)}(#{@contact_relation.contact.name})"]
+      ]
     end
 
 end

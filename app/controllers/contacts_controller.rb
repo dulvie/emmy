@@ -5,6 +5,7 @@ class ContactsController < ApplicationController
   before_filter :show_breadcrumbs, only: [:show, :update]
   before_filter :new_breadcrumbs, only: [:new, :create]
 
+
   def index
     @breadcrumbs = [['Contacts']]
     @contacts = Contact.order("name").page(params[:page]).per(8)
@@ -30,33 +31,28 @@ class ContactsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @contact.update(contact_params)
-        format.html { redirect_to contacts_path, notice: "#{t(:contact)} #{t(:was_successfully_updated)}" }
-      else
-        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:contact)}"
-        format.html { render :show }
-      end
+    if @contact.update(contact_params)
+      redirect_to contacts_path, notice: "#{t(:contact)} #{t(:was_successfully_updated)}"
+    else
+      flash.now[:danger] = "#{t(:failed_to_update)} #{t(:contact)}"
+      render :show
     end
   end
 
   def destroy
     @contact.destroy
-    respond_to do |format|
-      format.html { redirect_to contacts_path, notice: "#{t(:contact)} #{t(:was_destroyed)}" }
-      #format.json { head :no_content }
-    end
+    redirect_to contacts_path, notice: "#{t(:contact)} #{t(:was_destroyed)}"
   end
 
 
   private
 
     def contact_params
-        params.require(:contact).permit(Contact.accessible_attributes.to_a)
+      params.require(:contact).permit(Contact.accessible_attributes.to_a)
     end
 
     def new_breadcrumbs
-       @breadcrumbs = [['Contacts', contacts_path], ["#{t(:new)} #{t(:customer)}"]]
+      @breadcrumbs = [['Contacts', contacts_path], ["#{t(:new)} #{t(:customer)}"]]
     end
 
     def show_breadcrumbs

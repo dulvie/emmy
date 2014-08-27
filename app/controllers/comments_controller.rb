@@ -6,6 +6,7 @@ class CommentsController < ApplicationController
   before_filter :show_breadcrumbs, only: [:show, :update]
   before_filter :new_breadcrumbs, only: [:new, :create]
 
+
   def index
     @breadcrumbs = [['Comments']]
     @comments = Comment.where('parent_id= ?', 0)
