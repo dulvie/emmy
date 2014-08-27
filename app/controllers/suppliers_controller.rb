@@ -3,7 +3,7 @@ class SuppliersController < ApplicationController
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
-  before_filter :load_contats, only: [:show, :new, :edit, :create, :update]
+  before_filter :load_contacts, only: [:show, :new, :edit, :create, :update]
 
   # GET /suppliers
   # GET /suppliers.json
@@ -83,7 +83,7 @@ class SuppliersController < ApplicationController
       @breadcrumbs = [['Suppliers', suppliers_path], [@supplier.name]]
     end
 
-    def load_contats
+    def load_contacts
      @contacts = @supplier.contacts
     end
 end

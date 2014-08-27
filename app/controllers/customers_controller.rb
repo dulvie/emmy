@@ -5,7 +5,7 @@ class CustomersController < ApplicationController
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update]
-  before_filter :load_contats, only: [:show, :new, :edit, :create, :update]
+  before_filter :load_contacts, only: [:show, :new, :edit, :create, :update]
 
 
   def name_search
@@ -77,8 +77,8 @@ class CustomersController < ApplicationController
       @breadcrumbs = [['Customers', customers_path], [@customer.name]]
     end
 
-    def load_contats
-      @contacts = ContactRelation.where('parent_type = ? and parent_id = ?', 'Customer', @customer)
+    def load_contacts
+      @contacts = @customer.contacts
     end
 
 end
