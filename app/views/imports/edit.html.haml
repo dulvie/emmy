@@ -5,9 +5,5 @@
   #import-form.tab-pane.active
     %br
     = render  'form'
-    - if !@import.new_record?
-      = render  'importing'
-      = render  'shipping'
-      = render  'customs' 
   #comment-index.tab-pane
     = render partial: 'comments/index', locals: {comments: @import.comments, parent: @import}
