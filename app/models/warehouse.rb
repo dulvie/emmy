@@ -19,6 +19,7 @@ class Warehouse < ActiveRecord::Base
   validates :name, :uniqueness => true
   validates :name, :presence => true
 
+
   def batches_in_stock
     @batches_in_stock ||= shelves.includes(:batch).collect{|s| s.batch}
   end

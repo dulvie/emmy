@@ -13,6 +13,7 @@ class Vat < ActiveRecord::Base
   validates :name, :presence => true
   validates :vat_percent, :presence => true
 
+
   def can_delete?
     true
   end
@@ -32,8 +33,5 @@ class Vat < ActiveRecord::Base
   def vat_sub amount
     vat_sub = amount * sub_factor
   end
-
-  private
-
 
 end

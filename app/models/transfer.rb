@@ -10,7 +10,6 @@ class Transfer < ActiveRecord::Base
   # t.timestamp :sent_at
   # t.timestamp :received_at
 
-  before_create :check_inventory
 
   has_one :from_transaction, class_name: 'BatchTransaction', as: :parent
   has_one :to_transaction, class_name: 'BatchTransaction', as: :parent
@@ -25,6 +24,9 @@ class Transfer < ActiveRecord::Base
   attr_accessible :from_warehouse_id, :to_warehouse_id, :batch_id, :quantity, :organisation_id
   accepts_nested_attributes_for :comments
 
+  # Callbacks
+  before_create :check_inventory
+
   STATES=['not_sent', 'sent', 'received']
 
   validates :state, inclusion: STATES
@@ -34,6 +36,8 @@ class Transfer < ActiveRecord::Base
   validates :quantity, presence: true
   validates_exclusion_of :quantity, :in => 0..0, :message => "Positive or negative quantities"
   validates_associated :comments
+
+
 
   def name
     from_warehouse.name + ' => ' + to_warehouse.name
@@ -57,6 +61,7 @@ class Transfer < ActiveRecord::Base
 
   end
 
+  # Callback: before_create
   def check_inventory
     if  Inventory.where('warehouse_id = ? AND state = ?', self.from_warehouse_id, 'started').count > 0
       self.errors.add(:from_warehouse, 'Inventory must complete before transfer')

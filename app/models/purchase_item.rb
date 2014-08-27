@@ -21,6 +21,7 @@ class PurchaseItem < ActiveRecord::Base
   validates :quantity, presence: true
   validates :price, presence: true
 
+  # Callbacks
   after_validation :collect_and_calculate
 
   def can_delete?
@@ -34,6 +35,7 @@ class PurchaseItem < ActiveRecord::Base
 
   private
 
+  # Callback: after_validation
   def collect_and_calculate
     self.vat = self.vat || item.vat.vat_percent
     if self.quantity && self.price

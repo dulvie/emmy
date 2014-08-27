@@ -9,6 +9,7 @@ class Manual < ActiveRecord::Base
   belongs_to :organisation
   has_many :comments, as: :parent, :dependent => :destroy
 
+  # Callbacks
   before_create :check_inventory
 
   validates :batch_id, presence: true
@@ -21,6 +22,8 @@ class Manual < ActiveRecord::Base
 
   accepts_nested_attributes_for :comments
 
+
+  # Callback: before_create
   def check_inventory
     if  Inventory.where('warehouse_id = ? AND state = ?', self.warehouse_id, 'started').count > 0
       self.errors.add(:warehouse_id, 'Inventory must complete before transfer')

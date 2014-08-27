@@ -16,6 +16,7 @@ class SaleItem < ActiveRecord::Base
 
   attr_accessible :item_id, :batch_id, :quantity, :price, :vat, :organisation
 
+  # Callbakcs
   before_validation :collect_and_calculate
 
   validates :item_id, presence: true
@@ -23,6 +24,7 @@ class SaleItem < ActiveRecord::Base
   validates :price_inc_vat, presence: true
   validates :price_sum, presence: true
   validates :vat, presence: true
+
 
   def can_delete?
     sale.can_edit_items?
