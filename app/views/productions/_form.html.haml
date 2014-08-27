@@ -23,6 +23,9 @@
         = f.input :total_amount, disabled: true
         = f.input :cost_price, disabled: true
 
+    = render partial: 'material'
+    = render partial: 'work'
+
     - if (@production.new_record? || !@production.new_record? && @production.batch.nil? || (@production.can_edit_state? && !@production.is_started?) || (@production.can_edit_state? && @production.can_complete?) || !@production.new_record? && !@production.batch.nil? && @production.materials.size == 0 || !@production.new_record? && !@production.batch.nil? && @production.work.nil?)
       .form-button-group
         .actions

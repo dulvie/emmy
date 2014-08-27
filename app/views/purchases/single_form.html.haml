@@ -1,5 +1,5 @@
 %div{:ng_controller=>'purchase_form_ctrl', :ng_init=>'init()'}
-  = simple_form_for(@purchase, wrapper: :horizontal_form, html: {class: 'form-horizontal'}, url: purchase_single_purchase_path(purchase_id: 0)) do |f|
+  = simple_form_for(@purchase, wrapper: :horizontal_form, html: {class: 'form-horizontal', autocomplete: 'off'}, url: purchase_single_purchase_path(purchase_id: 0)) do |f|
     = f.error_notification
 
     = f.input :parent_type, :as => :hidden
