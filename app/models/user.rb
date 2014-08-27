@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
     true
   end
 
-  # used by Devise
+  # Used by Devise
   def active_for_authentication?
     super and !role? :suspended
   end
