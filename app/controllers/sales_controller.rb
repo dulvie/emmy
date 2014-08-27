@@ -68,11 +68,11 @@ class SalesController < ApplicationController
     @sale = Sale.find(params[:id])
     authorize! :manage, @sale
     if @sale.state_change(params[:event], params[:state_change_at])
-      msg = t(:success)
+      msg_h = {notice: t(:success)}
     else
-      msg = t(:fail)
+      msg_h = {alert: t(:fail)}
     end
-    redirect_to @sale, notice: msg
+    redirect_to @sale, msg_h
   end
 
   def send_email
