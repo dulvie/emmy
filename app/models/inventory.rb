@@ -18,12 +18,14 @@ class Inventory < ActiveRecord::Base
   accepts_nested_attributes_for :inventory_items
   attr_accessible :description, :user_id, :warehouse_id, :inventory_date, :organisation
 
+  # Callbacks
   before_create :check_transfer
 
   validates :warehouse, presence: true
   validates :inventory_date, presence: true
 
   EVENTS = [:start, :complete]
+
 
   def next_event
     case state
@@ -58,6 +60,7 @@ class Inventory < ActiveRecord::Base
     end
   end
 
+  # Callback: before_create
   def check_transfer
     if  Transfer.where('to_warehouse_id = ? AND state <> ?', self.warehouse_id, 'received').count > 0
       self.errors.add(:warehouse, 'Transfer to not received')

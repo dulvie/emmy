@@ -46,6 +46,7 @@ class Sale < ActiveRecord::Base
     :pay,     # Money
   ]
 
+
   def state_change(new_state, changed_at = nil)
    return false unless STATE_CHANGES.include?(new_state.to_sym)
    self.send(new_state, changed_at)

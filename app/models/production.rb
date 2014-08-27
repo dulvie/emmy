@@ -34,12 +34,14 @@ class Production < ActiveRecord::Base
   validates :description, presence: true
   validates :warehouse_id, presence: true
 
+  EVENTS = [:start, :complete]
+
+
   def state_change(event, changed_at = nil)
    return false unless EVENTS.include?(event.to_sym)
    self.send(event, changed_at)
   end
 
-  EVENTS = [:start, :complete]
   def next_event
     case state
     when 'not_started'

@@ -42,12 +42,12 @@ class Purchase < ActiveRecord::Base
 
   VALID_PARENT_TYPES = ['Purchase', 'Production', 'Import']
 
-
   EVENTS = [
     :mark_prepared, :mark_complete, # Generic state
     :receive,   # Goods
     :pay,       # Money
   ]
+
 
   def state_change(event, changed_at = nil)
    return false unless EVENTS.include?(event.to_sym)

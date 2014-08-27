@@ -22,7 +22,7 @@ class Item < ActiveRecord::Base
   has_many :purchase_items
 
   attr_accessible :name, :comment, :item_type, :item_group, :stocked, :unit_id,
-  :in_price, :distributor_price, :retail_price, :vat_id, :organisation
+                  :in_price, :distributor_price, :retail_price, :vat_id, :organisation
 
   validates :name, :uniqueness => true
   validates :name, :presence => true
@@ -31,6 +31,7 @@ class Item < ActiveRecord::Base
 
   validates :item_type, inclusion: {in: TYPES}
   validates :item_group, inclusion: {in: GROUPS}
+
 
   def can_delete?
     return false if batches.size > 0

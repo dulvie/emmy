@@ -15,11 +15,12 @@ class Shelf < ActiveRecord::Base
 
   delegate :name, :in_price, :distributor_price, :retail_price, :vat, :unit, :item_group, to: :batch
 
+
   def outgoing
     Sale.where('state' => 'prepared', 'goods_state' => 'not_delivered', 'warehouse_id' => self.warehouse_id).joins(:sale_items).where('sale_items.batch_id' => self.batch_id).sum('quantity')
   end
 
-    def incoming
+  def incoming
     qty = Purchase.where('state' => 'prepared', 'goods_state' => 'not_received', 'to_warehouse_id' => self.warehouse_id).joins(:purchase_items).where('purchase_items.batch_id' => self.id).sum('quantity')
     ext = Production.where('state' => 'started', 'warehouse_id' => self.warehouse_id, 'batch_id' => self.id).sum('quantity')
     return qty+ext

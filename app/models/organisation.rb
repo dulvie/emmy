@@ -11,6 +11,7 @@ class Organisation < ActiveRecord::Base
 
   attr_accessible :email, :name, :address, :zip, :vat_number, :bankgiro, :postgiro, :plusgiro, :city
 
+
   def can_delete?
     false
   end

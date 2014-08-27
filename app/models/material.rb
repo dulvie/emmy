@@ -13,6 +13,7 @@ class Material < ActiveRecord::Base
   validates :batch_id, presence: true
   validates :quantity, presence: true
 
+
   def can_edit?
     production.can_edit?
   end

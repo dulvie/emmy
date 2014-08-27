@@ -17,6 +17,7 @@ class InventoryItem < ActiveRecord::Base
   validates :batch_id, presence: true
   validates :actual_quantity, presence: true
 
+
   def can_delete?
     inventory.can_edit_items?
   end
