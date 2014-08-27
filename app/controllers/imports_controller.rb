@@ -169,7 +169,16 @@ class ImportsController < ApplicationController
     end
 
      def purchase_breadcrumbs
-      @breadcrumbs = [['Imports', imports_path], [@import.description, import_path(@import)], ['new Purchase']]
+      @breadcrumbs = [['Imports', imports_path], [@import.description, import_path(@import)]]
+
+      case params[:parent_column]
+      when 'customs'
+        @breadcrumbs << ["#{t(:new)} #{t(:customs)}"]
+      when 'shipping'
+        @breadcrumbs << ["#{t(:new)} #{t(:shipping)}"]
+      else
+        @breadcrumbs << ["#{t(:new)} #{t(:purchase)}"]
+      end
     end
 
     def init_purchase

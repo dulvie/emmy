@@ -7,14 +7,12 @@ class WarehousesController < ApplicationController
   before_filter :load_contats, only: [:show, :new, :edit, :create, :update]
 
   # GET /warehouses
-  # GET /warehouses.json
   def index
     @breadcrumbs = [['Warehouses']]
     @warehouses = @warehouses.order(:name).page(params[:page]).per(8)
   end
 
   # GET /warehouses/1
-  # GET /warehouses/1.json
   def show
     render 'edit'
   end
@@ -28,18 +26,13 @@ class WarehousesController < ApplicationController
   end
 
   # POST /warehouses
-  # POST /warehouses.json
   def create
     @warehouse = Warehouse.new(warehouse_params)
     @warehouse.organisation = current_organisation
-    respond_to do |format|
-      if @warehouse.save
-        format.html { redirect_to  warehouses_path, notice: 'Warehouse was successfully created.' }
-        # format.json { render action: 'show', status: :created, location: @warehouse }
-      else
-        format.html { render action: 'new' }
-        # format.json { render json: @warehouse.errors, status: :unprocessable_entity }
-      end
+    if @warehouse.save
+      redirect_to warehouses_url, notice: "#{t(:warehouse)} #{t(:was_successfully_created)}"
+    else
+      render :new
     end
   end
 
