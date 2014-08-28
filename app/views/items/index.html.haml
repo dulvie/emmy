@@ -1,24 +1,26 @@
 = link_to "#{t(:create)} #{t(:item)}", new_item_path, class: 'btn btn-default'
 
-%table{:class => 'table table-striped'}
-  %thead
-    %tr
-      %th= t(:name)
-      %th= t(:item_type)
-      %th= t(:item_group)
-      %th= t(:stocked)
-      %th= t(:unit)
-      %th
-      %th
-    %tbody
-    - @items.each do |item|
+%div{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
       %tr
-        %td= item.name
-        %td= item.item_type
-        %td= item.item_group
-        %td= item.stocked
-        %td= item.unit.name
-        %td= link_to settings_icon, edit_item_path(item) 
-        %td= delete_button_for item
+        %th= t(:name)
+        %th= t(:item_type)
+        %th= t(:item_group)
+        %th= t(:stocked)
+        %th= t(:unit)
+        %th
+        %th
+      %tbody
+      - @items.each do |item|
+        %tr
+          %td= item.name
+          %td= item.item_type
+          %td= item.item_group
+          %td= item.stocked
+          %td= item.unit.name
+          %td= link_to settings_icon, edit_item_path(item) 
+          %td= delete_modal_for item
 
-= paginate @items, :theme => 'twitter-bootstrap-3'
+  = paginate @items, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

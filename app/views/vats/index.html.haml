@@ -1,23 +1,25 @@
 %p
   = link_to "#{t(:create)} #{t(:vat)}", new_vat_path, class: 'btn btn-default'
 
-%table{:class => 'table table-striped'}
-  %thead
-    %tr
-      %th= t(:name)
-      %th.numeric= t(:vat_percent)
-      %th.numeric= t(:add_factor)
-      %th.numeric= t(:sub_factor)
-      %th
-      %th
-  %tbody{}
-    - @vats.each do |vat|
+%div{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
       %tr
-        %td= vat.name
-        %td.numeric= vat.vat_percent
-        %td.numeric= number_with_precision(vat.add_factor, precision: 4)
-        %td.numeric= number_with_precision(vat.sub_factor, precision: 4)
-        %td.numeric= link_to settings_icon, edit_vat_path(vat)
-        %td.numeric= delete_button_for vat
+        %th= t(:name)
+        %th.numeric= t(:vat_percent)
+        %th.numeric= t(:add_factor)
+        %th.numeric= t(:sub_factor)
+        %th
+        %th
+    %tbody{}
+      - @vats.each do |vat|
+        %tr
+          %td= vat.name
+          %td.numeric= vat.vat_percent
+          %td.numeric= number_with_precision(vat.add_factor, precision: 4)
+          %td.numeric= number_with_precision(vat.sub_factor, precision: 4)
+          %td.numeric= link_to settings_icon, edit_vat_path(vat)
+          %td.numeric= delete_modal_for vat
 
-= paginate @vats, :theme => 'twitter-bootstrap-3'
+  = paginate @vats, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

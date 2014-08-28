@@ -8,9 +8,9 @@
     = render partial: 'form'
 
     .row.form-horizontal
-      .col-sm-11.col-md-9.col-lg-7.control-label
+      .labels_width.control-label
         %strong= t(:form_items)
-      .col-sm-39.col-md-30.col-lg-25
+      .fields_width.form-control-static
         = render partial: 'inventory_items/index'
 
     .form-button-group
@@ -18,7 +18,6 @@
         - if !@inventory.is_completed?
           %div{:ng_controller => "ModalCtrl"}
             %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','inventoryContent' )"}
-              %i{ :class => "glyphicon glyphicon-flag"}
               #{t(@inventory.next_event)}
             = render partial: 'shared/modal_state_change', locals: {idx: 'inventoryContent', model: @inventory, form_path: state_change_inventory_path(@inventory), event: @inventory.next_event, return_path: inventory_path(@inventory)}
 

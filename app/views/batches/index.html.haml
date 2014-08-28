@@ -1,26 +1,28 @@
 = link_to "#{t(:create)} #{t(:batch)}", new_batch_path, class: 'btn btn-default'
 
-%table{:class => 'table table-striped'}
-  %thead
-    %tr
-      %th= t(:name)
-      %th.numeric= t(:reseller)
-      %th.numeric= t(:end_customer)
-      %th.numeric= t(:quantity)
-      %th.tabnum= t(:in_qty)
-      %th.tabnum= t(:out_qty)
-      %th
-      %th
-    %tbody
-      - @batches.each do |batch|
-        %tr
-          %td= batch.name
-          %td.numeric  #{batch.distributor_price} (ex vat)
-          %td.numeric  #{batch.batch_price} (ink vat)
-          %td.tabnum= batch.quantity
-          %td.tabnum= batch.in_quantity
-          %td.tabnum= batch.out_quantity
-          %td= link_to settings_icon, edit_batch_path(batch)
-          %td= delete_button_for batch
+%div{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:name)
+        %th.numeric= t(:reseller)
+        %th.numeric= t(:end_customer)
+        %th.numeric= t(:quantity)
+        %th.tabnum= t(:in_qty)
+        %th.tabnum= t(:out_qty)
+        %th
+        %th
+      %tbody
+        - @batches.each do |batch|
+          %tr
+            %td= batch.name
+            %td.numeric  #{batch.distributor_price} (ex vat)
+            %td.numeric  #{batch.batch_price} (ink vat)
+            %td.tabnum= batch.quantity
+            %td.tabnum= batch.in_quantity
+            %td.tabnum= batch.out_quantity
+            %td= link_to settings_icon, edit_batch_path(batch)
+            %td= delete_modal_for batch
 
-= paginate @batches, :theme => 'twitter-bootstrap-3'
+  = paginate @batches, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}  
