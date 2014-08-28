@@ -1,0 +1,12 @@
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+    - 'test/**'
+
+Metrics/LineLength:
+  #Max: 80
+  Max: 280
+  AllowURI: true
+
+Style/GuardClause:
+  Enabled: false
