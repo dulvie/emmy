@@ -1,18 +1,20 @@
 = link_to "#{t(:create)} #{t(:user)}", new_user_path, class: 'btn btn-default'
 
-%table{:class => 'table table-striped'}
-  %thead
-    %tr
-      %th= t(:user)
-      %th= t(:email)
-      %th
-      %th
-  %tbody
-    - @users.each do |user|
+%div{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
       %tr
-        %td= user.name
-        %td= user.email
-        %td= link_to settings_icon, user_path(user)
-        %td= delete_button_for user
+        %th= t(:user)
+        %th= t(:email)
+        %th
+        %th
+    %tbody
+      - @users.each do |user|
+        %tr
+          %td= user.name
+          %td= user.email
+          %td= link_to settings_icon, user_path(user)
+          %td= delete_modal_for user
 
-= paginate @users, :theme => 'twitter-bootstrap-3'
+  = paginate @users, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

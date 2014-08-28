@@ -1,16 +1,18 @@
-.col-sm-48
-  - add_comment_url = new_comment_path({parent_id: 0, parent_type: 'nil'})
-  = link_to t(:add_comment), add_comment_url, class: 'btn btn-default'
-.col-sm-24
-  .list-group
-  - @comments.each do |comment|
-    .list-group-item
-      .list-group-item-heading
-        = comment.created_at.strftime("%Y-%m-%d")
-        &nbsp;&nbsp;
-        = comment.user.name
-        .pull-right
-          = link_to settings_icon, comment_path(comment)
-          = delete_button_for comment
-      .list-group-item-text
-        = comment.body
+%div{:ng_controller=>'ModalCtrl'}
+  .col-sm-48
+    - add_comment_url = new_comment_path({parent_id: 0, parent_type: 'nil'})
+    = link_to t(:add_comment), add_comment_url, class: 'btn btn-default'
+  .col-sm-24
+    .list-group
+    - @comments.each do |comment|
+      .list-group-item
+        .list-group-item-heading
+          = comment.created_at.strftime("%Y-%m-%d")
+          &nbsp;&nbsp;
+          = comment.user.name
+          .pull-right
+            = link_to settings_icon, comment_path(comment)
+            = delete_modal_for comment
+        .list-group-item-text
+          = comment.body
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

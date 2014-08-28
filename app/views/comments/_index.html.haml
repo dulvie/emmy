@@ -3,19 +3,21 @@
 - add_comment_url = new_comment_path({parent_id: parent.id, parent_type: parent.class.name})
 = link_to t(:add_comment), add_comment_url, class: 'btn btn-default'
 
-%table{:class => 'table table-striped'}
-  %thead
-    %tr
-      %th= t(:created_at)
-      %th= t(:user)
-      %th.full-width= t(:text)
-      %th
-      %th
-    %tbody
-      - comments.each do |comment|
-        %tr
-          %td= comment.created_at.strftime("%Y-%m-%d")
-          %td= comment.user.nil? ? ' ' : comment.user.name
-          %td= comment.body
-          %td= link_to settings_icon, comment_path(comment)
-          %td= delete_button_for comment
+%div{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:created_at)
+        %th= t(:user)
+        %th.full-width= t(:text)
+        %th
+        %th
+      %tbody
+        - comments.each do |comment|
+          %tr
+            %td= comment.created_at.strftime("%Y-%m-%d")
+            %td= comment.user.nil? ? ' ' : comment.user.name
+            %td= comment.body
+            %td= link_to settings_icon, comment_path(comment)
+            %td= delete_modal_for comment
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
