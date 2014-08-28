@@ -1,25 +1,27 @@
 = link_to "#{t(:create)} #{t(:supplier)}", new_supplier_path, class: 'btn btn-default'
 
-%table{:class => 'table table-striped'}
-  %thead
-    %tr
-      %th= t(:supplier)
-      %th= t(:address)
-      %th= t(:zip)
-      %th= t(:city)
-      %th
-      %th
-    %tbody
-      - @suppliers.each do |supplier|
-        %tr
-          %td= supplier.name
-          %td= supplier.address
-          %td= supplier.zip
-          %td= supplier.city
-          %td= link_to settings_icon, edit_supplier_path(supplier)
-          %td= delete_button_for supplier
-
-= paginate @suppliers, :theme => 'twitter-bootstrap-3'
+%div{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:supplier)
+        %th= t(:address)
+        %th= t(:zip)
+        %th= t(:city)
+        %th
+        %th
+      %tbody
+        - @suppliers.each do |supplier|
+          %tr
+            %td= supplier.name
+            %td= supplier.address
+            %td= supplier.zip
+            %td= supplier.city
+            %td= link_to settings_icon, edit_supplier_path(supplier)
+            %td= delete_modal_for supplier
+  
+  = paginate @suppliers, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
 
 :javascript
   $(document).ready(function() {

@@ -5,32 +5,34 @@
     %option{value: productions_path + '&state=not_started'} #{t(:not_started)}
     %option{value: productions_path + '&state=started'} #{t(:processing)}
 %br
-%table{:class => 'table table-striped'}
-  %thead
-    %tr
-      %th= t(:description)
-      %th= t(:started_at)
-      %th= t(:completed_at)
-      %th= t(:batch)
-      %th= t(:quantity)
-      %th= t(:state)
-      %th
-      %th
-    %tbody
-      - @productions.each do |production|
-        %tr
-          %td= production.description
-          %td= production.started_at.nil? ? ' ': production.started_at.strftime("%Y-%m-%d") 
-          %td= production.completed_at.nil? ? ' ': production.completed_at.strftime("%Y-%m-%d")
-          %td= production.batch.nil? ? ' ': production.batch.name
-          %td= production.quantity
-          %td
-            - production.states.each do |s|
-              = s
-          %td= link_to settings_icon, edit_production_path(production) 
-          %td= delete_button_for production
+%div{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:description)
+        %th= t(:started_at)
+        %th= t(:completed_at)
+        %th= t(:batch)
+        %th= t(:quantity)
+        %th= t(:state)
+        %th
+        %th
+      %tbody
+        - @productions.each do |production|
+          %tr
+            %td= production.description
+            %td= production.started_at.nil? ? ' ': production.started_at.strftime("%Y-%m-%d") 
+            %td= production.completed_at.nil? ? ' ': production.completed_at.strftime("%Y-%m-%d")
+            %td= production.batch.nil? ? ' ': production.batch.name
+            %td= production.quantity
+            %td
+              - production.states.each do |s|
+                = s
+            %td= link_to settings_icon, edit_production_path(production) 
+            %td= delete_modal_for production
 
-= paginate @productions, :theme => 'twitter-bootstrap-3'
+  = paginate @productions, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
 
 :javascript
   $(document).ready(function() {

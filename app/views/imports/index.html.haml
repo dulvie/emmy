@@ -5,35 +5,36 @@
     %option{value: imports_path + '&state=not_started'} #{t(:not_started)}
     %option{value: imports_path + '&state=started'} #{t(:processing)}
 %br
-%table{:class => 'table table-striped'}
-  %thead
-    %tr
-      %th= t(:description)
-      %th= t(:started_at)
-      %th= t(:completed_at)
-      %th= t(:batch)
-      %th.numeric
-        = t(:quantity)
-      %th= t(:state)
-      %th
-      %th
-    %tbody
-      - @imports.each do |import|
-        %tr
-          %td= import.description
-          %td= import.started_at.nil? ? ' ': import.started_at.strftime("%Y-%m-%d")
-          %td= import.completed_at.nil? ? ' ': import.completed_at.strftime("%Y-%m-%d")
-          %td= import.batch.nil? ? ' ' : import.batch.name
-          %td.numeric
-            = import.import_quantity
-          %td
-            - import.states.each do |s|
-              = s
-          %td= link_to settings_icon, edit_import_path(import)
-          %td= delete_button_for import
+%div{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:description)
+        %th= t(:started_at)
+        %th= t(:completed_at)
+        %th= t(:batch)
+        %th.numeric
+          = t(:quantity)
+        %th= t(:state)
+        %th
+        %th
+      %tbody
+        - @imports.each do |import|
+          %tr
+            %td= import.description
+            %td= import.started_at.nil? ? ' ': import.started_at.strftime("%Y-%m-%d")
+            %td= import.completed_at.nil? ? ' ': import.completed_at.strftime("%Y-%m-%d")
+            %td= import.batch.nil? ? ' ' : import.batch.name
+            %td.numeric
+              = import.import_quantity
+            %td
+              - import.states.each do |s|
+                = s
+            %td= link_to settings_icon, edit_import_path(import)
+            %td= delete_modal_for import
 
-= paginate @imports, :theme => 'twitter-bootstrap-3'
-
+  = paginate @imports, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
 :javascript
   $(document).ready(function() {
     var path = document.location.pathname + document.location.search
