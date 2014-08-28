@@ -51,9 +51,7 @@ class Batch < ActiveRecord::Base
       .sum(:quantity)
 
     ext = 0
-    if production && production.started?
-      ext = production.quantity
-    end
+    ext = production.quantity if production && production.started?
     qty + ext
   end
 
