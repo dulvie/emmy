@@ -17,7 +17,7 @@ module ApplicationHelper
   def delete_modal_for(obj)
     return unless obj.can_delete?
     path = url_for(obj)
-    link_to delete_icon, '#', :ng_click =>"open($event, 'sm','deleteContent', '#{path}')"
+    link_to delete_icon, '#', :ng_click =>"open_delete($event, 'sm','deleteContent', '#{path}')"
   end
 
   # @todo Refactor this into an module or something.
