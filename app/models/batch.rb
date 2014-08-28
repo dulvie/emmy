@@ -1,5 +1,7 @@
+#
+# A subgroup of item. All items with stocked true
+#
 class Batch < ActiveRecord::Base
-
   # t.integer :organisation_id
   # t.integer :item_id
 
@@ -19,48 +21,47 @@ class Batch < ActiveRecord::Base
   has_one :production
 
   attr_accessible :item_id, :name, :comment, :in_price, :distributor_price, :retail_price,
-    :expire_at, :refined_at, :organisation, :organisation_id
+                  :expire_at, :refined_at, :organisation, :organisation_id
 
   delegate :item_group, :vat, :unit, to: :item
 
-  validates :name, :uniqueness => true
-  validates :name, :presence => true
-  validates :item, :presence => true
+  validates :name, uniqueness: true
+  validates :name, presence: true
+  validates :item, presence: true
 
   def can_delete?
-    return false if Shelf.where('batch_id' => self.id).size > 0
-    return false if Import.where('batch_id = ? and state = ? ', self.id, 'started').count > 0
-    return false if Production.where('batch_id = ? and state = ? ', self.id, 'started').count > 0
-    return false if SaleItem.where('batch_id = ? ', self.id).count > 0
-    return false if PurchaseItem.where('batch_id = ? ', self.id).count > 0
-    return true
+    return false if Shelf.where('batch_id' => id).size > 0
+    return false if Import.where('batch_id = ? and state = ? ', id, 'started').count > 0
+    return false if Production.where('batch_id = ? and state = ? ', id, 'started').count > 0
+    return false if SaleItem.where('batch_id = ? ', id).count > 0
+    return false if PurchaseItem.where('batch_id = ? ', id).count > 0
+    true
   end
 
   def quantity
-    qty = Shelf.where('batch_id' => self.id).sum('quantity')
-    ext = Transfer.where('state' => 'sent', 'batch_id' => self.id).sum('quantity')
-    return qty+ext
+    qty = Shelf.where('batch_id' => id).sum('quantity')
+    ext = Transfer.where('state' => 'sent', 'batch_id' => id).sum('quantity')
+    qty + ext
   end
 
   def in_quantity
-    qty = Purchase.prepared.not_received.
-      joins(:purchase_items).
-      where('purchase_items.batch_id' => self.id).
-      sum(:quantity)
+    qty = Purchase.prepared.not_received
+      .joins(:purchase_items)
+      .where('purchase_items.batch_id' => id)
+      .sum(:quantity)
 
     ext = 0
-    if (production && production.started?)
+    if production && production.started?
       ext = production.quantity
     end
-    return qty+ext
+    qty + ext
   end
 
   def out_quantity
-    qty = Sale.prepared.not_delivered.
-      joins(:sale_items).
-      where('sale_items.batch_id' => self.id).
-      sum(:quantity)
-    return qty
+    qty = Sale.prepared.not_delivered
+      .joins(:sale_items)
+      .where('sale_items.batch_id' => id)
+      .sum(:quantity)
+    qty
   end
-
 end
