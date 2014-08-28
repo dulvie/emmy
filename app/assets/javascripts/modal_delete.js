@@ -1,18 +1,15 @@
-app.controller('ModalCtrl', function ($scope, $modal, $log) {
-	$scope.items = ['item1', 'item2', 'item3'];
-	$scope.date = new Date();
-	$scope.open = function ($event, size, el) {
-		//$scope.date = new Date();
+app.controller('ModalDeleteCtrl', function ($scope, $modal, $log) {
+	$scope.open = function ($event, size, el, o) {
+		$scope.obj = o;
 		var elem = '#'+el;
 		var temp = $(elem).html();
-
 		var modalInstance = $modal.open({
 			template: temp,
 			controller: 'ModalInstanceCtrl',
 			size: size,
 			resolve: {
-				dat: function () {
-					return $scope.date;
+				obj: function () {
+					return $scope.obj;
 				}
 			}
 		});
@@ -27,16 +24,8 @@ app.controller('ModalCtrl', function ($scope, $modal, $log) {
 	};
 });
 
-app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, dat) {
-	$scope.date = dat;
-	$scope.dpOptions = {'starting-day': 1,'show-weeks': false};
-	$scope.openDate = function($event) {
-		$event.preventDefault();
-		$event.stopPropagation();
-		$scope.isOpen = true;
-	};
-
-
+app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, obj) {
+	$scope.obj = obj;
 	$scope.ok = function ($event) {
 		$event.preventDefault();
 		$event.stopPropagation();

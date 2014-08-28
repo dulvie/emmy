@@ -28,6 +28,7 @@ se:
   comments: "Kommentarer"
   completed_at: "Avslutat datum"
   confirm: "Bekräfta"
+  confirm_delete: "Bekräfta borttag"
   contact: "Kontakt"
   contact_added: "Kontakt lagt till"
   contacts: "Kontakter"

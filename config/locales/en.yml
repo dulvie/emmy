@@ -49,6 +49,7 @@ en:
   completed: "Completed"
   completed_at: "Completed at"
   confirm: "Confirm"
+  confirm_delete: "Confirm delete"
   contact: "Contact"
   contact_added: "Contact added"
   contacts: "Contacts"

@@ -14,6 +14,12 @@ module ApplicationHelper
     link_to delete_icon, p, method: :delete, data: { confirm: 'Are you Sure?' }
   end
 
+  def delete_modal_for(obj)
+    return unless obj.can_delete?
+    path = url_for(obj)
+    link_to delete_icon, '#', :ng_click =>"open($event, 'sm','deleteContent', '#{path}')"
+  end
+
   # @todo Refactor this into an module or something.
   # A couple of short hand methods to make the html a bit nicer.
   # To short to be in a partial, but doesn't belong in a helper...
