@@ -4,7 +4,7 @@
     = simple_form_for(@customs, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
       = f.error_notification
 
-      = render partial: 'shared/addon_edit_link', locals: {form: f, label: :customs, value: f.object.description, can_edit:  @import.can_edit_items?, link: purchase_path(@customs)}
+      = render partial: 'shared/addon_edit_link', locals: {form: f, object: @customs, label: :customs, value: f.object.description, can_edit:  @import.can_edit_items?, link: purchase_path(@customs)}
       - if f.object.is_completed?
         = f.input :state, disabled: true, :input_html => {:class => 'medium'}
 

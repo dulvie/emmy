@@ -1,4 +1,4 @@
 -if !@production.new_record?
   = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |m|
     = m.simple_fields_for :materials do |mf|
-      = render partial: 'shared/addon_edit_link', locals: {form: mf, label: :materials, value: mf.object.batch.name, can_edit:  @production.can_edit?, link: production_material_path(@production, mf.object.id)}
+      = render partial: 'shared/addon_edit_link', locals: {form: mf, object: mf.object, label: :materials, value: mf.object.batch.name, can_edit:  @production.can_edit?, link: production_material_path(@production, mf.object.id)}

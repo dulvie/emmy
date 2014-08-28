@@ -18,4 +18,7 @@ class Material < ActiveRecord::Base
     production.can_edit?
   end
 
+  def can_delete?
+    true
+  end
 end

@@ -1,39 +1,41 @@
-.table-border
-  %table{:class => 'table fix-bottom'}
-    %thead
-      %tr
-        %th= t(:item)
-        %th= t(:batch)
-        %th.numeric
-          = t(:quantity)
-        %th.numeric
-          = t(:price)
-        %th.numeric
-          = t(:vat)
-        %th.numeric
-          = t(:total_amount)
-        %th
-      %tbody
-        - purchase_items.each do |item|
-          %tr
-            %td= item.item_id? ? item.item.name : ' '
-            %td= item.batch_id? ? item.batch.name : ' '
-            %td.numeric
-              = item.quantity
-            %td.numeric
-              = as_sek(item.price)
-            %td.numeric
-              = "(#{item.vat}%) "
-              = as_sek(item.vat_amount)
-            %td.numeric
-              = as_sek(item.amount)
-            %td= delete_button_for item, purchase_purchase_item_path(@purchase, item)
-      %tfoot
+%div{:ng_controller=>'ModalCtrl'}
+  .table-border
+    %table{:class => 'table fix-bottom'}
+      %thead
         %tr
-          %td= t(:total)
-          %td
-          %td
-          %td
-          %td.numeric= as_sek(@purchase.total_vat)
-          %td.numeric= as_sek(@purchase.total_amount)
-          %td
+          %th= t(:item)
+          %th= t(:batch)
+          %th.numeric
+            = t(:quantity)
+          %th.numeric
+            = t(:price)
+          %th.numeric
+            = t(:vat)
+          %th.numeric
+            = t(:total_amount)
+          %th
+        %tbody
+          - purchase_items.each do |item|
+            %tr
+              %td= item.item_id? ? item.item.name : ' '
+              %td= item.batch_id? ? item.batch.name : ' '
+              %td.numeric
+                = item.quantity
+              %td.numeric
+                = as_sek(item.price)
+              %td.numeric
+                = "(#{item.vat}%) "
+                = as_sek(item.vat_amount)
+              %td.numeric
+                = as_sek(item.amount)
+              %td= delete_modal_for item, purchase_purchase_item_path(@purchase, item)
+        %tfoot
+          %tr
+            %td= t(:total)
+            %td
+            %td
+            %td
+            %td.numeric= as_sek(@purchase.total_vat)
+            %td.numeric= as_sek(@purchase.total_amount)
+            %td
+    = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

@@ -8,7 +8,7 @@
         .input-group-addon
           = link_to settings_icon, link
         .input-group-addon  
-          = link_to delete_icon, link, :confirm => "Are you sure you?", :method => :delete
+          = delete_modal_for object, link
       - else
         .input-group-addon
           = link_to settings_icon, link
