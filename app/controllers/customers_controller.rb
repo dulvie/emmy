@@ -59,7 +59,7 @@ class CustomersController < ApplicationController
   # DELETE /customers/1
   def destroy
     @customer.destroy
-    redirect_to customer_url, notice: "#{t(:customer)} #{t(:was_successfully_deleted)}"
+    redirect_to customers_path, notice: "#{t(:customer)} #{t(:was_successfully_deleted)}"
   end
 
   private

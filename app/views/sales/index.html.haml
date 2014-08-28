@@ -7,39 +7,41 @@
     %option{value: sales_path + '&goods_state=not_delivered'} #{t(:not_delivered)}
     %option{value: sales_path + '&money_state=not_paid'} #{t(:not_paid)}
 
-%table{:class => 'table table-striped'}
-  %thead
-    %tr
-      %th= t(:sale_id)
-      %th= t(:approved_at)
-      %th= t(:warehouse)
-      %th= t(:customer)
-      %th= t(:state)
-      %th
-      %th
-      %th
-  %tbody
-    - @sales.each do |sale|
+%div{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
       %tr
-        %td= link_to "##{sale.id}", sale
-        %td= sale.approved_at
-        %td= link_to sale.warehouse_name, sale.warehouse
-        %td= link_to sale.customer_name, sale.customer
-        %td
-          - sale.states.each do |s|
-            = s
-        %td
-          - if sale.prepared?
-            = link_to doc_icon, sale.document_url, target: '_blank'
-            - unless sale.invoice_sent?
-              = link_to envelope_icon,
-                send_email_sale_path(sale),
-                method: 'post',
-                data: {confirm: t(:send_email_to_customer)}
-        %td= link_to settings_icon, sale
-        %td= delete_button_for sale
+        %th= t(:sale_id)
+        %th= t(:approved_at)
+        %th= t(:warehouse)
+        %th= t(:customer)
+        %th= t(:state)
+        %th
+        %th
+        %th
+    %tbody
+      - @sales.each do |sale|
+        %tr
+          %td= link_to "##{sale.id}", sale
+          %td= sale.approved_at
+          %td= link_to sale.warehouse_name, sale.warehouse
+          %td= link_to sale.customer_name, sale.customer
+          %td
+            - sale.states.each do |s|
+              = s
+          %td
+            - if sale.prepared?
+              = link_to doc_icon, sale.document_url, target: '_blank'
+              - unless sale.invoice_sent?
+                = link_to envelope_icon,
+                  send_email_sale_path(sale),
+                  method: 'post',
+                  data: {confirm: t(:send_email_to_customer)}
+          %td= link_to settings_icon, sale
+          %td= delete_modal_for sale
 
-= paginate @sales, :theme => 'twitter-bootstrap-3'
+  = paginate @sales, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
 
 :javascript
   $(document).ready(function() {

@@ -14,9 +14,9 @@ module ApplicationHelper
     link_to delete_icon, p, method: :delete, data: { confirm: 'Are you Sure?' }
   end
 
-  def delete_modal_for(obj)
+  def delete_modal_for(obj, other_path = nil)
     return unless obj.can_delete?
-    path = url_for(obj)
+    path = other_path || url_for(obj)
     link_to delete_icon, '#', :ng_click =>"open_delete($event, 'sm','deleteContent', '#{path}')"
   end
 

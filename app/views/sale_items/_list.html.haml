@@ -1,30 +1,32 @@
-.table-border
-  %table{:class => 'table table-striped  fix-bottom'}
-    %thead
-      %tr
-        %th= t(:item)
-        %th.numeric= t(:quantity)
-        %th.numeric= t(:price)
-        %th.numeric= t(:vat)
-        %th.numeric= t(:amount)
-        %th
-      %tbody
-        - sale_items.each do |item|
-          - item = item.decorate
-          %tr
-            %td= item.item.name
-            %td.numeric= item.quantity
-            %td.numeric= as_sek(item.price)
-            %td.numeric
-              = "(#{item.vat}%) "
-              = as_sek(item.total_vat)
-            %td.numeric= as_sek(item.price_sum)
-            %td= delete_button_for item, sale_sale_item_path(@sale, item)
-      %tfoot
+%div{:ng_controller=>'ModalCtrl'}
+  .table-border
+    %table{:class => 'table table-striped  fix-bottom'}
+      %thead
         %tr
-          %td= t(:total)
-          %td
-          %td
-          %td.numeric= as_sek(@sale.total_vat)
-          %td.numeric= as_sek(@sale.total_price_inc_vat)
-          %td
+          %th= t(:item)
+          %th.numeric= t(:quantity)
+          %th.numeric= t(:price)
+          %th.numeric= t(:vat)
+          %th.numeric= t(:amount)
+          %th
+        %tbody
+          - sale_items.each do |item|
+            - item = item.decorate
+            %tr
+              %td= item.item.name
+              %td.numeric= item.quantity
+              %td.numeric= as_sek(item.price)
+              %td.numeric
+                = "(#{item.vat}%) "
+                = as_sek(item.total_vat)
+              %td.numeric= as_sek(item.price_sum)
+              %td= delete_modal_for item, sale_sale_item_path(@sale, item)
+        %tfoot
+          %tr
+            %td= t(:total)
+            %td
+            %td
+            %td.numeric= as_sek(@sale.total_vat)
+            %td.numeric= as_sek(@sale.total_price_inc_vat)
+            %td
+    = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
