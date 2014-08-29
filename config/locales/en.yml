@@ -33,6 +33,7 @@ en:
   approved: "Approved"
   approved_at: "Approved at"
   amount: "Amount"
+  authority: "Authority"
   available: "Available"
   bankgiro: "Bankgiro"
   batch: "Batch"

@@ -11,6 +11,10 @@ class ContactRelationsController < ApplicationController
     @contact_relation = @parent.contact_relations.build
     @contact = @parent.contacts.build
     init_new
+   end
+
+  def edit
+    init_show
   end
 
   def show
@@ -22,11 +26,20 @@ class ContactRelationsController < ApplicationController
       @contact = Contact.find(params[:contact][:id])
       @contact.update_attributes contact_params
     else
-      @contact = @parent.contacts.build contact_params
+      if @parent.class.name == 'User'
+        @contact = @contact_relation.build_contact contact_params
+      else
+        @contact = @parent.contacts.build contact_params
+      end
     end
 
     @contact.organisation = current_organisation
-    @contact_relation = @parent.contact_relations.build
+    if @parent.class.name == 'User'
+      @contact_relation = @parent.build_contact_relation
+    else
+      @contact_relation = @parent.contact_relations.build
+    end
+
     @contact_relation.organisation = current_organisation
 
     respond_to do |format|
@@ -51,7 +64,7 @@ class ContactRelationsController < ApplicationController
     @contact = Contact.find(params[:contact][:id])
     respond_to do |format|
       if @contact.update(contact_params)
-        format.html { redirect_to edit_polymorphic_path(@parent), notice: "#{t(:contact)} #{t(:was_successfully_updated)}" }
+        format.html { redirect_to polymorphic_path(@parent), notice: "#{t(:contact)} #{t(:was_successfully_updated)}" }
       else
         init_show
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:contact)}"
@@ -63,7 +76,7 @@ class ContactRelationsController < ApplicationController
   def destroy
     @contact_relation.destroy
     respond_to do |format|
-      format.html { redirect_to edit_polymorphic_path(@parent), notice: "#{t(:contact)} #{t(:was_destroyed)}" }
+      format.html { redirect_to polymorphic_path(@parent), notice: "#{t(:contact)} #{t(:was_destroyed)}" }
       #format.json { head :no_content }
     end
   end

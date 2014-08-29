@@ -76,7 +76,7 @@ class WarehousesController < ApplicationController
     end
 
     def load_contats
-     @contacts = ContactRelation.where('parent_type = ? and parent_id = ?', 'Warehouse', @warehouse)
+     @contacts = @warehouse.contacts
     end
 
 end

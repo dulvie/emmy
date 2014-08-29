@@ -12,6 +12,7 @@ se:
   amount: "Belopp"
   approved: "Godkänd"
   approved_at: "Godkänd"
+  authority: "Behörighet"
   available: "Tillgängligt"
   bankgiro: "Bankgiro"
   base_information: "Bas information"

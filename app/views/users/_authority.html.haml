@@ -1,0 +1,7 @@
+- if can? :manage, Role.new
+  = simple_form_for(@user, wrapper: :horizontal_form, html: {class: 'form-horizontal'}, :url => edit_roles_user_path(@user), :method => :patch) do |f|
+    = f.error_notification
+    = f.association :roles, as: :check_boxes, wrapper: :horizontal_radio_and_checkboxes
+    .form-button-group
+      .actions
+        = f.button :submit, t(:update_roles), class: 'btn btn-primary'

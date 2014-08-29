@@ -19,8 +19,8 @@ class User < ActiveRecord::Base
                   :email, :password, :password_confirmation, :remember_me # by devise
 
   has_and_belongs_to_many :roles
-  has_many :slot_changes
-
+  has_one :contact_relation, as: :parent
+  has_one :contacts, through: :contact_relation
 
   # @note :security
   # The roles are cached on the object when role? is called the first time.
@@ -31,6 +31,10 @@ class User < ActiveRecord::Base
 
   def can_delete?
     true
+  end
+
+  def parent_name
+    name
   end
 
   # Used by Devise

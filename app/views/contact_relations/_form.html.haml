@@ -11,7 +11,10 @@
 
     = f.input :id, as: :hidden
     = f.input :name
-    = f.input :email
+    - if local_assigns.has_key? :email
+      = f.input :email, :input_html => {:value => email}, :readonly => true
+    - else
+      = f.input :email
     = f.input :telephone, :input_html => {:class => 'medium'}
     = f.input :address
     = f.input :zip, :input_html => {:class => 'short'}

@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   # @fixme CanCan authorization MUST be implemented here.
   # all actions needs to be locked down to admin only.
 
-  before_action :set_user, only: [:show, :update, :destroy, :update_roles]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :update_roles]
 
   before_action :check_authorization
 
@@ -16,7 +16,16 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @breadcrumbs = [['Users', users_path], [@user.email]]
+      @breadcrumbs = [['Users', users_path], [@user.email]]
+    if @user.contact_relation.nil?
+      @contact_relation = @user.build_contact_relation
+      @contact = @contact_relation.build_contact
+      @contact_relation_form_url = contact_relations_path(parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
+    else
+      @contact_relation = @user.contact_relation
+      @contact = @user.contacts
+      @contact_relation_form_url = contact_relation_path(parent_type: 'User', parent_id: @user.id)
+    end
   end
 
   # GET /users/new

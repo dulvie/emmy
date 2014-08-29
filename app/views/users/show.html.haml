@@ -1,10 +1,14 @@
-= render 'form'
-%br
-- if can? :manage, Role.new
-  = simple_form_for(@user, wrapper: :horizontal_form, html: {class: 'form-horizontal'}, :url => edit_roles_user_path(@user), :method => :patch) do |f|
-    = f.error_notification
-    %label Change authorization for #{@user.name}
-    = f.association :roles, as: :check_boxes, wrapper: :horizontal_radio_and_checkboxes
-    .form-button-group
-      .actions
-        = f.button :submit, t(:update_roles), class: 'btn btn-primary'
+%ul{:class => 'nav nav-tabs'}
+  %li.active= link_to t(:base_information), "#user-form", {"data-toggle" => "tab"}
+  %li= link_to t(:authority), "#authority", {"data-toggle" => "tab"}
+  %li= link_to t(:contact), "#contact", {"data-toggle" => "tab"}
+.tab-content
+  #user-form.tab-pane.active
+    %br
+    = render 'form'
+  #authority.tab-pane
+    %br
+    = render "authority"
+  #contact.tab-pane
+    %br
+    = render partial: 'contact_relations/form', locals: {email: @user.email}

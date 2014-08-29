@@ -18,7 +18,7 @@ class Contact < ActiveRecord::Base
   validates :email, :uniqueness => true
   validates :email, presence: true
 
-  VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', 'ContactRelation']
+  VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', 'ContactRelation', 'User']
 
   # For ApplicationHelper#delete_button
   def can_delete?
