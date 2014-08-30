@@ -7,7 +7,7 @@ class ImportBatchesController < ApplicationController
 
   def new
     @import_batch = ImportBatch.new
-    @import_batch.description = "Import batch"
+    @import_batch.description = 'Import batch'
     @import_batch.import_id = @import.id
     init_new
   end
@@ -17,7 +17,7 @@ class ImportBatchesController < ApplicationController
     @import_batch.organisation_id = current_organisation.id
     respond_to do |format|
       if @import_batch.submit
-        format.html { redirect_to edit_import_path(@import_batch.import_id), notice: 'batch was successfully created.'}
+        format.html { redirect_to edit_import_path(@import_batch.import_id), notice: 'batch was successfully created.' }
       else
         @import_batch.import_id = @import.id
         init_new
@@ -27,21 +27,22 @@ class ImportBatchesController < ApplicationController
   end
 
   private
-    def init_new
-      @items = Item.where("stocked=? and item_type IN('both', 'purchase')", 'true')
-      @suppliers = Supplier.all
-      gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
-    end
 
-    def load_import
-      @import = Import.find(params[:import_id])
-    end
+  def init_new
+    @items = Item.where("stocked=? and item_type IN('both', 'purchase')", 'true')
+    @suppliers = Supplier.all
+    gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
+  end
 
-    def import_batch_params
-      params.require(:import_batch).permit(:import_id, :item_id, :name, :description, :supplier, :contact_name, :contact_email, :quantity, :price)
-    end
+  def load_import
+    @import = Import.find(params[:import_id])
+  end
 
-    def new_breadcrumbs
-      @breadcrumbs = [['Imports', imports_path], [@import.description, import_path(params['import_id'])], ["#{t(:new)} #{t(:import_batch)}"]]
-    end
+  def import_batch_params
+    params.require(:import_batch).permit(:import_id, :item_id, :name, :description, :supplier, :contact_name, :contact_email, :quantity, :price)
+  end
+
+  def new_breadcrumbs
+    @breadcrumbs = [['Imports', imports_path], [@import.description, import_path(params['import_id'])], ["#{t(:new)} #{t(:import_batch)}"]]
+  end
 end

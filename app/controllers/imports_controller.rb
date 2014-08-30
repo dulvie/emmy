@@ -1,5 +1,4 @@
 class ImportsController < ApplicationController
-
   load_and_authorize_resource
 
   before_filter :new_breadcrumbs, only: [:new, :create]
@@ -11,11 +10,11 @@ class ImportsController < ApplicationController
   def index
     @breadcrumbs = [[t(:imports)]]
     if params[:state] == 'not_started'
-      imports = @imports.where("state = ?", 'not_started').collect{|import| import.decorate}
+      imports = @imports.where('state = ?', 'not_started').collect { |import| import.decorate }
     elsif params[:state] == 'started'
-      imports = @imports.where("state = ?", 'started').collect{|import| import.decorate}
+      imports = @imports.where('state = ?', 'started').collect { |import| import.decorate }
     else
-      imports = @imports.order(:started_at).collect{|import| import.decorate}
+      imports = @imports.order(:started_at).collect { |import| import.decorate }
     end
     @imports = Kaminari.paginate_array(imports).page(params[:page]).per(8)
   end
@@ -23,7 +22,7 @@ class ImportsController < ApplicationController
   # GET /imports/1
   # GET /imports/1.json
   def show
-    get_purchases
+    set_purchases
     render 'edit'
   end
 
@@ -34,7 +33,7 @@ class ImportsController < ApplicationController
 
   # GET /imports/1/edit
   def edit
-    get_purchases
+    set_purchases
   end
 
   # POST /imports
@@ -44,7 +43,7 @@ class ImportsController < ApplicationController
     @import.organisation = current_organisation
     respond_to do |format|
       if @import.save
-         format.html { redirect_to edit_import_path(@import), notice: 'import was successfully created.'}
+        format.html { redirect_to edit_import_path(@import), notice: 'import was successfully created.' }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:import)}"
         format.html { render action: 'new' }
@@ -66,7 +65,7 @@ class ImportsController < ApplicationController
     @import.destroy
     respond_to do |format|
       format.html { redirect_to imports_path, notice: "#{t(:import)} #{t(:was_successfully_deleted)}" }
-      #format.json { head :no_content }
+      # format.json { head :no_content }
     end
   end
 
@@ -149,77 +148,76 @@ class ImportsController < ApplicationController
       msg = t(:fail)
     end
     respond_to do |format|
-      format.html { redirect_to edit_import_path(@import), notice: msg}
+      format.html { redirect_to edit_import_path(@import), notice: msg }
     end
   end
 
   private
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def import_params
-      params.require(:import).permit(Import.accessible_attributes.to_a)
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def import_params
+    params.require(:import).permit(Import.accessible_attributes.to_a)
+  end
+
+  def new_breadcrumbs
+    @breadcrumbs = [['Imports', imports_path], ["#{t(:new)} #{t(:import)}"]]
+  end
+
+  def edit_breadcrumbs
+    @breadcrumbs = [['Imports', imports_path], [@import.description]]
+  end
+
+  def purchase_breadcrumbs
+    @breadcrumbs = [['Imports', imports_path], [@import.description, import_path(@import)]]
+
+    case params[:parent_column]
+    when 'customs'
+      @breadcrumbs << ["#{t(:new)} #{t(:customs)}"]
+    when 'shipping'
+      @breadcrumbs << ["#{t(:new)} #{t(:shipping)}"]
+    else
+      @breadcrumbs << ["#{t(:new)} #{t(:purchase)}"]
+    end
+  end
+
+  def init_purchase
+    if params[:parent_column] == 'shipping'
+      item_types = ['purchases', 'both']
+      @item_selections = Item.where(item_type: item_types)
+    end
+    if params[:parent_column] == 'customs'
+      item_types = ['purchases', 'both']
+      @item_selections = Item.where(item_type: item_types)
     end
 
-    def new_breadcrumbs
-      @breadcrumbs = [['Imports', imports_path], ["#{t(:new)} #{t(:import)}"]]
-    end
+    @parent_column = params[:parent_column]
+    gon.push suppliers: ActiveModel::ArraySerializer.new(Supplier.all, each_serializer: SupplierSerializer)
+  end
 
-    def edit_breadcrumbs
-      @breadcrumbs = [['Imports', imports_path], [@import.description]]
-    end
-
-     def purchase_breadcrumbs
-      @breadcrumbs = [['Imports', imports_path], [@import.description, import_path(@import)]]
-
-      case params[:parent_column]
-      when 'customs'
-        @breadcrumbs << ["#{t(:new)} #{t(:customs)}"]
-      when 'shipping'
-        @breadcrumbs << ["#{t(:new)} #{t(:shipping)}"]
+  def set_purchases
+    unless @import.importing_id.nil?
+      if !Purchase.exists? id: @import.importing_id
+        @import.importing_id = nil
+        @import.save
       else
-        @breadcrumbs << ["#{t(:new)} #{t(:purchase)}"]
+        @importing = Purchase.find(@import.importing_id)
       end
     end
-
-    def init_purchase
-      if params[:parent_column] == 'shipping'
-        item_types = ['purchases', 'both']
-        @item_selections = Item.where(item_type: item_types)
-      end
-      if params[:parent_column] == 'customs'
-        item_types = ['purchases', 'both']
-        @item_selections = Item.where(item_type: item_types)
-      end
-
-      @parent_column = params[:parent_column]
-      gon.push suppliers: ActiveModel::ArraySerializer.new(Supplier.all, each_serializer: SupplierSerializer)
-    end
-
-    def get_purchases
-      if !@import.importing_id.nil?
-        if !Purchase.exists? id: @import.importing_id
-          @import.importing_id = nil
-          @import.save
-        else
-          @importing = Purchase.find(@import.importing_id)
-        end
-      end
-      if !@import.shipping_id.nil?
-        if !Purchase.exists? id: @import.shipping_id
-          @import.shipping_id = nil
-          @import.save
-        else
-          @shipping = Purchase.find(@import.shipping_id)
-        end
-      end
-      if !@import.customs_id.nil?
-        if !Purchase.exists? id: @import.customs_id
-          @import.customs_id = nil
-          @import.save
-        else
-          @customs = Purchase.find(@import.customs_id)
-        end
+    unless @import.shipping_id.nil?
+      if !Purchase.exists? id: @import.shipping_id
+        @import.shipping_id = nil
+        @import.save
+      else
+        @shipping = Purchase.find(@import.shipping_id)
       end
     end
-
+    unless @import.customs_id.nil?
+      if !Purchase.exists? id: @import.customs_id
+        @import.customs_id = nil
+        @import.save
+      else
+        @customs = Purchase.find(@import.customs_id)
+      end
+    end
+  end
 end
