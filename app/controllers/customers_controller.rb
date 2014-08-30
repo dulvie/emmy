@@ -1,5 +1,4 @@
 class CustomersController < ApplicationController
-
   respond_to :html, :json
   load_and_authorize_resource
 
@@ -7,11 +6,10 @@ class CustomersController < ApplicationController
   before_filter :show_breadcrumbs, only: [:show, :update]
   before_filter :load_contacts, only: [:show, :new, :edit, :create, :update]
 
-
   def name_search
-    @breadcrumbs = [['Customers'],['name_search']]
+    @breadcrumbs = [['Customers'], ['name_search']]
     name = "%#{params[:name]}%"
-    @customers = Customer.where("name ILIKE ?", name).order("name").page(params[:page]).per(8)
+    @customers = Customer.where('name ILIKE ?', name).order('name').page(params[:page]).per(8)
     render :index
   end
 
@@ -19,10 +17,10 @@ class CustomersController < ApplicationController
   # GET /customers.json
   def index
     respond_to do |format|
-    	@breadcrumbs = [['Customers']]
-     	format.html {@customers = Customer.order("name").page(params[:page]).per(8)}
-    	format.json {render json: @customers}
-    end	
+      @breadcrumbs = [['Customers']]
+      format.html { @customers = Customer.order('name').page(params[:page]).per(8) }
+      format.json { render json: @customers }
+    end
   end
 
   # GET /customers/new
@@ -64,21 +62,20 @@ class CustomersController < ApplicationController
 
   private
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def customer_params
-      params.require(:customer).permit(Customer.accessible_attributes.to_a)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def customer_params
+    params.require(:customer).permit(Customer.accessible_attributes.to_a)
+  end
 
-    def new_breadcrumbs
-      @breadcrumbs = [['Customers', customers_path], ["#{t(:new)} #{t(:customer)}"]]
-    end
+  def new_breadcrumbs
+    @breadcrumbs = [['Customers', customers_path], ["#{t(:new)} #{t(:customer)}"]]
+  end
 
-    def show_breadcrumbs
-      @breadcrumbs = [['Customers', customers_path], [@customer.name]]
-    end
+  def show_breadcrumbs
+    @breadcrumbs = [['Customers', customers_path], [@customer.name]]
+  end
 
-    def load_contacts
-      @contacts = @customer.contacts
-    end
-
+  def load_contacts
+    @contacts = @customer.contacts
+  end
 end
