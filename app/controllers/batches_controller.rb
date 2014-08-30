@@ -1,11 +1,9 @@
 class BatchesController < ApplicationController
-
   respond_to :html, :json
   load_and_authorize_resource
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
-
 
   # GET /batches
   # GET /batches.json
@@ -27,7 +25,7 @@ class BatchesController < ApplicationController
   end
 
   # POST /batches
-  # @todo Refactor this into a service object.
+  # @todo Refactor this into a service object. Import is going to import_batches. Delete?
   def create
     @batch = Batch.new(batch_params)
     @batch.organisation = current_organisation
@@ -35,7 +33,7 @@ class BatchesController < ApplicationController
 
       notice = "#{t(:batch)} #{t(:was_sucessfully_created)}"
       redir_url = batches_path
-      if params[:class]=='Import'
+      if params[:class] == 'Import'
         obj_id = params[:object]
         production = Import.find(obj_id)
         production.batch = @batch
@@ -70,27 +68,26 @@ class BatchesController < ApplicationController
 
   private
 
-    def init_new
-      @items = Item.where("stocked=?", 'true')
-      gon.push items: @items
-    end
+  def init_new
+    @items = Item.where('stocked=?', 'true')
+    gon.push items: @items
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def batch_params
-      params.require(:batch).permit(Batch.accessible_attributes.to_a)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def batch_params
+    params.require(:batch).permit(Batch.accessible_attributes.to_a)
+  end
 
-    def new_breadcrumbs
-      obj_id = params[:object]
-      if params[:class]=='Import'
-        @breadcrumbs = [['Imports', imports_path], [Import.find(obj_id).description, import_path(obj_id)], ["#{t(:new)} #{t(:batch)}"]]
-      else
-        @breadcrumbs = [['Batches', batches_path], ["#{t(:new)} #{t(:batch)}"]]
-      end
+  def new_breadcrumbs
+    obj_id = params[:object]
+    if params[:class] == 'Import'
+      @breadcrumbs = [['Imports', imports_path], [Import.find(obj_id).description, import_path(obj_id)], ["#{t(:new)} #{t(:batch)}"]]
+    else
+      @breadcrumbs = [['Batches', batches_path], ["#{t(:new)} #{t(:batch)}"]]
     end
+  end
 
-    def edit_breadcrumbs
-      @breadcrumbs = [['Batches', batches_path], [@batch.name]]
-    end
-
+  def edit_breadcrumbs
+    @breadcrumbs = [['Batches', batches_path], [@batch.name]]
+  end
 end

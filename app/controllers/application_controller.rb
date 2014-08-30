@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   # Default to always check for authorization (cancan),
   # except the devise controller (sign in).
-  check_authorization :unless => :devise_controller?
+  check_authorization unless: :devise_controller?
 
   # i18n support using param from the url.
   before_filter :set_locale
@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
   # Add the locale to all the links.
   def default_url_options(options = {})
-    options.merge({locale: I18n.locale})
+    options.merge(locale: I18n.locale)
   end
 
   def current_organisation
@@ -27,9 +27,8 @@ class ApplicationController < ActionController::Base
 
   private
 
-    # only allow certian locales to be passed.
-    def locale_from_params
-      params[:locale] if (params[:locale] && ['en','se'].include?(params[:locale]))
-    end
-
+  # only allow certian locales to be passed.
+  def locale_from_params
+    params[:locale] if (params[:locale] && ['en', 'se'].include?(params[:locale]))
+  end
 end
