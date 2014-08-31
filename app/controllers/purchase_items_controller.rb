@@ -33,27 +33,27 @@ class PurchaseItemsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to purchase_path(@purchase), notice: msg }
-      #format.json { head :no_content }
+      # format.json { head :no_content }
     end
   end
 
   private
 
-    def purchase_item_params
-      params.require(:purchase_item).permit(PurchaseItem.accessible_attributes.to_a)
-    end
+  def purchase_item_params
+    params.require(:purchase_item).permit(PurchaseItem.accessible_attributes.to_a)
+  end
 
-    def set_breadcrumbs
-      @breadcrumbs = [[t(:purchases), purchases_path], ["##{@purchase.id}", purchase_path(@purchase)], [t(:add_batch)]]
-    end
+  def set_breadcrumbs
+    @breadcrumbs = [[t(:purchases), purchases_path], ["##{@purchase.id}", purchase_path(@purchase)], [t(:add_batch)]]
+  end
 
-    def init_new
-      if @purchase.to_warehouse.nil?
-        @item_selections = Item.where("stocked = false")
-      else
-        item_types = ['purchases', 'both']
-        @item_selections = Item.where(item_type: item_types)
-      end
-      gon.push items: ActiveModel::ArraySerializer.new(@item_selections, each_serializer: ItemSerializer)
+  def init_new
+    if @purchase.to_warehouse.nil?
+      @item_selections = Item.where('stocked = false')
+    else
+      item_types = ['purchases', 'both']
+      @item_selections = Item.where(item_type: item_types)
     end
+    gon.push items: ActiveModel::ArraySerializer.new(@item_selections, each_serializer: ItemSerializer)
+  end
 end

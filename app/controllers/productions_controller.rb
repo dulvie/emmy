@@ -1,5 +1,4 @@
 class ProductionsController < ApplicationController
-
   load_and_authorize_resource
 
   before_filter :new_breadcrumbs, only: [:new, :create]
@@ -11,13 +10,13 @@ class ProductionsController < ApplicationController
     @breadcrumbs = [[t(:productions)]]
     logger.info "Params:  #{params[:state]}"
     if params[:state] == 'not_started'
-      productions = @productions.where("state = ?", 'not_started').collect{|production| production.decorate}
-    elsif params[:state] == "started"
+      productions = @productions.where('state = ?', 'not_started').collect { |production| production.decorate }
+    elsif params[:state] == 'started'
 
-      productions = @productions.where("state = ?", 'started').collect{|production| production.decorate}
+      productions = @productions.where('state = ?', 'started').collect { |production| production.decorate }
     else
       logger.info "Params:  #{params[:state]}"
-      productions = @productions.order(:started_at).collect{|production| production.decorate}
+      productions = @productions.order(:started_at).collect { |production| production.decorate }
     end
 
     @productions = Kaminari.paginate_array(productions).page(params[:page]).per(8)
@@ -48,7 +47,7 @@ class ProductionsController < ApplicationController
     @production.organisation = current_organisation
     respond_to do |format|
       if @production.save
-        format.html { redirect_to edit_production_path(@production), notice: 'production was successfully created.'}
+        format.html { redirect_to edit_production_path(@production), notice: 'production was successfully created.' }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:import)}"
         format.html { render action: 'new' }
@@ -70,7 +69,7 @@ class ProductionsController < ApplicationController
     @production.destroy
     respond_to do |format|
       format.html { redirect_to productions_path, notice: "#{t(:production)} #{t(:was_successfully_deleted)}" }
-      #format.json { head :no_content }
+      # format.json { head :no_content }
     end
   end
 
@@ -82,23 +81,22 @@ class ProductionsController < ApplicationController
       msg = t(:fail)
     end
     respond_to do |format|
-      format.html { redirect_to edit_production_path(@production), notice: msg}
+      format.html { redirect_to edit_production_path(@production), notice: msg }
     end
   end
 
   private
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def production_params
-      params.require(:production).permit(Production.accessible_attributes.to_a)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def production_params
+    params.require(:production).permit(Production.accessible_attributes.to_a)
+  end
 
-    def new_breadcrumbs
-      @breadcrumbs = [['Productions', productions_path], ["#{t(:new)} #{t(:production)}"]]
-    end
+  def new_breadcrumbs
+    @breadcrumbs = [['Productions', productions_path], ["#{t(:new)} #{t(:production)}"]]
+  end
 
-    def edit_breadcrumbs
-      @breadcrumbs = [['Productions', productions_path], [@production.description]]
-    end
-
+  def edit_breadcrumbs
+    @breadcrumbs = [['Productions', productions_path], [@production.description]]
+  end
 end

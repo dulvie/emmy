@@ -22,7 +22,7 @@ class SaleItemsController < ApplicationController
 
   def destroy
     @sale = Sale.find(params[:sale_id])
-    msg = ""
+    msg = ''
     if @sale.can_edit_items?
       item = @sale.sale_items.find(params[:id])
       item.destroy
@@ -33,22 +33,22 @@ class SaleItemsController < ApplicationController
 
   private
 
-    def init_new
-      @sale = @sale.decorate
-      @shelves = @sale.warehouse.shelves.includes(:batch)
-      warehouse_batches = @sale.warehouse.batches_in_stock
-      item_types = ['sales', 'both']
-      @item_selections = Item.where(item_type: item_types, stocked: false) +
-                         Item.select("DISTINCT(items.id), items.*").where(item_type: item_types, stocked: true).joins(:batches).where(id: warehouse_batches)
-      gon.push shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer),
-               items: ActiveModel::ArraySerializer.new(@item_selections, each_serializer: ItemSerializer)
-    end
+  def init_new
+    @sale = @sale.decorate
+    @shelves = @sale.warehouse.shelves.includes(:batch)
+    warehouse_batches = @sale.warehouse.batches_in_stock
+    item_types = ['sales', 'both']
+    @item_selections = Item.where(item_type: item_types, stocked: false) +
+                       Item.select('DISTINCT(items.id), items.*').where(item_type: item_types, stocked: true).joins(:batches).where(id: warehouse_batches)
+    gon.push shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer),
+             items: ActiveModel::ArraySerializer.new(@item_selections, each_serializer: ItemSerializer)
+  end
 
-    def sale_item_params
-      params.require(:sale_item).permit(SaleItem.accessible_attributes.to_a)
-    end
+  def sale_item_params
+    params.require(:sale_item).permit(SaleItem.accessible_attributes.to_a)
+  end
 
-    def set_breadcrumbs
-      @breadcrumbs = [[t(:sales), sales_path], ["##{@sale.id}", sale_path(@sale)], [t(:add_batch)]]
-    end
+  def set_breadcrumbs
+    @breadcrumbs = [[t(:sales), sales_path], ["##{@sale.id}", sale_path(@sale)], [t(:add_batch)]]
+  end
 end
