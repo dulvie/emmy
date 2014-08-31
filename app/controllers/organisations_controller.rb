@@ -1,6 +1,6 @@
 class OrganisationsController < ApplicationController
   load_and_authorize_resource
-  before_filter :load_by_pagination, :only => :index
+  before_filter :load_by_pagination, only: :index
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update]
@@ -47,29 +47,30 @@ class OrganisationsController < ApplicationController
   end
 
   private
-    # Only allow a trusted parameter "white list" through.
-    def organisation_params
-      params.require(:organisation).permit(Organisation.accessible_attributes.to_a)
-    end
 
-    def new_breadcrumbs
-      @breadcrumbs = [[t(:organisations), organisations_path], ["#{t(:new)} #{t(:organisation)}"]]
-    end
+  # Only allow a trusted parameter "white list" through.
+  def organisation_params
+    params.require(:organisation).permit(Organisation.accessible_attributes.to_a)
+  end
 
-    def show_breadcrumbs
-      @breadcrumbs = [[t(:organisations), organisations_path], [@organisation.name]]
-    end
+  def new_breadcrumbs
+    @breadcrumbs = [[t(:organisations), organisations_path], ["#{t(:new)} #{t(:organisation)}"]]
+  end
+
+  def show_breadcrumbs
+    @breadcrumbs = [[t(:organisations), organisations_path], [@organisation.name]]
+  end
 
 
-    # before index
-    def load_by_pagination
-      @organisations = Organisation.accessible_by(current_ability).page(params[:page] || 1)
-    end
+  # before index
+  def load_by_pagination
+    @organisations = Organisation.accessible_by(current_ability).page(params[:page] || 1)
+  end
 
-    def only_allow_one
-      if first_org = Organisation.first
-        redirect_to first_org
-        return false
-      end
+  def only_allow_one
+    if first_org = Organisation.first
+      redirect_to first_org
+      return false
     end
+  end
 end
