@@ -1,5 +1,4 @@
 class InventoriesController < ApplicationController
-
   load_and_authorize_resource
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update, :edit, :state_change]
@@ -17,10 +16,10 @@ class InventoriesController < ApplicationController
   end
 
   def create
-     @inventory = Inventory.new inventory_params
-     @inventory.user = current_user
-     @inventory.organisation = current_organisation
-     respond_to do |format|
+    @inventory = Inventory.new inventory_params
+    @inventory.user = current_user
+    @inventory.organisation = current_organisation
+    respond_to do |format|
       if @inventory.save
         format.html { redirect_to inventory_path(@inventory), notice: "#{t(:inventory)} #{t(:was_successfully_created)}" }
       else
@@ -34,11 +33,11 @@ class InventoriesController < ApplicationController
     respond_to do |format|
       if @inventory.update(inventory_params)
         format.html { redirect_to inventory_path(@inventory), notice: 'inventory was successfully updated.' }
-        #format.json { head :no_content }
+        # format.json { head :no_content }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:inventory)}"
         format.html { render action: 'show' }
-        #format.json { render json: @inventory.errors, status: :unprocessable_entity }
+        # format.json { render json: @inventory.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -46,12 +45,11 @@ class InventoriesController < ApplicationController
   def edit
   end
 
-
   def destroy
     @inventory.destroy
     respond_to do |format|
       format.html { redirect_to inventories_path, notice: "#{t(:inventory)} #{t(:was_successfully_deleted)}" }
-      #format.json { head :no_content }
+      # format.json { head :no_content }
     end
   end
 
@@ -61,29 +59,23 @@ class InventoriesController < ApplicationController
       msg = t(:success)
     else
       msg = @inventory.errors.first
-
     end
     respond_to do |format|
-      return_path = inventory_path(@inventory)
-      if params[:return_path]
-        return_path = params[:return_path]
-      end
-      format.html { render 'show', notice: msg}
+      format.html { render 'show', notice: msg }
     end
   end
 
   private
 
-    def inventory_params
-      params.require(:inventory).permit(Inventory.accessible_attributes.to_a)
-    end
+  def inventory_params
+    params.require(:inventory).permit(Inventory.accessible_attributes.to_a)
+  end
 
-    def new_breadcrumbs
-      @breadcrumbs = [[t(:inventories), inventories_path], ["#{t(:new)} #{t(:inventory)}"]]
-    end
+  def new_breadcrumbs
+    @breadcrumbs = [[t(:inventories), inventories_path], ["#{t(:new)} #{t(:inventory)}"]]
+  end
 
-    def show_breadcrumbs
-      @breadcrumbs = [[t(:inventories), inventories_path], ["##{@inventory.id}"]]
-    end
-
+  def show_breadcrumbs
+    @breadcrumbs = [[t(:inventories), inventories_path], ["##{@inventory.id}"]]
+  end
 end

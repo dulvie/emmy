@@ -1,5 +1,4 @@
 class InventoryItemsController < ApplicationController
-
   respond_to :html, :json
   load_and_authorize_resource :inventory
   load_and_authorize_resource :inventory_item, through: :inventory
@@ -46,18 +45,17 @@ class InventoryItemsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to inventory_path(@inventory), notice: msg }
-      #format.json { head :no_content }
+      # format.json { head :no_content }
     end
   end
 
   private
 
-    def inventory_item_params
-      params.require(:inventory_item).permit(InventoryItem.accessible_attributes.to_a)
-    end
+  def inventory_item_params
+    params.require(:inventory_item).permit(InventoryItem.accessible_attributes.to_a)
+  end
 
-    def set_breadcrumbs
-      @breadcrumbs = [[t(:inventory), inventories_path], ["##{@inventory.id}", inventory_path(@inventory)], [t(:add_inventory)]]
-    end
-
+  def set_breadcrumbs
+    @breadcrumbs = [[t(:inventory), inventories_path], ["##{@inventory.id}", inventory_path(@inventory)], [t(:add_inventory)]]
+  end
 end

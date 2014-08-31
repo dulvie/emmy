@@ -1,5 +1,4 @@
 class ManualsController < ApplicationController
-
   load_and_authorize_resource
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
@@ -34,10 +33,10 @@ class ManualsController < ApplicationController
     respond_to do |format|
       if @manual.save
         format.html { redirect_to manuals_path, notice: "#{t(:manual_transaction)} #{t(:was_successfully_created)}" }
-        #format.json { render action: 'show', status: :created, location: @manual }
+        # format.json { render action: 'show', status: :created, location: @manual }
       else
         format.html { render action: 'new' }
-        #format.json { render json: @manual.errors, status: :unprocessable_entity }
+        # format.json { render json: @manual.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -48,43 +47,43 @@ class ManualsController < ApplicationController
     @manual.destroy
     respond_to do |format|
       format.html { redirect_to manuals_url, notice: 'manual was successfully deleted.' }
-      #format.json { head :no_content }
+      # format.json { head :no_content }
     end
   end
 
   private
 
-    def new_breadcrumbs
-      @breadcrumbs = [['Manuals', manuals_path], ["#{t(:new)} #{t(:manual)}"]]
-    end
+  def new_breadcrumbs
+    @breadcrumbs = [['Manuals', manuals_path], ["#{t(:new)} #{t(:manual)}"]]
+  end
 
-    def edit_breadcrumbs
-      @breadcrumbs = [['Manuals', manuals_path], [@manual.created_at]]
-    end
+  def edit_breadcrumbs
+    @breadcrumbs = [['Manuals', manuals_path], [@manual.created_at]]
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def batch_transaction_params
-      params.require(:manual).permit(BatchTransaction.accessible_attributes.to_a)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def batch_transaction_params
+    params.require(:manual).permit(BatchTransaction.accessible_attributes.to_a)
+  end
 
-    def commentsx_params
-      params.require(:comments).permit(Comment.accessible_attributes.to_a)
-    end
+  def commentsx_params
+    params.require(:comments).permit(Comment.accessible_attributes.to_a)
+  end
 
-    def comments_params
-      params.require([:comments_attributes][:'0'])
-    end
+  def comments_params
+    params.require([:comments_attributes][:'0'])
+  end
 
-    def new_manual
-      manual = Manual.new
-      manual.user_id = current_user.id
-      manual.organisation = current_organisation
-      manual.batch_transaction = BatchTransaction.new batch_transaction_params
-      manual.batch_transaction.organisation_id = current_organisation.id
-      comment_p = params[:manual][:comments_attributes][:"0"]
-      comment_p[:user_id] = current_user.id
-      comment_p[:organisation_id] = current_organisation.id
-      manual.comments.build(comment_p)
-      manual
-    end
+  def new_manual
+    manual = Manual.new
+    manual.user_id = current_user.id
+    manual.organisation = current_organisation
+    manual.batch_transaction = BatchTransaction.new batch_transaction_params
+    manual.batch_transaction.organisation_id = current_organisation.id
+    comment_p = params[:manual][:comments_attributes][:"0"]
+    comment_p[:user_id] = current_user.id
+    comment_p[:organisation_id] = current_organisation.id
+    manual.comments.build(comment_p)
+    manual
+  end
 end

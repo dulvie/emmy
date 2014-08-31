@@ -1,5 +1,4 @@
 class ItemsController < ApplicationController
-
   respond_to :html, :json
   load_and_authorize_resource
 
@@ -37,11 +36,11 @@ class ItemsController < ApplicationController
     respond_to do |format|
       if @item.save
         format.html { redirect_to items_path, notice: 'item was successfully created.' }
-        #format.json { render action: 'show', status: :created, location: @item }
+        # format.json { render action: 'show', status: :created, location: @item }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:item)}"
         format.html { render action: 'new' }
-        #format.json { render json: @item.errors, status: :unprocessable_entity }
+        # format.json { render json: @item.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -52,11 +51,11 @@ class ItemsController < ApplicationController
     respond_to do |format|
       if @item.update(item_params)
         format.html { redirect_to items_path, notice: 'item was successfully updated.' }
-        #format.json { head :no_content }
+        # format.json { head :no_content }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:item)}"
         format.html { render action: 'edit' }
-        #format.json { render json: @item.errors, status: :unprocessable_entity }
+        # format.json { render json: @item.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -67,22 +66,22 @@ class ItemsController < ApplicationController
     @item.destroy
     respond_to do |format|
       format.html { redirect_to items_url, notice: 'item was successfully deleted.' }
-      #format.json { head :no_content }
+      # format.json { head :no_content }
     end
   end
 
   private
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def item_params
-      params.require(:item).permit(Item.accessible_attributes.to_a)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def item_params
+    params.require(:item).permit(Item.accessible_attributes.to_a)
+  end
 
-    def new_breadcrumbs
-      @breadcrumbs = [['items', items_path], ["#{t(:new)} #{t(:item)}"]]
-    end
+  def new_breadcrumbs
+    @breadcrumbs = [['items', items_path], ["#{t(:new)} #{t(:item)}"]]
+  end
 
-    def edit_breadcrumbs
-      @breadcrumbs = [['items', items_path], [@item.name]]
-    end
+  def edit_breadcrumbs
+    @breadcrumbs = [['items', items_path], [@item.name]]
+  end
 end
