@@ -1,5 +1,4 @@
 class TransfersController < ApplicationController
-
   load_and_authorize_resource
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update]
@@ -11,7 +10,7 @@ class TransfersController < ApplicationController
   # GET /transfers.json
   def index
     @breadcrumbs = [['Transfers']]
-    transfers = TransferDecorator.decorate_collection(@transfers.order("id DESC"))
+    transfers = TransferDecorator.decorate_collection(@transfers.order('id DESC'))
     @transfers = Kaminari.paginate_array(transfers).page(params[:page]).per(8)
   end
 
@@ -34,12 +33,12 @@ class TransfersController < ApplicationController
     respond_to do |format|
       if @transfer.save
         format.html { redirect_to transfers_path, notice: "#{t(:transfer_transaction)} #{t(:was_successfully_created)}" }
-        #format.json { render action: 'show', status: :created, location: @transfer }
+        # format.json { render action: 'show', status: :created, location: @transfer }
       else
         @warehouses = Warehouse.all
         gon.push warehouses: ActiveModel::ArraySerializer.new(@warehouses, each_serializer: WarehouseSerializer)
         format.html { render action: 'new' }
-        #format.json { render json: @transfer.errors, status: :unprocessable_entity }
+        # format.json { render json: @transfer.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -50,7 +49,7 @@ class TransfersController < ApplicationController
     @transfer.destroy
     respond_to do |format|
       format.html { redirect_to transfers_url, notice: 'transfer was successfully deleted.' }
-      #format.json { head :no_content }
+      # format.json { head :no_content }
     end
   end
 
@@ -61,8 +60,8 @@ class TransfersController < ApplicationController
       notice = t(:fail)
     end
     respond_to do |format|
-      format.html { redirect_to transfers_path, notice: notice}
-      #format.json { render action: 'show', status: :created, location: @transfer }
+      format.html { redirect_to transfers_path, notice: notice }
+      # format.json { render action: 'show', status: :created, location: @transfer }
     end
   end
 
@@ -74,40 +73,41 @@ class TransfersController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to transfers_path, notice: notice }
-      #format.json { render action: 'show', status: :created, location: @transfer }
+      # format.json { render action: 'show', status: :created, location: @transfer }
     end
   end
 
   private
 
-    def new_breadcrumbs
-      @breadcrumbs = [['Transfers', transfers_path], ['New transfer']]
-    end
+  def new_breadcrumbs
+    @breadcrumbs = [['Transfers', transfers_path], ['New transfer']]
+  end
 
-    def show_breadcrumbs
-      @breadcrumbs = [['Transfers', transfers_path], [@transfer.created_at]]
-    end
+  def show_breadcrumbs
+    @breadcrumbs = [['Transfers', transfers_path], [@transfer.created_at]]
+  end
 
-    def find_transfer
-      @transfer = Transfer.find params[:id]
-      authorize! :manage, @transfer
-    end
+  def find_transfer
+    @transfer = Transfer.find params[:id]
+    authorize! :manage, @transfer
+  end
 
-    def comments_params
-      params.require(:comments).permit(Comment.accessible_attributes.to_a)
-    end
-    def transfer_params
-      params.require(:transfer).permit(Transfer.accessible_attributes.to_a)
-    end
+  def comments_params
+    params.require(:comments).permit(Comment.accessible_attributes.to_a)
+  end
 
-    def new_transfer
-      transfer = Transfer.new transfer_params
-      transfer.user_id = current_user.id
-      transfer.organisation_id = current_organisation.id
-      comment_p = params[:transfer][:comments_attributes][:"0"]
-      comment_p[:user_id] = current_user.id
-      comment_p[:organisation_id] = current_organisation.id
-      transfer.comments.build(comment_p)
-      transfer
-    end
+  def transfer_params
+    params.require(:transfer).permit(Transfer.accessible_attributes.to_a)
+  end
+
+  def new_transfer
+    transfer = Transfer.new transfer_params
+    transfer.user_id = current_user.id
+    transfer.organisation_id = current_organisation.id
+    comment_p = params[:transfer][:comments_attributes][:"0"]
+    comment_p[:user_id] = current_user.id
+    comment_p[:organisation_id] = current_organisation.id
+    transfer.comments.build(comment_p)
+    transfer
+  end
 end

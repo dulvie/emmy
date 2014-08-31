@@ -20,15 +20,15 @@ class SalesController < ApplicationController
   def index
     @breadcrumbs = [[t(:sales)]]
     if params[:state] == 'meta_complete'
-      sales = @sales.where("state = ?", 'meta_complete').collect{|sale| sale.decorate}
+      sales = @sales.where('state = ?', 'meta_complete').collect { |sale| sale.decorate }
     elsif params[:state] == 'prepared'
-      sales = @sales.where("state = ?", 'prepared').collect{|sale| sale.decorate}
+      sales = @sales.where('state = ?', 'prepared').collect { |sale| sale.decorate }
     elsif params[:money_state] == 'not_paid'
-      sales = @sales.where("money_state = ?", 'not_paid').collect{|sale| sale.decorate}
+      sales = @sales.where('money_state = ?', 'not_paid').collect { |sale| sale.decorate }
     elsif params[:goods_state] == 'not_delivered'
-      sales = @sales.where("goods_state = ?", 'not_delivered').collect{|sale| sale.decorate}
+      sales = @sales.where('goods_state = ?', 'not_delivered').collect { |sale| sale.decorate }
     else
-      sales = @sales.order("approved_at DESC").collect{|sale| sale.decorate}
+      sales = @sales.order('approved_at DESC').collect { |sale| sale.decorate }
     end
     @sales = Kaminari.paginate_array(sales).page(params[:page]).per(8)
   end
@@ -68,9 +68,9 @@ class SalesController < ApplicationController
     @sale = Sale.find(params[:id])
     authorize! :manage, @sale
     if @sale.state_change(params[:event], params[:state_change_at])
-      msg_h = {notice: t(:success)}
+      msg_h = { notice: t(:success) }
     else
-      msg_h = {alert: t(:fail)}
+      msg_h = { alert: t(:fail) }
     end
     redirect_to @sale, msg_h
   end
@@ -87,16 +87,15 @@ class SalesController < ApplicationController
 
   private
 
-    def sale_params
-      params.require(:sale).permit(Sale.accessible_attributes.to_a)
-    end
+  def sale_params
+    params.require(:sale).permit(Sale.accessible_attributes.to_a)
+  end
 
-    def new_breadcrumbs
-      @breadcrumbs = [[t(:sales), sales_path], ["#{t(:new)} #{t(:sale)}"]]
-    end
+  def new_breadcrumbs
+    @breadcrumbs = [[t(:sales), sales_path], ["#{t(:new)} #{t(:sale)}"]]
+  end
 
-    def show_breadcrumbs
-      @breadcrumbs = [[t(:sales), sales_path], ["##{@sale.id}"]]
-    end
-
+  def show_breadcrumbs
+    @breadcrumbs = [[t(:sales), sales_path], ["##{@sale.id}"]]
+  end
 end
