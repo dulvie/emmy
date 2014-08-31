@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-      @breadcrumbs = [['Users', users_path], [@user.email]]
+    @breadcrumbs = [['Users', users_path], [@user.email]]
     if @user.contact_relation.nil?
       @contact_relation = @user.build_contact_relation
       @contact = @contact_relation.build_contact
@@ -54,7 +54,6 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-
     # @todo Maybe this can be refactored into service objects.
 
     # Remove password from params if no new password is supplied.
@@ -107,10 +106,10 @@ class UsersController < ApplicationController
     # Get the actual role objects
     logger.info "will try and find roles: #{role_ids}"
     roles = Role.find role_ids
-    logger.info "will ensure #{roles.collect{|r| r.name}.join(", ")} is the roles for #{@user.name}"
+    logger.info "will ensure #{roles.collect { |r| r.name }.join(", ") } is the roles for #{@user.name}"
 
     # Cache the old user roles.
-    user_roles_before_update = @user.roles.collect{|r| r}
+    user_roles_before_update = @user.roles.collect { |r| r }
 
     # Add the roles that aren't already present
     roles.each do |role|
@@ -138,26 +137,25 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params[:user]
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_params
+    params[:user]
+  end
 
-    def check_authorization
-      if @user
-        if params[:action].eql? 'show' # Let everybody that has read access see the user info.
-          authorize! :read, @user
-        else
-          authorize! :manage, @user
-        end
+  def check_authorization
+    if @user
+      if params[:action].eql? 'show' # Let everybody that has read access see the user info.
+        authorize! :read, @user
       else
-        authorize! :manage, User
+        authorize! :manage, @user
       end
+    else
+      authorize! :manage, User
     end
-
+  end
 end

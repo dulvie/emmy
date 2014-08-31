@@ -1,5 +1,4 @@
 class UnitsController < ApplicationController
-
   respond_to :html, :json
   load_and_authorize_resource
 
@@ -11,8 +10,8 @@ class UnitsController < ApplicationController
   def index
     respond_to do |format|
       @breadcrumbs = [['Units']]
-      format.html {@units = Unit.order(:name).page(params[:page]).per(8)}
-      format.json {render json: @units}
+      format.html { @units = Unit.order(:name).page(params[:page]).per(8) }
+      format.json { render json: @units }
     end
   end
 
@@ -67,16 +66,16 @@ class UnitsController < ApplicationController
 
   private
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def unit_params
-      params.require(:unit).permit(Unit.accessible_attributes.to_a)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def unit_params
+    params.require(:unit).permit(Unit.accessible_attributes.to_a)
+  end
 
-    def new_breadcrumbs
-      @breadcrumbs = [['Units', units_path], ["#{t(:new)} #{t(:unit)}"]]
-    end
+  def new_breadcrumbs
+    @breadcrumbs = [['Units', units_path], ["#{t(:new)} #{t(:unit)}"]]
+  end
 
-    def show_breadcrumbs
-      @breadcrumbs = [['Units', units_path], [@unit.name]]
-    end
+  def show_breadcrumbs
+    @breadcrumbs = [['Units', units_path], [@unit.name]]
+  end
 end

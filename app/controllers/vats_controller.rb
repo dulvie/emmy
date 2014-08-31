@@ -1,5 +1,4 @@
 class VatsController < ApplicationController
-
   respond_to :html, :json
   load_and_authorize_resource
 
@@ -10,10 +9,10 @@ class VatsController < ApplicationController
   # GET /vats.json
   def index
     respond_to do |format|
-    	@breadcrumbs = [['Vats']]
-    	format.html {@vats = Vat.order(:name).page(params[:page]).per(8)}
-    	format.json {render json: @vats}
-    end	
+      @breadcrumbs = [['Vats']]
+      format.html { @vats = Vat.order(:name).page(params[:page]).per(8) }
+      format.json { render json: @vats }
+    end
   end
 
   # GET /vats/new
@@ -67,16 +66,16 @@ class VatsController < ApplicationController
 
   private
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def vat_params
-      params.require(:vat).permit(Vat.accessible_attributes.to_a)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def vat_params
+    params.require(:vat).permit(Vat.accessible_attributes.to_a)
+  end
 
-    def new_breadcrumbs
-      @breadcrumbs = [['Vats', vats_path], ["#{t(:new)} #{t(:vat)}"]]
-    end
+  def new_breadcrumbs
+    @breadcrumbs = [['Vats', vats_path], ["#{t(:new)} #{t(:vat)}"]]
+  end
 
-    def show_breadcrumbs
-      @breadcrumbs = [['Vats', vats_path], [@vat.name]]
-    end
+  def show_breadcrumbs
+    @breadcrumbs = [['Vats', vats_path], [@vat.name]]
+  end
 end
