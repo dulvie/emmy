@@ -6,7 +6,7 @@ class ContactRelation < ActiveRecord::Base
 
   belongs_to :organisation
   belongs_to :contact
-  belongs_to :parent, :polymorphic => true
+  belongs_to :parent, polymorphic: true
 
   attr_accessible :organisation, :organisation_id, :parent_type, :parent_id, :parent
 

@@ -7,7 +7,7 @@
     = f.association :to_warehouse,  disabled: !@import.new_record?
     - if !@import.new_record?
       = f.input:state, disabled: true, :input_html => {:class => 'medium'}
-    - if @import.is_started? || @import.is_completed?
+    - if @import.started? || @import.completed?
       = f.input :started_at, :as => :string,  disabled: true, :input_html => { :class => 'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
 
     - if !@importing.nil?
@@ -22,7 +22,7 @@
         .fields_width
           %input{:value => @importing.purchase_items.first.quantity, :readonly=>'readonly', :class=>'form-control numeric'}
 
-    - if @import.is_completed?
+    - if @import.completed?
       = f.input :amount, disabled: true
       = f.input :cost_price, disabled: true
 

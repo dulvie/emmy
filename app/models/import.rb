@@ -1,5 +1,4 @@
 class Import < ActiveRecord::Base
-
   # t.integer :organisation_id
   # t.integer :user_id
   # t.string :description
@@ -23,20 +22,20 @@ class Import < ActiveRecord::Base
   belongs_to :our_reference, class_name: 'User'
   belongs_to :to_warehouse, class_name: 'Warehouse'
   belongs_to :batch
-  has_many :importing, as: :parent, class_name: 'Purchase', :dependent => :delete_all
-  has_many :shipping, as: :parent, class_name: 'Purchase', :dependent => :delete_all
-  has_many :customs, as: :parent, class_name: 'Purchase', :dependent => :delete_all
-  has_many :comments, as: :parent, :dependent => :delete_all
+  has_many :importing, as: :parent, class_name: 'Purchase', dependent: :delete_all
+  has_many :shipping, as: :parent, class_name: 'Purchase', dependent: :delete_all
+  has_many :customs, as: :parent, class_name: 'Purchase', dependent: :delete_all
+  has_many :comments, as: :parent, dependent: :delete_all
 
   attr_accessible :description, :our_reference_id, :to_warehouse_id,  :batch_id, :quantity,
-    :importing_id, :shipping_id, :started_at, :completed_at, :organisation
+                  :importing_id, :shipping_id, :started_at, :completed_at, :organisation
 
   validates :description, presence: true
   validates :to_warehouse_id, presence: true
 
   def state_change(event, changed_at = nil)
-   return false unless EVENTS.include?(event.to_sym)
-   self.send(event, changed_at)
+    return false unless EVENTS.include?(event.to_sym)
+    send(event, changed_at)
   end
 
   EVENTS = [:start, :complete]
@@ -48,24 +47,24 @@ class Import < ActiveRecord::Base
     when 'started'
       :complete
     else
-      raise RuntimeError, "Unknown state#{state} of purchase#{self.id}"
+      fail "Unknown state#{state} of purchase#{id}"
     end
   end
 
   state_machine :state, initial: :not_started do
-    before_transition on: :complete, do:  :set_completed_and_calculate
+    before_transition on: :complete, do:  :completed_and_calculate
 
     event :start do
-      transition :not_started => :started
+      transition not_started: :started
     end
-    before_transition on: :start, do:  :set_started
+    before_transition on: :start, do:  :start_import
 
     event :complete do
-      transition :started => :completed
+      transition started: :completed
     end
   end
 
-  def set_started(transition)
+  def start_import(transition)
     self.started_at = transition.args[0]
   end
 
@@ -73,18 +72,18 @@ class Import < ActiveRecord::Base
     Purchase.where('id in (?)', [importing_id, shipping_id, customs_id])
   end
 
-  def set_completed_and_calculate(transition)
+  def completed_and_calculate(transition)
     self.completed_at = transition.args[0]
-    self.amount = purchases.inject(0){|acc, p| acc += p.total_amount}
-    self.cost_price = amount / self.import_quantity
+    self.amount = purchases.inject(0) { |acc, p| acc += p.total_amount }
+    self.cost_price = amount / import_quantity
   end
 
   def can_edit_state?
-     return false if state.eql? 'completed'
-     return false if self.importing_id.nil?
-     return false if self.shipping_id.nil?
-     return false if self.customs_id.nil?
-     return true
+    return false if state.eql? 'completed'
+    return false if importing_id.nil?
+    return false if shipping_id.nil?
+    return false if customs_id.nil?
+    true
   end
 
   def can_edit_items?
@@ -96,11 +95,11 @@ class Import < ActiveRecord::Base
     true
   end
 
-  def is_started?
+  def started?
     state.eql? 'started'
   end
 
-  def is_completed?
+  def completed?
     state.eql? 'completed'
   end
 
@@ -110,18 +109,15 @@ class Import < ActiveRecord::Base
     unique_states = purch_states.uniq
     return unless unique_states.size.eql? 1
     purchases_state = unique_states.first
-    if purchases_state.eql? 'completed'
-      self.complete(Time.now)
-    end
+    complete(Time.now) if purchases_state.eql? 'completed'
   end
 
   def import_quantity
-    return 0 if self.importing.first.nil?
-    self.importing.first.purchase_items.first.quantity
+    return 0 if importing.first.nil?
+    importing.first.purchase_items.first.quantity
   end
 
   def parent_name
     description
   end
-
 end

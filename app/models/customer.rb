@@ -20,10 +20,10 @@ class Customer < ActiveRecord::Base
   has_many :sales
 
   attr_accessible :name, :vat_number, :email, :telephone, :address, :zip, :city, :country, :reseller,
-    :primary_contact_id, :payment_term, :organisation, :organisation_id
+                  :primary_contact_id, :payment_term, :organisation, :organisation_id
 
   validates :name, presence: true
-  validates :name, :uniqueness => true
+  validates :name, uniqueness: true
   validates :payment_term, presence: true
 
   def parent_name
@@ -31,16 +31,16 @@ class Customer < ActiveRecord::Base
   end
 
   def can_delete?
-    return false if Sale.where('customer_id = ?', self.id).size > 0
+    return false if Sale.where('customer_id = ?', id).size > 0
     true
   end
 
-  def has_contacts?
+  def contacts?
     return true if contacts.size > 0
-    return false
+    false
   end
 
   def primary_email
-    "tbd@implement.now"
+    'tbd@implement.now'
   end
 end

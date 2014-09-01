@@ -21,7 +21,6 @@ class BatchTransaction < ActiveRecord::Base
 
   # Callback: after_save
   def enqueue_event
-    Resque.enqueue(Job::BatchTransactionEvent, self.id)
+    Resque.enqueue(Job::BatchTransactionEvent, id)
   end
-
 end

@@ -1,5 +1,4 @@
 class Document < ActiveRecord::Base
-
   # t.integer :organisation_id
   # t.string  :parent_type
   # t.integer :parent_id
@@ -13,7 +12,7 @@ class Document < ActiveRecord::Base
 
   attr_accessible :name, :user, :parent, :user_id, :parent_id, :parent_type, :organisation, :upload
 
-  validates_attachment_content_type :upload, :content_type => ['application/pdf', 'image/jpeg', 'image/png']
+  validates_attachment_content_type :upload, content_type: ['application/pdf', 'image/jpeg', 'image/png']
   VALID_PARENT_TYPES = ['Purchase', 'nil']
 
   # Callbacks
@@ -21,10 +20,10 @@ class Document < ActiveRecord::Base
 
   # Callback: before_save
   def name_fallback
-    if self.name && !self.name.empty?
+    if name && !name.empty?
       true
     else
-      self.name = self.upload_file_name
+      self.name = upload_file_name
     end
   end
 

@@ -1,6 +1,6 @@
 %div{:ng_controller => "contact_relations_form_ctrl", :ng_init => 'init()'}
   = @contact_relation.errors.full_messages.first if @contact_relation.errors.any?
-  = simple_form_for(@contact, wrapper: :horizontal_form, html: {class: 'form-horizontal'}, url: @contact_relation_form_url) do |f|
+  = simple_form_for(@contact, wrapper: :horizontal_form, html: {class: 'form-horizontal', autocomplete: 'off'}, url: @contact_relation_form_url) do |f|
     = f.error_notification
     - if @new
       .form-group

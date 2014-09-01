@@ -53,5 +53,4 @@ class Ability
     can :read, Statistics::Report
   end
 
-
 end
