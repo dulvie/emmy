@@ -1,5 +1,4 @@
 class Item < ActiveRecord::Base
-
   # t.integer :organisation_id
   # t.integer :unit_id
   # t.integer :vat_id
@@ -24,13 +23,13 @@ class Item < ActiveRecord::Base
   attr_accessible :name, :comment, :item_type, :item_group, :stocked, :unit_id,
                   :in_price, :distributor_price, :retail_price, :vat_id, :organisation
 
-  validates :name, :uniqueness => true
-  validates :name, :presence => true
-  validates :unit, :presence => true
-  validates :vat_id, :presence => true # Needed for other models as well.
+  validates :name, uniqueness: true
+  validates :name, presence: true
+  validates :unit, presence: true
+  validates :vat_id, presence: true # Needed for other models as well.
 
-  validates :item_type, inclusion: {in: TYPES}
-  validates :item_group, inclusion: {in: GROUPS}
+  validates :item_type, inclusion: { in: TYPES }
+  validates :item_group, inclusion: { in: GROUPS }
 
 
   def can_delete?
@@ -38,5 +37,4 @@ class Item < ActiveRecord::Base
     return false if purchase_items.size > 0
     true
   end
-
 end

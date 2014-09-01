@@ -26,7 +26,6 @@ class Inventory < ActiveRecord::Base
 
   EVENTS = [:start, :complete]
 
-
   def next_event
     case state
     when 'not_started'
@@ -34,52 +33,52 @@ class Inventory < ActiveRecord::Base
     when 'started'
       :complete
     else
-      raise RuntimeError, "Unknown state#{state} of inventory#{self.id}"
+      fail "Unknown state#{state} of inventory#{id}"
     end
   end
 
   def state_change(event, changed_at = nil)
-   return false unless EVENTS.include?(event.to_sym)
-   self.send(event, changed_at)
+    return false unless EVENTS.include?(event.to_sym)
+    send(event, changed_at)
   end
 
   state_machine :state, initial: :not_started do
 
-    before_transition on: :start, do: :set_started
+    before_transition on: :start, do: :start_inventory
     after_transition on: :start, do: :add_inventory_items
 
-    before_transition on: :complete, do: :set_completed
+    before_transition on: :complete, do: :complete_inventory
     after_transition on: :complete, do: :create_inventory_transactions
 
     event :start do
-      transition :not_started => :started
+      transition not_started: :started
     end
 
     event :complete do
-      transition :started => :completed
+      transition started: :completed
     end
   end
 
   # Callback: before_create
   def check_transfer
-    if  Transfer.where('to_warehouse_id = ? AND state <> ?', self.warehouse_id, 'received').count > 0
-      self.errors.add(:warehouse, 'Transfer to not received')
+    if  Transfer.where('to_warehouse_id = ? AND state <> ?', warehouse_id, 'received').count > 0
+      errors.add(:warehouse, 'Transfer to not received')
       return false
-    elsif Transfer.where('from_warehouse_id = ? AND state <> ?', self.warehouse_id, 'received').count > 0
-      self.errors.add(:warehouse, 'Transfer from not received')
+    elsif Transfer.where('from_warehouse_id = ? AND state <> ?', warehouse_id, 'received').count > 0
+      errors.add(:warehouse, 'Transfer from not received')
       return false
     else
       return true
     end
   end
 
-  def set_started(transition)
+  def start_inventory(transition)
     self.started_at = transition.args[0]
   end
 
   def add_inventory_items
-    self.warehouse.shelves.each do |shelf|
-      @inventory_item = self.inventory_items.new(
+    warehouse.shelves.each do |shelf|
+      @inventory_item = inventory_items.new(
         batch_id: shelf.batch_id,
         shelf_quantity: shelf.quantity,
         actual_quantity: shelf.quantity,
@@ -88,13 +87,13 @@ class Inventory < ActiveRecord::Base
     end
   end
 
-  def set_completed(transition)
+  def complete_inventory(transition)
     self.completed_at = transition.args[0]
   end
 
   def create_inventory_transactions
     inventory_items.each do |item|
-      shelf = Shelf.where('warehouse_id' => self.warehouse_id, 'batch_id' => item.batch_id).first
+      shelf = Shelf.where('warehouse_id' => warehouse_id, 'batch_id' => item.batch_id).first
       if item.actual_quantity != shelf.quantity
         batch_transaction = BatchTransaction.new(
           parent: self,
@@ -107,7 +106,6 @@ class Inventory < ActiveRecord::Base
     end
   end
 
-
   def can_edit_items?
     state.eql? 'not_started'
   end
@@ -117,20 +115,19 @@ class Inventory < ActiveRecord::Base
   end
 
   def can_start?
-    #kontrollera så inte det finns transfer sent men inte received
+    # kontrollera så inte det finns transfer sent men inte received
   end
 
-  def is_started?
+  def started?
     state.eql? 'item_started'
   end
 
-  def is_completed?
+  def completed?
     state.eql? 'completed'
   end
 
   # Required by comments breadcrumb.
   def parent_name
-    "##{self.id}"
+    "##{id}"
   end
-
 end

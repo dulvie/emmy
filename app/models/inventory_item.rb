@@ -1,5 +1,4 @@
 class InventoryItem < ActiveRecord::Base
-
   # t.integer :organisation_id
   # t.integer :inventory_id
   # t.integer :batch_id
@@ -17,9 +16,7 @@ class InventoryItem < ActiveRecord::Base
   validates :batch_id, presence: true
   validates :actual_quantity, presence: true
 
-
   def can_delete?
     inventory.can_edit_items?
   end
-
 end
