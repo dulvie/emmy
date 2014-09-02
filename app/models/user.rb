@@ -6,8 +6,8 @@ class User < ActiveRecord::Base
   # t.datetime :reset_password_sent_at
   # t.datetime :remember_created_at
   enum default_locale: [:en, :se]
-  LOCALE_EN=0
-  LOCALE_SE=1
+  LOCALE_EN = 0
+  LOCALE_SE = 1
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable, :registerable,
@@ -24,8 +24,8 @@ class User < ActiveRecord::Base
 
   # @note :security
   # The roles are cached on the object when role? is called the first time.
-  def role? role
-    @rlz ||= roles.collect{ |r| r.name}
+  def role?(role)
+    @rlz ||= roles.collect { |r| r.name }
     @rlz.include? role.to_s
   end
 
@@ -41,5 +41,4 @@ class User < ActiveRecord::Base
   def active_for_authentication?
     super and !role? :suspended
   end
-
 end

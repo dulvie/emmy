@@ -7,5 +7,5 @@
     .fields_width
       = render partial: 'sale_items/list', locals: {sale_items: @sale.sale_items}
 
-- if @sale.can_edit_items? or @sale.sale_items.count > 0 && !@sale.is_completed?
+- if @sale.can_edit_items? or @sale.sale_items.count > 0 && !@sale.completed?
   = render partial: 'action_buttons'

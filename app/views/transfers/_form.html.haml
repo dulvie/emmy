@@ -32,9 +32,9 @@
 
     - if !@transfer.new_record? 
       = f.input :state, disabled: true, :input_html => {:class => 'medium'}
-    - if @transfer.is_sent?
+    - if @transfer.sent?
       = f.input :sent_at, as: :string, disabled: true,  :input_html => { :class => 'date', :value => localize(f.object.sent_at, :format => "%Y-%m-%d") }
-    - if @transfer.is_received?
+    - if @transfer.received?
       = f.input :received_at, as: :string, disabled: true, :input_html => { :class => 'date', :value => localize(f.object.received_at, :format => "%Y-%m-%d") }
 
     - if @transfer.new_record?

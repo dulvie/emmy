@@ -25,21 +25,20 @@ class SaleItem < ActiveRecord::Base
   validates :price_sum, presence: true
   validates :vat, presence: true
 
-
   def can_delete?
     sale.can_edit_items?
   end
 
   def total_vat
-    self.quantity * (self.price_inc_vat - self.price)
+    quantity * (price_inc_vat - price)
   end
 
   private
 
   # Callback: before_validation
   def collect_and_calculate
-    self.vat = self.vat || default_vat_from_batch
-    self.price = self.price || default_from_batch(:price)
+    self.vat = vat || default_vat_from_batch
+    self.price = price || default_from_batch(:price)
     self.price_inc_vat = price * (1 + (vat / 100.0))
     if quantity
       self.price_sum = price_inc_vat * quantity
@@ -52,16 +51,15 @@ class SaleItem < ActiveRecord::Base
         return v
       end
     end
-    return 0
+    0
   end
 
-  def default_from_batch field
+  def default_from_batch(field)
     if batch
       if v = batch.send(field)
         return v
       end
     end
-    return 0
+    0
   end
-
 end

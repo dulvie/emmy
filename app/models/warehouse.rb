@@ -7,7 +7,7 @@ class Warehouse < ActiveRecord::Base
   # t.integer :primary_contact_id
 
   belongs_to :organisation
-  has_many :shelves, :dependent => :destroy
+  has_many :shelves, dependent: :destroy
   has_many :contact_relations, as: :parent
   has_many :contacts, through: :contact_relations
   has_many :comments, as: :parent
@@ -16,12 +16,11 @@ class Warehouse < ActiveRecord::Base
 
   attr_accessible :name, :address, :zip, :city, :primary_contact_id, :organisation, :organisation_id
 
-  validates :name, :uniqueness => true
-  validates :name, :presence => true
-
+  validates :name, uniqueness: true
+  validates :name, presence: true
 
   def batches_in_stock
-    @batches_in_stock ||= shelves.includes(:batch).collect{|s| s.batch}
+    @batches_in_stock ||= shelves.includes(:batch).collect { |s| s.batch }
   end
 
   def can_delete?
@@ -33,9 +32,8 @@ class Warehouse < ActiveRecord::Base
     name
   end
 
-  def has_contacts?
+  def contacts?
     return true if contacts.size > 0
-    return false
+    false
   end
-
 end

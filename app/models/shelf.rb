@@ -15,23 +15,22 @@ class Shelf < ActiveRecord::Base
 
   delegate :name, :in_price, :distributor_price, :retail_price, :vat, :unit, :item_group, to: :batch
 
-
   def outgoing
-    Sale.where('state' => 'prepared', 'goods_state' => 'not_delivered', 'warehouse_id' => self.warehouse_id).joins(:sale_items).where('sale_items.batch_id' => self.batch_id).sum('quantity')
+    Sale.where('state' => 'prepared', 'goods_state' => 'not_delivered', 'warehouse_id' => warehouse_id).joins(:sale_items).where('sale_items.batch_id' => batch_id).sum('quantity')
   end
 
   def incoming
-    qty = Purchase.where('state' => 'prepared', 'goods_state' => 'not_received', 'to_warehouse_id' => self.warehouse_id).joins(:purchase_items).where('purchase_items.batch_id' => self.id).sum('quantity')
-    ext = Production.where('state' => 'started', 'warehouse_id' => self.warehouse_id, 'batch_id' => self.id).sum('quantity')
-    return qty+ext
+    qty = Purchase.where('state' => 'prepared', 'goods_state' => 'not_received', 'to_warehouse_id' => warehouse_id).joins(:purchase_items).where('purchase_items.batch_id' => id).sum('quantity')
+    ext = Production.where('state' => 'started', 'warehouse_id' => warehouse_id, 'batch_id' => id).sum('quantity')
+    qty + ext
   end
 
   # Cache the batch_transaction quantity sum of batch in the warehouse.
   def recalculate
     self.quantity = BatchTransaction.where(warehouse_id: warehouse_id).where(batch_id: batch_id).sum(:quantity)
     save!
-    logger.info "OBS! kvantitet: #{self.quantity}"
-    if self.quantity == 0
+    logger.info "OBS! kvantitet: #{quantity}"
+    if quantity == 0
       destroy
     end
   end

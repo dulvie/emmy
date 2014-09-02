@@ -10,7 +10,6 @@ class Transfer < ActiveRecord::Base
   # t.timestamp :sent_at
   # t.timestamp :received_at
 
-
   has_one :from_transaction, class_name: 'BatchTransaction', as: :parent
   has_one :to_transaction, class_name: 'BatchTransaction', as: :parent
 
@@ -19,7 +18,7 @@ class Transfer < ActiveRecord::Base
   belongs_to :batch
   belongs_to :user
   belongs_to :organisation
-  has_many :comments, as: :parent, :dependent => :destroy
+  has_many :comments, as: :parent, dependent: :destroy
 
   attr_accessible :from_warehouse_id, :to_warehouse_id, :batch_id, :quantity, :organisation_id
   accepts_nested_attributes_for :comments
@@ -27,21 +26,19 @@ class Transfer < ActiveRecord::Base
   # Callbacks
   before_create :check_inventory
 
-  STATES=['not_sent', 'sent', 'received']
+  STATES = ['not_sent', 'sent', 'received']
 
   validates :state, inclusion: STATES
   validates :from_warehouse, presence: true
   validates :to_warehouse, presence: true
   validates :batch, presence: true
   validates :quantity, presence: true
-  validates_exclusion_of :quantity, :in => 0..0, :message => "Positive or negative quantities"
+  validates_exclusion_of :quantity, in: 0..0, message: 'Positive or negative quantities'
   validates_associated :comments
-
 
   def name
     from_warehouse.name + ' => ' + to_warehouse.name
   end
-
 
   # State changes go through not_sent -> sent -> received
   state_machine :state, initial: :not_sent do
@@ -49,35 +46,35 @@ class Transfer < ActiveRecord::Base
     event :send_package do
       transition not_sent: :sent
     end
-    before_transition on: :send_package, do:  :set_sent
+    before_transition on: :send_package, do:  :send_transfer
     after_transition on: :send_package, do: :create_from_transaction
 
     event :receive_package do
       transition sent: :received
     end
-    before_transition on: :receive_package, do:  :set_received
+    before_transition on: :receive_package, do:  :receive_transfer
     after_transition on: :receive_package, do: :create_to_transaction
 
   end
 
   # Callback: before_create
   def check_inventory
-    if  Inventory.where('warehouse_id = ? AND state = ?', self.from_warehouse_id, 'started').count > 0
-      self.errors.add(:from_warehouse, 'Inventory must complete before transfer')
+    if  Inventory.where('warehouse_id = ? AND state = ?', from_warehouse_id, 'started').count > 0
+      errors.add(:from_warehouse, 'Inventory must complete before transfer')
       return false
-    elsif Inventory.where('warehouse_id = ? AND state = ?', self.to_warehouse_id, 'started').count > 0
-      self.errors.add(:to_warehouse, 'Inventory must complete before transfer')
+    elsif Inventory.where('warehouse_id = ? AND state = ?', to_warehouse_id, 'started').count > 0
+      errors.add(:to_warehouse, 'Inventory must complete before transfer')
       return false
     else
       return true
     end
   end
 
-  def set_sent(transition)
+  def send_transfer(transition)
     self.sent_at = transition.args[0]
   end
 
-  def set_received(transition)
+  def receive_transfer(transition)
     self.received_at = transition.args[0]
   end
 
@@ -101,16 +98,16 @@ class Transfer < ActiveRecord::Base
     t.save!
   end
 
-  def is_sent?
-    ['sent','received'].include? state
+  def sent?
+    ['sent', 'received'].include? state
   end
 
-  def is_received?
+  def received?
     state.eql? 'received'
   end
 
   def can_delete?
-     state.eql? 'not_sent'
+    state.eql? 'not_sent'
   end
 
   def parent_name

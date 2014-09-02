@@ -4,7 +4,7 @@
       = link_to t(:add_batch), new_sale_sale_item_path(@sale), class: 'btn btn-primary pull-left'
 
     - # Don't show next-step unless there are items in the sale.
-    - if @sale.sale_items.count > 0 && !@sale.is_completed?
+    - if @sale.sale_items.count > 0 && !@sale.completed?
 
       - if @sale.can_edit_items?
         %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','salesContent' )"}
@@ -12,12 +12,12 @@
         = render partial: 'shared/modal_state_change', locals: {idx: 'salesContent', model: @sale, form_path: state_change_sale_path(@sale), event: 'mark_prepared', return_path: sale_path(@sale)}
 
       - unless @sale.can_edit_items?
-        - if !@sale.is_delivered?
+        - if !@sale.delivered?
           %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','goodsContent' )"}
             = t(:received)
           = render partial: 'shared/modal_state_change', locals: {idx: 'goodsContent', model: @sale, form_path: state_change_sale_path(@sale), event: 'deliver', return_path: sale_path(@sale)}
 
-        - if !@sale.is_paid?
+        - if !@sale.paid?
           %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','payContent' )"}
             = t(:paid)
           = render partial: 'shared/modal_state_change', locals: {idx: 'payContent', model: @sale, form_path: state_change_sale_path(@sale), event: 'pay', return_path: sale_path(@sale)}

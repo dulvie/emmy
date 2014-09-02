@@ -9,13 +9,11 @@ class Unit < ActiveRecord::Base
   belongs_to :organisation
   has_many :items
 
-  validates :name, :uniqueness => true
-  validates :name, :presence => true
-
+  validates :name, uniqueness: true
+  validates :name, presence: true
 
   def can_delete?
     return false if items.size > 0
     true
   end
-
 end

@@ -2,7 +2,7 @@
   = f.error_notification
 
   = f.input :name
-  -if !@warehouse.new_record? && @warehouse.has_contacts?
+  -if !@warehouse.new_record? && @warehouse.contacts?
     = f.input :primary_contact_id, as: :select, collection: @contacts
   = f.input :address
   = f.input :zip, :input_html => {:class=>'short'}
