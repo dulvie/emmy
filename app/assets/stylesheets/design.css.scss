@@ -161,3 +161,10 @@ footer {
   box-shadow: none;
   background: $body-bg;
 }
+
+.center-content {
+  @extend .col-lg-14;
+  @extend .col-lg-offset-17;
+  @extend .col-md-24;
+  @extend .col-md-offset-12;
+}

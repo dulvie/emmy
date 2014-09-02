@@ -1,4 +1,6 @@
-%h1 HI!
-%p
-  = t(:welcome_to_emmy)
-  = link_to t(:sign_in), new_user_session_path
+.center-content
+  %h1 Welcome
+  %p.lead
+    =t(:welcome_to_emmy)
+  %p
+    = link_to t(:sign_in), new_user_session_path
