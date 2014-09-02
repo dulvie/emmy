@@ -9,12 +9,12 @@
         = t(:ordered)
       = render partial: 'shared/modal_state_change', locals: {idx: 'purchaseContent', model: @purchase, form_path: state_change_purchase_path(@purchase), event: @purchase.next_event, return_path: purchase_path(@purchase)}
 
-    - if (@purchase.is_ordered? && !@purchase.is_received?)
+    - if (@purchase.prepared? && !@purchase.received?)
       %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','goodsContent' )"}
         = t(:received)
       = render partial: 'shared/modal_state_change', locals: {idx: 'goodsContent', model: @purchase, form_path: state_change_purchase_path(@purchase), event: 'receive', return_path: purchase_path(@purchase)}
 
-    - if (@purchase.is_ordered? && !@purchase.is_paid?)
+    - if (@purchase.prepared? && !@purchase.paid?)
       %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','payContent' )"}
         = t(:paid)
       = render partial: 'shared/modal_state_change', locals: {idx: 'payContent', model: @purchase, form_path: state_change_purchase_path(@purchase), event: 'pay', return_path: purchase_path(@purchase)}

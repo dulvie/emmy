@@ -11,7 +11,7 @@
       = f.input :state, disabled: true, :class => 'medium'
       - if !@production.can_edit?
         = f.input :started_at, :as => :string, :input_html => { :class => 'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d"), :readonly => 'readonly'} 
-      - if @production.is_completed?
+      - if @production.completed?
         = f.input :completed_at, :as => :string, :input_html => { :class => 'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d"), :readonly => 'readonly'} 
 
       - if !@production.batch.nil?
@@ -26,14 +26,14 @@
     = render partial: 'material'
     = render partial: 'work'
 
-    - if (@production.new_record? || !@production.new_record? && @production.batch.nil? || (@production.can_edit_state? && !@production.is_started?) || (@production.can_edit_state? && @production.can_complete?) || !@production.new_record? && !@production.batch.nil? && @production.materials.size == 0 || !@production.new_record? && !@production.batch.nil? && @production.work.nil?)
+    - if (@production.new_record? || !@production.new_record? && @production.batch.nil? || (@production.can_edit_state? && !@production.started?) || (@production.can_edit_state? && @production.can_complete?) || !@production.new_record? && !@production.batch.nil? && @production.materials.size == 0 || !@production.new_record? && !@production.batch.nil? && @production.work.nil?)
       .form-button-group
         .actions
           - if @production.new_record?
             = f.submit class: 'btn btn-primary'
           - if !@production.new_record? && @production.batch.nil?
             = link_to t(:set_product_and_quantity), new_production_production_batch_path(@production), :class => 'btn btn-primary'
-          - if (@production.can_edit_state? && !@production.is_started?) || (@production.can_edit_state? && @production.can_complete?)
+          - if (@production.can_edit_state? && !@production.started?) || (@production.can_edit_state? && @production.can_complete?)
             %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
               = @production.next_event
           - if !@production.new_record? && !@production.batch.nil? && @production.materials.size == 0
@@ -42,6 +42,6 @@
             - add_single_purchase_url = new_purchase_path({parent_id: @production.id, parent_type: @production.class.name, form: 'single_purchase'})
             = link_to t(:ordering_work), add_single_purchase_url, :class => 'btn btn-primary'
   %br
-  - if !@production.new_record? && !@production.is_completed?
+  - if !@production.new_record? && !@production.completed?
     = render partial: 'shared/modal_state_change', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), event: @production.next_event, return_path: edit_production_path(@production)}     
   

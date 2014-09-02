@@ -11,7 +11,7 @@
           %tr
             %td= item.batch.name
             %td.numeric= item.shelf_quantity
-            - if @inventory.is_completed?
+            - if @inventory.completed?
               %td.numeric= item.actual_quantity
               %td
             - else

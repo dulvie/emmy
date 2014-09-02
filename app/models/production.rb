@@ -21,8 +21,8 @@ class Production < ActiveRecord::Base
   belongs_to :warehouse
   belongs_to :batch
 
-  has_many :comments, as: :parent, :dependent => :destroy
-  has_many :materials, :dependent => :destroy
+  has_many :comments, as: :parent, dependent: :destroy
+  has_many :materials,  dependent: :destroy
   has_one :work, as: :parent, class_name: 'Purchase'
   has_one :from_transaction, class_name: 'BatchTransaction', as: :parent
 
@@ -36,10 +36,9 @@ class Production < ActiveRecord::Base
 
   EVENTS = [:start, :complete]
 
-
   def state_change(event, changed_at = nil)
-   return false unless EVENTS.include?(event.to_sym)
-   self.send(event, changed_at)
+    return false unless EVENTS.include?(event.to_sym)
+    send(event, changed_at)
   end
 
   def next_event
@@ -49,41 +48,41 @@ class Production < ActiveRecord::Base
     when 'started'
       :complete
     else
-      raise RuntimeError, "Unknown state#{state} of production#{self.id}"
+      fail 'Unknown state#{state} of production#{id}'
     end
   end
 
   state_machine :state, initial: :not_started do
 
     event :start do
-      transition :not_started => :started
+      transition not_started: :started
     end
-    before_transition on: :start, do:  :set_started
+    before_transition on: :start, do:  :start_production
     after_transition on: :start, do: :create_from_transaction
 
     event :complete do
-      transition :started => :completed
+      transition started: :completed
     end
-    before_transition on: :complete, do:  :set_completed_and_calculate
+    before_transition on: :complete, do:  :completed_and_calculate
     after_transition on: :complete, do: :create_to_transaction
 
   end
 
-  def set_started(transition)
+  def start_production(transition)
     self.started_at = transition.args[0]
-    if self.work.state == 'meta_complete'
-      self.work.state_change('mark_prepared', self.started_at)
+    if work.state == 'meta_complete'
+      work.state_change('mark_prepared', started_at)
     end
   end
 
-  def set_completed_and_calculate(transition)
+  def completed_and_calculate(transition)
     self.completed_at = transition.args[0]
-    if self.work.goods_state == 'not_received'
-      self.work.state_change('receive', self.completed_at)
+    if work.goods_state == 'not_received'
+      work.state_change('receive', completed_at)
     end
     material_amount = materials.first.batch.in_price * materials.first.quantity
     self.total_amount = work.total_amount + material_amount
-    self.cost_price = self.total_amount / self.quantity
+    self.cost_price = total_amount / quantity
   end
 
   def create_from_transaction
@@ -92,7 +91,7 @@ class Production < ActiveRecord::Base
           warehouse: warehouse,
           batch: materials.first.batch,
           quantity: materials.first.quantity * -1,
-          organisation_id: self.organisation_id)
+          organisation_id: organisation_id)
     batch_transaction.save
   end
 
@@ -102,22 +101,21 @@ class Production < ActiveRecord::Base
           warehouse: warehouse,
           batch: batch,
           quantity: quantity,
-          organisation_id: self.organisation_id)
+          organisation_id: organisation_id)
     batch_transaction.save
   end
-
 
   def can_edit?
     state.eql? 'not_started'
   end
 
   def can_edit_state?
-     return false if state.eql? 'completed'
-     return false if self.batch_id.nil?
-     return false if self.quantity.nil?
-     return false if self.materials.size == 0
-     return false if self.work.nil?
-     return true
+    return false if state.eql? 'completed'
+    return false if batch_id.nil?
+    return false if quantity.nil?
+    return false if materials.size == 0
+    return false if work.nil?
+    true
   end
 
   def can_delete?
@@ -125,15 +123,15 @@ class Production < ActiveRecord::Base
     true
   end
 
-  def is_started?
+  def started?
     state.eql? 'started'
   end
 
   def can_complete?
-     return self.work.is_paid?
+    work.paid?
   end
 
-  def is_completed?
+  def completed?
     state.eql? 'completed'
   end
 
@@ -144,5 +142,4 @@ class Production < ActiveRecord::Base
   def started?
     state.eql?('started')
   end
-
 end

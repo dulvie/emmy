@@ -12,11 +12,11 @@
     - if !@purchase.can_edit_items?
       = f.input :ordered_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.ordered_at, :format => "%Y-%m-%d") }
 
-    - if @purchase.is_received?
+    - if @purchase.received?
       = f.input :received_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.received_at, :format => "%Y-%m-%d") }
-    - if @purchase.is_paid?
+    - if @purchase.paid?
       = f.input :paid_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.paid_at, :format => "%Y-%m-%d") }
-    - if @purchase.is_completed?
+    - if @purchase.completed?
       = f.input :completed_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d") }
             
     - if @purchase.new_record?

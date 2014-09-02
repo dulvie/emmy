@@ -81,7 +81,7 @@ class PurchasesController < ApplicationController
     else
       msg = t(:fail)
     end
-    if @purchase.is_completed? && @purchase.parent_type == 'Import'
+    if @purchase.completed? && @purchase.parent_type == 'Import'
       @parent = Import.find(@purchase.parent_id)
       @parent.check_for_completeness
     end

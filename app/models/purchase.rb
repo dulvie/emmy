@@ -29,13 +29,13 @@ class Purchase < ActiveRecord::Base
   belongs_to :our_reference, class_name: 'User'
   belongs_to :to_warehouse, class_name: 'Warehouse'
   belongs_to :parent, polymorphic: true
-  has_many :purchase_items, :dependent => :delete_all
-  has_many :documents, as: :parent, :dependent => :delete_all
+  has_many :purchase_items, dependent: :delete_all
+  has_many :documents, as: :parent, dependent: :delete_all
   has_many :to_transaction, class_name: 'BatchTransaction', as: :parent
 
   accepts_nested_attributes_for :purchase_items
   attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id,
-    :to_warehouse_id, :ordered_at, :parent_type, :parent_id, :organisation, :organisation_id
+                  :to_warehouse_id, :ordered_at, :parent_type, :parent_id, :organisation, :organisation_id
 
   validates :description, presence: true
   validates :supplier_id, presence: true
@@ -48,10 +48,9 @@ class Purchase < ActiveRecord::Base
     :pay,       # Money
   ]
 
-
   def state_change(event, changed_at = nil)
-   return false unless EVENTS.include?(event.to_sym)
-   self.send(event, changed_at)
+    return false unless EVENTS.include?(event.to_sym)
+    send(event, changed_at)
   end
 
   def next_event
@@ -61,44 +60,42 @@ class Purchase < ActiveRecord::Base
     when 'prepared' || 'completed'
       nil
     else
-      raise RuntimeError, "Unknown state#{state} of purchase#{self.id}"
+      fail 'Unknown state#{state} of purchase#{id}'
     end
   end
 
-
   state_machine :state, initial: :meta_complete do
-    before_transition on: :mark_prepared, do: :set_ordered
-    before_transition on: :mark_complete, do: :set_completed
+    before_transition on: :mark_prepared, do: :prepare_purchase
+    before_transition on: :mark_complete, do: :complete_purchase
 
     event :mark_prepared do
-      transition :meta_complete => :prepared
+      transition meta_complete: :prepared
     end
 
     event :mark_complete do
-      transition :prepared => :completed
+      transition prepared: :completed
     end
   end
 
-  def set_ordered(transition)
+  def prepare_purchase(transition)
     self.ordered_at = transition.args[0]
   end
 
-  def set_completed(transition)
+  def complete_purchase(transition)
     self.completed_at = transition.args[0]
   end
 
-
   state_machine :goods_state, initial: :not_received do
-    before_transition on: :receive, do:  :set_received
+    before_transition on: :receive, do:  :receive_purchase
     after_transition on: :receive, do: :create_to_transactions
     after_transition on: :receive, do: :check_for_completeness
 
     event :receive do
-      transition :not_received => :received
+      transition not_received: :received
     end
   end
 
-  def set_received(transition)
+  def receive_purchase(transition)
     self.received_at = transition.args[0]
   end
 
@@ -110,31 +107,27 @@ class Purchase < ActiveRecord::Base
           warehouse: to_warehouse,
           batch: purchase_item.batch,
           quantity: purchase_item.quantity,
-          organisation_id: self.organisation_id)
+          organisation_id: organisation_id)
         batch_transaction.save
       end
     end
   end
 
-
   state_machine :money_state, initial: :not_paid do
-    before_transition on: :pay, do: :set_paid
+    before_transition on: :pay, do: :pay_purchase
     after_transition on: :pay, do: :check_for_completeness
     event :pay do
-      transition :not_paid => :paid
+      transition not_paid: :paid
     end
   end
 
-  def set_paid(transition)
+  def pay_purchase(transition)
     self.paid_at = transition.args[0]
   end
 
-
   # after_transition filter for money_state and goods_state.
   def check_for_completeness
-    if is_paid? and is_received?
-      self.mark_complete(Time.now)
-    end
+    mark_complete(Time.now) if paid? && received?
   end
 
   def can_edit_items?
@@ -142,39 +135,38 @@ class Purchase < ActiveRecord::Base
   end
 
   def can_delete?
-    return false if ['Production','Import'].include? self.parent_type
-    return false if ['prepared','completed'].include? state
+    return false if ['Production', 'Import'].include? parent_type
+    return false if ['prepared', 'completed'].include? state
     true
   end
 
-  def is_ordered?
+  def prepared?
     state.eql? 'prepared'
   end
 
-  def is_completed?
+  def completed?
     state.eql? 'completed'
   end
 
-  def is_received?
+  def received?
     goods_state.eql? 'received'
   end
 
-  def is_paid?
+  def paid?
     money_state.eql? 'paid'
   end
 
   def total_amount
     return 0 if purchase_items.count <= 0
-    purchase_items.inject(0){|i, item| item.amount + i}
+    purchase_items.inject(0) { |i, item| item.amount + i }
   end
 
   def total_vat
     return 0 if purchase_items.count <= 0
-    purchase_items.inject(0){|i, item| item.vat_amount + i}
+    purchase_items.inject(0) { |i, item| item.vat_amount + i }
   end
 
   def parent_name
     description
   end
-
 end

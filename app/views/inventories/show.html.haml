@@ -15,7 +15,7 @@
 
     .form-button-group
       .actions
-        - if !@inventory.is_completed?
+        - if !@inventory.completed?
           %div{:ng_controller => "ModalCtrl"}
             %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','inventoryContent' )"}
               #{t(@inventory.next_event)}

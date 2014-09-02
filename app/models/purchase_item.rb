@@ -29,20 +29,18 @@ class PurchaseItem < ActiveRecord::Base
   end
 
   def vat_amount
-    return self.price * self.quantity * self.vat / 100
+    price * quantity * vat / 100
   end
-
 
   private
 
   # Callback: after_validation
   def collect_and_calculate
-    self.vat = self.vat || item.vat.vat_percent
-    if self.quantity && self.price
-      self.amount = self.quantity * self.price + vat_amount
+    self.vat = vat || item.vat.vat_percent
+    if quantity && price
+      self.amount = quantity * price + vat_amount
     else
       self.amount = 0
     end
   end
-
 end

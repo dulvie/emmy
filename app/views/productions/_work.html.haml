@@ -3,9 +3,9 @@
     = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |w|
       - if !@production.work.nil?
         = render partial: 'shared/addon_edit_link', locals: {form: w, object: @production.work, label: :work, value: w.object.work.description, can_edit: @production.can_edit?, link: purchase_path(@production.work)}
-        - if @production.is_started? || @production.is_completed?
+        - if @production.started? || @production.completed?
           = w.simple_fields_for :work do |wf|
-            - if !@production.work.is_paid? 
+            - if !@production.work.paid? 
               .form-button-group
                 .actions
                   .input-group
