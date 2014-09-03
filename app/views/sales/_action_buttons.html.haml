@@ -14,7 +14,7 @@
       - unless @sale.can_edit_items?
         - if !@sale.delivered?
           %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','goodsContent' )"}
-            = t(:received)
+            = t(:delivered)
           = render partial: 'shared/modal_state_change', locals: {idx: 'goodsContent', model: @sale, form_path: state_change_sale_path(@sale), event: 'deliver', return_path: sale_path(@sale)}
 
         - if !@sale.paid?
