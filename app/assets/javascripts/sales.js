@@ -101,6 +101,7 @@ app.controller('sale_items_new_ctrl', function ($scope) {
 		};
 	};
 
+	
 	$scope.select_quantity = function() {
 		for (i=0; i< gon.shelves.length; i++) {
 			if (gon.shelves[i].batch_id == $scope.batch.id) {
