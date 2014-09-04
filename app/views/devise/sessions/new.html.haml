@@ -4,7 +4,7 @@
       .panel-title= t(:sign_in)
     .panel-body
       = simple_form_for( resource, as: resource_name, url: session_path(resource_name), wrapper: :bare, html:{class:'form-signin'}) do |f|
-        = f.input :email, autofocus: true, label:false, placeholder: t(:username), type: 'email'
+        = f.input :email, autofocus: true, label:false, placeholder: t(:email), type: 'email'
         = f.input :password, label: false, placeholder: t(:password)
         = f.input :remember_me, as: :boolean, inline_label: true
         = form_submit(f, t(:sign_in))
