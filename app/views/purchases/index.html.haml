@@ -1,4 +1,5 @@
 .container.row
+  = link_to "#{t(:create)} #{t(:purchase)}", new_purchase_path, class: 'btn btn-default'
   %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
     %option{value: purchases_path} #{t(:all)}
     %option{value: purchases_path + '&state=meta_complete'} #{t(:not_ordered)}
