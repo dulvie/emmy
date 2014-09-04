@@ -57,6 +57,7 @@ se:
   failed_to_create: "Kunde inte skapa"
   failed_to_update: "Kunde inte uppdatera"
   feedback_at: "Feedback/Buggrapportering via"
+  forgot_your_password: "Glömt ditt lösenord?"
   form_items: "Artiklar"
   fork_me: "Forka mig"
   from: "Från"

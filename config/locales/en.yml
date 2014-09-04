@@ -78,6 +78,7 @@ en:
   failed_to_create: "Failed to create"
   failed_to_update: "Failed to update"
   feedback_at: "Feedback/Bugg reporting at"
+  forgot_your_password: "Forgot your password?"
   form_items: "Items"
   fork_me: "Fork me"
   from: "From"
