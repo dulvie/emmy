@@ -1,8 +1,7 @@
 .center-content
-  %h1 About
+  %h1=t(:about)
   %p.lead
-    Emmy is an app to handle logistics (warehouse, sales etc) for a small
-    organisation that is importing, refining and selling some kind of product.
+    = t(:about_lead_text)
   %p
-    It's currently in beta, if you already have an account please
-    = link_to 'Login', new_user_session_path
+    = t(:about_sub_text)
+    = link_to t(:sign_in), new_user_session_path

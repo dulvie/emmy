@@ -1,4 +1,6 @@
 se:
+  about_lead_text: "Emmy är en applikation för att hantera logistik (lager, försäljning etc) för små organisationer som importerar, raffinerar och säljer någon typ av produkt"
+  about_sub_text: "Det är fortfarande i beta, om du har ett konto kan du"
   actual_quantity: "Faktisk kvantitet"
   add_batch: "Lägg till sats"
   add_comment: "Lägg till kommentar"
@@ -202,6 +204,7 @@ se:
   was_successfully_deleted: "togs bort."
   was_successfully_updated: "uppdaterades."
   weight: "Vikt"
+  welcome: "Välkommen"
   welcome_to_emmy: "Välkommen till Emmy, appen som hanterar logistik för små organisationer."
   work: "Arbete"
   your_reference: "Er referens"

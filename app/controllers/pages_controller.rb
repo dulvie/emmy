@@ -6,10 +6,12 @@ class PagesController < ApplicationController
 
   # Only non logged in users should be able to see the start page.
   def start
+    @breadcrumbs = [['/']]
     redirect_to dashboard_path if user_signed_in?
   end
 
   def about
+    @breadcrumbs = [[t(:about)]]
   end
 
   def formats
