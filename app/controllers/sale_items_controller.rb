@@ -42,9 +42,9 @@ class SaleItemsController < ApplicationController
                        Item.select('DISTINCT(items.id), items.*').where(item_type: item_types, stocked: true).joins(:batches).where(id: warehouse_batches)
 
 
-    prod = Struct.new :value, :name
-    @products = @shelves.collect{|s| prod.new("shelf_#{s.id}", s.batch.name)}
-    @non_shelf_items = Item.sellable.not_stocked.collect{|i| prod.new("item_#{i.id}",i.name)}
+    prod = Struct.new :value, :name, :available_quantity
+    @products = @shelves.collect{|s| prod.new("shelf_#{s.id}", s.batch.name, s.quantity)}
+    @non_shelf_items = Item.sellable.not_stocked.collect{|i| prod.new("item_#{i.id}",i.name, 1)}
     @products += @non_shelf_items
     gon.push shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer),
              items: ActiveModel::ArraySerializer.new(@item_selections, each_serializer: ItemSerializer),
