@@ -11,7 +11,8 @@ class SaleItemsController < ApplicationController
   def create
     @sale_item = @sale.sale_items.build sale_item_params
     @sale_item.organisation = current_organisation
-    if @sale_item.save
+    @item_creator = Service::SaleItemCreator(@sale, @sale_item, params)
+    if @item_creator.save
       redirect_to sale_path(@sale), notice: "#{t(:batch_added)}"
     else
       init_new
