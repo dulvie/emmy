@@ -34,4 +34,13 @@ class Shelf < ActiveRecord::Base
       destroy
     end
   end
+
+  def to_product
+    Product.new(value: "shelf_#{id}",
+                name: batch.name,
+                available_quantity: quantity,
+                distributor_price: batch.distributor_price,
+                retail_price: batch.retail_price,
+                stocked: true)
+  end
 end

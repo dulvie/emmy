@@ -40,4 +40,13 @@ class Item < ActiveRecord::Base
     return false if purchase_items.size > 0
     true
   end
+
+  def to_product
+    Product.new(value: "item_#{id}",
+                name: name,
+                available_quantity: 1,
+                distributor_price: distributor_price,
+                retail_price: retail_price,
+                stocked: false)
+  end
 end
