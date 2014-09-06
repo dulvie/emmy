@@ -16,9 +16,9 @@ class Service::SaleItemCreator
   def add_params
     if @params[:product]
       value_array = @params[:product].split('_')
-      if value_array.first.eql? 'batch'
+      if value_array.first.eql? 'shelf'
         @sale_item.batch_id = value_array.last
-        @sale_item.item = @sale.batch.item
+        @sale_item.item = @sale_item.batch.item
       else
         @sale_item.item_id = value_array.last
       end
