@@ -1,6 +1,5 @@
 class Service::SaleItemCreator
   include ActiveModel::Model
-
   attr_accessor :attributes
 
   def initialize(sale, sale_item, params)
