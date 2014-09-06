@@ -33,6 +33,9 @@ class SaleItem < ActiveRecord::Base
     quantity * (price_inc_vat - price)
   end
 
+  def product
+  end
+
   private
 
   # Callback: before_validation

@@ -37,18 +37,10 @@ class SaleItemsController < ApplicationController
   def init_new
     @sale = @sale.decorate
     @shelves = @sale.warehouse.shelves.includes(:batch)
-    warehouse_batches = @sale.warehouse.batches_in_stock
-    item_types = ['sales', 'both']
-    @item_selections = Item.where(item_type: item_types, stocked: false) +
-                       Item.select('DISTINCT(items.id), items.*').where(item_type: item_types, stocked: true).joins(:batches).where(id: warehouse_batches)
-
-
     @products = @shelves.collect{|s| s.to_product }
     @non_shelf_items = Item.sellable.not_stocked.collect{|i| i.to_product }
     @products += @non_shelf_items
-    gon.push shelves: ActiveModel::ArraySerializer.new(@shelves, each_serializer: ShelfSerializer),
-             items: ActiveModel::ArraySerializer.new(@item_selections, each_serializer: ItemSerializer),
-             products: @products
+    gon.push products: @products
   end
 
   def sale_item_params

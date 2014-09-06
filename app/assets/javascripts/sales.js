@@ -1,27 +1,7 @@
-// Place all the behaviors and hooks related to the matching controller here.
-// All this logic will automatically be available in application.js.
-app.controller('date_ctrl', function ($scope) {
-  $scope.dpOptions = {
-    'starting-day': 1,
-    'show-weeks': false
-  };
-  $scope.openDp = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.isDpOpen = true;
-  };
-  $scope.openDateForm = function($event) {
-	$scope.date = new Date();
-	$event.preventDefault();
-    $event.stopPropagation();
-  };
-});
-
 app.controller('sales_new_ctrl', function ($scope, ajaxService) {
 
 	$scope.customers = [];
 	$scope.selected = undefined;
-	$scope.isOpen1 = false;
 	$scope.reference = [];
 
 	$scope.init = function() {
@@ -61,52 +41,36 @@ app.controller('sale_items_new_ctrl', function ($scope) {
 
 	$scope.init = function() {
 		$scope.item_changed();
+		alert(JSON.stringify(gon.products[0]));
+		$scope.product_value = gon.products[0].value;
 	};
-
-	$scope.item_changed = function() {
-		$scope.show_batch = false;
-		$scope.batch.id = 0;
-		for (var x=0; x < gon.items.length; x++) {
-			if ($scope.item_id == gon.items[x].id) {
-				$scope.options = gon.items[x].batches;
-				if (gon.items[x].stocked == true) {
-					$scope.show_batch = true;
-				}
-				//$('#sales_item_price').val(gon.items[x].in_price);
-				if (typeof($scope.options[0]) != "undefined") {
-					$scope.batch.id = $scope.options[0].id;					
-				}
-				$scope.select_batch();
-			}
-		}
-	};
-
-	$scope.select_batch = function() {
+	$scope.product_changed = function() {
 		var dPrice = 0;		
 		var rPrice = 0;
 		$('#sale_item_price').val(0);
 		var reseller = $('#sale_customer_reseller').is(":checked");
-		for (i=0; i< gon.shelves.length; i++) {
-			if (gon.shelves[i].batch_id == $scope.batch.id) {
-				dPrice = gon.shelves[i].distributor_price;
-				rPrice = gon.shelves[i].retail_price;
-			}
-		};
+		for (var x=0; x < gon.products.length; x++) {
+			if (gon.products[x].value == $scope.product_value) {
+				//Set prices
+				//alert(JSON.stringify(gon.products[x]));
+				dPrice = gon.products[x].distributor_price;
+				rPrice = gon.products[x].retail_price;
+			};
 
-		if (reseller) {
-			$('#sale_item_price').val(dPrice);
+			if (reseller) {
+				$('#sale_item_price').val(dPrice);
+			}
+			else  {
+				$('#sale_item_price').val(rPrice);
+			};
 		}
-		else  {
-			$('#sale_item_price').val(rPrice);
-		};
 	};
 
-	
 	$scope.select_quantity = function() {
-		for (i=0; i< gon.shelves.length; i++) {
-			if (gon.shelves[i].batch_id == $scope.batch.id) {
-				if ($scope.quantity > gon.shelves[i].quantity)
-					alert("Kvantitet överstiger lagrets " + gon.shelves[i].quantity);
+		for (i=0; i< gon.products.length; i++) {
+			if (gon.products[i].value == $scope.product_value) {
+				if ($scope.quantity > gon.products[i].available_quantity)
+					alert("Kvantitet överstiger lagrets " + gon.products[i].available_quantity);
 			}
 		}
 	}
