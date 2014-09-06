@@ -31,7 +31,6 @@ app.controller('sales_new_ctrl', function ($scope, ajaxService) {
 app.controller('sale_items_new_ctrl', function ($scope) {
 
 	$scope.init = function() {
-		alert($('#sale_item_price').val());
 		$scope.product_value = gon.products[0].value;
     $.each(gon.products, function(i, obj) {
       if (obj.selected == true) {
