@@ -2,6 +2,8 @@ class Service::SaleItemCreator
   include ActiveModel::Model
   attr_accessor :attributes
 
+  validates :, presence: true
+
   def initialize(sale, sale_item, params)
     @sale = sale
     @sale_item = sale_item
@@ -10,21 +12,29 @@ class Service::SaleItemCreator
   end
 
   def add_params
-    value_array = @params[:product_value].split('_')
-    if value_array.first.eql? 'batch'
-      @sale_item.batch_id = value_array.last
+    if @params[:product]
+      value_array = @params[:product].split('_')
+      if value_array.first.eql? 'batch'
+        @sale_item.batch_id = value_array.last
+        @sale_item.item = @sale.batch.item
+      else
+        @sale_item.item_id = value_array.last
+      end
     else
-      @sale_item.item_id = value_array.last
+      # since sale doesn't have an item, it should throw errors.
     end
   end
 
   def save
-    add_params
     @attributes = @sale_item.attributes
     @sale_item.save
   end
 
   def to_hash
     attributes
+  end
+
+  def errors
+    @sale_item.errors
   end
 end
