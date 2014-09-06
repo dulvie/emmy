@@ -29,21 +29,11 @@ app.controller('sales_new_ctrl', function ($scope, ajaxService) {
 });
 
 app.controller('sale_items_new_ctrl', function ($scope) {
-	$scope.batch = {};
-	$scope.options = {};
-	$scope.show_batch = false;
-	
-	var bch_id = $('#sale_item_batch_id').val();
-	var item_id = $('#sale_item_item_id').val();
-
-	$scope.item_id = item_id;
-	$scope.batch.id = bch_id;
 
 	$scope.init = function() {
-		$scope.item_changed();
-		alert(JSON.stringify(gon.products[0]));
 		$scope.product_value = gon.products[0].value;
 	};
+
 	$scope.product_changed = function() {
 		var dPrice = 0;		
 		var rPrice = 0;
