@@ -2,7 +2,8 @@ class Service::SaleItemCreator
   include ActiveModel::Model
   attr_accessor :attributes
 
-  validates :, presence: true
+  validates :price, presence: true
+  validates :quantity, presence: true
 
   def initialize(sale, sale_item, params)
     @sale = sale

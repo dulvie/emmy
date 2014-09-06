@@ -32,6 +32,7 @@ app.controller('sale_items_new_ctrl', function ($scope) {
 
 	$scope.init = function() {
 		$scope.product_value = gon.products[0].value;
+		$scope.quantity = $('#sale_item_quantity').val());
 	};
 
 	$scope.product_changed = function() {
@@ -41,8 +42,6 @@ app.controller('sale_items_new_ctrl', function ($scope) {
 		var reseller = $('#sale_customer_reseller').is(":checked");
 		for (var x=0; x < gon.products.length; x++) {
 			if (gon.products[x].value == $scope.product_value) {
-				//Set prices
-				//alert(JSON.stringify(gon.products[x]));
 				dPrice = gon.products[x].distributor_price;
 				rPrice = gon.products[x].retail_price;
 			};
