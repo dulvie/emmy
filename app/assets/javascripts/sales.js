@@ -32,6 +32,11 @@ app.controller('sale_items_new_ctrl', function ($scope) {
 
 	$scope.init = function() {
 		$scope.product_value = gon.products[0].value;
+    $.each(gon.products, function(i, obj) {
+      if (obj.selected == true) {
+        $scope.product_value = obj.value;
+      }
+    });
 		$scope.quantity = $('#sale_item_quantity').val();
 		$scope.product_changed();
 	};

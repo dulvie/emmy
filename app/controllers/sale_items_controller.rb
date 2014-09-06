@@ -39,11 +39,20 @@ class SaleItemsController < ApplicationController
     @shelves = @sale.warehouse.shelves.includes(:batch)
     @products = @shelves.collect{|s| s.to_product }
     @non_shelf_items = Item.sellable.not_stocked.collect{|i| i.to_product }
+    @products += @non_shelf_items
+    @selected_product = @products.first.value
+    # If there is an item creator object, something went wrong during #create.
     if @item_creator
+
       @sale_item = @item_creator.sale_item
       logger.info "errors: #{@sale_item.errors.full_messages}"
+      # Add the selected flag.
+
+      selected_product = @products.select{|p| p.value.eql?(@item_creator.value) }.first
+      selected_product.selected = true
+      @selected_product = selected_product.value
+
     end
-    @products += @non_shelf_items
     gon.push products: @products
   end
 

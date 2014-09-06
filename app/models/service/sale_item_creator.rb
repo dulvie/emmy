@@ -1,6 +1,6 @@
 class Service::SaleItemCreator
   include ActiveModel::Model
-  attr_accessor :sale_item
+  attr_accessor :sale_item, :value
 
   validates :price, presence: true
   validates :quantity, presence: true
@@ -11,12 +11,13 @@ class Service::SaleItemCreator
     @price = @sale_item.price
     @quantity = @sale_item.quantity
     @params = params[:sale_item]
+    @value = @params[:product].to_s
   end
 
   def add_params
-    if @params[:product]
-      value_array = @params[:product].split('_')
-      if value_array.first.eql? 'shelf'
+    unless @value.empty?
+      value_array = @value.split('_')
+      if value_array.first.eql? 'batch'
         @sale_item.batch_id = value_array.last
         @sale_item.item = @sale_item.batch.item
       else
