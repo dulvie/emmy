@@ -1,6 +1,6 @@
 class Service::SaleItemCreator
   include ActiveModel::Model
-  attr_accessor :attributes
+  attr_accessor :sale_item
 
   validates :price, presence: true
   validates :quantity, presence: true
@@ -8,8 +8,9 @@ class Service::SaleItemCreator
   def initialize(sale, sale_item, params)
     @sale = sale
     @sale_item = sale_item
-    @params = params
-    @attributes = {}
+    @price = @sale_item.price
+    @quantity = @sale_item.quantity
+    @params = params[:sale_item]
   end
 
   def add_params
@@ -27,12 +28,12 @@ class Service::SaleItemCreator
   end
 
   def save
-    @attributes = @sale_item.attributes
+    add_params
     @sale_item.save
   end
 
   def to_hash
-    attributes
+    @sale_item.to_hash
   end
 
   def errors

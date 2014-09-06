@@ -39,6 +39,10 @@ class SaleItemsController < ApplicationController
     @shelves = @sale.warehouse.shelves.includes(:batch)
     @products = @shelves.collect{|s| s.to_product }
     @non_shelf_items = Item.sellable.not_stocked.collect{|i| i.to_product }
+    if @item_creator
+      @sale_item = @item_creator.sale_item
+      logger.info "errors: #{@sale_item.errors.full_messages}"
+    end
     @products += @non_shelf_items
     gon.push products: @products
   end
