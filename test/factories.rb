@@ -1,4 +1,8 @@
 FactoryGirl.define do
+  factory :organisation do
+    name 'test organisation'
+
+  end
   factory :user do
     name "testuser"
     email "testuser@example.com"
@@ -15,11 +19,23 @@ FactoryGirl.define do
   end
 
   factory :batch do
-    name "espresso"
+    name "espresso 2014"
     in_price 10000
     distributor_price 15000
     retail_price 20000
   end
+
+  factory :unit do
+    name 'kg'
+  end
+
+  factory :item do
+    name 'espresso'
+    unit Unit.all.first || FactoryGirl.create(:unit)
+    item_type 'sales'
+    item_group 'refined'
+  end
+
 
   factory :warehouse do
     name "Coffee place"

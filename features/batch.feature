@@ -5,6 +5,7 @@ Feature: Crud batches
 
   Scenario: create
     Given I am a signed in user
+    And a couple of "items" exists
     And I visit batches_path
     And I click "Create Batch"
     And I fill in valid "batch" data

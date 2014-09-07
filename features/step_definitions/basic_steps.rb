@@ -15,12 +15,13 @@ end
 
 
 Given /^I am a signed in user$/ do
+  o = FactoryGirl.create(:organisation)
   u = FactoryGirl.create(:user)
   #u.roles << FactoryGirl.create(:role)
   visit new_user_session_path
   fill_in "user_email", with: "testuser@example.com"
   fill_in "user_password", with: "abc123"
-  click_on "Sign in"
+  click_button "Sign in"
 end
 
 Given /^I visit (.*?)_path$/ do |resource_name|
@@ -48,6 +49,11 @@ end
 Given /^I fill in invalid "(.*?)" data$/ do |resource_name|
   puts "will call #{resource_name}_invalid_form_data"
   send("#{resource_name}_invalid_form_data")
+end
+
+Given /^a couple of "(.*?)" exists$/ do |resources_name|
+  puts "will call create_#{resources_name}"
+  send("create_#{resources_name}")
 end
 
 Then(/^I should see a "(.*?)" link$/) do |string|
