@@ -32,11 +32,11 @@ app.controller('sale_items_new_ctrl', function ($scope) {
 
 	$scope.init = function() {
 		$scope.product_value = gon.products[0].value;
-    $.each(gon.products, function(i, obj) {
-      if (obj.selected == true) {
-        $scope.product_value = obj.value;
-      }
-    });
+		$.each(gon.products, function(i, obj) {
+			if (obj.selected == true) {
+				$scope.product_value = obj.value;
+			}
+		});
 		$scope.quantity = $('#sale_item_quantity').val();
 		if ($('#sale_item_price').val()=='') {
 			$scope.product_changed();
@@ -44,7 +44,7 @@ app.controller('sale_items_new_ctrl', function ($scope) {
 	};
 
 	$scope.product_changed = function() {
-		var dPrice = 0;		
+		var dPrice = 0;
 		var rPrice = 0;
 		$('#sale_item_price').val(0);
 		var reseller = $('#sale_customer_reseller').is(":checked");

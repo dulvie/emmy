@@ -1,8 +1,7 @@
 = simple_form_for([@sale, @sale_item], wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
   = f.error_notification
 
-  = hidden_field_tag "sale_item[product_value]", "{{product_value}}"
-  = f.input :product, as: :select,  collection: @products.collect{ |p| [p.name, p.value] }, 
+  = f.input :product, as: :select,  collection: @products.collect{ |p| [p.name, p.value] },
      selected: @selected_product,
      include_blank: false,
      input_html: {:ng_model =>"product_value", :ng_change => 'product_changed()'}
