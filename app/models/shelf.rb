@@ -36,7 +36,7 @@ class Shelf < ActiveRecord::Base
   end
 
   def to_product
-    Product.new(value: "shelf_#{batch.id}",
+    Product.new(value: "shelf_#{id}",
                 name: batch.name,
                 available_quantity: quantity,
                 distributor_price: batch.distributor_price,

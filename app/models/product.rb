@@ -15,4 +15,10 @@ class Product
     @available_quantity = 1
   end
 
+  def self.find_using_shelves(shelves)
+    products = shelves.collect{|s| s.to_product }
+    non_shelf_items = Item.sellable.not_stocked.collect{|i| i.to_product }
+    products += non_shelf_items
+    products
+  end
 end
