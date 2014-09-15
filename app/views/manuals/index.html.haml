@@ -15,7 +15,7 @@
           %tr
             %td= manual.created_at
             %td= link_to(manual.warehouse.name, edit_warehouse_path(manual.warehouse))
-            %td= link_to(manual.batch.name, edit_batch_path(manual.batch))
+            %td= manual.batch ? link_to(manual.batch.name, edit_batch_path(manual.batch)) : ' '
             %td= manual.batch_transaction.quantity
             %td= link_to settings_icon, edit_manual_path(manual)
             %td= delete_modal_for manual

@@ -18,11 +18,16 @@ class PurchaseItem < ActiveRecord::Base
   accepts_nested_attributes_for :item, :batch
 
   validates :item_id, presence: true
+  validates :batch, presence: true, if: :item_stocked?
   validates :quantity, presence: true
   validates :price, presence: true
 
   # Callbacks
   after_validation :collect_and_calculate
+  
+  def item_stocked?
+    item.stocked
+  end
 
   def can_delete?
     purchase.can_edit_items?

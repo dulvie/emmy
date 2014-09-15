@@ -1,25 +1,15 @@
 require 'resque/server'
 Emmy::Application.routes.draw do
 
-  resources :shelves
-
-  resources :organisations
-
-  resources :transfers do
-    member do
-      post 'send_package', as: :send_package
-      post 'receive_package', as: :receive_package
-    end
-  end
-
+  resources :batches
   resources :comments
-  resources :contacts
   resources :contact_relations
+  resources :contacts
   resources :customers do
     collection do
       get 'name_search', as: :name_search
     end
-  end  
+  end
   resources :documents
   resources :import_batches, only: [:new, :create]
   resources :imports do
@@ -38,24 +28,14 @@ Emmy::Application.routes.draw do
   end
   resources :items
   resources :manuals
-  resources :units
-  resources :vats
   resources :materials
-
+  resources :organisations
   resources :production_batches, only: [:new, :create]
   resources :productions do
     resources :production_batches, only: [:new, :create]
     resources :materials
     member do
       post 'state_change', as: :state_change
-    end
-  end
-  resources :suppliers
-  resources :sales do
-    resources :sale_items
-    member do
-      post 'state_change', as: :state_change
-      post 'send_email', as: :send_email
     end
   end
   resources :purchases do
@@ -65,11 +45,22 @@ Emmy::Application.routes.draw do
     end
     post 'single_purchase', as: :single_purchase
   end
-  resources :batches
-
-  get "statistics/index"
-  resources :warehouses
-
+  resources :sales do
+    resources :sale_items
+    member do
+      post 'state_change', as: :state_change
+      post 'send_email', as: :send_email
+    end
+  end
+  resources :shelves
+  resources :suppliers
+  resources :transfers do
+    member do
+      post 'send_package', as: :send_package
+      post 'receive_package', as: :receive_package
+    end
+  end
+  resources :units
   devise_for :users
   resources :users do
     member do
@@ -77,11 +68,15 @@ Emmy::Application.routes.draw do
       patch "edit_roles", to: "users#update_roles" 
     end
   end
-  
+  resources :vats
+  resources :warehouses
+
+  get "statistics/index"
   get "dashboard", to: "dashboard#index"
   [:about,:start,:formats, :test].each do |p|
     get "/#{p}", to: "pages##{p}"
   end
+
   constraints lambda { |request| request.env['warden'].authenticate? && request.env['warden'].user.role?(:admin) } do
     mount Resque::Server.new, at: "/resque"
   end

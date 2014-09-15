@@ -34,7 +34,6 @@ class Item < ActiveRecord::Base
   validates :item_type, inclusion: { in: TYPES }
   validates :item_group, inclusion: { in: GROUPS }
 
-
   def can_delete?
     return false if batches.size > 0
     return false if purchase_items.size > 0

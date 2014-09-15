@@ -2,8 +2,8 @@
   = p.input :description,  disabled: true
   = p.association :supplier, disabled: true
 
-%div{ :ng_controller => 'purchase_items_form_ctrl' }
-  = simple_form_for([@purchase, @purchase_item], wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+%div{ :ng_controller => 'purchase_items_form_ctrl', :ng_init => 'init()' }
+  = simple_form_for([@purchase, @purchase_item], wrapper: :horizontal_form, html: {class: 'form-horizontal', id:'formx'}) do |f|
     = f.error_notification
 
     = f.association :item,
@@ -16,6 +16,7 @@
       .fields_width
         = hidden_field_tag "purchase_item[batch_id]", "{{batch.id}}"
         %select{:ng_model=>'batch.id', :ng_options=>"opt.id as opt.name for opt in options",  :class=>'form-control', :include_blank=>false}
+        = f.error :batch
 
     = f.input :quantity
 
@@ -25,8 +26,20 @@
       .fields_width
         %input{:value => '{{unit}}', :class => 'form-control medium', :readonly=>'readonly'}
 
-    = f.input :price, hint: t(:vat_not_included)
+    .form-group
+      %label{:class => 'labels_width control-label'}
+        = t(:price)
+      .fields_width  
+        %input{:id=>'price', :class =>'money numeric form-control', :data_mask_maxlength=> "false"}
+        = f.error :price
+
+    = f.input :price, as: :hidden
 
     .form-button-group
       .actions
         = f.submit class: 'btn btn-primary'
+
+:javascript
+  $('#formx').submit(function() {
+    $('#purchase_item_price').val($('#price').cleanVal());
+  });
