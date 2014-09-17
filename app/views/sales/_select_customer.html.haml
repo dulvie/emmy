@@ -2,7 +2,7 @@
   = f.label :customer, class: 'string optional labels_width control-label', for: 'customer_ref', required: true
   = f.input :customer_id, as: :hidden
   %div{:class=>"fields_width"}
-    %input{:id => 'customer_ref', :autocomplete=>'off',  :ng_model=>"selected", :typeahead_on_select => "type_ahead_customer($item, $model, $label)", :typeahead=>"c.name for c in customer | filter:$viewValue | limitTo:8", :class=>"form-control"}
+    %input{:id => 'customer_ref', :autocomplete=>'off',  :ng_model=>"selected", :typeahead_on_select => "type_ahead_customer($item, $model, $label)", :typeahead=>"c.name for c in customer | filter:$viewValue", :class=>"form-control"}
     = f.error :customer_id
 
 .form-group
