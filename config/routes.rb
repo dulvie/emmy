@@ -61,7 +61,7 @@ Emmy::Application.routes.draw do
     end
   end
   resources :units
-  devise_for :users
+  devise_for :users, controllers: {sessions: 'user_sessions'}
   resources :users do
     member do
       get "edit_roles", to: "users#edit_roles"
