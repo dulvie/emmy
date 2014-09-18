@@ -26,20 +26,8 @@
       .fields_width
         %input{:value => '{{unit}}', :class => 'form-control medium', :readonly=>'readonly'}
 
-    .form-group
-      %label{:class => 'labels_width control-label'}
-        = t(:price)
-      .fields_width  
-        %input{:id=>'price', :class =>'money numeric form-control', :data_mask_maxlength=> "false"}
-        = f.error :price
-
-    = f.input :price, as: :hidden
+    = f.input :price
 
     .form-button-group
       .actions
-        = f.submit class: 'btn btn-primary'
-
-:javascript
-  $('#formx').submit(function() {
-    $('#purchase_item_price').val($('#price').cleanVal());
-  });
+        = f.submit class: 'btn btn-primary', ng_click: 'testar()'

@@ -1,4 +1,22 @@
 var app= angular.module('emmy', ["ui.bootstrap"]);
+app.service('price', function() {
+	this.toDecimal = function(value) {
+	    if (!typeof value === 'number'){ return 0 };
+	    return value/100;
+	};
+	this.toInteger = function(value) {
+		var regexp = /^[0-9]+(\.[0-9]{1,2})?$/;
+		if (!regexp.test(value)) { alert('fail'); return 0 };
+		if (value.indexOf('.') === -1) { return value.concat('00') };
+		if (value.indexOf('.') == value.length-3) { return value.replace('.','') }
+		if (value.indexOf('.') == value.length-2) {
+			var v = value.replace('.', '');
+			return v.concat('0') 
+		}
+		var v = value.replace('.','');
+		return v.concat('00');
+	};
+});
 app.service('ajaxService', function($http, $q) {
 
 	authToken = $("meta[name=\"csrf-token\"]").attr("content")
