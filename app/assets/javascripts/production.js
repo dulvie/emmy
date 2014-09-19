@@ -21,7 +21,7 @@ app.controller('production_material_form_ctrl', function ($scope) {
 	};
 
 });
-app.controller('production_batch_ctrl', function ($scope) {
+app.controller('production_batch_ctrl', function ($scope, price) {
 
 	$scope.init = function() {
 		$scope.refined = true;
@@ -59,12 +59,13 @@ app.controller('production_batch_ctrl', function ($scope) {
 		for (x=0; x < gon.items.length; x++) {
 			if (gon.items[x].id == $scope.item_id) {
 
-				$('#production_batch_in_price').val(gon.items[x].in_price);
+				$('#production_batch_in_price').val(price.toDecimal(gon.items[x].in_price));
 				if (default_price)
 					$('#production_batch_distributor_price').val(gon.items[x].distributor_price);
 				if (default_price)
 					$('#production_batch_retail_price').val(gon.items[x].retail_price);
-
+				$('#production_batch_distributor_price').val(price.toDecimal($('#production_batch_distributor_price').val()));
+				$('#production_batch_retail_price').val(price.toDecimal($('#production_batch_retail_price').val()));
 				if (gon.items[x].item_group == 'refined') {
 					$scope.refined = false;
 				}
@@ -73,6 +74,11 @@ app.controller('production_batch_ctrl', function ($scope) {
 				}
 			}
 		}
-	}
+	};
+	$scope.before_submit = function() {
+    	$('#production_batch_in_price').val(price.toInteger($('#production_batch_in_price').val()));
+    	$('#production_batch_distributor_price').val(price.toInteger($('#production_batch_distributor_price').val()));
+    	$('#production_batch_retail_price').val(price.toInteger($('#production_batch_retail_price').val()));
+	};
 
 });
