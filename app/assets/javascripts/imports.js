@@ -1,4 +1,4 @@
-app.controller('import_batch_form_ctrl', function ($scope) {
+app.controller('import_batch_form_ctrl', function ($scope, price) {
 
 	$scope.init = function() {
 		$scope.supplier = $('#import_batch_supplier').val();	
@@ -21,6 +21,9 @@ app.controller('import_batch_form_ctrl', function ($scope) {
 
 			}
 		}
+	};
+	$scope.before_submit = function() {
+    	$('#import_batch_price').val(price.toInteger($('#import_batch_price').val()));
 	};
 	
 });
