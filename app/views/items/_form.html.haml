@@ -1,38 +1,39 @@
-= simple_form_for(@item, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-  = f.error_notification
+%div{ :ng_controller => 'item_form_ctrl', :ng_init => 'init()'}
+  = simple_form_for(@item, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+    = f.error_notification
 
-  = f.input :name
-  = f.input :comment
-  = f.input :item_type, as: 'select', collection: Item::TYPES, include_blank: false, :input_html => {:class=>'medium'}
-  = f.input :item_group, as: 'select', collection: Item::GROUPS, include_blank: false, :input_html => {:class=>'medium'}
-  = f.input :stocked
-  = f.association :unit, :input_html => {:class=>'medium'}
-  = f.association :vat,  :input_html => {:class=>'medium'}
-  = f.input :in_price
+    = f.input :name
+    = f.input :comment
+    = f.input :item_type, as: 'select', collection: Item::TYPES, include_blank: false, :input_html => {:class=>'medium'}
+    = f.input :item_group, as: 'select', collection: Item::GROUPS, include_blank: false, :input_html => {:class=>'medium'}
+    = f.input :stocked
+    = f.association :unit, :input_html => {:class=>'medium'}
+    = f.association :vat,  :input_html => {:class=>'medium'}
+    = f.input :in_price
 
-  #date-fields-wrapper
-    = f.input :distributor_price
-    = f.input :retail_price
+    #date-fields-wrapper
+      = f.input :distributor_price
+      = f.input :retail_price
 
-  .form-button-group
-    .actions
-      = f.submit class: 'btn btn-primary'
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary', ng_click: 'before_submit()'
 
-:javascript
-  $(document).ready(function() {
+  :javascript
+    $(document).ready(function() {
 
-    // hide expire/refined at fields when type is not refined.
-    $("#item_item_group").change(function() {
-      var $me = $(this);
-      if ($me.val() == 'refined') {
+      // hide expire/refined at fields when type is not refined.
+      $("#item_item_group").change(function() {
+        var $me = $(this);
+        if ($me.val() == 'refined') {
+          $('#date-fields-wrapper').show();
+        } else {
+          $('#date-fields-wrapper').hide();
+        }
+      });
+      if ($('#item_item_group').val() == 'refined') {
         $('#date-fields-wrapper').show();
       } else {
         $('#date-fields-wrapper').hide();
       }
     });
-    if ($('#item_item_group').val() == 'refined') {
-      $('#date-fields-wrapper').show();
-    } else {
-      $('#date-fields-wrapper').hide();
-    }
-  });
