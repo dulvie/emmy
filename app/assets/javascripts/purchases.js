@@ -1,4 +1,4 @@
-app.controller('purchase_form_ctrl', function ($scope) {
+app.controller('purchase_form_ctrl', function ($scope, price) {
 
 	$scope.init = function() {
 		$scope.supplier = $('#purchase_supplier_id').val();	
@@ -23,4 +23,7 @@ app.controller('purchase_form_ctrl', function ($scope) {
 		}
 	};
 	
+	$scope.before_submit = function() {
+    	$('#purchase_purchase_items_attributes_0_price').val(price.toInteger($('#purchase_purchase_items_attributes_0_price').val()));
+	};
 });

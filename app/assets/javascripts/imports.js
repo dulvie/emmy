@@ -52,7 +52,6 @@ app.controller('import_purchase_form_ctrl', function ($scope, price) {
 		}
 	};
 	$scope.before_submit = function() {
-		var x = $('#purchase_purchase_items_attributes_0_price').val();
     	$('#purchase_purchase_items_attributes_0_price').val(price.toInteger($('#purchase_purchase_items_attributes_0_price').val()));
 	};
 	
