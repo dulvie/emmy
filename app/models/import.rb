@@ -117,6 +117,11 @@ class Import < ActiveRecord::Base
     importing.first.purchase_items.first.quantity
   end
 
+  def import_price
+    return 0 if importing.first.nil?
+    importing.first.purchase_items.first.price
+  end
+
   def parent_name
     description
   end

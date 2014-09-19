@@ -8,7 +8,7 @@ app.controller('purchase_items_form_ctrl', function ($scope, $filter, price) {
     if (p == '') {
     	pri = false;
     }
-    $scope.testar = function() {
+    $scope.before_submit = function() {
     	var p = $('#purchase_item_price').val();
     	$('#purchase_item_price').val(price.toInteger(p));
     };
