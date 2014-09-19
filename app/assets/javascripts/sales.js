@@ -28,7 +28,7 @@ app.controller('sales_new_ctrl', function ($scope, ajaxService) {
 
 });
 
-app.controller('sale_items_new_ctrl', function ($scope) {
+app.controller('sale_items_new_ctrl', function ($scope, price) {
 
 	$scope.init = function() {
 		$scope.product_value = gon.products[0].value;
@@ -38,9 +38,11 @@ app.controller('sale_items_new_ctrl', function ($scope) {
 			}
 		});
 		$scope.quantity = $('#sale_item_quantity').val();
-		if ($('#sale_item_price').val()=='') {
+		$('#sale_item_price').val(price.toDecimal($('#sale_item_price').val()));
+		if ($('#sale_item_price').val()=='0') {
 			$scope.product_changed();
 		}
+		
 	};
 
 	$scope.product_changed = function() {
@@ -55,10 +57,10 @@ app.controller('sale_items_new_ctrl', function ($scope) {
 			};
 
 			if (reseller) {
-				$('#sale_item_price').val(dPrice);
+				$('#sale_item_price').val(price.toDecimal(dPrice));
 			}
 			else  {
-				$('#sale_item_price').val(rPrice);
+				$('#sale_item_price').val(price.toDecimal(rPrice));
 			};
 		}
 	};
@@ -70,5 +72,8 @@ app.controller('sale_items_new_ctrl', function ($scope) {
 					alert("Kvantitet överstiger lagrets " + gon.products[i].available_quantity);
 			}
 		}
-	}
+	};
+	$scope.before_submit = function() {
+    	$('#sale_item_price').val(price.toInteger($('#sale_item_price').val()));
+  	};	
 });
