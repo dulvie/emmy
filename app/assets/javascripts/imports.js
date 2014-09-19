@@ -27,7 +27,7 @@ app.controller('import_batch_form_ctrl', function ($scope, price) {
 	};
 	
 });
-app.controller('import_purchase_form_ctrl', function ($scope) {
+app.controller('import_purchase_form_ctrl', function ($scope, price) {
 
 	$scope.init = function() {
 		$scope.supplier = $('#purchase_supplier_id').val();	
@@ -50,6 +50,10 @@ app.controller('import_purchase_form_ctrl', function ($scope) {
 
 			}
 		}
+	};
+	$scope.before_submit = function() {
+		var x = $('#purchase_purchase_items_attributes_0_price').val();
+    	$('#purchase_purchase_items_attributes_0_price').val(price.toInteger($('#purchase_purchase_items_attributes_0_price').val()));
 	};
 	
 });
