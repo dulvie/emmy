@@ -5,7 +5,7 @@
      selected: @selected_product,
      include_blank: false,
      input_html: {:ng_model =>"product_value", :ng_change => 'product_changed()'}
-
+  = f.input :name
   = f.input :quantity, :input_html => {:ng_model => 'quantity', :ng_change => 'select_quantity()'}
   = f.input :price
 

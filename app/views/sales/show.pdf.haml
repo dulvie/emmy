@@ -48,6 +48,7 @@
         %thead
           %tr
             %th= t(:item)
+            %th= t(:name)
             %th= t(:quantity)
             %th.numeric= t(:price)
             %th.numeric= t(:vat)
@@ -58,6 +59,7 @@
               - item = item.decorate
               %tr
                 %td= item.item.name
+                %td= item.name
                 %td= item.quantity
                 %td.numeric= as_sek(item.price)
                 %td.numeric
@@ -67,6 +69,7 @@
           %tfoot
             %tr
               %td= t(:total)
+              %td
               %td
               %td
               %td.numeric= as_sek(@sale.total_vat)

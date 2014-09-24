@@ -266,6 +266,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.integer  "sale_id"
     t.integer  "item_id"
     t.integer  "batch_id"
+    t.string   "name"
     t.integer  "quantity"
     t.integer  "price"
     t.integer  "price_inc_vat"

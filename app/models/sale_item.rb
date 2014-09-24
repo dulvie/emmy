@@ -3,6 +3,7 @@ class SaleItem < ActiveRecord::Base
   # t.integer :sale_id
   # t.integer :item_id
   # t.integer :batch_id
+  # t.string  :name
   # t.integer :quantity
   # t.integer :price
   # t.integer :price_inc_vat
@@ -14,7 +15,7 @@ class SaleItem < ActiveRecord::Base
   belongs_to :item
   belongs_to :batch
 
-  attr_accessible :item_id, :batch_id, :quantity, :price, :vat, :organisation
+  attr_accessible :item_id, :batch_id, :name, :quantity, :price, :vat, :organisation
 
   # Callbakcs
   before_validation :collect_and_calculate
