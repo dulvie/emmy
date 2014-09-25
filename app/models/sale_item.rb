@@ -15,16 +15,23 @@ class SaleItem < ActiveRecord::Base
   belongs_to :item
   belongs_to :batch
 
-  attr_accessible :item_id, :batch_id, :name, :quantity, :price, :vat, :organisation
+  attr_accessible :quantity, :price
+
+  attr_accessor :row_type
 
   # Callbakcs
   before_validation :collect_and_calculate
 
-  validates :item_id, presence: true
   validates :quantity, presence: true
   validates :price_inc_vat, presence: true
   validates :price_sum, presence: true
   validates :vat, presence: true
+  validates :name, presence: true, if: :text_row?
+
+  def text_row?
+    return false if !self.item.nil?
+    true
+  end
 
   def can_delete?
     sale.can_edit_items?
@@ -35,6 +42,13 @@ class SaleItem < ActiveRecord::Base
   end
 
   def product
+  end
+
+  def desc
+    return name if !name.nil? && name.length > 2
+    return self.batch.name if !batch.nil?
+    return item.name if !item.nil?
+    'Name error'
   end
 
   private

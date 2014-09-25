@@ -11,9 +11,15 @@ class SaleItemsController < ApplicationController
   def create
     @sale_item = @sale.sale_items.build sale_item_params
     @sale_item.organisation = current_organisation
+    @sale_item.row_type = params[:sale_item][:row_type]
 
-    @product_param = ProductParam.new(params[:sale_item][:product])
-    @product_param.add_to(@sale_item)
+    if params[:sale_item][:row_type] == 'product'
+      @product_param = ProductParam.new(params[:sale_item][:product])
+      @product_param.add_to(@sale_item)
+    else
+      @sale_item.name =  params[:sale_item][:name]
+      @sale_item.vat = params[:sale_item][:vat]
+    end
 
     if @sale_item.save
       redirect_to sale_path(@sale), notice: "#{t(:batch_added)}"

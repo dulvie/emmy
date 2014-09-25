@@ -30,6 +30,7 @@ app.controller('sales_new_ctrl', function ($scope, ajaxService) {
 
 app.controller('sale_items_new_ctrl', function ($scope, price) {
 
+	$scope.quantity = $('#sale_item_quantity').val();
 	$scope.init = function() {
 		$scope.product_value = gon.products[0].value;
 		$.each(gon.products, function(i, obj) {
@@ -37,15 +38,18 @@ app.controller('sale_items_new_ctrl', function ($scope, price) {
 				$scope.product_value = obj.value;
 			}
 		});
-		$scope.quantity = $('#sale_item_quantity').val();
 		$('#sale_item_price').val(price.toDecimal($('#sale_item_price').val()));
 		if ($('#sale_item_price').val()=='0') {
 			$scope.product_changed();
 		}
-		
 	};
-
+	$scope.radio_product = function() {
+		$scope.product_changed();
+	};
 	$scope.product_changed = function() {
+		if ($("input[name='sale_item[row_type]']:checked").val()=='text') {
+			return;
+		};
 		var dPrice = 0;
 		var rPrice = 0;
 		$('#sale_item_price').val(0);
@@ -66,6 +70,9 @@ app.controller('sale_items_new_ctrl', function ($scope, price) {
 	};
 
 	$scope.select_quantity = function() {
+		if ($("input[name='sale_item[row_type]']:checked").val()=='text') {
+			return;
+		};
 		for (i=0; i< gon.products.length; i++) {
 			if (gon.products[i].value == $scope.product_value) {
 				if ($scope.quantity > gon.products[i].available_quantity)
@@ -75,5 +82,5 @@ app.controller('sale_items_new_ctrl', function ($scope, price) {
 	};
 	$scope.before_submit = function() {
     	$('#sale_item_price').val(price.toInteger($('#sale_item_price').val()));
-  	};	
+  	};
 });
