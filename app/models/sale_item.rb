@@ -44,6 +44,9 @@ class SaleItem < ActiveRecord::Base
   def product
   end
 
+  def quantity_text
+  end
+
   def desc
     return name if !name.nil? && name.length > 2
     return self.batch.name if !batch.nil?

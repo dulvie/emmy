@@ -19,6 +19,7 @@ class SaleItemsController < ApplicationController
     else
       @sale_item.name =  params[:sale_item][:name]
       @sale_item.vat = params[:sale_item][:vat]
+      @sale_item.quantity = params[:sale_item][:quantity_text]
     end
 
     if @sale_item.save

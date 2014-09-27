@@ -7,21 +7,24 @@
         =t(:sale_type)
     .fields_width
       = f.radio_button :row_type, 'product', class: 'row_type', ng_click: 'radio_product()'
-      = t(:product_row)
+      = t(:item)
       = f.radio_button :row_type, 'text', class: 'row_type'
-      = t(:text_row)
+      = t(:text)
 
   #product-wrapper
     = f.input :product, as: :select,  collection: @products.collect{ |p| [p.name, p.value] },
        selected: @selected_product,
        include_blank: false,
        input_html: {:ng_model =>"product_value", :ng_change => 'product_changed()'}
+    = f.input :quantity, :input_html => {:ng_model => "quantity", :ng_change => 'select_quantity()'}
 
   #text-wrapper
     = f.input :name
     = f.input :vat, collection: Vat.all, value_method: 'vat_percent', include_blank: false
+    = f.input :quantity_text, label: t(:quantity), input_html: {type: 'number', class: 'numeric integer'}
+    .error_width
+      = f.error :quantity
 
-  = f.input :quantity, :input_html => {:ng_model => "quantity", :ng_change => 'select_quantity()'}
   = f.input :price
 
   .form-button-group
@@ -44,6 +47,7 @@
       });
       var row_type = $("input[name='sale_item[row_type]']:checked").val();
       if (row_type == 'text') {
+        $('#sale_item_quantity_text').val($('#sale_item_quantity').val());
         $('#product-wrapper').hide();
         $('#text-wrapper').show();
       }

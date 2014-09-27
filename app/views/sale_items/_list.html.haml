@@ -13,7 +13,7 @@
           - sale_items.each do |item|
             - item = item.decorate
             %tr
-              %td= item.desc
+              %td.nowrap= item.desc
               %td.numeric= item.quantity
               %td.numeric= as_sek(item.price)
               %td.numeric
