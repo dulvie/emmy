@@ -1,4 +1,4 @@
-Feature: Crud batches
+Feature: Crud Items
   In order to handle items
   a user should be able to create/read/update/delete item(es)
   where read is included in update.
@@ -26,7 +26,7 @@ Feature: Crud batches
     Given I am a signed in user
     Given a "item" with "name" equals to "update item" exists
     And I visit items_path
-    And I click edit link for "update item" batch
+    And I click edit link for "update item" item
     And I fill in "item_name" with "test item 2"
     And I click "Update Item"
     Then I should see "Item was successfully updated."
@@ -36,7 +36,7 @@ Feature: Crud batches
     Given I am a signed in user
     And a "item" with "name" equals to "test item" exists
     And I visit items_path
-    And I click edit link for "test item" batch
+    And I click edit link for "test item" item
     And I fill in invalid "item" data
     And I click "Update Item"
     Then I should see "Failed to update"
@@ -46,7 +46,7 @@ Feature: Crud batches
     Given I am a signed in user
     And a "item" with "name" equals to "test item" exists
     And I visit items_path
-    And I click delete link for "test item" batch
+    And I click delete link for "test item" item
     And I confirm the alertbox
     Then I should see "Item was successfully deleted."
 

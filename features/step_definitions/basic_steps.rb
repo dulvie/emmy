@@ -59,14 +59,15 @@ end
 Then(/^I should see a "(.*?)" link$/) do |string|
   assert_equal page.has_link?(string), true
 end
- 
+
 Given(/^a "(.*?)" with "(.*?)" equals to "(.*?)" exists$/) do |resource_name, field_name, field_value|
   m = resource_name.capitalize.constantize
   obj = m.send("find_by_#{field_name}", field_value)
   if obj
     assert_equals field_value, obj.send(field_name)
   else
-    FactoryGirl.create resource_name.to_sym, field_name.to_sym => field_value
+    new_obj = FactoryGirl.create(resource_name.to_sym, field_name.to_sym => field_value)
+    assert field_value.eql?(new_obj.send(field_name))
   end
 end
 
