@@ -26,7 +26,6 @@ Feature: Crud customers
     And I click "test customer"
     And I fill in "customer_name" with "test customer 2"
     And I click "Update Customer"
-    Then I should see "Customer was sucessfully updated"
     And I should see "test customer 2"
 
   Scenario: Update with invalid data

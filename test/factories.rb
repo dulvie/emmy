@@ -61,5 +61,6 @@ FactoryGirl.define do
   end
 
   factory :manual do
+    comments body: "Initial seed manual product_transaction"
   end
 end

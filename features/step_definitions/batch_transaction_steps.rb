@@ -1,6 +1,6 @@
 batch_name = 'Test batch'
 warehouse_name = 'Test warehouse'
-product_quantity = 20
+batch_quantity = 20
 
 Given /^a batch and warehouse exists$/ do
   FactoryGirl.create :batch, name: batch_name
@@ -8,10 +8,11 @@ Given /^a batch and warehouse exists$/ do
 end
 
 Given /^I fill in data for a manual transaction$/ do
-  assert_equal true, page.has_content?('New manual')
-  select batch_name, from: 'batch_transaction_batch_id'
-  select warehouse_name, from: 'product_transaction_warehouse_id'
-  fill_in 'batch_transaction_quantity', with: batch_quantity
+  assert_equal true, page.has_content?('New Manual')
+  select batch_name, from: 'manual_batch_id'
+  select warehouse_name, from: 'manual_warehouse_id'
+  fill_in 'manual_quantity', with: batch_quantity
+  fill_in 'manual_comments_attributes_0_body', with: 'text'
 end
 
 Then /^warehouse should have test products$/ do

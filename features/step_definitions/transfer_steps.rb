@@ -1,3 +1,4 @@
+
 Given /^a batch with name "(.*?)" exists$/ do |batch_name|
   p = Batch.find_by_name batch_name
   unless p
@@ -18,6 +19,10 @@ end
 
 Given /^I fill in "(.*?)" as transfer_quantity$/ do |quantity|
   fill_in 'transfer_quantity', with: quantity
+end
+
+Given /^I fill in "(.*?)" as transfer_comments_attributes_0_body$/ do |text|
+  fill_in 'transfer_comments_attributes_0_body', with: text
 end
 
 Given /^warehouse "(.*?)" has a shelf with (\d+) of batch named "(.*?)"$/ do |wh_name, quantity, batch_name|
@@ -42,17 +47,20 @@ Given /^the "(.*?)" warehouse have "(.*?)" of batch "(.*?)"$/ do |warehouse_name
     batch_transactions = wh.batch_transactions.where(batch_id: p.id)
     if batch_transactions.size > 0 && batch_transactions.sum(:quantity).eql?(quantity)
     else
-      puts "Creating new manual transaction"
+      puts "Creating new manual transaction #{wh.id} #{p.id} #{quantity}"
       t = BatchTransaction.new warehouse_id: wh.id, batch_id: p.id, quantity: quantity
-      t.parent = FactoryGirl.build :manual
-      t.parent.user = User.all.first
-      t.save
+      c = {body: 'text'}
+      m = Manual.new
+      m.batch_transaction = t
+      m.user = User.all.first
+      m.comments.build(c)
+      m.save
       Resque.run!
     end
   end
   shelf = shelves.first
   assert_equal quantity, shelf.quantity
-  assert_equal quantity, wh.product_transactions.where(product_id: p.id).sum(:quantity)
+  assert_equal quantity, wh.batch_transactions.where(batch_id: p.id).sum(:quantity)
 end
 
 Given /^a transfer of (\d+) "(.*?)" batch from "(.*?)" to "(.*?)" is created$/ do |quantity, batch_name, from_warehouse, to_warehouse|
@@ -87,4 +95,11 @@ Then /^"(.*?)" warehouse should have (\d+) "(.*?)" batches on the shelves$/ do |
   wh = Warehouse.find_by_name warehouse_name
   p = Batch.find_by_name batch_name
   assert_equal quantity, wh.shelves.where(batch_id: p.id).sum(:quantity).to_i
+end
+
+Given /^I click hidden$/ do
+  click_on('Confirm')
+  #page.click_on('.simple_form')
+  #page.execute_script("$('.btn').click()")
+  #find("Confirm",:visible=>false).click
 end
