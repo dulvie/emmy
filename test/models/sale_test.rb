@@ -9,7 +9,7 @@ class SaleTest < ActiveSupport::TestCase
   test "sale must have a warehouse, customer and payment_term" do
     sale = Sale.new
     assert_not sale.valid?
-    assert_equal [:warehouse, :customer, :payment_term], sale.errors.keys
+    assert_equal [:customer_id, :warehouse_id, :payment_term], sale.errors.keys
   end
 
 end

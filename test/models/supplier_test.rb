@@ -7,10 +7,10 @@ class SupplierTest < ActiveSupport::TestCase
     Supplier.destroy_all
   end
 
-  test "supplier must have a name, bg_number and vat_number" do
+  test "supplier must have a name" do
     supplier = Supplier.new
     assert_not supplier.valid?
-    assert_equal [:name, :bg_number, :vat_number], supplier.errors.keys
+    assert_equal [:name], supplier.errors.keys
   end
 
 end

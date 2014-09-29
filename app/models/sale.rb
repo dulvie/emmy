@@ -34,6 +34,7 @@ class Sale < ActiveRecord::Base
 
   validates :customer_id, presence: true
   validates :warehouse_id, presence: true
+  validates :payment_term, presence: true
 
   # Callbacks
   # @todo Refactor this into service objects instead.
