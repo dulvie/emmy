@@ -9,8 +9,13 @@ end
 Given /^I click delete link for "(.*?)" customer$/ do |customer_name|
   assert true, page.has_content?(customer_name)
   wh = Customer.find_by_name customer_name
-  delete_link = find(:xpath, "//a[contains(@href,'#{customer_path(wh)}') and contains (@data-method, 'delete')]")
+  delete_link = find(:xpath, "//a[@ng_click]")
+  wait_until_angular_ready
   delete_link.click
+
+  #page.find('href').find(:xpath, ".//a[contains(@href, '/customers/'+wh)]").each{|r| puts tr.text}
+  #delete_link = find(:xpath, "//a[contains(@href, :text('#{customers_path}'))]")
+  #delete_link.click
 end
 
 def customer_valid_form_data
