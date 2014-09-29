@@ -31,6 +31,7 @@ FactoryGirl.define do
     name 'espresso'
     unit { FactoryGirl.create(:unit) }
     vat { FactoryGirl.create(:vat) }
+    stocked 'true'
     item_type 'sales'
     item_group 'refined'
   end
@@ -40,7 +41,7 @@ FactoryGirl.define do
     in_price 10000
     distributor_price 15000
     retail_price 20000
-    item Item.all.first || FactoryGirl.create(:item)
+    item { FactoryGirl.create(:item) }
   end
 
   factory :warehouse do

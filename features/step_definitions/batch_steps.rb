@@ -13,10 +13,9 @@ Given /^I click delete link for "(.*?)" batch$/ do |batch_name|
   delete_link.click
 end
 
-def product_valid_form_data
+def batch_valid_form_data
   fill_in "batch_name", with: "test batch"
-  fill_in "batch_vat", with: "25"
-  select 'refined', from: 'batch_item_group'
+  select "espresso", from: 'batch_item_id'
 end
 
 def batch_invalid_form_data

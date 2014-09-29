@@ -31,7 +31,7 @@ class BatchesController < ApplicationController
     @batch.organisation = current_organisation
     if @batch.save
 
-      notice = "#{t(:batch)} #{t(:was_sucessfully_created)}"
+      notice = "#{t(:batch)} #{t(:was_successfully_created)}"
       redir_url = batches_path
       if params[:class] == 'Import'
         obj_id = params[:object]

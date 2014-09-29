@@ -4,13 +4,14 @@ Feature: Crud batches
   where read is included in update.
 
   Scenario: create
+    Given database is clean
     Given I am a signed in user
     And a couple of "items" exists
     And I visit batches_path
     And I click "Create Batch"
     And I fill in valid "batch" data
     And I click "Create Batch"
-    Then I should see "batch was successfully created."
+    Then I should see "Batch was successfully created."
 
   Scenario: create with invalid data
     Given I am a signed in user
@@ -27,8 +28,7 @@ Feature: Crud batches
     And I click edit link for "test batch" batch
     And I fill in "batch_name" with "test batch 2"
     And I click "Update Batch"
-    Then I should see "Batch was successfully updated."
-    And I should see "test batch 2"
+    Then I should see "test batch 2"
 
   Scenario: update with invalid data
     Given I am a signed in user
