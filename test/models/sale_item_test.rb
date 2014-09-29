@@ -6,9 +6,9 @@ class SaleItemTest < ActiveSupport::TestCase
     Sale.destroy_all
   end
   
-  test "sale must have a warehouse, customer and payment_term" do
-    sale = Sale.new
-    assert_not sale.valid?
-    assert_equal [:warehouse, :customer, :payment_term], sale.errors.keys
+  test "sale_item must have price an quantities" do
+    sale_item = SaleItem.new
+    assert_not sale_item.valid?
+    assert_equal [:quantity, :price], sale_item.errors.keys
   end
 end
