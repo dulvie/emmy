@@ -4,9 +4,11 @@ AllCops:
     - 'test/**'
 
 Metrics/LineLength:
-  #Max: 80
-  Max: 280
+  Max: 100
   AllowURI: true
 
 Style/GuardClause:
+  Enabled: false
+
+Documentation:
   Enabled: false
