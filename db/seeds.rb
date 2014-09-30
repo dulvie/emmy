@@ -6,55 +6,61 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-jtest = User.new({
-  name: "jtest",
-  email: "jtest@mailinator.com",
-  password: "foobar",
-  password_confirmation: "foobar"
-})
-jtest.save
-orole = jtest.organization_roles.build(organization_id: 0, name: 'superadmin')
-fail
-
-# Dont do this, this is old style.
-o = Organisation.new name: "Default organisation"
+# Organization
+o = Organization.new name: "Default organization"
 o.save
 
-# Default users, jtest(admin) and ktest(normal user)
-roles = Role.create([{ name: "admin"}, {name: "seller"}, {name: 'suspended'}])
 jtest = User.new({
   name: "jtest",
   email: "jtest@mailinator.com",
   password: "foobar",
   password_confirmation: "foobar"
 })
+jtest.default_organization_id = o.id
 jtest.save
-jtest.roles << roles.first
-jtest.save
+jtRole = OrganizationRole.new ({user_id: jtest.id, organization_id: o.id, name: OrganizationRole::ROLE_ADMIN})
+jtRole.save
+#orole = jtest.organization_roles.build(organization_id: o.id, name: 'admin')
+##fail
 
-ktest = User.new({
-  name: "ktest",
-  email: "ktest@mailinator.com",
-  password: "foobar",
-  password_confirmation: "foobar"
-})
-ktest.save
-ktest.roles << roles.last
-ktest.save
+# Dont do this, this is old style.
 
-ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg", organisation: o})
-flea_bottom = Warehouse.create({name: "Flea bottom", city: "King's landing", organisation: o})
 
-unit1 = Unit.create(name: "Paket (1/2 kg)", weight: "1/2 kg", organisation: o)
-unit2 = Unit.create(name: "St", organisation: o)
-unit3 = Unit.create(name: "Säck (50 kg)", weight: "50 kg", organisation: o)
-unit4 = Unit.create(name: "Pall", weight: "100 kg", organisation: o)
-unit5 = Unit.create(name: "Tim", organisation: o)
+# Default users, jtest(admin) and ktest(normal user)
+#roles = Role.create([{ name: "admin"}, {name: "seller"}, {name: 'suspended'}])
+#jtest = User.new({
+#  name: "jtest",
+#  email: "jtest@mailinator.com",
+#  password: "foobar",
+#  password_confirmation: "foobar"
+#})
+#jtest.save
+#jtest.roles << roles.first
+#jtest.save
 
-vat0 = Vat.create(name: "Ingen", vat_percent: 0, organisation: o)
-vat6 = Vat.create(name: "(6 procent)", vat_percent: 6, organisation: o)
-vat12 = Vat.create(name: "(12 procent)", vat_percent: 12, organisation: o)
-vat25 = Vat.create(name: "(25 procent)", vat_percent: 25, organisation: o)
+#ktest = User.new({
+#  name: "ktest",
+#  email: "ktest@mailinator.com",
+#  password: "foobar",
+#  password_confirmation: "foobar"
+#})
+#ktest.save
+#ktest.roles << roles.last
+#ktest.save
+
+ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg", organization: o})
+flea_bottom = Warehouse.create({name: "Flea bottom", city: "King's landing", organization: o})
+
+unit1 = Unit.create(name: "Paket (1/2 kg)", weight: "1/2 kg", organization: o)
+unit2 = Unit.create(name: "St", organization: o)
+unit3 = Unit.create(name: "Säck (50 kg)", weight: "50 kg", organization: o)
+unit4 = Unit.create(name: "Pall", weight: "100 kg", organization: o)
+unit5 = Unit.create(name: "Tim", organization: o)
+
+vat0 = Vat.create(name: "Ingen", vat_percent: 0, organization: o)
+vat6 = Vat.create(name: "(6 procent)", vat_percent: 6, organization: o)
+vat12 = Vat.create(name: "(12 procent)", vat_percent: 12, organization: o)
+vat25 = Vat.create(name: "(25 procent)", vat_percent: 25, organization: o)
 
 espresso_i = Item.create({
   name: "Espresso",
@@ -66,7 +72,7 @@ espresso_i = Item.create({
   stocked: 'true',
   unit_id: unit1.id,
   vat_id: vat12.id,
-  organisation: o
+  organization: o
 })
 
 brewd_i = Item.create({
@@ -79,7 +85,7 @@ brewd_i = Item.create({
   stocked: 'true',
   unit_id: unit1.id,
   vat_id: vat12.id,
-  organisation: o
+  organization: o
 })
 coffe = Item.create({
   name: "Råkaffe",
@@ -91,7 +97,7 @@ coffe = Item.create({
   stocked: 'true',
   unit_id: unit3.id,
   vat_id: vat0.id,
-  organisation: o
+  organization: o
 })
 
 ship = Item.create({
@@ -101,7 +107,7 @@ ship = Item.create({
   stocked: 'false',
   unit_id: unit2.id,
   vat_id: vat0.id,
-  organisation: o
+  organization: o
 })
 freight = Item.create({
   name: "Frakt",
@@ -110,7 +116,7 @@ freight = Item.create({
   stocked: 'false',
   unit_id: unit2.id,
   vat_id: vat0.id,
-  organisation: o
+  organization: o
 })
 
 custom = Item.create({
@@ -120,7 +126,7 @@ custom = Item.create({
   stocked: 'false',
   unit_id: unit2.id,
   vat_id: vat0.id,
-  organisation: o
+  organization: o
 })
 rost = Item.create({
   name: "Rostning",
@@ -129,7 +135,7 @@ rost = Item.create({
   stocked: 'false',
   unit_id: unit2.id,
   vat_id: vat25.id,
-  organisation: o
+  organization: o
 })
 
 espresso = Batch.create({
@@ -138,7 +144,7 @@ espresso = Batch.create({
   in_price: 3000,
   distributor_price: 8000,
   retail_price: 9500,
-  organisation: o
+  organization: o
 })
 
 brewd = Batch.create({
@@ -147,19 +153,19 @@ brewd = Batch.create({
   in_price: 3000,
   distributor_price: 6000,
   retail_price: 6500,
-  organisation: o
+  organization: o
 })
 
 espresso_in_ankeborg = Shelf.new
 espresso_in_ankeborg.warehouse = ankeborg_warehouse
 espresso_in_ankeborg.batch = espresso
-espresso_in_ankeborg.organisation_id=o.id
+espresso_in_ankeborg.organization_id=o.id
 espresso_in_ankeborg.save
 
 brewd_in_ankeborg = Shelf.new
 brewd_in_ankeborg.warehouse = ankeborg_warehouse
 brewd_in_ankeborg.batch = brewd
-brewd_in_ankeborg.organisation_id = o.id
+brewd_in_ankeborg.organization_id = o.id
 brewd_in_ankeborg.save
 
 [espresso, brewd].each do |batch|
@@ -167,40 +173,40 @@ brewd_in_ankeborg.save
     warehouse: ankeborg_warehouse,
     batch: batch,
     quantity: (10..100).to_a.sample,
-    organisation_id: o.id
+    organization_id: o.id
   )
   m = Manual.new
   m.user = jtest
-  m.organisation_id = o.id
-  m.comments.build(user_id: jtest.id, body: "Initial seed manual product_transaction", organisation: o)
+  m.organization_id = o.id
+  m.comments.build(user_id: jtest.id, body: "Initial seed manual product_transaction", organization: o)
   m.batch_transaction = batch_transaction
   m.save
 end
 
 tr = Transfer.new
-tr.organisation_id = o.id
+tr.organization_id = o.id
 tr.from_warehouse = ankeborg_warehouse
 tr.to_warehouse = flea_bottom
 tr.quantity = 10
 tr.batch = espresso
-tr.comments.build(user_id: jtest.id, body: "Initial seed manual batch_transaction", organisation: o)
+tr.comments.build(user_id: jtest.id, body: "Initial seed manual batch_transaction", organization: o)
 tr.save
 date_now = Time.now
 tr.send_package(date_now)
 tr.receive_package(date_now)
 
 
-donald = Customer.create(name: "Donald duck", payment_term: 10, organisation: o)
-coffehouse = Customer.create(name: 'Coffe House by Foobar', payment_term: 10, organisation: o)
+donald = Customer.create(name: "Donald duck", payment_term: 10, organization: o)
+coffehouse = Customer.create(name: 'Coffe House by Foobar', payment_term: 10, organization: o)
 1.upto(15) do |i|
-	Customer.create(name: "Kund #{i}", payment_term: 30, organisation: o)
+	Customer.create(name: "Kund #{i}", payment_term: 30, organization: o)
 end
 
-bigsupp = Supplier.create(name: "Big supplier of coffee", organisation: o)
-coffesupp = Supplier.create(name: "Kaffekooperativ", organisation: o)
-freightsupp = Supplier.create(name: "Shipping LTD", organisation: o)
-tullsupp = Supplier.create(name: "Tullverket", organisation: o)
-rostsupp = Supplier.create(name: "AB Rosteri", organisation: o)
+bigsupp = Supplier.create(name: "Big supplier of coffee", organization: o)
+coffesupp = Supplier.create(name: "Kaffekooperativ", organization: o)
+freightsupp = Supplier.create(name: "Shipping LTD", organization: o)
+tullsupp = Supplier.create(name: "Tullverket", organization: o)
+rostsupp = Supplier.create(name: "AB Rosteri", organization: o)
 
 
 # @TODO create invoice(s)

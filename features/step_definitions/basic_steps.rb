@@ -24,7 +24,7 @@ end
 Given /^I am a signed in user$/ do
   u = FactoryGirl.create(:user)
   o = FactoryGirl.build(:organization)
-  oc = Services::OrganizationCreator.new(Organization.new(name: 'test organization'), u)
+  oc = Services::OrganizationCreator.new(o, u)
   assert oc.save
   u.default_organization_id = o.id
   u.save
