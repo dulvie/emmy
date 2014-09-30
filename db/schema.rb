@@ -183,7 +183,15 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.datetime "updated_at"
   end
 
-  create_table "organisations", force: true do |t|
+  create_table "organization_roles", id: false, force: true do |t|
+    t.string  "name",            null: false
+    t.integer "user_id",         null: false
+    t.integer "organization_id", null: false
+  end
+
+  add_index "organization_roles", ["name", "user_id", "organization_id"], name: "organization_roles_index", unique: true, using: :btree
+
+  create_table "organizations", force: true do |t|
     t.string   "email"
     t.string   "name"
     t.string   "address"
@@ -193,6 +201,8 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.string   "bankgiro"
     t.string   "postgiro"
     t.string   "plusgiro"
+    t.string   "swift"
+    t.string   "iban"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -248,17 +258,6 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.datetime "due_date"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "roles", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "roles_users", id: false, force: true do |t|
-    t.integer "role_id"
-    t.integer "user_id"
   end
 
   create_table "sale_items", force: true do |t|
@@ -345,15 +344,16 @@ ActiveRecord::Schema.define(version: 20140820105947) do
 
   create_table "users", force: true do |t|
     t.string   "name"
-    t.integer  "default_locale",         default: 0
+    t.integer  "default_locale",          default: 0
+    t.integer  "default_organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                   default: "", null: false
+    t.string   "encrypted_password",      default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",           default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"

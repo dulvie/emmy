@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   # t.datetime :reset_password_sent_at
   # t.datetime :remember_created_at
   # t.integer :default_locale, default: 0 # defaults to english
-  # t.integer :current_organisation_id, default: 0 # defaults to no organisation
+  # t.integer :default_organization_id, default: null
 
   enum default_locale: [:en, :se]
   LOCALE_EN = 0
@@ -26,7 +26,6 @@ class User < ActiveRecord::Base
   has_one :contact_relation, as: :parent
   has_one :contacts, through: :contact_relation
 
-  # Nope, this is not the way to use this...
   def can_delete?
     false
   end
@@ -43,7 +42,7 @@ class User < ActiveRecord::Base
     @is_superadmin ||= organization_roles.where(organisation_id: 0).where(name: 'superadmin').count > 0
   end
 
-  # Used by Devise
+  # Used by Devise.
   def active_for_authentication?
     super and !role? :suspended
   end
