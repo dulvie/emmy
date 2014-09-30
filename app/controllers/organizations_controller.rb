@@ -22,10 +22,10 @@ class OrganizationsController < ApplicationController
 
   # POST /organisations
   def create
-    @organisation = Organisation.new(organisation_params)
+    @organisation = Organization.new(organisation_params)
 
     if @organisation.save
-      redirect_to @organisation, notice: 'Organisation was successfully created.'
+      redirect_to @organisation, notice: 'Organization was successfully created.'
     else
       render :new
     end
@@ -34,7 +34,7 @@ class OrganizationsController < ApplicationController
   # PATCH/PUT /organisations/1
   def update
     if @organisation.update(organisation_params)
-      redirect_to @organisation, notice: 'Organisation was successfully updated.'
+      redirect_to @organisation, notice: 'Organization was successfully updated.'
     else
       render :show
     end
@@ -43,14 +43,14 @@ class OrganizationsController < ApplicationController
   # DELETE /organisations/1
   def destroy
     @organisation.destroy
-    redirect_to organisations_url, notice: 'Organisation was successfully destroyed.'
+    redirect_to organisations_url, notice: 'Organization was successfully destroyed.'
   end
 
   private
 
   # Only allow a trusted parameter "white list" through.
   def organisation_params
-    params.require(:organisation).permit(Organisation.accessible_attributes.to_a)
+    params.require(:organisation).permit(Organization.accessible_attributes.to_a)
   end
 
   def new_breadcrumbs
@@ -64,11 +64,11 @@ class OrganizationsController < ApplicationController
 
   # before index
   def load_by_pagination
-    @organisations = Organisation.accessible_by(current_ability).page(params[:page] || 1)
+    @organisations = Organization.accessible_by(current_ability).page(params[:page] || 1)
   end
 
   def only_allow_one
-    if first_org = Organisation.first
+    if first_org = Organization.first
       redirect_to first_org
       return false
     end
