@@ -18,13 +18,22 @@ class ApplicationController < ActionController::Base
 
   # Add the locale to all the links.
   def default_url_options(options = {})
-    options.merge(locale: I18n.locale)
+    options = options.merge(locale: I18n.locale)
+    options.merge(organization_name: current_organization.name) if current_organization
   end
 
   def current_organization
-    halt(403) unless current_user
+    load_organization if params[:organization_name]
+    @current_organization
+  end
+  helper_method :current_organization
+
+
+  def load_organization
+    halt(403) and return unless user
     @current_organization ||= Organization.find_by_name(params[:organization_name])
     authorize! :read, @current_organization
+    logger.info "auth of current org#{@current_organization}is ok"
   end
 
   private

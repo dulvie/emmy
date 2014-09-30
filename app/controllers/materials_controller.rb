@@ -17,7 +17,7 @@ class MaterialsController < ApplicationController
 
     @production = Production.find(params[:production_id])
     @material = @production.materials.build material_params
-    @material.organisation = current_organisation
+    @material.organization = current_organization
     respond_to do |format|
       if @material.save
         format.html { redirect_to edit_production_path(@production), notice: "#{t(:material_added)}" }

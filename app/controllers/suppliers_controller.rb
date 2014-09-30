@@ -30,7 +30,7 @@ class SuppliersController < ApplicationController
   # POST /suppliers.json
   def create
     @supplier = Supplier.new(supplier_params)
-    @supplier.organisation = current_organisation
+    @supplier.organization = current_organization
     respond_to do |format|
       if @supplier.save
         format.html { redirect_to suppliers_path, notice: 'supplier was successfully created.' }

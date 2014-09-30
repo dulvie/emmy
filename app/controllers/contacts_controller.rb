@@ -17,7 +17,7 @@ class ContactsController < ApplicationController
 
   def create
     @contact = Contact.new contact_params
-    @contact.organisation = current_organisation
+    @contact.organization = current_organization
     respond_to do |format|
       if @contact.save
         format.html { redirect_to contacts_path, notice: "#{t(:contact_added)}" }

@@ -28,7 +28,7 @@ class BatchesController < ApplicationController
   # @todo Refactor this into a service object. Import is going to import_batches. Delete?
   def create
     @batch = Batch.new(batch_params)
-    @batch.organisation = current_organisation
+    @batch.organization = current_organization
     if @batch.save
 
       notice = "#{t(:batch)} #{t(:was_successfully_created)}"

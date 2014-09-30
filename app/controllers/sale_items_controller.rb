@@ -10,7 +10,7 @@ class SaleItemsController < ApplicationController
 
   def create
     @sale_item = @sale.sale_items.build sale_item_params
-    @sale_item.organisation = current_organisation
+    @sale_item.organization = current_organization
     @sale_item.row_type = params[:sale_item][:row_type]
 
     if params[:sale_item][:row_type] == 'product'

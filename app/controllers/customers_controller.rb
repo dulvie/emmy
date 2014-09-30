@@ -35,7 +35,7 @@ class CustomersController < ApplicationController
   # POST /customers.json
   def create
     @customer = Customer.new(customer_params)
-    @customer.organisation = current_organisation
+    @customer.organization = current_organization
     if @customer.save
       redirect_to customers_url, notice: "#{t(:customer)} #{t(:was_successfully_created)}"
     else

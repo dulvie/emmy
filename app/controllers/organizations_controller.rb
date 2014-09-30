@@ -53,7 +53,8 @@ class OrganizationsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [[t(:organizations), organizations_path], ["#{t(:new)} #{t(:organization)}"]]
+    #@breadcrumbs = [[t(:organizations), organizations_path], ["#{t(:new)} #{t(:organization)}"]]
+    @breadcrumbs = [[t(:organizations)]]
   end
 
   def show_breadcrumbs

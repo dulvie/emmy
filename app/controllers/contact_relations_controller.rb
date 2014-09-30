@@ -31,14 +31,14 @@ class ContactRelationsController < ApplicationController
       end
     end
 
-    @contact.organisation = current_organisation
+    @contact.organization = current_organization
     if @parent.class.name == 'User'
       @contact_relation = @parent.build_contact_relation
     else
       @contact_relation = @parent.contact_relations.build
     end
 
-    @contact_relation.organisation = current_organisation
+    @contact_relation.organization = current_organization
 
     respond_to do |format|
       if @contact.save

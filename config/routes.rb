@@ -1,6 +1,8 @@
 require 'resque/server'
 Emmy::Application.routes.draw do
 
+  resources :organizations
+
   resources :batches
   resources :comments
   resources :contact_relations
@@ -29,7 +31,6 @@ Emmy::Application.routes.draw do
   resources :items
   resources :manuals
   resources :materials
-  resources :organizations
   resources :production_batches, only: [:new, :create]
   resources :productions do
     resources :production_batches, only: [:new, :create]
@@ -69,7 +70,7 @@ Emmy::Application.routes.draw do
     end
   end
   resources :vats
-  resources :warehouses
+  #resources :warehouses
 
   get "statistics/index"
   get "dashboard", to: "dashboard#index"
@@ -144,4 +145,7 @@ Emmy::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  scope ':organization_name' do
+    resources :warehouses
+  end
 end

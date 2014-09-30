@@ -27,7 +27,7 @@ class CommentsController < ApplicationController
   def create
     @comment = set_comment
     @comment.user = current_user
-    @comment.organisation = current_organisation
+    @comment.organization = current_organization
 
     if @comment.save
       redirect_to redirect_path, notice: "#{t(:comment_added)}"

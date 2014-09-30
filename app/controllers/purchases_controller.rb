@@ -40,7 +40,7 @@ class PurchasesController < ApplicationController
   def create
     @purchase = Purchase.new purchase_params
     @purchase.user = current_user
-    @purchase.organisation = current_organisation
+    @purchase.organization = current_organization
     respond_to do |format|
       if @purchase.save
         format.html { redirect_to purchase_path(@purchase), notice: "#{t(:purchase)} #{t(:was_successfully_created)}" }

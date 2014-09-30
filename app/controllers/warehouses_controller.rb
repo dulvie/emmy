@@ -1,6 +1,7 @@
 class WarehousesController < ApplicationController
   respond_to :html, :json
-  load_and_authorize_resource
+  before_filter :load_organization
+  load_and_authorize_resource :warehouse, through: :current_organization
   before_filter :show_breadcrumbs, only: [:show, :edit, :update]
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :load_contats, only: [:show, :new, :edit, :create, :update]
@@ -27,7 +28,7 @@ class WarehousesController < ApplicationController
   # POST /warehouses
   def create
     @warehouse = Warehouse.new(warehouse_params)
-    @warehouse.organisation = current_organisation
+    @warehouse.organization = current_organization
     if @warehouse.save
       redirect_to warehouses_url, notice: "#{t(:warehouse)} #{t(:was_successfully_created)}"
     else

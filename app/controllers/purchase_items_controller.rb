@@ -11,7 +11,7 @@ class PurchaseItemsController < ApplicationController
   def create
     @purchase = Purchase.find(params[:purchase_id])
     @purchase_item = @purchase.purchase_items.build purchase_item_params
-    @purchase_item.organisation = current_organisation
+    @purchase_item.organization = current_organization
     respond_to do |format|
       if @purchase_item.save
         format.html { redirect_to purchase_path(@purchase), notice: "#{t(:batch_added)}" }

@@ -32,7 +32,7 @@ class ItemsController < ApplicationController
   # POST /items.json
   def create
     @item = Item.new(item_params)
-    @item.organisation = current_organisation
+    @item.organization = current_organization
     respond_to do |format|
       if @item.save
         format.html { redirect_to items_path, notice: 'item was successfully created.' }

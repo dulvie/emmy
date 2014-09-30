@@ -8,7 +8,7 @@ class SalesController < ApplicationController
   def create
     @sale = Sale.new sale_params
     @sale.user = current_user
-    @sale.organisation = current_organisation
+    @sale.organization = current_organization
     if @sale.save
       redirect_to sale_path(@sale), notice: "#{t(:sale)} #{t(:was_successfully_created)}"
     else

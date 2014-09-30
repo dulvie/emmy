@@ -77,12 +77,12 @@ class ManualsController < ApplicationController
   def new_manual
     manual = Manual.new
     manual.user_id = current_user.id
-    manual.organisation = current_organisation
+    manual.organization = current_organization
     manual.batch_transaction = BatchTransaction.new batch_transaction_params
-    manual.batch_transaction.organisation_id = current_organisation.id
+    manual.batch_transaction.organization_id = current_organization.id
     comment_p = params[:manual][:comments_attributes][:"0"]
     comment_p[:user_id] = current_user.id
-    comment_p[:organisation_id] = current_organisation.id
+    comment_p[:organization_id] = current_organization.id
     manual.comments.build(comment_p)
     manual
   end

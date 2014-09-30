@@ -14,7 +14,7 @@ class ImportBatchesController < ApplicationController
 
   def create
     @import_batch = ImportBatch.new(import_batch_params)
-    @import_batch.organisation_id = current_organisation.id
+    @import_batch.organization_id = current_organization.id
     respond_to do |format|
       if @import_batch.submit
         format.html { redirect_to edit_import_path(@import_batch.import_id), notice: 'batch was successfully created.' }
