@@ -5,72 +5,65 @@ class OrganizationsController < ApplicationController
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update]
 
-  before_filter :only_allow_one, only: [:index, :new, :create]
 
-  # GET /organisations
+  # GET /organizations
   def index
-    @breadcrumbs = [[t(:organisations)]]
+    @breadcrumbs = [[t(:organizations)]]
   end
 
-  # GET /organisations/1
+  # GET /organizations/1
   def show
   end
 
-  # GET /organisations/new
+  # GET /organizations/new
   def new
   end
 
-  # POST /organisations
+  # POST /organizations
   def create
-    @organisation = Organization.new(organisation_params)
+    @organization = Organization.new(organization_params)
 
-    if @organisation.save
-      redirect_to @organisation, notice: 'Organization was successfully created.'
+    if @organization.save
+      redirect_to @organization, notice: 'Organization was successfully created.'
     else
       render :new
     end
   end
 
-  # PATCH/PUT /organisations/1
+  # PATCH/PUT /organizations/1
   def update
-    if @organisation.update(organisation_params)
-      redirect_to @organisation, notice: 'Organization was successfully updated.'
+    if @organization.update(organization_params)
+      redirect_to @organization, notice: 'Organization was successfully updated.'
     else
       render :show
     end
   end
 
-  # DELETE /organisations/1
+  # DELETE /organizations/1
   def destroy
-    @organisation.destroy
-    redirect_to organisations_url, notice: 'Organization was successfully destroyed.'
+    @organization.destroy
+    redirect_to organizations_url, notice: 'Organization was successfully destroyed.'
   end
 
   private
 
   # Only allow a trusted parameter "white list" through.
-  def organisation_params
-    params.require(:organisation).permit(Organization.accessible_attributes.to_a)
+  def organization_params
+    params.require(:organization).permit(Organization.accessible_attributes.to_a)
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [[t(:organisations), organisations_path], ["#{t(:new)} #{t(:organisation)}"]]
+    @breadcrumbs = [[t(:organizations), organizations_path], ["#{t(:new)} #{t(:organization)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [[t(:organisations), organisations_path], [@organisation.name]]
+    @breadcrumbs = [[t(:organizations), organizations_path], [@organization.name]]
   end
 
 
   # before index
   def load_by_pagination
-    @organisations = Organization.accessible_by(current_ability).page(params[:page] || 1)
+    @organizations = Organization.accessible_by(current_ability).page(params[:page] || 1)
   end
 
-  def only_allow_one
-    if first_org = Organization.first
-      redirect_to first_org
-      return false
-    end
-  end
 end
