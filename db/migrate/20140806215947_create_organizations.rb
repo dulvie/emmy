@@ -1,6 +1,6 @@
-class CreateOrganisations < ActiveRecord::Migration
+class CreateOrganizations < ActiveRecord::Migration
   def change
-    create_table :organisations do |t|
+    create_table :organizations do |t|
       t.string :email
       t.string :name
       t.string :address
@@ -10,6 +10,8 @@ class CreateOrganisations < ActiveRecord::Migration
       t.string :bankgiro
       t.string :postgiro
       t.string :plusgiro
+      t.string :swift
+      t.string :iban
 
       t.timestamps
     end

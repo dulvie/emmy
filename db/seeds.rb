@@ -6,6 +6,17 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+jtest = User.new({
+  name: "jtest",
+  email: "jtest@mailinator.com",
+  password: "foobar",
+  password_confirmation: "foobar"
+})
+jtest.save
+orole = jtest.organization_roles.build(organization_id: 0, name: 'superadmin')
+fail
+
+# Dont do this, this is old style.
 o = Organisation.new name: "Default organisation"
 o.save
 
