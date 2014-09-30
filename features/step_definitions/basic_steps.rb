@@ -22,7 +22,19 @@ Then /^I should see "(.*?)"$/ do |string|
 end
 
 Given /^I am a signed in user$/ do
-  o = FactoryGirl.create(:organisation)
+  u = FactoryGirl.create(:user)
+  o = FactoryGirl.create(:organization)
+  orole = u.organization_roles.build organization_id: o.id, name: OrganizationRole::ROLE_ADMIN
+  orole.save
+  u.default_organization = o
+  u.save
+  visit new_user_session_path
+  fill_in "user_email", with: u.email
+  fill_in "user_password", with: u.password
+  click_button "Sign in"
+end
+
+Given /^I am a signed in user without an organization$/ do
   u = FactoryGirl.create(:user)
   visit new_user_session_path
   fill_in "user_email", with: u.email

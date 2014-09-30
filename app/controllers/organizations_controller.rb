@@ -23,8 +23,8 @@ class OrganizationsController < ApplicationController
   def create
     @organization = Organization.new(organization_params)
 
-    if @organization.save
-      redirect_to @organization, notice: 'Organization was successfully created.'
+    if Services::OrganizationCreator.new(@organization, current_user).save
+      redirect_to @organization, notice: "#{t(:organization)} #{t(:was_successfully_created)}"
     else
       render :new
     end

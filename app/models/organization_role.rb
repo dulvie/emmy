@@ -7,6 +7,8 @@ class OrganizationRole < ActiveRecord::Base
   #           unique: true,
   #           name: :organization_roles_index
 
+  ROLES=[ROLE_ADMIN='admin', ROLE_STAFF='staff', ROLE_SUSPENDED='suspended']
+
   belongs_to :user
   belongs_to :organization
 

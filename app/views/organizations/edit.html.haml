@@ -1,15 +1,15 @@
 %ul{:class => 'nav nav-tabs'}
-  %li.active= link_to "Base information", "#organisation-form", {"data-toggle" => "tab"}
+  %li.active= link_to "Base information", "#organization-form", {"data-toggle" => "tab"}
   %li= link_to "Contacts", "#contact-index", {"data-toggle" => "tab"}
   %li= link_to "Comments", "#comment-index", {"data-toggle" => "tab"}
 .tab-content
-  #organisation-form.tab-pane.active
+  #organization-form.tab-pane.active
     %br
     = render 'form'
   #contact-index.tab-pane
-    = render partial: 'contacts/index', locals: {contacts: @organisation.contacts, parent: @organisation}
+    = render partial: 'contacts/index', locals: {contacts: @organization.contacts, parent: @organization}
   #comment-index.tab-pane
-    = render partial: 'comments/index', locals: {comments: @organisation.comments, parent: @organisation}
+    = render partial: 'comments/index', locals: {comments: @organization.comments, parent: @organization}
 
 :javascript
   $(document).ready(function() {

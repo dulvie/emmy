@@ -21,8 +21,8 @@
               = nav_link t(:contacts), contacts_path
               - path_to_comment = comments_path
               = nav_link t(:comments), path_to_comment
-              - if can?(:manage, Organisation)
-                = nav_link(t(:organisation), organisations_path)
+              - if can?(:manage, Organization)
+                = nav_link(t(:organization), organizations_path)
               = nav_link t(:warehouses), warehouses_path
               = nav_link t(:items), items_path
               = nav_link t(:batches), batches_path

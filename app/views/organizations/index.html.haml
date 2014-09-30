@@ -1,0 +1,21 @@
+.container.row.btn-group
+  = link_to "#{t(:create)} #{t(:organization)}", new_organization_path, class: 'btn btn-default'
+%div{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table'}
+    %thead{:class => 'well'}
+      %tr
+        %th= t(:organization)
+        %th= t(:address)
+        %th= t(:zip)
+        %th= t(:city)
+        %th
+        %th
+    %tbody{}
+      - @organizations.each do |organization|
+        %tr
+          %td= link_to organization.name, organization
+          %td= link_to settings_icon, organization
+          %td= delete_modal_for organization
+
+  = paginate @organizations, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

@@ -12,12 +12,11 @@ Feature: Sign up and create an organisation.
     And I click "Sign up"
     And I fill in valid "user" data
     And I click "Sign up"
-    Then I should see "Successfully created a user."
+    Then I should see "You have signed up successfully."
 
   Scenario: create_organisation
-    Given I am a signed in user
+    Given I am a signed in user without an organization
     And I visit the dashboard
-    And I click "Create organization"
     And I fill in valid "organization" data
-    And I click "Create organization"
-    Then I should see "An organization was successfully created."
+    And I click "Create Organization"
+    Then I should see "Organization was successfully created."
