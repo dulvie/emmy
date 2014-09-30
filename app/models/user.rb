@@ -24,7 +24,6 @@ class User < ActiveRecord::Base
   has_one :contact_relation, as: :parent
   has_one :contacts, through: :contact_relation
   belongs_to :default_organization, class_name: 'Organization'
-  has_many :organizations
   has_many :organization_roles
 
   def can_delete?

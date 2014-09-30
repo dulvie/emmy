@@ -9,6 +9,8 @@ class OrganizationRole < ActiveRecord::Base
 
   ROLES=[ROLE_ADMIN='admin', ROLE_STAFF='staff', ROLE_SUSPENDED='suspended']
 
+  scope :roles_with_access, -> { where('name in (?)', [ROLE_STAFF, ROLE_ADMIN]) }
+
   belongs_to :user
   belongs_to :organization
 

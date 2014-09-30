@@ -73,7 +73,6 @@ Emmy::Application.routes.draw do
   #resources :warehouses
 
   get "statistics/index"
-  get "dashboard", to: "dashboard#index"
   [:about,:start,:formats, :test].each do |p|
     get "/#{p}", to: "pages##{p}"
   end
@@ -145,7 +144,10 @@ Emmy::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  get "organization_selector", to: "dashboard#organization_selector"
+
   scope ':organization_name' do
     resources :warehouses
+    get "dashboard", to: "dashboard#index"
   end
 end

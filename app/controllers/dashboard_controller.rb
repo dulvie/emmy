@@ -1,14 +1,10 @@
 class DashboardController < ApplicationController
-  before_filter :ensure_default_organization
-
+  skip_authorization_check only: [:organization_selector]
   def index
     @breadcrumbs = [['Dashboard']]
-    @organization = current_organization
   end
 
-  def ensure_default_organization
-    unless current_user.default_organization
-      redirect_to(new_organization_path)
-    end
+  def organization_selector
+    @organizations = current_user.organization_roles.roles_with_access.map{|role| role.organization}
   end
 end
