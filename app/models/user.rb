@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
   end
 
   def superadmin?
-    @superadmin ||= organization_roles.where(organisation_id: 0).where(name: 'superadmin').count > 0
+    @superadmin ||= organization_roles.where(organization_id: 0).where(name: 'superadmin').count > 0
   end
 
   # Used by Devise to check if the user object can sign in.

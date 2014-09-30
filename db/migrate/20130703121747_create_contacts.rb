@@ -1,7 +1,7 @@
 class CreateContacts < ActiveRecord::Migration
   def change
     create_table :contacts do |t|
-      t.integer :organisation_id
+      t.integer :organization_id
 
       t.string  :name
       t.string  :email

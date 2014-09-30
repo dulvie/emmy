@@ -1,17 +1,17 @@
 class Comment < ActiveRecord::Base
-  # t.integer :organisation_id
+  # t.integer :organization_id
   # t.text :body
   # t.string :parent_type
   # t.integer :parent_id
   # t.integer :user_id
 
-  belongs_to :organisation
+  belongs_to :organization
   belongs_to :user
   belongs_to :parent, polymorphic: true
 
   validates :body, presence: true
 
-  attr_accessible :body, :user, :parent, :user_id, :parent_id, :parent_type, :organisation, :organisation_id
+  attr_accessible :body, :user, :parent, :user_id, :parent_id, :parent_type, :organization, :organization_id
 
   VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', 'Manual', 'Transfer', 'Import', 'Production', 'Inventory', 'nil']
 

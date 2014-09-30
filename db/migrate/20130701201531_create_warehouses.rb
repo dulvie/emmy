@@ -1,7 +1,7 @@
 class CreateWarehouses < ActiveRecord::Migration
   def change
     create_table :warehouses do |t|
-      t.integer :organisation_id
+      t.integer :organization_id
       t.string  :name
       t.integer :primary_contact_id
       t.string  :address

@@ -1,5 +1,5 @@
 class Supplier < ActiveRecord::Base
-  # t.integer :organisation_id
+  # t.integer :organization_id
   # t.string  :name
   # t.string  :address
   # t.string  :zip
@@ -9,7 +9,7 @@ class Supplier < ActiveRecord::Base
   # t.string  :vat_number
   # t.integer :primary_contact_id
 
-  belongs_to :organisation
+  belongs_to :organization
 
   has_many :contact_relations, as: :parent
   has_many :contacts, through: :contact_relations
@@ -17,7 +17,7 @@ class Supplier < ActiveRecord::Base
   has_many :comments, as: :parent
   has_many :purchases
 
-  attr_accessible :name, :address, :zip, :city, :country, :bg_number, :vat_number, :primary_contact_id, :organisation
+  attr_accessible :name, :address, :zip, :city, :country, :bg_number, :vat_number, :primary_contact_id, :organization
 
   validates :name, presence: true
   validates :name, uniqueness: true

@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   enable_extension "plpgsql"
 
   create_table "batch_transactions", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.string   "parent_type"
     t.integer  "parent_id"
     t.integer  "batch_id"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
 
   create_table "batches", force: true do |t|
     t.integer  "item_id"
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.string   "name"
     t.text     "comment"
     t.integer  "in_price"
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "comments", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.text     "body"
     t.string   "parent_type"
     t.integer  "parent_id"
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "contact_relations", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.integer  "warehouse_id"
     t.string   "parent_type"
     t.integer  "parent_id"
@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "contacts", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.string   "name"
     t.string   "email"
     t.string   "telephone"
@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "customers", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.string   "address"
     t.string   "city"
     t.string   "vat_number"
@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "documents", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.string   "parent_type"
     t.integer  "parent_id"
     t.integer  "user_id"
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "imports", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.integer  "user_id"
     t.string   "description"
     t.integer  "our_reference_id"
@@ -127,7 +127,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "inventories", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.integer  "user_id"
     t.integer  "warehouse_id"
     t.datetime "inventory_date"
@@ -139,7 +139,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "inventory_items", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.integer  "inventory_id"
     t.integer  "batch_id"
     t.integer  "shelf_quantity"
@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "items", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.integer  "unit_id"
     t.integer  "vat_id"
     t.string   "name"
@@ -165,14 +165,14 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "manuals", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "materials", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.integer  "production_id"
     t.integer  "batch_id"
     t.integer  "quantity"
@@ -208,7 +208,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "productions", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.integer  "user_id"
     t.string   "description"
     t.integer  "our_reference_id"
@@ -225,7 +225,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "purchase_items", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.integer  "purchase_id"
     t.integer  "item_id"
     t.integer  "batch_id"
@@ -238,7 +238,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "purchases", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.integer  "parent_id"
     t.string   "parent_type"
     t.integer  "user_id"
@@ -261,7 +261,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "sale_items", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.integer  "sale_id"
     t.integer  "item_id"
     t.integer  "batch_id"
@@ -279,7 +279,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.integer  "user_id"
     t.integer  "customer_id"
     t.integer  "warehouse_id"
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.string   "contact_email"
     t.string   "contact_name"
     t.integer  "payment_term"
@@ -297,7 +297,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "shelves", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.integer  "quantity",        default: 0
     t.integer  "warehouse_id"
     t.integer  "batch_id"
@@ -306,7 +306,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "suppliers", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.string   "name"
     t.string   "address"
     t.string   "zip"
@@ -325,7 +325,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.integer  "batch_id"
     t.integer  "quantity"
     t.integer  "user_id"
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.string   "state"
     t.datetime "sent_at"
     t.datetime "received_at"
@@ -334,7 +334,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "units", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.string   "name"
     t.string   "weight"
     t.string   "package_dimensions"
@@ -364,7 +364,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "vats", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.string   "name"
     t.integer  "vat_percent"
     t.datetime "created_at"
@@ -372,7 +372,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   end
 
   create_table "warehouses", force: true do |t|
-    t.integer  "organisation_id"
+    t.integer  "organization_id"
     t.string   "name"
     t.integer  "primary_contact_id"
     t.string   "address"

@@ -1,7 +1,7 @@
 class CreateImports < ActiveRecord::Migration
   def change
     create_table :imports do |t|
-      t.integer :organisation_id
+      t.integer :organization_id
       t.integer :user_id
       t.string :description
       t.integer :our_reference_id

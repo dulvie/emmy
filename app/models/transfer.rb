@@ -1,5 +1,5 @@
 class Transfer < ActiveRecord::Base
-  # t.integer :organisation_id
+  # t.integer :organization_id
   # t.integer :from_warehouse_id
   # t.integer :to_warehouse_id
   # t.integer :batch_id
@@ -17,10 +17,10 @@ class Transfer < ActiveRecord::Base
   belongs_to :to_warehouse, class_name: 'Warehouse'
   belongs_to :batch
   belongs_to :user
-  belongs_to :organisation
+  belongs_to :organization
   has_many :comments, as: :parent, dependent: :destroy
 
-  attr_accessible :from_warehouse_id, :to_warehouse_id, :batch_id, :quantity, :organisation_id
+  attr_accessible :from_warehouse_id, :to_warehouse_id, :batch_id, :quantity, :organization_id
   accepts_nested_attributes_for :comments
 
   # Callbacks
@@ -83,7 +83,7 @@ class Transfer < ActiveRecord::Base
       warehouse_id: from_warehouse_id,
       batch_id: batch_id,
       quantity: quantity * -1, # the from_transaction subtracts the quantity
-      organisation_id: organisation_id
+      organization_id: organization_id
     )
     t.save!
   end
@@ -93,7 +93,7 @@ class Transfer < ActiveRecord::Base
       warehouse_id: to_warehouse_id,
       batch_id: batch_id,
       quantity: quantity,
-      organisation_id: organisation_id
+      organization_id: organization_id
     )
     t.save!
   end

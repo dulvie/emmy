@@ -4,7 +4,7 @@ class CreateSales < ActiveRecord::Migration
       t.integer :user_id
       t.integer :customer_id
       t.integer :warehouse_id
-      t.integer :organisation_id
+      t.integer :organization_id
       t.string :contact_email
       t.string :contact_name
       t.integer :payment_term

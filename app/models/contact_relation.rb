@@ -1,14 +1,14 @@
 class ContactRelation < ActiveRecord::Base
-  # t.integer :organisation_id
+  # t.integer :organization_id
   # t.string :parent_type
   # t.integer :parent_id
   # t.integer :contact_id
 
-  belongs_to :organisation
+  belongs_to :organization
   belongs_to :contact
   belongs_to :parent, polymorphic: true
 
-  attr_accessible :organisation, :organisation_id, :parent_type, :parent_id, :parent
+  attr_accessible :organization, :organization_id, :parent_type, :parent_id, :parent
 
   def can_delete?
     true

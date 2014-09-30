@@ -1,5 +1,5 @@
 class Import < ActiveRecord::Base
-  # t.integer :organisation_id
+  # t.integer :organization_id
   # t.integer :user_id
   # t.string :description
   # t.integer :our_reference_id
@@ -18,7 +18,7 @@ class Import < ActiveRecord::Base
 
   # OBS! Användningen av importing/shipping/customs går fel då sökning sker från purchases parent id
 
-  belongs_to :organisation
+  belongs_to :organization
   belongs_to :our_reference, class_name: 'User'
   belongs_to :to_warehouse, class_name: 'Warehouse'
   belongs_to :batch
@@ -28,7 +28,7 @@ class Import < ActiveRecord::Base
   has_many :comments, as: :parent, dependent: :delete_all
 
   attr_accessible :description, :our_reference_id, :to_warehouse_id,  :batch_id, :quantity,
-                  :importing_id, :shipping_id, :started_at, :completed_at, :organisation
+                  :importing_id, :shipping_id, :started_at, :completed_at, :organization
 
   validates :description, presence: true
   validates :to_warehouse_id, presence: true

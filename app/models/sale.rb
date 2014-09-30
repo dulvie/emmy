@@ -2,7 +2,7 @@ class Sale < ActiveRecord::Base
   # t.integer :user_id
   # t.integer :customer_id
   # t.integer :warehouse_id
-  # t.integer :organisation_id
+  # t.integer :organization_id
   # t.string :contact_email
   # t.string :contact_name
   # t.integer :payment_term
@@ -23,14 +23,14 @@ class Sale < ActiveRecord::Base
   belongs_to :user
   belongs_to :customer
   belongs_to :warehouse
-  belongs_to :organisation
+  belongs_to :organization
   has_many :sale_items, dependent: :delete_all
   has_many :from_transaction, class_name: 'BatchTransaction', as: :parent
   has_one :document, as: :parent, dependent: :delete
 
   attr_accessible :user_id, :warehouse_id, :customer_id, :contact_email, :contact_name,
                   :payment_term, :state, :approved_at, :goods_state, :delivered_at,
-                  :money_state,  :paid_at, :invoice_number, :organisation, :organisation_id
+                  :money_state,  :paid_at, :invoice_number, :organization, :organization_id
 
   validates :customer_id, presence: true
   validates :warehouse_id, presence: true
@@ -38,7 +38,7 @@ class Sale < ActiveRecord::Base
 
   # Callbacks
   # @todo Refactor this into service objects instead.
-  before_create :ensure_organisation_id
+  before_create :ensure_organization_id
 
   STATE_CHANGES = [
     :mark_prepared, :mark_complete, # Generic state
@@ -131,7 +131,7 @@ class Sale < ActiveRecord::Base
           warehouse: warehouse,
           batch: sale_item.batch,
           quantity: sale_item.quantity * -1,
-          organisation_id: organisation_id)
+          organization_id: organization_id)
       batch_transaction.save
     end
   end
@@ -213,11 +213,11 @@ class Sale < ActiveRecord::Base
 
   # Callback: before_create
   # @todo Refactor into service object instead.
-  def ensure_organisation_id
-    org = Organisation.first
+  def ensure_organization_id
+    org = Organization.first
     unless org
-      fail 'no organisation found!'
+      fail 'no organization found!'
     end
-    self.organisation_id = org.id
+    self.organization_id = org.id
   end
 end

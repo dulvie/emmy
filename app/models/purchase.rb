@@ -1,5 +1,5 @@
 class Purchase < ActiveRecord::Base
-  # t.integer :organisation_id
+  # t.integer :organization_id
   # t.integer :parent_id
   # t.string :parent_type
 
@@ -23,7 +23,7 @@ class Purchase < ActiveRecord::Base
   scope :prepared, -> { where(state: 'prepared') }
   scope :not_received, -> { where(goods_state: 'not_received') }
 
-  belongs_to :organisation
+  belongs_to :organization
   belongs_to :user
   belongs_to :supplier
   belongs_to :our_reference, class_name: 'User'
@@ -35,7 +35,7 @@ class Purchase < ActiveRecord::Base
 
   accepts_nested_attributes_for :purchase_items
   attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id,
-                  :to_warehouse_id, :ordered_at, :parent_type, :parent_id, :organisation, :organisation_id
+                  :to_warehouse_id, :ordered_at, :parent_type, :parent_id, :organization, :organization_id
 
   validates :description, presence: true
   validates :supplier_id, presence: true
@@ -107,7 +107,7 @@ class Purchase < ActiveRecord::Base
           warehouse: to_warehouse,
           batch: purchase_item.batch,
           quantity: purchase_item.quantity,
-          organisation_id: organisation_id)
+          organization_id: organization_id)
         batch_transaction.save
       end
     end

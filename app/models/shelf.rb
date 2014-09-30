@@ -1,14 +1,14 @@
 class Shelf < ActiveRecord::Base
-  # t.integer :organisation_id
+  # t.integer :organization_id
   # t.integer :quantity
   # t.integer :warehouse_id
   # t.integer :batch_id
 
-  belongs_to :organisation
+  belongs_to :organization
   belongs_to :warehouse
   belongs_to :batch
 
-  attr_accessible :quantity, :batch_id, :warehouse_id, :organisation, :organisation_id
+  attr_accessible :quantity, :batch_id, :warehouse_id, :organization, :organization_id
 
   validates :batch_id, presence: true
   validates :warehouse_id, presence: true

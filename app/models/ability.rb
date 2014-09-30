@@ -14,14 +14,16 @@ class Ability
     admin_at = admin_at.map{|r| r.organization_id}
 
     admin_roles_for(admin_at)
-    staff_roles_for(staff_at)
+    staff_roles_for((staff_at + admin_at).uniq)
   end
 
   def admin_roles_for(oids)
     can :manage, Organization, id: oids
+    can :manage, Warehouse, organization_id: oids
   end
 
   def staff_roles_for(oids)
     can :read, Organization, id: oids
+    can :manage, Warehouse, organization_id: oids
   end
 end

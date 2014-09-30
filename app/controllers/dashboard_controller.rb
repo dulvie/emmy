@@ -3,6 +3,7 @@ class DashboardController < ApplicationController
 
   def index
     @breadcrumbs = [['Dashboard']]
+    @organization = current_organization
   end
 
   def ensure_default_organization

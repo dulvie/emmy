@@ -2,7 +2,7 @@
 # A subgroup of item. All items with stocked true
 #
 class Batch < ActiveRecord::Base
-  # t.integer :organisation_id
+  # t.integer :organization_id
   # t.integer :item_id
 
   # t.string :name
@@ -14,14 +14,14 @@ class Batch < ActiveRecord::Base
   # t.timestamp :refined_at
   # t.timestamp :expire_at
 
-  belongs_to :organisation
+  belongs_to :organization
   belongs_to :item
   has_many :batch_transactions
   has_many :shelves, through: :batch_transactions
   has_one :production
 
   attr_accessible :item_id, :name, :comment, :in_price, :distributor_price, :retail_price,
-                  :expire_at, :refined_at, :organisation, :organisation_id
+                  :expire_at, :refined_at, :organization, :organization_id
 
   delegate :item_group, :vat, :unit, to: :item
 

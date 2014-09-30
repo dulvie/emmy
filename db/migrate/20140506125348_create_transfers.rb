@@ -6,7 +6,7 @@ class CreateTransfers < ActiveRecord::Migration
       t.integer :batch_id
       t.integer :quantity
       t.integer :user_id
-      t.integer :organisation_id
+      t.integer :organization_id
 
       t.string  :state
       t.timestamp :sent_at

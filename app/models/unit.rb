@@ -1,12 +1,12 @@
 class Unit < ActiveRecord::Base
-  # t.integer :organisation_id
+  # t.integer :organization_id
   # t.string  :name
   # t.string  :weight
   # t.string  :package_dimensions
 
-  attr_accessible :name, :weight, :package_dimensions, :organisation
+  attr_accessible :name, :weight, :package_dimensions, :organization
 
-  belongs_to :organisation
+  belongs_to :organization
   has_many :items
 
   validates :name, uniqueness: true

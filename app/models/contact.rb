@@ -1,5 +1,5 @@
 class Contact < ActiveRecord::Base
-  # t.integer :organisation_id
+  # t.integer :organization_id
   # t.string :name
   # t.string :email
   # t.string :telephone
@@ -9,10 +9,10 @@ class Contact < ActiveRecord::Base
   # t.string :country
   # t.text :comment
 
-  belongs_to :organisation
+  belongs_to :organization
   has_many :contact_relations
 
-  attr_accessible :email, :name, :telephone, :address, :zip, :city, :country, :comment, :organisation
+  attr_accessible :email, :name, :telephone, :address, :zip, :city, :country, :comment, :organization
 
   validates :name, presence: true
   validates :email, uniqueness: true

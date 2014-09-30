@@ -1,8 +1,8 @@
 FactoryGirl.define do
-  factory :organisation do
-    name 'test organisation'
-
+  factory :organization do
+    name 'test organization'
   end
+
   factory :user do
     name "testuser"
     email "testuser@example.com"

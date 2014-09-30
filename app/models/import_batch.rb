@@ -1,7 +1,7 @@
 class ImportBatch
   include ActiveModel::Model
 
-  attr_accessor :organisation_id, :import_id, :item_id, :name,
+  attr_accessor :organization_id, :import_id, :item_id, :name,
                 :description, :supplier, :contact_name, :contact_email, :batch, :quantity, :price
 
   validates :name, presence: true
@@ -24,7 +24,7 @@ class ImportBatch
       @batch.save
 
       # Create purchase and purchase_item for import of new batch
-      @purchase = @import.importing.build(organisation_id: organisation_id,
+      @purchase = @import.importing.build(organization_id: organization_id,
                                           parent_type: 'Import',
                                           parent_id: @import.id,
                                           description: description,
@@ -35,7 +35,7 @@ class ImportBatch
                                           to_warehouse_id: @import.to_warehouse_id)
       @purchase.save
 
-      @purchase_item = @purchase.purchase_items.build(organisation_id: organisation_id,
+      @purchase_item = @purchase.purchase_items.build(organization_id: organization_id,
                                                       item_id: item_id,
                                                       batch_id: @batch.id,
                                                       quantity: quantity,

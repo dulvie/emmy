@@ -1,5 +1,5 @@
 class SaleItem < ActiveRecord::Base
-  # t.integer :organisation_id
+  # t.integer :organization_id
   # t.integer :sale_id
   # t.integer :item_id
   # t.integer :batch_id
@@ -10,7 +10,7 @@ class SaleItem < ActiveRecord::Base
   # t.integer :price_sum
   # t.integer :vat
 
-  belongs_to :organisation
+  belongs_to :organization
   belongs_to :sale
   belongs_to :item
   belongs_to :batch

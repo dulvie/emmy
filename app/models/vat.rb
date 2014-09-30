@@ -1,11 +1,11 @@
 class Vat < ActiveRecord::Base
-  # t.integer :organisation_id
+  # t.integer :organization_id
   # t.string  :name
   # t.integer :vat_percent
 
-  attr_accessible :name, :vat_percent, :organisation
+  attr_accessible :name, :vat_percent, :organization
 
-  belongs_to :organisation
+  belongs_to :organization
   has_many :items
 
   validates :name, uniqueness: true
