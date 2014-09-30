@@ -29,7 +29,7 @@ Emmy::Application.routes.draw do
   resources :items
   resources :manuals
   resources :materials
-  resources :organisations
+  resources :organizations
   resources :production_batches, only: [:new, :create]
   resources :productions do
     resources :production_batches, only: [:new, :create]

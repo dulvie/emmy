@@ -21,8 +21,10 @@ class ApplicationController < ActionController::Base
     options.merge(locale: I18n.locale)
   end
 
-  def current_organisation
-    @current_organisation = Organisation.first
+  def current_organization
+    halt(403) unless current_user
+    @current_organization ||= Organization.find_by_name(params[:organization_name])
+    authorize! :read, @current_organization
   end
 
   private

@@ -2,6 +2,14 @@ Given /^database is clean$/ do
   DatabaseCleaner.clean
 end
 
+Given /^I do not have a user session$/ do
+  # Nothing...
+end
+
+Given /^I visit the dashboard$/ do
+  visit "/dashboard"
+end
+
 Given /^I am on the home page$/  do
   visit "/"
 end
@@ -13,14 +21,12 @@ Then /^I should see "(.*?)"$/ do |string|
   assert_equal true, page.has_content?(string)
 end
 
-
 Given /^I am a signed in user$/ do
   o = FactoryGirl.create(:organisation)
   u = FactoryGirl.create(:user)
-  #u.roles << FactoryGirl.create(:role)
   visit new_user_session_path
-  fill_in "user_email", with: "testuser@example.com"
-  fill_in "user_password", with: "abc123"
+  fill_in "user_email", with: u.email
+  fill_in "user_password", with: u.password
   click_button "Sign in"
 end
 
@@ -30,7 +36,7 @@ end
 
 Given /^I click "([^"]*?)"$/ do |button_string|
   puts "trying to click #{button_string}"
-  click_on button_string
+  click_on button_string, match: :first
 end
 
 Given(/^I fill in "(.*?)" with "(.*?)"$/) do |field_name, field_value|

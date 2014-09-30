@@ -7,15 +7,6 @@ FactoryGirl.define do
     name "testuser"
     email "testuser@example.com"
     password "abc123"
-
-    after :create do |user|
-      user.roles << FactoryGirl.create(:role)
-    end
-
-  end
-
-  factory :role do
-    name :seller
   end
 
   factory :unit do

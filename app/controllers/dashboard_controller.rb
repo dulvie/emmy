@@ -1,7 +1,13 @@
 class DashboardController < ApplicationController
+  before_filter :ensure_default_organization
+
   def index
     @breadcrumbs = [['Dashboard']]
-    @current_organisation = current_organisation
-    authorize! :read, current_user
+  end
+
+  def ensure_default_organization
+    unless current_user.default_organization
+      redirect_to(new_organization_path)
+    end
   end
 end

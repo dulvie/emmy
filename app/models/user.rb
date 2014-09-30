@@ -21,10 +21,11 @@ class User < ActiveRecord::Base
   attr_accessible :name, :default_locale,
                   :email, :password, :password_confirmation, :remember_me # by devise
 
-  has_many :organizations
-  has_many :organization_roles
   has_one :contact_relation, as: :parent
   has_one :contacts, through: :contact_relation
+  belongs_to :default_organization, class_name: 'Organization'
+  has_many :organizations
+  has_many :organization_roles
 
   def can_delete?
     false
@@ -38,14 +39,13 @@ class User < ActiveRecord::Base
     name
   end
 
-  def is_superadmin?
-    @is_superadmin ||= organization_roles.where(organisation_id: 0).where(name: 'superadmin').count > 0
+  def superadmin?
+    @superadmin ||= organization_roles.where(organisation_id: 0).where(name: 'superadmin').count > 0
   end
 
-  # Used by Devise.
+  # Used by Devise to check if the user object can sign in.
+  # @todo implement suspended user check here.
   def active_for_authentication?
-    super and !role? :suspended
+    super
   end
-
-
 end
