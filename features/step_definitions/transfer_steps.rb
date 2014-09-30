@@ -97,9 +97,9 @@ Then /^"(.*?)" warehouse should have (\d+) "(.*?)" batches on the shelves$/ do |
   assert_equal quantity, wh.shelves.where(batch_id: p.id).sum(:quantity).to_i
 end
 
-Given /^I click hidden$/ do
-  click_on('Confirm')
-  #page.click_on('.simple_form')
-  #page.execute_script("$('.btn').click()")
-  #find("Confirm",:visible=>false).click
+Given /^I click send$/ do
+  page.driver.post("/transfers/1/send_package?locale=en", state_change_at: "#{Time.now}")
+end
+Given /^I click receive$/ do
+  page.driver.post("/transfers/1/receive_package?locale=en", state_change_at: "#{Time.now}")
 end
