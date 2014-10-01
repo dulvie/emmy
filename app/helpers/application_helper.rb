@@ -54,15 +54,10 @@ module ApplicationHelper
   def envelope_icon
     "<i class=\"glyphicon glyphicon-envelope envelope_icon\"> </i>".html_safe
   end
-  # This is hairy, please simplify/shorten
-  # Sets class="active" on a navigation <li><a href=".. block.
+
   def nav_link link_text, link_path
-    current_section = get_first_segment request.path
-    target_section = get_first_segment link_path
-    if target_section.eql? current_section
-      content_tag(:li, :class => "active") do
-        link_to link_text, link_path
-      end
+    if current_page? link_path
+      content_tag(:li, class: 'active') { link_to link_text, link_path }
     else
       content_tag(:li) { link_to link_text, link_path }
     end
