@@ -7,7 +7,7 @@ class OrganizationRole < ActiveRecord::Base
   #           unique: true,
   #           name: :organization_roles_index
 
-  ROLES=[ROLE_ADMIN='admin', ROLE_STAFF='staff', ROLE_SUSPENDED='suspended']
+  ROLES=[ROLE_ADMIN='admin', ROLE_STAFF='staff', ROLE_SUPERADMIN='superadmin', ROLE_SUSPENDED='suspended']
 
   scope :roles_with_access, -> { where('name in (?)', [ROLE_STAFF, ROLE_ADMIN]) }
 
