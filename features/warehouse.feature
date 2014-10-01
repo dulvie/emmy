@@ -4,8 +4,9 @@ Feature: Crud warehouses
   where read is included in update.
 
   Scenario: create
+    Given database is clean
     Given I am a signed in user
-    And I visit warehouses_path
+    And I visit warehouses_path for "test organization"
     And I click "Create Warehouse"
     And I fill in valid "warehouse" data
     And I click "Create Warehouse"
@@ -15,7 +16,7 @@ Feature: Crud warehouses
     Given I am a signed in user
     And a "warehouse" with "name" equals to "test warehouse" exists
     And I visit warehouses_path
-    And I click edit link for "test warehouse" warehouse
+    And I click edit link for "test warehouse" warehouse in "test organization"
     And I fill in "warehouse_name" with "test warehouse 2"
     And I click "Update Warehouse"
     Then I should see "Warehouse was successfully updated."

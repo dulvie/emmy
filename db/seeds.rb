@@ -28,7 +28,10 @@ ktest = User.new({
   password: "foobar",
   password_confirmation: "foobar"
 })
+ktest.default_organization_id = o.id
 ktest.save
+ktRole = OrganizationRole.new ({user_id: ktest.id, organization_id: o.id, name: OrganizationRole::ROLE_ADMIN})
+ktRole.save
 
 ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg", organization: o})
 flea_bottom = Warehouse.create({name: "Flea bottom", city: "King's landing", organization: o})

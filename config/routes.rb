@@ -68,7 +68,7 @@ Emmy::Application.routes.draw do
       patch "edit_roles", to: "users#update_roles" 
     end
   end
-  resources :vats
+  #resources :vats
   #resources :warehouses
 
   get "statistics/index"
@@ -153,6 +153,7 @@ Emmy::Application.routes.draw do
   post ':organization_name', to: 'organizations#update'
 
   scope ':organization_name' do
+    resources :vats
     resources :warehouses
     get "dashboard", to: "dashboard#index"
   end
