@@ -43,7 +43,7 @@ Given /^I am a signed in user without an organization$/ do
 end
 
 Given /^I visit (.*?)_path$/ do |resource_name|
-  visit send("#{resource_name}_path")
+  visit send('test organization/' + "#{resource_name}_path")
 end
 
 Given /^I click "([^"]*?)"$/ do |button_string|

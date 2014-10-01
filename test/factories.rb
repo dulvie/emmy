@@ -40,6 +40,7 @@ FactoryGirl.define do
     address "street 44"
     zip "08 001"
     city "Stockholm"
+    organization_id 1
   end
 
   factory :customer do

@@ -20,6 +20,14 @@ jtest.default_organization_id = o.id
 jtest.save
 jtRole = OrganizationRole.new ({user_id: jtest.id, organization_id: o.id, name: OrganizationRole::ROLE_ADMIN})
 jtRole.save
+
+ktest = User.new({
+  name: "ktest",
+  email: "ktest@mailinator.com",
+  password: "foobar",
+  password_confirmation: "foobar"
+})
+ktest.save
 #orole = jtest.organization_roles.build(organization_id: o.id, name: 'admin')
 ##fail
 

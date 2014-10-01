@@ -24,7 +24,7 @@ class PagesController < ApplicationController
       if current_user.default_organization
         redirect_to dashboard_path(organization_name: current_user.default_organization.name)
       else
-        redirect_to organization_selector_path(organization_name: 'kalle')
+        redirect_to organization_selector_path()
       end
     end
   end
