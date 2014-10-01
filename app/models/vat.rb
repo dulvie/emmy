@@ -3,7 +3,7 @@ class Vat < ActiveRecord::Base
   # t.string  :name
   # t.integer :vat_percent
 
-  attr_accessible :name, :vat_percent, :organization
+  attr_accessible :name, :vat_percent, :organization, :organization_id
 
   belongs_to :organization
   has_many :items

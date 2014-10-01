@@ -2,7 +2,7 @@ Given /^I click edit link for "(.*?)" warehouse in "(.*?)"$/ do |warehouse_name,
   assert true, page.has_content?(warehouse_name)
   wh = Warehouse.find_by_name "test warehouse"
   assert_equal wh.name, warehouse_name
-  edit_link = find(:xpath, "//a[contains(@href,'#{edit_warehouse_path(org_name, wh.id)}')]")
+  edit_link = find(:xpath, "//a[contains(@href,'#{edit_warehouse_path(org_name, wh)}')]")
   edit_link.click
 end
 

@@ -1,7 +1,6 @@
 class ItemsController < ApplicationController
   respond_to :html, :json
-  load_and_authorize_resource
-
+  load_and_authorize_resource :item, through: :current_organization
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :edit_breadcrumbs, only: [:edit, :update]
 
@@ -9,7 +8,7 @@ class ItemsController < ApplicationController
   # GET /items.json
   def index
     @breadcrumbs = [['Items']]
-    @items = Item.all.order(:name).page(params[:page]).per(8)
+    @items = @items.order(:name).page(params[:page]).per(8)
     respond_with @items
   end
 
@@ -20,8 +19,7 @@ class ItemsController < ApplicationController
   end
 
   # GET /items/new
-  def new
-    @item = Item.new
+  def new   
   end
 
   # GET /items/1/edit

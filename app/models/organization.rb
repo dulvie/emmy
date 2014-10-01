@@ -17,7 +17,7 @@ class Organization < ActiveRecord::Base
   has_many :organization_roles
   has_many :users, through: :organization_roles
 
-  [:warehouses, :batches, :batch_transactions, :comments, :contacts].each do |model_sym|
+  [:batches, :batch_transactions, :comments, :contacts, :items, :vats, :warehouses].each do |model_sym|
     has_many model_sym
   end
 

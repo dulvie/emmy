@@ -17,10 +17,8 @@ jtest = User.new({
   password_confirmation: "foobar"
 })
 jtest.default_organization_id = o.id
+jtest.organization_roles.build(organization_id: 0, name: OrganizationRole::ROLE_SUPERADMIN)
 jtest.save
-jtRole = OrganizationRole.new ({user_id: jtest.id, organization_id: o.id, name: OrganizationRole::ROLE_ADMIN})
-jtRole.save
-orole = jtest.organization_roles.create(organization_id: 0, name: OrganizationRole::ROLE_SUPERADMIN)
 
 ktest = User.new({
   name: "ktest",
@@ -29,9 +27,8 @@ ktest = User.new({
   password_confirmation: "foobar"
 })
 ktest.default_organization_id = o.id
+ktest.organization_roles.build(organization_id: o.id, name: OrganizationRole::ROLE_ADMIN)
 ktest.save
-ktRole = OrganizationRole.new ({user_id: ktest.id, organization_id: o.id, name: OrganizationRole::ROLE_ADMIN})
-ktRole.save
 
 ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg", organization: o})
 flea_bottom = Warehouse.create({name: "Flea bottom", city: "King's landing", organization: o})

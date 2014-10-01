@@ -26,7 +26,7 @@ Feature: Crud Items
     Given I am a signed in user
     Given a "item" with "name" equals to "update item" exists
     And I visit items_path
-    And I click edit link for "update item" item
+    And I click edit link for "update item" item in "test organization"
     And I fill in "item_name" with "test item 2"
     And I click "Update Item"
     Then I should see "Item was successfully updated."
@@ -34,9 +34,9 @@ Feature: Crud Items
 
   Scenario: update with invalid data
     Given I am a signed in user
-    And a "item" with "name" equals to "test item" exists
+    Given a "item" with "name" equals to "test item" exists
     And I visit items_path
-    And I click edit link for "test item" item
+    And I click edit link for "test item" item in "test organization"
     And I fill in invalid "item" data
     And I click "Update Item"
     Then I should see "Failed to update"

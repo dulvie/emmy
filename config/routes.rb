@@ -27,7 +27,7 @@ Emmy::Application.routes.draw do
       post 'state_change', as: :state_change
     end
   end
-  resources :items
+  #resources :items
   resources :manuals
   resources :materials
   resources :production_batches, only: [:new, :create]
@@ -60,7 +60,7 @@ Emmy::Application.routes.draw do
       post 'receive_package', as: :receive_package
     end
   end
-  resources :units
+  #resources :units
   devise_for :users, controllers: {sessions: 'user_sessions'}
   resources :users do
     member do
@@ -153,6 +153,9 @@ Emmy::Application.routes.draw do
   post ':organization_name', to: 'organizations#update'
 
   scope ':organization_name' do
+
+    resources :items
+    resources :units
     resources :vats
     resources :warehouses
     get "dashboard", to: "dashboard#index"

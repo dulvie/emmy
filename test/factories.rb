@@ -11,11 +11,13 @@ FactoryGirl.define do
 
   factory :unit do
     name 'kg'
+    organization_id 1
   end
 
   factory :vat do
     name '12 procent'
     vat_percent 12
+    organization_id 1
   end
 
   factory :item do
@@ -25,6 +27,7 @@ FactoryGirl.define do
     stocked 'true'
     item_type 'sales'
     item_group 'refined'
+    organization_id 1
   end
 
   factory :batch do
