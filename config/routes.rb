@@ -1,7 +1,6 @@
 require 'resque/server'
 Emmy::Application.routes.draw do
 
-  resources :organizations
 
   resources :batches
   resources :comments
@@ -77,8 +76,12 @@ Emmy::Application.routes.draw do
     get "/#{p}", to: "pages##{p}"
   end
 
-  constraints lambda { |request| request.env['warden'].authenticate? && request.env['warden'].user.role?(:admin) } do
-    mount Resque::Server.new, at: "/resque"
+  namespace :admin do
+    resources :organizations
+    get 'dashboard', to: 'dashboard#index'
+    constraints lambda { |request| request.env['warden'].authenticate? && request.env['warden'].user.superadmin? } do
+      mount Resque::Server.new, at: "resque"
+    end
   end
 
   namespace :api do
@@ -145,6 +148,9 @@ Emmy::Application.routes.draw do
   #     resources :products
   #   end
   get "organization_selector", to: "dashboard#organization_selector"
+
+  get ':organization_name', to: 'organizations#show', as: 'organization'
+  post ':organization_name', to: 'organizations#update'
 
   scope ':organization_name' do
     resources :warehouses

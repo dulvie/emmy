@@ -192,6 +192,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
   add_index "organization_roles", ["name", "user_id", "organization_id"], name: "organization_roles_index", unique: true, using: :btree
 
   create_table "organizations", force: true do |t|
+    t.string   "slug",       null: false
     t.string   "email"
     t.string   "name"
     t.string   "address"

@@ -1,48 +1,18 @@
 class OrganizationsController < ApplicationController
   load_and_authorize_resource
-  before_filter :load_by_pagination, only: :index
+  before_filter :show_breadcrumbs
 
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :show_breadcrumbs, only: [:show, :update]
-
-
-  # GET /organizations
-  def index
-    @breadcrumbs = [[t(:organizations)]]
-  end
-
-  # GET /organizations/1
+  # GET /:organization_name
   def show
   end
 
-  # GET /organizations/new
-  def new
-  end
-
-  # POST /organizations
-  def create
-    @organization = Organization.new(organization_params)
-
-    if Services::OrganizationCreator.new(@organization, current_user).save
-      redirect_to @organization, notice: "#{t(:organization)} #{t(:was_successfully_created)}"
-    else
-      render :new
-    end
-  end
-
-  # PATCH/PUT /organizations/1
+  # PATCH/PUT /:organization_name
   def update
     if @organization.update(organization_params)
-      redirect_to @organization, notice: 'Organization was successfully updated.'
+      redirect_to "/#{@organization.slug}", notice: 'Organization was successfully updated.'
     else
       render :show
     end
-  end
-
-  # DELETE /organizations/1
-  def destroy
-    @organization.destroy
-    redirect_to organizations_url, notice: 'Organization was successfully destroyed.'
   end
 
   private
@@ -52,19 +22,7 @@ class OrganizationsController < ApplicationController
     params.require(:organization).permit(Organization.accessible_attributes.to_a)
   end
 
-  def new_breadcrumbs
-    #@breadcrumbs = [[t(:organizations), organizations_path], ["#{t(:new)} #{t(:organization)}"]]
-    @breadcrumbs = [[t(:organizations)]]
-  end
-
   def show_breadcrumbs
-    @breadcrumbs = [[t(:organizations), organizations_path], [@organization.name]]
+    @breadcrumbs = [[@organization.name]]
   end
-
-
-  # before index
-  def load_by_pagination
-    @organizations = Organization.accessible_by(current_ability).page(params[:page] || 1)
-  end
-
 end

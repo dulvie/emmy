@@ -1,4 +1,5 @@
 class Organization < ActiveRecord::Base
+  # t.string :slug, null: false, unique: true
   # t.string :name
   # t.string :address
   # t.string :zip
@@ -20,9 +21,16 @@ class Organization < ActiveRecord::Base
     has_many model_sym
   end
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
+  validates :slug, presence: true, uniqueness: true
+
+  before_validation :generate_slug
 
   def can_delete?
     false
+  end
+
+  def generate_slug
+    self.slug = name.parameterize if name
   end
 end

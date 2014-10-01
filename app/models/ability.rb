@@ -8,6 +8,8 @@ class Ability
     admin_at = admin_roles.map{|r| r.organization_id}
     admin_or_staff_at = roles.map{|r| r.organization_id}.uniq
 
+    can(:manage, :all) if user.superadmin?
+
     admin_roles_for(admin_at)
     staff_roles_for(admin_or_staff_at)
   end
@@ -20,4 +22,5 @@ class Ability
     can :read, Organization, id: oids
     can :manage, Warehouse, organization_id: oids
   end
+
 end

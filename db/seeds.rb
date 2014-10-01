@@ -20,6 +20,7 @@ jtest.default_organization_id = o.id
 jtest.save
 jtRole = OrganizationRole.new ({user_id: jtest.id, organization_id: o.id, name: OrganizationRole::ROLE_ADMIN})
 jtRole.save
+orole = jtest.organization_roles.create(organization_id: 0, name: OrganizationRole::ROLE_SUPERADMIN)
 
 ktest = User.new({
   name: "ktest",
@@ -28,33 +29,6 @@ ktest = User.new({
   password_confirmation: "foobar"
 })
 ktest.save
-#orole = jtest.organization_roles.build(organization_id: o.id, name: 'admin')
-##fail
-
-# Dont do this, this is old style.
-
-
-# Default users, jtest(admin) and ktest(normal user)
-#roles = Role.create([{ name: "admin"}, {name: "seller"}, {name: 'suspended'}])
-#jtest = User.new({
-#  name: "jtest",
-#  email: "jtest@mailinator.com",
-#  password: "foobar",
-#  password_confirmation: "foobar"
-#})
-#jtest.save
-#jtest.roles << roles.first
-#jtest.save
-
-#ktest = User.new({
-#  name: "ktest",
-#  email: "ktest@mailinator.com",
-#  password: "foobar",
-#  password_confirmation: "foobar"
-#})
-#ktest.save
-#ktest.roles << roles.last
-#ktest.save
 
 ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg", organization: o})
 flea_bottom = Warehouse.create({name: "Flea bottom", city: "King's landing", organization: o})

@@ -1,6 +1,7 @@
 class CreateOrganizations < ActiveRecord::Migration
   def change
     create_table :organizations do |t|
+      t.string :slug, null: false, unique: true
       t.string :email
       t.string :name
       t.string :address
