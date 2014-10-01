@@ -3,23 +3,17 @@ class Ability
   def initialize(user)
     return nil unless user.try(:email)
 
-    # Every signed in user can create a new organization.
-    can :create, Organization
-    can :manage, User
-
-    roles = user.organization_roles
-    staff_at = roles.select{ |role| role.name.eql?(OrganizationRole::ROLE_STAFF)}
-    admin_at = roles.select{ |role| role.name.eql?(OrganizationRole::ROLE_ADMIN)}
-    staff_at = staff_at.map{|r| r.organization_id}
-    admin_at = admin_at.map{|r| r.organization_id}
+    roles = user.organization_roles.roles_with_access
+    admin_roles = roles.select{ |role| role.name.eql?(OrganizationRole::ROLE_ADMIN)}
+    admin_at = admin_roles.map{|r| r.organization_id}
+    admin_or_staff_at = roles.map{|r| r.organization_id}.uniq
 
     admin_roles_for(admin_at)
-    staff_roles_for((staff_at + admin_at).uniq)
+    staff_roles_for(admin_or_staff_at)
   end
 
   def admin_roles_for(oids)
     can :manage, Organization, id: oids
-    can :manage, Warehouse, organization_id: oids
   end
 
   def staff_roles_for(oids)
