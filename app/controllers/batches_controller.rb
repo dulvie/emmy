@@ -1,7 +1,7 @@
 class BatchesController < ApplicationController
   respond_to :html, :json
-  load_and_authorize_resource
 
+  load_and_authorize_resource  through: :current_organization
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
 
@@ -10,7 +10,6 @@ class BatchesController < ApplicationController
   def index
     @breadcrumbs = [['Batches']]
     @batches = @batches.order(:name).page(params[:page]).per(8).decorate
-    respond_with @batches
   end
 
   # GET /batches/new
@@ -25,22 +24,12 @@ class BatchesController < ApplicationController
   end
 
   # POST /batches
-  # @todo Refactor this into a service object. Import is going to import_batches. Delete?
   def create
     @batch = Batch.new(batch_params)
     @batch.organization = current_organization
     if @batch.save
-
       notice = "#{t(:batch)} #{t(:was_successfully_created)}"
-      redir_url = batches_path
-      if params[:class] == 'Import'
-        obj_id = params[:object]
-        production = Import.find(obj_id)
-        production.batch = @batch
-        production.save
-        redir_url = edit_import_path(obj_id)
-      end
-      redirect_to redir_url, notice: notice
+      redirect_to batches_path, notice: notice
     else
       flash.now[:danger] = "#{t(:failed_to_create)} #{t(:batch)}"
       init_new
@@ -69,7 +58,7 @@ class BatchesController < ApplicationController
   private
 
   def init_new
-    @items = Item.where('stocked=?', 'true')
+    @items = current_organization.items.where('stocked=?', 'true')
     gon.push items: @items
   end
 

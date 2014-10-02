@@ -20,12 +20,12 @@ class ItemsController < ApplicationController
 
   # GET /items/new
   def new
-    @units = current_organization.units
-    @vats = current_organization.vats
+    init_collection
   end
 
   # GET /items/1/edit
   def edit
+    init_collection
   end
 
   # POST /items
@@ -39,6 +39,7 @@ class ItemsController < ApplicationController
         # format.json { render action: 'show', status: :created, location: @item }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:item)}"
+        init_collection
         format.html { render action: 'new' }
         # format.json { render json: @item.errors, status: :unprocessable_entity }
       end
@@ -54,6 +55,7 @@ class ItemsController < ApplicationController
         # format.json { head :no_content }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:item)}"
+        init_collection
         format.html { render action: 'edit' }
         # format.json { render json: @item.errors, status: :unprocessable_entity }
       end
@@ -83,5 +85,10 @@ class ItemsController < ApplicationController
 
   def edit_breadcrumbs
     @breadcrumbs = [['items', items_path], [@item.name]]
+  end
+  
+  def init_collection
+    @units = current_organization.units
+    @vats = current_organization.vats
   end
 end

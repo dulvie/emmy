@@ -16,13 +16,13 @@ class Ability
 
   def admin_roles_for(oids)
     can :manage, Organization, id: oids
-    can :manage, Item, organization_id: oids
     can :manage, Supplier, organization_id: oids
     can :manage, Unit, organization_id: oids
     can :manage, Vat, organization_id: oids
   end
 
   def staff_roles_for(oids)
+    can :manage, Batch, organization_id: oids
     can :manage, Customer, organization_id: oids
     can :read, Organization, id: oids
     can :manage, Item, organization_id: oids
