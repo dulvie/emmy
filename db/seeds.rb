@@ -9,6 +9,8 @@
 # Organization
 o = Organization.new name: "Default organization"
 o.save
+o2 = Organization.new name: "Check organization"
+o2.save
 
 jtest = User.new({
   name: "jtest",
@@ -38,11 +40,13 @@ unit2 = Unit.create(name: "St", organization: o)
 unit3 = Unit.create(name: "Säck (50 kg)", weight: "50 kg", organization: o)
 unit4 = Unit.create(name: "Pall", weight: "100 kg", organization: o)
 unit5 = Unit.create(name: "Tim", organization: o)
+unit6 = Unit.create(name: "Tim i org 2", organization: o2)
 
 vat0 = Vat.create(name: "Ingen", vat_percent: 0, organization: o)
 vat6 = Vat.create(name: "(6 procent)", vat_percent: 6, organization: o)
 vat12 = Vat.create(name: "(12 procent)", vat_percent: 12, organization: o)
 vat25 = Vat.create(name: "(25 procent)", vat_percent: 25, organization: o)
+vat99 = Vat.create(name: "(30 procent i org 2)", vat_percent: 30, organization: o2)
 
 espresso_i = Item.create({
   name: "Espresso",
