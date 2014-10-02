@@ -1,6 +1,6 @@
 class CustomersController < ApplicationController
   respond_to :html, :json
-  load_and_authorize_resource
+  load_and_authorize_resource through: :current_organization
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update]
@@ -9,7 +9,7 @@ class CustomersController < ApplicationController
   def name_search
     @breadcrumbs = [['Customers'], ['name_search']]
     name = "%#{params[:name]}%"
-    @customers = Customer.where('name ILIKE ?', name).order('name').page(params[:page]).per(8)
+    @customers = @customers.where('name ILIKE ?', name).order('name').page(params[:page]).per(8)
     render :index
   end
 
@@ -18,7 +18,7 @@ class CustomersController < ApplicationController
   def index
     respond_to do |format|
       @breadcrumbs = [['Customers']]
-      format.html { @customers = Customer.order('name').page(params[:page]).per(8) }
+      format.html { @customers = @customers.order('name').page(params[:page]).per(8) }
       format.json { render json: @customers }
     end
   end

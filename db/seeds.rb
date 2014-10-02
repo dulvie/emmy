@@ -30,6 +30,7 @@ ktest = User.new({
 })
 ktest.default_organization_id = o.id
 ktest.organization_roles.build(organization_id: o.id, name: OrganizationRole::ROLE_ADMIN)
+ktest.organization_roles.build(organization_id: o2.id, name: OrganizationRole::ROLE_STAFF)
 ktest.save
 
 ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg", organization: o})
