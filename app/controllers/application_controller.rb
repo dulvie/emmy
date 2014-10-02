@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
   def url_options
     o = { locale: I18n.locale }
-    o[:organization_slug] = current_organization.name if current_organization
+    o[:organization_slug] = current_organization.slug if current_organization
     o.merge(super)
   end
 

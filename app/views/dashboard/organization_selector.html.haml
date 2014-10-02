@@ -2,4 +2,4 @@ canhas yes selectorz
 
 %ul
 - @organizations.each do |org|
-  %li= link_to org.name, dashboard_path(organization_name: org.name)
+  %li= link_to org.name, dashboard_path(organization_slug: org.slug)

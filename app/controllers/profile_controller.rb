@@ -1,4 +1,5 @@
 class ProfileController < ApplicationController
+  authorize_resource :user
   def show
     @user = current_user
   end
@@ -11,5 +12,11 @@ class ProfileController < ApplicationController
       flash.now[:error] = "#{t(:failed_to_update)} #{t(:your_profile)}."
     end
     render :show
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 end
