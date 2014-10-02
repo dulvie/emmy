@@ -21,7 +21,7 @@ Feature: Create and complete a transfer
   Scenario: Send a package
     Given I am a signed in user
     And a warehouse with name "test from wh" exists
-    And a warehouse with name "test to wh" exists 
+    And a warehouse with name "test to wh" exists
     And a batch with name "test batch" exists
     And warehouse "test from wh" has a shelf with 10 of batch named "test batch"
     And a transfer of 9 "test batch" batch from "test from wh" to "test to wh" is created

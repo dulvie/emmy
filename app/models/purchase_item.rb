@@ -24,7 +24,7 @@ class PurchaseItem < ActiveRecord::Base
 
   # Callbacks
   after_validation :collect_and_calculate
-  
+
   def item_stocked?
     item.stocked
   end

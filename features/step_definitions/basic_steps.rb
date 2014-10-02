@@ -12,7 +12,7 @@ end
 
 Given /^I goto warhouses$/ do
   visit "/test%20organization/warehouses"
-end  
+end
 
 Given /^I am on the home page$/  do
   visit "/"

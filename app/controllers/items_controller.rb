@@ -19,7 +19,7 @@ class ItemsController < ApplicationController
   end
 
   # GET /items/new
-  def new   
+  def new
   end
 
   # GET /items/1/edit
