@@ -10,7 +10,6 @@ class ItemsController < ApplicationController
   def index
     @breadcrumbs = [['Items']]
     @items = @items.order(:name).page(params[:page]).per(8)
-    respond_with @items
   end
 
   # GET /items/1
@@ -21,8 +20,8 @@ class ItemsController < ApplicationController
 
   # GET /items/new
   def new
-    @units = Unit.where(organization_id: current_organization.id)
-    @vats = Vat.where(organization_id: current_organization.id)
+    @units = current_organization.units
+    @vats = current_organization.vats
   end
 
   # GET /items/1/edit

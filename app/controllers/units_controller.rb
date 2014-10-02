@@ -1,6 +1,7 @@
 class UnitsController < ApplicationController
   respond_to :html, :json
-  load_and_authorize_resource
+
+  load_and_authorize_resource through: :current_organization
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:edit, :show, :update]
@@ -8,11 +9,8 @@ class UnitsController < ApplicationController
   # GET /units
   # GET /units.json
   def index
-    respond_to do |format|
-      @breadcrumbs = [['Units']]
-      format.html { @units = Unit.order(:name).page(params[:page]).per(8) }
-      format.json { render json: @units }
-    end
+    @breadcrumbs = [['Units']]
+    @units = @units.order(:name).page(params[:page]).per(8)
   end
 
   # GET /units/new
