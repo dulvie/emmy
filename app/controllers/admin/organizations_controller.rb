@@ -25,7 +25,7 @@ module Admin
       @organization = Organization.new(organization_params)
 
       if Services::OrganizationCreator.new(@organization, current_user).save
-        redirect_to @organization, notice: "#{t(:organization)} #{t(:was_successfully_created)}"
+        redirect_to admin_organization_path(@organization), notice: "#{t(:organization)} #{t(:was_successfully_created)}"
       else
         render :new
       end

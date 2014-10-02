@@ -1,12 +1,13 @@
 class OrganizationsController < ApplicationController
-  load_and_authorize_resource
+  before_filter :load_organization_from_current
+  authorize_resource
   before_filter :show_breadcrumbs
 
-  # GET /:organization_name
+  # GET /:organization_slug
   def show
   end
 
-  # PATCH/PUT /:organization_name
+  # PATCH/PUT /:organization_slug
   def update
     if @organization.update(organization_params)
       redirect_to "/#{@organization.slug}", notice: 'Organization was successfully updated.'
@@ -24,5 +25,11 @@ class OrganizationsController < ApplicationController
 
   def show_breadcrumbs
     @breadcrumbs = [[@organization.name]]
+  end
+
+  def load_organization_from_current
+    if params[:organization_slug]
+      @organization = current_organization
+    end
   end
 end

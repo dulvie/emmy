@@ -18,12 +18,12 @@ class ApplicationController < ActionController::Base
 
   def url_options
     o = { locale: I18n.locale }
-    o[:organization_name] = current_organization.name if current_organization
+    o[:organization_slug] = current_organization.name if current_organization
     o.merge(super)
   end
 
   def current_organization
-    load_organization if params[:organization_name]
+    load_organization if params[:organization_slug]
     @current_organization
   end
   helper_method :current_organization
@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
 
   def load_organization
     halt(403) and return unless current_user
-    @current_organization ||= Organization.find_by_name(params[:organization_name])
+    @current_organization ||= Organization.find_by_slug(params[:organization_slug])
     authorize! :read, @current_organization
     logger.info "auth of current org#{@current_organization}is ok"
   end

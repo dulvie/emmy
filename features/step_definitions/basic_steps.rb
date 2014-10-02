@@ -21,6 +21,7 @@ end
 Then /^I should see "(.*?)"$/ do |string|
   unless page.has_content?(string)
     puts page.body
+    puts "can not find: #{string}"
   end
   assert_equal true, page.has_content?(string)
 end
@@ -34,9 +35,9 @@ Given /^I am signed in as a superadmin$/ do
   click_button "Sign in"
 end
 
-Then /^a user with the role "(.*?)" on "(.*?)" should exist$/ do |role_name, org_name|
+Then /^a user with the role "(.*?)" on "(.*?)" should exist$/ do |role_name, orgnization_slug|
   u = FactoryGirl.create(:user)
-  o = Organization.find_by_slug(org_name)
+  o = Organization.find_by_slug(orgnization_slug)
   u.organization_role.build(organization_id: o.id, name: role_name)
   u.default_organization_id = o.id
   u.save
@@ -65,11 +66,11 @@ Given /^I am a signed in user without an organization$/ do
 end
 
 Given /^I visit (.*?)_path$/ do |resource_name|
-  visit "/test%20organization/"+"#{resource_name}"
+  visit send("#{resource_name}_path")
 end
 
-Given /^I visit (.*?)_path for "(.*?)"$/ do |resource_slug, org_slug|
-  visit send("#{resource_slug}_path", organization_name: org_slug)
+Given /^I visit (.*?)_path for "(.*?)"$/ do |resource_name, organization_slug|
+  visit send("#{resource_name}_path", organization_slug: orgnization_slug)
 end
 
 Given /^I click "([^"]*?)"$/ do |button_string|
