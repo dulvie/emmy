@@ -23,7 +23,9 @@ class ApplicationController < ActionController::Base
   end
 
   def current_organization
-    load_organization if params[:organization_slug]
+    unless @current_organization
+      load_organization if params[:organization_slug]
+    end
     @current_organization
   end
   helper_method :current_organization
