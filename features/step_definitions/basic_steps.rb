@@ -35,12 +35,11 @@ Given /^I am signed in as a superadmin$/ do
   click_button "Sign in"
 end
 
-Then /^a user with the role "(.*?)" on "(.*?)" should exist$/ do |role_name, orgnization_slug|
-  u = FactoryGirl.create(:user)
-  o = Organization.find_by_slug(orgnization_slug)
-  u.organization_role.build(organization_id: o.id, name: role_name)
-  u.default_organization_id = o.id
-  u.save
+Then /^a user with the role "(.*?)" on "(.*?)" should exist$/ do |role_name, organization_name|
+  o = Organization.find_by_name organization_name
+  assert o
+  roles = o.organization_roles.map{|role| role.name}
+  assert roles.include?(role_name)
 end
 
 

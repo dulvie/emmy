@@ -14,6 +14,8 @@ module Admin
 
     # GET /organizations/1
     def show
+      @users = @organization.users
+      authorize! :read, @users
     end
 
     # GET /organizations/new
@@ -55,7 +57,6 @@ module Admin
 
     def new_breadcrumbs
       @breadcrumbs = [[t(:organizations), admin_organizations_path], ["#{t(:new)} #{t(:organization)}"]]
-      @breadcrumbs = [[t(:organizations)]]
     end
 
     def show_breadcrumbs

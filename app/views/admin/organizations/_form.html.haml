@@ -13,5 +13,3 @@
   .form-button-group
     .actions
       = f.submit class: 'btn btn-primary'
-      - unless @organization.new_record?
-        = link_to "#{t(:create)} #{t(:new)} #{t(:user)}", new_admin_user_path
