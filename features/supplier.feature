@@ -5,7 +5,7 @@ Feature: Crud suppliers
 
   Scenario: create
     Given I am a signed in user
-    And I visit suppliers_path
+    And I visit suppliers_path for "test-organization"
     And I click "Create Supplier"
     And I fill in valid "supplier" data
     And I click "Create Supplier"
@@ -13,7 +13,7 @@ Feature: Crud suppliers
 
   Scenario: create with invalid data
     Given I am a signed in user
-    And I visit suppliers_path
+    And I visit suppliers_path for "test-organization"
     And I click "Create Supplier"
     And I fill in invalid "supplier" data
     And I click "Create Supplier"
@@ -22,8 +22,8 @@ Feature: Crud suppliers
   Scenario: update
     Given I am a signed in user
     And a "supplier" with "name" equals to "test supplier" exists
-    And I visit suppliers_path
-    And I click edit link for "test supplier" supplier
+    And I visit suppliers_path for "test-organization"
+    And I click edit link for "test supplier" supplier in "test-organization"
     And I fill in "supplier_name" with "test supplier 2"
     And I click "Update Supplier"
     Then I should see "supplier was successfully updated."
@@ -32,8 +32,8 @@ Feature: Crud suppliers
   Scenario: Update with invalid data
     Given I am a signed in user
     And a "supplier" with "name" equals to "test supplier" exists
-    And I visit suppliers_path
-    And I click edit link for "test supplier" supplier
+    And I visit suppliers_path for "test-organization"
+    And I click edit link for "test supplier" supplier in "test-organization"
     And I fill in invalid "supplier" data
     And I click "Update Supplier"
     Then I should see "Failed to update"
@@ -42,7 +42,7 @@ Feature: Crud suppliers
   Scenario: delete
     Given I am a signed in user
     And a "supplier" with "name" equals to "test supplier" exists
-    And I visit suppliers_path
+    And I visit suppliers_path for "test-organization"
     And I click delete link for "test supplier" supplier
     And I confirm the alertbox
     Then I should see "Supplier was successfully deleted."

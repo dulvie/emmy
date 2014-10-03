@@ -49,10 +49,12 @@ FactoryGirl.define do
   factory :customer do
     name "CoffeeHouse foobar"
     payment_term 30
+    organization_id 1
   end
 
   factory :supplier do
     name "Some farmer collective"
+    organization_id 1
   end
 
   factory :manual do

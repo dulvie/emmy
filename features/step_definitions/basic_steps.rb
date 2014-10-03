@@ -10,10 +10,6 @@ Given /^I visit the dashboard$/ do
   visit "/dashboard"
 end
 
-Given /^I goto warhouses$/ do
-  visit "/test%20organization/warehouses"
-end
-
 Given /^I am on the home page$/  do
   visit "/"
 end
@@ -69,7 +65,7 @@ Given /^I visit (.*?)_path$/ do |resource_name|
 end
 
 Given /^I visit (.*?)_path for "(.*?)"$/ do |resource_name, organization_slug|
-  visit send("#{resource_name}_path", organization_slug: orgnization_slug)
+  visit send("#{resource_name}_path", organization_slug: organization_slug)
 end
 
 Given /^I click "([^"]*?)"$/ do |button_string|

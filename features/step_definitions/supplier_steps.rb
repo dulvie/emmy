@@ -1,8 +1,8 @@
-Given /^I click edit link for "(.*?)" supplier$/ do |supplier_name|
+Given /^I click edit link for "(.*?)" supplier in "(.*?)"$/ do |supplier_name, o|
   assert true, page.has_content?(supplier_name)
-  wh = Supplier.find_by_name "test supplier"
-  assert_equal wh.name, supplier_name
-  edit_link = find(:xpath, "//a[contains(@href,'#{edit_supplier_path(wh)}')]")
+  s = Supplier.find_by_name "test supplier"
+  assert_equal s.name, supplier_name
+  edit_link = find(:xpath, "//a[contains(@href,'#{edit_supplier_path(o, s)}')]")
   edit_link.click
 end
 
