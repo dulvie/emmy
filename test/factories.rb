@@ -36,6 +36,7 @@ FactoryGirl.define do
     distributor_price 15000
     retail_price 20000
     item { FactoryGirl.create(:item) }
+    organization_id 1
   end
 
   factory :warehouse do

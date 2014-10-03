@@ -7,7 +7,7 @@ Feature: Crud batches
     Given database is clean
     Given I am a signed in user
     And a couple of "items" exists
-    And I visit batches_path
+    And I visit batches_path for "test-organization"
     And I click "Create Batch"
     And I fill in valid "batch" data
     And I click "Create Batch"
@@ -15,7 +15,7 @@ Feature: Crud batches
 
   Scenario: create with invalid data
     Given I am a signed in user
-    And I visit batches_path
+    And I visit batches_path for "test-organization"
     And I click "Create Batch"
     And I fill in invalid "batch" data
     And I click "Create Batch"
@@ -24,8 +24,8 @@ Feature: Crud batches
   Scenario: update
     Given I am a signed in user
     And a "batch" with "name" equals to "test batch" exists
-    And I visit batches_path
-    And I click edit link for "test batch" batch
+    And I visit batches_path for "test-organization"
+    And I click edit link for "test batch" batch in "test-organization"
     And I fill in "batch_name" with "test batch 2"
     And I click "Update Batch"
     Then I should see "test batch 2"
@@ -33,8 +33,8 @@ Feature: Crud batches
   Scenario: update with invalid data
     Given I am a signed in user
     And a "batch" with "name" equals to "test batch" exists
-    And I visit batches_path
-    And I click edit link for "test batch" batch
+    And I visit batches_path for "test-organization"
+    And I click edit link for "test batch" batch in "test-organization"
     And I fill in invalid "batch" data
     And I click "Update Batch"
     Then I should see "Failed to update"
@@ -43,7 +43,7 @@ Feature: Crud batches
   Scenario: delete
     Given I am a signed in user
     And a "batch" with "name" equals to "test batch" exists
-    And I visit batches_path
+    And I visit batches_path for "test-organization"
     And I click delete link for "test batch" batch
     And I confirm the alertbox
     Then I should see "Batch was successfully deleted."

@@ -168,6 +168,7 @@ se:
   started_at: "Startdatum"
   start_processing: "Starta hantering"
   state: "Status"
+  statistics: "Statistik"
   stocked: "Lagerförd"
   sub_factor: "Sub faktor"
   success: "Succe"

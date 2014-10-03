@@ -192,6 +192,7 @@ en:
   started_at: "Started at"
   start_processing: "Start processing"
   state: "State"
+  statistics: "Statistics"
   stocked: "Stocked"
   sub_factor: "Sub factor"
   success: "Success"

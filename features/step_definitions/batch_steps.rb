@@ -1,8 +1,8 @@
-Given /^I click edit link for "(.*?)" batch$/ do |batch_name|
+Given /^I click edit link for "(.*?)" batch in "(.*?)"$/ do |batch_name, o|
   assert true, page.has_content?(batch_name)
-  wh = Batch.find_by_name "test batch"
-  assert_equal wh.name, batch_name
-  edit_link = find(:xpath, "//a[contains(@href,'#{edit_batch_path(wh)}')]")
+  b = Batch.find_by_name "test batch"
+  assert_equal b.name, batch_name
+  edit_link = find(:xpath, "//a[contains(@href,'#{edit_batch_path(o,b)}')]")
   edit_link.click
 end
 
