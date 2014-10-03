@@ -47,6 +47,17 @@ FactoryGirl.define do
     organization_id 1
   end
 
+  factory :inventory do
+    warehouse_id 1
+    inventory_date '2014-10-01'
+    organization_id 1
+  end
+
+  factory :inventory_setup do
+     
+  
+  end
+
   factory :customer do
     name "CoffeeHouse foobar"
     payment_term 30
