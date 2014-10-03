@@ -1,12 +1,12 @@
 class ContactsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource through: :current_organization
 
   before_filter :show_breadcrumbs, only: [:show, :update]
   before_filter :new_breadcrumbs, only: [:new, :create]
 
   def index
     @breadcrumbs = [['Contacts']]
-    @contacts = Contact.order('name').page(params[:page]).per(8)
+    @contacts = @contacts.order('name').page(params[:page]).per(8)
   end
 
   def new

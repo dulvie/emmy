@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource through: :current_organization
   before_filter :find_and_authorize_parent
 
   before_filter :show_breadcrumbs, only: [:show, :update]
@@ -7,7 +7,7 @@ class CommentsController < ApplicationController
 
   def index
     @breadcrumbs = [['Comments']]
-    @comments = Comment.where('parent_id= ?', 0)
+    @comments = @comments.where('parent_id= ?', 0)
   end
 
   def new

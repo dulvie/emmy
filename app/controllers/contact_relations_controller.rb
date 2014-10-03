@@ -1,5 +1,5 @@
 class ContactRelationsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource through: :current_organization
 
   before_filter :find_and_authorize_parent
   before_filter :show_breadcrumbs, only: [:show, :update]
@@ -84,7 +84,7 @@ class ContactRelationsController < ApplicationController
   def init_new
     @new = true
     @contact_relation_form_url = contact_relations_path(parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
-    @contacts = Contact.where.not(id: @parent.contacts.map(&:id))
+    @contacts = current_organization.contacts.where.not(id: @parent.contacts.map(&:id))
     gon.push contacts: ActiveModel::ArraySerializer.new(@contacts, each_serializer: ContactSerializer)
   end
 
