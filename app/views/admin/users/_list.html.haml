@@ -1,0 +1,20 @@
+%p
+  = link_to "#{t(:create)} #{t(:user)}", new_admin_user_path(organization_id: @organization.id), class: 'btn btn-default'
+
+%div{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table'}
+    %thead
+      %tr
+        %th= t(:name)
+        %th= t(:email)
+        %th
+        %th
+    %tbody{}
+      - @users.each do |user|
+        %tr
+          %td= link_to user.name, admin_user_path(user)
+          %th= user.email
+          %td= link_to settings_icon, admin_users_path(user)
+          %td= delete_modal_for user
+
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
