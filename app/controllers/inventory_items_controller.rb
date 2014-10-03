@@ -1,6 +1,6 @@
 class InventoryItemsController < ApplicationController
   respond_to :html, :json
-  load_and_authorize_resource :inventory
+  load_and_authorize_resource :inventory, through: :current_organization
   load_and_authorize_resource :inventory_item, through: :inventory
 
   before_filter :set_breadcrumbs, only: [:new, :create]
@@ -9,7 +9,7 @@ class InventoryItemsController < ApplicationController
   end
 
   def create
-    @inventory = Purchase.find(params[:inventory_id])
+    @inventory = current_organization.inventories.find(params[:inventory_id])
     @inventory_item = @inventory.inventory_items.build inventory_item_params
     @inventory_item.organization = current_organization
     respond_to do |format|
@@ -36,7 +36,7 @@ class InventoryItemsController < ApplicationController
   end
 
   def destroy
-    @inventory = Inventory.find(params[:inventory_id])
+    @inventory = current_organization.inventories.find(params[:inventory_id])
     if @inventory.can_edit_items?
       item = @inventory.inventory_items.find(params[:id])
       item.destroy

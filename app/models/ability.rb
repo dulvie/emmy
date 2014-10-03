@@ -25,6 +25,8 @@ class Ability
     can :manage, Batch, organization_id: oids
     can :manage, Customer, organization_id: oids
     can :read, Organization, id: oids
+    can :manage, Inventory, organization_id: oids
+    can :manage, InventoryItem, organization_id: oids
     can :manage, Item, organization_id: oids
     can :read, Unit, organization_id: oids
     can :read, Vat, organization_id: oids

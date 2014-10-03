@@ -1,18 +1,19 @@
 class InventoriesController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource through: :current_organization
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update, :edit, :state_change]
 
   def index
     @breadcrumbs = [['Inventories']]
-    @inventories = Inventory.order('started_at DESC').page(params[:page]).per(8)
+    @inventories = @inventories.order('started_at DESC').page(params[:page]).per(8)
   end
 
   def show
+    @warehouses = current_organization.warehouses
   end
 
   def new
-    @inventory.user = current_user
+    @warehouses = current_organization.warehouses
   end
 
   def create
@@ -24,6 +25,7 @@ class InventoriesController < ApplicationController
         format.html { redirect_to inventory_path(@inventory), notice: "#{t(:inventory)} #{t(:was_successfully_created)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:inventory)}"
+        @warehouses = current_organization.warehouses
         format.html { render action: :new }
       end
     end
@@ -54,7 +56,8 @@ class InventoriesController < ApplicationController
   end
 
   def state_change
-    @inventory = Inventory.find(params[:id])
+    @warehouses = current_organization.warehouses
+    @inventory = current_organization.inventories.find(params[:id])
     if @inventory.state_change(params[:event], params[:state_change_at])
       msg = t(:success)
     else

@@ -1,7 +1,6 @@
 = simple_form_for(@inventory, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
   = f.error_notification
-  = f.association :warehouse,  disabled: !@inventory.new_record?
-  = f.association :user, disabled: !@inventory.new_record?
+  = f.association :warehouse,  collection: @warehouses, disabled: !@inventory.new_record?
 
   - if @inventory.new_record?
     %div{ :ng_controller => 'inventory_form_ctrl', :ng_init => 'init()'}
