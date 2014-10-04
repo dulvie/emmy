@@ -1,5 +1,5 @@
 class TransfersController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource  through: :current_organization
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update]
 
@@ -17,12 +17,13 @@ class TransfersController < ApplicationController
   # GET /transfers/1
   # GET /transfers/1.json
   def show
+    @warehouses = current_organization.warehouses
   end
 
   # GET /transfers/new
   def new
     @transfer.comments.build
-    @warehouses = Warehouse.all
+    @warehouses = current_organization.warehouses
     gon.push warehouses: ActiveModel::ArraySerializer.new(@warehouses, each_serializer: WarehouseSerializer)
   end
 
@@ -35,7 +36,7 @@ class TransfersController < ApplicationController
         format.html { redirect_to transfers_path, notice: "#{t(:transfer_transaction)} #{t(:was_successfully_created)}" }
         # format.json { render action: 'show', status: :created, location: @transfer }
       else
-        @warehouses = Warehouse.all
+        @warehouses = current_organization.warehouses
         gon.push warehouses: ActiveModel::ArraySerializer.new(@warehouses, each_serializer: WarehouseSerializer)
         format.html { render action: 'new' }
         # format.json { render json: @transfer.errors, status: :unprocessable_entity }
@@ -88,7 +89,7 @@ class TransfersController < ApplicationController
   end
 
   def find_transfer
-    @transfer = Transfer.find params[:id]
+    @transfer = current_organization.transfers.find params[:id]
     authorize! :manage, @transfer
   end
 

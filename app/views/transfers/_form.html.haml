@@ -3,7 +3,7 @@
     = f.error_notification
 
     - if @transfer.new_record?
-      = f.association :from_warehouse, :input_html => {:ng_model => 'warehouse_id', :ng_change => 'select_warehouse()'}
+      = f.association :from_warehouse, collection: @warehouses, :input_html => {:ng_model => 'warehouse_id', :ng_change => 'select_warehouse()'}
       .hidden
         = f.association :batch
 
@@ -20,11 +20,11 @@
           %input{:class=>'form-control  numeric', :value=>'{{quantity}}', :readonly => 'readonly'}
 
     - if !@transfer.new_record?
-      = f.association :from_warehouse, disabled: true
+      = f.association :from_warehouse, collection: @warehouses, disabled: true
       = f.association :batch, disabled: true
 
     = f.input :quantity, disabled: !@transfer.new_record?
-    = f.association :to_warehouse, disabled: !@transfer.new_record?
+    = f.association :to_warehouse, collection: @warehouses, disabled: !@transfer.new_record?
 
     - if @transfer.new_record?
       = f.simple_fields_for :comments do |c|

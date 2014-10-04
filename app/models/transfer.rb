@@ -59,10 +59,10 @@ class Transfer < ActiveRecord::Base
 
   # Callback: before_create
   def check_inventory
-    if  Inventory.where('warehouse_id = ? AND state = ?', from_warehouse_id, 'started').count > 0
+    if  organization.inventories.where('warehouse_id = ? AND state = ?', from_warehouse_id, 'started').count > 0
       errors.add(:from_warehouse, 'Inventory must complete before transfer')
       return false
-    elsif Inventory.where('warehouse_id = ? AND state = ?', to_warehouse_id, 'started').count > 0
+    elsif organization.inventories.where('warehouse_id = ? AND state = ?', to_warehouse_id, 'started').count > 0
       errors.add(:to_warehouse, 'Inventory must complete before transfer')
       return false
     else
