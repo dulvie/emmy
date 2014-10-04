@@ -1,6 +1,6 @@
 class PurchaseItemsController < ApplicationController
-  load_and_authorize_resource :purchase
-  load_and_authorize_resource :purchase_item, through: :purchase
+  load_and_authorize_resource :purchase, through: :current_organization
+  load_and_authorize_resource :purchase_item, through: :current_organization
 
   before_filter :set_breadcrumbs, only: [:new, :create]
 
@@ -9,7 +9,7 @@ class PurchaseItemsController < ApplicationController
   end
 
   def create
-    @purchase = Purchase.find(params[:purchase_id])
+    @purchase = current_organization.purchases.find(params[:purchase_id])
     @purchase_item = @purchase.purchase_items.build purchase_item_params
     @purchase_item.organization = current_organization
     respond_to do |format|
@@ -24,7 +24,7 @@ class PurchaseItemsController < ApplicationController
   end
 
   def destroy
-    @purchase = Purchase.find(params[:purchase_id])
+    @purchase = current_organization.purchases.find(params[:purchase_id])
     if @purchase.can_edit_items?
       item = @purchase.purchase_items.find(params[:id])
       item.destroy
@@ -49,10 +49,10 @@ class PurchaseItemsController < ApplicationController
 
   def init_new
     if @purchase.to_warehouse.nil?
-      @item_selections = Item.where('stocked = false')
+      @item_selections = current_organization.items.where('stocked = false')
     else
       item_types = ['purchases', 'both']
-      @item_selections = Item.where(item_type: item_types)
+      @item_selections = current_organization.items.where(item_type: item_types)
     end
     gon.push items: ActiveModel::ArraySerializer.new(@item_selections, each_serializer: ItemSerializer)
   end

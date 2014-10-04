@@ -33,6 +33,16 @@ ktest.organization_roles.build(organization_id: o.id, name: OrganizationRole::RO
 ktest.organization_roles.build(organization_id: o2.id, name: OrganizationRole::ROLE_STAFF)
 ktest.save
 
+xtest = User.new({
+  name: "xtest",
+  email: "xtest@mailinator.com",
+  password: "foobar",
+  password_confirmation: "foobar"
+})
+xtest.default_organization_id = o.id
+xtest.organization_roles.build(organization_id: o.id, name: OrganizationRole::ROLE_ADMIN)
+xtest.save
+
 ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg", organization: o})
 flea_bottom = Warehouse.create({name: "Flea bottom", city: "King's landing", organization: o})
 

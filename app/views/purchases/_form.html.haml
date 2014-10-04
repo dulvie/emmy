@@ -3,11 +3,11 @@
     = f.error_notification
 
     = f.input :description,  disabled: !@purchase.new_record?
-    = f.association :supplier,  :input_html => {:ng_model=>'supplier', :ng_change=>'select_supplier()'}, disabled: !@purchase.new_record?
+    = f.association :supplier,  collection: @suppliers, :input_html => {:ng_model=>'supplier', :ng_change=>'select_supplier()'}, disabled: !@purchase.new_record?
     = f.input :contact_name, disabled: !@purchase.new_record?
     = f.input :contact_email, disabled: !@purchase.new_record?
-    = f.association :to_warehouse,  disabled: !@purchase.new_record?
-    = f.association :our_reference, disabled: !@purchase.new_record?
+    = f.association :to_warehouse,  collection: @warehouses, disabled: !@purchase.new_record?
+    = f.association :our_reference, collection: @users, disabled: !@purchase.new_record?
 
     - if !@purchase.can_edit_items?
       = f.input :ordered_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.ordered_at, :format => "%Y-%m-%d") }

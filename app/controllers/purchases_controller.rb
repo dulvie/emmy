@@ -1,5 +1,5 @@
 class PurchasesController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource through: :current_organization
   before_filter :find_and_authorize_parent
 
   before_filter :new_breadcrumbs, only: [:new, :create]
@@ -18,6 +18,7 @@ class PurchasesController < ApplicationController
   end
 
   def show
+    init_collections
   end
 
   def new
@@ -25,15 +26,15 @@ class PurchasesController < ApplicationController
       @purchase.purchase_items.build quantity: 1
       @purchase.parent_type = params[:parent_type]
       @purchase.parent_id = params[:parent_id]
-      @suppliers = Supplier.all
-      gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
       init_new
+      init_collections
+      gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
       respond_to do |format|
         format.html { render 'single_form' }
       end
     end
     @purchase.our_reference = current_user
-    @suppliers = Supplier.all
+    init_collections
     gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
   end
 
@@ -46,7 +47,7 @@ class PurchasesController < ApplicationController
         format.html { redirect_to purchase_path(@purchase), notice: "#{t(:purchase)} #{t(:was_successfully_created)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:purchase)}"
-        @suppliers = Supplier.all
+        init_collections
         gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
         format.html { render action: :new }
       end
@@ -59,6 +60,7 @@ class PurchasesController < ApplicationController
         format.html { redirect_to purchase_path(@purchase), notice: 'supplier was successfully updated.' }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:purchase)}"
+        init_collections
         format.html { render action: 'show' }
       end
     end
@@ -75,14 +77,14 @@ class PurchasesController < ApplicationController
   end
 
   def state_change
-    @purchase = Purchase.find(params[:id])
+    @purchase = current_organization.purchases.find(params[:id])
     if @purchase.state_change(params[:event], params[:state_change_at])
       msg = t(:success)
     else
       msg = t(:fail)
     end
     if @purchase.completed? && @purchase.parent_type == 'Import'
-      @parent = Import.find(@purchase.parent_id)
+      @parent = current_organization.imports.find(@purchase.parent_id)
       @parent.check_for_completeness
     end
     respond_to do |format|
@@ -95,6 +97,7 @@ class PurchasesController < ApplicationController
   def single_purchase
     @purchase = Purchase.new params[:purchase]
     @purchase.user = current_user
+    @purchase.organization = current_organization
     @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
     respond_to do |format|
       if @purchase.save
@@ -106,6 +109,7 @@ class PurchasesController < ApplicationController
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:purchase_item)}"
         init_new
+        init_collections
         format.html { render 'single_form' }
       end
     end
@@ -135,8 +139,14 @@ class PurchasesController < ApplicationController
 
   def init_new
     item_types = ['purchases', 'both']
-    @item_selections = Item.where(item_type: item_types)
+    @item_selections = current_organization.items.where(item_type: item_types)
   end
+
+  def init_collections
+    @suppliers = current_organization.suppliers
+    @warehouses = current_organization.warehouses
+    @users = current_organization.users
+   end
 
   def purchase_item_params
     params.permit(PurchaseItem.accessible_attributes.to_a, purchase_items_attributes: [])

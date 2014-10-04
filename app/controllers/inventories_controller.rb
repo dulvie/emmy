@@ -64,7 +64,7 @@ class InventoriesController < ApplicationController
       msg = @inventory.errors.first
     end
     respond_to do |format|
-      format.html { render 'show', notice: msg }
+      format.html { redirect_to inventory_path(@inventory), notice: msg }
     end
   end
 
