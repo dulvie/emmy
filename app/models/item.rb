@@ -14,6 +14,7 @@ class Item < ActiveRecord::Base
   TYPES = ['sales', 'purchases', 'both']
   GROUPS = [' ', 'refined', 'unrefined']
 
+  scope :bayable, -> { where("item_type in (?)", ['purchases','both']) }
   scope :sellable, -> { where("item_type in (?)", ['sales','both']) }
   scope :not_stocked, -> { where(stocked: false) }
 

@@ -3,8 +3,8 @@
     = f.error_notification
 
     = f.input :description, disabled: !@import.new_record?
-    = f.association :our_reference, disabled: !@import.new_record?
-    = f.association :to_warehouse,  disabled: !@import.new_record?
+    = f.association :our_reference, collection: @users, disabled: !@import.new_record?
+    = f.association :to_warehouse,  collection: @warehouse, disabled: !@import.new_record?
     - if !@import.new_record?
       = f.input:state, disabled: true, :input_html => {:class => 'medium'}
     - if @import.started? || @import.completed?

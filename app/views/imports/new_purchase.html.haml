@@ -7,7 +7,7 @@
     %input{:name=>'parent_column', :value=>@parent_column, :type=>'hidden' }
 
     = f.input :description, :as => :hidden
-    = f.association :supplier, :input_html => {:ng_model=>'supplier', :ng_change=>'select_supplier()'}
+    = f.association :supplier, collection: @suppliers, :input_html => {:ng_model=>'supplier', :ng_change=>'select_supplier()'}
     = f.input :contact_name
     = f.input :contact_email
     = f.association :to_warehouse, :as => :hidden

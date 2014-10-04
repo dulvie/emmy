@@ -30,22 +30,22 @@ class Batch < ActiveRecord::Base
   validates :item, presence: true
 
   def can_delete?
-    return false if Shelf.where('batch_id' => id).size > 0
-    return false if Import.where('batch_id = ? and state = ? ', id, 'started').count > 0
-    return false if Production.where('batch_id = ? and state = ? ', id, 'started').count > 0
-    return false if SaleItem.where('batch_id = ? ', id).count > 0
-    return false if PurchaseItem.where('batch_id = ? ', id).count > 0
+    return false if organization.shelves.where('batch_id' => id).size > 0
+    return false if organization.imports.where('batch_id = ? and state = ? ', id, 'started').count > 0
+    return false if organization.productions.where('batch_id = ? and state = ? ', id, 'started').count > 0
+    return false if organization.sale_items.where('batch_id = ? ', id).count > 0
+    return false if organization.purchase_items.where('batch_id = ? ', id).count > 0
     true
   end
 
   def quantity
-    qty = Shelf.where('batch_id' => id).sum('quantity')
-    ext = Transfer.where('state' => 'sent', 'batch_id' => id).sum('quantity')
+    qty = organization.shelves.where('batch_id' => id).sum('quantity')
+    ext = organization.transfers.where('state' => 'sent', 'batch_id' => id).sum('quantity')
     qty + ext
   end
 
   def in_quantity
-    qty = Purchase.prepared.not_received
+    qty = organization.purchases.prepared.not_received
       .joins(:purchase_items)
       .where('purchase_items.batch_id' => id)
       .sum(:quantity)
@@ -56,7 +56,7 @@ class Batch < ActiveRecord::Base
   end
 
   def out_quantity
-    qty = Sale.prepared.not_delivered
+    qty = organization.sales.prepared.not_delivered
       .joins(:sale_items)
       .where('sale_items.batch_id' => id)
       .sum(:quantity)

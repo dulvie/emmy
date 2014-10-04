@@ -29,13 +29,13 @@ class ImportBatchesController < ApplicationController
   private
 
   def init_new
-    @items = Item.where("stocked=? and item_type IN('both', 'purchase')", 'true')
-    @suppliers = Supplier.all
+    @items = current_organization.items.where("stocked=? and item_type IN('both', 'purchase')", 'true')
+    @suppliers = current_organization.suppliers
     gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
   end
 
   def load_import
-    @import = Import.find(params[:import_id])
+    @import = current_organization.imports.find(params[:import_id])
   end
 
   def import_batch_params

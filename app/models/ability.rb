@@ -26,14 +26,16 @@ class Ability
     can :manage, Customer, organization_id: oids
     can :manage, Document, organization_id: oids 
     can :read, Organization, id: oids
+    can :manage, Import, organization_id: oids
     can :manage, Inventory, organization_id: oids
     can :manage, InventoryItem, organization_id: oids
     can :manage, Item, organization_id: oids
     can :manage, Purchase, organization_id: oids
     can :manage, PurchaseItem, organization_id: oids
+    can :manage, Shelf, organization_id: oids
     can :manage, Supplier, organization_id: oids
-    can :manege, Unit, organization_id: oids
-    can :manege, Vat, organization_id: oids
+    can :manage, Unit, organization_id: oids
+    can :manage, Vat, organization_id: oids
     can :manage, Warehouse, organization_id: oids
   end
 

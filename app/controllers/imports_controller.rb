@@ -1,5 +1,5 @@
 class ImportsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource through: :current_organization
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
@@ -22,17 +22,20 @@ class ImportsController < ApplicationController
   # GET /imports/1
   # GET /imports/1.json
   def show
+    init_collections
     set_purchases
     render 'edit'
   end
 
   # GET /imports/new
   def new
+    init_collections
     @import.our_reference = current_user
   end
 
   # GET /imports/1/edit
   def edit
+    init_collections
     set_purchases
   end
 
@@ -46,6 +49,7 @@ class ImportsController < ApplicationController
         format.html { redirect_to edit_import_path(@import), notice: 'import was successfully created.' }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:import)}"
+        init_collections
         format.html { render action: 'new' }
       end
     end
@@ -76,48 +80,40 @@ class ImportsController < ApplicationController
       @purchase.description = 'Shipping'
       @purchase.our_reference = @import.our_reference
       @purchase.purchase_items.build quantity: 1
-       item_types = ['purchases', 'both']
-      @item_selections = Item.where(item_type: item_types)
+      @item_selections = current_organization.items.bayable.not_stocked
     end
     if params[:parent_column] == 'customs'
       @purchase = @import.customs.build
       @purchase.description = 'Customs'
       @purchase.our_reference = @import.our_reference
       @purchase.purchase_items.build quantity: 1
-       item_types = ['purchases', 'both']
-      @item_selections = Item.where(item_type: item_types)
+      @item_selections = current_organization.items.bayable.not_stocked
     end
-
+    @suppliers = current_organization.suppliers
     @parent_column = params[:parent_column]
     @purchase.to_warehouse = @import.to_warehouse
     @purchase.parent_type = 'Import'
     @purchase.parent_id = @import.id
-    gon.push suppliers: ActiveModel::ArraySerializer.new(Supplier.all, each_serializer: SupplierSerializer)
+    gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
 
   end
 
   def create_purchase
 
-    if params[:parent_column] == 'importing'
-      @purchase = @import.importing.build params[:purchase]
-      @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
-      rtn = @purchase.save
-    end
-
     if params[:parent_column] == 'shipping'
       @purchase = @import.shipping.build params[:purchase]
+      @purchase.organization_id = current_organization.id
       @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
+      @purchase.purchase_items.first.organization_id = current_organization.id
       rtn = @purchase.save
     end
 
     if params[:parent_column] == 'customs'
       @purchase = @import.customs.build params[:purchase]
+      @purchase.organization_id = current_organization.id
       @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
+      @purchase.purchase_items.first.organization_id = current_organization.id
       rtn = @purchase.save
-    end
-
-    if params[:parent_column] == 'importing'
-      @import.importing_id = @purchase.id
     end
 
     if params[:parent_column] == 'shipping'
@@ -141,7 +137,7 @@ class ImportsController < ApplicationController
   end
 
   def state_change
-    @import = Import.find(params[:id])
+    @import = current_organization.imports.find(params[:id])
     if @import.state_change(params[:event], params[:state_change_at])
       msg = t(:success)
     else
@@ -180,43 +176,48 @@ class ImportsController < ApplicationController
     end
   end
 
+  def init_collections
+    @users = current_organization.users
+    @warehouse = current_organization.warehouses
+  end
+
   def init_purchase
     if params[:parent_column] == 'shipping'
       item_types = ['purchases', 'both']
-      @item_selections = Item.where(item_type: item_types)
+      @item_selections = current_organization.items.where(item_type: item_types)
     end
     if params[:parent_column] == 'customs'
       item_types = ['purchases', 'both']
-      @item_selections = Item.where(item_type: item_types)
+      @item_selections = current_organization.items.where(item_type: item_types)
     end
 
     @parent_column = params[:parent_column]
-    gon.push suppliers: ActiveModel::ArraySerializer.new(Supplier.all, each_serializer: SupplierSerializer)
+    gon.push suppliers: ActiveModel::ArraySerializer.new(current_organization.suppliers, each_serializer: SupplierSerializer)
   end
 
   def set_purchases
     unless @import.importing_id.nil?
-      if !Purchase.exists? id: @import.importing_id
+      if !current_organization.purchases.exists? id: @import.importing_id
         @import.importing_id = nil
         @import.save
       else
-        @importing = Purchase.find(@import.importing_id)
+        @importing = current_organization.purchases.find(@import.importing_id)
       end
     end
     unless @import.shipping_id.nil?
-      if !Purchase.exists? id: @import.shipping_id
+      if !current_organization.purchases.exists? id: @import.shipping_id
         @import.shipping_id = nil
         @import.save
       else
-        @shipping = Purchase.find(@import.shipping_id)
+        @shipping = current_organization.purchases.find(@import.shipping_id)
       end
     end
     unless @import.customs_id.nil?
-      if !Purchase.exists? id: @import.customs_id
+      if !current_organization.purchases.exists? id: @import.customs_id
         @import.customs_id = nil
         @import.save
       else
-        @customs = Purchase.find(@import.customs_id)
+        @customs = current_organization.purchases.find(@import.customs_id)
       end
     end
   end
