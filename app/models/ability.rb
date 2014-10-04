@@ -30,6 +30,7 @@ class Ability
     can :manage, Inventory, organization_id: oids
     can :manage, InventoryItem, organization_id: oids
     can :manage, Item, organization_id: oids
+    can :manage, Manual, organization_id: oids
     can :manage, Purchase, organization_id: oids
     can :manage, PurchaseItem, organization_id: oids
     can :manage, Shelf, organization_id: oids

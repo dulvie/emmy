@@ -1,5 +1,5 @@
 class ManualsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource through: :current_organization
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
 
