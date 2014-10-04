@@ -13,15 +13,18 @@ class ManualsController < ApplicationController
   # GET /manuals/1
   # GET /manuals/1.json
   def show
+    init_collection
     render 'edit'
   end
 
   # GET /manuals/1/edit
   def edit
+    init_collection
   end
 
   # GET /manuals/new
   def new
+    init_collection
     @manual.batch_transaction = BatchTransaction.new
     @manual.comments.build
   end
@@ -35,6 +38,7 @@ class ManualsController < ApplicationController
         format.html { redirect_to manuals_path, notice: "#{t(:manual_transaction)} #{t(:was_successfully_created)}" }
         # format.json { render action: 'show', status: :created, location: @manual }
       else
+        init_collection
         format.html { render action: 'new' }
         # format.json { render json: @manual.errors, status: :unprocessable_entity }
       end
@@ -85,5 +89,10 @@ class ManualsController < ApplicationController
     comment_p[:organization_id] = current_organization.id
     manual.comments.build(comment_p)
     manual
+  end
+  
+  def init_collection
+    @warehouses = current_organization.warehouses
+    @batches = current_organization.batches
   end
 end
