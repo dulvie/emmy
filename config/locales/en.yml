@@ -21,7 +21,7 @@
 
 en:
   about: "about"
-  about_lead_text: "Emmy is an app to handle logistics (warehouse, sales etc) for a small organisation that is importing, refining and selling some kind of product."
+  about_lead_text: "Emmy is an app to handle logistics (warehouse, sales etc) for a small organization that is importing, refining and selling some kind of product."
   about_sub_text: "It's currently in beta, if you already have an account please"
   actual_quantity: "Actual quantity"
   add_batch: "Add batch"
@@ -233,7 +233,7 @@ en:
   was_successfully_updated: "was successfully updated."
   was_destroyed: "was destroyed."
   welcome: "Welcome"
-  welcome_to_emmy: "Welcome to Emmy, the app to handle logistics for small organisations."
+  welcome_to_emmy: "Welcome to Emmy, the app to handle logistics for small organizations."
   weight: "Weight"
   work: "Work"
   your_reference: "Your reference"

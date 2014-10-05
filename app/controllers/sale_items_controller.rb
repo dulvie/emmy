@@ -6,6 +6,7 @@ class SaleItemsController < ApplicationController
   before_filter :init_new, only: [:new]
 
   def new
+    @warehouses = current_organization.warehouses
   end
 
   def create
@@ -48,7 +49,7 @@ class SaleItemsController < ApplicationController
     @sale = @sale.decorate
     @shelves = @sale.warehouse.shelves.includes(:batch)
 
-    @products = Product.find_using_shelves(@shelves)
+    @products = Product.find_using_shelves(current_organization, @shelves)
     if params[:sale_item] && params[:sale_item][:product]
       @selected_product = params[:sale_item][:product]
     else

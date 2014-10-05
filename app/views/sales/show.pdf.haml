@@ -80,12 +80,12 @@
   .row
     .col-md-6
       %p= "#{t(:address)}:"
-      %p= @sale.organisation.address
-      %p= "#{@sale.organisation.zip} #{@sale.organisation.city}"
+      %p= @sale.organization.address
+      %p= "#{@sale.organization.zip} #{@sale.organization.city}"
     .col-md-6.text-right
       - [:bankgiro, :plusgiro, :postgiro, :vat_number].each do |n|
-        - unless @sale.organisation.send(n).blank?
+        - unless @sale.organization.send(n).blank?
           %p
             = "#{t(n)}: "
-            = @sale.organisation.send(n)
+            = @sale.organization.send(n)
 

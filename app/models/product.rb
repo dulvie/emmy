@@ -1,7 +1,7 @@
 class Product
   attr_accessor :value, :name, :available_quantity, :stocked,
                 :distributor_price, :retail_price, :refined_at, :expire_at,
-                :selected
+                :selected, :organization
 
   def initialize(h = {})
     setup_defaults
@@ -15,9 +15,9 @@ class Product
     @available_quantity = 1
   end
 
-  def self.find_using_shelves(shelves)
+  def self.find_using_shelves(current_organization, shelves)
     products = shelves.map { |s| s.to_product }
-    non_shelf_items = Item.sellable.not_stocked.map { |i| i.to_product }
+    non_shelf_items = current_organization.items.sellable.not_stocked.map { |i| i.to_product }
     products += non_shelf_items
     products
   end

@@ -13,10 +13,10 @@ class Api::ManualsController < ApplicationController
       warehouse: warehouse,
       batch: batch,
       quantity: params[:manual][:quantity],
-      organisation_id: params[:manual][:organisation_id])
+      organization_id: params[:manual][:organization_id])
 
     @manual = Manual.new(manual_params)
-    @manual.comments.build(user_id: 1, body: params[:manual][:comment], organisation_id: params[:manual][:organisation_id])
+    @manual.comments.build(user_id: 1, body: params[:manual][:comment], organization_id: params[:manual][:organization_id])
     @manual.batch_transaction = batch_transaction
 
     respond_to do |format|
