@@ -31,8 +31,12 @@ class Ability
     can :manage, InventoryItem, organization_id: oids
     can :manage, Item, organization_id: oids
     can :manage, Manual, organization_id: oids
+    can :manage, Material, organization_id: oids
+    can :manage, Production, organization_id: oids
     can :manage, Purchase, organization_id: oids
     can :manage, PurchaseItem, organization_id: oids
+    can :manage, Sale, organization_id: oids
+    can :manage, SaleItem, organization_id: oids
     can :manage, Shelf, organization_id: oids
     can :manage, Supplier, organization_id: oids
     can :manage, Transfer, organization_id: oids

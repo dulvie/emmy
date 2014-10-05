@@ -1,6 +1,6 @@
 = simple_form_for(@sale, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
   = f.error_notification
-  = f.association :warehouse,  disabled: !@sale.new_record?
+  = f.association :warehouse,  collection: @warehouses, disabled: !@sale.new_record?
 
   - if @sale.new_record?
     = render partial: 'select_customer', locals:{f: f}

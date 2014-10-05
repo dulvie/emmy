@@ -1,6 +1,6 @@
 # @TODO check state on update/destroy before doing anything.
 class SalesController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource through: :current_organization
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update]
@@ -13,6 +13,7 @@ class SalesController < ApplicationController
       redirect_to sale_path(@sale), notice: "#{t(:sale)} #{t(:was_successfully_created)}"
     else
       flash.now[:danger] = "#{t(:failed_to_create)} #{t(:sale)}"
+      @warehouses = current_organization.warehouses
       render action: :new
     end
   end
@@ -34,12 +35,15 @@ class SalesController < ApplicationController
   end
 
   def new
+   @warehouses = current_organization.warehouses
   end
 
   def show
     @sale = @sale.decorate
     respond_to do |format|
-      format.html
+      format.html {
+        @warehouses = current_organization.warehouses
+      }
       format.pdf {
         render(
           pdf: "invoice_#{@sale.id}",
@@ -55,6 +59,7 @@ class SalesController < ApplicationController
       redirect_to sale_path(@sale), notice: "#{t(:sale)} #{t(:was_successfully_updated)}"
     else
       flash.now[:danger] = "#{t(:failed_to_update)} #{t(:sale)}"
+      @warehouses = current_organization.warehouses
       render action: :show
     end
   end
@@ -65,7 +70,7 @@ class SalesController < ApplicationController
   end
 
   def state_change
-    @sale = Sale.find(params[:id])
+    @sale = current_organization.sales.find(params[:id])
     authorize! :manage, @sale
     if @sale.state_change(params[:event], params[:state_change_at])
       msg_h = { notice: t(:success) }
@@ -76,7 +81,7 @@ class SalesController < ApplicationController
   end
 
   def send_email
-    @sale = Sale.find(params[:id])
+    @sale = current_organization.sales.find(params[:id])
     authorize! :manage, @sale
     if @sale.send_invoice!
       redirect_to sales_path, notice: t(:sent_email)

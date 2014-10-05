@@ -1,7 +1,7 @@
 %div{:ng_controller => 'production_material_form_ctrl', :ng_init => 'init()'}
   = simple_form_for([@production, @material], wrapper: :horizontal_form, html: {class: 'form-horizontal', }) do |f|
     = f.error_notification
-    = f.association :batch, disabled: !@material.can_edit?, collection: @batch_selections, include_blank: false, input_html: {:ng_model =>'bch',  :ng_change => 'change_batch()'}
+    = f.association :batch, disabled: !@production.can_edit?, collection: @batch_selections, include_blank: false, input_html: {:ng_model =>'bch',  :ng_change => 'change_batch()'}
 
     .form-group
       .labels_width.control-label
@@ -9,9 +9,9 @@
       .fields_width
         %input{:value => '{{shelf_qty}}', :class => 'form-control numeric', :readonly => 'readonly'}
 
-    = f.input :quantity, disabled: !@material.can_edit?
+    = f.input :quantity, disabled: !@production.can_edit?
 
-    - if @material.can_edit?
+    - if @production.can_edit?
       .form-button-group
         .actions
           = f.submit class: 'btn btn-primary'

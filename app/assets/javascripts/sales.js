@@ -4,8 +4,8 @@ app.controller('sales_new_ctrl', function ($scope, ajaxService) {
 	$scope.selected = undefined;
 	$scope.reference = [];
 
-	$scope.init = function() {
-		ajaxService.get("customers.json", "").then(function(data) {
+	$scope.init = function(url) {
+		ajaxService.get(url+"customers.json", "").then(function(data) {
 			var customer = data.customers;
 			$scope.customer = customer;
 		});		

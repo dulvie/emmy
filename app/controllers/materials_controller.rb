@@ -1,6 +1,6 @@
 class MaterialsController < ApplicationController
-  load_and_authorize_resource :production
-  load_and_authorize_resource :material, through: :production
+  load_and_authorize_resource through: :current_organization
+  load_and_authorize_resource :production, through: :current_organization
 
   before_filter :new_breadcrumbs, only: [:new, :create, :show]
 
@@ -15,7 +15,7 @@ class MaterialsController < ApplicationController
   def create
     logger.info "batch: #{params[:material][:batch_id]}"
 
-    @production = Production.find(params[:production_id])
+    @production = current_organization.productions.find(params[:production_id])
     @material = @production.materials.build material_params
     @material.organization = current_organization
     respond_to do |format|
@@ -31,7 +31,7 @@ class MaterialsController < ApplicationController
 
   def update
     logger.info "batch: #{params[:material][:batch_id]}"
-    @production = Production.find(params[:production_id])
+    @production = current_organization.productions.find(params[:production_id])
     respond_to do |format|
       if @material.update_attributes(material_params)
         format.html { redirect_to edit_production_path(@production), notice: "#{t(:material)} #{t(:was_successfully_updated)}" }
@@ -45,7 +45,7 @@ class MaterialsController < ApplicationController
   end
 
   def destroy
-    @production = Production.find(params[:production_id])
+    @production = current_organization.productions.find(params[:production_id])
     if @production.can_edit?
       item = @production.materials.find(params[:id])
       item.destroy
@@ -69,6 +69,7 @@ class MaterialsController < ApplicationController
   end
 
   def init_new
+    #@batch_selections = @production.warehouse.shelves.select('batch_id', 'batch_id as id').where(batch: current_organization.batches.unrefined)
     @batch_selections = @production.warehouse.shelves.select('batch_id', 'batch_id as id')
       .where(batch: Batch.where(item: Item.where(item_group: 'unrefined')))
     gon.push shelves: ActiveModel::ArraySerializer.new(@production.warehouse.shelves, each_serializer: ShelfSerializer)

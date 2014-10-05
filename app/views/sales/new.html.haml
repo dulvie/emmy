@@ -1,2 +1,3 @@
-%div{:ng_controller => 'sales_new_ctrl', :ng_init => 'init()'}
+- url = "#{request.path_info.split('/')[1]}"+'/'
+%div{:ng_controller => 'sales_new_ctrl', :ng_init => "init('"+url+"')"}
   = render 'form'

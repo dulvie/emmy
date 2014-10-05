@@ -1,6 +1,6 @@
 class SaleItemsController < ApplicationController
-  load_and_authorize_resource :sale
-  load_and_authorize_resource :sale_item, through: :sale
+  load_and_authorize_resource :sale, through: :current_organization
+  load_and_authorize_resource :sale_item, through: :current_organization
 
   before_filter :set_breadcrumbs, only: [:new, :create]
   before_filter :init_new, only: [:new]

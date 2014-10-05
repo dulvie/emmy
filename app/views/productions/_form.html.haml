@@ -3,8 +3,8 @@
     = f.error_notification
 
     = f.input :description, disabled: !@production.new_record?
-    = f.association :our_reference, disabled: !@production.new_record?
-    = f.association :warehouse,  disabled: !@production.new_record?
+    = f.association :our_reference, collection: @users, disabled: !@production.new_record?
+    = f.association :warehouse,  collection: @warehouses, disabled: !@production.new_record?
 
     - if !@production.new_record?
 

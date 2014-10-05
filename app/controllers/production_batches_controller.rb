@@ -8,7 +8,7 @@ class ProductionBatchesController < ApplicationController
   def new
     @production_batch = ProductionBatch.new
     @production_batch.production_id = @production.id
-    @items = Item.where('stocked=?', 'true')
+    @items = current_organization.items.where('stocked=?', 'true')
     gon.push items: @items
   end
 
