@@ -199,7 +199,7 @@ class Sale < ActiveRecord::Base
   # @todo This might have race condition inside, find better solution?
   def add_invoice_number
     raise RuntimeError if invoice_number
-    update_column(:invoice_number, Sale.where(organization_id: organization_id).maximum(:invoice_number)+1)
+    update_column(:invoice_number, (Sale.where(organization_id: organization_id).maximum(:invoice_number) || 0) +1)
   end
 
   # @todo move this to a job.
