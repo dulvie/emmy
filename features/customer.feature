@@ -36,7 +36,8 @@ Feature: Crud customers
     And I fill in invalid "customer" data
     And I click "Update Customer"
     Then I should see "Failed to update"
-
+  
+  @javascript
   Scenario: delete
     Given I am a signed in user
     And a "customer" with "name" equals to "test customer" exists
