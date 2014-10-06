@@ -10,6 +10,7 @@ Top prio:
 * Logo on invoice? https://github.com/dulvie/emmy/issues/76
 * Tests?
 
+
 Later Prio:
 * Sale - send past due date reminder email https://github.com/dulvie/emmy/issues/72
 * Statistics
@@ -20,5 +21,20 @@ Later Prio:
 * user documentation - Crossword, video how to work with the system
 * system documentation - Graph of the models, for clarity subgraphs of such sale, purchase, batch
 * JavaScript alert box or something else? such quantity control on sales_item?
-* Issues in backlog
 * Set up varius design proposals eg Table header row with or without background color?
+* Issues from backlog ---
+* #7 item_group as separate model
+* #8 currencies as separate model
+* #12 bugreporting
+* #13 transfer - integrating with purchase
+* #17 user documentation
+* #18 supplier - has_many items
+* #20 purchase - send order as pdf
+* #22 shelf - quantities booked
+* #25 unit - translation between units
+* #26 item - comments to comments model
+* #28 item - tab for dependent products
+* #30 sale - handle contacts
+* #33 inventory - product not on shelf
+* #38 sale - reference not actual user
+* #67 price - display => Är det klart på alla ställen?
