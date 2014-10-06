@@ -42,13 +42,18 @@ Given /^I am signed in as a superadmin$/ do
   click_button "Sign in"
 end
 
-Then /^a user with the role "(.*?)" on "(.*?)" should exist$/ do |role_name, organization_name|
+Given /^I am signed in as an admin on "(.*?)"$/ do |organization_name|
+  u = FactoryGirl.create(:user)
+  assert u, "no user found"
   o = Organization.find_by_name organization_name
-  assert o
-  roles = o.organization_roles.map{|role| role.name}
-  assert roles.include?(role_name)
+  assert o, "no organization found"
+  u.organization_roles.create(organization_id: o.id, name: OrganizationRole::ROLE_ADMIN)
+  visit new_user_session_path
+  fill_in "user_email", with: u.email
+  fill_in "user_password", with: u.password
+  click_button "Sign in"
+  click_on organization_name
 end
-
 
 Given /^I am a signed in user$/ do
   u = FactoryGirl.create(:user)
@@ -71,6 +76,22 @@ Given /^I am a signed in user without an organization$/ do
   click_button "Sign in"
 end
 
+Then /^a user with the role "(.*?)" on "(.*?)" should exist$/ do |role_name, organization_name|
+  o = Organization.find_by_name organization_name
+  assert o
+  roles = o.organization_roles.map{|role| role.name}
+  assert roles.include?(role_name)
+end
+
+Given /^a user with email "(.*?)" exists and have no roles on "(.*?)"$/ do |email, organization_name|
+  o = Organization.find_by_name organization_name
+  assert o, "no organization found"
+  u = FactoryGirl.create(:user, email: email, name: email.gsub('@', ''))
+  assert u, "no user present"
+  assert (u.organization_roles.where(organization_id: o.id).count == 0), "user already has a role"
+end
+
+
 Given /^I visit (.*?)_path$/ do |resource_name|
   visit send("#{resource_name}_path")
 end
@@ -81,6 +102,9 @@ end
 
 Given /^I click "([^"]*?)"$/ do |button_string|
   puts "trying to click #{button_string}"
+  unless page.has_content? button_string
+    puts page.body
+  end
   click_on button_string, match: :first
 end
 
@@ -149,7 +173,7 @@ Given /^a "(.*?)" with "(.*?)" equals to "(.*?)" exists$/ do |resource_name, fie
   end
 end
 
-Given(/^I confirm the alertbox$/) do
+Given /^I confirm the alertbox$/ do
   # page.driver.browser.switch_to.alert.accept
   page.driver.accept_js_confirms!
 end
