@@ -2,7 +2,7 @@
   %table{:class => 'table table-striped'}
     %thead
       %tr
-        %th= t(:sale_id)
+        %th= t(:invoice_number)
         %th= t(:approved_at)
         %th= t(:warehouse)
         %th= t(:customer)
@@ -13,7 +13,7 @@
     %tbody
       - sales.each do |sale|
         %tr
-          %td= link_to "##{sale.id}", sale
+          %td= sale.invoice_number
           %td= sale.approved_at
           %td= link_to sale.warehouse_name, sale.warehouse
           %td= link_to sale.customer_name, sale.customer
