@@ -8,8 +8,11 @@
 8. Setup Vat
 9. Setup Item
 10. Perform import from old sql-dump into emmy.
-11. verify (how?)
-xx. ....
-xx. ....
-xx. ....
-12. Open emmy
+11. Import users and verify
+12. Import warehouses and verify
+13. Import customers and verify
+14. Import batches and verify, id for items needed
+15. Import manuals and verify (id for warehouse and batches)
+16. Import sales and verify from 2013-? (id for customer, warehouse and batch)
+17. Setup of extra??
+18. Open emmy
