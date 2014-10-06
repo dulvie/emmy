@@ -7,8 +7,7 @@ Top prio:
   Can this issue be closed?
 * Merge branch to master
 * Dashboard content
-* Logo on invoice?
-* Table header row with or without background color?
+* Logo on invoice? https://github.com/dulvie/emmy/issues/76
 * Tests?
 
 Later Prio:
@@ -22,3 +21,4 @@ Later Prio:
 * system documentation - Graph of the models, for clarity subgraphs of such sale, purchase, batch
 * JavaScript alert box or something else? such quantity control on sales_item?
 * Issues in backlog
+* Set up varius design proposals eg Table header row with or without background color?
