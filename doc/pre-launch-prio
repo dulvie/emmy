@@ -1,0 +1,9 @@
+Top prio:
+
+* Multi organization
+* PDF generation in production. https://github.com/dulvie/emmy/issues/71
+* Sale - Possible to locate sale based on Invoice ID #  https://github.com/dulvie/emmy/issues/73
+* Display price correctly: https://github.com/dulvie/emmy/issues/67
+
+Later Prio:
+* Sale - send past due date reminder email https://github.com/dulvie/emmy/issues/72

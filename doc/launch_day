@@ -1,0 +1,15 @@
+1. Shutdown old system
+2. Extract sql-dump
+3. Re-deploy emmy
+4. Re-create emmy database
+5. Setup superadmin
+6. Setup organisation
+7. Setup Unit
+8. Setup Vat
+9. Setup Item
+10. Perform import from old sql-dump into emmy.
+11. verify (how?)
+xx. ....
+xx. ....
+xx. ....
+12. Open emmy
