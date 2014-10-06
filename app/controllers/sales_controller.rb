@@ -5,6 +5,14 @@ class SalesController < ApplicationController
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update]
 
+  def invoice_search
+    @breadcrumbs = [['Sales'], ['invoice_search']]
+    inbr = params[:invoice_number].to_i
+    sales = Sale.where("invoice_number = ? ", inbr).collect { |sale| sale.decorate }
+    @sales = Kaminari.paginate_array(sales).page(params[:page]).per(8)
+    render :index
+  end
+
   def create
     @sale = Sale.new sale_params
     @sale.user = current_user

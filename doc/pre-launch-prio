@@ -1,10 +1,6 @@
 Top prio:
 
 * Multi organization
-* PDF generation in production. https://github.com/dulvie/emmy/issues/71
-* Sale - Possible to locate sale based on Invoice ID #  https://github.com/dulvie/emmy/issues/73
-* Display price correctly: https://github.com/dulvie/emmy/issues/67
-  Can this issue be closed?
 * Merge branch to master
 * Dashboard content
 * Logo on invoice? https://github.com/dulvie/emmy/issues/76

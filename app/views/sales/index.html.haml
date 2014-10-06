@@ -1,4 +1,4 @@
-%p
+.form-inline
   = link_to "#{t(:create)} #{t(:sale)}", new_sale_path, class: 'btn btn-default'
   %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
     %option{value: sales_path} #{t(:filter)}: #{t(:all)}
@@ -6,6 +6,11 @@
     %option{value: sales_path + '&state=prepared'} #{t(:approved)}
     %option{value: sales_path + '&goods_state=not_delivered'} #{t(:not_delivered)}
     %option{value: sales_path + '&money_state=not_paid'} #{t(:not_paid)}
+  .input-group.col-sm-8
+    %input{:class=> 'form-control', :placeholder=>'Invoice search', :ng_model=>'invoice_number', :id => 'search'}
+    .input-group-addon
+      %a{:href => invoice_search_sales_path + "&invoice_number={{invoice_number}}", :id => 'search_link'}
+        %i{ :class=>"glyphicon glyphicon-search search_icon"}
 
 %div{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}
@@ -47,4 +52,11 @@
   $(document).ready(function() {
     var path = document.location.pathname + document.location.search
     $('#selp').val(path);
+    $('#search').bind('keypress', function(e) {
+    var code = e.keyCode || e.which;
+    if(code == 13) { //Enter keycode
+      alert('h');
+      $('#search_link')[0].click();
+    }
+  });
   });

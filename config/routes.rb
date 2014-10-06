@@ -86,6 +86,9 @@ Emmy::Application.routes.draw do
         post 'state_change', as: :state_change
         post 'send_email', as: :send_email
       end
+      collection do
+        get 'invoice_search', as: :invoice_search
+      end
     end
     get 'statistics/index'
     resources :shelves
