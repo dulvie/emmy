@@ -183,7 +183,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.datetime "updated_at"
   end
 
-  create_table "organization_roles", id: false, force: true do |t|
+  create_table "organization_roles", force: true do |t|
     t.string  "name",            null: false
     t.integer "user_id",         null: false
     t.integer "organization_id", null: false

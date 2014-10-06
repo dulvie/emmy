@@ -22,6 +22,17 @@ Then /^I should see "(.*?)"$/ do |string|
   assert_equal true, page.has_content?(string)
 end
 
+# This is a copy/paste of the above Then.
+# This should only be used to debug stuff.
+Given /^I see "(.*?)"$/ do |string|
+  unless page.has_content?(string)
+    puts page.body
+    puts "can not find: #{string}"
+  end
+  assert_equal true, page.has_content?(string)
+end
+
+
 Given /^I am signed in as a superadmin$/ do
   u = FactoryGirl.create(:user)
   u.organization_roles.create(organization_id: 0, name: OrganizationRole::ROLE_SUPERADMIN)
@@ -73,7 +84,7 @@ Given /^I click "([^"]*?)"$/ do |button_string|
   click_on button_string, match: :first
 end
 
-Given(/^I fill in "(.*?)" with "(.*?)"$/) do |field_name, field_value|
+Given /^I fill in "(.*?)" with "(.*?)"$/ do |field_name, field_value|
   assert page.has_field?(field_name)
   fill_in field_name, with: field_value
 end
@@ -82,7 +93,7 @@ Given /^I select "(.*?)" as "(.*?)"$/ do |option_text, field_name|
   select option_text, from: field_name
 end
 
-Given(/^I fill in valid "(.*?)" data$/) do |resource_name|
+Given /^I fill in valid "(.*?)" data$/ do |resource_name|
   send("#{resource_name}_valid_form_data")
 end
 
@@ -91,16 +102,43 @@ Given /^I fill in invalid "(.*?)" data$/ do |resource_name|
   send("#{resource_name}_invalid_form_data")
 end
 
+Given /^I check "(.*?)"$/ do |name|
+  check name
+end
+
+Given /^I uncheck "(.*?)"$/ do |name|
+  uncheck name
+end
+
 Given /^a couple of "(.*?)" exists$/ do |resources_name|
   puts "will call create_#{resources_name}"
   send("create_#{resources_name}")
 end
 
-Then(/^I should see a "(.*?)" link$/) do |string|
+Then /^I should see a "(.*?)" link$/ do |string|
   assert_equal page.has_link?(string), true
 end
 
-Given(/^a "(.*?)" with "(.*?)" equals to "(.*?)" exists$/) do |resource_name, field_name, field_value|
+Then /^a user with email "(.*?)" should have the "(.*?)" role on "(.*?)"$/ do |email, role_name, org_name|
+  o = Organization.find_by_name org_name
+  assert o, "no organization found"
+  u = User.find_by_email email
+  assert u, "no user found"
+  u.organization_roles.each do |role|
+    puts "#{u.name} has role #{role.name} on #{role.organization.name}"
+  end
+  assert (u.organization_roles.where(name: role_name).where(organization_id: o.id).count > 0), "no role found"
+end
+
+Then /^a user with email "(.*?)" should not have the "(.*?)" role on "(.*?)"$/ do |email, role_name, org_name|
+  o = Organization.find_by_name org_name
+  assert o, "no organization found"
+  u = User.find_by_email email
+  assert u, "no user found"
+  assert (u.organization_roles.where(name: role_name).where(organization_id: o.id).count == 0), "role found"
+end
+
+Given /^a "(.*?)" with "(.*?)" equals to "(.*?)" exists$/ do |resource_name, field_name, field_value|
   m = resource_name.capitalize.constantize
   obj = m.send("find_by_#{field_name}", field_value)
   if obj
@@ -139,7 +177,7 @@ Given /^I click the first row$/ do
   page.execute_script(%Q{$('table tbody td:first-child a').click();})
 end
 
-Then(/^I should see a button with text "(.*?)"$/) do |string|
+Then /^I should see a button with text "(.*?)"$/ do |string|
   if (page.has_button?(string) || page.has_selector?('a.btn', text: string))
     assert true
   else
@@ -148,8 +186,7 @@ Then(/^I should see a button with text "(.*?)"$/) do |string|
   end
 end
 
-Then(/^I should not see a button with text "(.*?)"$/) do |string|
-  #if  || page.has_link?(string, text: string))
+Then /^I should not see a button with text "(.*?)"$/ do |string|
   if (page.has_button?(string) || page.has_selector?('a.btn', text: string))
     puts page.body
     assert false

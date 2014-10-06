@@ -12,9 +12,9 @@
     %tbody{}
       - @users.each do |user|
         %tr
-          %td= link_to user.name, admin_user_path(user)
-          %th= user.email
-          %td= link_to settings_icon, admin_users_path(user)
+          %td= link_to user.name, admin_user_path(user, organization_id: @organization.id)
+          %td= link_to user.email, admin_user_path(user, organization_id: @organization.id)
+          %td= link_to settings_icon, admin_user_path(user, organization_id: @organization.id)
           %td= delete_modal_for user
 
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

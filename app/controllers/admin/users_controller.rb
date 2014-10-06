@@ -1,8 +1,8 @@
 module Admin
-
   class UsersController < Admin::ApplicationController
     load_and_authorize_resource :organization
     load_and_authorize_resource through: :organization
+    before_filter :set_breadcrumbs
     before_filter :new_breadcrumbs, only: [:new, :create]
     before_filter :show_breadcrumbs, only: [:show, :update_role]
 
@@ -10,6 +10,7 @@ module Admin
     end
 
     def show
+      @user_roles = Services::UserRoles.new(@user, @organization)
     end
 
     # Create a new user and add access to the current organization as 'staff'
@@ -25,7 +26,15 @@ module Admin
       end
     end
 
-    def update_role
+    def update_roles
+      @user_roles = Services::UserRoles.new(@user, @organization, role_params)
+      logger.info "will update roles for #{@user.name} with :#{role_params.inspect}"
+      if @user_roles.sync
+        flash.now[:notice] = "#{t(:user)} #{t(:roles)} #{t(:was_successfully_updated)}"
+      else
+        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:roles)} for #{@user.email} on #{@organization.name}"
+      end
+      render :show
     end
 
     private
@@ -34,16 +43,23 @@ module Admin
       params.require(:user).permit(User.accessible_attributes.to_a)
     end
 
-    def new_breadcrumbs
+    def role_params
+      params.require(:services_user_roles).permit(OrganizationRole::ROLES)
+    end
+
+    def set_breadcrumbs
       @breadcrumbs = [
         [t(:organizations), admin_organizations_path],
-        [@organization.name, admin_organization_path(@organization)],
-        ["#{t(:new)} #{t(:user)}"]
+        [@organization.name, admin_organization_path(@organization)]
       ]
     end
 
+    def new_breadcrumbs
+      @breadcrumbs << ["#{t(:new)} #{t(:user)}"]
+    end
+
     def show_breadcrumbs
-      @breadcrumbs = [[t(:organizations), admin_organizations_path], [@user.name]]
+      @breadcrumbs << [@user.name]
     end
   end
 end

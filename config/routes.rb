@@ -18,7 +18,11 @@ Emmy::Application.routes.draw do
 
   namespace :admin do
     resources :organizations
-    resources :users
+    resources :users do
+      member do
+        patch 'update_roles', as: :update_roles
+      end
+    end
     get 'dashboard', to: 'dashboard#index'
     constraints lambda { |request| request.env['warden'].authenticate? && request.env['warden'].user.superadmin? } do
       mount Resque::Server.new, at: "resque"

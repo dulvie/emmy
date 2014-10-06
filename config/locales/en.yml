@@ -200,6 +200,7 @@ en:
   supplier: "Supplier"
   suppliers: "Suppliers"
   swedish: "Swedish"
+  roles: "roles"
   telephone: "Telephone"
   text: "Text"
   text_row: "Text row"

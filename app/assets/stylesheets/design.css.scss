@@ -59,6 +59,7 @@ select.btn-default {
 }
 
 .form-button-group {
+  clear: both;
   border-top: 2px solid darken($body-bg, 15%);
   padding: 1em 0;
   background: darken($body-bg, 5%);
