@@ -30,7 +30,7 @@ class Sale < ActiveRecord::Base
 
   attr_accessible :user_id, :warehouse_id, :customer_id, :contact_email, :contact_name,
                   :payment_term, :state, :approved_at, :goods_state, :delivered_at,
-                  :money_state,  :paid_at, :invoice_number, :organization, :organization_id
+                  :money_state,  :paid_at, :organization, :organization_id
 
   validates :customer_id, presence: true
   validates :warehouse_id, presence: true
@@ -39,6 +39,8 @@ class Sale < ActiveRecord::Base
   # Callbacks
   # @todo Refactor this into service objects instead.
   before_create :ensure_organization_id
+
+  after_create :add_invoice_number
 
   STATE_CHANGES = [
     :mark_prepared, :mark_complete, # Generic state
@@ -193,8 +195,10 @@ class Sale < ActiveRecord::Base
     sale_items.inject(0) { |i, item| item.total_vat + i }
   end
 
-  def invoice_number
-    "1000#{id}"
+  # Callback: after_create
+  def add_invoice_number
+    raise RuntimeError if invoice_number
+    update_column(:invoice_number, Sale.where(organization_id: organization_id).maximum(:invoice_number)+1)
   end
 
   # @todo move this to a job.
