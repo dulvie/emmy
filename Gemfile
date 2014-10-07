@@ -67,7 +67,7 @@ group :test do
   gem 'minitest'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
-  gem 'capybara-webkit'
+  gem 'capybara-webkit', '~> 1.3'
   gem 'resque_unit'
   gem 'simplecov', '~> 0.7.1'
   gem 'rubocop', require: false
