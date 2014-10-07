@@ -14,7 +14,6 @@ Later Prio:
 * direct_sale of import
 * sale - filter trough warehouse?, see issue 73
 * customer - filter?
-* user documentation - Crossword, video how to work with the system
 * system documentation - Graph of the models, for clarity subgraphs of such sale, purchase, batch
 * JavaScript alert box or something else? such quantity control on sales_item?
 * Set up varius design proposals eg Table header row with or without background color?
@@ -24,6 +23,7 @@ Later Prio:
 * #12 bugreporting
 * #13 transfer - integrating with purchase
 * #17 user documentation
+* user documentation - Crossword, video how to work with the system
 * #18 supplier - has_many items
 * #20 purchase - send order as pdf
 * #22 shelf - quantities booked

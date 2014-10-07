@@ -102,10 +102,12 @@ end
 
 Given /^I click "([^"]*?)"$/ do |button_string|
   puts "trying to click #{button_string}"
-  unless page.has_content? button_string
+  if page.has_content?(button_string) or page.has_selector?("input[type=submit][value='#{button_string}']")
+    click_on button_string, match: :first
+  else
     puts page.body
   end
-  click_on button_string, match: :first
+
 end
 
 Given /^I fill in "(.*?)" with "(.*?)"$/ do |field_name, field_value|

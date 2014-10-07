@@ -26,7 +26,7 @@ Feature: Crud customers
     And I click edit link for "test customer" customer in "test-organization"
     And I fill in "customer_name" with "test customer 2"
     And I click "Update Customer"
-    And I should see "test customer 2"
+    Then I should see "test customer 2"
 
   Scenario: Update with invalid data
     Given I am a signed in user
@@ -44,7 +44,7 @@ Feature: Crud customers
     And I visit customers_path for "test-organization"
     And I click delete link for "test customer" customer in "test-organization"
 
-    #Then I should see invisible "Confirm"
-    #And I confirm the alertbox
-    #Then I should see "Customer was successfully deleted."
+    Then I should see invisible "Confirm"
+    And I confirm the alertbox
+    Then I should see "Customer was successfully deleted."
 
