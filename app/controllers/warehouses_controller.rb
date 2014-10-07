@@ -68,11 +68,11 @@ class WarehousesController < ApplicationController
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Warehouses', warehouses_path], [@warehouse.name]]
+    @breadcrumbs = [[t(:warehouses), warehouses_path], [@warehouse.name]]
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Warehouses', warehouses_path], ['New warehouse']]
+    @breadcrumbs = [[t(:warehouses), warehouses_path], ["#{t(:new)} #{t(:warehouse)}"]]
   end
 
   def load_contats
