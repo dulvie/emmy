@@ -50,6 +50,7 @@ app.controller('ModalCtrl', function ($scope, $modal, $log) {
 		$event.preventDefault();
 		$event.stopPropagation();
 	};
+
 });
 
 
@@ -77,6 +78,19 @@ app.controller('ModalDeleteInstanceCtrl', function ($scope, $modalInstance, obj)
 	$scope.ok = function ($event) {
 		$event.preventDefault();
 		$event.stopPropagation();
+	};
+
+	$scope.cancel = function () {
+		$modalInstance.dismiss('cancel');
+	};
+});
+
+app.controller('ModalMessageInstanceCtrl', function ($scope, $modalInstance, msg) {
+	$scope.message = msg;
+	$scope.openDate = function($event) {
+		$event.preventDefault();
+		$event.stopPropagation();
+		$scope.isOpen = true;
 	};
 
 	$scope.cancel = function () {

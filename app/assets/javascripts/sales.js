@@ -28,7 +28,7 @@ app.controller('sales_new_ctrl', function ($scope, ajaxService) {
 
 });
 
-app.controller('sale_items_new_ctrl', function ($scope, price) {
+app.controller('sale_items_new_ctrl', function ($scope, $modal, price) {
 
 	$scope.quantity = $('#sale_item_quantity').val();
 	$scope.init = function() {
@@ -69,18 +69,52 @@ app.controller('sale_items_new_ctrl', function ($scope, price) {
 		}
 	};
 
-	$scope.select_quantity = function() {
+	$scope.select_quantity = function(event) {
+
 		if ($("input[name='sale_item[row_type]']:checked").val()=='text') {
 			return;
 		};
 		for (i=0; i< gon.products.length; i++) {
 			if (gon.products[i].value == $scope.product_value) {
-				if ($scope.quantity > gon.products[i].available_quantity)
-					alert("Kvantitet överstiger lagrets " + gon.products[i].available_quantity);
+				if ($scope.quantity > gon.products[i].available_quantity) {
+					//$scope.quantity = gon.products[i].available_quantity;
+					var msg = "Kvantitet överstiger lagrets " + gon.products[i].available_quantity
+					$scope.open_message('sm', 'messageContent', msg);
+					$scope.quantity = gon.products[i].available_quantity;
+					//$scope.open_message = function ($event, size, el, msg)
+					//alert("Kvantitet överstiger lagrets " + gon.products[i].available_quantity);
+				}
 			}
 		}
 	};
+	
 	$scope.before_submit = function() {
     	$('#sale_item_price').val(price.toInteger($('#sale_item_price').val()));
   	};
+  	
+  	
+	$scope.open_message = function (size, el, msg) {
+		$scope.message = msg;
+		var elem = '#'+el;
+		var temp = $(elem).html();
+		var modalInstance = $modal.open({
+			template: temp,
+			controller: 'ModalMessageInstanceCtrl',
+			size: size,
+			resolve: {
+				msg: function () {
+					return $scope.message;
+				}
+			}
+		});
+		modalInstance.result.then(function (selectedItem) {
+			$scope.selected = selectedItem;
+		}, function () {
+			//$log.info('Modal dismissed at: ' + new Date());
+		});
+		//$event.preventDefault();
+		//$event.stopPropagation();
+	};
+	
+	
 });

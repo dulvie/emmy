@@ -16,7 +16,7 @@
        selected: @selected_product,
        include_blank: false,
        input_html: {:ng_model =>"product_value", :ng_change => 'product_changed()'}
-    = f.input :quantity, :input_html => {:ng_model => "quantity", :ng_change => 'select_quantity()'}
+    = f.input :quantity, :input_html => {:ng_model => "quantity", :ng_change => "select_quantity()"}
 
   #text-wrapper
     = f.input :name
@@ -30,6 +30,8 @@
   .form-button-group
     .actions
       = f.submit class: 'btn btn-primary', ng_click: 'before_submit()'
+
+  = render partial: 'shared/modal_message', locals: {idx: 'messageContent'}
 
   :javascript
     $(document).ready(function() {
