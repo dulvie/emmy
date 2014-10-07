@@ -106,6 +106,7 @@ Given /^I click "([^"]*?)"$/ do |button_string|
     click_on button_string, match: :first
   else
     puts page.body
+    assert page.has_content?(button_string) || page.has_selector?("input[type=submit][value='#{button_string}']")
   end
 
 end
@@ -174,6 +175,13 @@ Given /^a "(.*?)" with "(.*?)" equals to "(.*?)" exists$/ do |resource_name, fie
     assert field_value.eql?(new_obj.send(field_name))
   end
 end
+
+Given /^a "(.*?)" with "(.*?)" "(.*?)" does not exists$/ do |resource_name, field_name, field_value|
+  m = resource_name.capitalize.constantize
+  obj = m.send("find_by_#{field_name}", field_value)
+  assert !obj, "#{resource_name} with #{field_name} = #{field_value} was found"
+end
+
 
 Given /^I confirm the alertbox$/ do
   # page.driver.browser.switch_to.alert.accept

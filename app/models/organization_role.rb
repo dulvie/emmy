@@ -15,4 +15,5 @@ class OrganizationRole < ActiveRecord::Base
   belongs_to :organization
 
   attr_accessible :name, :user_id, :organization_id
+
 end
