@@ -1,4 +1,5 @@
-= link_to "#{t(:create)} #{t(:warehouse)}", new_warehouse_path, class: 'btn btn-default'
+.btn-group
+  = link_to "#{t(:create)} #{t(:warehouse)}", new_warehouse_path, class: 'btn btn-default'
 
 %div{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}
@@ -19,9 +20,10 @@
           %td= warehouse.city
           %td= link_to settings_icon, edit_warehouse_path(warehouse)
           %td= delete_modal_for warehouse
-  
+
   = paginate @warehouses, :theme => 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
 :javascript
   $(document).ready(function() {
    localStorage.removeItem('lastTab');

@@ -8,6 +8,13 @@ Top prio:
 
 
 Later Prio:
+* Referenser och borttag - en genomgång behövs
+  Ska vat som finns på item kunna tas bort?
+  Ska item som finns på sale kunna tas bort?
+  Behövs item/batch name på sale_item för att minska beroendet?
+  Behövs aktive flagga? Möjlighet att ha kvar item utan att de stör i listor där bara aktiva visas.
+  En graf för sale och purchase skulle visa beroenden
+  
 * Sale - send past due date reminder email https://github.com/dulvie/emmy/issues/72
 * Statistics
 * change purchase_item according sale_items model with product_parm?
@@ -32,4 +39,3 @@ Later Prio:
 * #30 sale - handle contacts
 * #33 inventory - product not on shelf
 * #38 sale - reference not actual user
-* #67 price - display => Är det klart på alla ställen?

@@ -11,15 +11,15 @@
         %th= t(:state)
         %th
         %th
-      %tbody
-        - @inventories.each do |inventory|
-          %tr
-            %td= link_to "##{inventory.id}", inventory
-            %td= inventory.started_at.nil? ? ' ': inventory.started_at.strftime("%Y-%m-%d") 
-            %td= link_to inventory.warehouse.name, inventory.warehouse
-            %td= inventory.state
-            %td= link_to settings_icon, inventory
-            %td= delete_modal_for inventory
-  
+    %tbody
+      - @inventories.each do |inventory|
+        %tr
+          %td= link_to "##{inventory.id}", inventory
+          %td= inventory.started_at.nil? ? ' ': inventory.started_at.strftime("%Y-%m-%d") 
+          %td= link_to inventory.warehouse.name, inventory.warehouse
+          %td= inventory.state
+          %td= link_to settings_icon, inventory
+          %td= delete_modal_for inventory
+
   = paginate @inventories, :theme => 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

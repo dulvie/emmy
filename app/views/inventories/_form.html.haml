@@ -8,11 +8,13 @@
   - else
     = f.input :inventory_date, as: :string, disabled: true, :input_html => {:class=>'date',:value => localize(f.object.inventory_date, :format => "%Y-%m-%d")}
 
-  - if !@inventory.new_record?
-    = f.input :state, disabled: true, :input_html => {:class=>'medium'}
-  - if !@inventory.can_edit_items? 
-    = f.input :started_at, as: :string, disabled: true, :input_html => {:class=>'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d")}
-  - if @inventory.completed?
-    = f.input :completed_at, as: :string, disabled: true, :input_html => {:class=>'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d")}
-  - if @inventory.new_record?
-    = f.submit class: 'btn btn-primary'
+  .form-button-group
+    .actions
+      - if !@inventory.new_record?
+        = f.input :state, disabled: true, :input_html => {:class=>'medium'}
+      - if !@inventory.can_edit_items? 
+        = f.input :started_at, as: :string, disabled: true, :input_html => {:class=>'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d")}
+      - if @inventory.completed?
+        = f.input :completed_at, as: :string, disabled: true, :input_html => {:class=>'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d")}
+      - if @inventory.new_record?
+        = f.submit class: 'btn btn-primary'
