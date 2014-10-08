@@ -20,7 +20,7 @@ Later Prio:
 * Statistics
 * change purchase_item according sale_items model with product_parm?
 * direct_sale of import
-* sale - filter trough warehouse?, see issue 73
+* sale - filter trough warehouse? or tab under warehouse?
 * customer - filter?
 * system documentation - Graph of the models, for clarity subgraphs of such sale, purchase, batch
 * Set up varius design proposals eg Table header row with or without background color?

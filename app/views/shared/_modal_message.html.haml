@@ -1,0 +1,8 @@
+%script{ :type=>"text/ng_template", :id=>idx}
+  .modal-header
+    %h3{ :class=>"modal-title"}
+      = t(:message)
+    %p
+      {{message}}
+  .modal-body
+    = button_tag t(:ok), class: 'btn btn-default reseter', type: 'reset', :ng_click=>"cancel()"
