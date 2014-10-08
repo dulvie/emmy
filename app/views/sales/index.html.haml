@@ -9,7 +9,7 @@
   .input-group.col-sm-8
     %input{:class=> 'form-control', :placeholder=>'Invoice search', :ng_model=>'invoice_number', :id => 'search'}
     .input-group-addon
-      %a{:href => invoice_search_sales_path + "&invoice_number={{invoice_number}}", :id => 'search_link'}
+      %a{:href => invoice_search_sales_path(invoice_number: '{{invoice_number}}'), :id => 'search_link'}
         %i{ :class=>"glyphicon glyphicon-search search_icon"}
 
 %div{:ng_controller=>'ModalCtrl'}
@@ -55,7 +55,6 @@
     $('#search').bind('keypress', function(e) {
     var code = e.keyCode || e.which;
     if(code == 13) { //Enter keycode
-      alert('h');
       $('#search_link')[0].click();
     }
   });
