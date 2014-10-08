@@ -13,27 +13,27 @@
         %th
         %th
         %th
-      %tbody
-        - @transfers.each do |transfer|
-          %tr
-            %td= transfer.created_at
-            %td= link_to(transfer.from_warehouse.name, edit_warehouse_path(transfer.from_warehouse))
-            %td= link_to(transfer.to_warehouse.name, edit_warehouse_path(transfer.to_warehouse))
-            %td= link_to(transfer.batch.name, edit_batch_path(transfer.batch))
-            %td= transfer.quantity
-            %td= transfer.state
-            %td
-              - if transfer.state == 'not_sent'
-                %button{:class => 'btn btn-info', :ng_click=>"open($event, 'sm','transfer_content_" + transfer.id.to_s + "')"}
-                  = t(:send)
-                = render partial: 'shared/modal_state_change', locals: {idx: 'transfer_content_' + transfer.id.to_s, model: transfer, form_path: send_package_transfer_path(transfer), event: 'send_package', return_path: transfers_path}
-              - elsif transfer.state == 'sent'
-                %button{:class => 'btn btn-info', :ng_click=>"open($event, 'sm','transfer_content_" + transfer.id.to_s + "')"}
-                  = t(:receive)
-                = render partial: 'shared/modal_state_change', locals: {idx: 'transfer_content_' + transfer.id.to_s, model: transfer, form_path: receive_package_transfer_path(transfer), event: 'receive_package', return_path: transfers_path}
+    %tbody
+      - @transfers.each do |transfer|
+        %tr
+          %td= transfer.created_at
+          %td= link_to(transfer.from_warehouse.name, edit_warehouse_path(transfer.from_warehouse))
+          %td= link_to(transfer.to_warehouse.name, edit_warehouse_path(transfer.to_warehouse))
+          %td= link_to(transfer.batch.name, edit_batch_path(transfer.batch))
+          %td= transfer.quantity
+          %td= transfer.state
+          %td
+            - if transfer.state == 'not_sent'
+              %button{:class => 'btn btn-info', :ng_click=>"open($event, 'sm','transfer_content_" + transfer.id.to_s + "')"}
+                = t(:send)
+              = render partial: 'shared/modal_state_change', locals: {idx: 'transfer_content_' + transfer.id.to_s, model: transfer, form_path: send_package_transfer_path(transfer), event: 'send_package', return_path: transfers_path}
+            - elsif transfer.state == 'sent'
+              %button{:class => 'btn btn-info', :ng_click=>"open($event, 'sm','transfer_content_" + transfer.id.to_s + "')"}
+                = t(:receive)
+              = render partial: 'shared/modal_state_change', locals: {idx: 'transfer_content_' + transfer.id.to_s, model: transfer, form_path: receive_package_transfer_path(transfer), event: 'receive_package', return_path: transfers_path}
 
-            %td= link_to settings_icon, transfer_path(transfer)
-            %td= delete_modal_for transfer
+          %td= link_to settings_icon, transfer_path(transfer)
+          %td= delete_modal_for transfer
 
   = paginate @transfers, :theme => 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

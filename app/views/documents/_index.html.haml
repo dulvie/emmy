@@ -2,6 +2,7 @@
   %br
   - add_document_url = new_document_path({parent_id: parent.id, parent_type: parent.class.name})
   = link_to t(:add_document), add_document_url, class: 'btn btn-primary'
+
   %div{:ng_controller=>'ModalCtrl'}
     %table{:class => 'table table-striped'}
       %thead
@@ -11,12 +12,13 @@
           %th= t(:document)
           %th
           %th
-        %tbody
-          - documents.each do |document|
-            %tr
-              %td= document.created_at.strftime("%Y-%m-%d")
-              %td= document.user.nil? ? ' ' : document.user.name
-              %td= link_to document.name, document.upload.url, :target => "_blank"
-              %td= link_to settings_icon, document_path(document)
-              %td= delete_modal_for document
+      %tbody
+        - documents.each do |document|
+          %tr
+            %td= document.created_at.strftime("%Y-%m-%d")
+            %td= document.user.nil? ? ' ' : document.user.name
+            %td= link_to document.name, document.upload.url, :target => "_blank"
+            %td= link_to settings_icon, document_path(document)
+            %td= delete_modal_for document
+
     = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

@@ -27,7 +27,7 @@
           %td= show
           %td= link_to settings_icon, sale
           %td= delete_modal_for sale
-  
+
   = paginate sales, :theme => 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
  
