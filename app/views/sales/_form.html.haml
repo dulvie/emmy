@@ -16,8 +16,6 @@
     .form-button-group
       .actions
         = f.submit class: 'btn btn-primary'
-        - return_path = '&return_path='+new_sale_path
-        = link_to "#{t(:create)} #{t(:customer)}", new_customer_path+return_path, class: 'btn btn-default', id: 'link_cc', ng_show: 'cc'
 
   - else
     .form-group

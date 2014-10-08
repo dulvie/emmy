@@ -168,6 +168,11 @@ footer {
   background: $body-bg;
 }
 
+.form-horizontal .form-suffix-text {
+  @extend .control-label;
+  text-align: left;
+}
+
 .center-content {
   @extend .col-lg-14;
   @extend .col-lg-offset-17;
