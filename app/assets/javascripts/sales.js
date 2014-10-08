@@ -3,20 +3,32 @@ app.controller('sales_new_ctrl', function ($scope, ajaxService) {
 	$scope.customers = [];
 	$scope.selected = undefined;
 	$scope.reference = [];
-
+	$scope.cc = true;
 	$scope.init = function(url) {
 		ajaxService.get(url+"customers.json", "").then(function(data) {
 			var customer = data.customers;
 			$scope.customer = customer;
-		});		
+			$scope.set_ref();
+		});
 	};
-
-	$scope.type_ahead_customer = function (item, model, label) {		
+	$scope.set_ref = function() {
+		var cid = $('#sale_customer_id').val();
+		if (cid != '') {			
+			for (var i = 0; i < $scope.customer.length; i++) {
+				if ($scope.customer[i].id == cid) {
+					$scope.selected = $scope.customer[i].name;
+				}
+			}
+		}
+	};
+	$scope.type_ahead_customer = function (item, model, label) {
+		$scope.cc = false;
 	    $('#sale_customer_id').val(item.id);
 	    for (var i = 0; i < $scope.customer.length; i++) {
 	    	if ($scope.customer[i].id == item.id) {
 	    		$scope.reference = $scope.customer[i].contacts;
 	    		$('#sale_payment_term').val($scope.customer[i].payment_term);
+	    		//$scope.cc = false;
 	    	}
 	    }
 	};

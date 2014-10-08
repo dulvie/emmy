@@ -25,6 +25,7 @@ class CustomersController < ApplicationController
 
   # GET /customers/new
   def new
+    @return_path = params[:return_path]
   end
 
   # GET /customers/1
@@ -37,7 +38,9 @@ class CustomersController < ApplicationController
     @customer = Customer.new(customer_params)
     @customer.organization = current_organization
     if @customer.save
-      redirect_to customers_url, notice: "#{t(:customer)} #{t(:was_successfully_created)}"
+      return_path = customers_url
+      return_path = params[:return_path]+'&customer_id='+"#{@customer.id}" if params[:return_path]
+      redirect_to return_path, notice: "#{t(:customer)} #{t(:was_successfully_created)}"
     else
       flash.now[:danger] = "#{t(:failed_to_create)} #{t(:customer)}"
       render :new

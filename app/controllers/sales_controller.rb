@@ -44,6 +44,9 @@ class SalesController < ApplicationController
 
   def new
    @warehouses = current_organization.warehouses
+   if params[:customer_id]
+     @sale.customer_id = params[:customer_id]
+   end
   end
 
   def show

@@ -1,6 +1,6 @@
 = simple_form_for(@customer, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
   = f.error_notification
-
+  %input{id:'return_path', name: 'return_path', type: 'hidden', value: @return_path}
   = f.input :name, required: true, autofocus: true
   - if !@customer.new_record? && @customer.contacts?
     = f.input :primary_contact_id, as: :select, collection: @contacts

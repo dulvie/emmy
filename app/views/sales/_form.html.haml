@@ -16,6 +16,8 @@
     .form-button-group
       .actions
         = f.submit class: 'btn btn-primary'
+        - return_path = '&return_path='+new_sale_path
+        = link_to "#{t(:create)} #{t(:customer)}", new_customer_path+return_path, class: 'btn btn-default', id: 'link_cc', ng_show: 'cc'
 
   - else
     .form-group
@@ -24,3 +26,16 @@
       .fields_width.form-control-static
         - @sale.states.each do |s|
           = s
+
+:javascript
+  $(document).ready(function() {
+
+  $('#link_cc').on("click", function(e) {
+   localStorage.setItem('warehouse', $('#sale_warehouse_id').val());
+  });
+  var inwh = $('#sale_warehouse_id').val();
+  var warehouse = localStorage.getItem('warehouse');
+  if (warehouse && inwh == ""){
+    $('#sale_warehouse_id').val(warehouse);
+  }
+  });
