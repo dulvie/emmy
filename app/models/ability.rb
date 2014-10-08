@@ -3,6 +3,9 @@ class Ability
   def initialize(user)
     return nil unless user.try(:email)
 
+    # a user can manage self.
+    can :manage, User, id: user.id
+
     roles = user.organization_roles.roles_with_access
     admin_roles = roles.select{ |role| role.name.eql?(OrganizationRole::ROLE_ADMIN)}
     admin_at = admin_roles.map{|r| r.organization_id}

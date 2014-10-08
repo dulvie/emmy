@@ -22,6 +22,12 @@ class ApplicationController < ActionController::Base
     o.merge(super)
   end
 
+  # this is also needed becauses unknown reason.
+  # without this, the locale is not present when there is no organization_slug needed for the route.
+  def default_url_options(options={})
+    { locale: I18n.locale }
+  end
+
   def current_organization
     unless @current_organization
       load_organization if params[:organization_slug]
@@ -32,10 +38,9 @@ class ApplicationController < ActionController::Base
 
 
   def load_organization
-    halt(403) and return unless current_user
+    redirect_to(root_path) and return unless current_user
     @current_organization ||= Organization.find_by_slug(params[:organization_slug])
     authorize! :read, @current_organization
-    logger.info "auth of current org#{@current_organization}is ok"
   end
 
   private

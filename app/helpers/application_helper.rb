@@ -72,19 +72,4 @@ module ApplicationHelper
       end
     end
   end
-
-
-  private
-
-  # get the first /<section> from a path
-  def get_first_segment(link_path)
-    s = link_path[1..link_path.size].
-        split("/").
-        first.
-        gsub("/", "")
-    # special treatment for dashboard
-    s = "dashboard" if s.empty?
-    s.to_s
-  end
-
 end

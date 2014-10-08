@@ -241,5 +241,8 @@ en:
   welcome_to_emmy: "Welcome to Emmy, the app to handle logistics for small organizations."
   weight: "Weight"
   work: "Work"
+  which_organization_do_you_want_to_work_on: "Which organization do you want to work on?"
   your_reference: "Your reference"
+  your_organizations: "Your organizations"
+  your_profile: "Your profile"
   zip: "Zip"

@@ -76,21 +76,19 @@ Given /^I am a signed in user without an organization$/ do
   click_button "Sign in"
 end
 
+Given /^I sign in as "(.*?)" with password "(.*?)"$/ do |email, password|
+  visit new_user_session_path
+  fill_in "user_email", with: email
+  fill_in "user_password", with: password
+  click_button "Sign in"
+end
+
 Then /^a user with the role "(.*?)" on "(.*?)" should exist$/ do |role_name, organization_name|
   o = Organization.find_by_name organization_name
   assert o
   roles = o.organization_roles.map{|role| role.name}
   assert roles.include?(role_name)
 end
-
-Given /^a user with email "(.*?)" exists and have no roles on "(.*?)"$/ do |email, organization_name|
-  o = Organization.find_by_name organization_name
-  assert o, "no organization found"
-  u = FactoryGirl.create(:user, email: email, name: email.gsub('@', ''))
-  assert u, "no user present"
-  assert (u.organization_roles.where(organization_id: o.id).count == 0), "user already has a role"
-end
-
 
 Given /^I visit (.*?)_path$/ do |resource_name|
   visit send("#{resource_name}_path")
@@ -112,7 +110,9 @@ Given /^I click "([^"]*?)"$/ do |button_string|
 end
 
 Given /^I fill in "(.*?)" with "(.*?)"$/ do |field_name, field_value|
-  assert page.has_field?(field_name)
+  puts page.body unless page.has_field?(field_name)
+
+  assert page.has_field?(field_name), "unable to find field"
   fill_in field_name, with: field_value
 end
 
@@ -132,6 +132,9 @@ end
 Given /^I check "(.*?)"$/ do |name|
   check name
 end
+Given /^I choose "(.*?)"$/ do |name|
+  choose name
+end
 
 Given /^I uncheck "(.*?)"$/ do |name|
   uncheck name
@@ -144,25 +147,6 @@ end
 
 Then /^I should see a "(.*?)" link$/ do |string|
   assert_equal page.has_link?(string), true
-end
-
-Then /^a user with email "(.*?)" should have the "(.*?)" role on "(.*?)"$/ do |email, role_name, org_name|
-  o = Organization.find_by_name org_name
-  assert o, "no organization found"
-  u = User.find_by_email email
-  assert u, "no user found"
-  u.organization_roles.each do |role|
-    puts "#{u.name} has role #{role.name} on #{role.organization.name}"
-  end
-  assert (u.organization_roles.where(name: role_name).where(organization_id: o.id).count > 0), "no role found"
-end
-
-Then /^a user with email "(.*?)" should not have the "(.*?)" role on "(.*?)"$/ do |email, role_name, org_name|
-  o = Organization.find_by_name org_name
-  assert o, "no organization found"
-  u = User.find_by_email email
-  assert u, "no user found"
-  assert (u.organization_roles.where(name: role_name).where(organization_id: o.id).count == 0), "role found"
 end
 
 Given /^a "(.*?)" with "(.*?)" equals to "(.*?)" exists$/ do |resource_name, field_name, field_value|

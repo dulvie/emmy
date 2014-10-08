@@ -1,5 +1,7 @@
 require 'resque/server'
 Emmy::Application.routes.draw do
+  get 'profile', to: 'profile#show'
+  patch 'profile', to: 'profile#update'
 
   root 'pages#start'
   devise_for :users, controllers: {sessions: 'user_sessions'}
@@ -29,12 +31,10 @@ Emmy::Application.routes.draw do
     end
   end
 
-  get 'profile/show'
-  get 'profile/update'
 
   get "organization_selector", to: "dashboard#organization_selector"
   get ':organization_slug', to: 'organizations#show', as: 'organization'
-  post ':organization_slug', to: 'organizations#update'
+  patch ':organization_slug', to: 'organizations#update'
   scope ':organization_slug' do
     get "dashboard", to: "dashboard#index"
     resources :batches

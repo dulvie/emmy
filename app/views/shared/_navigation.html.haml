@@ -64,7 +64,7 @@
             %ul.dropdown-menu
               - if current_user.superadmin?
                 %li=link_to t(:admin), admin_dashboard_path
-              %li=link_to t(:profile), profile_show_path
+              %li=link_to t(:profile), profile_path
               %li=link_to t(:sign_out), destroy_user_session_path, method: :delete
 
       - else
