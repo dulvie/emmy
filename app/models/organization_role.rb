@@ -7,7 +7,12 @@ class OrganizationRole < ActiveRecord::Base
   #           unique: true,
   #           name: :organization_roles_index
 
-  ROLES=[ROLE_ADMIN='admin', ROLE_STAFF='staff', ROLE_SUPERADMIN='superadmin', ROLE_SUSPENDED='suspended']
+  ALL_ROLES    = [ROLE_ADMIN = 'admin',
+                  ROLE_STAFF = 'staff',
+                  ROLE_SUPERADMIN = 'superadmin',
+                  ROLE_SUSPENDED = 'suspended']
+  ROLES        = [ROLE_ADMIN, ROLE_STAFF, ROLE_SUSPENDED]
+  ACCESS_ROLES = [ROLE_ADMIN, ROLE_STAFF]
 
   scope :roles_with_access, -> { where('name in (?)', [ROLE_STAFF, ROLE_ADMIN]) }
 
@@ -16,4 +21,5 @@ class OrganizationRole < ActiveRecord::Base
 
   attr_accessible :name, :user_id, :organization_id
 
+  validates :name, presence: true, inclusion: { in: ALL_ROLES }
 end

@@ -1,4 +1,5 @@
-Feature: A superadmin should be able to add and remove roles from users.
+Feature: A superadmin should be able to add and remove roles from users
+  by using the /admin scope
 
   Scenario: Add role
     Given I am signed in as a superadmin

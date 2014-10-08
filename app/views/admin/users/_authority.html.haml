@@ -1,25 +1,11 @@
 = simple_form_for @user_roles, url: update_roles_admin_user_path(id: @user.id, organization_id: @organization.id), method: :patch, wrapper: 'horizontal_form', html: {class: 'form-horizontal'} do |f|
   = f.error_notification
-
-
-
   .form-group.check_boxes.optional.user_roles
     %label.check_boxes.optional.col-sm-11.col-md-9.col-lg-7.control-label
       =t(:organization_roles)
     .col-sm-20.col-md-20.col-lg-12
       - OrganizationRole::ROLES.each do |role_name|
         = f.input role_name.to_sym, as: :boolean, wrapper: :horizontal_boolean
-  -# This is ugly because we don't use a normal association.
-    .form-group.check_boxes.optional.user_roles
-      %label.check_boxes.optional.col-sm-11.col-md-9.col-lg-7.control-label
-        =t(:organization_roles)
-      .col-sm-20.col-md-20.col-lg-12
-        - OrganizationRole::ROLES.each do |role_name|
-          %span.checkbox
-            %label{for: "role_name_#{role_name}"}
-              = check_box 'role_name', role_name, class: 'check_boxes optional'
-              = role_name
-
 
   .form-button-group
     .actions

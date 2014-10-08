@@ -24,6 +24,7 @@ class UsersController < ApplicationController
       @contact = @user.contacts
       @contact_relation_form_url = contact_relation_path(parent_type: 'User', parent_id: @user.id)
     end
+    @user_roles = Services::UserRoles.new(@user, current_organization)
   end
 
   # GET /users/new
@@ -44,14 +45,14 @@ class UsersController < ApplicationController
   end
 
   def update_roles
-    @user_roles = Services::UserRoles.new(@user, @organization, role_params)
+    @user_roles = Services::UserRoles.new(@user, current_organization, role_params)
     logger.info "will update roles for #{@user.name} with :#{role_params.inspect}"
     if @user_roles.sync
-      flash.now[:notice] = "#{t(:user)} #{t(:roles)} #{t(:was_successfully_updated)}"
+      flash[:notice] = "#{t(:user)} #{t(:roles)} #{t(:was_successfully_updated)}"
     else
-      flash.now[:danger] = "#{t(:failed_to_update)} #{t(:roles)} for #{@user.email} on #{@organization.name}"
+      flash[:danger] = "#{t(:failed_to_update)} #{t(:roles)} for #{@user.email} on #{current_organization.name}"
     end
-    render :show
+    redirect_to user_path(@user)
   end
 
   private
@@ -64,11 +65,8 @@ class UsersController < ApplicationController
     params.require(:services_invite).permit(:email)
   end
 
-  # remove the superadmin param from the roles.
   def role_params
     rprms = params.require(:services_user_roles).permit(OrganizationRole::ROLES)
-    rprms[:superadmin].delete
-    rprms
   end
 
   def authorize_organization_permissions

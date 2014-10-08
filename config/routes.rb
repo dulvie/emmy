@@ -100,7 +100,11 @@ Emmy::Application.routes.draw do
       end
     end
     resources :units
-    resources :users
+    resources :users do
+      member do
+        patch :update_roles, as: :update_roles
+      end
+    end
     resources :vats
     resources :warehouses
   end
