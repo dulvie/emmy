@@ -5,7 +5,7 @@
     %input{:type => 'hidden', :name => 'class',  :value => params['class']}
     %input{:type => 'hidden', :name => 'object', :value => params['object']}
 
-    = f.association :item, collection: @items, :input_html => {:ng_model => 'item_id', :ng_change => 'select_item(true)'}
+    = f.association :item, collection: @items, disabled: !@batch.new_record?, :input_html => {:ng_model => 'item_id', :ng_change => 'select_item(true)'}
 
     = f.input :name
     = f.input :comment
