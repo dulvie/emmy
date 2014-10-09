@@ -7,7 +7,7 @@ class ManualsController < ApplicationController
   # GET /manuals.json
   def index
     @breadcrumbs = [['Manuals']]
-    @manuals = Manual.page(params[:page]).per(8)
+    @manuals = current_organization.manuals.page(params[:page]).per(8)
   end
 
   # GET /manuals/1
