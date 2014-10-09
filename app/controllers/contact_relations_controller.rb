@@ -59,7 +59,7 @@ class ContactRelationsController < ApplicationController
   end
 
   def update
-    @contact = Contact.find(params[:contact][:id])
+    @contact = current_organization.contacts.find(params[:contact][:id])
     respond_to do |format|
       if @contact.update(contact_params)
         format.html { redirect_to polymorphic_path(@parent), notice: "#{t(:contact)} #{t(:was_successfully_updated)}" }
