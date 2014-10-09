@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     else
       @contact_relation = @user.contact_relation
       @contact = @user.contacts
-      @contact_relation_form_url = contact_relation_path(parent_type: 'User', parent_id: @user.id)
+      @contact_relation_form_url = contact_relation_path(@contact_relation)
     end
     @user_roles = Services::UserRoles.new(@user, current_organization)
   end

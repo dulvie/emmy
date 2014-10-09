@@ -27,9 +27,17 @@ module Services
         return false
       end
 
+      contact = organization.contacts.find_by_email u.email
+      if contact
+         @contact_relation = u.build_contact_relation
+         @contact_relation.organization = @organization
+         @contact_relation.contact = contact
+         @contact_relation.save
+      end
 
       user_roles = Services::UserRoles.new(u, organization, {OrganizationRole::ROLE_STAFF => "1"}.with_indifferent_access)
       user_roles.sync
+
     end
 
     def create_new_user

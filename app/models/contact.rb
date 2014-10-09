@@ -21,7 +21,11 @@ class Contact < ActiveRecord::Base
   VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', 'ContactRelation', 'User']
 
   def check_email
-    return false if organization.contacts.where('email=? and id <> ?', email, id).count == 0
+    if new_record?
+      return false if organization.contacts.where('email=?', email).count == 0
+    else
+      return false if organization.contacts.where('email=? and id=?', email, id).count == 0
+    end
     true
   end
 
