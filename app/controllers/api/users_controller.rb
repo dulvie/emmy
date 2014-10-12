@@ -7,16 +7,15 @@ class Api::UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.default_organization_id = params[:user][:organization_id]
+    if params[:user][:role] == 'admin'
+      @user.organization_roles.build(organization_id: params[:user][:organization_id], name: OrganizationRole::ROLE_ADMIN)
+    end
+    if params[:user][:role] == 'seller'
+      @user.organization_roles.build(organization_id: params[:user][:organization_id], name: OrganizationRole::ROLE_STAFF)
+    end
     respond_to do |format|
       if @user.save
-        if params[:user][:role] == 'admin'
-          @user.roles <<  Role.first
-          @user.save
-        end
-        if params[:user][:role] == 'seller'
-          @user.roles <<  Role.last
-          @user.save
-        end
         format.json { render json: @user.id, status: :created }
        else
         format.json { render json: @user.errors, status: :unprocessable_entity }
