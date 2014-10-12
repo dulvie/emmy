@@ -25,10 +25,11 @@ class ApplicationController < ActionController::Base
   # this is also needed becauses unknown reason.
   # without this, the locale is not present when there is no organization_slug needed for the route.
   def default_url_options(options={})
-    { locale: I18n.locale }
+    options.merge({locale: I18n.locale})
   end
 
   def current_organization
+    return nil unless signed_in?
     unless @current_organization
       load_organization if params[:organization_slug]
     end
