@@ -18,7 +18,7 @@ jtest = User.new({
   password: "foobar",
   password_confirmation: "foobar"
 })
-jtest.default_organization_id = o.id
+jtest.default_organization_id = 0
 jtest.organization_roles.build(organization_id: 0, name: OrganizationRole::ROLE_SUPERADMIN)
 jtest.save
 
