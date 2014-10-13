@@ -8,13 +8,19 @@ OBS! Demo-organization?
 6. Setup organisation
 7. Setup Unit
 8. Setup Vat
-9. Setup Item
+9. Setup Item OBS måste samordnas med importen, registrera så item får "rätt" ID.
 10. Perform import from old sql-dump into emmy.
 11. Import users and verify
 12. Import warehouses and verify
 13. Import customers and verify
 14. Import batches and verify, id for items needed
 15. Import manuals and verify (id for warehouse and batches)
-16. Import sales and verify from 2013-? (id for customer, warehouse and batch)
+16. Import sales and verify from 2011/2012/2013-? (id for customer, warehouse and batch)
 17. Setup of extra??
+18. Users - ska alla bli admin? Gå igenom och komplettera kontaktuppgifter!
+19. Warehouses - kontrollera uppgifter. Alla kontakter måste läggas till. Kontrollera shelves!
+20. Customer - gå igenom och komplettera, tex alla är satta reseller. Lägg till kontakter!
+21. Batches - är de rätt kopplade till item
+22. Manuals -
+23. Sales - 
 18. Open emmy

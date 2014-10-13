@@ -16,6 +16,7 @@ class Api::UsersController < ApplicationController
     end
     respond_to do |format|
       if @user.save
+        create_contact if params[:user][:fullname]
         format.json { render json: @user.id, status: :created }
        else
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -24,6 +25,20 @@ class Api::UsersController < ApplicationController
   end
 
   private
+    def create_contact
+      @contact_relation = @user.build_contact_relation
+      @contact_relation.organization_id = params[:user][:organization_id]
+      
+      @contact = @contact_relation.build_contact
+      @contact.organization_id = params[:user][:organization_id]
+      @contact.name = params[:user][:fullname]
+      @contact.email = params[:user][:email]
+      @contact.save
+
+      @contact_relation.contact = @contact
+      @contact_relation.save
+    end
+
     def user_params
       params.require(:user).permit(User.accessible_attributes.to_a)
     end
