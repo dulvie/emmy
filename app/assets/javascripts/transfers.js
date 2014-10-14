@@ -5,7 +5,7 @@ app.controller('transfer_form_ctrl', function ($scope) {
 		$scope.warehouse_id = $('#transfer_from_warehouse_id').val();
 		for (x=0; x < gon.warehouses.length; x++) {
 			if ($scope.warehouse_id == gon.warehouses[x].id) {
-				options = gon.warehouses[x].shelves;
+				$scope.options = gon.warehouses[x].shelves;
 				//$scope.product_id = $scope.options[0].product_id
 				//$scope.quantity = $scope.options[0].quantity
 			};
