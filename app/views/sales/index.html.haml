@@ -1,4 +1,4 @@
-.form-inline{:ng_controller=>'sale_index_ctrl'}
+.form-inline
   = link_to "#{t(:create)} #{t(:sale)}", new_sale_path, class: 'btn btn-default'
   %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
     %option{value: sales_path} #{t(:filter)}: #{t(:all)}
@@ -54,10 +54,4 @@
   $(document).ready(function() {
     var path = document.location.pathname + document.location.search
     $('#selp').val(path);
-    $('#search').bind('keypress', function(e) {
-    var code = e.keyCode || e.which;
-    if(code == 13) { //Enter keycode
-      $('#search_link')[0].click();
-    }
-  });
   });
