@@ -1,3 +1,6 @@
+app.controller('sale_index_ctrl', function ($scope) {
+	//$scope.invoice_number = "20160";
+});
 app.controller('sales_new_ctrl', function ($scope, ajaxService) {
 
 	$scope.customers = [];

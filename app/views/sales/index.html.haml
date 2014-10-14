@@ -1,4 +1,4 @@
-.form-inline
+.form-inline{:ng_controller=>'sale_index_ctrl'}
   = link_to "#{t(:create)} #{t(:sale)}", new_sale_path, class: 'btn btn-default'
   %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
     %option{value: sales_path} #{t(:filter)}: #{t(:all)}
@@ -9,7 +9,7 @@
   .input-group.col-sm-8
     %input{:class=> 'form-control', :placeholder=>'Invoice search', :ng_model=>'invoice_number', :id => 'search'}
     .input-group-addon
-      %a{:href => invoice_search_sales_path(invoice_number: '{{invoice_number}}'), :id => 'search_link'}
+      %a{:href => CGI::unescape(invoice_search_sales_path(invoice_number: '{{invoice_number}}')), :escape => false, :id => 'search_link'}
         %i{ :class=>"glyphicon glyphicon-search search_icon"}
 
 %div{:ng_controller=>'ModalCtrl'}
