@@ -7,10 +7,11 @@
     %option{value: sales_path + '&goods_state=not_delivered'} #{t(:not_delivered)}
     %option{value: sales_path + '&money_state=not_paid'} #{t(:not_paid)}
   .input-group.col-sm-8
-    %input{:class=> 'form-control', :placeholder=>'Invoice search', :ng_model=>'invoice_number', :id => 'search'}
-    .input-group-addon
-      %a{:href => CGI::unescape(invoice_search_sales_path(invoice_number: '{{invoice_number}}')), :escape => false, :id => 'search_link'}
-        %i{ :class=>"glyphicon glyphicon-search search_icon"}
+    = form_tag invoice_search_sales_path(), method: :get do
+      .input-group
+        = text_field_tag('invoice_number','', placeholder: t(:invoice_search), class: 'form-control')
+        .span.input-group-btn
+          = button_tag(search_icon, class: 'btn btn-default')
 
 %div{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}

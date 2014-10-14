@@ -13,7 +13,8 @@ class ApplicationController < ActionController::Base
   # i18n support using param from the url.
   before_filter :set_locale
   def set_locale
-    I18n.locale = locale_from_params || I18n.default_locale
+    current_locale = current_user.default_locale if current_user
+    I18n.locale = locale_from_params || current_locale || I18n.default_locale
   end
 
   def url_options
