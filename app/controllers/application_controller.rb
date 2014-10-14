@@ -50,4 +50,8 @@ class ApplicationController < ActionController::Base
   def locale_from_params
     params[:locale] if (params[:locale] && ['en', 'se'].include?(params[:locale]))
   end
+
+  def current_ability
+    @current_ability ||= Ability.new(current_user, current_organization)
+  end
 end

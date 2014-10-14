@@ -1,7 +1,8 @@
 class Ability
   include CanCan::Ability
-  def initialize(user)
+  def initialize(user, current_organization=nil)
     return nil unless user.try(:email)
+    @current_organization = current_organization
 
     # a user can manage self.
     can :manage, User, id: user.id
@@ -19,7 +20,9 @@ class Ability
 
   def admin_roles_for(oids)
     can :manage, Organization, id: oids
-    can :manage, User
+    if @current_organization && oids.include?(@current_organization.id)
+      can :create, User
+    end
   end
 
   def staff_roles_for(oids) 

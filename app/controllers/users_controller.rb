@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authorize_organization_permissions
+  before_filter :authorize_organization_permissions, except: [:index, :show]
   before_filter :load_user, except: [:index, :new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update]
   before_filter :new_breadcrumbs, only: [:new, :create]
