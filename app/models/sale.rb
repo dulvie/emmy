@@ -30,7 +30,7 @@ class Sale < ActiveRecord::Base
 
   attr_accessible :user_id, :warehouse_id, :customer_id, :contact_email, :contact_name,
                   :payment_term, :state, :approved_at, :goods_state, :delivered_at,
-                  :money_state,  :paid_at, :organization, :organization_id
+                  :money_state,  :paid_at, :organization, :organization_id, :invoice_number
 
   validates :customer_id, presence: true
   validates :warehouse_id, presence: true
@@ -198,7 +198,8 @@ class Sale < ActiveRecord::Base
   # Callback: after_create
   # @todo This might have race condition inside, find better solution?
   def add_invoice_number
-    raise RuntimeError if invoice_number
+    return if invoice_number
+    #raise RuntimeError if invoice_number
     update_column(:invoice_number, (Sale.where(organization_id: organization_id).maximum(:invoice_number) || 0) +1)
   end
 
@@ -214,6 +215,11 @@ class Sale < ActiveRecord::Base
 
   def invoice_sent?
     (sent_email_at)
+  end
+
+  def has_document?
+    return false if document.nil?
+    return true
   end
 
   # Callback: before_create

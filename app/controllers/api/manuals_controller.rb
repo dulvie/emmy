@@ -6,8 +6,9 @@ class Api::ManualsController < ApplicationController
   skip_authorization_check
 
   def create
-    warehouse = Warehouse.find(params[:manual][:warehouse_id])
-    batch = Batch.find(params[:manual][:batch_id])
+    organization = Organization.find(params[:manual][:organization_id])
+    warehouse = organization.warehouses.find(params[:manual][:warehouse_id])
+    batch = organization.batches.find(params[:manual][:batch_id])
 
     batch_transaction = BatchTransaction.new(
       warehouse: warehouse,
@@ -18,7 +19,7 @@ class Api::ManualsController < ApplicationController
     @manual = Manual.new(manual_params)
     @manual.comments.build(user_id: 1, body: params[:manual][:comment], organization_id: params[:manual][:organization_id])
     @manual.batch_transaction = batch_transaction
-
+    @manual.organization = organization
     respond_to do |format|
       if @manual.save
         format.json { render json: @manual.id, status: :created }
