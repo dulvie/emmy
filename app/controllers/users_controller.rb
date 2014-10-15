@@ -15,13 +15,13 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @breadcrumbs = [['Users', users_path], [@user.email]]
-    if @user.contact_relation.nil?
-      @contact_relation = @user.build_contact_relation
+    if @user.contact_relations.search_by_org(current_organization).first.nil?
+      @contact_relation = @user.contact_relations.build
       @contact = @contact_relation.build_contact
       @contact_relation_form_url = contact_relations_path(parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
     else
-      @contact_relation = @user.contact_relation
-      @contact = @user.contacts
+      @contact_relation = @user.contact_relations.search_by_org(current_organization).first
+      @contact = @user.contacts.search_by_org(current_organization).first
       @contact_relation_form_url = contact_relation_path(@contact_relation)
     end
     @user_roles = Services::UserRoles.new(@user, current_organization)

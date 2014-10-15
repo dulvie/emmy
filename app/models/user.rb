@@ -21,8 +21,18 @@ class User < ActiveRecord::Base
   attr_accessible :name, :default_locale,
                   :email, :password, :password_confirmation, :remember_me # by devise
 
-  has_one :contact_relation, as: :parent
-  has_one :contacts, through: :contact_relation
+  has_many :contact_relations, as: :parent do
+    def search_by_org(o)
+      where('organization_id = ?', o.id)
+    end
+  end
+
+  has_many :contacts, through: :contact_relations do
+    def search_by_org(o)
+      where('"contact_relations"."organization_id" = ?', o.id)
+    end
+  end
+
   belongs_to :default_organization, class_name: 'Organization'
   has_many :organization_roles
 
@@ -40,6 +50,11 @@ class User < ActiveRecord::Base
 
   def superadmin?
     @superadmin ||= organization_roles.where(organization_id: 0).where(name: 'superadmin').count > 0
+  end
+ 
+  def admin_in_org(o)
+    return true if organizations_roles.where(organization_id: o.id).where(name: 'admin').count > 0
+    false
   end
 
   # Used by Devise to check if the user object can sign in.

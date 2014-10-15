@@ -15,10 +15,19 @@ class Contact < ActiveRecord::Base
   attr_accessible :email, :name, :telephone, :address, :zip, :city, :country, :comment, :organization
 
   validates :name, presence: true
-  validates :email, uniqueness: true
+  validates :email, uniqueness: true, if: :check_email
   validates :email, presence: true
 
   VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', 'ContactRelation', 'User']
+  
+  def check_email
+    if new_record?
+      return true if Contact.where('organization_id = ? and email = ?', organization_id, email).size > 0
+    else
+      return true if Contact.where('organization_id = ? and email = ?', organization_id, email).size > 1
+    end
+    false
+  end
 
   # For ApplicationHelper#delete_button
   def can_delete?

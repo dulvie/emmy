@@ -15,7 +15,7 @@
         %tr
           %td= user.name
           %td= link_to user.email, user_path(user)
-          %td= user.contacts.telephone if !user.contacts.nil?
+          %td= user.contacts.search_by_org(current_organization).first.telephone if !user.contacts.search_by_org(current_organization).first.nil?
           %td= user.roles(current_organization.id)
           %td= link_to settings_icon, user_path(user)
 
