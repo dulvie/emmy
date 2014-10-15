@@ -18,5 +18,4 @@ class BatchDecorator < Draper::Decorator
   def vat_modifier
     vat.to_i > 0 ? vat/100.0 : vat || 0
   end
-
 end

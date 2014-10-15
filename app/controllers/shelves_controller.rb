@@ -6,6 +6,6 @@ class ShelvesController < ApplicationController
     authorize! :read, @shelf.batch
     @batch_transactions = BatchTransaction
       .where(warehouse_id: @shelf.warehouse_id)
-      .where(batch_id: @shelf.batch_id)
+      .where(batch_id: @shelf.batch_id).decorate
   end
 end

@@ -1,7 +1,6 @@
+= link_to t(:add_comment), new_comment_path(parent_id: 0, parent_type: nil), class: 'btn btn-default'
+
 %div{:ng_controller=>'ModalCtrl'}
-  .col-sm-48
-    - add_comment_url = new_comment_path({parent_id: 0, parent_type: 'nil'})
-    = link_to t(:add_comment), add_comment_url, class: 'btn btn-default'
   .col-sm-24
     .list-group
     - @comments.each do |comment|
