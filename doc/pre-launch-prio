@@ -9,6 +9,7 @@ Top prio:
 * Tests?
 * Hur ska in_price sättas när batch skapas i import och production?
 * Rensning i kodbasen det som ej används
+* Set up a demo organization with default demo-data. Funktion att återställa default demo-data.
 
 Later Prio:
 * Referenser och borttag - en genomgång behövs
@@ -28,6 +29,7 @@ Later Prio:
 * system documentation - Graph of the models, for clarity subgraphs of such sale, purchase, batch
 * Set up varius design proposals eg Table header row with or without background color?
 * Shelf incomming quantities are not shown if batch not on shelf
+* Errormessages in languagefile?
 
 * Issues from backlog ---
 * #7 item_group as separate model

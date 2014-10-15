@@ -6,6 +6,7 @@
       %tr
         %th= t(:user)
         %th= t(:email)
+        %th= t(:telephone)
         %th= t(:roles)
         %th
     %tbody
@@ -14,6 +15,7 @@
         %tr
           %td= user.name
           %td= link_to user.email, user_path(user)
+          %td= user.contacts.telephone if !user.contacts.nil?
           %td= user.roles(current_organization.id)
           %td= link_to settings_icon, user_path(user)
 

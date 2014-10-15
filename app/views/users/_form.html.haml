@@ -1,15 +1,9 @@
 = simple_form_for(@user, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
   = f.error_notification
 
-  = f.input :name, required: true, autofocus: true, disabled: (!can? :manage, @user)
-  = f.input :email, required: true, :input_html => {:autocomplete=> "off"}
+  = f.input :name, disabled: true
+  = f.input :email, disabled: true
   = f.input :default_locale, as: :radio_buttons,
     collection: [[t(:english), :en],[t(:swedish), :se]],
-    wrapper: :horizontal_radio_and_checkboxes
-  - if can? :manage, @user
-    = f.input :password, required: true
-    = f.input :password_confirmation, required: true
+    wrapper: :horizontal_radio_and_checkboxes, disabled: true
 
-    .form-button-group
-      .actions
-        = f.submit class: 'btn btn-primary'

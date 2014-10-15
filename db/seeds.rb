@@ -11,6 +11,8 @@ o = Organization.new name: "Default organization"
 o.save
 o2 = Organization.new name: "Check organization"
 o2.save
+o3 = Organization.new name: "Demo organization"
+o3.save
 
 jtest = User.new({
   name: "jtest",
@@ -18,7 +20,7 @@ jtest = User.new({
   password: "foobar",
   password_confirmation: "foobar"
 })
-jtest.default_organization_id = 0
+jtest.default_organization_id = 3
 jtest.organization_roles.build(organization_id: 0, name: OrganizationRole::ROLE_SUPERADMIN)
 jtest.save
 
@@ -31,6 +33,7 @@ ktest = User.new({
 ktest.default_organization_id = o.id
 ktest.organization_roles.build(organization_id: o.id, name: OrganizationRole::ROLE_ADMIN)
 ktest.organization_roles.build(organization_id: o2.id, name: OrganizationRole::ROLE_STAFF)
+ktest.organization_roles.build(organization_id: o3.id, name: OrganizationRole::ROLE_STAFF)
 ktest.save
 
 xtest = User.new({
@@ -41,6 +44,7 @@ xtest = User.new({
 })
 xtest.default_organization_id = o.id
 xtest.organization_roles.build(organization_id: o.id, name: OrganizationRole::ROLE_ADMIN)
+xtest.organization_roles.build(organization_id: o2.id, name: OrganizationRole::ROLE_STAFF)
 xtest.save
 
 ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg", organization: o})

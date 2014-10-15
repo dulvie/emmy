@@ -57,14 +57,14 @@ class ProfileController < ApplicationController
       @contact = @contact_relation.build_contact
       @contact_relation_form_url = contact_relations_path(parent_type: @contact_relation.parent_type,
                                                           parent_id: @contact_relation.parent_id,
-                                                          organization_slug: @user.default_organization.slug)
+                                                          organization_slug:  @user.default_organization.slug)
     else
       @contact_relation = @user.contact_relation
       @contact = @user.contacts
       @contact_relation_form_url = contact_relation_path(@contact_relation,
                                                          parent_type: 'User',
                                                          parent_id: @user.id,
-                                                         organization_slug: @user.default_organization.slug)
+                                                         organization_slug:  @user.default_organization.slug)
     end
   end
 end
