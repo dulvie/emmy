@@ -17,7 +17,7 @@ module ApplicationHelper
   def delete_modal_for(obj, other_path = nil)
     return unless obj.can_delete?
     path = other_path || url_for(obj)
-    link_to delete_icon, '#', :ng_click =>"open_delete($event, 'sm','deleteContent', '#{path}')"
+    link_to delete_icon(obj), '#', :ng_click =>"open_delete($event, 'sm','deleteContent', '#{path}')"
   end
 
   # @todo Refactor this into an module or something.
@@ -26,8 +26,9 @@ module ApplicationHelper
   def settings_icon
     "<i class=\"glyphicon glyphicon-cog settings-icon\"> </i>".html_safe
   end
-  def delete_icon
-    "<i class=\"glyphicon glyphicon-trash delete-icon\"> </i>".html_safe
+  def delete_icon(obj = nil)
+    extra_css_class = "#{obj.class.name.downcase}-#{obj.id}" if obj
+    glyphicon('trash', "delete-icon #{extra_css_class}")
   end
   def plus_icon
     "<i class=\"glyphicon glyphicon-plus-sign plus-icon\"> </i>".html_safe
@@ -53,6 +54,11 @@ module ApplicationHelper
 
   def envelope_icon
     "<i class=\"glyphicon glyphicon-envelope envelope_icon\"> </i>".html_safe
+  end
+
+  def glyphicon(icon_name, extra_css_classes = '')
+    class_string = "glyphicon glyphicon-#{icon_name} #{extra_css_classes}"
+    content_tag(:i, ' ', class: class_string)
   end
 
   def nav_link link_text, link_path
