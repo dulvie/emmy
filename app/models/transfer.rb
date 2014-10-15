@@ -95,12 +95,14 @@ class Transfer < ActiveRecord::Base
   end
 
   def create_to_transaction
-    t = build_to_transaction(
+    t = BatchTransaction.new(
+      parent: self,
+      parent_id: id, 
       warehouse_id: to_warehouse_id,
       batch_id: batch_id,
       quantity: quantity,
       organization_id: organization_id
-    )
+      )
     t.save!
   end
 
