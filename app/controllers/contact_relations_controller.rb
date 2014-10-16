@@ -36,6 +36,14 @@ class ContactRelationsController < ApplicationController
         # Contact.save as service
         @contact_relation.contact = @contact
         if @contact_relation.save
+          u = current_organization.users.find_by_email @contact.email
+          Rails.logger.info "CR: #{u.inspect} #{@contact.email}"
+          if u
+            contact_relation = u.contact_relations.build
+            contact_relation.organization = current_organization
+            contact_relation.contact = @contact
+            contact_relation.save
+          end
           format.html { redirect_to @parent, notice: "#{t(:contact_added)}" }
         else
           flash.now[:danger] = "#{t(:failed_to_add)} #{t(:contact)}"

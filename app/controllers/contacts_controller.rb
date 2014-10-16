@@ -20,6 +20,7 @@ class ContactsController < ApplicationController
     @contact.organization = current_organization
     respond_to do |format|
       if @contact.save
+        # Contact.save as service
         u = current_organization.users.find_by_email @contact.email
         if u
           @contact_relation = u.contact_relations.build
