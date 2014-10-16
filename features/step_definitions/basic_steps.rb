@@ -212,3 +212,10 @@ Then /^I should not see a button with text "(.*?)"$/ do |string|
     assert true
   end
 end
+
+Then /^I click the state button "(.*?)" and confirm the state change$/ do |string|
+  click_on string
+  confirm_link = find('.modal-body .btn.btn-primary')
+  confirm_link.click
+end
+

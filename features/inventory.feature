@@ -24,15 +24,15 @@ Feature: Crud inventory
     And I click "Create Inventory"
     Then I should see "Failed to create"
 
+  @javascript
   Scenario: start a inventory
     Given I am a signed in user
-    Given I have set up a inventory for warehouse "test warehouse"
+    And I have set up a inventory for warehouse "test warehouse"
     And I visit inventories_path for "test-organization"
-    Then I should see "not_started"
     And I click edit link for inventory in warehouse "test warehouse" for "test-organization"
-    And I click "Start-angular"
+    And I click the state button "Start" and confirm the state change
     And I visit inventories_path for "test-organization"
-    Then I should see " startedx"
+    Then I should see "started"
 
 
   Scenario: close a inventory
