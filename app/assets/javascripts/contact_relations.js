@@ -4,7 +4,10 @@ app.controller('contact_relations_form_ctrl', function ($scope) {
 	$scope.add = true;
 
 	$scope.init = function() {
-		$scope.contacts = gon.contacts;
+		if (typeof $('#search')[0] != 'undefined') {
+			$scope.contacts = gon.contacts;	
+		}
+
 		$scope.add = true;
 		//$scope.selected = $('#contact_email').val();
 	};

@@ -20,6 +20,13 @@ class ContactsController < ApplicationController
     @contact.organization = current_organization
     respond_to do |format|
       if @contact.save
+        u = current_organization.users.find_by_email @contact.email
+        if u
+          @contact_relation = u.contact_relations.build
+          @contact_relation.organization = current_organization
+          @contact_relation.contact = @contact
+          @contact_relation.save
+        end
         format.html { redirect_to contacts_path, notice: "#{t(:contact_added)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_add)} #{t(:contact)}"
@@ -49,7 +56,7 @@ class ContactsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Contacts', contacts_path], ["#{t(:new)} #{t(:customer)}"]]
+    @breadcrumbs = [['Contacts', contacts_path], ["#{t(:new)} #{t(:contact)}"]]
   end
 
   def show_breadcrumbs

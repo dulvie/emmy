@@ -29,11 +29,11 @@ class ContactRelationsController < ApplicationController
 
     @contact.organization = current_organization
     @contact_relation = @parent.contact_relations.build
-
     @contact_relation.organization = current_organization
 
     respond_to do |format|
       if @contact.save
+        # Contact.save as service
         @contact_relation.contact = @contact
         if @contact_relation.save
           format.html { redirect_to @parent, notice: "#{t(:contact_added)}" }
@@ -101,7 +101,7 @@ class ContactRelationsController < ApplicationController
 
     parent_class = params[:parent_type].constantize
     @parent = parent_class.find(params[:parent_id])
-    authorize! :manage, @parent
+    authorize! :manage, @parent if !params[:parent_type] == 'User'
   end
 
   def contact_params

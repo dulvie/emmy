@@ -22,8 +22,10 @@ class Contact < ActiveRecord::Base
   
   def check_email
     if new_record?
+      Rails.logger.info "1: #{organization_id} -- #{email}"
       return true if Contact.where('organization_id = ? and email = ?', organization_id, email).size > 0
     else
+      Rails.logger.info "2: #{organization_id} -- #{email}"
       return true if Contact.where('organization_id = ? and email = ?', organization_id, email).size > 1
     end
     false
