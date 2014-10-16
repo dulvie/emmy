@@ -44,7 +44,7 @@ Feature: Crud batches
     Given I am a signed in user
     And a "batch" with "name" equals to "test batch" exists
     And I visit batches_path for "test-organization"
-    And I click delete link for "test batch" batch
+    And I click delete link for "test batch" batch in "test-organization"
     And I confirm the alertbox
     Then I should see "Batch was successfully deleted."
 

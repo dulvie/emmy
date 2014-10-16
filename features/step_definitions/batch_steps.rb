@@ -6,11 +6,13 @@ Given /^I click edit link for "(.*?)" batch in "(.*?)"$/ do |batch_name, o|
   edit_link.click
 end
 
-Given /^I click delete link for "(.*?)" batch$/ do |batch_name|
+Given /^I click delete link for "(.*?)" batch in "(.*?)"$/ do |batch_name, org_slug|
   assert true, page.has_content?(batch_name)
-  wh = Batch.find_by_name batch_name
-  delete_link = find(:xpath, "//a[contains(@href,'#{batch_path(wh)}') and contains (@data-method, 'delete')]")
+  b = Batch.find_by_name batch_name
+  delete_link = find(".delete-icon.batch-#{b.id}")
   delete_link.click
+  delete_link_confirm = find(:xpath, "//a[contains(@href,'#{batch_path(org_slug, b)}') and contains (@data-method, 'delete')]")
+  delete_link_confirm.click
 end
 
 def batch_valid_form_data

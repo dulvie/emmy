@@ -26,10 +26,16 @@ module ApplicationHelper
   def settings_icon
     "<i class=\"glyphicon glyphicon-cog settings-icon\"> </i>".html_safe
   end
+
   def delete_icon(obj = nil)
-    extra_css_class = "#{obj.class.name.downcase}-#{obj.id}" if obj
+    if obj
+      # Downcase and remove 'decorator' from the class name.
+      obj_origin_class_name = obj.class.name.downcase.gsub('decorator','')
+      extra_css_class = "#{obj_origin_class_name}-#{obj.id}"
+    end
     glyphicon('trash', "delete-icon #{extra_css_class}")
   end
+
   def plus_icon
     "<i class=\"glyphicon glyphicon-plus-sign plus-icon\"> </i>".html_safe
   end
