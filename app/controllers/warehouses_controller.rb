@@ -1,6 +1,5 @@
 class WarehousesController < ApplicationController
   respond_to :html, :json
-  before_filter :load_organization
   load_and_authorize_resource :warehouse, through: :current_organization
   before_filter :show_breadcrumbs, only: [:show, :edit, :update]
   before_filter :new_breadcrumbs, only: [:new, :create]

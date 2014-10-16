@@ -4,6 +4,7 @@ Feature: Crud customers
   where read is included in update.
 
   Scenario: create
+    Given database is clean
     Given I am a signed in user
     And I visit customers_path for "test-organization"
     And I click "Create Customer"
@@ -36,15 +37,12 @@ Feature: Crud customers
     And I fill in invalid "customer" data
     And I click "Update Customer"
     Then I should see "Failed to update"
-  
+
   @javascript
   Scenario: delete
     Given I am a signed in user
     And a "customer" with "name" equals to "test customer" exists
     And I visit customers_path for "test-organization"
     And I click delete link for "test customer" customer in "test-organization"
-
-    Then I should see invisible "Confirm"
     And I confirm the alertbox
     Then I should see "Customer was successfully deleted."
-
