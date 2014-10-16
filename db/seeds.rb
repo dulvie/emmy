@@ -22,6 +22,9 @@ jtest = User.new({
 })
 jtest.default_organization_id = 3
 jtest.organization_roles.build(organization_id: 0, name: OrganizationRole::ROLE_SUPERADMIN)
+jtest.organization_roles.build(organization_id: o.id, name: OrganizationRole::ROLE_ADMIN)
+jtest.organization_roles.build(organization_id: o2.id, name: OrganizationRole::ROLE_ADMIN)
+jtest.organization_roles.build(organization_id: o3.id, name: OrganizationRole::ROLE_ADMIN)
 jtest.save
 
 ktest = User.new({
