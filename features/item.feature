@@ -46,7 +46,7 @@ Feature: Crud Items
     Given I am a signed in user
     And a "item" with "name" equals to "test item" exists
     And I visit items_path for "test-organization"
-    And I click delete link for "test item" item
-    And I confirm the alertbox
+    And I click delete link for "test item" item in "test-organization"
     Then I should see "Item was successfully deleted."
+
 

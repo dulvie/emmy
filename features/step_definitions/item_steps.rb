@@ -23,3 +23,13 @@ Given /^I click edit link for "(.*?)" item in "(.*?)"$/ do |item_name, org_name|
   assert edit_link
   edit_link.click
 end
+
+Given /^I click delete link for "(.*?)" item in "(.*?)"$/ do |item_name, org_slug|
+  assert true, page.has_content?(item_name)
+  itm = Item.find_by_name item_name
+  delete_link = find(".delete-icon.item-#{itm.id}")
+  delete_link.click
+  delete_link_confirm = find(:xpath, "//a[contains(@href,'#{item_path(org_slug, itm)}') and contains (@data-method, 'delete')]")
+  delete_link_confirm.click
+end
+
