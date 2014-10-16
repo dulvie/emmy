@@ -5,6 +5,7 @@ class OrganizationsController < ApplicationController
 
   # GET /:organization_slug
   def show
+     @org_url = organization_path(current_organization.slug, @organization)
   end
 
   # PATCH/PUT /:organization_slug

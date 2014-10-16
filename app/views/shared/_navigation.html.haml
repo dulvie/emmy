@@ -20,6 +20,7 @@
             %ul.dropdown-menu
               = nav_link t(:organization_selector), organization_selector_path
               - if current_organization
+                = nav_link t(:organization), organization_path
                 = nav_link t(:users), users_path
                 = nav_link t(:contacts), contacts_path
                 - path_to_comment = comments_path
