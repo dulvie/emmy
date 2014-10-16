@@ -6,7 +6,7 @@ Feature: Create/Update Manual batch transactions
   Scenario: create
     Given I am a signed in user
     And a batch and warehouse exists
-    And I visit manuals_path
+    And I visit manuals_path for "test-organization"
     And I click "Create Manual transaction"
     And I fill in data for a manual transaction
     And I click "Create Manual"
