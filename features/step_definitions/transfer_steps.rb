@@ -28,14 +28,17 @@ end
 Given /^warehouse "(.*?)" has a shelf with (\d+) of batch named "(.*?)"$/ do |wh_name, quantity, batch_name|
   wh = Warehouse.find_by_name wh_name
   p = Batch.find_by_name batch_name
+
+  b = BatchTransaction.new(warehouse: wh, batch: p, quantity: quantity, organization_id: 1)
   m = Manual.new
-  m.build_batch_transaction
   m.user = User.first
-  m.warehouse = wh
-  m.batch = p
-  m.batch_transaction.quantity = quantity
-  m.save!
+  m.organization_id = 1
+  m.comments.build(user_id: 1, body: "Initial seed manual product_transaction", organization_id: 1)
+  m.batch_transaction = b
+  assert m.save
   Resque.run!
+  s = wh.shelves.where(batch_id: p.id).first
+  assert_equal quantity.to_i, s.quantity
 end
 
 Given /^the "(.*?)" warehouse have "(.*?)" of batch "(.*?)"$/ do |warehouse_name, quantity, batch_name|
@@ -48,11 +51,12 @@ Given /^the "(.*?)" warehouse have "(.*?)" of batch "(.*?)"$/ do |warehouse_name
     if batch_transactions.size > 0 && batch_transactions.sum(:quantity).eql?(quantity)
     else
       puts "Creating new manual transaction #{wh.id} #{p.id} #{quantity}"
-      t = BatchTransaction.new warehouse_id: wh.id, batch_id: p.id, quantity: quantity
+      t = BatchTransaction.new warehouse_id: wh.id, batch_id: p.id, quantity: quantity, organization_id: 1
       c = {body: 'text'}
       m = Manual.new
       m.batch_transaction = t
       m.user = User.all.first
+      m.organization_id = 1
       m.comments.build(c)
       m.save
       Resque.run!
@@ -72,7 +76,8 @@ Given /^a transfer of (\d+) "(.*?)" batch from "(.*?)" to "(.*?)" is created$/ d
   t.to_warehouse = to_wh
   t.batch = p
   t.quantity = quantity
-  t.save
+  t.organization_id = 1
+  assert t.save
 end
 
 Given /^a transfer of (\d+) "(.*?)" batch is created and sent from "(.*?)" to "(.*?)"$/ do |quantity, batch_name, from_warehouse, to_warehouse|
@@ -97,9 +102,11 @@ Then /^"(.*?)" warehouse should have (\d+) "(.*?)" batches on the shelves$/ do |
   assert_equal quantity, wh.shelves.where(batch_id: p.id).sum(:quantity).to_i
 end
 
-Given /^I click send$/ do
-  page.driver.post("/transfers/1/send_package?locale=en", state_change_at: "#{Time.now}")
+Given /^I click send for organization "(.*?)"$/ do |org_slug|
+  url = "/"+ org_slug + "/transfers/1/send_package?locale=en"
+  page.driver.post(url, state_change_at: "#{Time.now}")
 end
-Given /^I click receive$/ do
-  page.driver.post("/transfers/1/receive_package?locale=en", state_change_at: "#{Time.now}")
+Given /^I click receive for organization "(.*?)"$/ do |org_slug|
+  url = receive_package_transfer_path(org_slug, 1)
+  page.driver.post(url, state_change_at: "#{Time.now}")
 end

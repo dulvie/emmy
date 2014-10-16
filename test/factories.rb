@@ -69,7 +69,12 @@ FactoryGirl.define do
     organization_id 1
   end
 
+  factory :comment do
+    body "Initial text"
+  end
+
   factory :manual do
-    comments body: "Initial seed manual product_transaction"
+    user_id 1
+    organization_id 1
   end
 end
