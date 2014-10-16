@@ -28,6 +28,5 @@ Feature: Crud warehouses
     And a "warehouse" with "name" equals to "test warehouse" exists
     And I visit warehouses_path for "test-organization"
     And I click delete link for "test warehouse" warehouse in "test-organization"
-    And I confirm the alertbox
     Then I should see "Warehouse was successfully deleted."
 

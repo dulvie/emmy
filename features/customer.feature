@@ -44,5 +44,4 @@ Feature: Crud customers
     And a "customer" with "name" equals to "test customer" exists
     And I visit customers_path for "test-organization"
     And I click delete link for "test customer" customer in "test-organization"
-    And I confirm the alertbox
     Then I should see "Customer was successfully deleted."
