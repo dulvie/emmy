@@ -10,7 +10,6 @@ Feature: A superadmin should be able to create a new organization.
     And I fill in valid "organization" data
     And I click "Create Organization"
     Then I should see "Organization was successfully created."
-    And I should see "Create User"
 
   Scenario: Add an admin to an organization
     Given I am signed in as a superadmin
