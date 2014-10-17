@@ -36,7 +36,7 @@ class SaleDecorator < Draper::Decorator
       l = 'success'
       str = h.t(:completed)
     end
-    labelify(str, l)
+    h.labelify(str, l)
   end
 
   def pretty_goods_state
@@ -49,7 +49,7 @@ class SaleDecorator < Draper::Decorator
       l = 'success'
       str = h.t(:delivered)
     end
-    labelify(str, l)
+    h.labelify(str, l)
   end
 
   def pretty_money_state
@@ -62,13 +62,7 @@ class SaleDecorator < Draper::Decorator
       l = 'success'
       str = h.t(:paid)
     end
-    labelify(str, l)
-  end
-
-  def labelify(str, label_state)
-    h.content_tag :span, class: "label label-#{label_state}" do
-      str
-    end
+    h.labelify(str, l)
   end
 
   def delete_button

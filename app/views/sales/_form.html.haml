@@ -18,12 +18,7 @@
         = f.submit class: 'btn btn-primary'
 
   - else
-    .form-group
-      .labels_width.control-label
-        %label= t(:state)
-      .fields_width.form-control-static
-        - @sale.states.each do |s|
-          = s
+    = render partial: 'shared/state_labels_field', locals: {model: @sale}
 
 :javascript
   $(document).ready(function() {

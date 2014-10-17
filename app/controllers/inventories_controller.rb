@@ -5,11 +5,12 @@ class InventoriesController < ApplicationController
 
   def index
     @breadcrumbs = [['Inventories']]
-    @inventories = @inventories.order('started_at DESC').page(params[:page]).per(8)
+    @inventories = @inventories.order('started_at DESC').page(params[:page]).per(8).decorate
   end
 
   def show
     @warehouses = current_organization.warehouses
+    @inventory = @inventory.decorate
   end
 
   def new
@@ -37,6 +38,7 @@ class InventoriesController < ApplicationController
         format.html { redirect_to inventory_path(@inventory), notice: 'inventory was successfully updated.' }
         # format.json { head :no_content }
       else
+        @inventory = @inventory.decorate
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:inventory)}"
         format.html { render action: 'show' }
         # format.json { render json: @inventory.errors, status: :unprocessable_entity }

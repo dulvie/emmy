@@ -1,0 +1,5 @@
+.form-group
+  .labels_width.control-label
+    %label= t(:state)
+  .fields_width.form-control-static
+    = render partial: 'shared/state_labels', locals: {model: model}

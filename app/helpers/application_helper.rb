@@ -84,4 +84,10 @@ module ApplicationHelper
       end
     end
   end
+
+  def labelify(str, label_state)
+    content_tag :span, class: "label label-#{label_state}" do
+      str
+    end
+  end
 end
