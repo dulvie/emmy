@@ -86,7 +86,7 @@ se:
   invite: "Bjud in"
   invoice: "Faktura"
   invoice_from: "Faktura fom"
-  invoice_number: "Faktura nummer"
+  invoice_number: "Fakturanummer"
   invoice_search: "Fakturasök"
   item: "Artikel"
   items: "Artiklar"
