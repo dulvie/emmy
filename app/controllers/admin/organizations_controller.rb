@@ -14,24 +14,22 @@ module Admin
 
     # GET /organizations/1
     def show
-      @org_url = admin_organization_path(@organization)
       @users = @organization.users
       authorize! :read, @users
     end
 
     # GET /organizations/new
     def new
-      @org_url = admin_organizations_path
     end
 
     # POST /organizations
     def create
       @organization = Organization.new(organization_params)
       if Services::OrganizationCreator.new(@organization, current_user).save
-        redirect_to admin_organizations_path, notice: "#{t(:organization)} #{t(:was_successfully_created)}"
+        redirect_to admin_organization_path(@organization),
+                    notice: "#{t(:organization)} #{t(:was_successfully_created)}"
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:organization)}"
-        @org_url = admin_organizations_path
         render :new
       end
     end
@@ -42,7 +40,6 @@ module Admin
         redirect_to admin_organizations_path, notice: 'Organization was successfully updated.'
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:organization)}"
-        @org_url = admin_organization_path(@organization)
         @users = @organization.users
         authorize! :read, @users
         render :show
@@ -75,7 +72,6 @@ module Admin
     def load_by_pagination
       @organizations = Organization.accessible_by(current_ability).page(params[:page] || 1)
     end
-
   end
 
 end
