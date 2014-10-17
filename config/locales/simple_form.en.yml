@@ -34,15 +34,9 @@ se:
   simple_form:
     "yes": 'Ja'
     "no": 'Nej'
+    "warehouse": "Lager"
     required:
       text: 'obligatorisk'
       mark: '*'
     error_notification:
       default_message: "Observera problemen nedan:"
-    labels:
-      user:
-        name: "Namn"
-        email: "E-post"
-        password: "Lösenord"
-        password_confirmation: "Bekräfta lösenord"
-        default_locale: "Språk"

@@ -1,0 +1,24 @@
+se:
+  simple_form:
+    labels:
+      defaults:
+        name: "Namn"
+        reseller: "Återförsjälare"
+        vat_number: "VAT-nummer"
+        payment_term: "Betalningsvilkor"
+        email: "E-post"
+        telephone: "Telefon"
+        address: "Adress"
+        zip: "Postnummer"
+        city: "Stad"
+        country: "Land"
+        warehouse: "Lager"
+        started_at: "Startad"
+        completed_at: "Färdig"
+
+      user:
+        password: "Lösenord"
+        password_confirmation: "Bekräfta lösenord"
+        default_locale: "Språk"
+      inventory:
+        inventory_date: "Datum för inventering"

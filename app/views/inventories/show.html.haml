@@ -13,9 +13,9 @@
       .fields_width.form-control-static
         = render partial: 'inventory_items/index'
 
-    .form-button-group
-      .actions
-        - if !@inventory.completed?
+    - if !@inventory.completed?
+      .form-button-group
+        .actions
           %div{:ng_controller => "ModalCtrl"}
             %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','inventoryContent' )"}
               #{t(@inventory.next_event)}

@@ -15,4 +15,6 @@
   - if @inventory.completed?
     = f.input :completed_at, as: :string, disabled: true, :input_html => {:class=>'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d")}
   - if @inventory.new_record?
-    = f.submit class: 'btn btn-primary'
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'

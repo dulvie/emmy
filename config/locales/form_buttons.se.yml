@@ -1,0 +1,18 @@
+se:
+  helpers:
+    submit:
+      # Defaults does not seem to work for helpers/submit
+      #defaults:
+      #  create: "Skapa %{model}"
+      #  update: "Uppdatera ändringar"
+      customer:
+        create: "Skapa %{model}"
+        update: "Uppdatera ändringar"
+      warehouse:
+        create: "Skapa %{model}"
+        update: "Uppdatera ändringar"
+      sale:
+        create: "Skapa %{model}"
+        update: "Uppdatera ändringar"
+      inventory:
+        create: "Skapa %{model}"
