@@ -32,7 +32,7 @@ Feature: Crud inventory
     And I click edit link for inventory in warehouse "test warehouse" for "test-organization"
     And I click the state button "Start" and confirm the state change
     And I visit inventories_path for "test-organization"
-    Then I should see "started"
+    Then I should see "Started"
 
 
   Scenario: close a inventory
