@@ -45,6 +45,7 @@ class Ability
     can :manage, Sale, organization_id: oids
     can :manage, SaleItem, organization_id: oids
     can :manage, Shelf, organization_id: oids
+    can :read,   Statistics::Report, organization_id: oids
     can :manage, Supplier, organization_id: oids
     can :manage, Transfer, organization_id: oids
     can :manage, Unit, organization_id: oids

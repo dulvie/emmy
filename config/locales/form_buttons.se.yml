@@ -15,4 +15,4 @@ se:
         create: "Skapa %{model}"
         update: "Uppdatera ändringar"
       inventory:
-        create: "Skapa %{model}"
+        create: "Skapa inventering"

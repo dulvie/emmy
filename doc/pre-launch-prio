@@ -10,6 +10,8 @@ Top prio:
 * Hur ska in_price sättas när batch skapas i import och production?
 * Rensning i kodbasen det som ej används
 * Set up a demo organization with default demo-data. Funktion att återställa default demo-data.
+* Backuper, kolla upp
+* Roterande loggar
 
 Later Prio:
 * Referenser och borttag - en genomgång behövs

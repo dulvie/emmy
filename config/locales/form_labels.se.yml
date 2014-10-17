@@ -16,9 +16,12 @@ se:
         started_at: "Startad"
         completed_at: "Färdig"
 
+      inventory:
+        inventory: "Inventering"
+        inventory_date: "Datum för inventering"
       user:
         password: "Lösenord"
         password_confirmation: "Bekräfta lösenord"
         default_locale: "Språk"
-      inventory:
-        inventory_date: "Datum för inventering"
+      vat:
+        vat_percent: "Moms procent"
