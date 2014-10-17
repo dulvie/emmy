@@ -26,7 +26,7 @@ class Api::UsersController < ApplicationController
 
   private
     def create_contact
-      @contact_relation = @user.build_contact_relation
+      @contact_relation = @user.contact_relations.build
       @contact_relation.organization_id = params[:user][:organization_id]
       
       @contact = @contact_relation.build_contact
