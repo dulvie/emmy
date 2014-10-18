@@ -5,7 +5,8 @@
 
     .form-group
       .labels_width.control-label
-        %label Availible
+        %label
+          =t(:available)
       .fields_width
         %input{:value => '{{shelf_qty}}', :class => 'form-control numeric', :readonly => 'readonly'}
 

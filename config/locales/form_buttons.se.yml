@@ -18,6 +18,10 @@ se:
       batch:
         create: "Skapa %{model}"
         update: "Uppdatera ändringar"
+      import:
+        create: "Skapa Import"
+      import_batch:
+        create: "Skapa Import sats"
       inventory:
         create: "Skapa inventering"
       item:
@@ -25,11 +29,26 @@ se:
         update: "Uppdatera ändringar"
       manual:
         create: "Skapa Manuell transaktion"
+      material:
+        create: "Skapa Material"
+        update: "Uppdatera ändringar"
       organization:
         create: "Skapa Organisation"
         update: "Uppdatera ändringar"
+      production:
+        create: "Skapa Produktion"
+      production_batch:
+        create: "Skapa Produktions sats"
+      purchase:
+        create: "Skapa Inköp"
+        update: "Uppdatera ändringar"
+      purchase_item:
+        create: "Skapa Inköpsrad"
       sale:
         create: "Skapa %{model}"
+        update: "Uppdatera ändringar"
+      supplier:
+        create: "Skapa Leverantör"
         update: "Uppdatera ändringar"
       transfer:
         create: "Skapa Förflyttning"
