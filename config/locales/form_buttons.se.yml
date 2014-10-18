@@ -7,7 +7,7 @@ se:
       #  create: "Skapa %{model}"
       #  update: "Uppdatera ändringar"
       customer:
-        create: "Skapa %{model}"
+        create: "Skapa Kund"
         update: "Uppdatera ändringar"
       comment:
         create: "Skapa Kommentar"
@@ -16,7 +16,7 @@ se:
         create: "Skapa Kontakt"
         update: "Uppdatera ändringar"
       batch:
-        create: "Skapa %{model}"
+        create: "Skapa Sats"
         update: "Uppdatera ändringar"
       import:
         create: "Skapa Import"
@@ -45,8 +45,10 @@ se:
       purchase_item:
         create: "Skapa Inköpsrad"
       sale:
-        create: "Skapa %{model}"
+        create: "Skapa Försäljning"
         update: "Uppdatera ändringar"
+      sale_item:
+        create: "Skapa Försäljningsrad"
       supplier:
         create: "Skapa Leverantör"
         update: "Uppdatera ändringar"
