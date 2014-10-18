@@ -2,17 +2,40 @@ se:
   helpers:
     submit:
       # Defaults does not seem to work for helpers/submit
-      #defaults:
+      defaults:
+        first: "Första"
       #  create: "Skapa %{model}"
       #  update: "Uppdatera ändringar"
       customer:
         create: "Skapa %{model}"
         update: "Uppdatera ändringar"
-      warehouse:
-        create: "Skapa %{model}"
+      comment:
+        create: "Skapa Kommentar"
         update: "Uppdatera ändringar"
-      sale:
+      contact:
+        create: "Skapa Kontakt"
+        update: "Uppdatera ändringar"
+      batch:
         create: "Skapa %{model}"
         update: "Uppdatera ändringar"
       inventory:
         create: "Skapa inventering"
+      item:
+        create: "Skapa Artikel"
+        update: "Uppdatera ändringar"
+      manual:
+        create: "Skapa Manuell transaktion"
+      organization:
+        create: "Skapa Organisation"
+        update: "Uppdatera ändringar"
+      sale:
+        create: "Skapa %{model}"
+        update: "Uppdatera ändringar"
+      transfer:
+        create: "Skapa Förflyttning"
+      unit:
+        create: "Skapa Enhet"
+        update: "Uppdatera ändringar"
+      warehouse:
+        create: "Skapa Lager"
+        update: "Uppdatera ändringar"

@@ -2,26 +2,53 @@ se:
   simple_form:
     labels:
       defaults:
-        name: "Namn"
-        reseller: "Återförsjälare"
-        vat_number: "VAT-nummer"
-        payment_term: "Betalningsvilkor"
-        email: "E-post"
-        telephone: "Telefon"
         address: "Adress"
-        zip: "Postnummer"
+        batch: "Sats"
+        batch_id: "Sats"
+        body: "Text"
         city: "Stad"
-        country: "Land"
-        warehouse: "Lager"
-        started_at: "Startad"
+        comment: "Kommentar"
         completed_at: "Färdig"
+        country: "Land"
+        distributor_price: "Återförsäljarpris"
+        email: "E-post"
+        expire_at: "Utgångsdatum"
+        from_warehouse: "Från Lager"
+        in_price: "Inköpspris"
+        item: "Artikel"
+        name: "Namn"
+        payment_term: "Betalningsvilkor"
+        quantity: "Kvantitet"
+        refined_at: "Rostningsdatum"
+        reseller: "Återförsjälare"
+        retail_price: "Kund pris"
+        started_at: "Startad"
+        telephone: "Telefon"
+        to_warehouse: "Till Lager"
+        unit: "Enhet"
+        vat: "Moms"
+        vat_number: "VAT-nummer"
+        warehouse: "Lager"
+        warehouse_id: "Lager"
+        zip: "Postnummer"
+
+      comment:
 
       inventory:
         inventory: "Inventering"
         inventory_date: "Datum för inventering"
+      item:
+        item_group: "Artikel grupp"
+        item_type: "Artikel typ"
+        stocked: "Lagerförd"
+      unit:
+        package_dimensions: "Dimensioner"
+        weight: "Vikt"
       user:
         password: "Lösenord"
         password_confirmation: "Bekräfta lösenord"
         default_locale: "Språk"
       vat:
+        add_factor: "På netto"
+        sub_factor: "På brutto" 
         vat_percent: "Moms procent"

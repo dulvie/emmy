@@ -73,7 +73,6 @@ class CommentsController < ApplicationController
       params[:parent_id] = @comment.parent_id
     end
 
-    logger.info "Kollar:: #{params[:parent_type]}"
     unless params.key?(:parent_type)
       params[:parent_type] = 'nil'
       params[:parent_id] = 0
