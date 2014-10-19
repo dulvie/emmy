@@ -40,7 +40,7 @@ app.controller('batch_form_ctrl', function ($scope, price) {
 				}
 				$('#batch_in_price').val(price.toDecimal($('#batch_in_price').val()));
 				$('#batch_distributor_price').val(price.toDecimal($('#batch_distributor_price').val()));
-				$('#batch_retail_price').val(price.toDecimal($('#batch_retail_price').val()));			    	
+				$('#batch_retail_price').val(price.toDecimal($('#batch_retail_price').val()));
 				if (gon.items[x].item_group == 'refined') {
 					$scope.refined = false;
 				}
