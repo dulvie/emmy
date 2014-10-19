@@ -12,6 +12,7 @@ se:
         completed_at: "Färdig"
         contact_email: "Kontakt e-post"
         contact_name: "Kontakt namn"
+        contact_telephone: "Kontakt telefon"
         cost_price: "Kostpris"
         country: "Land"
         customer: "Kund"

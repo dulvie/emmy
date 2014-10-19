@@ -28,7 +28,7 @@ class Sale < ActiveRecord::Base
   has_many :from_transaction, class_name: 'BatchTransaction', as: :parent
   has_one :document, as: :parent, dependent: :delete
 
-  attr_accessible :user_id, :warehouse_id, :customer_id, :contact_email, :contact_name,
+  attr_accessible :user_id, :warehouse_id, :customer_id, :contact_email, :contact_name, :contact_telephone,
                   :payment_term, :state, :approved_at, :goods_state, :delivered_at,
                   :money_state,  :paid_at, :organization, :organization_id, :invoice_number
 

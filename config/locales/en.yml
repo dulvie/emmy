@@ -123,6 +123,7 @@ en:
   message: "Message"
   name: "Name"
   name_of_new_batch: "Name of new Batch"
+  name_search: "Name Search"
   new: "New"
   new_contact: "New contact"
   new_manual_transaction: "New manual transaction"

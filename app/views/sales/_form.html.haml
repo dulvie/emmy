@@ -9,6 +9,7 @@
     = f.association :customer, disabled: true
     = f.input :contact_name, disabled: true
     = f.input :contact_email, disabled: true
+    = f.input :contact_telephone, disabled: true
 
   = f.input :payment_term, as: :select, collection: ['30', '10'], include_blank: false, disabled: !@sale.new_record?, :input_html =>{:class=>'numeric form_control'}
 

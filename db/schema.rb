@@ -282,6 +282,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.integer  "warehouse_id"
     t.integer  "organization_id"
     t.string   "contact_email"
+    t.string   "contact_telephone"
     t.string   "contact_name"
     t.integer  "payment_term"
     t.string   "state"

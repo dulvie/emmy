@@ -14,3 +14,4 @@
     %input{:ng_model=>"custref", :typeahead_on_select => "type_ahead_customer_reference($item, $model, $label)", :typeahead=>"r.name for r in reference | filter:$viewValue | limitTo:8", :class=>"form-control"}
 
 = f.input :contact_email, disabled: !@sale.new_record?
+= f.input :contact_telephone, disabled: !@sale.new_record?

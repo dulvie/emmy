@@ -36,6 +36,7 @@ app.controller('sales_new_ctrl', function ($scope, ajaxService) {
 	$scope.type_ahead_customer_reference = function (item, model, label) {
 	    $('#sale_contact_name').val(item.name); 
 	    $('#sale_contact_email').val(item.email); 
+	    $('#sale_contact_telephone').val(item.telephone);
 	};
 
 });

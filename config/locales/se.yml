@@ -102,6 +102,7 @@ se:
   message: "Meddelande"
   name: "Namn"
   name_of_new_batch: "Namn för ny Sats"
+  name_search: "Namnsök"
   new: "Ny"
   new_contact: "Ny kontakt"
   new_manual_transaction: "Ny manuell transaktion"
