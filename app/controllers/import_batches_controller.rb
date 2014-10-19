@@ -31,7 +31,7 @@ class ImportBatchesController < ApplicationController
   def init_new
     @items = current_organization.items.where("stocked=? and item_type IN('both', 'purchase')", 'true')
     @suppliers = current_organization.suppliers
-    gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
+    gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer), items: ActiveModel::ArraySerializer.new(@items, each_serializer: ItemSerializer)
   end
 
   def load_import

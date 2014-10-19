@@ -23,6 +23,13 @@ app.controller('import_batch_form_ctrl', function ($scope, price) {
 			}
 		}
 	};
+	$scope.select_item = function() {
+	  for (x=0; x < gon.items.length; x++) {
+	    if ($scope.item_id == gon.items[x].id) {
+	      $('#import_batch_unit').val(gon.items[x].unit.name);
+	    }; 
+	  };
+	};
 	$scope.before_submit = function() {
     	$('#import_batch_price').val(price.toInteger($('#import_batch_price').val()));
 	};

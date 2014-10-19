@@ -2,7 +2,7 @@ class ImportBatch
   include ActiveModel::Model
 
   attr_accessor :organization_id, :import_id, :item_id, :name,
-                :description, :supplier, :contact_name, :contact_email, :batch, :quantity, :price
+                :description, :supplier, :contact_name, :contact_email, :batch, :quantity, :price, :unit
 
   validates :name, presence: true
   # validates :name, uniqueness: true

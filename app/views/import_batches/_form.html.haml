@@ -11,6 +11,7 @@
     = f.input :item_id, collection: @items, :input_html => {:ng_model => 'item_id', :ng_change => 'select_item(true)'}
     = f.input :name, :label => t(:name_of_new_batch)
     = f.input :quantity, as: :integer
+    = f.input :unit, disabled: true, :input_html => {:class => 'medium'}
     = f.input :price, as: :integer
 
     .form-button-group
