@@ -99,6 +99,7 @@ class PurchasesController < ApplicationController
     @purchase.user = current_user
     @purchase.organization = current_organization
     @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
+    @purchase.purchase_items.first.organization = current_organization
     respond_to do |format|
       if @purchase.save
         if params[:purchase][:parent_type] == 'Import'
