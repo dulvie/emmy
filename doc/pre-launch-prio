@@ -1,7 +1,6 @@
-Top prio:
+Top prio::
 
-* Multi organization
-* Merge branch to master
+* Om pris finns i sidan och den laddas om läggs två decimaler på som om priset kom från databasen!
 * domain name
 * sertifikat
 * Dashboard content
@@ -12,6 +11,8 @@ Top prio:
 * Set up a demo organization with default demo-data. Funktion att återställa default demo-data.
 * Backuper, kolla upp
 * Roterande loggar
+* OBS! kan email på customer störa email på contact och user?
+* Texter rubriker knappar, meddelanden
 
 Later Prio:
 * Referenser och borttag - en genomgång behövs
@@ -31,7 +32,6 @@ Later Prio:
 * system documentation - Graph of the models, for clarity subgraphs of such sale, purchase, batch
 * Set up varius design proposals eg Table header row with or without background color?
 * Shelf incomming quantities are not shown if batch not on shelf
-* Errormessages in languagefile?
 
 * Issues from backlog ---
 * #7 item_group as separate model
