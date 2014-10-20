@@ -10,9 +10,9 @@
 
       = f.input :state, disabled: true, :class => 'medium'
       - if !@production.can_edit?
-        = f.input :started_at, :as => :string, :input_html => { :class => 'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d"), :readonly => 'readonly'} 
+        = f.input :started_at, :as => :string, :input_html => { :class => 'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
       - if @production.completed?
-        = f.input :completed_at, :as => :string, :input_html => { :class => 'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d"), :readonly => 'readonly'} 
+        = f.input :completed_at, :as => :string, :input_html => { :class => 'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
 
       - if !@production.batch.nil?
         = f.association :batch, disabled: true
@@ -43,5 +43,5 @@
             = link_to t(:ordering_work), add_single_purchase_url, :class => 'btn btn-primary'
   %br
   - if !@production.new_record? && !@production.completed?
-    = render partial: 'shared/modal_state_change', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), event: @production.next_event, return_path: edit_production_path(@production)}     
-  
+    = render partial: 'shared/modal_state_change', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), event: @production.next_event, return_path: edit_production_path(@production)}  
+

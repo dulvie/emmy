@@ -25,13 +25,13 @@ class Ability
     end
   end
 
-  def staff_roles_for(oids) 
+  def staff_roles_for(oids)
     can :manage, Batch, organization_id: oids
     can :manage, Comment, organization_id: oids
     can :manage, Contact, organization_id: oids
     can :manage, ContactRelation, organization_id: oids
     can :manage, Customer, organization_id: oids
-    can :manage, Document, organization_id: oids 
+    can :manage, Document, organization_id: oids
     can :read, Organization, id: oids
     can :manage, Import, organization_id: oids
     can :manage, Inventory, organization_id: oids

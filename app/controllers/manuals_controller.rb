@@ -90,7 +90,7 @@ class ManualsController < ApplicationController
     manual.comments.build(comment_p)
     manual
   end
-  
+
   def init_collection
     @warehouses = current_organization.warehouses
     @batches = current_organization.batches

@@ -86,7 +86,7 @@ class ItemsController < ApplicationController
   def edit_breadcrumbs
     @breadcrumbs = [['items', items_path], [@item.name]]
   end
-  
+
   def init_collection
     @units = current_organization.units
     @vats = current_organization.vats

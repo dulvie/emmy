@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
   def superadmin?
     @superadmin ||= organization_roles.where(organization_id: 0).where(name: 'superadmin').count > 0
   end
- 
+
   def admin_in_org(o)
     return true if organizations_roles.where(organization_id: o.id).where(name: 'admin').count > 0
     false

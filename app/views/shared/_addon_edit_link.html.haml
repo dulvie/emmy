@@ -2,12 +2,12 @@
   .labels_width.control-label
     = form.label label
   .fields_width
-    .input-group  
+    .input-group
       %input{:value => value, :readonly=>'readonly', :class=>'form-control'}
       - if can_edit
         .input-group-addon
           = link_to settings_icon, link
-        .input-group-addon  
+        .input-group-addon
           = delete_modal_for object, link
       - else
         .input-group-addon

@@ -11,6 +11,6 @@
           %tr
             %td= item.batch.name
             %td.numeric
-              = item.quantity 
+              = item.quantity
             %td= delete_modal_for item, production_material_path(@production, item)
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

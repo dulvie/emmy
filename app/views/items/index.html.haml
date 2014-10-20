@@ -20,7 +20,7 @@
         %td= item.item_group
         %td= item.stocked
         %td= item.unit.name
-        %td= link_to settings_icon, edit_item_path(item) 
+        %td= link_to settings_icon, edit_item_path(item)
         %td= delete_modal_for item
 
   = paginate @items, :theme => 'twitter-bootstrap-3'

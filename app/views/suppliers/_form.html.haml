@@ -4,7 +4,7 @@
   = f.input :name, required: true, autofocus: true
   - if !@supplier.new_record? && @supplier.contacts?
     = f.input :primary_contact_id, as: :select, collection: @contacts
-  = f.input :bg_number, :input_html => {:class => 'medium'} 
+  = f.input :bg_number, :input_html => {:class => 'medium'}
   = f.input :vat_number, :input_html => {:class => 'short'}
   = f.input :address
   = f.input :zip, :input_html => {:class => 'short'}

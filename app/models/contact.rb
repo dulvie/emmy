@@ -19,7 +19,7 @@ class Contact < ActiveRecord::Base
   validates :email, presence: true
 
   VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', 'ContactRelation', 'User']
-  
+
   def check_email
     if new_record?
       return true if Contact.where('organization_id = ? and email = ?', organization_id, email).size > 0

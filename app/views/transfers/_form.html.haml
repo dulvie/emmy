@@ -8,13 +8,13 @@
         = f.association :batch
 
       .form-group.select.required.transfer_batch
-        = f.label :batch, :class=>'select required labels_width control-label' 
+        = f.label :batch, :class=>'select required labels_width control-label'
         .fields_width
           %select{:ng_model=>'bch_id', :ng_options=>"opt.batch_id as opt.name for opt in options", :ng_change => 'select_batch()', :include_blank=>false, :class=>'select required form-control'}
 
       .form-group
         .labels_width.control-label
-          %label  
+          %label
             = t(:available)
         .fields_width
           %input{:class=>'form-control  numeric', :value=>'{{quantity}}', :readonly => 'readonly'}
@@ -30,7 +30,7 @@
       = f.simple_fields_for :comments do |c|
         = c.input :body, as: :text
 
-    - if !@transfer.new_record? 
+    - if !@transfer.new_record?
       = f.input :state, disabled: true, :input_html => {:class => 'medium'}
     - if @transfer.sent?
       = f.input :sent_at, as: :string, disabled: true,  :input_html => { :class => 'date', :value => localize(f.object.sent_at, :format => "%Y-%m-%d") }

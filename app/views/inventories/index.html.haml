@@ -15,7 +15,7 @@
       - @inventories.each do |inventory|
         %tr
           %td= link_to "##{inventory.id}", inventory
-          %td= inventory.started_at.nil? ? ' ': inventory.started_at.strftime("%Y-%m-%d") 
+          %td= inventory.started_at.nil? ? ' ': inventory.started_at.strftime("%Y-%m-%d")
           %td= link_to inventory.warehouse.name, inventory.warehouse
           %td= render partial: 'shared/state_labels', locals: {model: inventory}
           %td= link_to settings_icon, inventory

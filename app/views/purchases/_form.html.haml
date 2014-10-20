@@ -18,7 +18,7 @@
       = f.input :paid_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.paid_at, :format => "%Y-%m-%d") }
     - if @purchase.completed?
       = f.input :completed_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d") }
-            
+         
     - if @purchase.new_record?
       .form-button-group
         .actions

@@ -7,7 +7,7 @@ Feature: Create and complete a transfer
     And a "batch" with "name" equals to "test batch" exists
     And a "warehouse" with "name" equals to "test from wh" exists
     And the "test from wh" warehouse have "10" of batch "test batch"
-    And a warehouse with name "test to wh" exists 
+    And a warehouse with name "test to wh" exists
     And I visit transfers_path for "test-organization"
     And I click "Create Transfer"
     And I select "test from wh" as "from" warehouse
@@ -25,7 +25,7 @@ Feature: Create and complete a transfer
     And a batch with name "test batch" exists
     And warehouse "test from wh" has a shelf with 10 of batch named "test batch"
     And a transfer of 9 "test batch" batch from "test from wh" to "test to wh" is created
-    And I visit transfers_path for "test-organization" 
+    And I visit transfers_path for "test-organization"
     And I see "Send" in the page
     And I click send for organization "test-organization"
     And I visit transfers_path for "test-organization"
