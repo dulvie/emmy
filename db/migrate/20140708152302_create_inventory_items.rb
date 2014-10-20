@@ -6,6 +6,7 @@ class CreateInventoryItems < ActiveRecord::Migration
       t.integer :batch_id
       t.integer :shelf_quantity
       t.integer :actual_quantity
+      t.boolean :reported
 
       t.timestamps
     end

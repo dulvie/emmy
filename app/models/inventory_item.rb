@@ -10,7 +10,7 @@ class InventoryItem < ActiveRecord::Base
   belongs_to :inventory
   belongs_to :batch
 
-  attr_accessible :inventory_id, :batch_id, :shelf_quantity, :actual_quantity, :organization, :organization_id
+  attr_accessible :inventory_id, :batch_id, :shelf_quantity, :actual_quantity, :organization, :organization_id, :reported
   accepts_nested_attributes_for :batch
 
   validates :batch_id, presence: true
@@ -19,4 +19,5 @@ class InventoryItem < ActiveRecord::Base
   def can_delete?
     inventory.can_edit_items?
   end
+
 end

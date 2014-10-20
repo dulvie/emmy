@@ -26,11 +26,11 @@ class InventoryItemsController < ApplicationController
     respond_to do |format|
       if @inventory_item.update(inventory_item_params)
         format.html { redirect_to inventory_path(@inventory), notice: 'supplier was successfully updated.' }
-        format.json { head :no_content }
+        format.json { head :no_content}
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:purchase)}"
         format.html { render action: 'show' }
-        format.json { render json: @supplier.errors, status: :unprocessable_entity }
+        format.json { render json: @inventory_item.errors, status: :unprocessable_entity }
       end
     end
   end

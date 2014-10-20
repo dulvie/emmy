@@ -144,6 +144,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.integer  "batch_id"
     t.integer  "shelf_quantity"
     t.integer  "actual_quantity"
+    t.boolean  "reported"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

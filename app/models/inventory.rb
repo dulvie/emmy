@@ -82,7 +82,8 @@ class Inventory < ActiveRecord::Base
         batch_id: shelf.batch_id,
         shelf_quantity: shelf.quantity,
         actual_quantity: shelf.quantity,
-        organization_id: shelf.organization_id)
+        organization_id: shelf.organization_id,
+        reported: false)
       @inventory_item.save
     end
   end

@@ -18,12 +18,11 @@ app.controller('inventory_item_list_ctrl', function($scope, ajaxService) {
 	$scope.report_item = function(path, item_id, qty_id) {
 		var id = '#'+qty_id
 		var qty = $(id).val();
-		var inventory_item = {};
+		var inventory_item = {reported: 'true'};
 		inventory_item.actual_quantity = qty;
-		//alert(JSON.stringify(inventory_item));
 		var url = path+"/inventory_items/"+item_id+".json"
 		ajaxService.put(url, inventory_item).then(function(data) {
-			//alert(data);	
+			//alert(data);
 		});
 		
 	};
