@@ -3,6 +3,8 @@ app.controller('import_batch_form_ctrl', function ($scope, price) {
 	$scope.init = function() {
 		$scope.supplier = $('#import_batch_supplier').val();
     $('#import_batch_price').val(price.toDecimal($('#import_batch_price').val()));
+    $scope.item_id = $('#import_batch_item_id').val();
+    $scope.select_item();
 	};
 
 	$scope.select_supplier = function() {

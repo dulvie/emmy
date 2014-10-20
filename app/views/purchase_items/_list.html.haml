@@ -17,8 +17,8 @@
         %tbody
           - purchase_items.each do |item|
             %tr
-              %td= item.item_id? ? item.item.name : ' '
-              %td= item.batch_id? ? item.batch.name : ' '
+              %td.nowrap= item.item_id? ? item.item.name : ' '
+              %td.nowrap= item.batch_id? ? item.batch.name : ' '
               %td.numeric
                 = item.quantity
               %td.numeric
