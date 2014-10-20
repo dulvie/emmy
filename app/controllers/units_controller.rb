@@ -9,7 +9,7 @@ class UnitsController < ApplicationController
   # GET /units
   # GET /units.json
   def index
-    @breadcrumbs = [['Units']]
+    @breadcrumbs = [[t(:units)]]
     @units = @units.order(:name).page(params[:page]).per(8)
   end
 
@@ -32,7 +32,7 @@ class UnitsController < ApplicationController
     @unit.organization = current_organization
     respond_to do |format|
       if @unit.save
-        format.html { redirect_to units_url, notice: 'unit was successfully created.' }
+        format.html { redirect_to units_url, notice: "#{t(:unit)} #{t(:was_succfully_created)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:unit)}"
         format.html { render action: 'new' }
@@ -45,7 +45,7 @@ class UnitsController < ApplicationController
   def update
     respond_to do |format|
       if @unit.update(unit_params)
-        format.html { redirect_to units_url, notice: 'unit was successfully updated.' }
+        format.html { redirect_to units_url, notice: "#{t(:unit)} #{t(:was_successfully_updated)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:unit)}"
         format.html { render action: 'show' }
@@ -58,7 +58,7 @@ class UnitsController < ApplicationController
   def destroy
     @unit.destroy
     respond_to do |format|
-      format.html { redirect_to units_url, notice: 'Unit was successfully deleted.' }
+      format.html { redirect_to units_url, notice: "#{t(:unit)} #{t(:was_successfully_deleted)}" }
     end
   end
 
@@ -70,10 +70,10 @@ class UnitsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Units', units_path], ["#{t(:new)} #{t(:unit)}"]]
+    @breadcrumbs = [[t(:units), units_path], ["#{t(:new)} #{t(:unit)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Units', units_path], [@unit.name]]
+    @breadcrumbs = [[t(:units), units_path], [@unit.name]]
   end
 end
