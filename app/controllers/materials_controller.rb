@@ -72,6 +72,7 @@ class MaterialsController < ApplicationController
     #@batch_selections = @production.warehouse.shelves.select('batch_id', 'batch_id as id').where(batch: current_organization.batches.unrefined)
     @batch_selections = @production.warehouse.shelves.select('batch_id', 'batch_id as id')
       .where(batch: Batch.where(item: Item.where(item_group: 'unrefined')))
-    gon.push shelves: ActiveModel::ArraySerializer.new(@production.warehouse.shelves, each_serializer: ShelfSerializer)
+    gon.push shelves: ActiveModel::ArraySerializer.new(@production.warehouse.shelves, each_serializer: ShelfSerializer),
+      batches: ActiveModel::ArraySerializer.new(current_organization.batches, each_serializer: BatchSerializer)
   end
 end

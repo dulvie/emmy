@@ -9,7 +9,7 @@ class ProductionBatchesController < ApplicationController
     @production_batch = ProductionBatch.new
     @production_batch.production_id = @production.id
     @items = current_organization.items.where('stocked=?', 'true')
-    gon.push items: @items
+    gon.push items:  ActiveModel::ArraySerializer.new(@items, each_serializer: ItemSerializer)
   end
 
   def create
@@ -20,8 +20,8 @@ class ProductionBatchesController < ApplicationController
         format.html { redirect_to edit_production_path(@production_batch.production_id), notice: 'batch was successfully created.' }
       else
         @production_batch.production_id = @production.id
-        @items = Item.where('stocked=?', 'true')
-        gon.push items: @items
+        @items = current_organization.items.where('stocked=?', 'true')
+        gon.push items: ActiveModel::ArraySerializer.new(@items, each_serializer: ItemSerializer)
         format.html { render action: 'new' }
       end
     end

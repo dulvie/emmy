@@ -1,21 +1,29 @@
 app.controller('production_material_form_ctrl', function ($scope) {
 
 	$scope.init = function() {
-
 		$scope.shelf_qty = 0;
 		var idx = $('#material_batch_id').val();
 		for (x=0; x < gon.shelves.length; x++) {
 			if (gon.shelves[x].batch_id == idx) {
 				$scope.shelf_qty = gon.shelves[x].quantity;
 				$scope.bch = gon.shelves[x].batch_id;
+				$scope.set_unit();
 			}
 		}
 	};
-
+  $scope.set_unit = function() {
+    for (x=0; x < gon.batches.length; x++) {
+      if (gon.batches[x].id == $scope.bch) {
+        $('#material_unit').val(gon.batches[x].unit.name);
+      }
+    };
+  
+  };
 	$scope.change_batch = function() {
 		for (x=0; x < gon.shelves.length; x++) {
 			if (gon.shelves[x].batch_id == $scope.bch) {
 				$scope.shelf_qty = gon.shelves[x].quantity;
+				$scope.set_unit();
 			}
 		}
 	};
@@ -28,6 +36,8 @@ app.controller('production_batch_ctrl', function ($scope, price) {
 		$scope.sales = true;
 		$scope.item_id = $('#production_batch_item_id').val();
 		var default_price = false;
+		alert($('#production_batch_distributor_price').val());
+		
 		if ($('#production_batch_distributor_price').val()=='')
 			default_price = true;
 		var ex = $('#in_expire_at').val().split(/\D/);
@@ -57,8 +67,8 @@ app.controller('production_batch_ctrl', function ($scope, price) {
 		$scope.refined = true;
 		$scope.sales = true;
 		for (x=0; x < gon.items.length; x++) {
-			if (gon.items[x].id == $scope.item_id) {
-
+			if (gon.items[x].id == $scope.item_id) {			  
+        $('#production_batch_unit').val(gon.items[x].unit.name);
 				$('#production_batch_in_price').val(price.toDecimal(gon.items[x].in_price));
 				if (default_price)
 					$('#production_batch_distributor_price').val(gon.items[x].distributor_price);

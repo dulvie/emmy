@@ -10,6 +10,7 @@
       .fields_width
         %input{:value => '{{shelf_qty}}', :class => 'form-control numeric', :readonly => 'readonly'}
 
+    = f.input :unit, disabled: true, input_html: {class: 'medium'}
     = f.input :quantity, disabled: !@production.can_edit?
 
     - if @production.can_edit?

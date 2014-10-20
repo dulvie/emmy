@@ -10,6 +10,7 @@
     = f.input :distributor_price, as: :integer
     = f.input :retail_price, as: :integer
     = f.input :quantity, as: :integer
+    = f.input :unit, disabled: true, input_html: {class: 'medium'}
     = render partial: 'shared/date_field', locals: {form: f, field: :refined_at, in_id: 'in_refined_at', in_value: @production_batch.refined_at, out_id: 'production_batch[refined_at]', field_id: 're_short_date',  model: 're_date', dp_open: 're_open', dp_options: 're_options', dp_click: 'open_re_date($event)'}
     = render partial: 'shared/date_field', locals: {form: f, field: :expire_at, in_id: 'in_expire_at', in_value: @production_batch.expire_at, out_id: 'production_batch[expire_at]', field_id: 'ex_short_date',  model: 'ex_date', dp_open: 'ex_open', dp_options: 'ex_options', dp_click: 'open_ex_date($event)'}
 

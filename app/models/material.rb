@@ -10,11 +10,16 @@ class Material < ActiveRecord::Base
 
   attr_accessible :batch_id, :quantity, :organization
 
+  delegate :unit, to: :batch
+
   validates :batch_id, presence: true
   validates :quantity, presence: true
 
   def can_edit?
     production.can_edit?
+  end
+
+  def unit
   end
 
   def can_delete?

@@ -3,7 +3,7 @@ class ProductionBatch
 
   attr_accessor :organization_id, :production_id, :item_id, :name, :comment,
                 :in_price, :distributor_price, :retail_price, :refined_at,
-                :expire_at, :quantity
+                :expire_at, :quantity, :unit
 
   validates :name, presence: true
 
