@@ -4,11 +4,12 @@ class SalesController < ApplicationController
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update]
+  before_filter :add_warehouses, only: [:index, :new, :invoice_search]
 
   def invoice_search
     @breadcrumbs = [['Sales'], ['invoice_search']]
     inbr = params[:invoice_number].to_i
-    sales = Sale.where("invoice_number = ? ", inbr).collect { |sale| sale.decorate }
+    sales = Sale.where('invoice_number = ? ', inbr).decorate
     @sales = Kaminari.paginate_array(sales).page(params[:page]).per(8)
     render :index
   end
@@ -28,40 +29,27 @@ class SalesController < ApplicationController
 
   def index
     @breadcrumbs = [[t(:sales)]]
-    if params[:state] == 'meta_complete'
-      sales = @sales.where('state = ?', 'meta_complete').collect { |sale| sale.decorate }
-    elsif params[:state] == 'prepared'
-      sales = @sales.where('state = ?', 'prepared').collect { |sale| sale.decorate }
-    elsif params[:money_state] == 'not_paid'
-      sales = @sales.where('money_state = ?', 'not_paid').collect { |sale| sale.decorate }
-    elsif params[:goods_state] == 'not_delivered'
-      sales = @sales.where('goods_state = ?', 'not_delivered').collect { |sale| sale.decorate }
-    else
-      sales = @sales.order('approved_at DESC').collect { |sale| sale.decorate }
-    end
-    @sales = Kaminari.paginate_array(sales).page(params[:page]).per(8)
+    @warehouses = current_organization.warehouses
+
+    @sales = Sale.send(state_param) if state_param
+    @sales = @sales.where(warehouse_id: params[:warehouse_id]) if params[:warehouse_id]
+    @sales = @sales.page(params[:page]).per(8).decorate
   end
 
   def new
-   @warehouses = current_organization.warehouses
-   if params[:customer_id]
-     @sale.customer_id = params[:customer_id]
-   end
+    @warehouses = current_organization.warehouses
+    @sale.customer_id = params[:customer_id] if params[:customer_id]
   end
 
   def show
     @sale = @sale.decorate
     respond_to do |format|
-      format.html {
-        @warehouses = current_organization.warehouses
-      }
-      format.pdf {
-        render(
-          pdf: "invoice_#{@sale.id}",
-          template: 'sales/show.pdf.haml',
-          layout: 'pdf'
-        )
-      }
+      format.html { @warehouses = current_organization.warehouses }
+      format.pdf do
+        render(pdf: "invoice_#{@sale.id}",
+               template: 'sales/show.pdf.haml',
+               layout: 'pdf')
+      end
     end
   end
 
@@ -113,5 +101,18 @@ class SalesController < ApplicationController
 
   def show_breadcrumbs
     @breadcrumbs = [[t(:sales), sales_path], ["##{@sale.id}"]]
+  end
+
+  def state_param
+    p = params.permit([:state, :locale, 'organization-slug'])
+    if p[:state] && Sale::FILTER_STAGES.include?(p[:state].to_sym)
+      p[:state]
+    else
+      nil
+    end
+  end
+
+  def add_warehouses
+    @warehouses = current_organization.warehouses
   end
 end

@@ -2,10 +2,14 @@
   = link_to "#{t(:create)} #{t(:sale)}", new_sale_path, class: 'btn btn-default'
   %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
     %option{value: sales_path} #{t(:filter)}: #{t(:all)}
-    %option{value: sales_path + '&state=meta_complete'} #{t(:filter)} #{t(:not_approved)}
-    %option{value: sales_path + '&state=prepared'} #{t(:approved)}
-    %option{value: sales_path + '&goods_state=not_delivered'} #{t(:not_delivered)}
-    %option{value: sales_path + '&money_state=not_paid'} #{t(:not_paid)}
+    - Sale::FILTER_STAGES.each do |state|
+      %option{value: sales_path(state: state)} #{t(state)}
+
+  %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
+    %option{value: sales_path} #{t(:filter)} #{t(:warehouse)}: #{t(:all)}
+    - @warehouses.each do |warehouse|
+      %option{value: sales_path(warehouse_id: warehouse.id)} #{warehouse.name}
+
   .input-group.col-sm-8
     = form_tag invoice_search_sales_path(), method: :get do
       .input-group

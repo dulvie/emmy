@@ -17,8 +17,23 @@ class Sale < ActiveRecord::Base
   # t.integer :invoice_number
   # t.datetime :due_date
 
-  scope :prepared, -> { where(state: 'prepared') }
-  scope :not_delivered, -> { where(goods_state: 'not_delivered') }
+  STATE_CHANGES = [
+    :mark_prepared, :mark_complete, # Generic state
+    :deliver, # Goods
+    :pay,     # Money
+  ]
+
+  FILTER_STAGES=[:meta_complete, :prepared, :not_delivered, :not_paid]
+  FILTER_STAGES.each do |state|
+    case state
+    when :not_delivered
+      scope state, -> { where(goods_state: state) }
+    when :not_paid
+      scope state, -> { where(money_state: state) }
+    else
+      scope state, -> { where(state: state) }
+    end
+  end
 
   belongs_to :user
   belongs_to :customer
@@ -36,17 +51,8 @@ class Sale < ActiveRecord::Base
   validates :warehouse_id, presence: true
   validates :payment_term, presence: true
 
-  # Callbacks
-  # @todo Refactor this into service objects instead.
-  before_create :ensure_organization_id
-
   after_create :add_invoice_number
 
-  STATE_CHANGES = [
-    :mark_prepared, :mark_complete, # Generic state
-    :deliver, # Goods
-    :pay,     # Money
-  ]
 
   def state_change(new_state, changed_at = nil)
     return false unless STATE_CHANGES.include?(new_state.to_sym)
@@ -220,15 +226,5 @@ class Sale < ActiveRecord::Base
   def has_document?
     return false if document.nil?
     return true
-  end
-
-  # Callback: before_create
-  # @todo Refactor into service object instead.
-  def ensure_organization_id
-    org = Organization.first
-    unless org
-      fail 'no organization found!'
-    end
-    self.organization_id = org.id
   end
 end
