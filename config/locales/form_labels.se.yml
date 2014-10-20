@@ -52,6 +52,7 @@ se:
         zip: "Postnummer"
 
       comment:
+        completed_at: "Färdig"
 
       inventory:
         inventory: "Inventering"
@@ -69,5 +70,5 @@ se:
         default_locale: "Språk"
       vat:
         add_factor: "På netto"
-        sub_factor: "På brutto" 
+        sub_factor: "På brutto"
         vat_percent: "Moms procent"
