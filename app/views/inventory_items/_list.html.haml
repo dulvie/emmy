@@ -21,8 +21,13 @@
               %td
                 - call = "report_item('#{request.path_info[1..-1]}','"+ item.id.to_s + "','" + qty_id + "');"
                 - if !item.reported?
-                  %button{:class=>"btn btn-primary", :ng_click=>call}
-                    = t(:report)
+                  %div{:id=>'b1_'+index.to_s}
+                    %button{:class=>"btn btn-primary", :ng_click=>call}
+                      = t(:report)
+                  %div{:id=>'b2_'+index.to_s, :class => "hide"}
+                    %button{:class=>"btn btn-default", :ng_click=>call}
+                      %span{ :class => "glyphicon glyphicon-ok"} 
+                      = t(:report)
                 - if item.reported?
                   %button{:class=>"btn btn-default", :ng_click=>call}
                     %span{ :class => "glyphicon glyphicon-ok"} 
