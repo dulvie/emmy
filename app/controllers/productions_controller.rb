@@ -35,6 +35,8 @@ class ProductionsController < ApplicationController
     init_collections
     @costitems_size = 0
     @materials_size = 0
+    t = Time.now
+    @production.description = 'Rostning ' + t.year.to_s + ":" + t.month.to_s
     @production.our_reference = current_user
   end
 

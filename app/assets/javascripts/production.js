@@ -36,8 +36,6 @@ app.controller('production_batch_ctrl', function ($scope, price) {
 		$scope.sales = true;
 		$scope.item_id = $('#production_batch_item_id').val();
 		var default_price = false;
-		alert($('#production_batch_distributor_price').val());
-		
 		if ($('#production_batch_distributor_price').val()=='')
 			default_price = true;
 		var ex = $('#in_expire_at').val().split(/\D/);
@@ -67,7 +65,9 @@ app.controller('production_batch_ctrl', function ($scope, price) {
 		$scope.refined = true;
 		$scope.sales = true;
 		for (x=0; x < gon.items.length; x++) {
-			if (gon.items[x].id == $scope.item_id) {			  
+			if (gon.items[x].id == $scope.item_id) {
+			  var d = new Date();
+			  $('#production_batch_name').val(gon.items[x].name + " " + d.getFullYear() + ":" + (d.getMonth()+1))
         $('#production_batch_unit').val(gon.items[x].unit.name);
 				$('#production_batch_in_price').val(price.toDecimal(gon.items[x].in_price));
 				if (default_price)
