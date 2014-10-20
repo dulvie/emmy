@@ -7,6 +7,8 @@ class BatchTransactionDecorator < Draper::Decorator
       h.transfer_path(object.parent_id)
     when 'Manual'
       h.manual_path(object.parent_id)
+    when 'Production'
+      h.production_path(object.parent_id)
     else
       ""
     end
