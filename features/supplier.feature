@@ -43,7 +43,6 @@ Feature: Crud suppliers
     Given I am a signed in user
     And a "supplier" with "name" equals to "test supplier" exists
     And I visit suppliers_path for "test-organization"
-    And I click delete link for "test supplier" supplier
-    And I confirm the alertbox
+    And I click delete link for "test supplier" supplier in "test-organization"
     Then I should see "Supplier was successfully deleted."
 
