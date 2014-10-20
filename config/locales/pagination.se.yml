@@ -1,0 +1,6 @@
+se:
+  views:
+    pagination:
+      next: "Nästa"
+      previous: "Tidigare"
+      last: "Sista"
