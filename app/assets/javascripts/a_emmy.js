@@ -11,7 +11,7 @@ app.service('price', function() {
 		if (value.indexOf('.') == value.length-3) { return value.replace('.','') }
 		if (value.indexOf('.') == value.length-2) {
 			var v = value.replace('.', '');
-			return v.concat('0') 
+			return v.concat('0');
 		}
 		var v = value.replace('.','');
 		return v.concat('00');

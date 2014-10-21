@@ -1,6 +1,9 @@
 app.controller('batch_form_ctrl', function ($scope, price) {
 
+
+
 	$scope.init = function() {
+	
 		$scope.refined = true;
 		$scope.sales = true;
 		$scope.item_id = $('#batch_item_id').val();
@@ -38,9 +41,9 @@ app.controller('batch_form_ctrl', function ($scope, price) {
 					$('#batch_distributor_price').val(gon.items[x].distributor_price);
 					$('#batch_retail_price').val(gon.items[x].retail_price);
 				}
-				$('#batch_in_price').val(price.toDecimal($('#batch_in_price').val()));
-				$('#batch_distributor_price').val(price.toDecimal($('#batch_distributor_price').val()));
-				$('#batch_retail_price').val(price.toDecimal($('#batch_retail_price').val()));
+				$('#in_price_edit').val(price.toDecimal($('#batch_in_price').val()));
+				$('#distributor_price_edit').val(price.toDecimal($('#batch_distributor_price').val()));
+				$('#retail_price_edit').val(price.toDecimal($('#batch_retail_price').val()));
 				if (gon.items[x].item_group == 'refined') {
 					$scope.refined = false;
 				}
@@ -52,9 +55,9 @@ app.controller('batch_form_ctrl', function ($scope, price) {
 	};
 
 	$scope.before_submit = function() {
-    	$('#batch_in_price').val(price.toInteger($('#batch_in_price').val()));
-    	$('#batch_distributor_price').val(price.toInteger($('#batch_distributor_price').val()));
-    	$('#batch_retail_price').val(price.toInteger($('#batch_retail_price').val()));
+    	$('#batch_in_price').val(price.toInteger($('#in_price_edit').val()));
+    	$('#batch_distributor_price').val(price.toInteger($('#distributor_price_edit').val()));
+    	$('#batch_retail_price').val(price.toInteger($('#retail_price_edit').val()));
 	};	
 
 });
