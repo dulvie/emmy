@@ -6,9 +6,28 @@
     = f.input :item_id, collection: @items, :input_html => {:ng_model => 'item_id', :ng_change => 'select_item(true)'}
     = f.input :name, :label => t(:name_of_new_batch)
     = f.input :comment, as: :text
-    = f.input :in_price, as: :integer
-    = f.input :distributor_price, as: :integer
-    = f.input :retail_price, as: :integer
+
+    = f.input :in_price, as: :hidden
+    .form-group
+      .labels_width.control-label
+        = f.label :in_price
+      .fields_width
+        %input{id: 'in_price_edit', type: 'number', class: 'form-control numeric', value: 0}
+
+    = f.input :distributor_price, as: :hidden
+    .form-group
+      .labels_width.control-label
+        = f.label :distributor_price
+      .fields_width
+        %input{id: 'distributor_price_edit', type: 'number', class: 'form-control numeric', value: 0}  
+
+    = f.input :retail_price, as: :hidden
+    .form-group
+      .labels_width.control-label
+        = f.label :retail_price
+      .fields_width
+        %input{id: 'retail_price_edit', type: 'number', class: 'form-control numeric', value: 0}
+
     = f.input :quantity, as: :integer
     = f.input :unit, disabled: true, input_html: {class: 'medium'}
     = render partial: 'shared/date_field', locals: {form: f, field: :refined_at, in_id: 'in_refined_at', in_value: @production_batch.refined_at, out_id: 'production_batch[refined_at]', field_id: 're_short_date',  model: 're_date', dp_open: 're_open', dp_options: 're_options', dp_click: 'open_re_date($event)'}
