@@ -192,7 +192,8 @@ class ImportsController < ApplicationController
     end
 
     @parent_column = params[:parent_column]
-    gon.push suppliers: ActiveModel::ArraySerializer.new(current_organization.suppliers, each_serializer: SupplierSerializer)
+    @suppliers = current_organization.suppliers
+    gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
   end
 
   def set_purchases

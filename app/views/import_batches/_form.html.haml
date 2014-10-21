@@ -12,7 +12,13 @@
     = f.input :name, :label => t(:name_of_new_batch)
     = f.input :quantity, as: :integer
     = f.input :unit, disabled: true, :input_html => {:class => 'medium'}
+
     = f.input :price, as: :integer
+    .form-group
+      .labels_width.control-label
+        = f.label :price
+      .fields_width
+        %input{id: 'price_edit', type: 'number', class: 'form-control numeric', value: 0}
 
     .form-button-group
       .actions

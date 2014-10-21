@@ -2,7 +2,7 @@ app.controller('import_batch_form_ctrl', function ($scope, price) {
 
 	$scope.init = function() {
 		$scope.supplier = $('#import_batch_supplier').val();
-    $('#import_batch_price').val(price.toDecimal($('#import_batch_price').val()));
+    $('#price_edit').val(price.toDecimal($('#import_batch_price').val()));
     $scope.item_id = $('#import_batch_item_id').val();
     $scope.select_item();
 	};
@@ -33,14 +33,15 @@ app.controller('import_batch_form_ctrl', function ($scope, price) {
 	  };
 	};
 	$scope.before_submit = function() {
-    	$('#import_batch_price').val(price.toInteger($('#import_batch_price').val()));
+    	$('#import_batch_price').val(price.toInteger($('#price_edit').val()));
 	};
 	
 });
 app.controller('import_purchase_form_ctrl', function ($scope, price) {
 
 	$scope.init = function() {
-		$scope.supplier = $('#purchase_supplier_id').val();	
+		$scope.supplier = $('#purchase_supplier_id').val();
+		$('#price_edit').val(price.toDecimal($('#purchase_purchase_items_attributes_0_price').val()));
 	};
 
 	$scope.select_supplier = function() {
@@ -62,7 +63,7 @@ app.controller('import_purchase_form_ctrl', function ($scope, price) {
 		}
 	};
 	$scope.before_submit = function() {
-    	$('#purchase_purchase_items_attributes_0_price').val(price.toInteger($('#purchase_purchase_items_attributes_0_price').val()));
+    	$('#purchase_purchase_items_attributes_0_price').val(price.toInteger($('#price_edit').val()));
 	};
 	
 });
