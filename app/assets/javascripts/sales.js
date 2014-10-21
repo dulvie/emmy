@@ -65,8 +65,8 @@ app.controller('sale_items_new_ctrl', function ($scope, $modal, price) {
 				$scope.product_value = obj.value;
 			}
 		});
-		$('#sale_item_price').val(price.toDecimal($('#sale_item_price').val()));
-		if ($('#sale_item_price').val()=='0') {
+		$('#price_edit').val(price.toDecimal($('#sale_item_price').val()));
+		if ($('#price_edit').val()=='0') {
 			$scope.product_changed();
 		}
 	};
@@ -88,10 +88,10 @@ app.controller('sale_items_new_ctrl', function ($scope, $modal, price) {
 			};
 
 			if (reseller) {
-				$('#sale_item_price').val(price.toDecimal(dPrice));
+				$('#price_edit').val(price.toDecimal(dPrice));
 			}
 			else  {
-				$('#sale_item_price').val(price.toDecimal(rPrice));
+				$('#price_edit').val(price.toDecimal(rPrice));
 			};
 		}
 	};
@@ -116,7 +116,7 @@ app.controller('sale_items_new_ctrl', function ($scope, $modal, price) {
 	};
 	
 	$scope.before_submit = function() {
-    	$('#sale_item_price').val(price.toInteger($('#sale_item_price').val()));
+    	$('#sale_item_price').val(price.toInteger($('#price_edit').val()));
   	};
   	
   	

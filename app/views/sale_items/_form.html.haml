@@ -25,7 +25,12 @@
     .error_width
       = f.error :quantity
 
-  = f.input :price
+  = f.input :price, as: :hidden
+  .form-group
+    .labels_width.control-label
+      = f.label :price
+    .fields_width
+      %input{id: 'price_edit', type: 'number', class: 'form-control numeric', value: 0}
 
   .form-button-group
     .actions
