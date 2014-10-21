@@ -7,7 +7,7 @@ class ImportBatchesController < ApplicationController
 
   def new
     @import_batch = ImportBatch.new
-    @import_batch.description = 'Import batch'
+    @import_batch.description = 'Import'
     @import_batch.import_id = @import.id
     init_new
   end

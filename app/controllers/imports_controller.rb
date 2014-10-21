@@ -77,14 +77,14 @@ class ImportsController < ApplicationController
 
     if params[:parent_column] == 'shipping'
       @purchase = @import.shipping.build
-      @purchase.description = 'Shipping'
+      @purchase.description = 'Skeppning'
       @purchase.our_reference = @import.our_reference
       @purchase.purchase_items.build quantity: 1
       @item_selections = current_organization.items.bayable.not_stocked
     end
     if params[:parent_column] == 'customs'
       @purchase = @import.customs.build
-      @purchase.description = 'Customs'
+      @purchase.description = 'Tull'
       @purchase.our_reference = @import.our_reference
       @purchase.purchase_items.build quantity: 1
       @item_selections = current_organization.items.bayable.not_stocked
