@@ -21,6 +21,7 @@ class BatchesController < ApplicationController
   # GET /batches/1/edit
   def edit
     init_new
+    @production = current_organization.productions.where('batch_id = ?', @batch.id).first
   end
 
   # POST /batches

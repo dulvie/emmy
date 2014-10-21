@@ -172,7 +172,13 @@ footer {
   @extend .control-label;
   text-align: left;
 }
-
+.form-field-suffix {
+  @extend  .col-sm-offset-32;
+  @extend  .col-md-offset-30;
+  @extend  .col-lg-offset-20;
+  text-align: left;
+  @extend  .col-sm-44;
+}
 .center-content {
   @extend .col-lg-14;
   @extend .col-lg-offset-17;
