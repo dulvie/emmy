@@ -4,6 +4,7 @@
 
     = f.input :parent_type, :as => :hidden
     = f.input :parent_id, :as => :hidden
+    = f.input :our_reference_id, :as => :hidden
 
     = f.input :description
     = f.association :supplier,  :input_html => {:ng_model=>'supplier', :ng_change=>'select_supplier()'}

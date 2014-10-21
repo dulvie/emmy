@@ -26,8 +26,8 @@ class PurchasesController < ApplicationController
       @purchase.purchase_items.build quantity: 1
       @purchase.parent_type = params[:parent_type]
       @purchase.parent_id = params[:parent_id]
-      t = Time.now
-      @purchase.description = 'Rostning ' + t.year.to_s + ':' + t.month.to_s
+      @purchase.description = 'Rostning'
+      @purchase.our_reference = current_user
       init_new
       init_collections
       gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)

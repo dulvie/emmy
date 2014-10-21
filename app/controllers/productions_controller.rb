@@ -25,7 +25,7 @@ class ProductionsController < ApplicationController
   # GET /productions/1
   # GET /productions/1.json
   def show
-    @pdummy = @production
+    @production = @production.decorate
     init_collections
     render 'edit'
   end
@@ -35,13 +35,13 @@ class ProductionsController < ApplicationController
     init_collections
     @costitems_size = 0
     @materials_size = 0
-    t = Time.now
-    @production.description = 'Rostning ' + t.year.to_s + ":" + t.month.to_s
+    @production.description = 'Rostning'
     @production.our_reference = current_user
   end
 
   # GET /productions/1/edit
   def edit
+    @production = @production.decorate
     init_collections
   end
 
@@ -105,7 +105,7 @@ class ProductionsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Productions', productions_path], ["#{t(:new)} #{t(:production)}"]]
+    @breadcrumbs = [['Productions', productions_path], ["#{t(:new)} #{t(:roasting)}"]]
   end
 
   def edit_breadcrumbs

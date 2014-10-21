@@ -36,9 +36,9 @@ se:
         create: "Skapa Organisation"
         update: "Uppdatera ändringar"
       production:
-        create: "Skapa Produktion"
+        create: "Skapa Rostning"
       production_batch:
-        create: "Skapa Produktions sats"
+        create: "Skapa Slutprodukt"
       purchase:
         create: "Skapa Inköp"
         update: "Uppdatera ändringar"
@@ -57,6 +57,9 @@ se:
       unit:
         create: "Skapa Enhet"
         update: "Uppdatera ändringar"
+      vat:
+        create: "Skapa Moms"
+        update: "Uppdatera ändringar"  
       warehouse:
         create: "Skapa Lager"
         update: "Uppdatera ändringar"

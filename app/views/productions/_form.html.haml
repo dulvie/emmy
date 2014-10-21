@@ -2,13 +2,13 @@
   = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal', autocomplete: 'off'}) do |f|
     = f.error_notification
 
-    = f.input :description, disabled: !@production.new_record?
+    = f.input :description, as: :hidden
     = f.association :our_reference, collection: @users, disabled: !@production.new_record?
     = f.association :warehouse,  collection: @warehouses, disabled: !@production.new_record?
 
     - if !@production.new_record?
 
-      = f.input :state, disabled: true, :class => 'medium'
+      = render partial: 'shared/state_labels_field', locals: {model: @production}
       - if !@production.can_edit?
         = f.input :started_at, :as => :string, :input_html => { :class => 'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
       - if @production.completed?
@@ -17,6 +17,7 @@
       - if !@production.batch.nil?
         = f.association :batch, disabled: true
         = f.input :quantity, disabled: true
+        = f.input :unit, disabled: true, :input_html => {:class =>'medium', :value => f.object.unit.name}
 
 
       - if @production.completed?
@@ -39,7 +40,7 @@
           - if !@production.new_record? && !@production.batch.nil? && @production.materials.size == 0
             = link_to t(:set_parts_and_quantities), new_production_material_path(@production), :class => 'btn btn-primary'
           - if !@production.new_record? && !@production.batch.nil? && @production.work.nil?
-            - add_single_purchase_url = new_purchase_path({parent_id: @production.id, parent_type: @production.class.name, form: 'single_purchase'})
+            - add_single_purchase_url = new_purchase_path({parent_id: @production.id, parent_type: 'Production', form: 'single_purchase'})
             = link_to t(:ordering_work), add_single_purchase_url, :class => 'btn btn-primary'
   %br
   - if !@production.new_record? && !@production.completed?
