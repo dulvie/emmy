@@ -26,19 +26,18 @@
         .labels_width.control-label
           = f.label :distributor_price
         .fields_width
-          %input{id: 'distributor_price_edit', type: 'number', class: 'form-control numeric', value: 0}  
+          %input{id: 'distributor_price_edit', type: 'number', class: 'form-control numeric', value: 0}
  
       = f.input :retail_price, as: :hidden
       .form-group
         .labels_width.control-label
           = f.label :retail_price
         .fields_width
-          %input{id: 'retail_price_edit', type: 'number', class: 'form-control numeric', value: 0}  
-          
+          %input{id: 'retail_price_edit', type: 'number', class: 'form-control numeric', value: 0}
+
     %div{:ng_hide => 'refined'}
       = render partial: 'shared/date_field', locals: {form: f, field: :refined_at, in_id: 'in_refined_at', in_value: @batch.refined_at, out_id: 'batch[refined_at]', field_id: 're_short_date',  model: 're_date', dp_open: 're_open', dp_options: 're_options', dp_click: 'open_re_date($event)'}
       = render partial: 'shared/date_field', locals: {form: f, field: :expire_at, in_id: 'in_expire_at', in_value: @batch.expire_at, out_id: 'batch[expire_at]', field_id: 'ex_short_date',  model: 'ex_date', dp_open: 'ex_open', dp_options: 'ex_options', dp_click: 'open_ex_date($event)'}
-
 
     .form-button-group
       .actions

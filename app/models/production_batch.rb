@@ -6,9 +6,14 @@ class ProductionBatch
                 :expire_at, :quantity, :unit
 
   validates :name, presence: true
-
   validates :item_id, presence: true
   validates :quantity, presence: true
+  validate :check_batch_name
+
+  def check_batch_name
+    u = Batch.where('organization_id = ? and name = ?', organization_id, name).count
+    errors.add :name, "Name already taken"
+  end
 
   def submit
     return false unless valid?
@@ -18,7 +23,7 @@ class ProductionBatch
       @batch.save
       @production.batch = @batch
       @production.quantity = quantity
-      @production.save
+      return false if !@production.save
     end
     true
   end
