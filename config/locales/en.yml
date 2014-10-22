@@ -50,6 +50,7 @@ en:
   buyer: "Buyer"
   cant_be_changed_after_marked_complete: "Can't be changed after marked complete"
   city: "City"
+  city_search: "City search"
   comment: "Comment"
   comment_added: "Comment added"
   comments: "Comments"

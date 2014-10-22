@@ -1,6 +1,7 @@
 se:
   views:
     pagination:
+      first: "Första"
       next: "Nästa"
       previous: "Tidigare"
       last: "Sista"

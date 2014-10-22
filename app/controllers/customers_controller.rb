@@ -13,6 +13,13 @@ class CustomersController < ApplicationController
     render :index
   end
 
+  def city_search
+    @breadcrumbs = [['Customers'], ['city_search']]
+    city = "%#{params[:city_name]}%"
+    @customers = @customers.where('city ILIKE ?', city).order('name').page(params[:page]).per(8)
+    render :index
+  end
+
   # GET /customers
   # GET /customers.json
   def index

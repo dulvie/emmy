@@ -44,6 +44,7 @@ Emmy::Application.routes.draw do
     resources :customers do
       collection do
         get 'name_search', as: :name_search
+        get 'city_search', as: :city_search
       end
     end
     resources :documents
