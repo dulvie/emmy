@@ -5,13 +5,19 @@ class ImportBatch
                 :description, :supplier, :contact_name, :contact_email, :batch, :quantity, :price, :unit
 
   validates :name, presence: true
-  # validates :name, uniqueness: true
-
   validates :item_id, presence: true
   validates :quantity, presence: true
   validates :description, presence: true
   validates :supplier, presence: true
   validates :price, presence: true
+  validate :check_batch_name
+
+  def check_batch_name
+    u = Batch.where('organization_id = ? and name = ?', organization_id, name).count
+    if (u > 0)
+      errors.add :name, "Name already taken"
+    end
+  end
 
   def submit
     return false unless valid?
@@ -21,7 +27,7 @@ class ImportBatch
       # Create new batch for import
       @batch = Batch.new(to_hash)
       @batch.in_price = price
-      @batch.save
+      return false if !@batch.save
 
       # Create purchase and purchase_item for import of new batch
       @purchase = @import.importing.build(organization_id: organization_id,
@@ -33,19 +39,19 @@ class ImportBatch
                                           contact_name: contact_name,
                                           our_reference_id: @import.our_reference_id,
                                           to_warehouse_id: @import.to_warehouse_id)
-      @purchase.save
+      return false if !@purchase.save
 
       @purchase_item = @purchase.purchase_items.build(organization_id: organization_id,
                                                       item_id: item_id,
                                                       batch_id: @batch.id,
                                                       quantity: quantity,
                                                       price: price)
-      @purchase_item.save
+      return false if !@purchase_item.save
 
       @import.batch = @batch
       @import.quantity = quantity
       @import.importing_id = @purchase.id
-      @import.save
+      return false if !@import.save
     end
     true
   end

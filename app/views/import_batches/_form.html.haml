@@ -13,7 +13,7 @@
     = f.input :quantity, as: :integer
     = f.input :unit, disabled: true, :input_html => {:class => 'medium'}
 
-    = f.input :price, as: :integer
+    = f.input :price, as: :hidden
     .form-group
       .labels_width.control-label
         = f.label :price
