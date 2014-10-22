@@ -24,6 +24,7 @@ class ImportsController < ApplicationController
   def show
     init_collections
     set_purchases
+    @import = @import.decorate
     render 'edit'
   end
 
@@ -37,6 +38,7 @@ class ImportsController < ApplicationController
   def edit
     init_collections
     set_purchases
+    @import = @import.decorate
   end
 
   # POST /imports
