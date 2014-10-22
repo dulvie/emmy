@@ -28,7 +28,7 @@ class PurchasesController < ApplicationController
       @purchase.parent_id = params[:parent_id]
       @purchase.description = 'Rostning'
       @purchase.our_reference = current_user
-      init_new
+      init_new_work
       init_collections
       gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
       respond_to do |format|
@@ -143,6 +143,11 @@ class PurchasesController < ApplicationController
   def init_new
     item_types = ['purchases', 'both']
     @item_selections = current_organization.items.where(item_type: item_types)
+  end
+
+  def init_new_work
+    item_types = ['purchases', 'both']
+    @item_selections = current_organization.items.where(item_type: item_types, stocked: false)
   end
 
   def init_collections

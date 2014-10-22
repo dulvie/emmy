@@ -67,7 +67,8 @@ app.controller('production_batch_ctrl', function ($scope, price) {
 		for (x=0; x < gon.items.length; x++) {
 			if (gon.items[x].id == $scope.item_id) {
 			  var d = new Date();
-			  $('#production_batch_name').val(gon.items[x].name + " " + d.getFullYear() + ":" + (d.getMonth()+1))
+			  if (default_price)
+			    $('#production_batch_name').val(gon.items[x].name + " " + d.getFullYear() + ":" + (d.getMonth()+1))
         $('#production_batch_unit').val(gon.items[x].unit.name);
 				$('#in_price_edit').val(price.toDecimal(gon.items[x].in_price));
 				if (default_price)
