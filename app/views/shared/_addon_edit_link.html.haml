@@ -7,8 +7,6 @@
       - if can_edit
         .input-group-addon
           = link_to settings_icon, link
+      - if object.can_delete?
         .input-group-addon
           = delete_modal_for object, link
-      - else
-        .input-group-addon
-          = link_to settings_icon, link
