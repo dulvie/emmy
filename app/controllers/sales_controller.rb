@@ -31,8 +31,9 @@ class SalesController < ApplicationController
     @breadcrumbs = [[t(:sales)]]
     @warehouses = current_organization.warehouses
 
-    @sales = Sale.send(state_param) if state_param
-    @sales = @sales.where(warehouse_id: params[:warehouse_id]) if params[:warehouse_id]
+    @sales = @sales.send(state_param.to_sym) if state_param
+    @sales = @sales.where(warehouse_id: params[:warehouse_id]) unless params[:warehouse_id].blank?
+    @sales = @sales.where(invoice_number: params[:invoice_number]) unless params[:invoice_number].blank?
     @sales = @sales.page(params[:page]).per(8).decorate
   end
 

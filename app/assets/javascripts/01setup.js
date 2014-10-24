@@ -6,6 +6,7 @@ var Setup = {
   {
     this.stateChangeForm();
     this.popover();
+    this.submitFormOnSelectChange();
     //this.datepicker();
   },
 
@@ -31,6 +32,13 @@ var Setup = {
       var $elm = $(this);
       var $wrapper = $elm.parent().parent().parent().parent().parent();
       $wrapper.find('.state-change-form').addClass('hide');
+    });
+  },
+
+  submitFormOnSelectChange: function()
+  {
+    $('.submit-on-change').find('select').change(function() {
+      $(this).closest('form').submit();
     });
   },
 

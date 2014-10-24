@@ -1,21 +1,24 @@
-.form-inline
+= form_tag sales_path, class: 'form-inline submit-on-change', method: :get do
+  -# This create link is here since it needs to be on the same line as the filter fields.
   = link_to "#{t(:create)} #{t(:sale)}", new_sale_path, class: 'btn btn-default'
-  %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
-    %option{value: sales_path} #{t(:filter)}: #{t(:all)}
-    - Sale::FILTER_STAGES.each do |state|
-      %option{value: sales_path(state: state)} #{t(state)}
 
-  %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
-    %option{value: sales_path} #{t(:filter)} #{t(:warehouse)}: #{t(:all)}
-    - @warehouses.each do |warehouse|
-      %option{value: sales_path(warehouse_id: warehouse.id)} #{warehouse.name}
+  = select_tag(:state,
+    options_for_select(Sale::FILTER_STAGES.each.collect{|s| [t(s), s]}, params[:state]),
+    class: 'btn btn-default',
+    prompt: "#{t(:filter)} #{t(:state)}: #{t(:all)}")
 
-  .input-group.col-sm-8
-    = form_tag invoice_search_sales_path(), method: :get do
-      .input-group
-        = text_field_tag('invoice_number','', placeholder: t(:invoice_search), class: 'form-control')
-        .span.input-group-btn
-          = button_tag(search_icon, class: 'btn btn-default')
+  = select_tag(:warehouse_id,
+    options_for_select(@warehouses.each.collect{|w| [w.name, w.id]}, params[:warehouse_id]),
+    class: 'btn btn-default',
+    prompt: "#{t(:filter)} #{t(:warehouses)}: #{t(:all)}")
+
+  .input-group
+    = text_field_tag('invoice_number',
+      params[:invoice_number],
+      placeholder: t(:invoice_search),
+      class: 'form-control')
+    .span.input-group-btn
+      = button_tag(search_icon, class: 'btn btn-default')
 
 %div{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}
