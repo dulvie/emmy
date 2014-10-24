@@ -43,6 +43,12 @@ se:
       signed_in: "Du är inloggad."
       signed_out: "Du är utloggad."
       already_signed_out: "Du är utloggad."
+    # user_sessions is added because that is our custom session controller.
+    # The translations used the controller name, so this duplication is needed.
+    user_sessions:
+      signed_in: "Du är inloggad."
+      signed_out: "Du är utloggad."
+      already_signed_out: "Du är utloggad."
     unlocks:
       send_instructions: "Du kommer få epost med instruktioner om hur du kan låsa upp ditt konto inom några minuter."
       send_paranoid_instructions: "Om ditt konto finns, kommer du att få ett email med instruktioner om hur du låser upp det inom några minuter."
