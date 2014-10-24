@@ -12,8 +12,14 @@
     = f.input :contact_email
     = f.simple_fields_for(:purchase_items) do |ff|
       = ff.association :item, :label => t(:work), collection: @item_selections, include_blank: false
-      = ff.input :quantity, :as => :hidden
-      = ff.input :price
+      = ff.input :quantity, as: :hidden
+      = ff.input :price, as: :hidden
+      .form-group
+        .labels_width.control-label
+          = f.label :price
+        .fields_width
+          %input{id: 'price_edit', type: 'number', class: 'form-control numeric', value: 0}
+
     .form-button-group
       .actions
         = f.submit class: 'btn btn-primary', ng_click: 'before_submit()'

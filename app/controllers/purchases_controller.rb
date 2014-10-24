@@ -113,6 +113,7 @@ class PurchasesController < ApplicationController
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:purchase_item)}"
         init_new
         init_collections
+        gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
         format.html { render 'single_form' }
       end
     end

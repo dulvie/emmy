@@ -1,7 +1,8 @@
 app.controller('purchase_form_ctrl', function ($scope, price) {
 
 	$scope.init = function() {
-		$scope.supplier = $('#purchase_supplier_id').val();	
+		$scope.supplier = $('#purchase_supplier_id').val();
+		$('#price_edit').val(price.toDecimal($('#purchase_purchase_items_attributes_0_price').val()));
 	};
 
 	$scope.select_supplier = function() {
@@ -24,6 +25,6 @@ app.controller('purchase_form_ctrl', function ($scope, price) {
 	};
 	
 	$scope.before_submit = function() {
-    	$('#purchase_purchase_items_attributes_0_price').val(price.toInteger($('#purchase_purchase_items_attributes_0_price').val()));
+    	$('#purchase_purchase_items_attributes_0_price').val(price.toInteger($('#price_edit').val()));
 	};
 });
