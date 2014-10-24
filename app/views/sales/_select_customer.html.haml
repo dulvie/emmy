@@ -4,7 +4,7 @@
   %div{:class=>"fields_width"}
     %input{:id => 'customer_ref', :autocomplete=>'off',  :ng_model=>"selected", :typeahead_on_select => "type_ahead_customer($item, $model, $label)", :typeahead=>"c.name for c in customer | filter:$viewValue", :class=>"form-control"}
     = f.error :customer_id
-  .col-md-7.form-suffix-text
+  .form-suffix-text
     = link_to "#{t(:create)} #{t(:customer)}", new_customer_path(return_path: new_sale_path)
 
 .form-group

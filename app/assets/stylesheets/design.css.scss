@@ -171,6 +171,8 @@ footer {
 .form-horizontal .form-suffix-text {
   @extend .control-label;
   text-align: left;
+  @extend .col-md-7;
+  @extend .col-sm-10;
 }
 .form-field-suffix {
   @extend  .col-sm-offset-32;
