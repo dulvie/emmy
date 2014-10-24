@@ -1,5 +1,5 @@
 class DocumentsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource :document, through: :current_organization
   before_filter :find_and_authorize_parent
 
   before_filter :show_breadcrumbs, only: [:show, :update]
@@ -77,7 +77,6 @@ class DocumentsController < ApplicationController
       params[:parent_id] = @document.parent_id
     end
 
-    logger.info "Kollar:: #{params[:parent_type]}"
     unless params.key?(:parent_type)
       params[:parent_type] = 'nil'
       params[:parent_id] = 0
