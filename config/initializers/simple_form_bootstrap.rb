@@ -55,8 +55,8 @@ SimpleForm.setup do |config|
     b.wrapper tag: 'div', class: 'col-sm-20 col-md-20 col-lg-12' do |ba|
       ba.use :input, class: 'form-control'
       ba.use :error, wrap_with: { tag: 'span', class: 'help-block' }
-      ba.use :hint,  wrap_with: { tag: 'p', class: 'help-block' }
     end
+    b.use :hint,  wrap_with: { tag: 'div', class: 'form-suffix-text hint' }
   end
 
   config.wrappers :horizontal_file_input, tag: 'div', class: 'form-group', error_class: 'has-error' do |b|

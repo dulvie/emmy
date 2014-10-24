@@ -7,11 +7,7 @@
 
     = f.association :item, collection: @items, disabled: !@batch.new_record?, :input_html => {:ng_model => 'item_id', :ng_change => 'select_item(true)'}
 
-    = f.input :name
-    - if @production
-      .form-field-suffix
-        = link_to "#{t(:roasting)}", edit_production_path(@production.id)
-
+    = f.input :name, hint: (@production) ? link_to("#{t(:roasting)}", edit_production_path(@production.id)) : ''
     = f.input :comment
     = f.input :in_price, as: :hidden
     .form-group
