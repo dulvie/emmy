@@ -1,17 +1,16 @@
 Top prio:-
 
-* Om pris finns i sidan och den laddas om läggs två decimaler på som om priset kom från databasen!
 * domain name
 * sertifikat
-* Dashboard content
+* Dashboard content, 
 * Logo on invoice? https://github.com/dulvie/emmy/issues/76
 * Tests?
 * Hur ska in_price sättas när batch skapas i import och production?
 * Rensning i kodbasen det som ej används
 * Set up a demo organization with default demo-data. Funktion att återställa default demo-data.
-* Backuper, kolla upp
+  a) Som egen organisation unde emmy-app eller egen installation dulvie.se
+* Backuper, viktigt, schema
 * Roterande loggar
-* OBS! kan email på customer störa email på contact och user?
 * Texter rubriker knappar, meddelanden
 
 Later Prio:
@@ -22,7 +21,7 @@ Later Prio:
   Behövs aktive flagga? Möjlighet att ha kvar item utan att de stör i listor där bara aktiva visas.
   En graf för sale och purchase skulle visa beroenden
 
-* customer - Ha email som obligatoriskt?
+* customer - Ha email som obligatoriskt?, city som obligatoriskt
 * Sale - send past due date reminder email https://github.com/dulvie/emmy/issues/72
 * Statistics
 * change purchase_item according sale_items model with product_parm?
@@ -46,6 +45,5 @@ Later Prio:
 * #25 unit - translation between units
 * #26 item - comments to comments model
 * #28 item - tab for dependent products
-* #30 sale - handle contacts
 * #33 inventory - product not on shelf
 * #38 sale - reference not actual user

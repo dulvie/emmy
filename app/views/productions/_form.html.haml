@@ -36,7 +36,7 @@
             = link_to t(:set_product_and_quantity), new_production_production_batch_path(@production), :class => 'btn btn-primary'
           - if (@production.can_edit_state? && !@production.started?) || (@production.can_edit_state? && @production.can_complete?)
             %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
-              = @production.next_event
+              = t(:"#{@production.next_event}")
           - if !@production.new_record? && !@production.batch.nil? && @production.materials.size == 0
             = link_to t(:set_parts_and_quantities), new_production_material_path(@production), :class => 'btn btn-primary'
           - if !@production.new_record? && !@production.batch.nil? && @production.work.nil?
