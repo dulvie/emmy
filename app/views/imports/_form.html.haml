@@ -26,27 +26,66 @@
       = f.input :amount, disabled: true
       = f.input :cost_price, disabled: true
 
-    - if !@import.new_record?
-      = render  'importing'
-      = render  'shipping'
-      = render  'customs'
+    - if !@importing.nil?
+      = render partial: 'shared/addon_edit_link', locals: {form: f, object: @importing, label: :importing, value: @importing.description, can_edit:  @import.can_edit_items?, link: purchase_path(@importing)}
+      = render partial: 'shared/state_labels_field', locals: {model: @importing}
+    - if !@shipping.nil?
+      = render partial: 'shared/addon_edit_link', locals: {form: f, object: @shipping, label: :shipping, value: @shipping.description, can_edit:  @import.can_edit_items?, link: purchase_path(@shipping)}
+      = render partial: 'shared/state_labels_field', locals: {model: @shipping}
+    - if !@customs.nil?
+      = render partial: 'shared/addon_edit_link', locals: {form: f, object: @customs, label: :customs, value: @customs.description, can_edit:  @import.can_edit_items?, link: purchase_path(@customs)}
+      = render partial: 'shared/state_labels_field', locals: {model: @customs}
 
-    - if (@import.new_record? || (!@import.new_record? && @import.can_edit_state? && @import.can_edit_items?) || (!@import.new_record? && @importing.nil?) || (!@importing.nil? && @shipping.nil?) || (!@importing.nil? && @customs.nil?))
+    - if (!@import.new_record? || @import.new_record? || (!@import.new_record? && @import.can_edit_state? && @import.can_edit_items?) || (!@import.new_record? && @importing.nil?) || (!@importing.nil? && @shipping.nil?) || (!@importing.nil? && @customs.nil?))
       .form-button-group
         .actions
-          - if @import.new_record?
-            = f.submit class: 'btn btn-primary'
-          - if !@import.new_record? && @import.can_edit_state? && @import.can_edit_items?
-            %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importContent' )"}
-              = f.object.next_event
-          - if !@import.new_record? && @importing.nil?
-            = link_to t(:set_product_and_quantity), new_import_import_batch_path(@import), :class => 'btn btn-primary'
-          - if !@importing.nil? && @shipping.nil?
-            - add_single_purchase_url = new_purchase_import_path(@import, :parent_column => 'shipping')
-            = link_to t(:set_shipping), add_single_purchase_url, :class => 'btn btn-primary'
-          - if !@importing.nil? && @customs.nil?
-            - add_single_purchase_url = new_purchase_import_path(@import.id, :parent_column => 'customs')
-            = link_to t(:set_customs), add_single_purchase_url, :class => 'btn btn-primary'
+          .inline.row
+            .btn-group
+              - if @import.new_record?
+                = f.submit class: 'btn btn-primary'
+              - if !@import.new_record? && @import.can_edit_state? && @import.can_edit_items?
+                %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importContent' )"}
+                  = f.object.next_event
+              - if !@import.new_record? && @importing.nil?
+                = link_to t(:set_product_and_quantity), new_import_import_batch_path(@import), :class => 'btn btn-primary'
+              - if !@importing.nil? && @shipping.nil?
+                - add_single_purchase_url = new_purchase_import_path(@import, :parent_column => 'shipping')
+                = link_to t(:set_shipping), add_single_purchase_url, :class => 'btn btn-primary'
+              - if !@importing.nil? && @customs.nil?
+                - add_single_purchase_url = new_purchase_import_path(@import.id, :parent_column => 'customs')
+                = link_to t(:set_customs), add_single_purchase_url, :class => 'btn btn-primary'
+            %p
+          .inline.row
+            .btn-group
+              - if !@import.can_edit_items? && @importing.can_edit_items?
+                %button{:class=>"btn btn-primary inline", :ng_click=>"open($event, 'sm','importedContent' )"}
+                  = "#{t(:start)} #{t(:import)}"
+              - if !@import.can_edit_items? && !@importing.can_edit_items? && !@importing.received?
+                %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importedGoodsContent' )"}
+                  = "#{t(:receive)} #{t(:import)}"
+              - if !@import.can_edit_items? && !@importing.can_edit_items? && !@importing.paid?
+                %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','importedPayContent' )"}
+                  = "#{t(:pay)} #{t(:import)}"
+
+              - if  !@import.can_edit_items? && @shipping.can_edit_items?
+                %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','shippingContent' )"}
+                  = "#{t(:start)} #{t(:shipping)}"
+              - if  !@import.can_edit_items? && !@shipping.can_edit_items? && !@shipping.received?
+                %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','shippingGoodsContent' )"}
+                  = "#{t(:receive)} #{t(:shipping)}"
+              - if  !@import.can_edit_items? && !@shipping.can_edit_items? && !@shipping.paid?
+                %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','shippingPayContent' )"}
+                  = "#{t(:pay)} #{t(:shipping)}"
+
+              - if !@import.can_edit_items? && @customs.can_edit_items?
+                %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','customsContent' )"}
+                  = "#{t(:start)} #{t(:customs)}"
+              - if  !@import.can_edit_items? && !@customs.can_edit_items? && !@customs.received?
+                %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','customsGoodsContent' )"}
+                  = "#{t(:receive)} #{t(:customs)}"
+              - if  !@import.can_edit_items? && !@customs.can_edit_items? && !@customs.paid?
+                %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','customsPayContent' )"}
+                  = "#{t(:pay)} #{t(:customs)}"
 
     - if @importing.nil? && !@import.batch.nil?
       .form-group
@@ -59,3 +98,16 @@
   - if !@import.new_record? && @import.can_edit_state?
     = render partial: 'shared/modal_state_change', locals: {idx: 'importContent', model: @import, form_path: state_change_import_path(@import), event: 'start', return_path: edit_import_path(@import)}
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+  - if !@importing.nil?
+    = render partial: 'shared/modal_state_change', locals: {idx: 'importedContent', model: @importing, form_path: state_change_purchase_path(@importing), event: 'mark_prepared', return_path: edit_import_path(@import)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'importedGoodsContent', model: @importing, form_path: state_change_purchase_path(@importing), event: 'receive', return_path: edit_import_path(@import)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'importedPayContent', model: @importing, form_path: state_change_purchase_path(@importing), event: 'pay', return_path: edit_import_path(@import)}
+  - if !@shipping.nil?
+    = render partial: 'shared/modal_state_change', locals: {idx: 'shippingContent', model: @shipping, form_path: state_change_purchase_path(@shipping), event: 'mark_prepared', return_path: edit_import_path(@import)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'shippingGoodsContent', model: @shipping, form_path: state_change_purchase_path(@shipping), event: 'receive', return_path: edit_import_path(@import)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'shippingPayContent', model: @shipping, form_path: state_change_purchase_path(@shipping), event: 'pay', return_path: edit_import_path(@import)}
+  - if !@customs.nil?
+    = render partial: 'shared/modal_state_change', locals: {idx: 'customsContent', model: @customs, form_path: state_change_purchase_path(@customs), event: 'mark_prepared', return_path: edit_import_path(@import)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'customsGoodsContent', model: @customs, form_path: state_change_purchase_path(@customs), event: 'receive', return_path: edit_import_path(@import)}
+    = render partial: 'shared/modal_state_change', locals: {idx: 'customsPayContent', model: @customs, form_path: state_change_purchase_path(@customs), event: 'pay', return_path: edit_import_path(@import)}
+            

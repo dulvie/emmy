@@ -204,7 +204,7 @@ class ImportsController < ApplicationController
         @import.importing_id = nil
         @import.save
       else
-        @importing = current_organization.purchases.find(@import.importing_id)
+        @importing = current_organization.purchases.find(@import.importing_id).decorate
       end
     end
     unless @import.shipping_id.nil?
@@ -212,7 +212,7 @@ class ImportsController < ApplicationController
         @import.shipping_id = nil
         @import.save
       else
-        @shipping = current_organization.purchases.find(@import.shipping_id)
+        @shipping = current_organization.purchases.find(@import.shipping_id).decorate
       end
     end
     unless @import.customs_id.nil?
@@ -220,7 +220,7 @@ class ImportsController < ApplicationController
         @import.customs_id = nil
         @import.save
       else
-        @customs = current_organization.purchases.find(@import.customs_id)
+        @customs = current_organization.purchases.find(@import.customs_id).decorate
       end
     end
   end
