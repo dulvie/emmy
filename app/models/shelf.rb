@@ -21,7 +21,7 @@ class Shelf < ActiveRecord::Base
 
   def incoming
     qty = Purchase.where('state' => 'prepared', 'goods_state' => 'not_received', 'to_warehouse_id' => warehouse_id).joins(:purchase_items).where('purchase_items.batch_id' => id).sum('quantity')
-    ext = Production.where('state' => 'started', 'warehouse_id' => warehouse_id, 'batch_id' => id).sum('quantity')
+    ext = Production.where('state' => 'started', 'warehouse_id' => warehouse_id, 'batch_id' => batch_id).sum('quantity')
     qty + ext
   end
 

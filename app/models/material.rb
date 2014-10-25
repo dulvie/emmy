@@ -23,6 +23,7 @@ class Material < ActiveRecord::Base
   end
 
   def can_delete?
+    return false if !production.can_edit?
     true
   end
 end

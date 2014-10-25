@@ -24,10 +24,13 @@
         = f.input :total_amount, disabled: true
         = f.input :cost_price, disabled: true
 
-    = render partial: 'material'
-    = render partial: 'work'
+    - if @production.material?
+      = render partial: 'shared/addon_edit_link', locals: {form: f, object: f.object.materials.first, label: :material, value: f.object.materials.first.batch.name, can_edit:  @production.can_edit?, link: production_material_path(@production, f.object.materials.first.id)}
 
-    - if (@production.new_record? || !@production.new_record? && @production.batch.nil? || (@production.can_edit_state? && !@production.started?) || (@production.can_edit_state? && @production.can_complete?) || !@production.new_record? && !@production.batch.nil? && @production.materials.size == 0 || !@production.new_record? && !@production.batch.nil? && @production.work.nil?)
+    - if @production.work?
+      = render partial: 'shared/addon_edit_link', locals: {form: f, object: @production.work, label: :work, value: f.object.work.description, can_edit: @production.can_edit?, link: purchase_path(@production.work)}
+
+    - if (@production.new_record? || !@production.new_record? && @production.batch.nil? || (@production.can_edit_state? && !@production.started?) || (@production.can_edit_state? && @production.can_complete?) || !@production.new_record? && !@production.batch.nil? && @production.materials.size == 0 || !@production.new_record? && !@production.batch.nil? && @production.work.nil?) || @production.started? && !@production.work.paid?
       .form-button-group
         .actions
           - if @production.new_record?
@@ -42,7 +45,11 @@
           - if !@production.new_record? && !@production.batch.nil? && @production.work.nil?
             - add_single_purchase_url = new_purchase_path({parent_id: @production.id, parent_type: 'Production', form: 'single_purchase'})
             = link_to t(:ordering_work), add_single_purchase_url, :class => 'btn btn-primary'
+          - if @production.work? && !@production.work.paid?
+            %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','workPayContent' )"}
+              = t(:pay)
   %br
   - if !@production.new_record? && !@production.completed?
     = render partial: 'shared/modal_state_change', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), event: @production.next_event, return_path: edit_production_path(@production)}  
-
+  - if @production.work? && !@production.work.paid?
+    = render partial: 'shared/modal_state_change', locals: {idx: 'workPayContent', model: @production.work, form_path: state_change_purchase_path(@production.work), event: 'pay', return_path: edit_production_path(@production)}
