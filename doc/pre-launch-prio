@@ -20,7 +20,15 @@ Later Prio:
   Behövs item/batch name på sale_item för att minska beroendet?
   Behövs aktive flagga? Möjlighet att ha kvar item utan att de stör i listor där bara aktiva visas.
   En graf för sale och purchase skulle visa beroenden
-
+  
+* State in production
+  1) create
+  2) Set new batch an quantities
+  3) Set material, set work
+  4) Start
+  5) Pay work and deliver produced batch
+  6) Completed
+   
 * customer - Ha email som obligatoriskt?, city som obligatoriskt
 * Sale - send past due date reminder email https://github.com/dulvie/emmy/issues/72
 * Statistics
