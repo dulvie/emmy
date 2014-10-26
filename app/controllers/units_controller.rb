@@ -10,7 +10,7 @@ class UnitsController < ApplicationController
   # GET /units.json
   def index
     @breadcrumbs = [[t(:units)]]
-    @units = @units.order(:name).page(params[:page]).per(8)
+    @units = @units.order(:name).page(params[:page])
   end
 
   # GET /units/new

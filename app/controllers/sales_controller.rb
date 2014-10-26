@@ -10,7 +10,7 @@ class SalesController < ApplicationController
     @breadcrumbs = [['Sales'], ['invoice_search']]
     inbr = params[:invoice_number].to_i
     sales = Sale.where('invoice_number = ? ', inbr).decorate
-    @sales = Kaminari.paginate_array(sales).page(params[:page]).per(8)
+    @sales = Kaminari.paginate_array(sales).page(params[:page])
     render :index
   end
 
@@ -34,7 +34,7 @@ class SalesController < ApplicationController
     @sales = @sales.send(state_param.to_sym) if state_param
     @sales = @sales.where(warehouse_id: params[:warehouse_id]) unless params[:warehouse_id].blank?
     @sales = @sales.where(invoice_number: params[:invoice_number]) unless params[:invoice_number].blank?
-    @sales = @sales.page(params[:page]).per(8).decorate
+    @sales = @sales.page(params[:page]).decorate
   end
 
   def new

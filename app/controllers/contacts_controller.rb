@@ -6,7 +6,7 @@ class ContactsController < ApplicationController
 
   def index
     @breadcrumbs = [['Contacts']]
-    @contacts = @contacts.order('name').page(params[:page]).per(8)
+    @contacts = @contacts.order('name').page(params[:page])
   end
 
   def new

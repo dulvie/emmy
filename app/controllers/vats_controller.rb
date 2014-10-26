@@ -9,7 +9,7 @@ class VatsController < ApplicationController
   # GET /vats.json
   def index
     @breadcrumbs = [['Vats']]
-    @vats = current_organization.vats.order(:name).page(params[:page]).per(8)
+    @vats = current_organization.vats.order(:name).page(params[:page])
   end
 
   # GET /vats/new

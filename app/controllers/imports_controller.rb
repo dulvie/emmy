@@ -16,7 +16,7 @@ class ImportsController < ApplicationController
     else
       imports = @imports.order(:started_at).collect { |import| import.decorate }
     end
-    @imports = Kaminari.paginate_array(imports).page(params[:page]).per(8)
+    @imports = Kaminari.paginate_array(imports).page(params[:page])
   end
 
   # GET /imports/1

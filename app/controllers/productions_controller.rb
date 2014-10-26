@@ -19,7 +19,7 @@ class ProductionsController < ApplicationController
       productions = @productions.order(:started_at).collect { |production| production.decorate }
     end
 
-    @productions = Kaminari.paginate_array(productions).page(params[:page]).per(8)
+    @productions = Kaminari.paginate_array(productions).page(params[:page])
   end
 
   # GET /productions/1

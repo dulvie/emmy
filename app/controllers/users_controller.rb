@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = current_organization.users.order(:name).page(params[:page]).per(8)
+    @users = current_organization.users.order(:name).page(params[:page])
     @breadcrumbs = [['Users']]
   end
 

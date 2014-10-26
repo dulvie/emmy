@@ -12,7 +12,7 @@
   #comment-index.tab-pane
     = render partial: 'comments/index', locals: {comments: @customer.comments, parent: @customer}
   #sale-index.tab-pane
-    = render partial: 'sales/list', locals: {sales: Kaminari.paginate_array(@customer.sales.collect{|sale| sale.decorate}).page(params[:page]).per(8)}
+    = render partial: 'sales/list', locals: {sales: Kaminari.paginate_array(@customer.sales.collect{|sale| sale.decorate}).page(params[:page])}
 
 
 :javascript

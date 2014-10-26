@@ -9,7 +9,7 @@ class BatchesController < ApplicationController
   # GET /batches.json
   def index
     @breadcrumbs = [['Batches']]
-    @batches = @batches.order(:name).page(params[:page]).per(8).decorate
+    @batches = @batches.order(:name).page(params[:page]).decorate
   end
 
   # GET /batches/new

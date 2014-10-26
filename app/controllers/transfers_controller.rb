@@ -11,7 +11,7 @@ class TransfersController < ApplicationController
   def index
     @breadcrumbs = [['Transfers']]
     transfers = TransferDecorator.decorate_collection(@transfers.order('id DESC'))
-    @transfers = Kaminari.paginate_array(transfers).page(params[:page]).per(8)
+    @transfers = Kaminari.paginate_array(transfers).page(params[:page])
   end
 
   # GET /transfers/1

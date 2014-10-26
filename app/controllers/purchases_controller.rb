@@ -14,7 +14,7 @@ class PurchasesController < ApplicationController
     else
       purchases = @purchases.order('ordered_at DESC').collect { |purchase| purchase.decorate }
     end
-    @purchases = Kaminari.paginate_array(purchases).page(params[:page]).per(8)
+    @purchases = Kaminari.paginate_array(purchases).page(params[:page])
   end
 
   def show

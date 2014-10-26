@@ -8,7 +8,7 @@ class WarehousesController < ApplicationController
   # GET /warehouses
   def index
     @breadcrumbs = [['Warehouses']]
-    @warehouses = @warehouses.order(:name).page(params[:page]).per(8)
+    @warehouses = @warehouses.order(:name).page(params[:page])
   end
 
   # GET /warehouses/1

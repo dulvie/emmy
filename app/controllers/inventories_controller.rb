@@ -5,7 +5,7 @@ class InventoriesController < ApplicationController
 
   def index
     @breadcrumbs = [['Inventories']]
-    @inventories = @inventories.order('started_at DESC').page(params[:page]).per(8).decorate
+    @inventories = @inventories.order('started_at DESC').page(params[:page]).decorate
   end
 
   def show
