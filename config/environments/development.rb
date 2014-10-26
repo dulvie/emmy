@@ -21,6 +21,9 @@ Emmy::Application.configure do
       :port => 1025,
       :domain => "emmy.dev",
   }
+  config.action_mailer.default_url_options = {
+    :host => 'lb.dev:3005'
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
