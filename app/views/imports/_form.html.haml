@@ -23,6 +23,7 @@
           %input{:value => @importing.purchase_items.first.quantity, :readonly=>'readonly', :class=>'form-control numeric'}
 
     - if @import.completed?
+      - 
       = f.input :amount, disabled: true
       = f.input :cost_price, disabled: true
 
@@ -110,4 +111,9 @@
     = render partial: 'shared/modal_state_change', locals: {idx: 'customsContent', model: @customs, form_path: state_change_purchase_path(@customs), event: 'mark_prepared', return_path: edit_import_path(@import)}
     = render partial: 'shared/modal_state_change', locals: {idx: 'customsGoodsContent', model: @customs, form_path: state_change_purchase_path(@customs), event: 'receive', return_path: edit_import_path(@import)}
     = render partial: 'shared/modal_state_change', locals: {idx: 'customsPayContent', model: @customs, form_path: state_change_purchase_path(@customs), event: 'pay', return_path: edit_import_path(@import)}
-            
+
+:javascript
+  $(document).ready(function() {
+    $('#import_amount').val($('#import_amount').val()/100);
+    $('#import_cost_price').val($('#import_cost_price').val()/100);
+  });
