@@ -106,6 +106,10 @@ form.form-signin {
   @extend  .col-sm-20;
   @extend  .col-md-20;
   @extend  .col-lg-12;
+
+  .table-border {
+    margin-bottom: 0; // The margin is already there when in form-group/fields_width
+  }
 }
 .error_width{
   @extend .col-sm-offset-11;
