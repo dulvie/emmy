@@ -27,7 +27,6 @@ class Item < ActiveRecord::Base
   attr_accessible :name, :comment, :item_type, :item_group, :stocked, :unit_id,
                   :in_price, :distributor_price, :retail_price, :vat_id, :organization
 
-  validates :name, uniqueness: true
   validates :name, presence: true
   validates :unit, presence: true
   validates :vat_id, presence: true # Needed for other models as well.
