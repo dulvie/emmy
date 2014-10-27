@@ -97,6 +97,16 @@ form.form-signin {
     border-top-right-radius: 0;
   }
 }
+form.form-changepassword {
+  input#user_password {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  input#user_password_confirmation {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
 .labels_width {
   @extend .col-sm-11;
   @extend .col-md-9;
