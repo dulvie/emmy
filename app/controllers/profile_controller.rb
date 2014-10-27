@@ -52,6 +52,13 @@ class ProfileController < ApplicationController
   end
 
   def load_contact_variables
+    unless current_organization
+      @contact_relation = false
+      @contact = false
+      @contact_relation_form_url = false
+      return
+    end
+
     if @user.contact_relations.search_by_org(current_organization).first.nil?
       @contact_relation = @user.contact_relations.build
       @contact = @contact_relation.build_contact
