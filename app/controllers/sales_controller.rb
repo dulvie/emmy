@@ -84,10 +84,11 @@ class SalesController < ApplicationController
     @sale = current_organization.sales.find(params[:id])
     authorize! :manage, @sale
     if @sale.send_invoice!
-      redirect_to sales_path, notice: t(:sent_email)
+      flash[:notice] = t(:sent_email)
     else
-      redirect_to sales_path, error: t(:unable_to_send_email)
+      flash[:danger] = "#{t(:unable_to_send_email)}: #{@sale.errors[:custom_error].join(',')}"
     end
+    redirect_to sales_path
   end
 
   private

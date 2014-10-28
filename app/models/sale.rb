@@ -47,6 +47,8 @@ class Sale < ActiveRecord::Base
                   :payment_term, :state, :approved_at, :goods_state, :delivered_at,
                   :money_state,  :paid_at, :organization, :organization_id, :invoice_number
 
+  attr_accessor :custom_error
+
   validates :customer_id, presence: true
   validates :warehouse_id, presence: true
   validates :payment_term, presence: true
@@ -211,11 +213,17 @@ class Sale < ActiveRecord::Base
 
   # @todo move this to a job.
   def send_invoice!
-    return false if sent_email_at
+    errors.add(:custom_error, :already_sent) and return false if sent_email_at
+    errors.add(:custom_error, :no_customer_email) and return false if contact_email.blank?
+    errors.add(:custom_error, :no_organization_email) and return false if organization.email.blank?
 
     self.sent_email_at = Time.now
     if InvoiceMailer.invoice_email(self).deliver
       save
+      true
+    else
+      logger.info "sale#send_invoice!, deliver on InvoiceMailer returned false"
+      false
     end
   end
 

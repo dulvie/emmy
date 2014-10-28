@@ -1,4 +1,9 @@
 se:
+  errors:
+    messages:
+      already_sent: "Redan skickat"
+      no_customer_email: "Ingen epost till kunden"
+      no_organization_email: "Ingen epost för denna organisation"
   activerecord:
     errors:
       messages:
