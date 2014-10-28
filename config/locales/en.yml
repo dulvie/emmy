@@ -193,6 +193,7 @@ en:
   sales: "Sales"
   send: "Send"
   send_email_to_customer: "Send an email with the invoice to the customer?"
+  send_email_with_invoice: "Send email with invoice"
   send_me_reset_password_instructions: "Send me reset password instructions"
   send_package: "Mark as sent"
   sent_email: "Sent email"

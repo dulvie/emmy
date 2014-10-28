@@ -52,10 +52,13 @@ class SaleItemsController < ApplicationController
     @products = Product.find_using_shelves(current_organization, @shelves)
     if params[:sale_item] && params[:sale_item][:product]
       @selected_product = params[:sale_item][:product]
-    else
+    elsif @products.size > 0
       @selected_product = @products.first.value
     end
-    @products.select{|p| p.value.eql?(@selected_product)}.first.selected = true
+
+    if @products.size > 0
+      @products.select { |p| select p.value.eql?(@selected_product) }.first.selected = true
+    end
 
     gon.push products: @products
   end

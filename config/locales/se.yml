@@ -173,6 +173,7 @@ se:
   sale_type: "Försäljnings typ"
   send: "Sänd"
   send_email_to_customer: "Skicka ett mail till kunden med fakturan"
+  send_email_with_invoice: "Skicka e-post med faktura"
   send_me_reset_password_instructions: "Skicka instruktioner för återställning"
   send_package: "Markera som skickat"
   sent_email: "Email sänt"

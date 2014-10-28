@@ -11,7 +11,7 @@
           = t(:ordered)
         = render partial: 'shared/modal_state_change', locals: {idx: 'salesContent', model: @sale, form_path: state_change_sale_path(@sale), event: 'mark_prepared', return_path: sale_path(@sale)}
 
-      - unless @sale.can_edit_items?
+      - else
         - if !@sale.delivered?
           %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','goodsContent' )"}
             = t(:delivered)
@@ -21,3 +21,9 @@
           %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','payContent' )"}
             = t(:paid)
           = render partial: 'shared/modal_state_change', locals: {idx: 'payContent', model: @sale, form_path: state_change_sale_path(@sale), event: 'pay', return_path: sale_path(@sale)}
+          - unless @sale.invoice_sent?
+            = link_to t(:send_email_with_invoice),
+              send_email_sale_path(@sale),
+              class: 'btn btn-primary',
+              method: 'post',
+              data: {confirm: t(:send_email_to_customer)}
