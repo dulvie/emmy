@@ -57,7 +57,7 @@ class SaleItemsController < ApplicationController
     end
 
     if @products.size > 0
-      @products.select { |p| select p.value.eql?(@selected_product) }.first.selected = true
+      @products.select { |p| p.value.eql?(@selected_product) }.first.selected = true
     end
 
     gon.push products: @products
