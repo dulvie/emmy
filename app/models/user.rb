@@ -36,6 +36,8 @@ class User < ActiveRecord::Base
   belongs_to :default_organization, class_name: 'Organization'
   has_many :organization_roles
 
+  validates :email, presence: true, uniqueness: true
+
   def can_delete?
     false
   end
