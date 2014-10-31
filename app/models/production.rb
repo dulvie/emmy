@@ -143,7 +143,7 @@ class Production < ActiveRecord::Base
   def started?
     state.eql?('started')
   end
-  
+
   def material?
     return true if materials.size > 0
     false

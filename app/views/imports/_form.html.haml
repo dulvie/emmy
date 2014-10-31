@@ -23,7 +23,7 @@
           %input{:value => @importing.purchase_items.first.quantity, :readonly=>'readonly', :class=>'form-control numeric'}
 
     - if @import.completed?
-      - 
+      -
       = f.input :amount, disabled: true
       = f.input :cost_price, disabled: true
 

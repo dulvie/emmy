@@ -50,7 +50,7 @@
               = t(:pay)
   %br
   - if !@production.new_record? && !@production.completed?
-    = render partial: 'shared/modal_state_change', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), event: @production.next_event, return_path: edit_production_path(@production)}  
+    = render partial: 'shared/modal_state_change', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), event: @production.next_event, return_path: edit_production_path(@production)}
   - if @production.work? && !@production.work.paid?
     = render partial: 'shared/modal_state_change', locals: {idx: 'workPayContent', model: @production.work, form_path: state_change_purchase_path(@production.work), event: 'pay', return_path: edit_production_path(@production)}
 
