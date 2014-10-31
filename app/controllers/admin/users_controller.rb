@@ -1,7 +1,7 @@
 module Admin
   class UsersController < Admin::ApplicationController
     load_and_authorize_resource :organization
-    load_and_authorize_resource through: :organization
+    load_and_authorize_resource :user, through: :organization
     before_filter :set_breadcrumbs
     before_filter :new_breadcrumbs, only: [:new, :create]
     before_filter :show_breadcrumbs, only: [:show, :update_role]
@@ -28,7 +28,6 @@ module Admin
 
     def update_roles
       @user_roles = Services::UserRoles.new(@user, @organization, role_params)
-      logger.info "will update roles for #{@user.name} with :#{role_params.inspect}"
       if @user_roles.sync
         flash.now[:notice] = "#{t(:user)} #{t(:roles)} #{t(:was_successfully_updated)}"
       else

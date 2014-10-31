@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authorize_organization_permissions, except: [:index, :show]
-  before_filter :load_user, except: [:index, :new, :create]
+  before_filter :load_user, only: [:show, :update_roles]
   before_filter :show_breadcrumbs, only: [:show, :update]
   before_filter :new_breadcrumbs, only: [:new, :create]
 
@@ -9,11 +8,17 @@ class UsersController < ApplicationController
   def index
     @users = current_organization.users.order(:name).page(params[:page])
     @breadcrumbs = [['Users']]
+    @users.each do |u|
+      authorize! :read, u
+    end
+    @invite = Services::Invite.new(current_organization)
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
+    authorize! :read, @user
+
     @breadcrumbs = [['Users', users_path], [@user.email]]
     if @user.contact_relations.search_by_org(current_organization).first.nil?
       @contact_relation = @user.contact_relations.build
@@ -30,11 +35,14 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @invite = Services::Invite.new(current_organization)
+    authorize! :create, @invite
   end
 
   # POST /users
   def create
     @invite = Services::Invite.new(current_organization, invite_params)
+    authorize! :create, @invite
+
     if @invite.add_or_create
       flash[:info] = "#{t(:invite)} #{t(:was_successfully_created)}"
       redirect_to(users_path)
@@ -46,6 +54,8 @@ class UsersController < ApplicationController
 
   def update_roles
     @user_roles = Services::UserRoles.new(@user, current_organization, role_params)
+    authorize! :manage, @user_roles
+
     logger.info "will update roles for #{@user.name} with :#{role_params.inspect}"
     if @user_roles.sync
       flash[:notice] = "#{t(:user)} #{t(:roles)} #{t(:was_successfully_updated)}"
@@ -67,10 +77,6 @@ class UsersController < ApplicationController
 
   def role_params
     rprms = params.require(:services_user_roles).permit(OrganizationRole::ROLES)
-  end
-
-  def authorize_organization_permissions
-    authorize! :manage, current_organization
   end
 
   def show_breadcrumbs

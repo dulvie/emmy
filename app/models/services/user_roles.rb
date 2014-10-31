@@ -3,7 +3,7 @@ module Services
     extend ActiveModel::Naming
     include ActiveModel::Conversion
     def persisted?; false; end
-    attr_accessor :user, :organization_roles, :current_roles
+    attr_accessor :user, :organization, :organization_roles, :current_roles
 
     def initialize(user, organization, role_params = {})
       @user = user
