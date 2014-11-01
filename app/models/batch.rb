@@ -25,18 +25,8 @@ class Batch < ActiveRecord::Base
 
   delegate :item_group, :vat, :unit, to: :item
 
-  validates :name, uniqueness: true, if: :inside_organization
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: {scope: :organization_id}
   validates :item, presence: true
-
-  def inside_organization
-    if new_record?
-      return true if Batch.where('organization_id = ? and name = ?', organization_id, name).size > 0
-    else
-      return true if Batch.where('id <> ? and organization_id = ? and name = ?', id, organization_id, name).size > 0
-    end
-    false
-  end
 
   def can_delete?
     return false if organization.shelves.where('batch_id' => id).size > 0
