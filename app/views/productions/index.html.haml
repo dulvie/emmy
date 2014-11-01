@@ -1,11 +1,14 @@
-.container.row
-  = link_to "#{t(:create)} #{t(:production)}", new_production_path, class: 'btn btn-default'
-  %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
-    %option{value: productions_path} #{t(:all)}
-    %option{value: productions_path + '&state=not_started'} #{t(:not_started)}
-    %option{value: productions_path + '&state=started'} #{t(:processing)}
+.row
+  .col-sm-8.col-md-5.pull-left
+    = link_to "#{t(:create)} #{t(:production)}", new_production_path, class: 'btn btn-success'
+  .col-sm-40.col-md-40.pull-right.text-right
+    %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
+      %option{value: productions_path} #{t(:all)}
+      %option{value: productions_path + '&state=not_started'} #{t(:not_started)}
+      %option{value: productions_path + '&state=started'} #{t(:processing)}
+  .clear &nbsp;
 
-%div{:ng_controller=>'ModalCtrl'}
+.table-responsive{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}
     %thead
       %tr
