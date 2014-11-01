@@ -7,12 +7,12 @@ class SaleDecorator < Draper::Decorator
   end
 
   def due_date
-    return l(object.due_date) if object.due_date
+    return l(object.due_date, format: "%Y-%m-%d") if object.due_date
     ""
   end
 
   def approved_at
-    return l(object.approved_at) if object.approved_at
+    return l(object.approved_at, format: "%Y-%m-%d") if object.approved_at
     ""
   end
 
