@@ -89,7 +89,7 @@ se:
   invoice: "Faktura"
   invoice_from: "Faktura fom"
   invoice_number: "Fakturanummer"
-  invoice_search: "Fakturasök"
+  invoice_search: "Sök faktura nummer"
   item: "Artikel"
   items: "Artiklar"
   item_group: "Artikel grupp"

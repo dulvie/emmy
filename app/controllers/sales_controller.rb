@@ -6,14 +6,6 @@ class SalesController < ApplicationController
   before_filter :show_breadcrumbs, only: [:show, :update]
   before_filter :add_warehouses, only: [:index, :new, :invoice_search]
 
-  def invoice_search
-    @breadcrumbs = [['Sales'], ['invoice_search']]
-    inbr = params[:invoice_number].to_i
-    sales = Sale.where('invoice_number = ? ', inbr).decorate
-    @sales = Kaminari.paginate_array(sales).page(params[:page])
-    render :index
-  end
-
   def create
     @sale = Sale.new sale_params
     @sale.user = current_user
@@ -34,6 +26,9 @@ class SalesController < ApplicationController
     @sales = @sales.send(state_param.to_sym) if state_param
     @sales = @sales.where(warehouse_id: params[:warehouse_id]) unless params[:warehouse_id].blank?
     @sales = @sales.where(invoice_number: params[:invoice_number]) unless params[:invoice_number].blank?
+    if !params[:invoice_number].blank? && @sales.size == 1
+      redirect_to sale_path(@sales.first)
+    end
     @sales = @sales.page(params[:page]).decorate
   end
 

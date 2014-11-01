@@ -110,7 +110,7 @@ en:
   invoice: "Invoice"
   invoice_from: "Invoice from"
   invoice_number: "Invoice no."
-  invoice_search: "Invoice search"
+  invoice_search: "Search by invoice no"
   item: "Item"
   item_group: "Item group"
   item_type: "Item type"
