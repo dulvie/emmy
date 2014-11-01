@@ -16,8 +16,17 @@ class Warehouse < ActiveRecord::Base
 
   attr_accessible :name, :address, :zip, :city, :primary_contact_id, :organization, :organization_id
 
-  validates :name, uniqueness: true
+  validates :name, uniqueness: true, if: :inside_organization
   validates :name, presence: true
+
+  def inside_organization
+    if new_record?
+      return true if Warehouse.where('organization_id = ? and name = ?', organization_id, name).size > 0
+    else
+      return true if Warehouse.where('id <> ? and organization_id = ? and name = ?', id, organization_id, name).size > 0
+    end
+    false
+  end
 
   def batches_in_stock
     @batches_in_stock ||= shelves.includes(:batch).collect { |s| s.batch }

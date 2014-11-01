@@ -23,8 +23,17 @@ class Customer < ActiveRecord::Base
                   :primary_contact_id, :payment_term, :organization, :organization_id
 
   validates :name, presence: true
-  validates :name, uniqueness: true
+  validates :name, uniqueness: true, if: :inside_organization
   validates :payment_term, presence: true
+
+  def inside_organization
+    if new_record?
+      return true if Customer.where('organization_id = ? and name = ?', organization_id, name).size > 0
+    else
+      return true if Customer.where('id <> ? and organization_id = ? and name = ?', id, organization_id, name).size > 0
+    end
+    false
+  end
 
   def parent_name
     name

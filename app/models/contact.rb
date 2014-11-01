@@ -15,16 +15,16 @@ class Contact < ActiveRecord::Base
   attr_accessible :email, :name, :telephone, :address, :zip, :city, :country, :comment, :organization
 
   validates :name, presence: true
-  validates :email, uniqueness: true, if: :check_email
+  validates :email, uniqueness: true, if: :inside_organization
   validates :email, presence: true
 
   VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', 'ContactRelation', 'User']
 
-  def check_email
+  def inside_organization
     if new_record?
       return true if Contact.where('organization_id = ? and email = ?', organization_id, email).size > 0
     else
-      return true if Contact.where('organization_id = ? and email = ?', organization_id, email).size > 1
+      return true if Contact.where('id <> ? and organization_id = ? and email = ?', id, organization_id, email).size > 0
     end
     false
   end
