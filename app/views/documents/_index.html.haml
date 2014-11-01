@@ -1,9 +1,9 @@
 .container.row
   %br
   - add_document_url = new_document_path({parent_id: parent.id, parent_type: parent.class.name})
-  = link_to t(:add_document), add_document_url, class: 'btn btn-primary'
+  = link_to t(:add_document), add_document_url, class: 'btn btn-success'
 
-  %div{:ng_controller=>'ModalCtrl'}
+  .table-responsive{:ng_controller=>'ModalCtrl'}
     %table{:class => 'table table-striped'}
       %thead
         %tr

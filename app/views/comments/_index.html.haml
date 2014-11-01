@@ -1,9 +1,9 @@
 // Beware, here be logic!
 %br
 - add_comment_url = new_comment_path({parent_id: parent.id, parent_type: parent.class.name})
-= link_to t(:add_comment), add_comment_url, class: 'btn btn-default'
+= link_to t(:add_comment), add_comment_url, class: 'btn btn-success'
 
-%div{:ng_controller=>'ModalCtrl'}
+.table-responsive{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}
     %thead
       %tr
