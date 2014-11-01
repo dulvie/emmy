@@ -12,9 +12,7 @@ class ProductionBatch
 
   def check_batch_name
     u = Batch.where('organization_id = ? and name = ?', organization_id, name).count
-    if (u > 0)
-      errors.add :name, "Name already taken"
-    end
+    errors.add(:name, t(:'errors.messages.taken')) if u > 0
   end
 
   def submit
