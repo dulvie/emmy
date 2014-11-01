@@ -1,7 +1,7 @@
 %p
-  = link_to "#{t(:create)} #{t(:user)}", new_admin_user_path(organization_id: @organization.id), class: 'btn btn-default'
+  = link_to "#{t(:create)} #{t(:user)}", new_admin_user_path(organization_id: @organization.id), class: 'btn btn-success'
 
-%div{:ng_controller=>'ModalCtrl'}
+.table-responsive{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table'}
     %thead
       %tr
