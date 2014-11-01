@@ -6,6 +6,7 @@
     = render partial: 'select_customer', locals:{f: f}
 
   - else
+    = f.input :user, disabled: true, label: t(:our_reference), as: :string
     = f.association :customer, disabled: true
     = f.input :contact_name, disabled: true
     = f.input :contact_email, disabled: true

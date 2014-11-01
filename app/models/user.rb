@@ -64,4 +64,12 @@ class User < ActiveRecord::Base
   def active_for_authentication?
     super
   end
+
+  # When on sale, we want to display the user name not as an select but as a string.
+  # simple_form f.input :user, as:string
+  # => #<User:0x007f8a4f374278>
+  # instead, display this:
+  def to_s
+    name
+  end
 end

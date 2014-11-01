@@ -1,26 +1,35 @@
-= form_tag sales_path, class: 'form-inline submit-on-change', method: :get do
-  -# This create link is here since it needs to be on the same line as the filter fields.
-  = link_to "#{t(:create)} #{t(:sale)}", new_sale_path, class: 'btn btn-default'
+-# This create link is here since it needs to be on the same line as the filter fields.
+.col-md-68
+  .pull-left
+    = link_to "#{t(:create)} #{t(:sale)}", new_sale_path, class: 'btn btn-success'
+  .col-md-68.pull-right
+    = form_tag sales_path, class: 'form-inline submit-on-change', method: :get do
 
-  = select_tag(:state,
-    options_for_select(Sale::FILTER_STAGES.each.collect{|s| [t(s), s]}, params[:state]),
-    class: 'btn btn-default',
-    prompt: "#{t(:filter)} #{t(:state)}: #{t(:all)}")
+      = select_tag(:state,
+        options_for_select(Sale::FILTER_STAGES.each.collect{|s| [t(s), s]}, params[:state]),
+        class: 'btn btn-default',
+        prompt: "#{t(:filter)} #{t(:state)}: #{t(:all)}")
 
-  = select_tag(:warehouse_id,
-    options_for_select(@warehouses.each.collect{|w| [w.name, w.id]}, params[:warehouse_id]),
-    class: 'btn btn-default',
-    prompt: "#{t(:filter)} #{t(:warehouses)}: #{t(:all)}")
+      = select_tag(:warehouse_id,
+        options_for_select(@warehouses.each.collect{|w| [w.name, w.id]}, params[:warehouse_id]),
+        class: 'btn btn-default',
+        prompt: "#{t(:filter)} #{t(:warehouses)}: #{t(:all)}")
 
-  .input-group
-    = text_field_tag('invoice_number',
-      params[:invoice_number],
-      placeholder: t(:invoice_search),
-      class: 'form-control')
-    .span.input-group-btn
-      = button_tag(search_icon, class: 'btn btn-default')
+      = select_tag(:user_id,
+        options_for_select(current_organization.users.each.collect{|u| [u.name, u.id]}, params[:user_id]),
+        class: 'btn btn-default',
+        prompt: "#{t(:filter)} #{t(:users)}: #{t(:all)}")
 
-%div{:ng_controller=>'ModalCtrl'}
+      .input-group
+        = text_field_tag('invoice_number',
+          params[:invoice_number],
+          placeholder: t(:invoice_search),
+          class: 'form-control')
+        .span.input-group-btn
+          = button_tag(search_icon, class: 'btn btn-default')
+  .clear &nbsp;
+
+.table-responsive{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -28,6 +37,7 @@
         %th= t(:approved_at)
         %th= t(:warehouse)
         %th= t(:customer)
+        %th= t(:our_reference)
         %th= t(:state)
         %th
         %th
@@ -39,6 +49,7 @@
           %td= sale.approved_at
           %td= link_to sale.warehouse_name, sale.warehouse
           %td= link_to sale.customer_name, sale.customer
+          %td= sale.user
           %td
             - sale.states.each do |s|
               = s
