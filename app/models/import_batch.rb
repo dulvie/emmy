@@ -2,7 +2,8 @@ class ImportBatch
   include ActiveModel::Model
 
   attr_accessor :organization_id, :import_id, :item_id, :name,
-                :description, :supplier, :contact_name, :contact_email, :batch, :quantity, :price, :unit
+                :description, :supplier, :contact_name, :contact_email, :batch,
+                :quantity, :price, :unit
 
   validates :name, presence: true
   validates :item_id, presence: true
@@ -14,9 +15,7 @@ class ImportBatch
 
   def check_batch_name
     u = Batch.where('organization_id = ? and name = ?', organization_id, name).count
-    if (u > 0)
-      errors.add :name, "Name already taken"
-    end
+    errors.add(:name, t(:'errors.messages.taken')) if u > 0
   end
 
   def submit
@@ -27,7 +26,7 @@ class ImportBatch
       # Create new batch for import
       @batch = Batch.new(to_hash)
       @batch.in_price = price
-      return false if !@batch.save
+      return false unless @batch.save
 
       # Create purchase and purchase_item for import of new batch
       @purchase = @import.importing.build(organization_id: organization_id,
@@ -39,19 +38,19 @@ class ImportBatch
                                           contact_name: contact_name,
                                           our_reference_id: @import.our_reference_id,
                                           to_warehouse_id: @import.to_warehouse_id)
-      return false if !@purchase.save
+      return false unless @purchase.save
 
       @purchase_item = @purchase.purchase_items.build(organization_id: organization_id,
                                                       item_id: item_id,
                                                       batch_id: @batch.id,
                                                       quantity: quantity,
                                                       price: price)
-      return false if !@purchase_item.save
+      return false unless @purchase_item.save
 
       @import.batch = @batch
       @import.quantity = quantity
       @import.importing_id = @purchase.id
-      return false if !@import.save
+      return false unless @import.save
     end
     true
   end
