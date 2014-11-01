@@ -1,8 +1,8 @@
 -# This create link is here since it needs to be on the same line as the filter fields.
-.col-md-68
-  .pull-left
+.row
+  .col-sm-8.col-md-5.pull-left
     = link_to "#{t(:create)} #{t(:sale)}", new_sale_path, class: 'btn btn-success'
-  .col-md-68.pull-right
+  .col-sm-40.col-md-40.pull-right.text-right
     = form_tag sales_path, class: 'form-inline submit-on-change', method: :get do
 
       = select_tag(:state,
