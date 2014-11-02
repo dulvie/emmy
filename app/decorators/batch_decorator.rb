@@ -9,8 +9,9 @@ class BatchDecorator < Draper::Decorator
   end
 
   def batch_price
-    return 0 unless retail_price.to_i > 0
-    retail_price + (retail_price * vat.add_factor)
+    return 0 unless object.retail_price.to_i > 0
+    @batch_price ||= object.retail_price + (object.retail_price * object.vat.add_factor)
+    sprintf('%.2f', @batch_price / 100.0)
   end
 
   # This might be stupid, maybe always use % instead?
