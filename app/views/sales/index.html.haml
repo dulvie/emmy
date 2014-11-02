@@ -54,9 +54,9 @@
             - sale.states.each do |s|
               = s
           %td
+            - if sale.has_document?
+              = link_to doc_icon, sale.document_url, target: '_blank'
             - if sale.prepared?
-              - if sale.has_document?
-                = link_to doc_icon, sale.document_url, target: '_blank'
               - unless sale.invoice_sent?
                 = link_to envelope_icon,
                   send_email_sale_path(sale),
