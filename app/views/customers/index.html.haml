@@ -38,11 +38,5 @@
 
 :javascript
   $(document).ready(function() {
-  localStorage.removeItem('lastTab');
-  $('#search').bind('keypress', function(e) {
-    var code = e.keyCode || e.which;
-    if(code == 13) { //Enter keycode
-      $('#search_link')[0].click();
-    }
-  });
+    localStorage.removeItem('lastTab');
   });

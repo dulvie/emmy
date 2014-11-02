@@ -12,7 +12,7 @@ class CustomersController < ApplicationController
     q = (params[:q].blank?) ? nil : "%#{params[:q]}%"
     @customers = @customers.where('name ILIKE ? OR city ILIKE ? ', q, q) if q
     respond_to do |format|
-      @breadcrumbs = [['Customers']]
+      @breadcrumbs = [[t(:customers)]]
       format.html { @customers = @customers.order('name').page(params[:page])}
       format.json { render json: @customers }
     end
@@ -66,11 +66,11 @@ class CustomersController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Customers', customers_path], ["#{t(:new)} #{t(:customer)}"]]
+    @breadcrumbs = [[t(:customers), customers_path], ["#{t(:new)} #{t(:customer)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Customers', customers_path], [@customer.name]]
+    @breadcrumbs = [[t(:customers), customers_path], [@customer.name]]
   end
 
   def load_contacts
