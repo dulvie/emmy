@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.datetime "updated_at"
   end
 
+  add_index "batches", ["name", "organization_id"], name: "index_batches_on_name_and_organization_id", unique: true, using: :btree
+
   create_table "comments", force: true do |t|
     t.integer  "organization_id"
     t.text     "body"
@@ -75,12 +77,14 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.datetime "updated_at"
   end
 
+  add_index "contacts", ["email", "organization_id"], name: "index_contacts_on_email_and_organization_id", unique: true, using: :btree
+
   create_table "customers", force: true do |t|
-    t.integer  "organization_id"
+    t.integer  "organization_id",    null: false
     t.string   "address"
     t.string   "city"
     t.string   "vat_number"
-    t.string   "name"
+    t.string   "name",               null: false
     t.string   "zip"
     t.string   "country"
     t.string   "email"
@@ -91,6 +95,8 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "customers", ["name", "organization_id"], name: "index_customers_on_name_and_organization_id", unique: true, using: :btree
 
   create_table "documents", force: true do |t|
     t.integer  "organization_id"
@@ -322,6 +328,8 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.datetime "updated_at"
   end
 
+  add_index "suppliers", ["name", "organization_id"], name: "index_suppliers_on_name_and_organization_id", unique: true, using: :btree
+
   create_table "transfers", force: true do |t|
     t.integer  "from_warehouse_id"
     t.integer  "to_warehouse_id"
@@ -344,6 +352,8 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "units", ["name", "organization_id"], name: "index_units_on_name_and_organization_id", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"
@@ -374,6 +384,8 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.datetime "updated_at"
   end
 
+  add_index "vats", ["name", "organization_id"], name: "index_vats_on_name_and_organization_id", unique: true, using: :btree
+
   create_table "warehouses", force: true do |t|
     t.integer  "organization_id"
     t.string   "name"
@@ -384,5 +396,7 @@ ActiveRecord::Schema.define(version: 20140820105947) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "warehouses", ["name", "organization_id"], name: "index_warehouses_on_name_and_organization_id", unique: true, using: :btree
 
 end

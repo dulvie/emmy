@@ -19,6 +19,6 @@ class CreateBatches < ActiveRecord::Migration
 
     end
 
-    add_index :organization_scope, [:name, :organization_id], unique: true
+    add_index :batches, [:name, :organization_id], unique: true
   end
 end

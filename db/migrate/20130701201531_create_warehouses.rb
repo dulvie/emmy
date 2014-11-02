@@ -11,6 +11,6 @@ class CreateWarehouses < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :organization_scope, [:name, :organization_id], unique: true
+    add_index :warehouses, [:name, :organization_id], unique: true
   end
 end

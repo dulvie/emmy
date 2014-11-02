@@ -9,6 +9,6 @@ class CreateUnits < ActiveRecord::Migration
       t.timestamps
 
     end
-    add_index :organization_scope, [:name, :organization_id], unique: true
+    add_index :units, [:name, :organization_id], unique: true
   end
 end

@@ -16,7 +16,7 @@ class CreatePurchases < ActiveRecord::Migration
       t.string :state
       t.string :goods_state
       t.string :money_state
-       
+
       t.timestamp :completed_at
       t.timestamp :ordered_at
       t.timestamp :received_at

@@ -5,7 +5,7 @@ class CreateProductions < ActiveRecord::Migration
       t.integer :user_id
       t.string  :description
       t.integer :our_reference_id
-      t.integer :warehouse_id      
+      t.integer :warehouse_id
       t.integer :batch_id
       t.integer :quantity
       t.integer :cost_price
