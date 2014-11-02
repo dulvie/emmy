@@ -1,20 +1,19 @@
-.form-inline
-  = link_to "#{t(:create)} #{t(:customer)}", new_customer_path, class: 'btn btn-default'
+.row
+  .col-sm-8.col-md-5.pull-left
+    = link_to "#{t(:create)} #{t(:customer)}", new_customer_path, class: 'btn btn-success'
 
-  .input-group.col-sm-8
-    %input{:class=> 'form-control', :placeholder=>t(:name_search), :ng_model=>'searchname', :id => 'search'}
-    .input-group-addon
-      %a{:href => name_search_customers_path + "&name={{searchname}}", :id => 'search_link'}
-        %i{ :class=>"glyphicon glyphicon-search search_icon"}
-
-  .input-group.col-sm-8
-    = form_tag city_search_customers_path(), method: :get do
+  .col-sm-40.col-md-40.pull-right.text-right
+    = form_tag customers_path, class: 'form-inline submit-on-change', method: :get do
       .input-group
-        = text_field_tag('city_name','', placeholder: t(:city_search), class: 'form-control')
-        .span.input-group-btn
+        = text_field_tag('q',
+          params[:q],
+          placeholder: t(:search),
+          class: 'form-control')
+        .input-group-btn
           = button_tag(search_icon, class: 'btn btn-default')
 
-%div{:ng_controller=>'ModalCtrl'}
+  .clear &nbsp;
+.table-responsive{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}
     %thead
       %tr

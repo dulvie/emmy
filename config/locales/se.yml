@@ -171,6 +171,7 @@ se:
   sale_item: "Försäljnings rad"
   sale_marked_complete: "Forsäljning markerades färdig"
   sale_type: "Försäljningstyp"
+  search: "Sök"
   send: "Sänd"
   send_email_to_customer: "Skicka ett e-post till kunden med fakturan"
   send_email_with_invoice: "Skicka e-post med faktura"

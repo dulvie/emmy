@@ -6,23 +6,11 @@ class CustomersController < ApplicationController
   before_filter :show_breadcrumbs, only: [:show, :update]
   before_filter :load_contacts, only: [:show, :new, :edit, :create, :update]
 
-  def name_search
-    @breadcrumbs = [['Customers'], ['name_search']]
-    name = "%#{params[:name]}%"
-    @customers = @customers.where('name ILIKE ?', name).order('name').page(params[:page])
-    render :index
-  end
-
-  def city_search
-    @breadcrumbs = [['Customers'], ['city_search']]
-    city = "%#{params[:city_name]}%"
-    @customers = @customers.where('city ILIKE ?', city).order('name').page(params[:page])
-    render :index
-  end
-
   # GET /customers
   # GET /customers.json
   def index
+    q = (params[:q].blank?) ? nil : "%#{params[:q]}%"
+    @customers = @customers.where('name ILIKE ? OR city ILIKE ? ', q, q) if q
     respond_to do |format|
       @breadcrumbs = [['Customers']]
       format.html { @customers = @customers.order('name').page(params[:page])}
