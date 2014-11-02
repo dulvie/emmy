@@ -142,7 +142,7 @@ rost = Item.create({
   organization: o
 })
 
-espresso = Batch.build({
+espresso = Batch.new({
   item_id: espresso_i.id,
   name: "Espresso 14:1",
   in_price: 3000,
@@ -152,7 +152,7 @@ espresso = Batch.build({
 espresso.organization = o
 espresso.save
 
-brewd = Batch.create({
+brewd = Batch.new({
   item_id: brewd_i.id,
   name: "Brygg 14:1",
   in_price: 3000,
@@ -202,17 +202,28 @@ tr.send_package(date_now)
 tr.receive_package(date_now)
 
 
-donald = Customer.create(name: "Donald duck", payment_term: 10, organization: o)
-coffehouse = Customer.create(name: 'Coffe House by Foobar', payment_term: 10, organization: o)
+donald = Customer.new(name: "Donald duck", payment_term: 10)
+donald.organization = o
+donald.save
+coffeehouse = Customer.new(name: 'Coffe House by Foobar', payment_term: 10)
+coffeehouse.organization = o
+coffeehouse.save
 1.upto(15) do |i|
-	Customer.create(name: "Kund #{i}", payment_term: 30, organization: o)
+	c = Customer.new(name: "Kund #{i}", payment_term: 30)
+  c.organization = o
+  c.save
 end
 
-bigsupp = Supplier.create(name: "Big supplier of coffee", organization: o)
-coffesupp = Supplier.create(name: "Kaffekooperativ", organization: o)
-freightsupp = Supplier.create(name: "Shipping LTD", organization: o)
-tullsupp = Supplier.create(name: "Tullverket", organization: o)
-rostsupp = Supplier.create(name: "AB Rosteri", organization: o)
+bigsupp = Supplier.new(name: "Big supplier of coffee")
+bigsupp.save
+coffeesupp = Supplier.new(name: "Kaffekooperativ")
+coffeesupp.save
+freightsupp = Supplier.new(name: "Shipping LTD")
+freightsupp.save
+tullsupp = Supplier.new(name: "Tullverket")
+tullsupp.save
+rostsupp = Supplier.new(name: "AB Rosteri")
+rostsupp.save
 
 
 # @TODO create invoice(s)
