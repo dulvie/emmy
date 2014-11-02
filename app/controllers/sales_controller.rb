@@ -5,6 +5,7 @@ class SalesController < ApplicationController
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:show, :update]
   before_filter :add_warehouses, only: [:index, :new, :invoice_search]
+  before_filter :add_search_filter, only: [:index]
 
   def create
     @sale = Sale.new sale_params
@@ -21,15 +22,8 @@ class SalesController < ApplicationController
 
   def index
     @breadcrumbs = [[t(:sales)]]
-    @warehouses = current_organization.warehouses
 
-    @sales = @sales.send(state_param.to_sym) if state_param
-    @sales = @sales.where(warehouse_id: params[:warehouse_id]) unless params[:warehouse_id].blank?
-    @sales = @sales.where(user_id: params[:user_id]) unless params[:user_id].blank?
-    @sales = @sales.where(invoice_number: params[:invoice_number]) unless params[:invoice_number].blank?
-    if !params[:invoice_number].blank? && @sales.size == 1
-      redirect_to sale_path(@sales.first)
-    end
+    @sales = @sales.order 'approved_at desc'
     @sales = @sales.page(params[:page]).decorate
   end
 
@@ -112,5 +106,26 @@ class SalesController < ApplicationController
 
   def add_warehouses
     @warehouses = current_organization.warehouses
+  end
+
+  def add_search_filter
+    search_params.each do |key, value|
+      @sales = @sales.where(key => value) if value
+    end
+    if search_params[:invoice_number] && @sales.size == 1
+      redirect_to sale_path(@sales.first)
+    end
+    @sales = @sales.send(state_param.to_sym) if state_param
+  end
+
+  # create a hash with all the keys, set value to nil unless exist in params.
+  def search_params
+    unless @search_params
+      @search_params = {}.with_indifferent_access
+      [:warehouse_id, :user_id, :invoice_number].map do |key|
+        @search_params[key] = (!params[key].blank?) ? params[key].to_s : nil
+      end
+    end
+    @search_params
   end
 end
