@@ -11,8 +11,8 @@ class Warehouse < ActiveRecord::Base
   has_many :contact_relations, as: :parent
   has_many :contacts, through: :contact_relations
   has_many :comments, as: :parent
-  has_many :manuals
   has_many :batch_transactions
+  has_many :manuals, through: :batch_transactions, source: :parent, source_type: 'Manual'
 
   attr_accessible :name, :address, :zip, :city, :primary_contact_id, :organization, :organization_id
 
