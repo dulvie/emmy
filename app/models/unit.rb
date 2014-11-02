@@ -9,17 +9,7 @@ class Unit < ActiveRecord::Base
   belongs_to :organization
   has_many :items
 
-  validates :name, uniqueness: true, if: :inside_organization
-  validates :name, presence: true
-
-  def inside_organization
-    if new_record?
-      return true if Unit.where('organization_id = ? and name = ?', organization_id, name).size > 0
-    else
-      return true if Unit.where('id <> ? and organization_id = ? and name = ?', id, organization_id, name).size > 0
-    end
-    false
-  end
+  validates :name, presence: true, uniqueness: {scope: :organization_id}
 
   def can_delete?
     return false if items.size > 0

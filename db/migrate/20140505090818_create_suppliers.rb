@@ -12,5 +12,7 @@ class CreateSuppliers < ActiveRecord::Migration
       t.integer :primary_contact_id
       t.timestamps
     end
+
+    add_index :organization_scope, [:name, :organization_id], unique: true
   end
 end

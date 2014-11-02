@@ -19,17 +19,7 @@ class Supplier < ActiveRecord::Base
 
   attr_accessible :name, :address, :zip, :city, :country, :bg_number, :vat_number, :primary_contact_id, :organization
 
-  validates :name, presence: true
-  validates :name, uniqueness: true, if: :inside_organization
-
-  def inside_organization
-    if new_record?
-      return true if Supplier.where('organization_id = ? and name = ?', organization_id, name).size > 0
-    else
-      return true if Supplier.where('id <> ? and organization_id = ? and name = ?', id, organization_id, name).size > 0
-    end
-    false
-  end
+  validates :name, presence: true, uniqueness: {scope: :organization_id}
 
   def can_delete?
     return false if Purchase.where('supplier_id = ?', id).size > 0
