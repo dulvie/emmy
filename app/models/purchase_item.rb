@@ -14,7 +14,7 @@ class PurchaseItem < ActiveRecord::Base
   belongs_to :item
   belongs_to :batch
 
-  attr_accessible :batch_id, :item_id, :quantity, :price, :total_amount, :organization, :organization_id
+  attr_accessible :batch_id, :item_id, :quantity, :price, :total_amount
   accepts_nested_attributes_for :item, :batch
 
   validates :item_id, presence: true

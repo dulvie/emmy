@@ -30,7 +30,7 @@ class Production < ActiveRecord::Base
   delegate :unit, to: :batch
 
   attr_accessible :description, :our_reference_id, :warehouse_id, :batch_id, :quantity, :cost_price,
-                  :started_at, :completed_at, :organization
+                  :started_at, :completed_at
 
   validates :description, presence: true
   validates :warehouse_id, presence: true
@@ -91,8 +91,8 @@ class Production < ActiveRecord::Base
           parent: self,
           warehouse: warehouse,
           batch: materials.first.batch,
-          quantity: materials.first.quantity * -1,
-          organization_id: organization_id)
+          quantity: materials.first.quantity * -1)
+    batch_transaction.organization_id = organization_id
     batch_transaction.save
   end
 
@@ -101,8 +101,8 @@ class Production < ActiveRecord::Base
           parent: self,
           warehouse: warehouse,
           batch: batch,
-          quantity: quantity,
-          organization_id: organization_id)
+          quantity: quantity)
+    batch_transaction.organization_id = organization_id
     batch_transaction.save
   end
 

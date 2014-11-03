@@ -175,6 +175,7 @@ en:
   purchases: "Purchases"
   quantity: "Quantity"
   quantities: "Quantities"
+  quantity_over_warehouse_quantity: "Quantity over warehouse quantity"
   receive: "Receive"
   received: "Received"
   receive_package: "Verify as received"

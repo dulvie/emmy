@@ -139,8 +139,8 @@ class Sale < ActiveRecord::Base
           parent: self,
           warehouse: warehouse,
           batch: sale_item.batch,
-          quantity: sale_item.quantity * -1,
-          organization_id: organization_id)
+          quantity: sale_item.quantity * -1)
+      batch_transaction.organization_id = organization_id
       batch_transaction.save
     end
   end

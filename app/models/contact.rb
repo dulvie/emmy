@@ -12,7 +12,7 @@ class Contact < ActiveRecord::Base
   belongs_to :organization
   has_many :contact_relations
 
-  attr_accessible :email, :name, :telephone, :address, :zip, :city, :country, :comment, :organization
+  attr_accessible :email, :name, :telephone, :address, :zip, :city, :country, :comment
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: {scope: :organization_id}

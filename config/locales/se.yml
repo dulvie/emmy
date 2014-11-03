@@ -154,6 +154,7 @@ se:
   purchases: "Inköp"
   quantity: "Antal"
   quantities: "Antal"
+  quantity_over_warehouse_quantity: "Antalet överstiger lagrets antal"
   receive: "Mottag"
   received: "Mottagen"
   receive_package: "Bekräfta försändelse"

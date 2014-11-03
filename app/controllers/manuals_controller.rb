@@ -86,8 +86,8 @@ class ManualsController < ApplicationController
     manual.batch_transaction.organization_id = current_organization.id
     comment_p = params[:manual][:comments_attributes][:"0"]
     comment_p[:user_id] = current_user.id
-    comment_p[:organization_id] = current_organization.id
-    manual.comments.build(comment_p)
+    c = manual.comments.build(comment_p)
+    c.organization_id = current_organization.id
     manual
   end
 

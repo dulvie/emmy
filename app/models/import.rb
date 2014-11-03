@@ -28,7 +28,7 @@ class Import < ActiveRecord::Base
   has_many :comments, as: :parent, dependent: :delete_all
 
   attr_accessible :description, :our_reference_id, :to_warehouse_id,  :batch_id, :quantity,
-                  :importing_id, :shipping_id, :started_at, :completed_at, :organization
+                  :importing_id, :shipping_id, :started_at, :completed_at
 
   validates :description, presence: true
   validates :to_warehouse_id, presence: true

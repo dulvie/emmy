@@ -16,7 +16,7 @@ class Inventory < ActiveRecord::Base
   has_many :comments, as: :parent
 
   accepts_nested_attributes_for :inventory_items
-  attr_accessible :description, :user_id, :warehouse_id, :inventory_date, :organization
+  attr_accessible :description, :user_id, :warehouse_id, :inventory_date
 
   # Callbacks
   before_create :check_transfer
@@ -82,8 +82,8 @@ class Inventory < ActiveRecord::Base
         batch_id: shelf.batch_id,
         shelf_quantity: shelf.quantity,
         actual_quantity: shelf.quantity,
-        organization_id: shelf.organization_id,
         reported: false)
+      @inventory_item.organization_id = shelf.organization_id
       @inventory_item.save
     end
   end
@@ -100,8 +100,8 @@ class Inventory < ActiveRecord::Base
           parent: self,
           warehouse: warehouse,
           batch: item.batch,
-          quantity: item.actual_quantity - shelf.quantity,
-          organization_id: item.organization_id)
+          quantity: item.actual_quantity - shelf.quantity)
+        batch_transaction.organization_id = item.organization_id
         batch_transaction.save
       end
     end

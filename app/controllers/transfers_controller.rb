@@ -107,8 +107,8 @@ class TransfersController < ApplicationController
     transfer.organization_id = current_organization.id
     comment_p = params[:transfer][:comments_attributes][:"0"]
     comment_p[:user_id] = current_user.id
-    comment_p[:organization_id] = current_organization.id
-    transfer.comments.build(comment_p)
+    c = transfer.comments.build(comment_p)
+    c.organization_id = current_organization.id
     transfer
   end
 end

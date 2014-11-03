@@ -60,7 +60,8 @@ class UsersController < ApplicationController
     if @user_roles.sync
       flash[:notice] = "#{t(:user)} #{t(:roles)} #{t(:was_successfully_updated)}"
     else
-      flash[:danger] = "#{t(:failed_to_update)} #{t(:roles)} for #{@user.email} on #{current_organization.name}"
+      flash[:danger] = "#{t(:failed_to_update)} #{t(:roles)} "+
+                       "#{t(:user)}(#{@user.email}) #{t(:organization)}(#{current_organization.name})"
     end
     redirect_to user_path(@user)
   end

@@ -16,7 +16,10 @@ module Admin
     # Create a new user and add access to the current organization as 'staff'
     def create
       @user = User.new(user_params)
-      @user.organization_roles.build(organization_id: @organization.id, name: OrganizationRole::ROLE_STAFF)
+      #@user.organization_roles.build(organization_id: @organization.id, name: OrganizationRole::ROLE_STAFF)
+      new_role = @user.organization_roles.build(name: OrganizationRole::ROLE_STAFF)
+      new_role.organization_id = @organization.id
+
       @user.default_organization = @organization
       if @user.save
         redirect_to admin_organization_path(@organization),
@@ -31,7 +34,8 @@ module Admin
       if @user_roles.sync
         flash.now[:notice] = "#{t(:user)} #{t(:roles)} #{t(:was_successfully_updated)}"
       else
-        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:roles)} for #{@user.email} on #{@organization.name}"
+        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:roles)} "+
+                             "#{t(:user)}(#{@user.email}) #{t(:organization)}(#{@organization.name})"
       end
       render :show
     end

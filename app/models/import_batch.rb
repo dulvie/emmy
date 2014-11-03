@@ -29,8 +29,7 @@ class ImportBatch
       return false unless @batch.save
 
       # Create purchase and purchase_item for import of new batch
-      @purchase = @import.importing.build(organization_id: organization_id,
-                                          parent_type: 'Import',
+      @purchase = @import.importing.build(parent_type: 'Import',
                                           parent_id: @import.id,
                                           description: description,
                                           supplier_id: supplier,
@@ -38,13 +37,14 @@ class ImportBatch
                                           contact_name: contact_name,
                                           our_reference_id: @import.our_reference_id,
                                           to_warehouse_id: @import.to_warehouse_id)
+      @purchase.organization_id = organization_id
       return false unless @purchase.save
 
-      @purchase_item = @purchase.purchase_items.build(organization_id: organization_id,
-                                                      item_id: item_id,
+      @purchase_item = @purchase.purchase_items.build(item_id: item_id,
                                                       batch_id: @batch.id,
                                                       quantity: quantity,
                                                       price: price)
+      @purchase_item.organization_id = organization_id
       return false unless @purchase_item.save
 
       @import.batch = @batch

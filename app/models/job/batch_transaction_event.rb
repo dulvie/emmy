@@ -12,7 +12,8 @@ class Job::BatchTransactionEvent
   def self.recalculate_shelf(t)
     shelves = t.warehouse.shelves.where(batch_id: t.batch_id)
     unless shelves.size > 0
-      shelf = Shelf.new(warehouse_id: t.warehouse_id, batch_id: t.batch_id, organization_id: t.organization_id)
+      shelf = Shelf.new(warehouse_id: t.warehouse_id, batch_id: t.batch_id)
+      shelf.organization_id = t.organization_id
     else
       shelf = shelves.first
     end

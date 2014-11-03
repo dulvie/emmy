@@ -24,7 +24,10 @@ module Services
     def sync
       @role_params.each do |role, value|
         if value.eql?("1") && !@current_roles.include?(role)
-          @user.organization_roles.create(organization_id: @organization.id, name: role)
+          org_role = @user.organization_roles.build(name: role)
+          org_role.organization_id = @organization.id
+          org_role.save!
+
         elsif !value.eql?("1") && @current_roles.include?(role)
           role = @user.organization_roles.where(organization_id: @organization.id).where(name: role)
           role.map{|r| r.destroy} # There should only be one but...

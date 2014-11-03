@@ -20,7 +20,7 @@ class Transfer < ActiveRecord::Base
   belongs_to :organization
   has_many :comments, as: :parent, dependent: :destroy
 
-  attr_accessible :from_warehouse_id, :to_warehouse_id, :batch_id, :quantity, :organization_id
+  attr_accessible :from_warehouse_id, :to_warehouse_id, :batch_id, :quantity
   accepts_nested_attributes_for :comments
 
   # Callbacks
@@ -38,8 +38,8 @@ class Transfer < ActiveRecord::Base
   validate :check_max_quantities
 
   def check_max_quantities
-    shelf = organization.shelves.where('wareHouse_id = ? and batch_id = ?', from_warehouse_id,  batch_id).first
-    errors.add :quantity, "Quantity over warehouse quantity #{shelf.quantity}" if quantity > shelf.quantity
+    shelf = organization.shelves.where('warehouse_id = ? and batch_id = ?', from_warehouse_id,  batch_id).first
+    errors.add :quantity, "#{t(:quantity_over_warehouse_quantity)} #{shelf.quantity}" if quantity > shelf.quantity
   end
 
   def name
@@ -88,9 +88,9 @@ class Transfer < ActiveRecord::Base
     t = build_from_transaction(
       warehouse_id: from_warehouse_id,
       batch_id: batch_id,
-      quantity: quantity * -1, # the from_transaction subtracts the quantity
-      organization_id: organization_id
+      quantity: quantity * -1 # the from_transaction subtracts the quantity
     )
+    t.organization_id = organization_id
     t.save!
   end
 
@@ -100,9 +100,9 @@ class Transfer < ActiveRecord::Base
       parent_id: id,
       warehouse_id: to_warehouse_id,
       batch_id: batch_id,
-      quantity: quantity,
-      organization_id: organization_id
+      quantity: quantity
       )
+    t.organization_id = organization_id
     t.save!
   end
 
