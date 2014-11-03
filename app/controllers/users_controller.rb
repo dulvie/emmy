@@ -63,7 +63,12 @@ class UsersController < ApplicationController
       flash[:danger] = "#{t(:failed_to_update)} #{t(:roles)} "+
                        "#{t(:user)}(#{@user.email}) #{t(:organization)}(#{current_organization.name})"
     end
-    redirect_to user_path(@user)
+    # Redirect to user list if the user have been removed from the organization.
+    if @user.organization_roles.where(organization_id: current_organization.id).count > 0
+      redirect_to user_path(@user)
+    else
+      redirect_to users_path
+    end
   end
 
   private

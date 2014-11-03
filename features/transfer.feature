@@ -6,7 +6,7 @@ Feature: Create and complete a transfer
     Given I am a signed in user
     And a "batch" with "name" equals to "test batch" exists
     And a "warehouse" with "name" equals to "test from wh" exists
-    And the "test from wh" warehouse have "10" of batch "test batch"
+    And warehouse "test from wh" has a shelf with 10 of batch named "test batch" on "test-organization"
     And a warehouse with name "test to wh" exists
     And I visit transfers_path for "test-organization"
     And I click "Create Transfer"
@@ -23,7 +23,7 @@ Feature: Create and complete a transfer
     And a warehouse with name "test from wh" exists
     And a warehouse with name "test to wh" exists
     And a batch with name "test batch" exists
-    And warehouse "test from wh" has a shelf with 10 of batch named "test batch"
+    And warehouse "test from wh" has a shelf with 10 of batch named "test batch" on "test-organization"
     And a transfer of 9 "test batch" batch from "test from wh" to "test to wh" is created
     And I visit transfers_path for "test-organization"
     And I see "Send" in the page
@@ -39,7 +39,7 @@ Feature: Create and complete a transfer
     And a warehouse with name "test from wh" exists
     And a warehouse with name "test to wh" exists
     And a batch with name "test batch" exists
-    And warehouse "test from wh" has a shelf with 10 of batch named "test batch"
+    And warehouse "test from wh" has a shelf with 10 of batch named "test batch" on "test-organization"
     And a transfer of 9 "test batch" batch from "test from wh" to "test to wh" is created
     And I visit transfers_path for "test-organization"
     And I see "Send" in the page

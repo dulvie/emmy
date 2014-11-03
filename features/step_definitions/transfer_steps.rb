@@ -25,20 +25,23 @@ Given /^I fill in "(.*?)" as transfer_comments_attributes_0_body$/ do |text|
   fill_in 'transfer_comments_attributes_0_body', with: text
 end
 
-Given /^warehouse "(.*?)" has a shelf with (\d+) of batch named "(.*?)"$/ do |wh_name, quantity, batch_name|
+Given /^warehouse "(.*?)" has a shelf with (\d+) of batch named "(.*?)" on "(.*?)"$/ do |wh_name, quantity, batch_name, org_slug|
+  o = Organization.find_by_slug org_slug
   wh = Warehouse.find_by_name wh_name
   p = Batch.find_by_name batch_name
 
-  b = BatchTransaction.new(warehouse: wh, batch: p, quantity: quantity, organization_id: 1)
+  b = BatchTransaction.new(warehouse: wh, batch: p, quantity: quantity)
+  b.organization_id = o.id
   m = Manual.new
   m.user = User.first
-  m.organization_id = 1
-  m.comments.build(user_id: 1, body: "Initial seed manual product_transaction", organization_id: 1)
+  m.organization_id = o.id
+  c = m.comments.build(user_id: 1, body: "Initial seed manual product_transaction")
+  c.organization_id = o.id
   m.batch_transaction = b
   assert m.save
   Resque.run!
   s = wh.shelves.where(batch_id: p.id).first
-  assert_equal quantity.to_i, s.quantity
+  assert_equal quantity.to_i, s.quantity.to_i
 end
 
 Given /^the "(.*?)" warehouse have "(.*?)" of batch "(.*?)"$/ do |warehouse_name, quantity, batch_name|

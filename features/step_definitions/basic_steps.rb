@@ -35,7 +35,9 @@ end
 
 Given /^I am signed in as a superadmin$/ do
   u = FactoryGirl.create(:user)
-  u.organization_roles.create(organization_id: 0, name: OrganizationRole::ROLE_SUPERADMIN)
+  r = u.organization_roles.build(name: OrganizationRole::ROLE_SUPERADMIN)
+  r.organization_id = 0
+  r.save!
   visit new_user_session_path
   fill_in "user_email", with: u.email
   fill_in "user_password", with: u.password
@@ -47,7 +49,9 @@ Given /^I am signed in as an admin on "(.*?)"$/ do |organization_name|
   assert u, "no user found"
   o = Organization.find_by_name organization_name
   assert o, "no organization found"
-  u.organization_roles.create(organization_id: o.id, name: OrganizationRole::ROLE_ADMIN)
+  r = u.organization_roles.build(name: OrganizationRole::ROLE_ADMIN)
+  r.organization_id = o.id
+  r.save!
   visit new_user_session_path
   fill_in "user_email", with: u.email
   fill_in "user_password", with: u.password
