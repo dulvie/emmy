@@ -1,17 +1,19 @@
 Top prio:-
 
-* domain name
-* certifikat
-* Dashboard content, 
+* Dashboard content
 * Logo on invoice? https://github.com/dulvie/emmy/issues/76
 * Tests?
 * Hur ska in_price sättas när batch skapas i import och production?
 * Rensning i kodbasen det som ej används
 * Set up a demo organization with default demo-data. Funktion att återställa default demo-data.
-  a) Som egen organisation unde emmy-app eller egen installation dulvie.se
+  a) Som egen installation dulvie.se
 * Backuper, viktigt, schema
 * Roterande loggar
 * Texter rubriker knappar, meddelanden
+* Disiplinerat forum
+  1) Krav för att  starta ny tråd
+  2) Rätt att avvisa diskussion i startad tråd
+* Fördelning forum-issue, genomgång nuvarande issue
 
 Later Prio:
 * Referenser och borttag - en genomgång behövs
@@ -28,7 +30,8 @@ Later Prio:
   4) Start
   5) Pay work and deliver produced batch
   6) Completed
-   
+
+* Sale in import
 * customer - Ha email som obligatoriskt?, city som obligatoriskt
 * Sale - send past due date reminder email https://github.com/dulvie/emmy/issues/72
 * Statistics
@@ -48,7 +51,6 @@ Later Prio:
 * #17 user documentation
 * user documentation - Crossword, video how to work with the system
 * #18 supplier - has_many items
-* #20 purchase - send order as pdf
 * #22 shelf - quantities booked
 * #25 unit - translation between units
 * #26 item - comments to comments model
