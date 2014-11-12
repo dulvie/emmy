@@ -16,6 +16,16 @@ class SaleDecorator < Draper::Decorator
     ""
   end
 
+  def delivered_at
+    return l(object.delivered_at, format: "%Y-%m-%d") if object.delivered_at
+    ""
+  end
+
+  def paid_at
+    return l(object.paid_at, format: "%Y-%m-%d") if object.paid_at
+    ""
+  end
+
   def states
     [pretty_state, pretty_goods_state, pretty_money_state]
   end
