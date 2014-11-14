@@ -7,12 +7,9 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # Organization
-o = Organization.new name: "Default organization"
-o.save
-o2 = Organization.new name: "Check organization"
-o2.save
-o3 = Organization.new name: "Demo organization"
-o3.save
+o = Organization.find_or_create_by name: "Default organization"
+o2 = Organization.find_or_create_by name: "Check organization"
+o3 = Organization.find_or_create_by name: "Demo organization"
 
 jtest = User.new({
   name: "jtest",
@@ -21,10 +18,13 @@ jtest = User.new({
   password_confirmation: "foobar"
 })
 jtest.default_organization_id = 3
-jtest.organization_roles.build(organization_id: 0, name: OrganizationRole::ROLE_SUPERADMIN)
-jtest.organization_roles.build(organization_id: o.id, name: OrganizationRole::ROLE_ADMIN)
-jtest.organization_roles.build(organization_id: o2.id, name: OrganizationRole::ROLE_ADMIN)
-jtest.organization_roles.build(organization_id: o3.id, name: OrganizationRole::ROLE_ADMIN)
+[o,o2,o3].each do |org|
+  r = jtest.organization_roles.build(name: OrganizationRole::ROLE_ADMIN)
+  r.organization_id = org.id
+end
+
+r = jtest.organization_roles.build(name: OrganizationRole::ROLE_SUPERADMIN)
+r.organization_id = 0
 jtest.save
 
 ktest = User.new({
@@ -34,9 +34,11 @@ ktest = User.new({
   password_confirmation: "foobar"
 })
 ktest.default_organization_id = o.id
-ktest.organization_roles.build(organization_id: o.id, name: OrganizationRole::ROLE_ADMIN)
-ktest.organization_roles.build(organization_id: o2.id, name: OrganizationRole::ROLE_STAFF)
-ktest.organization_roles.build(organization_id: o3.id, name: OrganizationRole::ROLE_STAFF)
+[o,o2,o3].each do |org|
+  r = ktest.organization_roles.build(name: OrganizationRole::ROLE_ADMIN)
+  r.organization_id = org.id
+
+end
 ktest.save
 
 xtest = User.new({
@@ -46,8 +48,10 @@ xtest = User.new({
   password_confirmation: "foobar"
 })
 xtest.default_organization_id = o.id
-xtest.organization_roles.build(organization_id: o.id, name: OrganizationRole::ROLE_ADMIN)
-xtest.organization_roles.build(organization_id: o2.id, name: OrganizationRole::ROLE_STAFF)
+[o,o2].each do |org|
+  r = xtest.organization_roles.build(name: OrganizationRole::ROLE_ADMIN)
+  r.organization_id = org.id
+end
 xtest.save
 
 ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg", organization: o})
