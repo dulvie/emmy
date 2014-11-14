@@ -54,6 +54,7 @@ xtest.default_organization_id = o.id
 end
 xtest.save
 
+<<<<<<< HEAD
 
 ankeborg_warehouse = Warehouse.new({name: "Kvacken", city: "Ankeborg"})
 ankeborg_warehouse.organization = o
@@ -101,6 +102,29 @@ vat99.save
 
 
 espresso_i = Item.new({
+=======
+ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg", organization: o})
+flea_bottom = Warehouse.create({name: "Flea bottom", city: "King's landing", organization: o})
+ankeborg_warehouse.organization = o
+ankeborg_warehouse.save
+flea_bottom.organization = o
+flea_bottom.save
+
+unit1 = Unit.create(name: "Paket (1/2 kg)", weight: "1/2 kg", organization: o)
+unit2 = Unit.create(name: "St", organization: o)
+unit3 = Unit.create(name: "Säck (50 kg)", weight: "50 kg", organization: o)
+unit4 = Unit.create(name: "Pall", weight: "100 kg", organization: o)
+unit5 = Unit.create(name: "Tim", organization: o)
+unit6 = Unit.create(name: "Tim i org 2", organization: o2)
+
+vat0 = Vat.create(name: "Ingen", vat_percent: 0, organization: o)
+vat6 = Vat.create(name: "(6 procent)", vat_percent: 6, organization: o)
+vat12 = Vat.create(name: "(12 procent)", vat_percent: 12, organization: o)
+vat25 = Vat.create(name: "(25 procent)", vat_percent: 25, organization: o)
+vat99 = Vat.create(name: "(30 procent i org 2)", vat_percent: 30, organization: o2)
+
+espresso_i = Item.create({
+>>>>>>> fixes typo
   name: "Espresso",
   item_type: 'sales',
   item_group: 'refined',
