@@ -144,6 +144,12 @@ Given /^I uncheck "(.*?)"$/ do |name|
   uncheck name
 end
 
+Given /^I fill in typeahead field "(.*?)" with "(.*?)"$/ do |field_id, value|
+  page.execute_script "$('input[typeahead]').unbind('blur')"
+  fill_in field_id, with: value
+end
+
+
 Given /^a couple of "(.*?)" exists$/ do |resources_name|
   puts "will call create_#{resources_name}"
   send("create_#{resources_name}")
@@ -157,12 +163,30 @@ Given /^a "(.*?)" with "(.*?)" equals to "(.*?)" exists$/ do |resource_name, fie
   m = resource_name.capitalize.constantize
   obj = m.send("find_by_#{field_name}", field_value)
   if obj
-    assert_equals field_value, obj.send(field_name)
+    assert_equal field_value, obj.send(field_name)
   else
     new_obj = FactoryGirl.create(resource_name.to_sym, field_name.to_sym => field_value)
     assert field_value.eql?(new_obj.send(field_name))
   end
 end
+
+Given /^a "(.*?)" with "(.*?)" equals to "(.*?)" exists on "(.*?)"$/ do |resource_name, field_name, field_value, org_slug|
+  o = Organization.find_by_slug(org_slug)
+  assert o
+  m = resource_name.capitalize.constantize
+  obj = m.send("find_by_#{field_name}", field_value)
+  if obj
+    assert_equal field_value, obj.send(field_name)
+    assert_equal o.id, obj.organization_id, "object does not belong to #{org_slug}"
+  else
+    new_obj = FactoryGirl.create(resource_name.to_sym, field_name.to_sym => field_value, organization_id: o.id)
+    assert field_value.eql?(new_obj.send(field_name))
+
+    assert_equal o.id, new_obj.organization_id, "failed to compare #{o.id} with #{new_obj.organization_id}"
+  end
+end
+
+
 
 Given /^a "(.*?)" with "(.*?)" "(.*?)" does not exists$/ do |resource_name, field_name, field_value|
   m = resource_name.capitalize.constantize
@@ -223,3 +247,8 @@ Then /^I click the state button "(.*?)" and confirm the state change$/ do |strin
   confirm_link.click
 end
 
+
+
+def assert_save(obj)
+  assert obj.save, "failed to save #{obj.class.name} #{obj.inspect} #{obj.errors.full_messages}"
+end

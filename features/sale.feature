@@ -1,12 +1,20 @@
 Feature: Ensure correct state change buttons are visible
   Background:
     Given database is clean
-    And I am a signed in user
+    Given a "organization" with "name" equals to "test organization" exists
+    And I am signed in as an admin on "test organization"
+    And a "customer" with "name" equals to "test customer" exists on "test-organization"
+    And a "warehouse" with "name" equals to "test warehouse" exists on "test-organization"
+    And the warehouse "test warehouse" have a shelf with "100" of the batch "espresso test 2014:04"
 
+  @javascript
   Scenario: When creating, create and no other should be visible
     Given I visit sales_path for "test-organization"
     And I click "Create Sale"
-    Then I should see a button with text "Create Sale"
+    And I select "test warehouse" as "sale_warehouse_id"
+    And I fill in typeahead field "customer_ref" with "test customer"
+    And I click "Create Sale"
+    Then I should see "Sale was successfully created. "
     And I should not see a button with text "Deliver"
     And I should not see a button with text "Pay"
     And I should not see a button with text "Mark item complete"

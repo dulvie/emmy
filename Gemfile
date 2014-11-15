@@ -64,7 +64,7 @@ end
 
 group :test do
   gem 'minitest'
-  gem 'cucumber-rails', require: false
+  gem 'cucumber-rails', '~> 1.4', require: false
   gem 'database_cleaner'
   gem 'capybara-webkit', '~> 1.3'
   gem 'resque_unit'

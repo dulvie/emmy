@@ -39,7 +39,9 @@ class Transfer < ActiveRecord::Base
 
   def check_max_quantities
     shelf = organization.shelves.where('warehouse_id = ? and batch_id = ?', from_warehouse_id,  batch_id).first
-    errors.add :quantity, "#{t(:quantity_over_warehouse_quantity)} #{shelf.quantity}" if quantity > shelf.quantity
+    if shelf && quantity > shelf.quantity
+      errors.add :quantity, "#{I18n.t(:quantity_over_warehouse_quantity)} #{shelf.quantity}"
+    end
   end
 
   def name
