@@ -54,6 +54,7 @@
   - if @production.work? && !@production.work.paid?
     = render partial: 'shared/modal_state_change', locals: {idx: 'workPayContent', model: @production.work, form_path: state_change_purchase_path(@production.work), event: 'pay', return_path: edit_production_path(@production)}
 
+
 :javascript
   $(document).ready(function() {
     $('#production_total_amount').val($('#production_total_amount').val()/100);

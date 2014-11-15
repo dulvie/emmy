@@ -146,6 +146,7 @@ class Production < ActiveRecord::Base
     state.eql?('started')
   end
 
+
   def actions?
     return true if batch.nil?
     return true if can_start?

@@ -28,6 +28,7 @@ class ProductionBatchesController < ApplicationController
     end
   end
 
+
   private
 
   def load_production
