@@ -19,6 +19,7 @@ class ProductionBatchesController < ApplicationController
       if @production_batch.submit
         format.html { redirect_to edit_production_path(@production_batch.production_id), notice: 'batch was successfully created.' }
       else
+        flash.now[:danger] = "#{t(:failed_to_add)} #{t(:batch)}"
         @production_batch.production_id = @production.id
         @items = current_organization.items.where('stocked=?', 'true')
         gon.push items: ActiveModel::ArraySerializer.new(@items, each_serializer: ItemSerializer)

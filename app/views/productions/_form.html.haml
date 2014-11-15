@@ -30,14 +30,14 @@
     - if @production.work?
       = render partial: 'shared/addon_edit_link', locals: {form: f, object: @production.work, label: :work, value: f.object.work.description, can_edit: @production.can_edit?, link: purchase_path(@production.work)}
 
-    - if (@production.new_record? || !@production.new_record? && @production.batch.nil? || (@production.can_edit_state? && !@production.started?) || (@production.can_edit_state? && @production.can_complete?) || !@production.new_record? && !@production.batch.nil? && @production.materials.size == 0 || !@production.new_record? && !@production.batch.nil? && @production.work.nil?) || @production.started? && !@production.work.paid?
+    - if @production.new_record? || @production.actions?
       .form-button-group
         .actions
           - if @production.new_record?
             = f.submit class: 'btn btn-primary'
           - if !@production.new_record? && @production.batch.nil?
             = link_to t(:set_product_and_quantity), new_production_production_batch_path(@production), :class => 'btn btn-primary'
-          - if (@production.can_edit_state? && !@production.started?) || (@production.can_edit_state? && @production.can_complete?)
+          - if @production.can_start? || @production.can_complete?
             %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
               = t(:"#{@production.next_event}")
           - if !@production.new_record? && !@production.batch.nil? && @production.materials.size == 0

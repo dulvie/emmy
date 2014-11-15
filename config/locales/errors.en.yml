@@ -4,3 +4,4 @@ en:
       already_sent: "Already sent"
       no_customer_email: "No email for that customer present"
       no_organization_email: "No email for this organization"
+      taken: "Name not unique"

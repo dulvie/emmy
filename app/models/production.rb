@@ -110,15 +110,6 @@ class Production < ActiveRecord::Base
     state.eql? 'not_started'
   end
 
-  def can_edit_state?
-    return false if state.eql? 'completed'
-    return false if batch_id.nil?
-    return false if quantity.nil?
-    return false if materials.size == 0
-    return false if work.nil?
-    true
-  end
-
   def can_delete?
     return false if ['started', 'completed'].include? state
     true
@@ -128,7 +119,18 @@ class Production < ActiveRecord::Base
     state.eql? 'started'
   end
 
+  def can_start?
+    return false if ['started', 'completed'].include? state
+    return false if state.eql? 'completed'
+    return false if batch_id.nil?
+    return false if quantity.nil?
+    return false if materials.size == 0
+    return false if work.nil?
+    true
+  end
+
   def can_complete?
+    return false if !state.eql? 'started'
     work.paid?
   end
 
@@ -142,6 +144,16 @@ class Production < ActiveRecord::Base
 
   def started?
     state.eql?('started')
+  end
+
+  def actions?
+    return true if batch.nil?
+    return true if can_start?
+    return true if can_complete?
+    return true if materials.size == 0
+    return true if work.nil?
+    return true if started? && !work.paid?
+    false
   end
 
   def material?
