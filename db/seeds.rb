@@ -54,23 +54,53 @@ xtest.default_organization_id = o.id
 end
 xtest.save
 
-ankeborg_warehouse = Warehouse.create({name: "Kvacken", city: "Ankeborg", organization: o})
-flea_bottom = Warehouse.create({name: "Flea bottom", city: "King's landing", organization: o})
 
-unit1 = Unit.create(name: "Paket (1/2 kg)", weight: "1/2 kg", organization: o)
-unit2 = Unit.create(name: "St", organization: o)
-unit3 = Unit.create(name: "Säck (50 kg)", weight: "50 kg", organization: o)
-unit4 = Unit.create(name: "Pall", weight: "100 kg", organization: o)
-unit5 = Unit.create(name: "Tim", organization: o)
-unit6 = Unit.create(name: "Tim i org 2", organization: o2)
+ankeborg_warehouse = Warehouse.new({name: "Kvacken", city: "Ankeborg"})
+ankeborg_warehouse.organization = o
+ankeborg_warehouse.save
+flea_bottom = Warehouse.new({name: "Flea bottom", city: "King's landing"})
+flea_bottom.organization = o
+flea_bottom.save
 
-vat0 = Vat.create(name: "Ingen", vat_percent: 0, organization: o)
-vat6 = Vat.create(name: "(6 procent)", vat_percent: 6, organization: o)
-vat12 = Vat.create(name: "(12 procent)", vat_percent: 12, organization: o)
-vat25 = Vat.create(name: "(25 procent)", vat_percent: 25, organization: o)
-vat99 = Vat.create(name: "(30 procent i org 2)", vat_percent: 30, organization: o2)
 
-espresso_i = Item.create({
+unit1 = Unit.new(name: "Paket (1/2 kg)", weight: "1/2 kg")
+unit1.organization = o
+unit1.save
+unit2 = Unit.new(name: "St")
+unit2.organization = o
+unit2.save
+unit3 = Unit.new(name: "Säck (50 kg)", weight: "50 kg")
+unit3.organization = o
+unit3.save
+unit4 = Unit.new(name: "Pall", weight: "100 kg")
+unit4.organization = o
+unit4.save
+unit5 = Unit.new(name: "Tim")
+unit5.organization = o
+unit5.save
+unit6 = Unit.new(name: "Tim i org 2")
+unit6.organization = o2
+unit6.save
+
+
+vat0 = Vat.create(name: "Ingen", vat_percent: 0)
+vat0.organization = o
+vat0.save
+vat6 = Vat.create(name: "(6 procent)", vat_percent: 6)
+vat6.organization = o
+vat6.save
+vat12 = Vat.create(name: "(12 procent)", vat_percent: 12)
+vat12.organization = o
+vat12.save
+vat25 = Vat.create(name: "(25 procent)", vat_percent: 25)
+vat25.organization = o
+vat25.save
+vat99 = Vat.create(name: "(30 procent i org 2)", vat_percent: 30)
+vat99.organization = o2
+vat99.save
+
+
+espresso_i = Item.new({
   name: "Espresso",
   item_type: 'sales',
   item_group: 'refined',
@@ -79,11 +109,12 @@ espresso_i = Item.create({
   retail_price: 9500,
   stocked: 'true',
   unit_id: unit1.id,
-  vat_id: vat12.id,
-  organization: o
+  vat_id: vat12.id
 })
+espresso_i.organization = o
+espresso_i.save
 
-brewd_i = Item.create({
+brewd_i = Item.new({
   name: "Brygg",
   item_type: 'sales',
   item_group: 'refined',
@@ -92,10 +123,12 @@ brewd_i = Item.create({
   retail_price: 6500,
   stocked: 'true',
   unit_id: unit1.id,
-  vat_id: vat12.id,
-  organization: o
+  vat_id: vat12.id
 })
-coffe = Item.create({
+brewd_i.organization = o
+brewd_i.save
+
+coffe = Item.new({
   name: "Råkaffe",
   item_type: 'both',
   item_group: 'unrefined',
@@ -104,47 +137,54 @@ coffe = Item.create({
   retail_price: 6000,
   stocked: 'true',
   unit_id: unit3.id,
-  vat_id: vat0.id,
-  organization: o
+  vat_id: vat0.id
 })
+coffe.organization = o
+coffe.save
 
-ship = Item.create({
+ship = Item.new({
   name: "Skeppning",
   item_type: 'purchases',
   item_group: ' ',
   stocked: 'false',
   unit_id: unit2.id,
-  vat_id: vat0.id,
-  organization: o
+  vat_id: vat0.id
 })
-freight = Item.create({
+ship.organization = o
+ship.save
+
+freight = Item.new({
   name: "Frakt",
   item_type: 'both',
   item_group: ' ',
   stocked: 'false',
   unit_id: unit2.id,
-  vat_id: vat0.id,
-  organization: o
+  vat_id: vat0.id
 })
+freight.organization = o
+freight.save
 
-custom = Item.create({
+custom = Item.new({
   name: "Tulldeklarering",
   item_type: 'purchases',
   item_group: ' ',
   stocked: 'false',
   unit_id: unit2.id,
-  vat_id: vat0.id,
-  organization: o
+  vat_id: vat0.id
 })
-rost = Item.create({
+custom.organization = o
+custom.save
+
+rost = Item.new({
   name: "Rostning",
   item_type: 'purchases',
   item_group: ' ',
   stocked: 'false',
   unit_id: unit2.id,
-  vat_id: vat25.id,
-  organization: o
+  vat_id: vat25.id
 })
+rost.organization = o
+rost.save
 
 espresso = Batch.new({
   item_id: espresso_i.id,
@@ -212,6 +252,7 @@ donald.save
 coffeehouse = Customer.new(name: 'Coffe House by Foobar', payment_term: 10)
 coffeehouse.organization = o
 coffeehouse.save
+
 1.upto(15) do |i|
 	c = Customer.new(name: "Kund #{i}", payment_term: 30)
   c.organization = o
@@ -219,14 +260,23 @@ coffeehouse.save
 end
 
 bigsupp = Supplier.new(name: "Big supplier of coffee")
+bigsupp.organization = o
 bigsupp.save
+
 coffeesupp = Supplier.new(name: "Kaffekooperativ")
+coffeesupp.organization = o
 coffeesupp.save
+
 freightsupp = Supplier.new(name: "Shipping LTD")
+freightsupp.organization = o
 freightsupp.save
+
 tullsupp = Supplier.new(name: "Tullverket")
+tullsupp.organization = o
 tullsupp.save
+
 rostsupp = Supplier.new(name: "AB Rosteri")
+rostsupp.organization = o
 rostsupp.save
 
 
