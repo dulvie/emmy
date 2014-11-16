@@ -1,5 +1,5 @@
 class ProductionBatchesController < ApplicationController
-  skip_authorization_check
+  #skip_authorization_check
   before_filter :load_production
   before_filter :new_breadcrumbs, only: [:new, :create]
 
@@ -15,6 +15,7 @@ class ProductionBatchesController < ApplicationController
   def create
     @production_batch = ProductionBatch.new(production_batch_params)
     @production_batch.organization_id = current_organization.id
+    Rails.logger.info "NU: #{current_organization.id}"
     respond_to do |format|
       if @production_batch.submit
         format.html { redirect_to edit_production_path(@production_batch.production_id), notice: 'batch was successfully created.' }

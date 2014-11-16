@@ -11,8 +11,8 @@ class ProductionBatch
   validate :check_batch_name
 
   def check_batch_name
-    u = Batch.where('organization_id = ? and name = ?', organization_id, name).count
-    errors.add(:name, t(:'errors.messages.taken')) if u > 0
+    u = Batch.where(organization_id: organization_id, name: name).count
+    errors.add(:name, :taken) if u > 0
   end
 
   def submit
@@ -20,6 +20,7 @@ class ProductionBatch
     @production = Production.find(production_id)
     ActiveRecord::Base.transaction do
       @batch = Batch.new(to_hash)
+      @batch.organization_id = organization_id
       @batch.save
       @production.batch = @batch
       @production.quantity = quantity
