@@ -23,8 +23,3 @@
 
   = paginate @warehouses, :theme => 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
-
-:javascript
-  $(document).ready(function() {
-   localStorage.removeItem('lastTab');
-  });

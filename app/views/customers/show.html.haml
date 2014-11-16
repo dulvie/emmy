@@ -19,10 +19,10 @@
   $(document).ready(function() {
 
   $('a[data-toggle="tab"]').on("click", function(e) {
-   localStorage.setItem('lastTab', $(e.target).attr("href").substr(1));
+   localStorage.setItem('customer_tab', $(e.target).attr("href").substr(1));
   });
 
-  var lastTab = localStorage.getItem('lastTab');
+  var lastTab = localStorage.getItem('customer_tab');
   if (lastTab) {
     $('ul.nav-tabs').children().removeClass('active');
     $('a[href=#'+ lastTab +']').parents('li:first').addClass('active');
