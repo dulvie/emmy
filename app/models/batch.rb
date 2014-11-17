@@ -28,6 +28,14 @@ class Batch < ActiveRecord::Base
   validates :name, presence: true, uniqueness: {scope: :organization_id}
   validates :item, presence: true
 
+  def distributor_inc_vat
+    (distributor_price + distributor_price * vat.add_factor)/100
+  end
+
+  def retail_inc_vat
+    (retail_price + retail_price * vat.add_factor)/100
+  end
+
   def can_delete?
     return false if organization.shelves.where('batch_id' => id).size > 0
     return false if organization.imports.where('batch_id = ? and state = ? ', id, 'started').count > 0
