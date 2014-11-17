@@ -26,7 +26,7 @@
       %h3= t(:buyer)
       %address
         - customer.address_lines.each do |line|
-          = line
+          .line= line
   %tr.pre_sale_items
     %td{colspan: '2', style: 'padding: 0;'}
       %table.table
