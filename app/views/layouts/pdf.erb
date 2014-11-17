@@ -13,7 +13,7 @@
         Subset of bootstrap used only by wicked_pdf / wkhtmltopdf
         because compat...
       **/
-      h3, h1 {
+      h3, h2, h1 {
         padding: 0;
         margin: 10px 0;
       }
@@ -90,7 +90,7 @@
       tr.pre_sale_items td { padding-bottom: 2em; }
       td.sale_item_wrapper { height: 100%; }
       table.sale_items { height: 100%; }
-      table.sale_items th.label { width: 100%; }
+      table.sale_items th.main { width: 100%; }
       table.sale_items th { background: white; }
       table.sale_items td, table.sale_items th { white-space: nowrap; padding: .5em;}
       table.sale_items td.numeric { padding-left: 1em; }
@@ -100,6 +100,8 @@
       tr.address td table.address-and-numbers { border-top: 2px solid #aaa; }
       tr.address table td { border: 0; background: white; white-space: nowrap;}
       table.numbers td.label { text-align: right; width: 100%; }
+
+      td.padding-top-bottom { padding: 1em 0; }
 
     </style>
   </head>
