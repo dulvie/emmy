@@ -76,17 +76,18 @@
       %table.table.address-and-numbers
         %tr
           %td
-            = "#{t(:address)}:"
-            %br
-            = @sale.organization.name
-            %br
-            = @sale.organization.address
-            %br
-            = "#{@sale.organization.zip} #{@sale.organization.city}"
+            .line
+              %strong= "#{t(:email)}:"
+              ="#{@sale.organization.email}"
+            %strong.line= "#{t(:address)}:"
+            .line= @sale.organization.name
+            .line= @sale.organization.address
+            .line= "#{@sale.organization.zip} #{@sale.organization.city}"
           %td
             %table.numbers.table.pull-right
               - [:vat_number, :bankgiro, :plusgiro, :postgiro].each do |n|
                 - unless @sale.organization.send(n).blank?
                   %tr
-                    %td.label= "#{t(n)}: "
+                    %td.main-cell
+                      %strong= "#{t(n)}: "
                     %td= @sale.organization.send(n)
