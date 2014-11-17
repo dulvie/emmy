@@ -28,10 +28,10 @@
         - customer.address_lines.each do |line|
           = line
   %tr.pre_sale_items
-    %td{colspan: '2'}
+    %td{colspan: '2', style: 'padding: 0;'}
       %table.table
         %tr
-          %td{width: '50%'}
+          %td{width: '50%', style: 'padding: 0'}
             %h3= t(:our_reference)
             .line= @sale.user_name
             .line= @sale.user_email
