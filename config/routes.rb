@@ -86,6 +86,7 @@ Emmy::Application.routes.draw do
       member do
         post 'state_change', as: :state_change
         post 'send_email', as: :send_email
+        post 'regenerate_invoice', as: :regenerate_invoice
       end
       collection do
         get 'invoice_search', as: :invoice_search

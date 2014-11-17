@@ -81,6 +81,12 @@ class SalesController < ApplicationController
     redirect_to sales_path
   end
 
+  def regenerate_invoice
+    @sale.document.destroy
+    @sale.generate_invoice
+    redirect_to @sale
+  end
+
   private
 
   def sale_params

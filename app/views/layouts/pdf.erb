@@ -3,11 +3,17 @@
   <head>
     <title>something</title>
     <style>
+      body, html, table.wrapper {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        font-size: 14px;
+      }
       /**
         Subset of bootstrap used only by wicked_pdf / wkhtmltopdf
         because compat...
       **/
-      h3 {
+      h3, h1 {
         padding: 0;
         margin: 10px 0;
       }
@@ -33,19 +39,28 @@
       .table col {
         display: table-column;
       }
-      .table th { text-align: left; }
+      .table th { text-align: left; border-bottom: 1px solid #aaa; }
       .table th.numeric, .table td.numeric { text-align: right; }
       .table td {
         padding: 5px;
         margin: 0;
-        border-top: 1px solid #aaa;
         display: table-cell;
+        /*border-top: 1px solid #aaa;*/
       }
-      .table tbody tr:nth-child(odd) {
+      .table-striped tbody tr:nth-child(odd) {
         background: #eee;
       }
+      .table-striped td {
+        border-right: 1px solid #aaa;
+      }
+      .table-striped td:last-child {
+        border-right: 0px;
+      }
 
-      .table tfoot td {
+      .table tfoot tr:first-child td {
+        border-top: 2px solid #666;
+      }
+      .table tfoot tr:first-child td {
         border-top: 2px solid #666;
       }
       .table thead td {
@@ -58,6 +73,34 @@
         margin-top: 0;
         margin-bottom: 0.5em;
       }
+
+      /* custom pdf table code */
+      table.wrapper {
+        height: 1000px;
+        /*height: 100%;*/
+      }
+      table.wrapper td { vertical-align: top; width: 50%; }
+      .strong { font-weight: bold; }
+
+      h3 { margin-top: 0; }
+      table.dates td.main-cell{ width: 100%; }
+      table.dates td { padding-left: 1em; }
+      table td { white-space: nowrap; }
+
+      tr.pre_sale_items td { padding-bottom: 2em; }
+      td.sale_item_wrapper { height: 100%; }
+      table.sale_items { height: 100%; }
+      table.sale_items th.label { width: 100%; }
+      table.sale_items th { background: white; }
+      table.sale_items td, table.sale_items th { white-space: nowrap; padding: .5em;}
+      table.sale_items td.numeric { padding-left: 1em; }
+      table.sale_items tr.total td { border: 0; background: white; }
+      table.sale_items td.filler { height: 100%; background: white; border: 0;}
+      tr.address td.address-inner { padding-top: 1em; }
+      tr.address td table.address-and-numbers { border-top: 2px solid #aaa; }
+      tr.address table td { border: 0; background: white; white-space: nowrap;}
+      table.numbers td.label { text-align: right; width: 100%; }
+
     </style>
   </head>
   <body>

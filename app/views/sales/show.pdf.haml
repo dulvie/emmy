@@ -1,91 +1,94 @@
 - customer = @sale.customer.decorate
-.container
-  .row
-    .col-md-12
+%table.wrapper
+  %tr
+    %td
       %h1= t(:invoice)
-  .row
-    .col-md-6
+    %td
+      %h1= @sale.organization.name
+  %tr
+    %td
       %h3
         = t(:invoice_number)
         %small= "(#{t(:reference)})"
       = @sale.invoice_number
-
-    .col-md-6
-      .row
-        .col-md-3.mright= t(:the_date)
-        .col-md-3= @sale.approved_at
-      .row
-        .col-md-3.mright= t(:due_date)
-        .col-md-3= @sale.due_date
-
-  .row
-    .col-md-6
+    %td
+      %table.dates
+        %tr
+          %td.main-cell= ""
+          %td= t(:the_date)
+          %td= @sale.due_date
+        %tr
+          %td.main-cell= ""
+          %td= t(:due_date)
+          %td= @sale.approved_at
+  %tr
+    %td
       %h3= t(:buyer)
       %address
         - customer.address_lines.each do |line|
           = line
           %br
+    %td
+  %tr.pre_sale_items
+    %td{colspan: '2'}
+      %table.table
+        %tr
+          %td{width: '50%'}
+            %h3= t(:our_reference)
+            .line= @sale.user_name
+            .line= @sale.user_email
+          %td
+            %h3= t(:your_reference)
+            .line= @sale.contact_name
+            .line= @sale.contact_email
+  %tr
+    %td.sale_item_wrapper{colspan: '2'}
+      %table.table.table-striped.sale_items
+        %tr
+          %th.label= t(:item)
+          %th= t(:quantity)
+          %th.numeric= t(:price)
+          %th.numeric= t(:vat)
+          %th.numeric= t(:amount)
 
-  .row
-    .col-md-6
-      %h3= t(:our_reference)
-      .line= @sale.user_name
-      .line= @sale.user_email
-    .col-md-6
-      %h3= t(:your_reference)
-      .line= @sale.contact_name
-      .line= @sale.contact_email
-
-  .row
-    &nbsp;
-  .row
-    &nbsp;
-  .row
-    &nbsp;
-  .row
-    .col-md-12
-      %table{:class => 'table table-striped'}
-        %thead
+        - @sale.sale_items.each do |item|
+          - item = item.decorate
           %tr
-            %th= t(:item)
-            %th= t(:quantity)
-            %th.numeric= t(:price)
-            %th.numeric= t(:vat)
-            %th.numeric= t(:amount)
+            %td= item.desc
+            %td= item.quantity
+            %td.numeric= as_sek(item.price, '')
+            %td.numeric
+              = "(#{item.vat}%) "
+              = as_sek(item.total_vat, '')
+            %td.numeric= as_sek(item.price_sum, '')
+        %tr
+          %td.filler &nbsp;
+        %tr.total
+          %td.numeric{colspan: '4'}= "#{t(:total)} ex #{t(:vat)}"
+          %td.numeric= as_sek(@sale.total_price)
+        %tr.total
+          %td.numeric{colspan: '4'}= t(:vat)
+          %td.numeric= as_sek(@sale.total_vat)
+        %tr.total.strong
+          %td.numeric{colspan: '4'}= "#{t(:total)}"
+          %td.numeric= as_sek(@sale.total_price_inc_vat)
 
-          %tbody
-            - @sale.sale_items.each do |item|
-              - item = item.decorate
-              %tr
-                %td= item.desc
-                %td= item.quantity
-                %td.numeric= as_sek(item.price)
-                %td.numeric
-                  = "(#{item.vat}%) "
-                  = as_sek(item.total_vat)
-                %td.numeric= as_sek(item.price_sum)
-          %tfoot
-            %tr
-              %td= t(:total)
-              %td
-              %td
-              %td.numeric= as_sek(@sale.total_vat)
-              %td.numeric= as_sek(@sale.total_price_inc_vat)
-  .row
-    &nbsp;
-  .row
-    &nbsp;
-  .row
-    &nbsp;
-  .row
-    .col-md-6
-      %p= "#{t(:address)}:"
-      %p= @sale.organization.address
-      %p= "#{@sale.organization.zip} #{@sale.organization.city}"
-    .col-md-6.text-right
-      - [:bankgiro, :plusgiro, :postgiro, :vat_number].each do |n|
-        - unless @sale.organization.send(n).blank?
-          %p
-            = "#{t(n)}: "
-            = @sale.organization.send(n)
-
+  %tr.address
+    %td.address-inner{colspan: 2}
+      %table.table.address-and-numbers
+        %tr
+          %td
+            = "#{t(:address)}:"
+            %br
+            = @sale.organization.name
+            %br
+            = @sale.organization.address
+            %br
+            = "#{@sale.organization.zip} #{@sale.organization.city}"
+          %td
+            %table.numbers.table.pull-right
+              - [:vat_number, :bankgiro, :plusgiro, :postgiro].each do |n|
+                - unless @sale.organization.send(n).blank?
+                  %tr
+                    %td.label= "#{t(n)}: "
+                    %td= @sale.organization.send(n)

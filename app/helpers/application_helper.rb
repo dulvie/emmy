@@ -2,8 +2,8 @@ module ApplicationHelper
 
   # @todo make currency a setting.
   # we currently only support one currency, with the format of 5600 = 56.00 SEK
-  def as_sek(integer_number)
-    number_to_currency(integer_number / 100.0, precision: 2, format: "%n %u", unit: "SEK")
+  def as_sek(integer_number, unit = 'SEK')
+    number_to_currency(integer_number / 100.0, precision: 2, format: "%n %u", unit: unit)
   end
 
   # Prints a delete link button
@@ -34,6 +34,10 @@ module ApplicationHelper
       extra_css_class = "#{obj_origin_class_name}-#{obj.id}"
     end
     glyphicon('trash', "delete-icon #{extra_css_class}")
+  end
+
+  def refresh_icon
+    glyphicon('refresh', 'refresh-icon')
   end
 
   def plus_icon

@@ -12,6 +12,7 @@
       %label= "PDF #{t(:invoice)}"
     .fields_width.form-control-static
       = link_to doc_icon, @sale.document_url, target: '_blank'
+      = link_to refresh_icon, regenerate_invoice_sale_path(@sale), method: :post
 
 - if @sale.can_edit_items? or @sale.sale_items.count > 0 && !@sale.completed?
   = render partial: 'action_buttons'

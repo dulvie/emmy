@@ -92,20 +92,18 @@ class Sale < ActiveRecord::Base
 
   # @todo refactor this into a job instead.
   def generate_invoice
-    logger.info 'I should generate a pdf invoice here...'
     d = build_document
-    logger.info 'ok here comes the wickedpdf line'
     pdf_string = WickedPdf.new.pdf_from_string(
       SalesController.new.render_to_string(
         template: '/sales/show.pdf.haml',
         layout: 'pdf',
+        locale: I18n.locale || I18n.default_locale,
         locals: {
           :@sale => decorate
         }
       ),
       pdf: "invoice_#{id}"
     )
-    # logger.info "got a pdf string: #{pdf_string}"
 
     logger.info 'will try to write to temp file'
     tempfile = Tempfile.new(["invoice_#{id}", '.pdf'], Rails.root.join('tmp'))
@@ -115,7 +113,7 @@ class Sale < ActiveRecord::Base
     d.upload = tempfile
     logger.info 'SAVING!'
     tempfile.close
-    # tempfile.unlink
+    tempfile.unlink
     d.save!
   end
 
