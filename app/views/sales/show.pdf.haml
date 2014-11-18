@@ -62,7 +62,7 @@
           %td.numeric{colspan: '4'}= t(:vat)
           %td.numeric= as_sek(@sale.total_vat)
         %tr.total
-          %td.numeric{colspan: '4'}= "#{t(:total)} inc #{t(:vat)}"
+          %td.numeric{colspan: '4'}= "#{t(:total)} #{t(:price_inc_vat)}"
           %td.numeric= as_sek(@sale.total_price_inc_vat)
         %tr.total
           %td.numeric{colspan: '4'}= "#{t(:rounding)}"
