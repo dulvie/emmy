@@ -20,7 +20,7 @@
 
   #text-wrapper
     = f.input :name
-    = f.input :vat, collection: Vat.all, value_method: 'vat_percent', include_blank: false
+    = f.input :vat, collection: @vat, value_method: 'vat_percent', include_blank: false
     = f.input :quantity_text, label: t(:quantity), input_html: {type: 'number', class: 'numeric integer'}
     .error_width
       = f.error :quantity

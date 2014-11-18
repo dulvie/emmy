@@ -153,6 +153,7 @@ en:
   payment_term_text: "Supply invoice no. upon payment."
   paid: "Paid"
   paid_at: "Paid at"
+  payment_term: "Payment term"
   password: "Password"
   plusgiro: "Plusgiro"
   postgiro: "Postgiro"

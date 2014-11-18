@@ -7,6 +7,7 @@ class SaleItemsController < ApplicationController
 
   def new
     @warehouses = current_organization.warehouses
+    @vat = current_organization.vats
   end
 
   def create

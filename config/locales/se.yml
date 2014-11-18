@@ -131,6 +131,7 @@ se:
   payment_term_text: "Ange fakturanr vid betalning."
   paid: "Betalad"
   paid_at: "Betaldatum"
+  payment_term: "Betalningsvillkor"
   password: "Lösenord"
   parent_type: "Förälder"
   plusgiro: "Plusgiro"
