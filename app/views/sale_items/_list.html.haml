@@ -27,6 +27,23 @@
             %td
             %td
             %td.numeric= as_sek(@sale.total_vat)
-            %td.numeric= as_sek(@sale.total_price_inc_vat)
+            %td.numeric= as_sek(@sale.total_price)
             %td
+          %tr
+            %td= "#{t(:total)} inc #{t(:vat)}"
+            %td.numeric{colspan: '4'}
+              = as_sek(@sale.total_price_inc_vat)
+          %tr
+            %td= "#{t(:total)} #{t(:vat)}"
+            %td.numeric{colspan: '4'}
+              = as_sek(@sale.total_vat)
+          %tr
+            %td= "#{t(:rounding)}"
+            %td.numeric{colspan: '4'}
+              = as_sek(@sale.total_rounding)
+          %tr
+            %td= "#{t(:total)}"
+            %td.numeric{colspan: '4'}
+              = as_sek(@sale.total_after_rounding)
+
     = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

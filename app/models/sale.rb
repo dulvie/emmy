@@ -192,12 +192,21 @@ class Sale < ActiveRecord::Base
 
   def total_price_inc_vat
     return 0 if sale_items.count <= 0
-    sale_items.inject(0) { |i, item| item.price_sum + i }
+    sale_items.inject(0) { |i, item| item.price_sum + item.total_vat + i }
   end
 
   def total_vat
     return 0 if sale_items.count <= 0
     sale_items.inject(0) { |i, item| item.total_vat + i }
+  end
+
+  def total_rounding
+    return 0 if sale_items.count <= 0
+    total_price_inc_vat.round(-2) - total_price_inc_vat
+  end
+
+  def total_after_rounding
+    total_price_inc_vat.round(-2)
   end
 
   # Callback: after_create

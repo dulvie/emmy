@@ -6,7 +6,7 @@ class SaleItem < ActiveRecord::Base
   # t.string  :name
   # t.integer :quantity
   # t.integer :price
-  # t.integer :price_inc_vat
+  # t.integer :price_inc_vat # NOT USED ANYMORE
   # t.integer :price_sum
   # t.integer :vat
 
@@ -23,7 +23,6 @@ class SaleItem < ActiveRecord::Base
   before_validation :collect_and_calculate
 
   validates :quantity, presence: true
-  validates :price_inc_vat, presence: true
   validates :price_sum, presence: true
   validates :vat, presence: true
   validates :name, presence: true, if: :text_row?
@@ -38,7 +37,7 @@ class SaleItem < ActiveRecord::Base
   end
 
   def total_vat
-    quantity * (price_inc_vat - price)
+    (quantity * price * (vat / 100.0))
   end
 
   def product
@@ -60,10 +59,9 @@ class SaleItem < ActiveRecord::Base
   def collect_and_calculate
     self.vat = vat || default_vat_from_batch
     self.price = price || default_from_batch(:price)
-    self.price_inc_vat = price * (1 + (vat / 100.0))
-    if quantity
-      self.price_sum = price_inc_vat * quantity
-    end
+    self.quantity = 1 unless quantity
+    self.price_sum = price * quantity
+    self.price_inc_vat = (price_sum + total_vat)
   end
 
   def default_vat_from_batch

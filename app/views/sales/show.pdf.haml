@@ -10,35 +10,29 @@
       %h3
         = t(:invoice_number)
         %small= "(#{t(:reference)})"
-      %h4= @sale.invoice_number
+      .line= @sale.invoice_number
     %td
-      %table.dates
-        %tr
-          %td.main-cell= ""
-          %td= t(:the_date)
-          %td= @sale.approved_at
-        %tr
-          %td.main-cell= ""
-          %td= t(:due_date)
-          %td= @sale.due_date
+      %h3= t(:the_date)
+      .line= @sale.approved_at
   %tr
+    %td.padding-top-bottom
+      %h3= t(:payment_term)
+      .line= "#{t(:due_date)} #{@sale.due_date}"
+      .line= t(:payment_term_text)
     %td.padding-top-bottom
       %h3= t(:buyer)
       %address
         - customer.address_lines.each do |line|
           .line= line
   %tr.pre_sale_items
-    %td.no-padding{colspan: '2'}
-      %table.table
-        %tr
-          %td.no-padding{width: '50%'}
-            %h3= t(:our_reference)
-            .line= @sale.user_name
-            .line= @sale.user_email
-          %td
-            %h3= t(:your_reference)
-            .line= @sale.contact_name
-            .line= @sale.contact_email
+    %td{width: '50%'}
+      %h3= t(:our_reference)
+      .line= @sale.user_name
+      .line= @sale.user_email
+    %td
+      %h3= t(:your_reference)
+      .line= @sale.contact_name
+      .line= @sale.contact_email
   %tr
     %td.sale_item_wrapper{colspan: '2'}
       %table.table.table-striped.sale_items
@@ -67,9 +61,16 @@
         %tr.total
           %td.numeric{colspan: '4'}= t(:vat)
           %td.numeric= as_sek(@sale.total_vat)
-        %tr.total.strong
-          %td.numeric{colspan: '4'}= "#{t(:total)}"
+        %tr.total
+          %td.numeric{colspan: '4'}= "#{t(:total)} inc #{t(:vat)}"
           %td.numeric= as_sek(@sale.total_price_inc_vat)
+        %tr.total
+          %td.numeric{colspan: '4'}= "#{t(:rounding)}"
+          %td.numeric= as_sek(@sale.total_rounding)
+        %tr.total.strong
+          %td.numeric{colspan: '4'}= "#{t(:total)} #{t(:sum)}"
+          %td.numeric= as_sek(@sale.total_after_rounding)
+
 
   %tr.address
     %td.address-inner{colspan: 2}
