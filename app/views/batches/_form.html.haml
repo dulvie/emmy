@@ -24,8 +24,7 @@
         .labels_width.control-label
           = f.label :distributor_price
         .fields_width
-          %input{id: 'distributor_price_edit', type: 'number', class: 'form-control numeric', value: 0}
-
+          %input{id: 'distributor_price_edit', type: 'number', ng_Blur: 'calc_distributor()', class: 'form-control numeric', value: 0}
       - if !@batch.new_record?
         = f.input :distributor_inc_vat, input_html: {class: 'numeric', disabled: true}
 
@@ -34,7 +33,7 @@
         .labels_width.control-label
           = f.label :retail_price
         .fields_width
-          %input{id: 'retail_price_edit', type: 'number', class: 'form-control numeric', value: 0}
+          %input{id: 'retail_price_edit', type: 'number', ng_Blur: 'calc_retail()', class: 'form-control numeric', value: 0}
       - if !@batch.new_record?
         = f.input :retail_inc_vat, input_html: {class: 'numeric', disabled: true}
 

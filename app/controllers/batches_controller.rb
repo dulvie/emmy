@@ -60,7 +60,7 @@ class BatchesController < ApplicationController
 
   def init_new
     @items = current_organization.items.where('stocked=?', 'true')
-    gon.push items: @items
+    gon.push items: ActiveModel::ArraySerializer.new(@items, each_serializer: ItemSerializer)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

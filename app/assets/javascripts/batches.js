@@ -1,9 +1,7 @@
 app.controller('batch_form_ctrl', function ($scope, price) {
 
-
-
 	$scope.init = function() {
-	
+	 var item = {};
 		$scope.refined = true;
 		$scope.sales = true;
 		$scope.item_id = $('#batch_item_id').val();
@@ -32,11 +30,25 @@ app.controller('batch_form_ctrl', function ($scope, price) {
 		$scope.re_open = true;
 	};
 
+  $scope.calc_retail = function() {
+    var price = Number($('#retail_price_edit').val());
+    var moms = Number(price * item.vat_add_factor);
+    var ink_moms = (price + moms).toFixed(2);
+    $('#batch_retail_inc_vat').val(ink_moms);
+  };
+  $scope.calc_distributor = function() {
+    var price = Number($('#distributor_price_edit').val());
+    var moms = Number(price * item.vat_add_factor);
+    var ink_moms = (price + moms).toFixed(2);
+    $('#batch_distributor_inc_vat').val(ink_moms);
+  };
+
 	$scope.select_item = function(default_price) {
 		$scope.refined = true;
 		$scope.sales = true;
 		for (x=0; x < gon.items.length; x++) {
 			if (gon.items[x].id == $scope.item_id) {
+			  item = gon.items[x];
 				if (default_price) {
 					$('#batch_distributor_price').val(gon.items[x].distributor_price);
 					$('#batch_retail_price').val(gon.items[x].retail_price);
