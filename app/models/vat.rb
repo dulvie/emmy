@@ -32,4 +32,8 @@ class Vat < ActiveRecord::Base
   def vat_sub(amount)
     amount * sub_factor
   end
+
+  def to_s
+    name
+  end
 end

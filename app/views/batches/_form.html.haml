@@ -10,6 +10,7 @@
 
     = f.input :name, hint: (@production) ? link_to("#{t(:roasting)}", edit_production_path(@production.id)) : ''
     = f.input :comment
+    = f.input :vat, disabled: true
     = f.input :in_price, as: :hidden
     .form-group
       .labels_width.control-label
