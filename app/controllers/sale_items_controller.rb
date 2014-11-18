@@ -7,7 +7,6 @@ class SaleItemsController < ApplicationController
 
   def new
     @warehouses = current_organization.warehouses
-    @vat = current_organization.vats
   end
 
   def create
@@ -60,7 +59,7 @@ class SaleItemsController < ApplicationController
     if @products.size > 0
       @products.select { |p| p.value.eql?(@selected_product) }.first.selected = true
     end
-
+    @vat = current_organization.vats
     gon.push products: @products
   end
 
