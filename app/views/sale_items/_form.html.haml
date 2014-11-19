@@ -30,7 +30,8 @@
     .labels_width.control-label
       = f.label :price
     .fields_width
-      %input{id: 'price_edit', type: 'number', class: 'form-control numeric', value: 0}
+      %input{id: 'price_edit', type: 'number', ng_blur: 'calc_vat_price()', class: 'form-control numeric', value: 0}
+  = f.input :price_with_vat, input_html: {class: 'numeric', disabled: true, value: '{{price_with_vat}}'}
 
   .form-button-group
     .actions

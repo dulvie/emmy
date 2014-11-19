@@ -35,6 +35,10 @@ class Batch < ActiveRecord::Base
   def retail_inc_vat
     (retail_price + retail_price * vat.add_factor)/100
   end
+  
+  def vat_add_factor
+    vat.add_factor
+  end
 
   def can_delete?
     return false if organization.shelves.where('batch_id' => id).size > 0

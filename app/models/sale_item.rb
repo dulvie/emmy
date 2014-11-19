@@ -27,6 +27,9 @@ class SaleItem < ActiveRecord::Base
   validates :vat, presence: true
   validates :name, presence: true, if: :text_row?
 
+  def price_with_vat
+  end
+
   def text_row?
     return false if !self.item.nil?
     true

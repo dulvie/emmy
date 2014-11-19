@@ -41,6 +41,9 @@ class Shelf < ActiveRecord::Base
                 available_quantity: quantity,
                 distributor_price: batch.distributor_price,
                 retail_price: batch.retail_price,
+                distributor_inc_vat: batch.distributor_inc_vat,
+                retail_inc_vat: batch.retail_inc_vat,
+                vat_add_factor: batch.vat_add_factor,
                 stocked: true)
   end
 end

@@ -34,6 +34,16 @@ class Item < ActiveRecord::Base
   validates :item_type, inclusion: { in: TYPES }
   validates :item_group, inclusion: { in: GROUPS }
 
+  def distributor_inc_vat
+    return 0 if !distributor_price
+    (distributor_price + distributor_price * vat.add_factor)/100
+  end
+
+  def retail_inc_vat
+    return 0 if !retail_price
+    (retail_price + retail_price * vat.add_factor)/100
+  end
+
   def vat_add_factor
     vat.add_factor
   end
@@ -50,6 +60,9 @@ class Item < ActiveRecord::Base
                 available_quantity: 1,
                 distributor_price: distributor_price,
                 retail_price: retail_price,
+                distributor_inc_vat: distributor_inc_vat,
+                retail_inc_vat: retail_inc_vat,
+                vat_add_factor: vat_add_factor,
                 stocked: false)
   end
 end
