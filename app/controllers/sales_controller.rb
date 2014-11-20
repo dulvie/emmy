@@ -25,6 +25,10 @@ class SalesController < ApplicationController
 
     @sales = @sales.order 'approved_at desc'
     @sales = @sales.page(params[:page]).decorate
+    respond_to do |format|
+      format.csv
+      format.html
+    end
   end
 
   def new

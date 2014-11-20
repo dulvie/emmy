@@ -1,0 +1,21 @@
+<%
+require 'csv'
+csv_string = CSV.generate do |csv|
+  csv << [t(:invoice_number),
+          t(:paid_at), nil,
+          "#{t(:total)} #{t(:vat)}", nil,
+          t(:total), nil, nil,
+          "#{t(:total)} #{t(:price_inc_vat)}", nil, nil,
+          t(:customer)]
+
+  @sales.each do |s|
+    csv << [s.invoice_number,
+          (s.paid_at.blank?) ? nil : s.paid_at, nil,
+          (s.total_vat / 100.0).round(2), nil,
+          (s.total_price / 100.0).round(2), nil, nil,
+          (s.total_after_rounding / 100.0).round, nil, nil,
+          s.customer.name]
+  end
+  csv
+end
+%><%= csv_string %>
