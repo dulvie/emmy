@@ -98,7 +98,7 @@ class SalesController < ApplicationController
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [[t(:sales), sales_path], ["##{@sale.id}"]]
+    @breadcrumbs = [[t(:sales), sales_path], ["##{@sale.invoice_number}"]]
   end
 
   def state_param
