@@ -26,6 +26,12 @@
     $ apt-get install libicu48 libicu-dev wkhtmltopdf
   (wkhtmltopdf needs xvfb-run as well, you can use bin/wkhtmltopdf-local)
 
+  See dot_env.sample for needed env configuration
+    $ cp dot_env.sample .env
+    $ cp dot_env.sample .env.test
+  and edit the .env and .env.test accordingly.
+  Foreman will pick up env from .env.
+  The cucu shell script will use .env.test.
 
 ## Gems
   All needed gems should be installed with
