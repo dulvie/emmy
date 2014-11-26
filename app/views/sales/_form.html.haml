@@ -23,7 +23,7 @@
     = render partial: 'shared/state_labels_field', locals: {model: @sale}
 
   - if !@sale.can_delete?
-    = f.input :approved_at,  disabled: true, as: :string, input_html: {value: f.object.approved_at, class: 'date'} 
+    = f.input :approved_at,  disabled: true, as: :string, input_html: {value: f.object.approved_at, class: 'date'}
   - if @sale.delivered?
     = f.input :delivered_at,  disabled: true, as: :string, input_html: {value: f.object.delivered_at, class: 'date'}
   - if @sale.paid?
