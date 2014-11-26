@@ -7,6 +7,10 @@ WORKER_PROCESSES = ENV['UNICORN_WORKER_PROCESSES'] || "1"
 PORT             = ENV['UNICORN_PORT'] || "3000"
 UNICORN_LOG      = ENV['UNICORN_LOG'] || "#{root_dir}/log/unicorn.log"
 
+puts "Booting unicorn"
+['UNICORN_PORT','UNICORN_PID','UNICORN_LOG','UNICORN_WORKER_PROCESSES'].each do |k|
+  puts "env[#{k}]: #{ENV[k]}"
+end
 worker_processes WORKER_PROCESSES.to_i
 listen PORT.to_i
 pid PIDFILE
