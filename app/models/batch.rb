@@ -29,10 +29,12 @@ class Batch < ActiveRecord::Base
   validates :item, presence: true
 
   def distributor_inc_vat
+    return 0 if !distributor_price || !vat
     (distributor_price + distributor_price * vat.add_factor)/100
   end
 
   def retail_inc_vat
+    return 0 if !retail_price || !vat
     (retail_price + retail_price * vat.add_factor)/100
   end
   
