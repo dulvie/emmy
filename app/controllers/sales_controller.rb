@@ -22,11 +22,13 @@ class SalesController < ApplicationController
 
   def index
     @breadcrumbs = [[t(:sales)]]
-
     @sales = @sales.order 'approved_at desc'
     @sales = @sales.page(params[:page]).decorate
     respond_to do |format|
       format.csv
+      format.pdf do
+        render(pdf: 'invoices', template: 'sales/index.pdf.haml', layout: 'pdf')
+      end
       format.html
     end
   end
@@ -122,13 +124,19 @@ class SalesController < ApplicationController
     search_params.each do |key, value|
       @sales = @sales.where(key => value) if value
     end
+
     if search_params[:invoice_number] && @sales.size == 1
       redirect_to sale_path(@sales.first)
     end
+
+    add_date_constraint(:newer_than) unless params[:newer_than].blank?
+    add_date_constraint(:older_than) unless params[:older_than].blank?
+
+    # Uses a named scope.
     @sales = @sales.send(state_param.to_sym) if state_param
   end
 
-  # create a hash with all the keys, set value to nil unless exist in params.
+  # Create a hash with all the keys, set value to nil unless exist in params.
   def search_params
     unless @search_params
       @search_params = {}.with_indifferent_access
@@ -137,5 +145,17 @@ class SalesController < ApplicationController
       end
     end
     @search_params
+  end
+
+  def add_date_constraint(direction)
+    d = (direction.eql? :newer_than) ? '>' : '<'
+    @sales = @sales.where("approved_at #{d} ?", date_param(direction))
+  end
+
+  # Only allow numers and - as date params.
+  # Return the passed year/month the first in that month.
+  def date_param(direction)
+    return "#{params[direction]}-01" if params[direction].match(/^[0-9]{4}-[0-9]{2}$/)
+    fail ArgumentError
   end
 end

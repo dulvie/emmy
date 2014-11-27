@@ -94,4 +94,14 @@ module ApplicationHelper
       str
     end
   end
+
+  def months_list
+    a = []
+    (2011..Time.now.year).each do |year|
+      (1..12).each do |month|
+        a << [sprintf('%d %02d', year, month), sprintf('%d-%02d', year, month)]
+      end
+    end
+    a.reverse
+  end
 end

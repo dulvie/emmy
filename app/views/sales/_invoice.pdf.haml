@@ -1,0 +1,95 @@
+- customer = sale.customer.decorate
+%table.wrapper
+  %tr
+    %td{colspan: '2'}
+      .pull-left
+        %h1= t(:invoice)
+      .pull-right
+        %h1= sale.organization.name
+  %tr
+    %td
+      %h3
+        = t(:invoice_number)
+        %small= "(#{t(:reference)})"
+      .line= sale.invoice_number
+    %td
+      %h3= t(:the_date)
+      .line= sale.approved_at
+  %tr
+    %td.padding-top-bottom
+      %h3= t(:payment_term)
+      .line= "#{t(:due_date)} #{sale.due_date}"
+      .line= t(:payment_term_text)
+    %td.padding-top-bottom
+      %h3= t(:buyer)
+      %address
+        - customer.address_lines.each do |line|
+          .line= line
+  %tr.pre_sale_items
+    %td{width: '50%'}
+      %h3= t(:our_reference)
+      .line= sale.user_name
+      .line= sale.user_email
+    %td
+      %h3= t(:your_reference)
+      .line= sale.contact_name
+      .line= sale.contact_email
+  %tr
+    %td.sale_item_wrapper{colspan: '2'}
+      %table.table.table-striped.sale_items
+        %tr
+          %th.main= t(:item)
+          %th= t(:quantity)
+          %th.numeric= t(:price)
+          %th.numeric= t(:vat)
+          %th.numeric= t(:amount)
+
+        - sale.sale_items.each do |item|
+          - item = item.decorate
+          %tr
+            %td= item.desc
+            %td= item.quantity
+            %td.numeric= as_sek(item.price, '')
+            %td.numeric
+              = "(#{item.vat}%) "
+              = as_sek(item.total_vat, '')
+            %td.numeric= as_sek(item.price_sum, '')
+        %tr
+          %td.filler &nbsp;
+        %tr.total
+          %td.numeric{colspan: '4'}= "#{t(:total)} ex #{t(:vat)}"
+          %td.numeric= as_sek(sale.total_price)
+        %tr.total
+          %td.numeric{colspan: '4'}= t(:vat)
+          %td.numeric= as_sek(sale.total_vat)
+        %tr.total
+          %td.numeric{colspan: '4'}= "#{t(:total)} #{t(:price_inc_vat)}"
+          %td.numeric= as_sek(sale.total_price_inc_vat)
+        %tr.total
+          %td.numeric{colspan: '4'}= "#{t(:rounding)}"
+          %td.numeric= as_sek(sale.total_rounding)
+        %tr.total.strong
+          %td.numeric{colspan: '4'}= "#{t(:total)} #{t(:sum)}"
+          %td.numeric= as_sek(sale.total_after_rounding)
+
+
+  %tr.address
+    %td.address-inner{colspan: 2}
+      %table.table.address-and-numbers
+        %tr
+          %td
+            .line
+              %strong= "#{t(:email)}:"
+              ="#{sale.organization.email}"
+            %strong.line= "#{t(:address)}:"
+            .line= sale.organization.name
+            .line= sale.organization.address
+            .line= "#{sale.organization.zip} #{sale.organization.city}"
+          %td
+            %table.numbers.table.pull-right
+              - [:vat_number, :bankgiro, :plusgiro, :postgiro].each do |n|
+                - unless sale.organization.send(n).blank?
+                  %tr
+                    %td.main-cell
+                      %strong= "#{t(n)}: "
+                    %td= sale.organization.send(n)

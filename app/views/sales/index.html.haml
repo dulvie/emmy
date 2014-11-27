@@ -4,6 +4,16 @@
   .col-sm-40.col-md-40.pull-right.text-right
     = form_tag sales_path, class: 'form-inline submit-on-change', method: :get do
 
+      = select_tag(:newer_than,
+        options_for_select(months_list, params[:newer_than]),
+        class: 'btn btn-default',
+        prompt: "#{t(:filter)} #{t(:newer_than)}: #{t(:all)}")
+
+      = select_tag(:older_than,
+        options_for_select(months_list, params[:older_than]),
+        class: 'btn btn-default',
+        prompt: "#{t(:filter)} #{t(:older_than)}: #{t(:all)}")
+
       = select_tag(:state,
         options_for_select(Sale::FILTER_STAGES.each.collect{|s| [t(s), s]}, params[:state]),
         class: 'btn btn-default',
@@ -68,6 +78,7 @@
   .row
     .col-md-48
       = link_to "csv", url_for(params: params.merge(format: 'csv')), class: 'btn btn-default'
+      = link_to "pdf", url_for(params: params.merge(format: 'pdf')), class: 'btn btn-default'
   %br
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
 
