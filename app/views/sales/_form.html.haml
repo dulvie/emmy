@@ -26,6 +26,8 @@
     = f.input :approved_at,  disabled: true, as: :string, input_html: {value: f.object.approved_at, class: 'date'}
   - if @sale.delivered?
     = f.input :delivered_at,  disabled: true, as: :string, input_html: {value: f.object.delivered_at, class: 'date'}
+  - if @sale.canceled?
+    = f.input :canceled_at,  disabled: true, as: :string, input_html: {value: f.object.canceled_at, class: 'date'}
   - if @sale.paid?
     = f.input :paid_at,  disabled: true, as: :string, input_html: {value: f.object.paid_at, class: 'date'}
 

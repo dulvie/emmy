@@ -11,7 +11,7 @@
           = t(:ordered)
         = render partial: 'shared/modal_state_change', locals: {idx: 'salesContent', model: @sale, form_path: state_change_sale_path(@sale), event: 'mark_prepared', return_path: sale_path(@sale)}
 
-      - else
+      - elsif !@sale.canceled?
         - if !@sale.delivered?
           %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','goodsContent' )"}
             = t(:delivered)
@@ -27,3 +27,6 @@
               class: 'btn btn-primary',
               method: 'post',
               data: {confirm: t(:send_email_to_customer)}
+          %button{:class=>'btn btn-default', :ng_click=>"open($event, 'sm','salesContent' )"}
+            = t(:cancel)
+          = render partial: 'shared/modal_state_change', locals: {idx: 'salesContent', model: @sale, form_path: state_change_sale_path(@sale), event: 'mark_canceled', return_path: sale_path(@sale)}

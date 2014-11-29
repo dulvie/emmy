@@ -6,6 +6,8 @@ class Sale < ActiveRecord::Base
   # t.string :contact_email
   # t.string :contact_name
   # t.integer :payment_term
+  # t.boolean :credit
+  # t.integer :credit_reference
 
   # t.string :state
   # t.string :goods_state
@@ -13,17 +15,18 @@ class Sale < ActiveRecord::Base
   # t.timestamp :approved_at
   # t.timestamp :delivered_at
   # t.timestamp :paid_at
+  # t.timestamp :canceled_at
   # t.timestamp :sent_email_at
   # t.integer :invoice_number
   # t.datetime :due_date
 
   STATE_CHANGES = [
-    :mark_prepared, :mark_complete, # Generic state
+    :mark_prepared, :mark_complete, :mark_canceled, # Generic state
     :deliver, # Goods
     :pay,     # Money
   ]
 
-  FILTER_STAGES=[:meta_complete, :prepared, :not_delivered, :not_paid]
+  FILTER_STAGES=[:meta_complete, :prepared, :cancel, :not_delivered, :not_paid]
   FILTER_STAGES.each do |state|
     case state
     when :not_delivered
@@ -64,8 +67,10 @@ class Sale < ActiveRecord::Base
     case state
     when 'meta_complete'
       :mark_prepared
-    when 'prepared' || 'completed'
-      nil
+    when 'prepared'
+      :mark_canceled
+    when 'canceled' || 'completed'
+      nil  
     else
       fail "Unknown state#{state} of sale#{id}"
     end
@@ -74,9 +79,16 @@ class Sale < ActiveRecord::Base
   state_machine :state, initial: :meta_complete do
     before_transition on: :mark_prepared, do:  :prepare_sale
     after_transition on: :mark_prepared, do: :generate_invoice
+    before_transition on: :mark_canceled, do:  :cancel_sale
+    after_transition on: :mark_canceled, do: :create_reverse_transactions
+    after_transition on: :mark_canceled, do: :generate_invoice
 
     event :mark_prepared do
       transition meta_complete: :prepared
+    end
+
+    event :mark_canceled do
+      transition prepared: :canceled
     end
 
     event :mark_complete do
@@ -88,6 +100,12 @@ class Sale < ActiveRecord::Base
     self.approved_at = transition.args[0]
     self.approved_at ||= Time.now
     self.due_date = self.approved_at + payment_term.days
+  end
+
+  def cancel_sale(transition)
+    self.canceled_at = transition.args[0]
+    self.canceled_at ||= Time.now
+    
   end
 
   # @todo refactor this into a job instead.
@@ -143,6 +161,19 @@ class Sale < ActiveRecord::Base
     end
   end
 
+  def create_reverse_transactions
+    return if goods_state.eql? 'not_delivered'
+    sale_items.each do |sale_item|
+      batch_transaction = BatchTransaction.new(
+          parent: self,
+          warehouse: warehouse,
+          batch: sale_item.batch,
+          quantity: sale_item.quantity * 1)
+      batch_transaction.organization_id = organization_id
+      batch_transaction.save
+    end
+  end
+
   state_machine :money_state, initial: :not_paid do
     before_transition on: :pay, do:  :pay_sale
     after_transition not_paid: :paid, do: :check_for_completeness
@@ -166,7 +197,7 @@ class Sale < ActiveRecord::Base
   end
 
   def can_delete?
-    return false if ['completed', 'prepared'].include? state
+    return false if ['completed', 'canceled', 'prepared'].include? state
     true
   end
 
@@ -180,6 +211,10 @@ class Sale < ActiveRecord::Base
 
   def paid?
     money_state.eql? 'paid'
+  end
+
+  def canceled?
+    state.eql? 'canceled'
   end
 
   # Summarize methods.

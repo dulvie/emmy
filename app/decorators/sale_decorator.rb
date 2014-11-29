@@ -26,6 +26,11 @@ class SaleDecorator < Draper::Decorator
     ""
   end
 
+  def canceled_at
+    return l(object.canceled_at, format: "%Y-%m-%d") if object.canceled_at
+    ""
+  end
+
   def states
     [pretty_state, pretty_goods_state, pretty_money_state]
   end
@@ -45,6 +50,9 @@ class SaleDecorator < Draper::Decorator
     when 'completed'
       l = 'success'
       str = h.t(:completed)
+    when 'canceled'
+      l = 'success'
+      str = h.t(:canceled)
     end
     h.labelify(str, l)
   end

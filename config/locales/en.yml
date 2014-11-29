@@ -48,6 +48,8 @@ en:
   back: "Back"
   base_information: "Base information"
   buyer: "Buyer"
+  cancel: "Cancel"
+  canceled: "Canceled"
   cant_be_changed_after_marked_complete: "Can't be changed after marked complete"
   change_your_password: "Change your password"
   city: "City"

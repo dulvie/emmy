@@ -2,11 +2,13 @@ se:
   simple_form:
     labels:
       defaults:
+        approved_at: "Godkänd"
         address: "Adress"
         availible: "Tillgängligt"
         batch: "Sats"
         batch_id: "Sats"
         body: "Text"
+        canceled_at: "Makulerad"
         city: "Stad"
         comment: "Kommentar"
         completed_at: "Färdig"
