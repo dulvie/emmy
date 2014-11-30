@@ -1,4 +1,8 @@
 - customer = sale.customer.decorate
+- if sale.canceled?
+  .watermark
+    =t(:canceled_invoice_mark)
+
 %table.wrapper
   %tr
     %td{colspan: '2'}
