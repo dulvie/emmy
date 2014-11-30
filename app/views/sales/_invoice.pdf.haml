@@ -41,40 +41,43 @@
   %tr
     %td.sale_item_wrapper{colspan: '2'}
       %table.table.table-striped.sale_items
-        %tr
-          %th.main= t(:item)
-          %th= t(:quantity)
-          %th.numeric= t(:price)
-          %th.numeric= t(:vat)
-          %th.numeric= t(:amount)
-
-        - sale.sale_items.each do |item|
-          - item = item.decorate
+        %thead
           %tr
-            %td= item.desc
-            %td= item.quantity
-            %td.numeric= as_sek(item.price, '')
-            %td.numeric
-              = "(#{item.vat}%) "
-              = as_sek(item.total_vat, '')
-            %td.numeric= as_sek(item.price_sum, '')
-        %tr
-          %td.filler &nbsp;
-        %tr.total
-          %td.numeric{colspan: '4'}= "#{t(:total)} ex #{t(:vat)}"
-          %td.numeric= as_sek(sale.total_price)
-        %tr.total
-          %td.numeric{colspan: '4'}= t(:vat)
-          %td.numeric= as_sek(sale.total_vat)
-        %tr.total
-          %td.numeric{colspan: '4'}= "#{t(:total)} #{t(:price_inc_vat)}"
-          %td.numeric= as_sek(sale.total_price_inc_vat)
-        %tr.total
-          %td.numeric{colspan: '4'}= "#{t(:rounding)}"
-          %td.numeric= as_sek(sale.total_rounding)
-        %tr.total.strong
-          %td.numeric{colspan: '4'}= "#{t(:total)} #{t(:sum)}"
-          %td.numeric= as_sek(sale.total_after_rounding)
+            %th.main= t(:item)
+            %th= t(:quantity)
+            %th.numeric= t(:price)
+            %th.numeric= t(:vat)
+            %th.numeric= t(:amount)
+
+        %tbody
+          - sale.sale_items.each do |item|
+            - item = item.decorate
+            %tr
+              %td= item.desc
+              %td= item.quantity
+              %td.numeric= as_sek(item.price, '')
+              %td.numeric
+                = "(#{item.vat}%) "
+                = as_sek(item.total_vat, '')
+              %td.numeric= as_sek(item.price_sum, '')
+          %tr.filler
+            %td{colspan: '5'} &nbsp;
+        %tfoot
+          %tr.total
+            %td.numeric{colspan: '4'}= "#{t(:total)} ex #{t(:vat)}"
+            %td.numeric= as_sek(sale.total_price)
+          %tr.total
+            %td.numeric{colspan: '4'}= t(:vat)
+            %td.numeric= as_sek(sale.total_vat)
+          %tr.total
+            %td.numeric{colspan: '4'}= "#{t(:total)} #{t(:price_inc_vat)}"
+            %td.numeric= as_sek(sale.total_price_inc_vat)
+          %tr.total
+            %td.numeric{colspan: '4'}= "#{t(:rounding)}"
+            %td.numeric= as_sek(sale.total_rounding)
+          %tr.total.strong
+            %td.numeric{colspan: '4'}= "#{t(:total)} #{t(:sum)}"
+            %td.numeric= as_sek(sale.total_after_rounding)
 
 
   %tr.address
