@@ -50,6 +50,7 @@ en:
   buyer: "Buyer"
   cancel: "Cancel"
   canceled: "Canceled"
+  canceled_invoice_mark: "Invoice canceled"
   cant_be_changed_after_marked_complete: "Can't be changed after marked complete"
   change_your_password: "Change your password"
   city: "City"

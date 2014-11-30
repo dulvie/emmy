@@ -29,6 +29,7 @@ se:
   buyer: "Köpare"
   cancel: "Makulera"
   canceled: "Makulerad"
+  canceled_invoice_mark: "Fakturan makulerad"
   cant_be_changed_after_marked_complete: "Kan inte ändras efter den blivit markerad som komplett"
   change_your_password: "Ändra ditt lösenord"
   city: "Ort"
