@@ -64,7 +64,7 @@
               = s
           %td
             - if sale.has_document?
-              = link_to doc_icon, sale.document_url, target: '_blank'
+              = link_to doc_icon, sale_path(sale, format: 'pdf'), target: '_blank'
             - if sale.prepared?
               - unless sale.invoice_sent?
                 = link_to envelope_icon,
