@@ -33,6 +33,7 @@ se:
         materials: "Material"
         name: "Namn"
         our_reference: "Vår referens"
+        paid_at: "Betalad"
         payment_term: "Betalningsvilkor"
         price: "Pris"
         product: "Produkt"
