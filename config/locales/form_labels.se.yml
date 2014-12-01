@@ -19,6 +19,7 @@ se:
         country: "Land"
         customer: "Kund"
         customs: "Tull"
+        delivered_at: "Levererad"
         description: "Beskrivning"
         distributor_price: "Återförsäljarpris"
         distributor_inc_vat: "Åfpris. ink moms"
