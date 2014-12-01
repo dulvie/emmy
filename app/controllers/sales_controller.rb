@@ -43,9 +43,17 @@ class SalesController < ApplicationController
     respond_to do |format|
       format.html { @warehouses = current_organization.warehouses }
       format.pdf do
-        render(pdf: "invoice_#{@sale.id}",
-               template: 'sales/show.pdf.haml',
-               layout: 'pdf')
+        if params.has_key?('regenerate')
+          render(pdf: "invoice_#{@sale.invoice_number}",
+                 template: 'sales/show.pdf.haml',
+                 layout: 'pdf')
+        elsif @sale.document.nil?
+          fail ArgumentError
+        else
+          send_file(@sale.document.upload.path,
+                    filename: "invoice_#{@sale.invoice_number}.pdf",
+                    type: 'application/pdf')
+        end
       end
     end
   end
