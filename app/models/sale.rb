@@ -6,8 +6,6 @@ class Sale < ActiveRecord::Base
   # t.string :contact_email
   # t.string :contact_name
   # t.integer :payment_term
-  # t.boolean :credit
-  # t.integer :credit_reference
 
   # t.string :state
   # t.string :goods_state
