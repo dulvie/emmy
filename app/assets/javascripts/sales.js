@@ -33,6 +33,7 @@ app.controller('sales_new_ctrl', function ($scope, ajaxService) {
 	    $('#sale_customer_id').val(item.id);
 	    for (var i = 0; i < $scope.customer.length; i++) {
 	    	if ($scope.customer[i].id == item.id) {
+	    	  $('#sale_contact_email').val($scope.customer[i].email);
 	    		$scope.reference = $scope.customer[i].contacts;
 	    		$scope.set_contact($scope.customer[i]);
 	    		$('#sale_payment_term').val($scope.customer[i].payment_term);
