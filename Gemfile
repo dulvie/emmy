@@ -53,6 +53,7 @@ gem 'country_select'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
 gem 'paperclip'
+gem 'exception_notification', '~> 4.0'
 
 group :test, :development do
   gem 'byebug'
