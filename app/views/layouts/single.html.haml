@@ -1,0 +1,21 @@
+!!! 5
+%html
+  %head
+    %title Emmy
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tags
+    %meta{:name=>"viewport", :content=>"width=device-width", 'initial-scale'=>"1"}
+  %body
+    = include_gon
+    .page-wrapper
+      .row-fluid
+        = render partial: 'shared/top_bar'
+      .row-fluid.row-offcanvas.row-offcanvas-left.sidebar-wrapper
+        #page-content.col-xs-48.col-sm-38.col-md-40
+          = render partial: 'shared/notifications'
+          = render(partial: 'shared/breadcrumb') if @breadcrumbs
+          = yield
+      .foot-pusher
+        &nbsp;
+    = render partial: 'shared/footer'
