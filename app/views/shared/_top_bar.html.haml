@@ -1,0 +1,17 @@
+.navbar.navbar-inverse.top-bar
+  .container-fluid
+    .navbar-header
+      .navbar-toggle.visible-xs.sidebar-button-wrapper
+        %button.sidebar-button{'data-toggle' => 'offcanvas'}
+          = list_icon
+      =link_to 'Emmy', root_path, class: 'navbar-brand'
+    %ul.nav.navbar-nav.navbar-right
+      %li.dropdown
+        %a.dropdown-toggle{'href' => '#'}
+          = current_user.name
+          = user_icon
+        %ul.dropdown-menu
+          - if current_user.superadmin?
+            %li=link_to t(:admin), admin_dashboard_path
+          %li=link_to t(:profile), profile_path
+          %li=link_to t(:sign_out), destroy_user_session_path, method: :delete

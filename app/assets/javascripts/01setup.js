@@ -8,6 +8,14 @@ var Setup = {
     this.popover();
     this.submitFormOnSelectChange();
     //this.datepicker();
+    this.offcanvasButton();
+  },
+
+  offcanvasButton: function()
+  {
+    $('[data-toggle="offcanvas"]').click(function () {
+      $('.row-offcanvas').toggleClass('active')
+    });
   },
 
   popover: function()
