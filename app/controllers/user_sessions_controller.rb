@@ -1,4 +1,5 @@
 class UserSessionsController < Devise::SessionsController
+  layout "single"
 
   def create
     super do |resource|

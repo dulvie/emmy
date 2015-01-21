@@ -18,7 +18,7 @@ h1,h2,h3,h4,h5,input,textarea,select,a,button,label,thead, .panel-heading, .cont
 /* This is here because the footer hack fails when window is verry small. */
 /* and we can't set body-bg to breadcrumb-bg in the variables file. */
 body {
-  background: $breadcrumb-bg;
+  background: darken($sidebar-bg, 20%); // same as navigation/footer
 }
 
 .single-center {
@@ -184,6 +184,9 @@ form.form-changepassword {
     line-height: $line-height-base;
     margin:0 !important;
   }
+  .navbar-nav {
+    margin: 0;
+  }
   .navbar-nav > li a {
     padding: 6px 15px;
   }
@@ -220,7 +223,6 @@ footer {
   color: $sidebar-color;
   .footer-inner {
     min-height: 2.5em;
-    background: $breadcrumb-bg;
     background: darken($sidebar-bg, 20%);
   }
   ul {
