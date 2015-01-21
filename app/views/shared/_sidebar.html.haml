@@ -1,0 +1,47 @@
+%ul.nav.nav-sidebar.list-group{id: 'sidebar-menu'}
+  - if user_signed_in?
+    %li.dropdown
+      %a.dropdown-toggle{'href' => '#'}
+        = t(:general)
+        -#%b.caret
+      %ul.dropdown-menu
+        = nav_link t(:organization_selector), organization_selector_path
+        - if current_organization
+          = nav_link t(:organization), organization_path
+          = nav_link t(:users), users_path
+          = nav_link t(:contacts), contacts_path
+          - path_to_comment = comments_path
+          = nav_link t(:comments), path_to_comment
+          = nav_link t(:warehouses), warehouses_path
+          = nav_link t(:items), items_path
+          = nav_link t(:batches), batches_path
+          = nav_link t(:units), units_path
+          = nav_link t(:vats), vats_path
+          = nav_link t(:inventories), inventories_path
+    - if current_organization
+      %li.dropdown
+        %a.dropdown-toggle{'href' => '#'}
+          = t(:purchase)
+          -#%b.caret
+        %ul.dropdown-menu
+          = nav_link t(:suppliers), suppliers_path
+          = nav_link t(:purchases), purchases_path
+          = nav_link t(:imports), imports_path
+          = nav_link t(:roasting), productions_path
+      %li.dropdown
+        %a.dropdown-toggle{'href' => '#'}
+          = t(:transfers)
+          -#%b.caret
+        %ul.dropdown-menu
+          = nav_link t(:manual_transactions), manuals_path
+          = nav_link t(:transfers), transfers_path
+      %li.dropdown
+        %a.dropdown-toggle{'href' => '#'}
+          = t(:sale)
+          -#%b.caret
+        %ul.dropdown-menu
+          = nav_link t(:customers), customers_path
+          = nav_link t(:sales), sales_path
+      = nav_link t(:statistics), statistics_index_path
+  - else
+    %li= link_to t(:sign_in), new_user_session_path

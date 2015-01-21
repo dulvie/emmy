@@ -257,3 +257,6 @@ Devise.setup do |config|
   # added by user to avoid deprecated warning
   I18n.enforce_available_locales = false
 end
+Rails.application.config.to_prepare do
+  Devise::PasswordsController.layout "single"
+end

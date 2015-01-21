@@ -12,8 +12,6 @@
       .row-fluid
         = render partial: 'shared/top_bar'
       .row-fluid.row-offcanvas.row-offcanvas-left.sidebar-wrapper
-        #sidebar.col-xs-48.col-sm-10.col-md-8.sidebar-offcanvas
-          = render partial: 'shared/sidebar'
         #page-content.col-xs-48.col-sm-38.col-md-40
           = render partial: 'shared/notifications'
           = render(partial: 'shared/breadcrumb') if @breadcrumbs
