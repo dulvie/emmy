@@ -66,6 +66,10 @@ module ApplicationHelper
     "<i class=\"glyphicon glyphicon-envelope envelope_icon\"> </i>".html_safe
   end
 
+  def user_icon
+    glyphicon('user', 'refresh-user')
+  end
+
   def glyphicon(icon_name, extra_css_classes = '')
     class_string = "glyphicon glyphicon-#{icon_name} #{extra_css_classes}"
     content_tag(:i, ' ', class: class_string)
