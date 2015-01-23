@@ -37,6 +37,13 @@ Emmy::Application.routes.draw do
   patch ':organization_slug', to: 'organizations#update'
   scope ':organization_slug' do
     get "dashboard", to: "dashboard#index"
+
+    post 'accounting_plan_import', to: 'accounting_plans#import', as: 'accounting_plan_import'
+    resources :accounting_plans do
+      resources :accounting_groups
+      resources :accounting_classes
+      resources :accounts
+    end
     resources :batches
     resources :comments
     resources :contact_relations
@@ -57,6 +64,7 @@ Emmy::Application.routes.draw do
         post 'create_purchase', as: :create_pruchase
       end
     end
+    resources :ink_codes
     resources :inventories do
       resources :inventory_items
       member do
@@ -95,6 +103,7 @@ Emmy::Application.routes.draw do
     get 'statistics/index'
     resources :shelves
     resources :suppliers
+    resources :tax_codes
     resources :transfers do
       member do
         post 'send_package', as: :send_package

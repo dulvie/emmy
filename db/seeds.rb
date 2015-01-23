@@ -279,5 +279,19 @@ rostsupp = Supplier.new(name: "AB Rosteri")
 rostsupp.organization = o
 rostsupp.save
 
+# Accounting plan ---------------------
+plan_bas = Services::AccountingPlanCreator.new(o, jtest)
+plan_bas.BAS_read_and_save
+bas = plan_bas.accounting_plan
+
+# Ink codes ---------------------------
+ink_code = Services::InkCodeCreator.new(o, jtest, bas)
+ink_code.read_and_save
+
+# Tax codes ---------------------------
+tax_code = Services::TaxCodeCreator.new(o, jtest, bas)
+tax_code.tax_codes_save
+tax_code.BAS_tax_code_update
+
 
 # @TODO create invoice(s)

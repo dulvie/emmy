@@ -11,10 +11,49 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141126133720) do
+ActiveRecord::Schema.define(version: 20141214111347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounting_classes", force: true do |t|
+    t.string   "number"
+    t.string   "name"
+    t.integer  "organization_id"
+    t.integer  "accounting_plan_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "accounting_groups", force: true do |t|
+    t.string   "number"
+    t.string   "name"
+    t.integer  "organization_id"
+    t.integer  "accounting_plan_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "accounting_plans", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "accounts", force: true do |t|
+    t.integer  "number"
+    t.string   "description"
+    t.integer  "organization_id"
+    t.integer  "accounting_plan_id"
+    t.integer  "accounting_class_id"
+    t.integer  "accounting_group_id"
+    t.integer  "tax_code_id"
+    t.integer  "ink_code_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "batch_transactions", force: true do |t|
     t.integer  "organization_id"
@@ -128,6 +167,16 @@ ActiveRecord::Schema.define(version: 20141126133720) do
     t.string   "state"
     t.datetime "started_at"
     t.datetime "completed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ink_codes", force: true do |t|
+    t.string   "code"
+    t.string   "text"
+    t.string   "sum_method"
+    t.string   "bas_accounts"
+    t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -330,6 +379,16 @@ ActiveRecord::Schema.define(version: 20141126133720) do
   end
 
   add_index "suppliers", ["name", "organization_id"], name: "index_suppliers_on_name_and_organization_id", unique: true, using: :btree
+
+  create_table "tax_codes", force: true do |t|
+    t.integer  "code"
+    t.string   "text"
+    t.string   "sum_method"
+    t.string   "code_type"
+    t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "transfers", force: true do |t|
     t.integer  "from_warehouse_id"
