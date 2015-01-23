@@ -33,6 +33,10 @@ class Ability
   end
 
   def staff_roles_for(oids)
+    can :manage, Account, organization_id: oids
+    can :manage, AccountingClass, organization_id: oids
+    can :manage, AccountingGroup, organization_id: oids
+    can :manage, AccountingPlan, organization_id: oids
     can :manage, Batch, organization_id: oids
     can :manage, Comment, organization_id: oids
     can :manage, Contact, organization_id: oids
@@ -41,6 +45,7 @@ class Ability
     can :manage, Document, organization_id: oids
     can :read, Organization, id: oids
     can :manage, Import, organization_id: oids
+    can :manage, InkCode, organization_id: oids
     can :manage, Inventory, organization_id: oids
     can :manage, InventoryItem, organization_id: oids
     can :manage, Item, organization_id: oids
@@ -54,6 +59,7 @@ class Ability
     can :manage, Shelf, organization_id: oids
     can :read,   Statistics::Report, organization_id: oids
     can :manage, Supplier, organization_id: oids
+    can :manage, TaxCode, organization_id: oids
     can :manage, Transfer, organization_id: oids
     can :manage, Unit, organization_id: oids
     can :manage, Vat, organization_id: oids

@@ -56,6 +56,14 @@
                 = nav_link t(:customers), customers_path
                 = nav_link t(:sales), sales_path
             = nav_link t(:statistics), statistics_index_path
+            %li.dropdown
+              %a.dropdown-toggle{'href' => '#'}
+                = t(:economics)
+                %b.caret
+              %ul.dropdown-menu
+                = nav_link t(:accounting_plans), customers_path
+                = nav_link t(:tax_codes), sales_path
+                = nav_link t(:ink_codes), sales_path
 
         %ul.nav.navbar-nav.navbar-right
           %li.dropdown

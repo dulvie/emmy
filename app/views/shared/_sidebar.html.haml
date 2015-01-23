@@ -43,5 +43,13 @@
           = nav_link t(:customers), customers_path
           = nav_link t(:sales), sales_path
       = nav_link t(:statistics), statistics_index_path
+      %li.dropdown
+        %a.dropdown-toggle{'href' => '#'}
+          = t(:economics)
+          -#%b.caret
+        %ul.dropdown-menu
+          = nav_link t(:accounting_plans), accounting_plans_path
+          = nav_link t(:tax_codes), tax_codes_path
+          = nav_link t(:ink_codes), ink_codes_path
   - else
     %li= link_to t(:sign_in), new_user_session_path
