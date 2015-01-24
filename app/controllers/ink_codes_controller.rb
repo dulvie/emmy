@@ -15,7 +15,6 @@ class InkCodesController < ApplicationController
 
   # GET /ink_codes/new
   def new
-    @accounting_periods = current_organization.accounting_periods.where('active = ?', true).order('id')
   end
 
   # GET /ink_codes/1
@@ -24,7 +23,6 @@ class InkCodesController < ApplicationController
 
   # GET /ink_code/1/edit
   def edit
-    #X @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
   end
 
   # POST /ink_codes
@@ -36,7 +34,6 @@ class InkCodesController < ApplicationController
       if @ink_code.save
         format.html { redirect_to ink_codes_url, notice: 'ink code period was successfully created.' }
       else
-        @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:ink_code)}"
         format.html { render action: 'new' }
       end
@@ -50,7 +47,6 @@ class InkCodesController < ApplicationController
       if @ink_code.update(ink_code_params)
         format.html { redirect_to ink_codes_url, notice: 'ink code period was successfully updated.' }
       else
-        @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:ink_code)}"
         format.html { render action: 'show' }
       end

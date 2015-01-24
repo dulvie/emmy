@@ -15,7 +15,6 @@ class TaxCodesController < ApplicationController
 
   # GET /tax_codes/new
   def new
-    @accounting_periods = current_organization.accounting_periods.where('active = ?', true).order('id')
   end
 
   # GET /tax_codes/1
@@ -24,7 +23,6 @@ class TaxCodesController < ApplicationController
 
   # GET /tax_code/1/edit
   def edit
-    #X @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
   end
 
   # POST /tax_codes
@@ -36,7 +34,6 @@ class TaxCodesController < ApplicationController
       if @tax_code.save
         format.html { redirect_to tax_codes_url, notice: 'tax code period was successfully created.' }
       else
-        @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:tax_code)}"
         format.html { render action: 'new' }
       end
@@ -50,7 +47,6 @@ class TaxCodesController < ApplicationController
       if @tax_code.update(tax_code_params)
         format.html { redirect_to tax_codes_url, notice: 'tax code period was successfully updated.' }
       else
-        @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:tax_code)}"
         format.html { render action: 'show' }
       end
