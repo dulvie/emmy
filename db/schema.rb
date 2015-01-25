@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141214111347) do
+ActiveRecord::Schema.define(version: 20141215141347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,18 @@ ActiveRecord::Schema.define(version: 20141214111347) do
   create_table "accounting_groups", force: true do |t|
     t.string   "number"
     t.string   "name"
+    t.integer  "organization_id"
+    t.integer  "accounting_plan_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "accounting_periods", force: true do |t|
+    t.string   "name"
+    t.datetime "accounting_from"
+    t.datetime "accounting_to"
+    t.string   "vat_period_type"
+    t.boolean  "active"
     t.integer  "organization_id"
     t.integer  "accounting_plan_id"
     t.datetime "created_at"

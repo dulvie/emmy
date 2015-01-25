@@ -38,6 +38,12 @@ Emmy::Application.routes.draw do
   scope ':organization_slug' do
     get "dashboard", to: "dashboard#index"
 
+    resources :accounting_periods do
+      member do
+        post 'import_sie', as: :import_sie_files
+      end
+    end
+
     post 'accounting_plan_import', to: 'accounting_plans#import', as: 'accounting_plan_import'
     resources :accounting_plans do
       resources :accounting_groups
