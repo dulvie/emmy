@@ -293,5 +293,40 @@ tax_code = Services::TaxCodeCreator.new(o, jtest, bas)
 tax_code.tax_codes_save
 tax_code.BAS_tax_code_update
 
+# Accounting period --------------------
+ap13 = AccountingPeriod.new({
+  name: "Räkenskapsår 2013",
+  accounting_from: DateTime.new(2013,01,01),
+  accounting_to: DateTime.new(2013,12,31),
+  active: 'true',
+  accounting_plan: bas,
+  vat_period_type: 'month'
+})
+ap13.organization = o
+ap13.save
+
+ap14 = AccountingPeriod.new({
+  name: "Räkenskapsår 2014",
+  accounting_from: DateTime.new(2014,01,01),
+  accounting_to: DateTime.new(2014,12,31),
+  active: 'true',
+  accounting_plan: bas,
+  vat_period_type: 'month'
+})
+ap14.organization = o
+ap14.save
+
+ap15 = AccountingPeriod.new({
+  name: "Räkenskapsår 2015",
+  accounting_from: DateTime.new(2015,01,01),
+  accounting_to: DateTime.new(2015,12,31),
+  active: 'false',
+  accounting_plan: bas,
+  vat_period_type: 'month'
+})
+ap15.organization = o
+ap15.save
+
+
 
 # @TODO create invoice(s)

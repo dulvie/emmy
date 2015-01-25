@@ -36,6 +36,7 @@ class Ability
     can :manage, Account, organization_id: oids
     can :manage, AccountingClass, organization_id: oids
     can :manage, AccountingGroup, organization_id: oids
+    can :manage, AccountingPeriod, organization_id: oids
     can :manage, AccountingPlan, organization_id: oids
     can :manage, Batch, organization_id: oids
     can :manage, Comment, organization_id: oids
