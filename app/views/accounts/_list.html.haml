@@ -16,7 +16,7 @@
       - @accounts.each do |account|
         %tr
           %td= account.number
-          %td= account.description
+          %td.nowrap= account.description
           - if account.tax_code
             %td.numeric= link_to account.tax_code_code, tax_code_path(account.tax_code_id)
           - else

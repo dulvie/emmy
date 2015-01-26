@@ -63,5 +63,15 @@
           = nav_link t(:verificates), ink_codes_path
           = nav_link t(:closing_balances), tax_codes_path
           = nav_link t(:tax_returns), ink_codes_path
+      %li.dropdown
+        %a.dropdown-toggle{'href' => '#'}
+          = t(:reports)
+          -#%b.caret
+        %ul.dropdown-menu
+          = nav_link t(:verificates), accounting_periods_path
+          = nav_link t(:ledgers), ledgers_path
+          = nav_link t(:results), ink_codes_path
+          = nav_link t(:balances), tax_codes_path
+
   - else
     %li= link_to t(:sign_in), new_user_session_path

@@ -78,6 +78,10 @@ Emmy::Application.routes.draw do
       end
     end
     resources :items
+    resources :ledgers do
+      resources :ledger_accounts
+    end
+    resources :ledger_transactions
     resources :manuals
     resources :materials
     resources :production_batches, only: [:new, :create]
