@@ -15,7 +15,7 @@ class AccountingPlan < ActiveRecord::Base
   validates :name, presence: true, uniqueness: {scope: :organization_id}
 
   def can_delete?
-    #X return false if accounting_periods.size > 0
+    return false if accounting_periods.size > 0
     true
   end
 end

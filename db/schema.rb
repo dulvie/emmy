@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141215141347) do
+ActiveRecord::Schema.define(version: 20150124143347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -228,6 +228,40 @@ ActiveRecord::Schema.define(version: 20141215141347) do
     t.integer  "in_price"
     t.integer  "distributor_price"
     t.integer  "retail_price"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ledger_accounts", force: true do |t|
+    t.string   "name"
+    t.integer  "organization_id"
+    t.integer  "accounting_period_id"
+    t.integer  "ledger_id"
+    t.integer  "account_id"
+    t.decimal  "sum",                  precision: 11, scale: 2
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ledger_transactions", force: true do |t|
+    t.string   "parent_type"
+    t.integer  "parent_id"
+    t.integer  "organization_id"
+    t.integer  "accounting_period_id"
+    t.integer  "ledger_id"
+    t.integer  "account_id"
+    t.datetime "posting_date"
+    t.integer  "number"
+    t.string   "text"
+    t.decimal  "sum",                  precision: 11, scale: 2
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ledgers", force: true do |t|
+    t.string   "name"
+    t.integer  "organization_id"
+    t.integer  "accounting_period_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

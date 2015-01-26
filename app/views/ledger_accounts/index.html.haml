@@ -1,0 +1,19 @@
+.table-responsive{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:number)
+        %th= t(:text)
+        %th.numeric= t(:sum)
+        %th
+    %tbody{}
+      - @ledger_accounts.each do |ledger_account|
+        %tr
+          %td= ledger_account.account_number
+          %td= ledger_account.account_text
+          %td.numeric= ledger_account.sum
+          - url = ledger_transactions_path + '&ledger_id=' + @ledger.id.to_s + '&account_id=' + ledger_account.account_id.to_s
+          %td.numeric= link_to settings_icon, url
+
+  = paginate @ledger_accounts, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

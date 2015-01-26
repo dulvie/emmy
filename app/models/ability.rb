@@ -50,6 +50,8 @@ class Ability
     can :manage, Inventory, organization_id: oids
     can :manage, InventoryItem, organization_id: oids
     can :manage, Item, organization_id: oids
+    can :manage, Ledger, organization_id: oids
+    can :manage, LedgerAccount, organization_id: oids
     can :manage, Manual, organization_id: oids
     can :manage, Material, organization_id: oids
     can :manage, Production, organization_id: oids
