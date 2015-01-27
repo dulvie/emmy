@@ -17,9 +17,10 @@ class Organization < ActiveRecord::Base
   has_many :organization_roles
   has_many :users, through: :organization_roles
 
-  [:accounting_classes, :accounting_groups, :accounting_periods, :accounting_plans, :batches, :batch_transactions, :comments, :contact_relations, 
-  :contacts, :customers, :documents, :imports, :ink_codes, :inventories, :items, :ledgers, :ledger_accounts, :ledger_transactions, :manuals, 
-  :materials, :productions, :purchases, 
+  [:accounting_classes, :accounting_groups, :accounting_periods, :accounting_plans, :batches, 
+  :batch_transactions, :closing_balances, :comments, :contact_relations, 
+  :contacts, :customers, :documents, :imports, :ink_codes, :inventories, :items, :ledgers, 
+  :ledger_accounts, :ledger_transactions, :manuals, :materials, :opening_balances, :productions, :purchases, 
   :purchase_items, :shelves, :sales, :sale_items, :suppliers, :tax_codes, :transfers,
    :units, :vats, :warehouses].each do |model_sym|
     has_many model_sym
