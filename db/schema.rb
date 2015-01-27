@@ -94,6 +94,28 @@ ActiveRecord::Schema.define(version: 20150124143347) do
 
   add_index "batches", ["name", "organization_id"], name: "index_batches_on_name_and_organization_id", unique: true, using: :btree
 
+  create_table "closing_balance_items", force: true do |t|
+    t.integer  "account_id"
+    t.string   "description"
+    t.decimal  "debit",                precision: 11, scale: 2
+    t.decimal  "credit",               precision: 11, scale: 2
+    t.integer  "organization_id"
+    t.integer  "accounting_period_id"
+    t.integer  "closing_balance_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "closing_balances", force: true do |t|
+    t.datetime "posting_date"
+    t.string   "description"
+    t.boolean  "confirmed"
+    t.integer  "organization_id"
+    t.integer  "accounting_period_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "comments", force: true do |t|
     t.integer  "organization_id"
     t.text     "body"
@@ -281,6 +303,28 @@ ActiveRecord::Schema.define(version: 20150124143347) do
     t.string   "state"
     t.datetime "started_at"
     t.datetime "completed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "opening_balance_items", force: true do |t|
+    t.integer  "account_id"
+    t.string   "description"
+    t.decimal  "debit",                precision: 11, scale: 2
+    t.decimal  "credit",               precision: 11, scale: 2
+    t.integer  "organization_id"
+    t.integer  "accounting_period_id"
+    t.integer  "opening_balance_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "opening_balances", force: true do |t|
+    t.string   "description"
+    t.string   "state"
+    t.datetime "posting_date"
+    t.integer  "organization_id"
+    t.integer  "accounting_period_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -167,6 +167,7 @@ se:
   parent_type: "Förälder"
   plusgiro: "Plusgiro"
   postgiro: "Postgiro"
+  posting_date: "Bokföringsdatum"
   prepared: "Förberedd"
   price: "Pris"
   price_inc_vat: "Pris ink moms"

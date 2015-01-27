@@ -39,6 +39,8 @@ class Ability
     can :manage, AccountingPeriod, organization_id: oids
     can :manage, AccountingPlan, organization_id: oids
     can :manage, Batch, organization_id: oids
+    can :manage, ClosingBalance, organization_id: oids
+    can :manage, ClosingBalanceItem, organization_id: oids
     can :manage, Comment, organization_id: oids
     can :manage, Contact, organization_id: oids
     can :manage, ContactRelation, organization_id: oids
@@ -54,6 +56,8 @@ class Ability
     can :manage, LedgerAccount, organization_id: oids
     can :manage, Manual, organization_id: oids
     can :manage, Material, organization_id: oids
+    can :manage, OpeningBalance, organization_id: oids
+    can :manage, OpeningBalanceItem, organization_id: oids
     can :manage, Production, organization_id: oids
     can :manage, Purchase, organization_id: oids
     can :manage, PurchaseItem, organization_id: oids

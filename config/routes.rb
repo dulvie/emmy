@@ -51,6 +51,9 @@ Emmy::Application.routes.draw do
       resources :accounts
     end
     resources :batches
+    resources :closing_balances do
+      resources :closing_balance_items
+    end
     resources :comments
     resources :contact_relations
     resources :contacts
@@ -84,6 +87,13 @@ Emmy::Application.routes.draw do
     resources :ledger_transactions
     resources :manuals
     resources :materials
+    resources :opening_balances do
+      post 'create_from_ub'
+      resources :opening_balance_items
+      member do
+        post 'state_change', as: :state_change
+      end
+    end
     resources :production_batches, only: [:new, :create]
     resources :productions do
       resources :production_batches, only: [:new, :create]

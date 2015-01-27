@@ -191,6 +191,7 @@ en:
   password: "Password"
   plusgiro: "Plusgiro"
   postgiro: "Postgiro"
+  posting_date: "Posting date"
   prepared: "Prepared"
   price: "Price"
   price_inc_vat: "Price ink vat"
