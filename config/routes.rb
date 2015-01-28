@@ -137,6 +137,13 @@ Emmy::Application.routes.draw do
       end
     end
     resources :vats
+    resources :verificates do
+      resources :verificate_items
+      member do
+        post 'state_change', as: :state_change
+        post 'add_verificate_items', as: :add_verificate_items
+      end
+    end
     resources :warehouses
   end
 

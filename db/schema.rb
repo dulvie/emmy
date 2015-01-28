@@ -536,6 +536,38 @@ ActiveRecord::Schema.define(version: 20150124143347) do
 
   add_index "vats", ["name", "organization_id"], name: "index_vats_on_name_and_organization_id", unique: true, using: :btree
 
+  create_table "verificate_items", force: true do |t|
+    t.integer  "account_id"
+    t.string   "description"
+    t.decimal  "debit",                precision: 11, scale: 2
+    t.decimal  "credit",               precision: 11, scale: 2
+    t.integer  "organization_id"
+    t.integer  "accounting_period_id"
+    t.integer  "verificate_id"
+    t.integer  "result_unit_id"
+    t.integer  "project_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "verificates", force: true do |t|
+    t.integer  "number"
+    t.string   "state"
+    t.datetime "posting_date"
+    t.string   "description"
+    t.string   "reference"
+    t.string   "note"
+    t.integer  "organization_id"
+    t.integer  "accounting_period_id"
+    t.integer  "template_id"
+    t.integer  "vat_period_id"
+    t.integer  "wage_period_wage_id"
+    t.integer  "wage_period_report_id"
+    t.integer  "import_bank_file_row_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "warehouses", force: true do |t|
     t.integer  "organization_id"
     t.string   "name"
