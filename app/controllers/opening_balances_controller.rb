@@ -68,7 +68,7 @@ class OpeningBalancesController < ApplicationController
   end
 
   def state_change
-    authorize! :manage, @verificate
+    #X authorize! :manage, @verificate
     if @opening_balance.state_change(params[:event], params[:state_change_at])
       msg_h = { notice: t(:success) }
     else

@@ -6,8 +6,8 @@
       %tr
         %th= t(:account)
         %th= t(:description)
-        %th.numeric6= t(:debit)
-        %th.numeric6= t(:credit)
+        %th.numeric= t(:debit)
+        %th.numeric= t(:credit)
         %th.nowrap= t(:result_unit)
         %th
     %tbody{}
@@ -15,8 +15,8 @@
         %tr
           %td= opening_balance_item.account_number
           %td= opening_balance_item.description
-          %td.numeric6= opening_balance_item.debit
-          %td.numeric6= opening_balance_item.credit
+          %td.numeric= opening_balance_item.debit
+          %td.numeric= opening_balance_item.credit
           %td
           %td= delete_modal_for opening_balance_item, opening_balance_opening_balance_item_path(@opening_balance, opening_balance_item)
       %tr

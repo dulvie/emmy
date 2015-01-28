@@ -54,6 +54,7 @@ class Ability
     can :manage, Item, organization_id: oids
     can :manage, Ledger, organization_id: oids
     can :manage, LedgerAccount, organization_id: oids
+    can :manage, LedgerTransaction, organization_id: oids
     can :manage, Manual, organization_id: oids
     can :manage, Material, organization_id: oids
     can :manage, OpeningBalance, organization_id: oids
@@ -70,6 +71,8 @@ class Ability
     can :manage, Transfer, organization_id: oids
     can :manage, Unit, organization_id: oids
     can :manage, Vat, organization_id: oids
+    can :manage, Verificate, organization_id: oids
+    can :manage, VerificateItem, organization_id: oids
     can :manage, Warehouse, organization_id: oids
   end
 
