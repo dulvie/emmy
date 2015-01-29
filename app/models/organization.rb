@@ -24,7 +24,7 @@ class Organization < ActiveRecord::Base
   :opening_balance_items, :productions, :purchases, :purchase_items,  :result_units, 
   :shelves, :sales, 
   :sale_items, :suppliers, :tax_codes, :templates, :template_items, :transfers, :units, 
-  :vats, :verificates, :verificate_items, :warehouses].each do |model_sym|
+  :vat_periods, :vat_reports, :vats, :verificates, :verificate_items, :warehouses].each do |model_sym|
     has_many model_sym
   end
 

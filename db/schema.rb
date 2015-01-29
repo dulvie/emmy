@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150126181347) do
+ActiveRecord::Schema.define(version: 20150127151653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -552,6 +552,31 @@ ActiveRecord::Schema.define(version: 20150126181347) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "vat_periods", force: true do |t|
+    t.string   "name"
+    t.datetime "vat_from"
+    t.datetime "vat_to"
+    t.datetime "deadline"
+    t.string   "state"
+    t.datetime "calculated_at"
+    t.datetime "reported_at"
+    t.datetime "closed_at"
+    t.integer  "organization_id"
+    t.integer  "accounting_period_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "vat_reports", force: true do |t|
+    t.integer  "amount"
+    t.integer  "organization_id"
+    t.integer  "accounting_period_id"
+    t.integer  "vat_period_id"
+    t.integer  "tax_code_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "vats", force: true do |t|
     t.integer  "organization_id"

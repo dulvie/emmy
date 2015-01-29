@@ -74,6 +74,8 @@ class Ability
     can :manage, Transfer, organization_id: oids
     can :manage, Unit, organization_id: oids
     can :manage, Vat, organization_id: oids
+    can :manage, VatPeriod, organization_id: oids
+    can :manage, VatReport, organization_id: oids
     can :manage, Verificate, organization_id: oids
     can :manage, VerificateItem, organization_id: oids
     can :manage, Warehouse, organization_id: oids

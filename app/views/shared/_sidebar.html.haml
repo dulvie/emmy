@@ -12,13 +12,18 @@
           = nav_link t(:contacts), contacts_path
           - path_to_comment = comments_path
           = nav_link t(:comments), path_to_comment
+    - if current_organization
+      %li.dropdown
+        %a.dropdown-toggle{'href' => '#'}
+          = t(:logistics)
+          -#%b.caret
+        %ul.dropdown-menu
           = nav_link t(:warehouses), warehouses_path
           = nav_link t(:items), items_path
           = nav_link t(:batches), batches_path
           = nav_link t(:units), units_path
           = nav_link t(:vats), vats_path
           = nav_link t(:inventories), inventories_path
-    - if current_organization
       %li.dropdown
         %a.dropdown-toggle{'href' => '#'}
           = t(:purchase)
@@ -59,7 +64,7 @@
           -#%b.caret
         %ul.dropdown-menu
           = nav_link t(:accounting_periods), accounting_periods_path
-          = nav_link t(:vat_periods), tax_codes_path
+          = nav_link t(:vat_periods), vat_periods_path
           = nav_link t(:wage_periods), ink_codes_path
           = nav_link t(:opening_balances), opening_balances_path
           = nav_link t(:verificates), verificates_path

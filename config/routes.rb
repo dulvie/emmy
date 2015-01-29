@@ -140,6 +140,13 @@ Emmy::Application.routes.draw do
         patch :update_roles, as: :update_roles
       end
     end
+    resources :vat_periods do
+      resources :vat_reports
+      member do
+        post 'create_verificate', as: :create_verificate
+        post 'create_vat_report', as: :create_vat_report
+      end
+    end
     resources :vats
     resources :verificates do
       resources :verificate_items
