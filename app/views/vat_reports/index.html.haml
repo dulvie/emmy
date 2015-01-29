@@ -1,0 +1,24 @@
+- if @vat_period.can_report?
+  = link_to "#{t(:create)} #{t(:verificate)}", create_verificate_vat_period_path(params[:vat_period_id]), method: 'post', class: 'btn btn-success'
+
+.table-responsive
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:tax_code)
+        %th= t(:text)
+        %th.numeric= t(:amount)
+        %th
+    %tbody{}
+      - @vat_reports.each do |vat_report|
+        %tr
+          %td= vat_report.tax_code.code
+          %td= vat_report.tax_code.text
+          %td.numeric= vat_report.amount
+          - if vat_report.tax_code.sum_method != 'total'
+            - url = vat_period_vat_report_path(vat_report.vat_period_id, vat_report) + "&tax_code_id=#{vat_report.tax_code_id}"
+            %td.numeric= link_to settings_icon, url
+
+
+  = paginate @vat_reports, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

@@ -14,6 +14,11 @@ module ApplicationHelper
     link_to delete_icon, p, method: :delete, data: { confirm: 'Are you Sure?' }
   end
 
+  def report_button_for(obj, other_path = nil)
+    p = other_path || obj
+    link_to tasks_icon, p
+  end
+
   def delete_modal_for(obj, other_path = nil)
     return unless obj.can_delete?
     path = other_path || url_for(obj)
@@ -40,6 +45,9 @@ module ApplicationHelper
     glyphicon('refresh', 'refresh-icon')
   end
 
+  def tasks_icon
+    glyphicon('tasks', 'tasks-icon')
+  end
   def plus_icon
     "<i class=\"glyphicon glyphicon-plus-sign plus-icon\"> </i>".html_safe
   end
