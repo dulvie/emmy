@@ -1,0 +1,9 @@
+= simple_form_for(@result_unit, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+  = f.input :name
+
+  .form-button-group
+    .actions
+      = f.submit class: 'btn btn-primary'
+
+
