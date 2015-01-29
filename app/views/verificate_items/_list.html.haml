@@ -6,8 +6,8 @@
       %tr
         %th= t(:account)
         %th= t(:description)
-        %th.numeric6= t(:debit)
-        %th.numeric6= t(:credit)
+        %th.numeric= t(:debit)
+        %th.numeric= t(:credit)
         %th.nowrap= t(:result_unit)
         %th
     %tbody{}
@@ -15,8 +15,8 @@
         %tr
           %td= verificate_item.account.number
           %td= verificate_item.description
-          %td.numeric6= verificate_item.debit
-          %td.numeric6= verificate_item.credit
+          %td.numeric= verificate_item.debit
+          %td.numeric= verificate_item.credit
           %td
           %td= delete_modal_for verificate_item, verificate_verificate_item_path(@verificate, verificate_item)
       %tr

@@ -1,4 +1,4 @@
-%div{ng_controller: 'verificate_form_ctrl', ng_init: 'init()'}
+%div{ng_controller: 'verificate_form_ctrl', ng_init: 'init();'}
   = simple_form_for(@verificate, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
     = f.error_notification
     = f.association :accounting_period, as: :hidden

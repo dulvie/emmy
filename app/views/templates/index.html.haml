@@ -1,0 +1,28 @@
+.btn-group
+  = link_to "#{t(:create)} #{t(:template)}", new_template_path, class: 'btn btn-success'
+
+.col-sm-40.col-md-40.pull-right.text-right
+  = form_tag templates_path, class: 'form-inline submit-on-change', method: :get do
+    = select_tag(:accounting_plan_id,
+      options_for_select(@accounting_plans.each.collect{|w| [w.name, w.id]}, params[:accounting_plan_id]),
+      class: 'btn btn-default')
+.clear &nbsp;
+
+.table-responsive{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:name)
+        %th= t(:description)
+        %th
+        %th
+    %tbody{}
+      - @templates.each do |template|
+        %tr
+          %td= template.name
+          %td= template.description
+          %td.numeric= link_to settings_icon, template_path(template)
+          %td.numeric= delete_modal_for template
+
+  = paginate @templates, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

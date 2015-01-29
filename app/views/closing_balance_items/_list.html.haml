@@ -6,15 +6,15 @@
       %tr
         %th= t(:account)
         %th= t(:description)
-        %th.numeric6= t(:debit)
-        %th.numeric6= t(:credit)
+        %th.numeric= t(:debit)
+        %th.numeric= t(:credit)
     %tbody{}
       - @closing_balance_items.each do |closing_balance_item|
         %tr
           %td= closing_balance_item.account.number
           %td= closing_balance_item.description
-          %td.numeric6= closing_balance_item.debit
-          %td.numeric6= closing_balance_item.credit
+          %td.numeric= closing_balance_item.debit
+          %td.numeric= closing_balance_item.credit
       %tr
         %td
         %td
