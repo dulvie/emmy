@@ -109,6 +109,7 @@ Emmy::Application.routes.draw do
       end
       post 'single_purchase', as: :single_purchase
     end
+    resources :result_units
     resources :sales do
       resources :sale_items
       member do

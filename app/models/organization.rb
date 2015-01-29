@@ -21,7 +21,8 @@ class Organization < ActiveRecord::Base
   :batches, :batch_transactions, :closing_balances, :comments, :contact_relations, 
   :contacts, :customers, :documents, :imports, :ink_codes, :inventories, :items, :ledgers, 
   :ledger_accounts, :ledger_transactions, :manuals, :materials, :opening_balances, 
-  :opening_balance_items, :productions, :purchases, :purchase_items, :shelves, :sales, 
+  :opening_balance_items, :productions, :purchases, :purchase_items,  :result_units, 
+  :shelves, :sales, 
   :sale_items, :suppliers, :tax_codes, :templates, :template_items, :transfers, :units, 
   :vats, :verificates, :verificate_items, :warehouses].each do |model_sym|
     has_many model_sym
