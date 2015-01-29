@@ -31,9 +31,9 @@ class Account < ActiveRecord::Base
   end
 
   def can_delete?
-    #X return false if opening_balance_items.size > 0
-    #X return false if verificate_items.size > 0
-    #X return false if closing_balance_items.size > 0
+    return false if opening_balance_items.size > 0
+    return false if verificate_items.size > 0
+    return false if closing_balance_items.size > 0
     true
   end
 end

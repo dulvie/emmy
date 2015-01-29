@@ -124,6 +124,9 @@ Emmy::Application.routes.draw do
     resources :shelves
     resources :suppliers
     resources :tax_codes
+    resources :templates do
+      resources :template_items
+    end
     resources :transfers do
       member do
         post 'send_package', as: :send_package

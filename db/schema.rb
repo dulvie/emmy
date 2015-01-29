@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150124143347) do
+ActiveRecord::Schema.define(version: 20150125191353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -476,6 +476,26 @@ ActiveRecord::Schema.define(version: 20150124143347) do
     t.string   "sum_method"
     t.string   "code_type"
     t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "template_items", force: true do |t|
+    t.integer  "account_id"
+    t.string   "description"
+    t.boolean  "enable_debit"
+    t.boolean  "enable_credit"
+    t.integer  "organization_id"
+    t.integer  "template_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "templates", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "organization_id"
+    t.integer  "accounting_plan_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

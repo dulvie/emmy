@@ -327,6 +327,8 @@ ap15 = AccountingPeriod.new({
 ap15.organization = o
 ap15.save
 
-
+# Templates ----------------------------
+templates = Services::TemplateCreator.new(o, jtest, bas)
+templates.save_templates_bas
 
 # @TODO create invoice(s)
