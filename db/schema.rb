@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150128191653) do
+ActiveRecord::Schema.define(version: 20150129141347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,6 +152,14 @@ ActiveRecord::Schema.define(version: 20150128191653) do
 
   add_index "contacts", ["email", "organization_id"], name: "index_contacts_on_email_and_organization_id", unique: true, using: :btree
 
+  create_table "conversions", force: true do |t|
+    t.integer  "old_number"
+    t.integer  "new_number"
+    t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "customers", force: true do |t|
     t.integer  "organization_id",    null: false
     t.string   "address"
@@ -192,6 +200,31 @@ ActiveRecord::Schema.define(version: 20150128191653) do
     t.datetime "ending"
     t.decimal  "salary",          precision: 6, scale: 0
     t.decimal  "tax",             precision: 6, scale: 0
+    t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "import_bank_file_rows", force: true do |t|
+    t.datetime "posting_date"
+    t.decimal  "amount",              precision: 9,  scale: 2
+    t.string   "bank_account"
+    t.string   "name"
+    t.string   "reference"
+    t.decimal  "bank_balance",        precision: 11, scale: 2
+    t.string   "note"
+    t.boolean  "posted"
+    t.integer  "organization_id"
+    t.integer  "import_bank_file_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "import_bank_files", force: true do |t|
+    t.datetime "import_date"
+    t.datetime "from_date"
+    t.datetime "to_date"
+    t.string   "reference"
     t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -495,6 +528,28 @@ ActiveRecord::Schema.define(version: 20150128191653) do
     t.string   "sum_method"
     t.string   "code_type"
     t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tax_return_reports", force: true do |t|
+    t.integer  "amount"
+    t.integer  "organization_id"
+    t.integer  "accounting_period_id"
+    t.integer  "tax_return_id"
+    t.integer  "ink_code_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tax_returns", force: true do |t|
+    t.string   "name"
+    t.datetime "deadline"
+    t.string   "state"
+    t.datetime "calculated_at"
+    t.datetime "reported_at"
+    t.integer  "organization_id"
+    t.integer  "accounting_period_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
