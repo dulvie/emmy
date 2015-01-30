@@ -46,6 +46,7 @@ se:
   city: "Ort"
   city_search: "Ortsök"
   classes: "Klasser"
+  closed: "Stängd"
   closing_balance: "Utgående balans"
   closing_balance_item: "Utgående balans rad"
   closing_balances: "Utgående balanser"

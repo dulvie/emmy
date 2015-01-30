@@ -70,6 +70,8 @@ class Ability
     can :read,   Statistics::Report, organization_id: oids
     can :manage, Supplier, organization_id: oids
     can :manage, TaxCode, organization_id: oids
+    can :manage, TaxReturn, organization_id: oids
+    can :manage, TaxReturnReport, organization_id: oids
     can :manage, Template, organization_id: oids
     can :manage, TemplateItem, organization_id: oids
     can :manage, Transfer, organization_id: oids

@@ -65,6 +65,9 @@ Emmy::Application.routes.draw do
     end
     resources :documents
     resources :employees
+    resources :import_bank_files do
+      resources :import_bank_file_rows
+    end    
     resources :import_batches, only: [:new, :create]
     resources :imports do
       resources :import_batches, only: [:new, :create]
@@ -126,6 +129,12 @@ Emmy::Application.routes.draw do
     resources :shelves
     resources :suppliers
     resources :tax_codes
+    resources :tax_returns do
+      resources :tax_return_reports
+      member do
+        post 'create_tax_return_report', as: :create_tax_return_report
+      end
+    end
     resources :templates do
       resources :template_items
     end
