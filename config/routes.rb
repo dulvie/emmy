@@ -64,6 +64,7 @@ Emmy::Application.routes.draw do
       end
     end
     resources :documents
+    resources :employees
     resources :import_batches, only: [:new, :create]
     resources :imports do
       resources :import_batches, only: [:new, :create]
@@ -153,6 +154,16 @@ Emmy::Application.routes.draw do
       member do
         post 'state_change', as: :state_change
         post 'add_verificate_items', as: :add_verificate_items
+      end
+    end
+    resources :wage_periods do
+      resources :wages
+      resources :wage_reports
+      member do
+        post 'create_wage', as: :create_wage
+        post 'create_wage_verificate', as: :create_wage_verificate
+        post 'create_wage_report', as: :create_wage_report
+        post 'create_report_verificate', as: :create_report_verificate
       end
     end
     resources :warehouses

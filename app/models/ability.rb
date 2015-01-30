@@ -46,7 +46,7 @@ class Ability
     can :manage, ContactRelation, organization_id: oids
     can :manage, Customer, organization_id: oids
     can :manage, Document, organization_id: oids
-    can :read, Organization, id: oids
+    can :manage, Employee, organization_id: oids
     can :manage, Import, organization_id: oids
     can :manage, InkCode, organization_id: oids
     can :manage, Inventory, organization_id: oids
@@ -57,6 +57,7 @@ class Ability
     can :manage, LedgerTransaction, organization_id: oids
     can :manage, Manual, organization_id: oids
     can :manage, Material, organization_id: oids
+    can :read,   Organization, id: oids
     can :manage, OpeningBalance, organization_id: oids
     can :manage, OpeningBalanceItem, organization_id: oids
     can :manage, Production, organization_id: oids
@@ -78,6 +79,9 @@ class Ability
     can :manage, VatReport, organization_id: oids
     can :manage, Verificate, organization_id: oids
     can :manage, VerificateItem, organization_id: oids
+    can :manage, Wage, organization_id: oids
+    can :manage, WagePeriod, organization_id: oids
+    can :manage, WageReport, organization_id: oids
     can :manage, Warehouse, organization_id: oids
   end
 

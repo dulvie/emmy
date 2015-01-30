@@ -18,13 +18,13 @@ class Organization < ActiveRecord::Base
   has_many :users, through: :organization_roles
 
   [:accounting_classes, :accounting_groups, :accounting_periods, :accounting_plans, :accounts,
-  :batches, :batch_transactions, :closing_balances, :comments, :contact_relations, 
-  :contacts, :customers, :documents, :imports, :ink_codes, :inventories, :items, :ledgers, 
-  :ledger_accounts, :ledger_transactions, :manuals, :materials, :opening_balances, 
-  :opening_balance_items, :productions, :purchases, :purchase_items,  :result_units, 
-  :shelves, :sales, 
-  :sale_items, :suppliers, :tax_codes, :templates, :template_items, :transfers, :units, 
-  :vat_periods, :vat_reports, :vats, :verificates, :verificate_items, :warehouses].each do |model_sym|
+  :batches, :batch_transactions, :closing_balances, :comments, :contact_relations, :contacts,
+  :customers, :documents, :employees, :imports, :ink_codes, :inventories, :items, :ledgers,
+  :ledger_accounts, :ledger_transactions, :manuals, :materials, :opening_balances, :opening_balance_items,
+  :productions, :purchases, :purchase_items,  :result_units, :shelves, :sales, :sale_items,
+  :suppliers, :tax_codes, :templates, :template_items, :transfers, :units, :vat_periods,
+  :vat_reports, :vats, :verificates, :verificate_items, :wage_periods, :wage_reports, :wages,
+  :warehouses].each do |model_sym|
     has_many model_sym
   end
 

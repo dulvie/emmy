@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150127151653) do
+ActiveRecord::Schema.define(version: 20150128191653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,6 +181,18 @@ ActiveRecord::Schema.define(version: 20150127151653) do
     t.string   "upload_content_type"
     t.integer  "upload_file_size"
     t.datetime "upload_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "employees", force: true do |t|
+    t.string   "name"
+    t.integer  "birth_year"
+    t.datetime "begin"
+    t.datetime "ending"
+    t.decimal  "salary",          precision: 6, scale: 0
+    t.decimal  "tax",             precision: 6, scale: 0
+    t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -616,6 +628,53 @@ ActiveRecord::Schema.define(version: 20150127151653) do
     t.integer  "wage_period_wage_id"
     t.integer  "wage_period_report_id"
     t.integer  "import_bank_file_row_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "wage_periods", force: true do |t|
+    t.string   "name"
+    t.datetime "wage_from"
+    t.datetime "wage_to"
+    t.datetime "payment_date"
+    t.datetime "deadline"
+    t.string   "state"
+    t.datetime "wage_calculated_at"
+    t.datetime "wage_reported_at"
+    t.datetime "wage_closed_at"
+    t.datetime "tax_calculated_at"
+    t.datetime "tax_reported_at"
+    t.datetime "tax_closed_at"
+    t.integer  "organization_id"
+    t.integer  "accounting_period_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "wage_reports", force: true do |t|
+    t.integer  "amount"
+    t.integer  "organization_id"
+    t.integer  "accounting_period_id"
+    t.integer  "wage_period_id"
+    t.integer  "tax_code_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "wages", force: true do |t|
+    t.datetime "wage_from"
+    t.datetime "wage_to"
+    t.datetime "payment_date"
+    t.decimal  "salary",               precision: 9, scale: 2
+    t.decimal  "addition",             precision: 9, scale: 2
+    t.decimal  "discount",             precision: 9, scale: 2
+    t.decimal  "tax",                  precision: 9, scale: 2
+    t.decimal  "payroll_tax",          precision: 9, scale: 2
+    t.decimal  "amount",               precision: 9, scale: 2
+    t.integer  "organization_id"
+    t.integer  "accounting_period_id"
+    t.integer  "wage_period_id"
+    t.integer  "employee_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
