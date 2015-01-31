@@ -44,6 +44,7 @@ class Ability
     can :manage, Comment, organization_id: oids
     can :manage, Contact, organization_id: oids
     can :manage, ContactRelation, organization_id: oids
+    can :manage, Conversion, organization_id: oids
     can :manage, Customer, organization_id: oids
     can :manage, Document, organization_id: oids
     can :manage, Employee, organization_id: oids

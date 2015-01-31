@@ -57,6 +57,9 @@ Emmy::Application.routes.draw do
     resources :comments
     resources :contact_relations
     resources :contacts
+    resources :conversions do
+      delete 'clear'
+    end
     resources :customers do
       collection do
         get 'name_search', as: :name_search
@@ -127,6 +130,8 @@ Emmy::Application.routes.draw do
     end
     get 'statistics/index'
     resources :shelves
+    get  'sie_imports/order_import'
+    post 'sie_imports/create_import'
     resources :suppliers
     resources :tax_codes
     resources :tax_returns do
