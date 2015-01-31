@@ -73,6 +73,15 @@
           = nav_link t(:tax_returns), tax_returns_path
       %li.dropdown
         %a.dropdown-toggle{'href' => '#'}
+          = t(:interchanges)
+          -#%b.caret
+        %ul.dropdown-menu
+          = nav_link t(:sie_imports), sie_imports_order_import_path
+          = nav_link t(:sie_exports), ledgers_path
+          = nav_link t(:bank_imports), ink_codes_path
+          = nav_link t(:bank_exports), tax_codes_path
+      %li.dropdown
+        %a.dropdown-toggle{'href' => '#'}
           = t(:reports)
           -#%b.caret
         %ul.dropdown-menu
