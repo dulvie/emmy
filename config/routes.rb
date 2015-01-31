@@ -38,11 +38,7 @@ Emmy::Application.routes.draw do
   scope ':organization_slug' do
     get "dashboard", to: "dashboard#index"
 
-    resources :accounting_periods do
-      member do
-        post 'import_sie', as: :import_sie_files
-      end
-    end
+    resources :accounting_periods
 
     post 'accounting_plan_import', to: 'accounting_plans#import', as: 'accounting_plan_import'
     resources :accounting_plans do
@@ -69,8 +65,10 @@ Emmy::Application.routes.draw do
     resources :documents
     resources :employees
     resources :import_bank_files do
+      get  'upload', as: :upload
+      post 'create_from_upload', as: :create_from_upload
       resources :import_bank_file_rows
-    end    
+    end
     resources :import_batches, only: [:new, :create]
     resources :imports do
       resources :import_batches, only: [:new, :create]

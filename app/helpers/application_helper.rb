@@ -25,6 +25,11 @@ module ApplicationHelper
     link_to delete_icon(obj), '#', :ng_click =>"open_delete($event, 'sm','deleteContent', '#{path}')"
   end
 
+  def import_button_for(obj, other_path = nil)
+    p = other_path || obj
+    link_to import_icon, p
+  end
+
   # @todo Refactor this into an module or something.
   # A couple of short hand methods to make the html a bit nicer.
   # To short to be in a partial, but doesn't belong in a helper...
@@ -47,6 +52,9 @@ module ApplicationHelper
 
   def tasks_icon
     glyphicon('tasks', 'tasks-icon')
+  end
+  def import_icon
+    glyphicon('import', 'import-icon')
   end
   def plus_icon
     "<i class=\"glyphicon glyphicon-plus-sign plus-icon\"> </i>".html_safe
