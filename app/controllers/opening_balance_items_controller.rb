@@ -35,7 +35,7 @@ class OpeningBalanceItemsController < ApplicationController
     @opening_balance_item.accounting_period = @opening_balance.accounting_period
     respond_to do |format|
       if @opening_balance_item.save
-        format.html { redirect_to opening_balance_path(@opening_balance), notice: "#{t(:opening_balance_item)} #{t(:was_successfully_created)}" }
+        format.html { redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:opening_balance_item)} #{t(:was_successfully_created)}" }
       else
         @accounting_groups = current_organization.accounting_plan.accounting_groups
         gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer)
@@ -61,7 +61,7 @@ class OpeningBalanceItemsController < ApplicationController
   def destroy
     @opening_balance_item.destroy
     respond_to do |format|
-      format.html { redirect_to opening_balance_path(@opening_balance), notice:  "#{t(:opening_balance_item)} #{t(:was_successfully_deleted)}" }
+      format.html { redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice:  "#{t(:opening_balance_item)} #{t(:was_successfully_deleted)}" }
     end
   end
 

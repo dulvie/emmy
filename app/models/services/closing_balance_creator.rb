@@ -15,6 +15,12 @@ module Services
       end
     end
 
+    def update_from_ledger
+      delete_closing_balance_items
+      add_from_ledger
+      true
+    end
+
     def add_closing_balance_item(account, sum)
       @account = Account.find(account)
       return if @account.number > 2999
@@ -31,6 +37,13 @@ module Services
         closing_balance_item.credit = -sum
       end
       closing_balance_item.save
+    end
+    
+    def delete_closing_balance_items
+      @closing_balance_items = @closing_balance.closing_balance_items
+      @closing_balance_items.each do |closing_balance|
+        closing_balance.destroy
+      end
     end
   end
 end

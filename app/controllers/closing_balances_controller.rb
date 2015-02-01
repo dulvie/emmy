@@ -14,14 +14,14 @@ class ClosingBalancesController < ApplicationController
 
   # GET
   def new
-    @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
-    gon.push accounting_periods: ActiveModel::ArraySerializer.new(@accounting_periods, each_serializer: AccountingPeriodSerializer)
+    # @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
+    # gon.push accounting_periods: ActiveModel::ArraySerializer.new(@accounting_periods, each_serializer: AccountingPeriodSerializer)
   end
 
   # GET
   def show
-    @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
-    gon.push accounting_periods: ActiveModel::ArraySerializer.new(@accounting_periods, each_serializer: AccountingPeriodSerializer)
+    # @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
+    # gon.push accounting_periods: ActiveModel::ArraySerializer.new(@accounting_periods, each_serializer: AccountingPeriodSerializer)
   end
 
   # GET
@@ -37,25 +37,22 @@ class ClosingBalancesController < ApplicationController
         @accounting_period = current_organization.accounting_periods.find(@closing_balance.accounting_period)
         @closing_balance_creator = Services::ClosingBalanceCreator.new(current_organization, current_user, @closing_balance, @accounting_period)
         @closing_balance_creator.add_from_ledger
-        format.html { redirect_to closing_balance_path(@closing_balance), notice: "#{t(:closing_balance)} #{t(:was_successfully_created)}" }
+        format.html { redirect_to edit_accounting_period_path(@closing_balance.accounting_period_id), notice: "#{t(:closing_balance)} #{t(:was_successfully_created)}" }
       else
-        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:closing_balance)}"
-        @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
-        gon.push accounting_periods: ActiveModel::ArraySerializer.new(@accounting_periods, each_serializer: AccountingPeriodSerializer)
-        format.html { render action: 'new' }
+        format.html { redirect_to edit_accounting_period_path(@closing_balance.accounting_period_id), notice: "#{t(:failed_to_create)} #{t(:closing_balance)}"}
       end
     end
   end
 
   # PATCH/PUT
   def update
+    @accounting_period = current_organization.accounting_periods.find(@closing_balance.accounting_period)
+    @closing_balance_creator = Services::ClosingBalanceCreator.new(current_organization, current_user, @closing_balance, @accounting_period)
     respond_to do |format|
-      if @closing_balance.update(closing_balance_params)
-        format.html { redirect_to closing_balances_path, notice: "#{t(:closing_balance)} #{t(:was_successfully_updated)}" }
+      if @closing_balance_creator.update_from_ledger
+        format.html { redirect_to edit_accounting_period_path(@closing_balance.accounting_period), notice: "#{t(:closing_balance)} #{t(:was_successfully_created)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:closing_balance)}"
-        @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
-        gon.push accounting_periods: ActiveModel::ArraySerializer.new(@accounting_periods, each_serializer: AccountingPeriodSerializer)
         format.html { render action: 'show' }
       end
     end
@@ -69,6 +66,15 @@ class ClosingBalancesController < ApplicationController
     end
   end
 
+  def state_change
+    #X authorize! :manage, @verificate
+    if @closing_balance.state_change(params[:event], params[:state_change_at])
+      msg_h = { notice: t(:success) }
+    else
+      msg_h = { alert: t(:fail) }
+    end
+    redirect_to edit_accounting_period_path(@closing_balance.accounting_period), msg_h
+  end
 
   private
 

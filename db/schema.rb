@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150129141347) do
+ActiveRecord::Schema.define(version: 20150130111347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(version: 20150129141347) do
   create_table "closing_balances", force: true do |t|
     t.datetime "posting_date"
     t.string   "description"
-    t.boolean  "confirmed"
+    t.string   "state"
     t.integer  "organization_id"
     t.integer  "accounting_period_id"
     t.datetime "created_at"
@@ -348,6 +348,16 @@ ActiveRecord::Schema.define(version: 20150129141347) do
     t.string   "state"
     t.datetime "started_at"
     t.datetime "completed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ne_codes", force: true do |t|
+    t.string   "code"
+    t.string   "text"
+    t.string   "sum_method"
+    t.string   "bas_accounts"
+    t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
