@@ -95,6 +95,7 @@ Emmy::Application.routes.draw do
     resources :ledger_transactions
     resources :manuals
     resources :materials
+    resources :ne_codes
     resources :opening_balances do
       post 'create_from_ub'
       resources :opening_balance_items

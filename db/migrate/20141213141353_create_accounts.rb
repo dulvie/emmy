@@ -9,6 +9,7 @@ class CreateAccounts < ActiveRecord::Migration
       t.integer  :accounting_group_id
       t.integer  :tax_code_id
       t.integer  :ink_code_id
+      t.integer  :ne_code_id
       t.timestamps
     end
   end

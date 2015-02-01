@@ -1,0 +1,113 @@
+2015;;NE - Inkomst av näringsverksamhet, Enskilda näringsidkare;;
+;;;;
+;;Enskilda näringsidkare som upprättar ett förenklat årsbokslut;;
+;;(För enskilda näringsidkarer som inte upprättar ett förenklat årsbokslut finns en särskild kopplingstabell.);;
+;;;;
+;;;Inga ändringa i kopplingstabellen har gjorts jämfört med föregående år.;
+;;;;
+Fält-kod;Rad NE;Benämning;Konton i BAS Förenklat;
+årsbokslut 2014;
+;;;;
+;;BALANSRÄKNING/RÄKENSKAPSSCHEMA;;
+;;;;
+;;Anläggningstillgångar;;
+7200;B1;Immateriella anläggningstillgångar;1000;Immateriella anläggningstillgångar
+7210;B2;Byggnader och markanläggningar;1110;Byggnader
+;;;1150;Markanläggningar
+7211;B3;Mark och andra tillgångar som inte får skrivas av;1130;Mark
+;;;1180;Pågående nyanläggningar och förskott för byggnader och mark
+7212;B4;Maskiner och inventarier;1220;Maskiner och inventarier
+;;;1230;Byggnads- och markinventarier
+;;;1240;Bilar och andra transportmedel
+7213;B5;Övriga anläggningstillgångar;1300;Andelar
+;;;;
+;;Omsättningstillgångar;;
+7240;B6;Varulager;1400;Varulager
+7250;B7;Kundfordringar;1500;Kundfordringar
+7260;B8;Övriga fordringar ;1600;Övriga fordringar
+;;;1650;Momsfordran
+;;;1700;Förskott till leverantörer
+7280;B9;Kassa och bank;1910;Kassa
+;;;1920;PlusGiro
+;;;1930;Företagskonto/checkkonto/affärskonto
+;;;1940;Övriga bankkonton
+;;;1970;Särskilda bankkonton
+;;;;
+;;Eget kapital;;
+7300;B10;Eget kapital;2010;Eget kapital, delägare 1
+;;;2020–2040;Eget kapital, delägare 2–4
+;;;;
+;;Skulder;;
+7380;B13;Låneskulder;2330;Checkräkningskredit
+;;;2350;Skulder till kreditinstitut
+;;;2390;Övriga låneskulder
+7381;B14;Skatteskulder;2610;Utgående moms, oreducerad
+;;;2620;Utgående moms, reducerad 1
+;;;2630;Utgående moms, reducerad 2
+;;;2640;Ingående moms
+;;;2650;Redovisningskonto för moms
+;;;2660;Särskilda punktskatter
+;;;2710;Personalskatt
+;;;2730;Lagstadgade/avtalade sociala avgifter och särskild löneskatt
+7382;B15;Leverantörsskulder;2440;Leverantörsskulder
+7383;B16;Övriga skulder;2900;Övriga skulder
+;;;;
+;;RESULTATRÄKNING/RÄKENSKAPSSCHEMA;;
+;;;;
+;;Intäkter;;
+7400;R1;Försäljning och utfört arbete samt övriga momspliktiga intäkter;3000;Försäljning och utfört arbete samt övriga momspliktiga inkomster
+;;;3500;Fakturerade kostnader
+;;;3700;Lämnade rabatter, bonusar etc. R1/R2
+;;;3900;Övriga rörelseintäkter R1/R2
+7401;R2 ;Momsfria intäkter;3100;Momsfria intäkter
+;;;3700;Lämnade rabatter, bonusar etc. R1/R2
+;;;3900;Övriga rörelseintäkter R1/R2
+;;;3970;Vinst vid avyttring av immateriella och materiella anläggningstillgångar
+;;;3980;Erhållna bidrag
+7402;R3 ;Bil- och bostadsförmån m.m.;3200;Bil- och bostadsförmån m.m.
+7403;R4 ;Ränteintäkter m.m.;8310;Ränteintäkter och utdelningar
+;;;8330;Valutakursdifferenser på fordringar och placeringar
+;;;;
+;;Kostnader;;
+7500;R5;Varor, material och tjänster;4000;Varor
+;;;4600;Legoarbeten och underentreprenader
+;;;4700;Erhållna rabatter, bonus etc.
+;;;4900;Förändring av lager
+7501;R6;Övriga externa kostnader;5000;Lokalkostnader
+;;;5100;Fastighetskostnader
+;;;5200;Hyra av anläggningstillgångar
+;;;5400;Förbrukningsinventarier och förbruk ningsmaterial
+;;;5500;Reparation och underhåll
+;;;5600;Kostnader för transportmedel
+;;;5610;Personbilskostnader
+;;;5620;Lastbilskostnader
+;;;5700;Frakter och transporter
+;;;5800;Resekostnader
+;;;5900;Reklam och PR
+;;;6000;Övriga försäljningskostnader
+;;;6070;Representation
+;;;6100;Kontorsmateriel och trycksaker
+;;;6200;Tele och post
+;;;6300;Företagsförsäkringar
+;;;6310;Företagsförsäkringar och övriga riskkostnader
+;;;6500;Övriga externa tjänster
+;;;6800;Inhyrd personal
+;;;6900;Övriga kostnader
+;;;6980;Föreningsavgifter
+7502;R7;Anställd personal;7000;Löner till anställda
+;;;7300;Kostnadsersättningar och förmåner
+;;;7400;Pensionskostnader
+;;;7500;Sociala och andra avgifter enligt lag och avtal
+;;;7600;Övriga personalkostnader
+7503;R8;Räntekostnader m.m.;8410;Räntekostnader för skulder
+;;;8430;Valutakursdifferenser på skulder
+;;Avskrivningar;;
+7504;R9;Avskrivningar och nedskrivningar byggnader och markanläggningar;7700;Nedskrivningar R9/R10
+;;;7820;Avskrivningar på byggnader och markanläggningar
+;;;7980;Ersättningsfonder R9/R10
+7505;R10;Avskrivningar och nedskrivningar maskiner och inventarier och immateriella tillgångar;7810;Avskrivningar på immateriella anläggningstillgångar
+;;;7830;Avskrivningar på maskiner och inventarier
+;;;7980;Ersättningsfonder R9/R10
+;;;;
+;;Årets resultat;;
+7440;R11;Bokfört resultat ;8990;Resultat

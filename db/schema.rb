@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20150130111347) do
     t.integer  "accounting_group_id"
     t.integer  "tax_code_id"
     t.integer  "ink_code_id"
+    t.integer  "ne_code_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
