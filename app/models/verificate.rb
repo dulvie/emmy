@@ -116,6 +116,7 @@ class Verificate < ActiveRecord::Base
     return true if verificate_items.count > 0
     false
   end
+
   def posting_date_formatted
     return o if !final?
     posting_date.strftime("%Y-%m-%d")

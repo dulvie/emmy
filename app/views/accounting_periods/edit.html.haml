@@ -1,1 +1,36 @@
-= render 'form'
+%ul{:class => 'nav nav-tabs'}
+  %li.active= link_to t(:base_information), "#accounting-period-form", {"data-toggle" => "tab"}
+  %li= link_to t(:opening_balance), "#opening-balance", {"data-toggle" => "tab"}
+  %li= link_to t(:closing_balance), "#closing-balance", {"data-toggle" => "tab"}
+.tab-content
+  #accounting-period-form.tab-pane.active
+    %br
+    = render 'form'
+  #opening-balance.tab-pane
+    %br
+    - if @accounting_period.opening_balance.nil?
+      = render 'opening_balances/form'
+    - if !@accounting_period.opening_balance.nil?
+      = render 'opening_balances/show'
+  #closing-balance.tab-pane
+    %br
+    - if @accounting_period.closing_balance.nil?
+      = render 'closing_balances/form'
+    - if !@accounting_period.closing_balance.nil?
+      = render 'closing_balances/show'
+
+:javascript
+  $(document).ready(function() {
+
+  $('a[data-toggle="tab"]').on("click", function(e) {
+   localStorage.setItem('accounting_period_tab', $(e.target).attr("href").substr(1));
+  });
+
+  var lastTab = localStorage.getItem('accounting_period_tab');
+  if (lastTab) {
+    $('ul.nav-tabs').children().removeClass('active');
+    $('a[href=#'+ lastTab +']').parents('li:first').addClass('active');
+    $('div.tab-content').children().removeClass('active');
+    $('#'+lastTab).addClass('active');
+  }
+  });

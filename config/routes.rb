@@ -49,6 +49,9 @@ Emmy::Application.routes.draw do
     resources :batches
     resources :closing_balances do
       resources :closing_balance_items
+      member do
+        post 'state_change', as: :state_change
+      end
     end
     resources :comments
     resources :contact_relations

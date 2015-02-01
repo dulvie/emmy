@@ -108,6 +108,7 @@ se:
   form_items: "Artiklar"
   fork_me: "Delta i utvecklingen"
   from: "Från"
+  from_ub: "From UB"  
   from_warehouse: "Från lagerställe"
   general: "Allmän"
   groups: "Grupper"

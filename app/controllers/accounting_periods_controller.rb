@@ -27,6 +27,8 @@ class AccountingPeriodsController < ApplicationController
   # GET
   def edit
     @accounting_plans = current_organization.accounting_plans
+    @opening_balance = init_opening_balance
+    @closing_balance = init_closing_balance
   end
 
   # POST
@@ -93,4 +95,18 @@ class AccountingPeriodsController < ApplicationController
   def show_breadcrumbs
     @breadcrumbs = [['Accounting periods', accounting_periods_path], [@accounting_period.name]]
   end
+
+  def init_closing_balance
+    return @accounting_period.closing_balance if !@accounting_period.closing_balance.nil?
+    @closing_balance = ClosingBalance.new
+    @closing_balance.description = 'UB ' + @accounting_period.accounting_from.strftime("%Y")
+    return @closing_balance
+  end
+
+  def init_opening_balance
+    return @accounting_period.opening_balance if !@accounting_period.opening_balance.nil?
+    @opening_balance = OpeningBalance.new
+    @opening_balance.description = 'IB ' + @accounting_period.accounting_from.strftime("%Y")
+    return @opening_balance
+  end  
 end

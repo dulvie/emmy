@@ -1,21 +1,39 @@
 class ClosingBalance < ActiveRecord::Base
   # t.datetime :posting_date
   # t.string   :description
-  # t.boolean  :confirmed
+  # t.string   :state
   # t.integer  :organization_id
   # t.integer  :accounting_period_id
   # t.timestamps
 
-  attr_accessible :posting_date, :description, :accounting_period_id, :confirmed
+  attr_accessible :description, :accounting_period_id
 
   belongs_to :organization
   belongs_to :accounting_period
   has_many   :closing_balance_items, dependent: :delete_all
 
   validates :accounting_period_id, presence: true, uniqueness: {scope: [:organization_id, :accounting_period_id]}
-  validates :posting_date, presence: true
   validates :description, presence: true
 
+  STATE_CHANGES = [:mark_final]
+
+  def state_change(new_state, changed_at = nil)
+    return false unless STATE_CHANGES.include?(new_state.to_sym)
+    send(new_state, changed_at)
+  end
+
+  state_machine :state, initial: :preliminary do
+    before_transition on: :mark_final, do: :set_posting_date
+
+    event :mark_final do
+      transition preliminary: :final
+    end
+  end
+
+  def set_posting_date(transition)
+    self.posting_date = transition.args[0]
+  end
+  
   def total_debit
     return 0 if closing_balance_items.count <= 0
     closing_balance_items.inject(0) { |i, item| (item.debit || 0) + i }
@@ -27,6 +45,6 @@ class ClosingBalance < ActiveRecord::Base
   end
 
   def can_delete?
-    !confirmed
+    preliminary?
   end
 end

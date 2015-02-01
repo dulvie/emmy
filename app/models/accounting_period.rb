@@ -53,6 +53,14 @@ class AccountingPeriod < ActiveRecord::Base
     ledger.save
   end
 
+  def from_formatted
+    accounting_from.strftime("%Y-%m-%d")
+  end
+
+  def to_formatted
+    accounting_to.strftime("%Y-%m-%d")
+  end
+
   def allow_from
     return accounting_from if verificates.where("state = 'final'").count == 0
     verificates.where("state = 'final'").maximum(:posting_date)

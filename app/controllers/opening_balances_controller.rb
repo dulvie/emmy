@@ -14,14 +14,14 @@ class OpeningBalancesController < ApplicationController
 
   # GET
   def new
-    @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
-    gon.push accounting_periods: ActiveModel::ArraySerializer.new(@accounting_periods, each_serializer: AccountingPeriodSerializer)
+    # @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
+    # gon.push accounting_periods: ActiveModel::ArraySerializer.new(@accounting_periods, each_serializer: AccountingPeriodSerializer)
   end
 
   # GET
   def show
-    @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
-    gon.push accounting_periods: ActiveModel::ArraySerializer.new(@accounting_periods, each_serializer: AccountingPeriodSerializer)
+    # @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
+    # gon.push accounting_periods: ActiveModel::ArraySerializer.new(@accounting_periods, each_serializer: AccountingPeriodSerializer)
     @previous_accounting_period = @opening_balance.accounting_period.previous_accounting_period
   end
 
@@ -35,12 +35,9 @@ class OpeningBalancesController < ApplicationController
     @opening_balance.organization = current_organization
     respond_to do |format|
       if @opening_balance.save
-        format.html { redirect_to opening_balance_path(@opening_balance), notice: "#{t(:opening_balance)} #{t(:was_successfully_created)}" }
+        format.html { redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:opening_balance)} #{t(:was_successfully_created)}" }
       else
-        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:opening_balance)}"
-        @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
-        gon.push accounting_periods: ActiveModel::ArraySerializer.new(@accounting_periods, each_serializer: AccountingPeriodSerializer)
-        format.html { render action: 'new' }
+        format.html {redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:failed_to_create)} #{t(:opening_balance)}"}
       end
     end
   end
@@ -74,7 +71,7 @@ class OpeningBalancesController < ApplicationController
     else
       msg_h = { alert: t(:fail) }
     end
-    redirect_to opening_balances_url, msg_h
+    redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), msg_h
   end
 
   def create_from_ub
@@ -84,9 +81,9 @@ class OpeningBalancesController < ApplicationController
     respond_to do |format|
       @opening_balance_creator = Services::OpeningBalanceCreator.new(current_organization, current_user, @accounting_period, @opening_balance)
       if @opening_balance_creator.add_from_ub(@from.closing_balance)
-        format.html { redirect_to opening_balances_path, notice:  "#{t(:opening_balance)} #{t(:was_successfully_deleted)}" }
+        format.html {redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:opening_balance)} #{t(:was_successfully_deleted)}" }
       else
-        format.html { redirect_to opening_balances_path, notice:  "#{t(:opening_balance)} #{t(:faild_to_update)}" }
+        format.html {redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:opening_balance)} #{t(:faild_to_update)}" }
       end
 
     end
