@@ -1,0 +1,24 @@
+.btn-group
+  = link_to "#{t(:create)} #{t(:ne_code)}", new_ne_code_path, class: 'btn btn-success'
+
+.table-responsive{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:code)
+        %th= t(:text)
+        %th= t(:sum_method)
+        %th
+        %th
+    %tbody{}
+      - @ne_codes.each do |ne_code|
+        %tr
+          %td= ne_code.code
+          %td= ne_code.text
+          %td= ne_code.sum_method
+          %td.numeric= link_to settings_icon, edit_ne_code_path(ne_code)
+          %td.numeric= delete_modal_for ne_code
+
+  = paginate @ne_codes, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+

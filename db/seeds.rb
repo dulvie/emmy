@@ -293,6 +293,10 @@ tax_code = Services::TaxCodeCreator.new(o, jtest, bas)
 tax_code.tax_codes_save
 tax_code.BAS_tax_code_update
 
+# Ne codes -----------------------------
+ne_code = Services::NeCodeCreator.new(o, jtest)
+ne_code.read_and_save
+
 # Accounting period --------------------
 ap13 = AccountingPeriod.new({
   name: "Räkenskapsår 2013",
