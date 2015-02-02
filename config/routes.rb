@@ -118,6 +118,16 @@ Emmy::Application.routes.draw do
       end
       post 'single_purchase', as: :single_purchase
     end
+
+    get 'reports/order_verificates_report'
+    get 'reports/order_ledger_report'
+    get 'reports/order_result_report'
+    get 'reports/order_balance_report'
+    post 'reports/verificates'
+    post 'reports/ledger'
+    post 'reports/result_report'
+    post 'reports/balance_report'
+
     resources :result_units
     resources :sales do
       resources :sale_items

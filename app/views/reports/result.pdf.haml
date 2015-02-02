@@ -1,0 +1,22 @@
+- save_class = ''
+%table.table.table-striped
+  %tr
+    %td{colspan: '3'}
+      .pull-left
+        %h2= t(:result)
+      .pull-right
+        %h2= @accounting_period.name
+  - @verificate_items.each do |item|
+    - if save_class != item.cls
+      - save_class = item.cls
+      %tr.filler
+        %td  &nbsp;
+      %tr
+        %th=item.cls
+        %th.nowrap= item.cls_dsc
+        %th
+    %tr
+      - sum = -item.deb + item.cre
+      %td=item.num
+      %td=item.desc
+      %td.numeric=sum

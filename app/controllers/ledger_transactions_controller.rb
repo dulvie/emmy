@@ -11,7 +11,7 @@ class LedgerTransactionsController < ApplicationController
     @ledger = current_organization.ledgers.find(params[:ledger_id])
     @account = current_organization.accounts.find(params[:account_id])
     name = @account.number.to_s + ' ' + @account.description
-    @breadcrumbs = [[t(:ledgers), ledgers_path], [@ledger.name, ledger_ledger_accounts_path(@ledger.id)], [name]]
+    @breadcrumbs = [[@ledger.name, ledger_ledger_accounts_path(@ledger.id)], [name]]
     @ledger_transactions = current_organization.ledger_transactions.where('ledger_id = ? AND account_id = ? ', params[:ledger_id], params[:account_id]).page(params[:page]).decorate
   end
 
