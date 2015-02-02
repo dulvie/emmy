@@ -17,6 +17,22 @@ class EmployeesController < ApplicationController
 
   # GET
   def show
+    if @employee.contact.nil?
+      @new = true
+      @employee.contact_relation = ContactRelation.new
+      @employee.contact = Contact.new
+      @contact_relation = @employee.contact_relation
+      @contact = @employee.contact
+      @contact_relation_form_url = contact_relations_path(parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
+    else
+      @new = false
+      @contact_relation = @employee.contact_relation
+      @contact = @employee.contact
+      @contact_relation_form_url = contact_relation_path(@contact_relation.id, parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
+    end
+
+    @contacts = current_organization.contacts
+    gon.push contacts: ActiveModel::ArraySerializer.new(@contacts, each_serializer: ContactSerializer)
   end
 
   # GET

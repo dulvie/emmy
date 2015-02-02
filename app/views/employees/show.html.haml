@@ -1,1 +1,24 @@
-= render 'form'
+%ul{:class => 'nav nav-tabs'}
+  %li.active= link_to t(:base_information), "#employee-form", {"data-toggle" => "tab"}
+  %li= link_to t(:contact), "#contact", {"data-toggle" => "tab"}
+.tab-content.after-nav-tabs
+  #employee-form.tab-pane.active
+    = render 'form'
+  #contact.tab-pane
+    = render partial: 'contact_relations/form', locals: {contact_relations: @employee.contact_relation, parent: @employee}
+
+:javascript
+  $(document).ready(function() {
+
+  $('a[data-toggle="tab"]').on("click", function(e) {
+   localStorage.setItem('employee_tab', $(e.target).attr("href").substr(1));
+  });
+
+  var lastTab = localStorage.getItem('employee_tab');
+  if (lastTab) {
+    $('ul.nav-tabs').children().removeClass('active');
+    $('a[href=#'+ lastTab +']').parents('li:first').addClass('active');
+    $('div.tab-content').children().removeClass('active');
+    $('#'+lastTab).addClass('active');
+  }
+  }); 

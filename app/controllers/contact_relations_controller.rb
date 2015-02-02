@@ -24,11 +24,13 @@ class ContactRelationsController < ApplicationController
       @contact = Contact.find(params[:contact][:id])
       @contact.update_attributes contact_params
     else
-      @contact = @parent.contacts.build contact_params
+      @contact = @parent.contacts.build contact_params if !@parent.class.name == 'Employee'
+      @contact = @parent.build_contact_relation.build_contact contact_params if @parent.class.name == 'Employee'
     end
 
     @contact.organization = current_organization
-    @contact_relation = @parent.contact_relations.build
+    @contact_relation = @parent.build_contact_relation if @parent.class.name == 'Employee'
+    @contact_relation = @parent.contact_relations.build if !@parent.class.name == 'Employee'
     @contact_relation.organization = current_organization
 
     respond_to do |format|
