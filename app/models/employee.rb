@@ -6,6 +6,7 @@ class Employee < ActiveRecord::Base
   # t.decimal  :salary
   # t.decimal  :tax
   # t.integer  :organization_id
+  
   # t.timestamps
 
   attr_accessible :name, :begin, :ending, :salary, :tax, :birth_year
@@ -14,21 +15,15 @@ class Employee < ActiveRecord::Base
   validates :birth_year, presence: true
 
   belongs_to :organization
+  has_one :contact_relation, as: :parent
+  has_one :contact, through: :contact_relation
   has_many :wages
 
-  has_many :contact_relations, as: :parent do
-    def search_by_org(o)
-      where('organization_id = ?', o.id)
-    end
-  end
-
-  has_many :contacts, through: :contact_relations do
-    def search_by_org(o)
-      where('"contact_relations"."organization_id" = ?', o.id)
-    end
-  end
-
   validates :name, presence: true, uniqueness: {scope: :organization_id}
+
+  def parent_name
+    self.name
+  end
 
   def can_delete?
     return false if wages.size > 0

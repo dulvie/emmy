@@ -17,7 +17,7 @@ class Contact < ActiveRecord::Base
   validates :name, presence: true
   validates :email, presence: true, uniqueness: {scope: :organization_id}
 
-  VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', 'ContactRelation', 'User']
+  VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', 'ContactRelation', 'User', 'Employee']
 
   def user_parent?
     return true if contact_relations.where("parent_type = 'User'").count > 0
