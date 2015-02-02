@@ -8,7 +8,7 @@ class LedgerAccountsController < ApplicationController
 
   # GET
   def index
-    @breadcrumbs = [[t(:ledgers), ledgers_path], [@ledger.name]]
+    @breadcrumbs = [[@ledger.name]]
     @ledger_accounts = @ledger_accounts.decorate.sort_by { |ledger_account| ledger_account.account_number}
     @ledger_accounts = Kaminari.paginate_array(@ledger_accounts).page(params[:page])
   end

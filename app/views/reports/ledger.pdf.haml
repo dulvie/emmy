@@ -1,0 +1,17 @@
+%table.table.table-striped
+  %tr
+    %td{colspan: '3'}
+      .pull-left
+        %h2= t(:ledger)
+      .pull-right
+        %h2= @accounting_period.name
+  %tr
+    %th.main= t(:account)
+    %th= t(:description)
+    %th.numeric= t(:sum)
+
+  - @ledger_accounts.each do |ledger_account|
+    %tr
+      %td.main=ledger_account.account_number
+      %td=ledger_account.account_text
+      %td.numeric=ledger_account.sum
