@@ -8,32 +8,36 @@ module Services
     end
 
     def save_templates_bas
-      template = save_template( "Inköp kontant",  "Inköp kontant direktavskrivning")
+      template = save_template( "Inköp kontant",  "Inköp kontant direktavskrivning", "cost")
       save_template_item(template, '4000','Inköp av varor från Sverige', true, false)
       save_template_item(template, '2640','Ingående moms', true, false)
       save_template_item(template, '1920','PlusGiro', false, true)
 
-      template = save_template( "Försäljning faktura 25% moms",  "Försäljning 25% moms")
+      template = save_template( "Försäljning faktura 25% moms",  "Försäljning 25% moms", "income")
       save_template_item(template, '3001','Försäljning inom Sverige, 25 % moms', false, true)
       save_template_item(template, '2610','Utgående moms, 25 %', false, true)
       save_template_item(template, '3740','Öres- och kronutjämning', true, true)
       save_template_item(template, '1510','Kundfordringar', true, false)
 
-      template = save_template( "Försäljning faktura 12% moms",  "Försäljning 12% moms")
+      template = save_template( "Försäljning faktura 12% moms",  "Försäljning 12% moms", "income")
       save_template_item(template, '3002','Försäljning inom Sverige, 12 % moms', false, true)
       save_template_item(template, '2620','Utgående moms, 12 %', false, true)
       save_template_item(template, '3740','Öres- och kronutjämning', true, true)
       save_template_item(template, '1510','Kundfordringar', true, false)
 
-      template = save_template( "Försäljning faktura 6% moms",  "Försäljning 6% moms")
+      template = save_template( "Försäljning faktura 6% moms",  "Försäljning 6% moms", "income")
       save_template_item(template, '3003','Försäljning inom Sverige, 6 % moms', false, true)
       save_template_item(template, '2630','Utgående moms, 6 %', false, true)
       save_template_item(template, '3740','Öres- och kronutjämning', true, true)
       save_template_item(template, '1510','Kundfordringar', true, false)
 
-      template = save_template( "Kundbetalning",  "Betalning kundfaktura")
+      template = save_template( "Kundbetalning",  "Betalning kundfaktura", "income")
       save_template_item(template, '1510','Kundfordringar', false, true)
       save_template_item(template, '1920','PlusGiro', true, false)
+      
+      template = save_template( "Bankkostnad",  "Bankkostnader", "cost")
+      save_template_item(template, '6570','Bankkostnader', true, false)
+      save_template_item(template, '1920','PlusGiro', false, true)
     end
 
     def save_template(name, description)

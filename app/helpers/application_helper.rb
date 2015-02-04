@@ -19,6 +19,12 @@ module ApplicationHelper
     link_to tasks_icon, p
   end
 
+  def delete_button_for(obj, other_path = nil)
+    return unless obj.can_delete?
+    path = other_path || url_for(obj)
+    link_to t(:clear), obj, :ng_click =>"open_delete($event, 'sm','deleteContent', '#{path}')", class: 'btn btn-warning'
+  end
+
   def delete_modal_for(obj, other_path = nil)
     return unless obj.can_delete?
     path = other_path || url_for(obj)

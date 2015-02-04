@@ -3,7 +3,8 @@
   = f.association :accounting_plan, disabled: !@template.new_record?
   = f.input :name, disabled: !@template.new_record?
   = f.input :description, disabled: !@template.new_record?
-
+  = f.input :template_type, as: :select, collection: ::Template::PAY_TYPES, include_blank: false, :input_html => {:class=>'short'}
+   
   - if @template.new_record?
     .form-button-group
       .actions
