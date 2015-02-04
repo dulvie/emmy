@@ -70,7 +70,11 @@ Emmy::Application.routes.draw do
     resources :import_bank_files do
       get  'upload', as: :upload
       post 'create_from_upload', as: :create_from_upload
-      resources :import_bank_file_rows
+      resources :import_bank_file_rows do
+        get 'match_verificate', as: :match_verificate
+        get 'set_verificate', as: :set_verificate
+        get 'set_template_verificate', as: :set_template_verificate
+      end
     end
     resources :import_batches, only: [:new, :create]
     resources :imports do

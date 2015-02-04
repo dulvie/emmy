@@ -9,8 +9,8 @@
         %input{id: 'show', type: 'text', class: 'form-control', value: f.object.accounting_period.name, disabled: true}
     - if @verificate.final?
       = f.input :number, disabled: true
-      = f.input :posting_date, as: :string, disabled: true, :input_html => { :class => 'date', :value => localize(f.object.posting_date, :format => "%Y-%m-%d"), :readonly => 'readonly'}
-    = f.input :description, disabled: !@verificate.new_record?, input_html: {ng_model: 'description'}
+    = f.input :posting_date, as: :string, disabled: true, :input_html => { :class => 'date', :value => localize(f.object.posting_date, :format => "%Y-%m-%d"), :readonly => 'readonly'}
+    = f.input :description, disabled: @verificate.final?, input_html: {ng_model: 'description'}
     - if @verificate.new_record?
       = f.association :template, collection: @templates
     = f.input :reference, disabled: !@verificate.new_record?
@@ -18,7 +18,7 @@
     - if !@verificate.new_record?
       = f.input :state, disabled: true
 
-    - if @verificate.new_record?
+    - if @verificate.new_record? || (@verificate.preliminary? && @verificate.verificate_items.size>0)
       .form-button-group
         .actions
           = f.submit class: 'btn btn-primary'

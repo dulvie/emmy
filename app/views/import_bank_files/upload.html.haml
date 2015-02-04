@@ -1,7 +1,7 @@
 = simple_form_for(@import_bank_file, wrapper: :horizontal_form, :html => {:class => 'form-horizontal', :multipart => true}, url: import_bank_file_create_from_upload_path, method: :post) do |f|
   = f.error_notification
   = f.input :name
-  = f.input :upload, wrapper: :horizontal_file_input
+  = f.input :upload, wrapper: :horizontal_file_input, accept: 'text/csv'
 
   .form-button-group
     .actions
