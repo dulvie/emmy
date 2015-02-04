@@ -20,9 +20,15 @@ class SieImportsController < ApplicationController
         @import_sie = Services::ImportSie.new(current_organization, current_user, accounting_period, accounting_plan)
         Rails.logger.info "->#{import_type}"
         if @import_sie.read_and_save(import_type)
-          url = opening_balance_path(accounting_period.opening_balance)
-          url = closing_balance_path(accounting_period.closing_balance) if import_type == 'UB'
-          url = verificates_path + '&accounting_period_id=' + accounting_period.id if import_type == 'Transactions' 
+          if import_type == 'IB'
+            url = edit_accounting_period_path(accounting_period)
+          elsif import_type == 'UB'
+            url = closing_balance_path(accounting_period.closing_balance)
+          elsif import_type == 'Transactions'
+            url = verificates_path + '&accounting_period_id=' + accounting_period.id 
+          else
+            url = sie_imports_order_import_path
+          end
           format.html { redirect_to url, notice: "#{t(:sie_import)} #{t(:was_successfully_created)}" }
         else
           @accounting_periods = current_organization.accounting_periods
