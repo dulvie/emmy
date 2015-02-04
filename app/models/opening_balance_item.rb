@@ -27,6 +27,7 @@ class OpeningBalanceItem < ActiveRecord::Base
   end
 
   def can_delete?
+    return false if opening_balance.final?
     true
   end
 end

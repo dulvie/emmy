@@ -1,6 +1,6 @@
 %div{ng_controller: 'opening_balance_form_ctrl', ng_init: 'init()' }
-  = hidden_field_tag 'allow_from', @accounting_period.from_formatted
-  = hidden_field_tag 'allow_to', @accounting_period.to_formatted
+  = hidden_field_tag 'allow_from', @opening_balance.accounting_period.from_formatted
+  = hidden_field_tag 'allow_to', @opening_balance.accounting_period.to_formatted
   = simple_form_for(@opening_balance, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
     = f.input :description, disabled: true
     = f.input :state, disabled: true
@@ -18,4 +18,5 @@
             %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','balanceContent' )"}
               = t(:confirm)
             = render partial: 'shared/modal_state_change', locals: {idx: 'balanceContent', model: @opening_balance, form_path: state_change_opening_balance_path(@opening_balance), event: 'mark_final', return_path: opening_balances_path}
-
+            = delete_button_for @opening_balance
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

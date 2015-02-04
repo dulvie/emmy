@@ -33,7 +33,7 @@ class ReportsController < ApplicationController
     @accounting_period = current_organization.accounting_periods.find(@report.accounting_period)
 
     if params[:report][:report_type] == 'list'
-      redirect_to ledger_ledger_accounts_path(2)
+      redirect_to ledger_ledger_accounts_path(@accounting_period.ledger)
       return
     end
 
