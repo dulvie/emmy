@@ -8,7 +8,7 @@ class ConversionsController < ApplicationController
   # GET /conversions
   # GET /conversions.json
   def index
-    @breadcrumbs = [['Conversions']]
+    @breadcrumbs = [['SIE imports', sie_imports_order_import_path],['Conversions']]
     @conversions = current_organization.conversions.order(:old_number)
     @conversions = @conversions.page(params[:page])
   end
