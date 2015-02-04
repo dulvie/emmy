@@ -19,6 +19,7 @@ class ImportBankFileRowsController < ApplicationController
 
   # GET
   def show
+    # Välj template
     ver_id = 0
     @verificates = current_organization.verificates.where('state = ?', 'preliminary')
     @verificates.each do |verificate|
@@ -74,6 +75,49 @@ class ImportBankFileRowsController < ApplicationController
     @import_bank_file_row.destroy
     respond_to do |format|
       format.html { redirect_to template_path(@template), notice:  "#{t(:import_bank_file_row)} #{t(:was_successfully_deleted)}" }
+    end
+  end
+
+  def match_verificate
+    @breadcrumbs = [["#{t(:import_bank_files)}", import_bank_files_path], 
+                    [@import_bank_file.reference, import_bank_file_path(@import_bank_file)],
+                    ["#{t(:matching)}"]]
+    @import_bank_file_row = current_organization.import_bank_file_rows.find(params[:import_bank_file_row_id])
+    @verificates ||= Array.new
+    prel_verificates = current_organization.verificates.where('state = ?', 'preliminary')
+    prel_verificates.each do |verificate|
+      if verificate.bank_amount == @import_bank_file_row.amount || verificate.import_bank_file_row_id == @import_bank_file_row.id
+        @verificates.push(verificate)
+      end
+    end
+    @templates = current_organization.templates.where('template_type = ?', 'cost')
+  end
+
+  def set_template_verificate
+    @import_bank_file_row = current_organization.import_bank_file_rows.find(params[:import_bank_file_row_id])
+    @verificate_creator = Services::VerificateCreator.new(current_organization, current_user, @import_bank_file_row)
+    respond_to do |format|
+      ver_id = @verificate_creator.save_in_template(params[:template_id])
+      if ver_id > 0
+        format.html { redirect_to verificate_path(ver_id)+"&bank_amount="+@import_bank_file_row.amount.to_s, notice: 'Verificate was successfully updated.' }
+      else
+        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:verificate)}"
+        format.html { render action: 'match_verificate' }
+      end
+    end
+  end
+
+  def set_verificate
+    @import_bank_file_row = current_organization.import_bank_file_rows.find(params[:import_bank_file_row_id])
+    @verificate_creator = Services::VerificateCreator.new(current_organization, current_user, @import_bank_file_row)
+    respond_to do |format|
+      ver_id = @verificate_creator.save_bank_file_row
+      if ver_id > 0
+        format.html { redirect_to verificate_path(ver_id), notice: 'Verificate was successfully updated.' }
+      else
+        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:verificate)}"
+        format.html { render action: 'match_verificate' }
+      end
     end
   end
 

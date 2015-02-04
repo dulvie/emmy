@@ -15,7 +15,7 @@ module Services
     def save_vat_report
       @vat_period = @object
       @accounting_period = AccountingPeriod.find(@vat_period.accounting_period_id)
-      @verificate = save_verificate(@vat_period.deadline, 'Momsredovisning','','',@accounting_period)
+      @verificate = save_verificate(@vat_period.deadline, 'Momsredovisning','','',@accounting_period, nil)
       @verificate.vat_period = @vat_period
       @verificate.save
 
@@ -40,7 +40,7 @@ module Services
     def save_wage
       @wage_period = @object
       @accounting_period = AccountingPeriod.find(@wage_period.accounting_period_id)
-      @verificate = save_verificate(@wage_period.payment_date, 'Löneutbetalning','','',@accounting_period)
+      @verificate = save_verificate(@wage_period.payment_date, 'Löneutbetalning','','',@accounting_period, nil)
       @verificate.wage_period_wage = @wage_period
       @verificate.save
       # OBS! utbetalning separat för varje anställd till konto??
@@ -85,7 +85,7 @@ module Services
     def save_wage_report
       @wage_period = @object
       @accounting_period = AccountingPeriod.find(@wage_period.accounting_period_id)
-      @verificate = save_verificate(@wage_period.deadline, 'Skatteredovisning','','', @accounting_period)
+      @verificate = save_verificate(@wage_period.deadline, 'Skatteredovisning','','', @accounting_period, nil)
       @verificate.wage_period_report = @wage_period
       @verificate.save
 
@@ -109,7 +109,7 @@ module Services
       @import_bank_file_row = @object
       @accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', @import_bank_file_row.posting_date, @import_bank_file_row.posting_date).first
       Rails.logger.info "->#{@accounting_period.inspect}"
-      @verificate = save_verificate( @import_bank_file_row.posting_date, @import_bank_file_row.name, @import_bank_file_row.reference, @import_bank_file_row.note, @accounting_period)
+      @verificate = save_verificate( @import_bank_file_row.posting_date, @import_bank_file_row.name, @import_bank_file_row.reference, @import_bank_file_row.note, @accounting_period, nil)
       @verificate.import_bank_file_row = @import_bank_file_row
       @verificate.save
 
@@ -124,11 +124,21 @@ module Services
       @account = Account.where("organization_id = ? AND accounting_plan_id = ? AND tax_code_id = ?",
                                @organization.id, @accounting_period.accounting_plan_id, @tax_code.id).first
       save_verificate_item(@verificate, @account, debit, credit, @accounting_period)
-      @import_bank_file_row.verificate_id = @verificate.id
-      @import_bank_file_row.save
+      return @verificate.id
+    end
+    
+    def save_in_template(template_id)
+      # Förutsätter att det är en bankfilrow
+      @import_bank_file_row = @object
+      @template = @organization.templates.find(template_id)
+      @accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', @import_bank_file_row.posting_date, @import_bank_file_row.posting_date).first
+      @verificate = save_verificate( @import_bank_file_row.posting_date, @template.description, @import_bank_file_row.reference, @import_bank_file_row.note, @accounting_period, @template)
+      @verificate.import_bank_file_row = @import_bank_file_row
+      @verificate.save
+      return @verificate.id
     end
 
-    def save_verificate(posting_date, description, reference, note, accounting_period)
+    def save_verificate(posting_date, description, reference, note, accounting_period, template)
       @verificate = Verificate.new
       @verificate.posting_date = posting_date
       @verificate.description = description
@@ -136,6 +146,7 @@ module Services
       @verificate.note = note
       @verificate.organization = @organization
       @verificate.accounting_period = accounting_period
+      @verificate.template = template if template
       @verificate.save
       return @verificate
     end

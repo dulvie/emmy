@@ -118,7 +118,7 @@ class Verificate < ActiveRecord::Base
   end
 
   def posting_date_formatted
-    return o if !final?
+    return if !posting_date
     posting_date.strftime("%Y-%m-%d")
   end
 
