@@ -29,6 +29,7 @@ class AccountingPeriodsController < ApplicationController
     @accounting_plans = current_organization.accounting_plans
     @opening_balance = init_opening_balance
     @closing_balance = init_closing_balance
+    @previous_accounting_period = @opening_balance.accounting_period.previous_accounting_period
   end
 
   # POST

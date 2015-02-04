@@ -58,9 +58,10 @@ class OpeningBalancesController < ApplicationController
 
   # DELETE
   def destroy
+    accounting_period = @opening_balance.accounting_period
     @opening_balance.destroy
     respond_to do |format|
-      format.html { redirect_to opening_balances_path, notice:  "#{t(:opening_balance)} #{t(:was_successfully_deleted)}" }
+      format.html { redirect_to  edit_accounting_period_path(accounting_period), notice:  "#{t(:opening_balance)} #{t(:was_successfully_deleted)}" }
     end
   end
 
