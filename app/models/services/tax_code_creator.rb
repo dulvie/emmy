@@ -12,6 +12,9 @@ module Services
       add_tax_code(10, "Utgående moms på försäljning 25 %", 'accounting_period', 'vat')
       add_tax_code(11, "Utgående moms på försäljning 12 %", 'accounting_period', 'vat')
       add_tax_code(12, "Utgående moms på försäljning 6 %", 'accounting_period', 'vat')
+      add_tax_code(30, "Utgående moms på försäljning 25 %", 'accounting_period', 'vat')
+      add_tax_code(31, "Utgående moms på försäljning 12 %", 'accounting_period', 'vat')
+      add_tax_code(32, "Utgående moms på försäljning 6 %", 'accounting_period', 'vat')
       add_tax_code(48, "Ingående moms", 'accounting_period', 'vat')
       add_tax_code(49, "Moms att betala eller få tillbaka", 'total', 'vat')
 
@@ -37,6 +40,18 @@ module Services
       update_account_tax_code('2620', 11)
       update_account_tax_code('2630', 12)
       update_account_tax_code('2640', 48)
+
+      update_account_tax_code('2614', 30)
+      update_account_tax_code('2615', 30)
+      update_account_tax_code('2617', 30)
+
+      update_account_tax_code('2624', 31)
+      update_account_tax_code('2625', 31)
+      update_account_tax_code('2627', 31)
+
+      update_account_tax_code('2634', 32)
+      update_account_tax_code('2635', 32)
+      update_account_tax_code('2637', 32)
 
       update_account_tax_code('7210', 50)
       update_account_tax_code('2730', 78)
