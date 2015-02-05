@@ -1,4 +1,4 @@
-%table.wrapper.table.table-striped
+%table.table.table-striped
   %tr
     %td{colspan: '4'}
       .pull-left
@@ -12,9 +12,9 @@
       %th{colspan: '2'}=ver.posting_date
 
     - ver.verificate_items.each do |item|
-      - item = item.decorate
       %tr
-        %td.main= item.account_number
+        - item = item.decorate
+        %td= item.account_number
         %td= item.description
         %td.numeric= item.debit
         %td.numeric= item.credit

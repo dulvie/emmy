@@ -72,7 +72,7 @@ class ReportsController < ApplicationController
     .order('accounts.number')
     respond_to do |format|
       format.pdf do
-        render(pdf: 'ledger', template: 'reports/result.pdf.haml', layout: 'pdf')
+        render(pdf: 'result', template: 'reports/result.pdf.haml', layout: 'pdf')
       end
       format.html
     end
@@ -103,7 +103,7 @@ class ReportsController < ApplicationController
 
     respond_to do |format|
       format.pdf do
-        render(pdf: 'ledger', template: 'reports/balance.pdf.haml', layout: 'pdf')
+        render(pdf: 'balance', template: 'reports/balance.pdf.haml', layout: 'pdf')
       end
       format.html
     end
