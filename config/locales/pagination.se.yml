@@ -5,3 +5,4 @@ se:
       next: "Nästa"
       previous: "Tidigare"
       last: "Sista"
+      truncate: "..."
