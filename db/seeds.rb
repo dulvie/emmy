@@ -333,6 +333,6 @@ ap15.save
 
 # Templates ----------------------------
 templates = Services::TemplateCreator.new(o, jtest, bas)
-templates.save_templates_bas
+templates.read_and_save
 
 # @TODO create invoice(s)
