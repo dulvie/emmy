@@ -1,0 +1,39 @@
+#template;Inköp kort;Inköp direktavskrivning;cost
+#template_item;4000;true;false
+#template_item;2620;true;false
+#template_item;2630;true;false
+#template_item;2640;false;true
+#template_item;1920;false;true
+
+#template;Bankkostnad2;Bankkostnader;cost
+#template_item;6570;true;false
+#template_item;1920;false;true
+
+#template;Momsredovisning2;Momsredovisning;cost
+#template_item;2610;true;false
+#template_item;2620;true;false
+#template_item;2630;true;false
+#template_item;2640;false;true
+#template_item;1920;true;true
+
+#template;Försäljning faktura 25% moms;Fakturaförsäljning 25% moms;income
+#template_item;3001;false;true
+#template_item;2610;false;true
+#template_item;3740;true;true
+#template_item;1510;true;false
+
+#template;Försäljning faktura 12% moms;Fakturaförsäljning 12% moms;income
+#template_item;3002;false;true
+#template_item;2620;false;true
+#template_item;3740;true;true
+#template_item;1510;true;false
+
+#template;Försäljning faktura 6% moms;Fakturaförsäljning 6% moms;income
+#template_item;3003;false;true
+#template_item;2630;false;true
+#template_item;3740;true;true
+#template_item;1510;true;false
+
+#template;Kunbetalning faktura,Betalning kundfaktura;income
+#template_item;1510;false;true
+#template_item;1920;true;false

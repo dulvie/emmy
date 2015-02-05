@@ -156,9 +156,12 @@ Emmy::Application.routes.draw do
         post 'create_tax_return_report', as: :create_tax_return_report
       end
     end
+
+    post 'templates_import', to: 'templates#import', as: 'templates_import'
     resources :templates do
       resources :template_items
     end
+
     resources :transfers do
       member do
         post 'send_package', as: :send_package

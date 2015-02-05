@@ -75,6 +75,10 @@ class AccountingPeriod < ActiveRecord::Base
     organization.accounting_periods.where('accounting_from < ? and accounting_to > ?', accounting_from-10.day,accounting_from-10.day ).first
   end
 
+  def next_accounting_period
+    organization.accounting_periods.where('accounting_from < ? and accounting_to > ?', accounting_to+10.day,accounting_to+10.day ).first
+  end
+
   def next_vat_period
     vat_period = VatPeriod.new
     vat_period.accounting_period_id = self.id

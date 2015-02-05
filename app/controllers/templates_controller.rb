@@ -7,14 +7,7 @@ class TemplatesController < ApplicationController
 
   # GET
   def index
-    @breadcrumbs = [['Templates']]
-    @accounting_plans = current_organization.accounting_plans.order('id')
-    if params[:accounting_plan_id]
-      @templates = current_organization.templates.where('accounting_plan_id=?', params[:accounting_plan_id]).order(:name)
-    else
-      @templates = current_organization.templates.where('accounting_plan_id=?', @accounting_plans.first.id).order(:name)
-    end
-    @templates = @templates.page(params[:page])
+    init
   end
 
   # GET
@@ -63,8 +56,33 @@ class TemplatesController < ApplicationController
     end
   end
 
+  def import
+    @accounting_plan = current_organization.accounting_plans.find(params[:accounting_plan_id])
+    templates = Services::TemplateCreator.new(current_organization, current_user, @accounting_plan)
+    respond_to do |format|
+      if templates.read_and_save
+        init
+        format.html {  render action: 'index', notice: "#{t(:template)} #{t(:was_successfully_imported)}" }
+      else
+        init
+        flash.now[:danger] = "#{t(:failed_to_import)} #{t(:template)}"
+        format.html { render action: 'index' }
+      end
+    end
+  end
 
   private
+  
+  def init
+    @breadcrumbs = [['Templates']]
+    @accounting_plans = current_organization.accounting_plans.order('id')
+    if params[:accounting_plan_id]
+      @templates = current_organization.templates.where('accounting_plan_id=?', params[:accounting_plan_id]).order(:name)
+    else
+      @templates = current_organization.templates.where('accounting_plan_id=?', @accounting_plans.first.id).order(:name)
+    end
+    @templates = @templates.page(params[:page])
+  end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def template_params

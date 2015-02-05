@@ -1,12 +1,14 @@
-.btn-group
+.inline{ng_controller: 'templates_index_ctrl' }
   = link_to "#{t(:create)} #{t(:template)}", new_template_path, class: 'btn btn-success'
-
-.col-sm-40.col-md-40.pull-right.text-right
-  = form_tag templates_path, class: 'form-inline submit-on-change', method: :get do
-    = select_tag(:accounting_plan_id,
-      options_for_select(@accounting_plans.each.collect{|w| [w.name, w.id]}, params[:accounting_plan_id]),
-      class: 'btn btn-default')
-.clear &nbsp;
+  = link_to "#{t(:import)} #{t(:templates)}", templates_import_path + "&accounting_plan_id={{plan}}", class: 'btn btn-default', method: 'post'
+  
+  .col-sm-20.col-md-20.pull-right.text-right
+    = form_tag templates_path, class: 'form-inline submit-on-change', method: :get do
+      = select_tag(:accounting_plan_id,
+        options_for_select(@accounting_plans.each.collect{|w| [w.name, w.id]}, params[:accounting_plan_id]),
+        ng_model: 'plan',
+        class: 'btn btn-default')
+  .clear &nbsp;
 
 .table-responsive{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}
