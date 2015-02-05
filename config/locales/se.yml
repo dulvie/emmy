@@ -5,6 +5,8 @@ se:
   account: "Konto"
   accounts: "Konton"
   accounting: "Kontering"
+  accounting_class: "Konto klass"
+  accounting_group: "Konto grupp"
   accounting_period: "Räkenskapsår"
   accounting_periods: "Räkenskapsår"
   accounting_plan: "Kontoplan"
