@@ -15,9 +15,12 @@ module Services
     def save_vat_report
       @vat_period = @object
       @accounting_period = AccountingPeriod.find(@vat_period.accounting_period_id)
+      if @vat_period.deadline > @accounting_period.accounting_to
+        @accounting_period = @accounting_period.next_accounting_period
+      end
       @verificate = save_verificate(@vat_period.deadline, 'Momsredovisning','','',@accounting_period, nil)
       @verificate.vat_period = @vat_period
-      @verificate.save
+      return false if !@verificate.save
 
       @vat_period.vat_reports.each do |report|
         @account = Account.where("organization_id = ? AND accounting_plan_id = ? AND tax_code_id = ?",
@@ -34,7 +37,9 @@ module Services
         else
         end
       end
-      @vat_period.state_change('mark_reported', DateTime.now)
+      if @vat_period.calculated?
+        @vat_period.state_change('mark_reported', DateTime.now)
+      end
     end
 
     def save_wage
