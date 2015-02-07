@@ -1,10 +1,11 @@
 class AccountingPlan < ActiveRecord::Base
   # t.string   :name
   # t.string   :description
+  # t.string   :file_name
   # t.integer  :organization_id
   # t.timestamps
 
-  attr_accessible :name, :description
+  attr_accessible :name, :description, :file_name
 
   belongs_to :organization
   has_many :accounting_classes, dependent: :destroy

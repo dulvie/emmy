@@ -8,8 +8,9 @@
       %tr
         %th= t(:number)
         %th.nowrap= t(:name)
-        %th.numeric= t(:tax_code)
-        %th.numeric= t(:ink_code)
+        %th= t(:tax_code)
+        %th= t(:ink_code)
+        %th= t(:ne_code)
         %th
         %th
     %tbody{}
@@ -17,16 +18,11 @@
         %tr
           %td= account.number
           %td.nowrap= account.description
-          - if account.tax_code
-            %td.numeric= link_to account.tax_code_code, tax_code_path(account.tax_code_id)
-          - else
-            %td
-          - if account.ink_code
-            %td.numeric= link_to account.ink_code_code, ink_code_path(account.ink_code_id)
-          - else
-            %td
-          %td.numeric= link_to settings_icon, edit_accounting_plan_account_path(@accounting_plan, account)
-          %td.numeric= delete_modal_for account, accounting_plan_account_path(@accounting_plan, account)
+          %td= account.tax_code_code
+          %td= account.ink_code_code
+          %td= account.ne_code_code
+          %td= link_to settings_icon, edit_accounting_plan_account_path(@accounting_plan, account)
+          %td= delete_modal_for account, accounting_plan_account_path(@accounting_plan, account)
 
   = paginate @accounts, param_name: "page_account", theme: 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
