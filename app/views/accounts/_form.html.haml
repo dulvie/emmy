@@ -4,8 +4,8 @@
   = f.association :accounting_group, collection: @accounting_plan.accounting_groups, disabled: !@account.new_record?
   = f.input :number, disabled: !@account.new_record?
   = f.input :description
-  = f.association :tax_code
-  = f.association :ink_code
+  = f.association :tax_code, collection: @tax_codes
+  = f.association :ink_code, collection: @ink_codes
   = f.association :ne_code, collection: @ne_codes
 
   .form-button-group
