@@ -1,5 +1,6 @@
-.btn-group
+.input-group
   = link_to "#{t(:create)} #{t(:ink_code)}", new_ink_code_path, class: 'btn btn-success'
+  = link_to "#{t(:import)} #{t(:ink_codes)}", ink_code_order_import_path, class: 'btn btn-default'
 
 .table-responsive{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}
