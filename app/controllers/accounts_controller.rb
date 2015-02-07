@@ -79,6 +79,8 @@ class AccountsController < ApplicationController
   end
   
   def init
+    @tax_codes = current_organization.tax_codes
+    @ink_codes = current_organization.ink_codes
     @ne_codes = current_organization.ne_codes
   end
 end
