@@ -62,6 +62,27 @@ class InkCodesController < ApplicationController
     end
   end
 
+  def order_import
+    init_order_import
+  end
+
+  def import
+    directory = params[:file_importer][:directory]
+    file_name = params[:file_importer][:file]
+    type = params[:file_importer][:type]
+    @accounting_plan = current_organization.accounting_plans.find(params[:file_importer][:accounting_plan])
+    @ink_codes = current_organization.ink_codes
+    ink_code_creator = Services::InkCodeCreator.new(current_organization, current_user, @ink_codes, @accounting_plan)
+    respond_to do |format|
+      if ink_code_creator.execute(type, directory, file_name)
+        format.html { redirect_to ink_codes_url, notice: "#{t(:ink_codes)} #{t(:was_successfully_created)}" }
+      else
+        init_order_import
+        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:ink_codes)}"
+        format.html { render 'order_import' }
+      end
+    end
+  end
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.
@@ -75,5 +96,18 @@ class InkCodesController < ApplicationController
 
   def show_breadcrumbs
     @breadcrumbs = [['Ink codes', ink_codes_path], [@ink_code.code]]
+  end
+
+  def init_order_import
+    @breadcrumbs = [["#{t(:ink_codes)}", ink_codes_path], ["#{t(:order)} #{t(:import)}"]]
+    from_directory = "files/codes/"
+    @file_importer = FileImporter.new(from_directory)
+    @files = @file_importer.files('INK*.csv')
+    @accounting_plans = current_organization.accounting_plans
+    @ink_codes = current_organization.ink_codes
+    @types = FileImporter::LOAD if @accounting_plans.size == 0 && @ink_codes.size == 0
+    @types = FileImporter::LOAD_CONNECT if @accounting_plans.size > 0 && @ink_codes.size == 0
+    @types = FileImporter::RELOAD if @accounting_plans.size == 0 && @ink_codes.size > 0
+    @types = FileImporter::RELOAD_CONNECT if @accounting_plans.size > 0 && @ink_codes.size > 0
   end
 end
