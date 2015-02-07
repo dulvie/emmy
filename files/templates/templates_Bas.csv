@@ -5,11 +5,11 @@
 #template_item;2640;false;true
 #template_item;1920;false;true
 
-#template;Bankkostnad2;Bankkostnader;cost
+#template;Bankkostnad;Bankkostnader;cost
 #template_item;6570;true;false
 #template_item;1920;false;true
 
-#template;Momsredovisning2;Momsredovisning;cost
+#template;Momsredovisning;Momsredovisning;cost
 #template_item;2610;true;false
 #template_item;2620;true;false
 #template_item;2630;true;false
