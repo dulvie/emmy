@@ -1,64 +1,52 @@
 module Services
   class TaxCodeCreator
+    require 'csv'
 
-    def initialize(organization, user, accounting_plan)
+    def initialize(organization, user, tax_codes, accounting_plan)
       @user = user
       @organization = organization
+      @tax_codes = tax_codes
       @accounting_plan = accounting_plan
     end
 
-    def tax_codes_save
-      add_tax_code(05, "Momspliktig försäljning", 'vat_period', 'vat')
-      add_tax_code(10, "Utgående moms på försäljning 25 %", 'accounting_period', 'vat')
-      add_tax_code(11, "Utgående moms på försäljning 12 %", 'accounting_period', 'vat')
-      add_tax_code(12, "Utgående moms på försäljning 6 %", 'accounting_period', 'vat')
-      add_tax_code(30, "Utgående moms på försäljning 25 %", 'accounting_period', 'vat')
-      add_tax_code(31, "Utgående moms på försäljning 12 %", 'accounting_period', 'vat')
-      add_tax_code(32, "Utgående moms på försäljning 6 %", 'accounting_period', 'vat')
-      add_tax_code(48, "Ingående moms", 'accounting_period', 'vat')
-      add_tax_code(49, "Moms att betala eller få tillbaka", 'total', 'vat')
-
-      add_tax_code(50, "Avgiftspliktig bruttolön utan förmåner", 'wage_period', 'wage')
-      add_tax_code(55, "Underlag full arbetsgivaravgift 26 - 65 år", 'subset_55', 'wage')
-      add_tax_code(57, "Underlag arbetsgivaravgift - 26 år", 'subset_57', 'wage')
-      add_tax_code(59, "Underlag arbetsgivaravgift 65 år - ", 'subset_59', 'wage')
-      add_tax_code(56, "Full arbetsgivaravgift 26 - 65 år", 'subset_56', 'wage')
-      add_tax_code(58, "Arbetsgivaravgift - 26 år", 'subset_58', 'wage')
-      add_tax_code(60, "Arbetsgivaravgift 65 år - ", 'subset_60', 'wage')
-      add_tax_code(78, "Summa arbetsgivaravgifter", 'accounting_period', 'wage')
-      add_tax_code(81, "Lön och förmåner inkl SINK", 'include_81', 'wage')
-      add_tax_code(82, "Avdragen skatt från lön och förmåner", 'accounting_period', 'wage')
-      add_tax_code(99, "Summa avgift och skatt att betala", 'total', 'wage') 
-
-      add_tax_code(101, "Betalningskonto", 'none', 'default')
-      add_tax_code(102, "Motkonto sociala avgifter", 'none', 'default')
+    def execute(type, directory, file_name)
+      case type
+        when 'load'
+          read_and_save(type, directory, file_name)
+        when 'load and connect'
+          read_and_save(type, directory, file_name)
+        when 'clear'
+          delete_tax_codes
+        when 'reload'
+          delete_tax_codes
+          read_and_save(type, directory, file_name)
+        when 'reload and connect'
+          delete_tax_codes
+          read_and_save(type, directory, file_name)
+        when 'connect'
+          read_and_save(type, directory, file_name)
+        else
+      end
+      
+      return true 
     end
 
-    def BAS_tax_code_update
-      update_account_tax_code('3001', 05)
-      update_account_tax_code('2610', 10)
-      update_account_tax_code('2620', 11)
-      update_account_tax_code('2630', 12)
-      update_account_tax_code('2640', 48)
+    def read_and_save(type, directory, file_name)
+      accounting_plan_file = @accounting_plan
+      name = directory + file_name
+      first = true
+      CSV.foreach(name, { :col_sep => ';' }) do |row|
+        if row[0] && row[0] == 'code'
+          # row-type code text method type
+          add_tax_code(row[1], row[2], row[3], row[4]) if type.include? "load"
+        elsif row[0] && row[0] == 'connect'
+          connect(row[1], row[2], row[3]) if type.include? "connect"
+        end
+      end
+    end
 
-      update_account_tax_code('2614', 30)
-      update_account_tax_code('2615', 30)
-      update_account_tax_code('2617', 30)
-
-      update_account_tax_code('2624', 31)
-      update_account_tax_code('2625', 31)
-      update_account_tax_code('2627', 31)
-
-      update_account_tax_code('2634', 32)
-      update_account_tax_code('2635', 32)
-      update_account_tax_code('2637', 32)
-
-      update_account_tax_code('7210', 50)
-      update_account_tax_code('2730', 78)
-      update_account_tax_code('2710', 82)
-
-      update_account_tax_code('1920', 101)
-      update_account_tax_code('7500', 102)
+    def connect(plan, account, code)
+      set_connect(account, code) if @accounting_plan.file_name.include? plan
     end
 
     def add_tax_code(code, text, sum_method, code_type)
@@ -71,10 +59,18 @@ module Services
       tax_code.save
     end
 
-    def update_account_tax_code(account, tax_code)
+    def delete_tax_codes
+      @tax_codes.each do |tax_code|
+        tax_code.destroy
+      end
+    end
+
+    def set_connect(account, tax_code)
       @account = @accounting_plan.accounts.find_by_number(account)
+      return if !@account
       @tax_code = @organization.tax_codes.find_by_code(tax_code)
-      @account.tax_code = @tax_code
+      return if !@tax_code
+      @account.tax_code_id = @tax_code.id
       @account.save
     end
   end

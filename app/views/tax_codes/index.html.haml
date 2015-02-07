@@ -1,16 +1,17 @@
-.btn-group
+.input-group
   = link_to "#{t(:create)} #{t(:tax_code)}", new_tax_code_path, class: 'btn btn-success'
+  = link_to "#{t(:import)} #{t(:tax_codes)}", tax_code_order_import_path, class: 'btn btn-default'
 
-.btn-group{"data-toggle" => "buttons"}
-  %label.btn.btn-default.active
-    = radio_button_tag :single_use, 'vat', true
-    = t(:vat)
-  %label.btn.btn-default
-    = radio_button_tag :single_use, 'wage', false
-    = t(:wage)
-  %label.btn.btn-default
-    = radio_button_tag :single_use, 'default', false
-    = t(:default)
+  .btn-group{"data-toggle" => "buttons"}
+    %label.btn.btn-default.active
+      = radio_button_tag :single_use, 'vat', true
+      = t(:vat)
+    %label.btn.btn-default
+      = radio_button_tag :single_use, 'wage', false
+      = t(:wage)
+    %label.btn.btn-default
+      = radio_button_tag :single_use, 'default', false
+      = t(:default)
 
 .table-responsive{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}
