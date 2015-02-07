@@ -62,6 +62,27 @@ class TaxCodesController < ApplicationController
     end
   end
 
+  def order_import
+    init_order_import
+  end
+
+  def import
+    directory = params[:file_importer][:directory]
+    file_name = params[:file_importer][:file]
+    type = params[:file_importer][:type]
+    @accounting_plan = current_organization.accounting_plans.find(params[:file_importer][:accounting_plan])
+    @tax_codes = current_organization.tax_codes
+    tax_code_creator = Services::TaxCodeCreator.new(current_organization, current_user, @tax_codes, @accounting_plan)
+    respond_to do |format|
+      if tax_code_creator.execute(type, directory, file_name)
+        format.html { redirect_to tax_codes_url, notice: "#{t(:tax_codes)} #{t(:was_successfully_created)}" }
+      else
+        init_order_import
+        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:tax_codes)}"
+        format.html { render 'order_import' }
+      end
+    end
+  end
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.
@@ -75,5 +96,18 @@ class TaxCodesController < ApplicationController
 
   def show_breadcrumbs
     @breadcrumbs = [['Tax codes', tax_codes_path], [@tax_code.code]]
+  end
+
+  def init_order_import
+    @breadcrumbs = [["#{t(:tax_codes)}", tax_codes_path], ["#{t(:order)} #{t(:import)}"]]
+    from_directory = "files/codes/"
+    @file_importer = FileImporter.new(from_directory)
+    @files = @file_importer.files('TAX*.csv')
+    @accounting_plans = current_organization.accounting_plans
+    @tax_codes = current_organization.tax_codes
+    @types = FileImporter::LOAD if @accounting_plans.size == 0 && @tax_codes.size == 0
+    @types = FileImporter::LOAD_CONNECT if @accounting_plans.size > 0 && @tax_codes.size == 0
+    @types = FileImporter::RELOAD if @accounting_plans.size == 0 && @tax_codes.size > 0
+    @types = FileImporter::RELOAD_CONNECT if @accounting_plans.size > 0 && @tax_codes.size > 0
   end
 end
