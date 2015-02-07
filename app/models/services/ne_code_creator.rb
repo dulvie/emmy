@@ -10,10 +10,6 @@ module Services
     end
 
     def execute(type, directory, file_name)
-      # 
-      # OBS connect funkar inte helt mot accounting_plan.file_name=Kontoplan_K1_2014_ver1.csv
-      # ändra så att connect alltid löses mot kontoplanens fil
-      # olika typer av läsning
 
       case type
         when 'load'
@@ -53,7 +49,7 @@ module Services
     end
 
     def connect
-      # connect from accounting_plan file for connecting to NE-codes
+      # connect from accounting_plan files for connecting to NE-codes
       directory = 'files/accounting_plans/'
       file_name = @accounting_plan.file_name
       read_and_save_connect_K1(directory, file_name) if file_name.include? "K1_20"
