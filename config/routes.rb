@@ -40,6 +40,7 @@ Emmy::Application.routes.draw do
 
     resources :accounting_periods
 
+    get 'accounting_plan_order_import', to: 'accounting_plans#order_import', as: 'accounting_plan_order_import'
     post 'accounting_plan_import', to: 'accounting_plans#import', as: 'accounting_plan_import'
     resources :accounting_plans do
       resources :accounting_groups
@@ -85,6 +86,8 @@ Emmy::Application.routes.draw do
         post 'create_purchase', as: :create_pruchase
       end
     end
+    get 'ink_code_order_import', to: 'ink_codes#order_import', as: 'ink_code_order_import'
+    post 'ink_code_import', to: 'ink_codes#import', as: 'ink_code_import'
     resources :ink_codes
     resources :inventories do
       resources :inventory_items
@@ -99,6 +102,9 @@ Emmy::Application.routes.draw do
     resources :ledger_transactions
     resources :manuals
     resources :materials
+    
+    get 'ne_code_order_import', to: 'ne_codes#order_import', as: 'ne_code_order_import'
+    post 'ne_code_import', to: 'ne_codes#import', as: 'ne_code_import'
     resources :ne_codes
     resources :opening_balances do
       post 'create_from_ub'

@@ -3,6 +3,7 @@ class Account < ActiveRecord::Base
   # t.string   :description
   # t.integer  :tax_code_id
   # t.integer  :ink_code_id
+  # t.integer  :ne_code_id
   # t.integer  :organization_id
   # t.integer  :accounting_plan_id
   # t.integer  :accounting_class_id
@@ -17,6 +18,7 @@ class Account < ActiveRecord::Base
   belongs_to :accounting_group
   belongs_to :tax_code
   belongs_to :ink_code
+  belongs_to :ne_code
   has_many   :opening_balance_items
   has_many   :verificate_items
   has_many   :closing_balance_items

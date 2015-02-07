@@ -13,14 +13,17 @@ class AccountsController < ApplicationController
 
   # GET
   def new
+    init
   end
 
   # GET
   def show
+    init
   end
 
   # GET
   def edit
+    init
   end
 
   # POST
@@ -32,6 +35,7 @@ class AccountsController < ApplicationController
       if @account.save
         format.html { redirect_to accounting_plan_path(@accounting_plan), notice: "#{t(:account)} #{t(:was_successfully_created)}" }
       else
+        init
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:account)}"
         format.html { render action: 'new' }
       end
@@ -44,6 +48,7 @@ class AccountsController < ApplicationController
       if @account.update(account_params)
         format.html { redirect_to accounting_plan_path(@accounting_plan), notice: "#{t(:account)} #{t(:was_successfully_updated)}" }
       else
+        init
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:account)}"
         format.html { render action: 'show' }
       end
@@ -71,5 +76,9 @@ class AccountsController < ApplicationController
 
   def show_breadcrumbs
     @breadcrumbs = [[t(:accounting_plans), accounting_plans_path], [@accounting_plan.name, accounting_plan_path(@accounting_plan)], [@account.name]]
+  end
+  
+  def init
+    @ne_codes = current_organization.ne_codes
   end
 end

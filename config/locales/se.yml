@@ -127,7 +127,7 @@ se:
   ib: "IB"
   in_qty: "In kv"
   incoming: "Inkommande"
-  ink_code: "Inkomstskatte kod"
+  ink_code: "Ink kod"
   ink_codes: "Inkomstskatte koder"
   interchanges: "Utbyten"
   inventory: "Inventering"

@@ -13,52 +13,59 @@ module Services
       @accounting_plan
     end
 
-    def BAS_read_and_save
-      class_id = 'x'
-      group_id = 'x'
-      first = true
-      CSV.foreach('Kontoplan_Normal_2014_ver1.csv', { :col_sep => ';' }) do |row|
-        if first
-          save_account_plan(row[1],'importerat')
-          first = false
-        elsif row[2].blank? && row[5] && row[5].length == 4
-          save_account(row[5], row[6], class_id, group_id)
-        elsif ((row[2] && row[2].strip.length == 1) || (row[2] && row[2].length == 3))
-          class_id = save_account_class(row[2], row[3])
-        elsif ((row[2] && row[2].length == 2) || (row[2] && row[2].length == 5))
-          group_id = save_account_group(row[2], row[3])
-        elsif row[2] && row[2].length == 4 && row[5].blank?
-          save_account(row[2], row[3], class_id, group_id)
-        elsif row[2] && row[2].length == 4 && row[5] && row[5].length == 4
-          save_account(row[2], row[3], class_id, group_id)
-          save_account(row[5], row[6], class_id, group_id)
-        end
+    def read_and_save(directory, file_name)
+      Rails.logger.info "->#{file_name}"
+      case file_name
+      when 'Kontoplan_K1_Mini_2014_ver1.csv'
+        K1_Mini_read_and_save(directory, file_name)
+      when 'Kontoplan_K1_2014_ver1.csv'
+        K1_read_and_save(directory, file_name)
+      when 'Kontoplan_Normal_2014_ver1.csv'
+        BAS_read_and_save(directory, file_name)  
+      else
+      end
+      return true
+    end
 
+    def K1_Mini_read_and_save(diretory, file_name)
+      name = diretory + file_name
+      class_id = 'x'
+      class_name = ['B1-B5', 'B6-B9', 'B10', 'B13-B16', 'R1-R4', 'R5-R8', 'R9-R10', 'U1-U4']
+      nbr = 0
+      first = true
+      CSV.foreach(name, { :col_sep => ';' }) do |row|
+        if first
+          save_account_plan(row[1],'importerat', file_name)
+          first = false
+        elsif !row[1] && row[2]
+          class_id = save_account_class(class_name[nbr], row[2])
+          nbr += 1
+        elsif row[1] && row[3].length == 4
+          save_account(row[3], row[2], class_id, nil)
+        elsif row[1] && row[3] == '2610-2650'
+          save_account('2610', row[2], class_id, nil)
+          save_account('2620', row[2], class_id, nil)
+          save_account('2630', row[2], class_id, nil)
+          save_account('2640', row[2], class_id, nil)
+          save_account('2650', row[2], class_id, nil)
+        elsif row[1] && row[3].length > 4
+          accounts = row[3].split(', ')
+          accounts.each { |account|
+            save_account(account, row[2], class_id, nil)
+          }
+        else
+        end
       end
     end
 
-    def BAS_tax_code_update
-      update_account_tax_code('3001', 05)
-      update_account_tax_code('2610', 10)
-      update_account_tax_code('2620', 11)
-      update_account_tax_code('2630', 12)
-      update_account_tax_code('2640', 48)
-
-      update_account_tax_code('7210', 50)
-      update_account_tax_code('2730', 78)
-      update_account_tax_code('2710', 82)
-
-      update_account_tax_code('1920', 101)
-      update_account_tax_code('7500', 102)
-    end
-
-    def K1_read_and_save
+    def K1_read_and_save(directory, file_name)
+      name = directory + file_name
       class_id = 'x'
       group_id = 'x'
       first = true
-      CSV.foreach('Kontoplan_K1_2014_ver1.csv', { :col_sep => ';' }) do |row|
+      CSV.foreach(name, { :col_sep => ';' }) do |row|
         if first
-          save_account_plan(row[1],'importerat')
+          save_account_plan(row[1],'importerat', file_name)
           first = false
         elsif row[1] && (row[1].at(1) == ' ' || row[1].at(3) == ' ')
           i = row[1].index(' ')
@@ -73,6 +80,30 @@ module Services
           save_account(row[4], row[5], class_id, group_id)
         elsif row[1].nil? && row[4] && row[4].length == 4
           save_account(row[4], row[5], class_id, group_id)
+        end
+      end
+    end
+
+    def BAS_read_and_save(directory, file_name)
+      name = directory + file_name
+      class_id = 'x'
+      group_id = 'x'
+      first = true
+      CSV.foreach(name, { :col_sep => ';' }) do |row|
+        if first
+          save_account_plan(row[1],'importerat', file_name)
+          first = false
+        elsif row[2].blank? && row[5] && row[5].length == 4
+          save_account(row[5], row[6], class_id, group_id)
+        elsif ((row[2] && row[2].strip.length == 1) || (row[2] && row[2].length == 3))
+          class_id = save_account_class(row[2], row[3])
+        elsif ((row[2] && row[2].length == 2) || (row[2] && row[2].length == 5))
+          group_id = save_account_group(row[2], row[3])
+        elsif row[2] && row[2].length == 4 && row[5].blank?
+          save_account(row[2], row[3], class_id, group_id)
+        elsif row[2] && row[2].length == 4 && row[5] && row[5].length == 4
+          save_account(row[2], row[3], class_id, group_id)
+          save_account(row[5], row[6], class_id, group_id)
         end
 
       end
@@ -93,39 +124,11 @@ module Services
       update_account_tax_code('7500', 102)
     end
 
-    def K1_mini_read_and_save
-      first = true
-      CSV.foreach('Kontoplan_K1_Mini_2014_ver1.csv', { :col_sep => ';' }) do |row|
-        if first
-          save_account_plan(row[1],'importerat')
-          first = false
-        end
-        if row[1] && (row[1].length == 2 || row[1].length == 3)
-          save_account_class(row[1], row[2])
-          if row[3].length == 4
-            save_account(row[3], row[2])
-          elsif row[3].length == 9
-            k = row[3].split('-')
-            save_account(k[0], row[2])
-            save_account(k[1], row[2])
-          elsif row[3].length == 10
-            k = row[3].split(', ')
-            save_account(k[0], row[2])
-            save_account(k[1], row[2])
-          else
-            k = row[3].split(', ')
-            save_account(k[0], row[2])
-            save_account(k[1], row[2])
-            save_account(k[2], row[2])
-          end
-        end
-      end
-    end
-
-    def save_account_plan(name, description)
+    def save_account_plan(name, description, file_name)
       @accounting_plan = AccountingPlan.new
       @accounting_plan.name = name
       @accounting_plan.description = description
+      @accounting_plan.file_name = file_name
       @accounting_plan.organization_id = @organization.id
       @accounting_plan.save
     end
@@ -157,7 +160,7 @@ module Services
       @account.organization_id = @organization.id
       @account.accounting_plan_id = @accounting_plan.id
       @account.accounting_class_id = class_id
-      @account.accounting_group_id = group_id
+      @account.accounting_group_id = group_id if group_id
       @account.save
     end
 

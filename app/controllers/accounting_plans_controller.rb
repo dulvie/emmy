@@ -61,14 +61,21 @@ class AccountingPlansController < ApplicationController
     end
   end
 
+  def order_import
+    init_order_import
+  end
+
   def import
+    directory = params[:file_importer][:directory]
+    file_name = params[:file_importer][:file]
     @accounting_plan_creator = Services::AccountingPlanCreator.new(current_organization, current_user)
     respond_to do |format|
-      if @accounting_plan_creator.BAS_read_and_save
+      if @accounting_plan_creator.read_and_save(directory, file_name)
         format.html { redirect_to accounting_plans_url, notice: "#{t(:accounting_plan)} #{t(:was_successfully_created)}" }
       else
+        init_order_import
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:accounting_plan)}"
-        format.html { redirect_to accounting_plans_url }
+        format.html { render 'order_import' }
       end
     end
   end
@@ -91,5 +98,14 @@ class AccountingPlansController < ApplicationController
   def init
     @accounting_plans = current_organization.accounting_plans.order(:name)
     @accounting_plans = @accounting_plans.page(params[:page]).decorate
+  end
+  
+  def init_order_import
+    @breadcrumbs = [["#{t(:accounting_plan)}", accounting_plans_path], ["#{t(:order)} #{t(:import)}"]]
+    from_directory = "files/accounting_plans/"
+    existing_plans = current_organization.accounting_plans.pluck(:file_name)
+    @file_importer = FileImporter.new(from_directory)
+    @file_importer.file_filter(existing_plans)
+    @files = @file_importer.files('*.csv')  
   end
 end
