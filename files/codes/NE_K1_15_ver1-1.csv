@@ -35,7 +35,7 @@ Fält-kod;Rad NE;Benämning;Konton i BAS Förenklat;
 ;;;;
 ;;Eget kapital;;
 7300;B10;Eget kapital;2010;Eget kapital, delägare 1
-;;;2020–2040;Eget kapital, delägare 2–4
+;;;2020-2040;Eget kapital, delägare 2–4
 ;;;;
 ;;Skulder;;
 7380;B13;Låneskulder;2330;Checkräkningskredit
@@ -59,13 +59,13 @@ Fält-kod;Rad NE;Benämning;Konton i BAS Förenklat;
 ;;;3500;Fakturerade kostnader
 ;;;3700;Lämnade rabatter, bonusar etc. R1/R2
 ;;;3900;Övriga rörelseintäkter R1/R2
-7401;R2 ;Momsfria intäkter;3100;Momsfria intäkter
+7401;R2;Momsfria intäkter;3100;Momsfria intäkter
 ;;;3700;Lämnade rabatter, bonusar etc. R1/R2
 ;;;3900;Övriga rörelseintäkter R1/R2
 ;;;3970;Vinst vid avyttring av immateriella och materiella anläggningstillgångar
 ;;;3980;Erhållna bidrag
-7402;R3 ;Bil- och bostadsförmån m.m.;3200;Bil- och bostadsförmån m.m.
-7403;R4 ;Ränteintäkter m.m.;8310;Ränteintäkter och utdelningar
+7402;R3;Bil- och bostadsförmån m.m.;3200;Bil- och bostadsförmån m.m.
+7403;R4;Ränteintäkter m.m.;8310;Ränteintäkter och utdelningar
 ;;;8330;Valutakursdifferenser på fordringar och placeringar
 ;;;;
 ;;Kostnader;;
