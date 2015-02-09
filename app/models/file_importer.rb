@@ -3,14 +3,11 @@ class FileImporter
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
-  LOAD = ['load']
-  LOAD_CONNECT = ['load', 'load and connect']
-  RELOAD = ['clear', 'reload']
-  RELOAD_CONNECT = ['clear', 'reload', 'reload and connect', 'connect']
-
-  def initialize(directory)
+  def initialize(directory, codes, accounting_plans)
    @directory = directory
    @exclude_files = Array.new
+   @codes = codes
+   @accounting_plans = accounting_plans
   end
   
   attr_accessor :directory, :file, :type, :accounting_plan
@@ -21,6 +18,13 @@ class FileImporter
 
   def directory
     @directory
+  end
+
+  def types
+    types = ['load'] if @accounting_plans.size == 0 && @codes.size == 0
+    types = ['load', 'load and connect'] if @accounting_plans.size > 0 && @codes.size == 0
+    types = ['clear', 'reload'] if @accounting_plans.size == 0 && @codes.size > 0
+    types = ['clear', 'reload', 'reload and connect', 'connect'] if @accounting_plans.size > 0 && @codes.size > 0
   end
 
   def files(file_filter)

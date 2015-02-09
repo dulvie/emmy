@@ -104,7 +104,7 @@ class AccountingPlansController < ApplicationController
     @breadcrumbs = [["#{t(:accounting_plan)}", accounting_plans_path], ["#{t(:order)} #{t(:import)}"]]
     from_directory = "files/accounting_plans/"
     existing_plans = current_organization.accounting_plans.pluck(:file_name)
-    @file_importer = FileImporter.new(from_directory)
+    @file_importer = FileImporter.new(from_directory, nil, nil)
     @file_importer.file_filter(existing_plans)
     @files = @file_importer.files('*.csv')  
   end

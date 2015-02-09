@@ -101,13 +101,9 @@ class TaxCodesController < ApplicationController
   def init_order_import
     @breadcrumbs = [["#{t(:tax_codes)}", tax_codes_path], ["#{t(:order)} #{t(:import)}"]]
     from_directory = "files/codes/"
-    @file_importer = FileImporter.new(from_directory)
-    @files = @file_importer.files('TAX*.csv')
-    @accounting_plans = current_organization.accounting_plans
     @tax_codes = current_organization.tax_codes
-    @types = FileImporter::LOAD if @accounting_plans.size == 0 && @tax_codes.size == 0
-    @types = FileImporter::LOAD_CONNECT if @accounting_plans.size > 0 && @tax_codes.size == 0
-    @types = FileImporter::RELOAD if @accounting_plans.size == 0 && @tax_codes.size > 0
-    @types = FileImporter::RELOAD_CONNECT if @accounting_plans.size > 0 && @tax_codes.size > 0
+    @accounting_plans = current_organization.accounting_plans
+    @file_importer = FileImporter.new(from_directory, @tax_codes, @accounting_plans)
+    @files = @file_importer.files('TAX*.csv')
   end
 end
