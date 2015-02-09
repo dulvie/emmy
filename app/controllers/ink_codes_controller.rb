@@ -101,13 +101,9 @@ class InkCodesController < ApplicationController
   def init_order_import
     @breadcrumbs = [["#{t(:ink_codes)}", ink_codes_path], ["#{t(:order)} #{t(:import)}"]]
     from_directory = "files/codes/"
-    @file_importer = FileImporter.new(from_directory)
-    @files = @file_importer.files('INK*.csv')
-    @accounting_plans = current_organization.accounting_plans
     @ink_codes = current_organization.ink_codes
-    @types = FileImporter::LOAD if @accounting_plans.size == 0 && @ink_codes.size == 0
-    @types = FileImporter::LOAD_CONNECT if @accounting_plans.size > 0 && @ink_codes.size == 0
-    @types = FileImporter::RELOAD if @accounting_plans.size == 0 && @ink_codes.size > 0
-    @types = FileImporter::RELOAD_CONNECT if @accounting_plans.size > 0 && @ink_codes.size > 0
+    @accounting_plans = current_organization.accounting_plans
+    @file_importer = FileImporter.new(from_directory, @ink_codes, @accounting_plans)
+    @files = @file_importer.files('INK*.csv')
   end
 end
