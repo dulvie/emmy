@@ -152,6 +152,8 @@ Emmy::Application.routes.draw do
     end
     get 'statistics/index'
     resources :shelves
+    get  'sie_exports/order_export'
+    post 'sie_exports/create_export'
     get  'sie_imports/order_import'
     post 'sie_imports/create_import'
     resources :suppliers
