@@ -22,6 +22,10 @@ class ClosingBalanceItem < ActiveRecord::Base
     account.number
   end
 
+  def account_text
+    account.description
+  end
+
   def can_delete?
     true
   end

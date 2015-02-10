@@ -22,6 +22,10 @@ class OpeningBalanceItem < ActiveRecord::Base
     account.number
   end
 
+  def account_text
+    account.description
+  end
+
   def posting_date
     opening_balance.posting_date_formatted
   end
