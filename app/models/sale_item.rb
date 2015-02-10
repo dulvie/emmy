@@ -72,6 +72,10 @@ class SaleItem < ActiveRecord::Base
       if v = batch.vat.vat_percent
         return v
       end
+    elsif item
+      if v = item.vat.vat_percent
+        return v
+      end
     end
     0
   end
