@@ -205,6 +205,7 @@ Emmy::Application.routes.draw do
       resources :wages
       resources :wage_reports
       member do
+        post 'state_change', as: :state_change
         post 'create_wage', as: :create_wage
         post 'create_wage_verificate', as: :create_wage_verificate
         post 'create_wage_report', as: :create_wage_report
