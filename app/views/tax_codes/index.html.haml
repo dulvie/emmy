@@ -1,8 +1,8 @@
-.input-group
+.input-group.full-width
   = link_to "#{t(:create)} #{t(:tax_code)}", new_tax_code_path, class: 'btn btn-success'
   = link_to "#{t(:import)} #{t(:tax_codes)}", tax_code_order_import_path, class: 'btn btn-default'
 
-  .btn-group{"data-toggle" => "buttons"}
+  .btn-group.pull-right{"data-toggle" => "buttons"}
     %label.btn.btn-default.active
       = radio_button_tag :single_use, 'vat', true
       = t(:vat)
@@ -28,22 +28,23 @@
           %td.numeric= tax_code.code
           %td= tax_code.text
           %td= tax_code.sum_method
-          %td.numeric= link_to settings_icon, edit_tax_code_path(tax_code)
-          %td.numeric= delete_modal_for tax_code
+          %td= link_to settings_icon, edit_tax_code_path(tax_code)
+          %td= delete_modal_for tax_code
       - @tax_codes.wage.each do |tax_code|
         %tr.show-wage
           %td.numeric= tax_code.code
           %td= tax_code.text
           %td= tax_code.sum_method
-          %td.numeric= link_to settings_icon, edit_tax_code_path(tax_code)
-          %td.numeric= delete_modal_for tax_code
+          %td= link_to settings_icon, edit_tax_code_path(tax_code)
+          %td= delete_modal_for tax_code
       - @tax_codes.default.each do |tax_code|
         %tr.show-default
           %td.numeric= tax_code.code
           %td= tax_code.text
           %td= tax_code.sum_method
-          %td.numeric= link_to settings_icon, edit_tax_code_path(tax_code)
-          %td.numeric= delete_modal_for tax_code
+          %td= link_to settings_icon, edit_tax_code_path(tax_code)
+          %td= delete_modal_for tax_code
+
   = paginate @tax_codes, :theme => 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
 
