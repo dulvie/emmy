@@ -122,13 +122,15 @@ module Services
       return @verificate.id
     end
 
-    def accounts_receivable
+    def accounts_receivable(normal)
       sale = @object
       accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', sale.approved_at, sale.approved_at).first
       accounting_plan = @organization.accounting_plans.find(accounting_period.accounting_plan_id)
 
-      ver_dsc = I18n.t(:customer) + ' ' + I18n.t(:invoice)
-      save_verificate(sale.approved_at, ver_dsc, '', '', accounting_period, nil)
+      ver_dsc = I18n.t(:customer) + ' ' + I18n.t(:invoice) + ' ' + sale.invoice_number.to_s if normal
+      ver_dsc = I18n.t(:reverse) + ' ' + I18n.t(:customer) + ' ' + I18n.t(:invoice) + ' ' + sale.invoice_number.to_s if !normal
+      save_verificate(sale.approved_at, ver_dsc, '', '', accounting_period, nil) if normal
+      save_verificate(sale.canceled_at, ver_dsc, '', '', accounting_period, nil) if !normal
 
       account_sale = account_from_tax_code(accounting_plan, 05)
       account_vat25 = account_from_tax_code(accounting_plan, 10)
@@ -136,27 +138,34 @@ module Services
       account_vat06 = account_from_tax_code(accounting_plan, 12)
 
       sale.sale_items.each do |item|
-        save_verificate_item(@verificate, account_sale, 0, BigDecimal.new(item.price_sum)/100, accounting_period)
+        save_verificate_item(@verificate, account_sale, 0, BigDecimal.new(item.price_sum)/100, accounting_period) if normal
+        save_verificate_item(@verificate, account_sale, BigDecimal.new(item.price_sum)/100, 0, accounting_period) if !normal
         case item.vat
           when 6
-            save_verificate_item(@verificate, account_vat06, 0, item.total_vat/100, accounting_period)
+            save_verificate_item(@verificate, account_vat06, 0, item.total_vat/100, accounting_period) if normal
+            save_verificate_item(@verificate, account_vat06, item.total_vat/100, 0, accounting_period) if !normal
           when 12
-            save_verificate_item(@verificate, account_vat12, 0, item.total_vat/100, accounting_period)
+            save_verificate_item(@verificate, account_vat12, 0, item.total_vat/100, accounting_period) if normal
+            save_verificate_item(@verificate, account_vat12, item.total_vat/100, 0, accounting_period) if !normal
           when 25
-            save_verificate_item(@verificate, account_vat25, 0, item.total_vat/100, accounting_period)
+            save_verificate_item(@verificate, account_vat25, 0, item.total_vat/100, accounting_period) if normal
+            save_verificate_item(@verificate, account_vat25, item.total_vat/100, 0, accounting_period) if !normal
           else
         end
       end
 
       account_rounding = account_from_tax_code(accounting_plan, 103)
       if sale.total_rounding > 0
-        save_verificate_item(@verificate, account_rounding, sale.total_rounding/100, 0, accounting_period)
+        save_verificate_item(@verificate, account_rounding, sale.total_rounding/100, 0, accounting_period) if normal
+        save_verificate_item(@verificate, account_rounding, 0, sale.total_rounding/100, accounting_period) if !normal
       else
-        save_verificate_item(@verificate, account_rounding, 0, sale.total_rounding/100, accounting_period)
+        save_verificate_item(@verificate, account_rounding, 0, sale.total_rounding/100, accounting_period) if normal
+        save_verificate_item(@verificate, account_rounding, sale.total_rounding/100, 0, accounting_period) if !normal
       end
 
       account_receivable = account_from_tax_code(accounting_plan, 104)
-      save_verificate_item(@verificate, account_receivable, sale.total_after_rounding/100, 0, accounting_period)
+      save_verificate_item(@verificate, account_receivable, sale.total_after_rounding/100, 0, accounting_period) if normal
+      save_verificate_item(@verificate, account_receivable, 0, sale.total_after_rounding/100, accounting_period) if !normal
     end
 
     def customer_payments
@@ -172,6 +181,38 @@ module Services
 
       customer_payment = account_from_tax_code(accounting_plan, 101)
       save_verificate_item(@verificate, customer_payment, sale.total_after_rounding/100, 0, accounting_period)
+    end
+
+    def accounts_payable
+      purchase = @object
+      accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', purchase.ordered_at, purchase.ordered_at).first
+      accounting_plan = @organization.accounting_plans.find(accounting_period.accounting_plan_id)
+
+      ver_dsc = purchase.description
+      save_verificate(purchase.ordered_at, ver_dsc, '', '', accounting_period, nil)
+
+      # Kostnadsförs manuellt på rätt kostnadskonto
+
+      account_vat = account_from_tax_code(accounting_plan, 48)
+      save_verificate_item(@verificate, account_vat, BigDecimal.new(purchase.total_vat)/100, 0, accounting_period)
+
+      account_payable = account_from_tax_code(accounting_plan, 105)
+      save_verificate_item(@verificate, account_payable, 0, BigDecimal.new(purchase.total_amount)/100, accounting_period)
+    end
+
+    def supplier_payments
+      purchase = @object
+      accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', purchase.paid_at, purchase.paid_at).first
+      accounting_plan = @organization.accounting_plans.find(accounting_period.accounting_plan_id)
+
+      ver_dsc = I18n.t(:supplier) + ' ' + I18n.t(:payment)
+      save_verificate(purchase.paid_at, ver_dsc, '', '', accounting_period, nil)
+
+      account_payable = account_from_tax_code(accounting_plan, 105)
+      save_verificate_item(@verificate, account_payable, BigDecimal.new(purchase.total_amount)/100, 0, accounting_period)
+
+      supplier_payment = account_from_tax_code(accounting_plan, 101)
+      save_verificate_item(@verificate, supplier_payment, 0, BigDecimal.new(purchase.total_amount)/100, accounting_period)
     end
 
     def account_from_tax_code(accounting_plan, tax_code)

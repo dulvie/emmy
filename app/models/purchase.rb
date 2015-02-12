@@ -66,6 +66,7 @@ class Purchase < ActiveRecord::Base
 
   state_machine :state, initial: :meta_complete do
     before_transition on: :mark_prepared, do: :prepare_purchase
+    after_transition on: :mark_prepared, do: :generate_accounts_payable
     before_transition on: :mark_complete, do: :complete_purchase
 
     event :mark_prepared do
@@ -79,6 +80,12 @@ class Purchase < ActiveRecord::Base
 
   def prepare_purchase(transition)
     self.ordered_at = transition.args[0]
+  end
+
+  def generate_accounts_payable
+     user = organization.users.find(user_id)
+     verificate_creator = Services::VerificateCreator.new(organization, user, self)
+     verificate_creator.accounts_payable
   end
 
   def complete_purchase(transition)
@@ -115,6 +122,7 @@ class Purchase < ActiveRecord::Base
 
   state_machine :money_state, initial: :not_paid do
     before_transition on: :pay, do: :pay_purchase
+    after_transition on: :pay, do: :generate_supplier_payments
     after_transition on: :pay, do: :check_for_completeness
     event :pay do
       transition not_paid: :paid
@@ -123,6 +131,12 @@ class Purchase < ActiveRecord::Base
 
   def pay_purchase(transition)
     self.paid_at = transition.args[0]
+  end
+
+  def generate_supplier_payments
+     user = organization.users.find(user_id)
+     verificate_creator = Services::VerificateCreator.new(organization, user, self)
+     verificate_creator.supplier_payments
   end
 
   # after_transition filter for money_state and goods_state.

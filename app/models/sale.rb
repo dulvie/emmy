@@ -81,6 +81,7 @@ class Sale < ActiveRecord::Base
     before_transition on: :mark_canceled, do:  :cancel_sale
     after_transition on: :mark_canceled, do: :create_reverse_transactions
     after_transition on: :mark_canceled, do: :generate_invoice
+    after_transition on: :mark_canceled, do: :reverse_accounts_receivable
 
     event :mark_prepared do
       transition meta_complete: :prepared
@@ -137,7 +138,13 @@ class Sale < ActiveRecord::Base
   def generate_accounts_receivable
      user = organization.users.find(user_id)
      verificate_creator = Services::VerificateCreator.new(organization, user, self)
-     verificate_creator.accounts_receivable
+     verificate_creator.accounts_receivable(true)
+  end
+
+  def reverse_accounts_receivable
+     user = organization.users.find(user_id)
+     verificate_creator = Services::VerificateCreator.new(organization, user, self)
+     verificate_creator.accounts_receivable(false)
   end
 
   state_machine :goods_state, initial: :not_delivered do
