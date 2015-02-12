@@ -5,12 +5,16 @@ class VerificateDecorator < Draper::Decorator
     return l(object.posting_date, format: "%Y-%m-%d") if object.posting_date
     ""
   end
+
   def parent
-    return object.vat_period.name if object.vat_period
-    return object.wage_period_wage.name if object.wage_period_wage
-    return object.wage_period_report.name if object.wage_period_report
-    ""
+    return  h.link_to I18n.t(:sale), h.sale_path(object.parent_id) if object.parent_type == 'Sale'
+    return  h.link_to I18n.t(:vat_period), h.vat_period_vat_reports_path(object.parent_id) if object.parent_type == 'VatPeriod'
+    return  h.link_to I18n.t(:wage_period), h.wage_period_wages_path(object.parent_id) if object.parent_type == 'WagePeriod' && verificate.parent_extend == 'wage'
+    return  h.link_to I18n.t(:wage_period), h.wage_period_wage_reports_path(object.parent_id) if object.parent_type == 'WagePeriod' && verificate.parent_extend == 'tax'
+    return  h.link_to I18n.t(:import_bank_file), h.import_bank_file_path(object.parent.import_bank_file_id) if object.parent_type == 'ImportBankFileRow'
+    return ' '
   end
+
   def total_debit
     number_with_precision(object.total_debit, precision: 2)
   end

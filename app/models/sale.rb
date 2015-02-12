@@ -77,6 +77,7 @@ class Sale < ActiveRecord::Base
   state_machine :state, initial: :meta_complete do
     before_transition on: :mark_prepared, do:  :prepare_sale
     after_transition on: :mark_prepared, do: :generate_invoice
+    after_transition on: :mark_prepared, do: :generate_accounts_receivable
     before_transition on: :mark_canceled, do:  :cancel_sale
     after_transition on: :mark_canceled, do: :create_reverse_transactions
     after_transition on: :mark_canceled, do: :generate_invoice
@@ -133,6 +134,12 @@ class Sale < ActiveRecord::Base
     d.save!
   end
 
+  def generate_accounts_receivable
+     user = organization.users.find(user_id)
+     verificate_creator = Services::VerificateCreator.new(organization, user, self)
+     verificate_creator.accounts_receivable
+  end
+
   state_machine :goods_state, initial: :not_delivered do
     before_transition on: :deliver, do: :deliver_sale
     after_transition on: :deliver, do: :create_from_transactions
@@ -174,7 +181,8 @@ class Sale < ActiveRecord::Base
 
   state_machine :money_state, initial: :not_paid do
     before_transition on: :pay, do:  :pay_sale
-    after_transition not_paid: :paid, do: :check_for_completeness
+    after_transition on: :pay, do: :generate_customer_payments
+    after_transition on: :pay, do: :check_for_completeness
 
     event :pay do
       transition not_paid: :paid
@@ -188,6 +196,12 @@ class Sale < ActiveRecord::Base
   # After_transition filter for money_state and goods_state.
   def check_for_completeness
     mark_complete if paid? && delivered?
+  end
+
+  def generate_customer_payments
+     user = organization.users.find(user_id)
+     verificate_creator = Services::VerificateCreator.new(organization, user, self)
+     verificate_creator.customer_payments
   end
 
   def can_edit_items?
