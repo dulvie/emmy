@@ -120,6 +120,16 @@ class WagePeriodsController < ApplicationController
     end
   end
 
+  def state_change
+    @wage_period = current_organization.wage_periods.find(params[:id])
+    if @wage_period.state_change(params[:event], DateTime.now)
+      msg_h = { notice: t(:success) }
+    else
+      msg_h = { alert: t(:fail) }
+    end
+    redirect_to @wage_period, msg_h
+  end
+
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.

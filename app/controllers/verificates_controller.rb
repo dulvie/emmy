@@ -125,9 +125,9 @@ class VerificatesController < ApplicationController
 
   def show_breadcrumbs
     @verificate.number ? bc = @verificate.number : bc = '*'
-    if @verificate.import_bank_file_row
-       row = @verificate.import_bank_file_row
-       file = @verificate.import_bank_file_row.import_bank_file
+    if @verificate.parent_type == 'ImportBankFileRow'
+       row = @verificate.parent
+       file = @verificate.parent.import_bank_file
        @breadcrumbs = [["#{t(:import_bank_files)}", import_bank_files_path], 
                       [file.reference, import_bank_file_path(file)],
                       ["#{t(:matching)}", import_bank_file_import_bank_file_row_match_verificate_path(file, row)],

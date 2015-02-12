@@ -9,7 +9,6 @@ class VatPeriod < ActiveRecord::Base
   # t.datetime :closed_at
   # t.integer  :organization_id
   # t.integer  :accounting_period_id
-  # t.integer  :verificate_id
 
   # t.timestamps
 
@@ -91,8 +90,8 @@ class VatPeriod < ActiveRecord::Base
   end
 
   def calculated?
-    return false if state == 'preliminary'
-    true
+    return true if state == 'calculated'
+    false
   end
 
   def final?
