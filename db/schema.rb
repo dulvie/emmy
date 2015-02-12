@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150203111347) do
+ActiveRecord::Schema.define(version: 20150206121447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20150203111347) do
     t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "file_name"
   end
 
   create_table "accounts", force: true do |t|
@@ -691,12 +692,11 @@ ActiveRecord::Schema.define(version: 20150203111347) do
     t.integer  "organization_id"
     t.integer  "accounting_period_id"
     t.integer  "template_id"
-    t.integer  "vat_period_id"
-    t.integer  "wage_period_wage_id"
-    t.integer  "wage_period_report_id"
-    t.integer  "import_bank_file_row_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parent_id"
+    t.string   "parent_type"
+    t.string   "parent_extend"
   end
 
   create_table "wage_periods", force: true do |t|

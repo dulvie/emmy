@@ -10,10 +10,10 @@ class CreateVerificates < ActiveRecord::Migration
       t.integer  :organization_id
       t.integer  :accounting_period_id
       t.integer  :template_id
-      t.integer  :vat_period_id
-      t.integer  :wage_period_wage_id
-      t.integer  :wage_period_report_id
-      t.integer  :import_bank_file_row_id
+      t.string   :parent_type
+      t.integer  :parent_id
+      t.string   :parent_extend
+
       t.timestamps
     end
   end
