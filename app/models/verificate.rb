@@ -6,10 +6,9 @@ class Verificate < ActiveRecord::Base
   # t.integer  :organization_id
   # t.integer  :accounting_period_id
   # t.integer  :template_id
-  # t.integer  :vat_period_id
-  # t.integer  :wage_period_wage_id
-  # t.integer  :wage_period_report_id
-  # t.integer  :import_bank_file_row_id
+  # t.string   :parent_type
+  # t.integer  :parent_id
+  # t.string   :parent_extend
   # t.timestamps
 
   attr_accessible :posting_date, :description, :accounting_period_id, :reference, :note, :template_id
@@ -17,10 +16,7 @@ class Verificate < ActiveRecord::Base
   belongs_to :organization
   belongs_to :accounting_period
   belongs_to :template
-  belongs_to :vat_period
-  belongs_to :wage_period_wage, class_name: 'WagePeriod', foreign_key: 'wage_period_wage_id'
-  belongs_to :wage_period_report, class_name: 'WagePeriod', foreign_key: 'wage_period_report_id'
-  belongs_to :import_bank_file_row
+  belongs_to :parent, polymorphic: true
   has_many   :verificate_items, dependent: :delete_all
 
   validates :accounting_period_id, presence: true
@@ -59,10 +55,10 @@ class Verificate < ActiveRecord::Base
   end
 
   def set_dependent
-    self.vat_period.state_change('mark_closed', DateTime.now) if self.vat_period
-    self.wage_period_wage.state_change('mark_wage_closed', DateTime.now) if self.wage_period_wage
-    self.wage_period_report.state_change('mark_tax_closed', DateTime.now) if self.wage_period_report
-    self.import_bank_file_row.set_posted if self.import_bank_file_row
+    self.parent.state_change('mark_closed', DateTime.now) if self.parent_type == 'VatPeriod'
+    self.parent.state_change('mark_wage_closed', DateTime.now) if self.parent_type == 'WagePeriod' && self.parent_extend == 'wage'
+    self.parent.state_change('mark_tax_closed', DateTime.now) if self.parent_type == 'WagePeriod' && self.parent_extend == 'tax'
+    self.parent.set_posted if self.parent_type == 'ImportBankFileRow'
   end
 
   def create_ledger_transactions
