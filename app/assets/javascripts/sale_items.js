@@ -61,7 +61,7 @@ app.controller('sale_items_new_ctrl', function ($scope, $modal, price) {
 		};
 		for (i=0; i< gon.products.length; i++) {
 			if (gon.products[i].value == $scope.product_value) {
-				if ($scope.quantity > gon.products[i].available_quantity) {
+				if (gon.products[i].stocked && $scope.quantity > gon.products[i].available_quantity) {
 					//$scope.quantity = gon.products[i].available_quantity;
 					var msg = "Kvantitet överstiger lagrets " + gon.products[i].available_quantity
 					$scope.open_message('sm', 'messageContent', msg);

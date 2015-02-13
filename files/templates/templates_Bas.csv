@@ -1,8 +1,12 @@
 #template;Inköp kort;Inköp direktavskrivning;cost
 #template_item;4000;true;false
-#template_item;2620;true;false
-#template_item;2630;true;false
-#template_item;2640;false;true
+#template_item;2640;true;false
+#template_item;1920;false;true
+
+#template;Resekostnader;Resekostnader;cost
+#template_item;5810;true;false
+#template_item;5831;true;false
+#template_item;2640;true;false
 #template_item;1920;false;true
 
 #template;Bankkostnad;Bankkostnader;cost

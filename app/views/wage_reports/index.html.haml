@@ -12,10 +12,10 @@
     %tbody{}
       - @wage_reports.each do |wage_report|
         %tr
-          %td= wage_report.tax_code.code
-          %td= wage_report.tax_code.text
+          %td= wage_report.tax_code.code if wage_report.tax_code
+          %td= wage_report.tax_code.text if wage_report.tax_code
           %td.numeric= wage_report.amount
-          - if wage_report.tax_code.sum_method != 'total'
+          - if wage_report.tax_code && wage_report.tax_code.sum_method != 'total'
             - url = wage_period_wage_report_path(wage_report.wage_period_id, wage_report) + "&tax_code_id=#{wage_report.tax_code_id}"
             %td.numeric= link_to settings_icon, url
 
