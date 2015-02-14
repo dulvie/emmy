@@ -77,10 +77,16 @@ class TemplatesController < ApplicationController
     @breadcrumbs = [['Templates']]
     @accounting_plans = current_organization.accounting_plans.order('id')
     if params[:accounting_plan_id]
-      @templates = current_organization.templates.where('accounting_plan_id=?', params[:accounting_plan_id]).order(:name)
+      plan = params[:accounting_plan_id]
+      session[:accounting_plan_id] = plan
+    elsif session[:accounting_plan_id]
+      plan = session[:accounting_plan_id]
     else
-      @templates = current_organization.templates.where('accounting_plan_id=?', @accounting_plans.first.id).order(:name)
+      plan = @accounting_plans.last.id
+      session[:accounting_plan_id] = plan
     end
+    @plan_id = plan
+    @templates = current_organization.templates.where('accounting_plan_id=?', plan).order(:name)
     @templates = @templates.page(params[:page])
   end
 
