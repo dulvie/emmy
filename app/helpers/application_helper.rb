@@ -14,6 +14,11 @@ module ApplicationHelper
     link_to delete_icon, p, method: :delete, data: { confirm: 'Are you Sure?' }
   end
 
+  def agreement_button_for(obj, other_path = nil)
+    p = other_path || obj
+    link_to briefcase_icon, p
+  end
+
   def report_button_for(obj, other_path = nil)
     p = other_path || obj
     link_to tasks_icon, p
@@ -52,10 +57,12 @@ module ApplicationHelper
     glyphicon('trash', "delete-icon #{extra_css_class}")
   end
 
+  def briefcase_icon
+    glyphicon('briefcase', 'briefcase-icon')
+  end
   def refresh_icon
     glyphicon('refresh', 'refresh-icon')
   end
-
   def tasks_icon
     glyphicon('tasks', 'tasks-icon')
   end

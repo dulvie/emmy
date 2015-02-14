@@ -9,14 +9,7 @@ class VatReportsController < ApplicationController
   # GET /vats
   # GET /vats.json
   def index
-    @breadcrumbs = [['Vat periods', vat_periods_path], [@vat_period.name, vat_period_path(@vat_period.id)],
-                    ['Vat reports']]
-    @vat_periods = current_organization.vat_periods.order('id')
-    if !params[:vat_period_id] && @vat_periods.count > 0
-      params[:vat_period_id] = @vat_periods.first.id
-    end
-    @vat_reports = current_organization.vat_reports.where('vat_period_id=?', params[:vat_period_id])
-    @vat_reports = @vat_reports.page(params[:page])
+    init
   end
 
   # GET /vats/new
@@ -28,12 +21,17 @@ class VatReportsController < ApplicationController
   # GET /vats/1
   def show
     @vat_period = VatPeriod.find(@vat_report.vat_period_id)
-    @tax_code = TaxCode.find(params[:tax_code_id])
     @vat_report_creator = Services::VatReportCreator.new(current_organization, current_user, @vat_period)
-    @items = @vat_report_creator.tax_code_part(@tax_code)
-    Rails.logger.info "#{@items[0].inspect}"
+    @tax_code = current_organization.tax_codes.find_by_code(params[:code])
     respond_to do |format|
-      format.html { render action: 'show' }
+      if @tax_code
+        @items = @vat_report_creator.tax_code_part(@tax_code)
+        format.html { render action: 'show' }
+      else
+        init
+        flash.now[:danger] = "#{t(:fail)} #{t(:vat_report)}"
+        format.html { render action: 'index' }
+      end
     end
   end
 
@@ -95,6 +93,17 @@ class VatReportsController < ApplicationController
   def show_breadcrumbs
     @breadcrumbs = [['Vat periods', vat_periods_path], [@vat_report.vat_period.name, vat_period_path(@vat_report.vat_period_id)],
                     ['Vat reports', vat_period_vat_reports_path(@vat_report.vat_period_id)],
-                    [@vat_report.tax_code.code]]
+                    [@vat_report.code]]
+  end
+
+  def init
+    @breadcrumbs = [['Vat periods', vat_periods_path], [@vat_period.name, vat_period_path(@vat_period.id)],
+                    ['Vat reports']]
+    @vat_periods = current_organization.vat_periods.order('id')
+    if !params[:vat_period_id] && @vat_periods.count > 0
+      params[:vat_period_id] = @vat_periods.first.id
+    end
+    @vat_reports = current_organization.vat_reports.where('vat_period_id=?', params[:vat_period_id])
+    @vat_reports = @vat_reports.page(params[:page])
   end
 end

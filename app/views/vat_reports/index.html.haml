@@ -12,11 +12,11 @@
     %tbody{}
       - @vat_reports.each do |vat_report|
         %tr
-          %td= vat_report.tax_code.code if vat_report.tax_code
-          %td= vat_report.tax_code.text if vat_report.tax_code
+          %td= vat_report.code
+          %td= vat_report.text
           %td.numeric= vat_report.amount
-          - if vat_report.tax_code && vat_report.tax_code.sum_method != 'total' 
-            - url = vat_period_vat_report_path(vat_report.vat_period_id, vat_report) + "&tax_code_id=#{vat_report.tax_code_id}"
+          - if vat_report.code != 49 
+            - url = vat_period_vat_report_path(vat_report.vat_period_id, vat_report) + "&code=#{vat_report.code}"
             %td.numeric= link_to settings_icon, url
 
 

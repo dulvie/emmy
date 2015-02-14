@@ -30,7 +30,7 @@
           %td.numeric= wage_period.deadline
           %th= wage_period.state
           - if wage_period.show_wage?
-            %td= report_button_for wage_period_wages_path(wage_period)
+            %td= agreement_button_for wage_period_wages_path(wage_period)
           - else
             %td
           - if wage_period.show_tax?

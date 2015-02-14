@@ -1,5 +1,7 @@
 class WageReport < ActiveRecord::Base
   # t.integer  :amount
+  # t.integer  :code
+  # t.string   :text
   # t.integer  :organization_id
   # t.integer  :accounting_period_id
   # t.integer  :wage_period_id
