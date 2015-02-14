@@ -14,7 +14,7 @@ class Template < ActiveRecord::Base
   belongs_to :accounting_plan
   has_many   :template_items, dependent: :destroy
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: {scope: [:organization_id, :accounting_plan]}
   validates :accounting_plan, presence: true
   validates :template_type, inclusion: { in: PAY_TYPES }
 

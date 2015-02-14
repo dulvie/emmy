@@ -1,4 +1,5 @@
 .input-group.col-sm-48{ng_controller: 'templates_index_ctrl' }
+  %input{id: 'plan_id', type: 'hidden', value: @plan_id}
   = link_to "#{t(:create)} #{t(:template)}", new_template_path, class: 'btn btn-success'
   = link_to "#{t(:import)} #{t(:templates)}", templates_import_path + "&accounting_plan_id={{plan}}", class: 'btn btn-default', method: 'post'
 

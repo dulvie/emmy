@@ -9,5 +9,6 @@ class DashboardController < ApplicationController
     params.delete(:organization_slug)
     @organizations = current_user.organization_roles.roles_with_access.map{|role| role.organization}
     session.delete(:accounting_period_id)
+    session.delete(:accounting_plan_id)
   end
 end
