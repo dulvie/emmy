@@ -66,7 +66,7 @@ class ReportsController < ApplicationController
     @accounting_period = current_organization.accounting_periods.find(@report.accounting_period)
     @verificate_items = VerificateItem
     .joins(:verificate, :account => :accounting_class)
-    .where("verificate_items.organization_id = ? AND verificate_items.accounting_period_id = ? AND verificates.state = 'final' AND accounting_classes.number > '2999' ", current_organization.id, @accounting_period.id)
+    .where("verificate_items.organization_id = ? AND verificate_items.accounting_period_id = ? AND verificates.state = 'final' AND accounts.number > 2999 ", current_organization.id, @accounting_period.id)
     .select('accounting_classes.number AS cls', 'accounting_classes.name AS cls_dsc', 'accounts.number AS num','accounts.description AS desc', "SUM(debit) AS deb", "SUM(credit) AS cre")
     .group('accounting_classes.number', 'accounting_classes.name', 'accounts.number', 'accounts.description')
     .order('accounts.number')
@@ -86,8 +86,19 @@ class ReportsController < ApplicationController
   end
 
   def balance_report
+  # OBS måste plocka bort verificate som inte är final
     @report = Report.new params[:report][:accounting_period]
     @accounting_period = current_organization.accounting_periods.find(@report.accounting_period)
+
+    ib = "(select sum(debit-credit) as ib
+           from opening_balance_items
+           where opening_balance_items.accounting_period_id = #{@accounting_period.id} and
+                 opening_balance_items.account_id = accounts.id)"
+    ver = "(select sum(debit-credit) as ver
+            from verificate_items INNER JOIN verificates ON verificate_items.verificate_id = verificates.id
+            where verificate_items.accounting_period_id = #{@accounting_period.id} AND
+                  verificate_items.account_id = accounts.id AND
+                  verificates.state = 'final')"
 
     @verificate_items = Account
     .joins("INNER JOIN accounting_classes ON accounting_classes.id = accounts.accounting_class_id")
@@ -95,9 +106,8 @@ class ReportsController < ApplicationController
              accounts.description as desc,
              accounting_classes.number as cls,
              accounting_classes.name as cls_desc,
-(select sum(debit-credit) as ib from opening_balance_items where opening_balance_items.accounting_period_id = #{@accounting_period.id} and opening_balance_items.account_id = accounts.id),
-(select sum(debit-credit) as ver from verificate_items where verificate_items.accounting_period_id = #{@accounting_period.id} AND verificate_items.account_id = accounts.id)
-    ")
+             #{ib},
+             #{ver}")
     .where("accounts.number < '2999'")
     .order('accounts.number')
 
