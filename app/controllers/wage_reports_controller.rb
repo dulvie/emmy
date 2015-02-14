@@ -9,11 +9,7 @@ class WageReportsController < ApplicationController
   # GET /wages
   # GET /wages.json
   def index
-    @breadcrumbs = [['Wage periods', wage_periods_path],
-                    [@wage_period.name, wage_period_path(@wage_period.id)],
-                    ['Wage report']]
-    @wage_reports = @wage_period.wage_reports
-    @wage_reports = @wage_reports.page(params[:page])
+    init
   end
 
   # GET /wages/new
@@ -25,12 +21,17 @@ class WageReportsController < ApplicationController
   # GET /wages/1
   def show
     @wage_period = WagePeriod.find(@wage_report.wage_period_id)
-    @tax_code = TaxCode.find(params[:tax_code_id])
+    @tax_code = current_organization.tax_codes.find_by_code(params[:code])
     @wage_report_creator = Services::WageReportCreator.new(current_organization, current_user, @wage_period)
-    @items = @wage_report_creator.tax_code_part(@tax_code)
-    Rails.logger.info "#{@items[0].inspect}"
     respond_to do |format|
-      format.html { render action: 'show' }
+      if @tax_code
+        @items = @wage_report_creator.tax_code_part(@tax_code)
+        format.html { render action: 'show' }
+      else
+        init
+        flash.now[:danger] = "#{t(:fail)} #{t(:wage_report)}"
+        format.html { render action: 'index' }
+      end
     end
   end
 
@@ -92,6 +93,14 @@ class WageReportsController < ApplicationController
   def show_breadcrumbs
     @breadcrumbs = [['Wage periods', wage_periods_path], [@wage_report.wage_period.name, wage_period_path(@wage_report.wage_period_id)],
                     ['Wage reports', wage_period_wage_reports_path(@wage_report.wage_period_id)],
-                    [@wage_report.tax_code.code]]
+                    [@wage_report.code]]
+  end
+
+  def init
+    @breadcrumbs = [['Wage periods', wage_periods_path],
+                    [@wage_period.name, wage_period_path(@wage_period.id)],
+                    ['Wage report']]
+    @wage_reports = @wage_period.wage_reports
+    @wage_reports = @wage_reports.page(params[:page])
   end
 end
