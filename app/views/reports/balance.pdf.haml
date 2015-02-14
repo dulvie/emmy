@@ -8,16 +8,17 @@
         %h2= @accounting_period.name
   %tr
     - @verificate_items.each do |item|
-      - if save_class != item.cls
-        - save_class = item.cls
-        %tr.filler
-          %td{colspan:'5'} &nbsp;
-        %tr
-          %th{colspan: '2'}=item.cls_desc
-          %th.numeric= t(:ib)
-          %th.numeric= t(:change)
-          %th.numeric= t(:ub)
       - if !item.ver.nil? || !item.ib.nil?
+        - if save_class != item.cls
+          - save_class = item.cls
+          %tr.filler
+            %td{colspan:'5'} &nbsp;
+          %tr
+            %th{colspan: '2'}=item.cls_desc
+            %th.numeric= t(:ib)
+            %th.numeric= t(:change)
+            %th.numeric= t(:ub)
+
         - ver = item.ver.nil? ? 0 : item.ver
         - ib = item.ib.nil? ? 0 : item.ib
         - sum = ib + ver
