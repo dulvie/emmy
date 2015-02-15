@@ -5,6 +5,7 @@
   = f.input :number, disabled: !@account.new_record?
   = f.input :description
   = f.association :tax_code, collection: @tax_codes
+  = f.association :default_code, collection: @default_codes
   = f.association :ink_code, collection: @ink_codes
   = f.association :ne_code, collection: @ne_codes
 

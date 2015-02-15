@@ -4,13 +4,14 @@ class Account < ActiveRecord::Base
   # t.integer  :tax_code_id
   # t.integer  :ink_code_id
   # t.integer  :ne_code_id
+  # t.integer  :default_code_id
   # t.integer  :organization_id
   # t.integer  :accounting_plan_id
   # t.integer  :accounting_class_id
   # t.integer  :accounting_group_id
   # t.timestamps
 
-  attr_accessible :number, :description, :tax_code_id, :ink4
+  attr_accessible :number, :description, :tax_code_id, :default_code_id
 
   belongs_to :organization
   belongs_to :accounting_plan
@@ -19,6 +20,7 @@ class Account < ActiveRecord::Base
   belongs_to :tax_code
   belongs_to :ink_code
   belongs_to :ne_code
+  belongs_to :default_code
   has_many   :opening_balance_items
   has_many   :verificate_items
   has_many   :closing_balance_items

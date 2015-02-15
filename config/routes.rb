@@ -66,6 +66,9 @@ Emmy::Application.routes.draw do
         get 'city_search', as: :city_search
       end
     end
+    get 'default_code_order_import', to: 'default_codes#order_import', as: 'default_code_order_import'
+    post 'default_code_import', to: 'default_codes#import', as: 'default_code_import'
+    resources :default_codes
     resources :documents
     resources :employees
     resources :import_bank_files do

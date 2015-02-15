@@ -20,12 +20,8 @@ code;81;Lön och förmåner inkl SINK;include_81;wage
 code;82;Avdragen skatt från lön och förmåner;accounting_period;wage
 code;99;Summa avgift och skatt att betala;total;wage
 
-code;101;Betalningskonto;none;default
-code;102;Motkonto sociala avgifter;none;default
-code;103;Öresavrundning;none;default
-code;104;Kundfordran;none;default
-code;105;Leverantörsskuld;none;default
- 
+code;100;Utgiftskonto sociala avgifter;none;default
+
 connect;Normal_20;3000;05
 connect;Normal_20;2610;10
 connect;Normal_20;2620;11
@@ -48,11 +44,7 @@ connect;Normal_20;7210;50
 connect;Normal_20;2730;78
 connect;Normal_20;2710;82
 
-connect;Normal_20;1920;101
-connect;Normal_20;7500;102
-connect;Normal_20;3740;103
-connect;Normal_20;1510;104
-connect;Normal_20;2440;105
+connect;Normal_20;7500;100
 
 connect;K1_20;1920;101
 

@@ -31,6 +31,7 @@ module Services
     end
 
     def save_report
+      # sum all accounts markt with tax_code 49-99
       accounting_period = AccountingPeriod.find(@wage_period.accounting_period_id)
       ver_wage_period = @organization.verificates.where("accounting_period_id = ? AND state = 'final' AND posting_date >= ? AND posting_date <= ?", @wage_period.accounting_period_id, @wage_period.wage_from, @wage_period.wage_to).select(:id)
       ver_accounting_period = @organization.verificates.where("accounting_period_id = ? AND state = 'final' AND posting_date <= ?", @wage_period.accounting_period_id, @wage_period.wage_to).select(:id)

@@ -20,6 +20,7 @@
         %th.numeric= t(:code)
         %th= t(:text)
         %th= t(:sum_method)
+        %th= t(:accounts)
         %th
         %th
     %tbody{}
@@ -28,6 +29,7 @@
           %td.numeric= tax_code.code
           %td= tax_code.text
           %td= tax_code.sum_method
+          %td= link_to link_icon, tax_code_path(tax_code)
           %td= link_to settings_icon, edit_tax_code_path(tax_code)
           %td= delete_modal_for tax_code
       - @tax_codes.wage.each do |tax_code|
@@ -35,6 +37,7 @@
           %td.numeric= tax_code.code
           %td= tax_code.text
           %td= tax_code.sum_method
+          %td= link_to link_icon, tax_code_path(tax_code)
           %td= link_to settings_icon, edit_tax_code_path(tax_code)
           %td= delete_modal_for tax_code
       - @tax_codes.default.each do |tax_code|
@@ -42,6 +45,7 @@
           %td.numeric= tax_code.code
           %td= tax_code.text
           %td= tax_code.sum_method
+          %td= link_to link_icon, tax_code_path(tax_code)
           %td= link_to settings_icon, edit_tax_code_path(tax_code)
           %td= delete_modal_for tax_code
 

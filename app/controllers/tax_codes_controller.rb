@@ -19,6 +19,8 @@ class TaxCodesController < ApplicationController
 
   # GET /tax_codes/1
   def show
+    @connections = current_organization.accounts.where("tax_code_id = ? ", params[:id])
+    @connections = @connections.page(params[:page])
   end
 
   # GET /tax_code/1/edit
@@ -95,7 +97,7 @@ class TaxCodesController < ApplicationController
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Tax codes', tax_codes_path], [@tax_code.code]]
+    @breadcrumbs = [['Tax codes', tax_codes_path], [@tax_code.code.to_s + ' ' + @tax_code.text]]
   end
 
   def init_order_import
