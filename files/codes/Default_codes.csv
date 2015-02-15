@@ -1,0 +1,15 @@
+code;01;Betalningskonto
+code;02;Öresavrundning
+code;03;Kundfordran
+code;04;Leverantörsskuld
+code;05;Försäljning
+
+connect;Normal_20;1920;01
+connect;Normal_20;3740;02
+connect;Normal_20;1510;03
+connect;Normal_20;2440;04
+connect;Normal_20;3000;05
+
+connect;K1_20;1920;01
+
+connect;Mini_20;1920;01

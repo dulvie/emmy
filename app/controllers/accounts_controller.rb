@@ -80,6 +80,7 @@ class AccountsController < ApplicationController
   
   def init
     @tax_codes = current_organization.tax_codes
+    @default_codes = current_organization.default_codes
     @ink_codes = current_organization.ink_codes
     @ne_codes = current_organization.ne_codes
   end

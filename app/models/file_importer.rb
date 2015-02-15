@@ -21,10 +21,10 @@ class FileImporter
   end
 
   def types
-    types = ['load'] if @accounting_plans.size == 0 && @codes.size == 0
-    types = ['load', 'load and connect'] if @accounting_plans.size > 0 && @codes.size == 0
-    types = ['clear', 'reload'] if @accounting_plans.size == 0 && @codes.size > 0
-    types = ['clear', 'reload', 'reload and connect', 'connect'] if @accounting_plans.size > 0 && @codes.size > 0
+    types = ['load'] if @accounting_plans.size == 0 && @codes.nil?
+    types = ['load', 'load and connect'] if @accounting_plans.size > 0 && @codes.nil?
+    types = ['clear', 'reload'] if @accounting_plans.size == 0 && !@codes.nil?
+    types = ['clear', 'reload', 'reload and connect', 'connect'] if @accounting_plans.size > 0 && !@codes.nil?
   end
 
   def files(file_filter)

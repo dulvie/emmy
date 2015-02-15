@@ -30,9 +30,8 @@ module Services
         elsif report.amount != 0 && report.tax_code.code == 48
           save_verificate_item(@verificate, account, 0, -report.amount, accounting_period)
         elsif report.tax_code.code == 49
-          tax_code = @organization.tax_codes.find_by_code(101)
-          account = accounting_plan.accounts.find_by_tax_code_id(tax_code.id)
-          save_verificate_item(@verificate, account, 0, report.amount, accounting_period)
+          account_pay = account_from_default_code(accounting_plan, 01)
+          save_verificate_item(@verificate, account_pay, 0, report.amount, accounting_period)
         else
         end
       end
@@ -68,14 +67,14 @@ module Services
       account_wage_tax = account_from_tax_code(accounting_plan, 82)
       save_verificate_item(@verificate, account_wage_tax, 0, sum_tax, accounting_period)
 
-      account_payroll_deb = account_from_tax_code(accounting_plan, 102)
+      account_payroll_deb = account_from_tax_code(accounting_plan, 100)
       save_verificate_item(@verificate, account_payroll_deb, sum_payroll_tax, 0, accounting_period)
 
       account_payroll_cre = account_from_tax_code(accounting_plan, 78)
       save_verificate_item(@verificate, account_payroll_cre, 0, sum_payroll_tax, accounting_period)
 
-      account_amount = account_from_tax_code(accounting_plan, 101)
-      save_verificate_item(@verificate, account_amount, 0, sum_amount, accounting_period)
+      account_pay = account_from_default_code(accounting_plan, 01)
+      save_verificate_item(@verificate, account_pay, 0, sum_amount, accounting_period)
       
       wage_period.state_change('mark_wage_reported', DateTime.now)
     end
@@ -94,8 +93,8 @@ module Services
         if report.amount != 0 && (report.tax_code.code == 78 || report.tax_code.code == 82)
           save_verificate_item(@verificate, account, report.amount, 0, accounting_period)
         elsif report.tax_code.code == 99
-          account = account_from_tax_code(accounting_plan, 101)
-          save_verificate_item(@verificate, @account, 0, report.amount, @accounting_period)
+          account_pay = account_from_default_code(accounting_plan, 01)
+          save_verificate_item(@verificate, account_pay, 0, report.amount, @accounting_period)
         else
         end
       end
@@ -117,7 +116,7 @@ module Services
         debit = 0
         credit = -import_bank_file_row.amount
       end
-      account = account_from_tax_code(accounting_plan, 101)
+      account = account_from_default_code(accounting_plan, 01)
       save_verificate_item(@verificate, account, debit, credit, accounting_period)
       return @verificate.id
     end
@@ -132,7 +131,7 @@ module Services
       save_verificate(sale.approved_at, ver_dsc, '', '', accounting_period, nil) if normal
       save_verificate(sale.canceled_at, ver_dsc, '', '', accounting_period, nil) if !normal
 
-      account_sale = account_from_tax_code(accounting_plan, 05)
+      account_sale = account_from_default_code(accounting_plan, 05)
       account_vat25 = account_from_tax_code(accounting_plan, 10)
       account_vat12 = account_from_tax_code(accounting_plan, 11)
       account_vat06 = account_from_tax_code(accounting_plan, 12)
@@ -154,7 +153,7 @@ module Services
         end
       end
 
-      account_rounding = account_from_tax_code(accounting_plan, 103)
+      account_rounding = account_from_default_code(accounting_plan, 02)
       if sale.total_rounding > 0
         save_verificate_item(@verificate, account_rounding, sale.total_rounding/100, 0, accounting_period) if normal
         save_verificate_item(@verificate, account_rounding, 0, sale.total_rounding/100, accounting_period) if !normal
@@ -163,7 +162,7 @@ module Services
         save_verificate_item(@verificate, account_rounding, sale.total_rounding/100, 0, accounting_period) if !normal
       end
 
-      account_receivable = account_from_tax_code(accounting_plan, 104)
+      account_receivable = account_from_default_code(accounting_plan, 03)
       save_verificate_item(@verificate, account_receivable, sale.total_after_rounding/100, 0, accounting_period) if normal
       save_verificate_item(@verificate, account_receivable, 0, sale.total_after_rounding/100, accounting_period) if !normal
     end
@@ -176,10 +175,10 @@ module Services
       ver_dsc = I18n.t(:customer) + ' ' + I18n.t(:payment)
       save_verificate(sale.paid_at, ver_dsc, '', '', accounting_period, nil)
 
-      account_receivable = account_from_tax_code(accounting_plan, 104)
+      account_receivable = account_from_default_code(accounting_plan, 03)
       save_verificate_item(@verificate, account_receivable, 0, sale.total_after_rounding/100, accounting_period)
 
-      customer_payment = account_from_tax_code(accounting_plan, 101)
+      customer_payment = account_from_default_code(accounting_plan, 01)
       save_verificate_item(@verificate, customer_payment, sale.total_after_rounding/100, 0, accounting_period)
     end
 
@@ -196,7 +195,7 @@ module Services
       account_vat = account_from_tax_code(accounting_plan, 48)
       save_verificate_item(@verificate, account_vat, BigDecimal.new(purchase.total_vat)/100, 0, accounting_period)
 
-      account_payable = account_from_tax_code(accounting_plan, 105)
+      account_payable = account_from_default_code(accounting_plan, 04)
       save_verificate_item(@verificate, account_payable, 0, BigDecimal.new(purchase.total_amount)/100, accounting_period)
     end
 
@@ -208,16 +207,22 @@ module Services
       ver_dsc = I18n.t(:supplier) + ' ' + I18n.t(:payment)
       save_verificate(purchase.paid_at, ver_dsc, '', '', accounting_period, nil)
 
-      account_payable = account_from_tax_code(accounting_plan, 105)
+      account_payable = account_from_default_code(accounting_plan, 04)
       save_verificate_item(@verificate, account_payable, BigDecimal.new(purchase.total_amount)/100, 0, accounting_period)
 
-      supplier_payment = account_from_tax_code(accounting_plan, 101)
+      supplier_payment = account_from_default_code(accounting_plan, 01)
       save_verificate_item(@verificate, supplier_payment, 0, BigDecimal.new(purchase.total_amount)/100, accounting_period)
     end
 
     def account_from_tax_code(accounting_plan, tax_code)
       code = @organization.tax_codes.find_by_code(tax_code)
       @account = accounting_plan.accounts.find_by_tax_code_id(code.id)
+      return @account
+    end
+
+    def account_from_default_code(accounting_plan, default_code)
+      code = @organization.default_codes.find_by_code(default_code)
+      @account = accounting_plan.accounts.find_by_default_code_id(code.id)
       return @account
     end
 

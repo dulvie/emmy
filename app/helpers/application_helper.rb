@@ -57,6 +57,9 @@ module ApplicationHelper
     glyphicon('trash', "delete-icon #{extra_css_class}")
   end
 
+  def link_icon
+    glyphicon('link', 'link-icon')
+  end
   def briefcase_icon
     glyphicon('briefcase', 'briefcase-icon')
   end
