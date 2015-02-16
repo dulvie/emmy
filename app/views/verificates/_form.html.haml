@@ -36,3 +36,7 @@
               %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','verificatesContent' )"}
                 = t(:confirm)
               = render partial: 'shared/modal_state_change', locals: {idx: 'verificatesContent', model: @verificate, form_path: state_change_verificate_path(@verificate), event: 'mark_final', return_path: verificate_path(@verificate)}
+    - else
+      .form-button-group
+        .actions
+          = link_to "#{t(:reversal)} #{t(:verificate)}", reversal_verificate_path(@verificate), class: 'btn btn-primary', method: 'post'

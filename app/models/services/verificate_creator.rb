@@ -236,6 +236,18 @@ module Services
       return @verificate.id
     end
 
+    def reversal
+      verificate = @object
+      accounting_period = verificate.accounting_period
+
+      ver_dsc = I18n.t(:reversal) + ' ' + I18n.t(:verificate) + ' ' + verificate.number.to_s
+      save_verificate(DateTime.now, ver_dsc, '', '', accounting_period, nil)
+
+      verificate.verificate_items.each do |verificate_item|
+        save_verificate_item(@verificate, verificate_item.account, verificate_item.credit, verificate_item.debit, accounting_period)
+      end
+    end
+
     def save_verificate(posting_date, description, reference, note, accounting_period, template)
       @verificate = Verificate.new
       @verificate.posting_date = posting_date

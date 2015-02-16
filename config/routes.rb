@@ -201,6 +201,7 @@ Emmy::Application.routes.draw do
       resources :verificate_items
       member do
         post 'state_change', as: :state_change
+        post 'reversal', as: :reversal
         post 'add_verificate_items', as: :add_verificate_items
       end
     end
