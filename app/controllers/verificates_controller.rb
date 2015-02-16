@@ -112,6 +112,18 @@ class VerificatesController < ApplicationController
     end
   end
 
+  def reversal
+    @verificate = current_organization.verificates.find(params[:id])
+    @verificate_creator = Services::VerificateCreator.new(current_organization, current_user, @verificate)
+    respond_to do |format|
+      if @verificate_creator.reversal
+        format.html { redirect_to verificates_path, notice:  "#{t(:verificate)} #{t(:was_successfully_created)}" }
+      else
+        format.html { redirect_to verificates_path, notice:  "#{t(:faild_to_create)} #{t(:verificate)}" }
+      end
+    end
+  end
+
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.
