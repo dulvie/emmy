@@ -1,0 +1,44 @@
+= simple_form_for(@ledger_account, wrapper: :horizontal_form, html: {class: 'form-horizontal'}, url:'ledger_accounts_path') do |f|
+  = f.input :account_number, disabled: true
+  = f.input :account_text, disabled: true
+  = f.input :sum, disabled: true
+
+.table-responsive{}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:due_date)
+        %th= t(:invoice)
+        %th= t(:customer)
+        %th.numeric= t(:amount)
+        %th
+    %tbody{}
+      - sum   = 0
+      - total = 0
+      - first = true
+      - @accounts_receivables.each do |sale|
+        - if sale.due_date > DateTime.now && first
+          - first = false
+          %tr
+            %td
+            %td
+            %th= t(:late_invoices)
+            %th.numeric= sum
+            %td
+        %tr
+          %td= sale.due_date
+          %td= sale.invoice_number
+          %td= sale.customer.name
+          %td.numeric= sale.total_after_rounding/100
+          %td= link_to settings_icon, sale_path(sale.id)
+          - total += sale.total_after_rounding/100
+          - sum += sale.total_after_rounding/100 if sale.due_date < DateTime.now
+      %tr
+        %td
+        %td
+        %th= t(:total)
+        %th.numeric= total
+        %td
+
+  = paginate @accounts_receivables, :theme => 'twitter-bootstrap-3'
+

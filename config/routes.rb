@@ -47,6 +47,8 @@ Emmy::Application.routes.draw do
       resources :accounting_classes
       resources :accounts
     end
+    get 'accounts_receivables', to: 'accounts_receivables#index', as: 'accounts_receivables'
+    get 'accounts_payables', to: 'accounts_payables#index', as: 'accounts_payables'
     resources :batches
     resources :closing_balances do
       resources :closing_balance_items
