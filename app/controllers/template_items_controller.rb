@@ -13,11 +13,11 @@ class TemplateItemsController < ApplicationController
 
   # GET
   def new
-    # segt
-    # @accounting_plan = AccountingPlan.find(@template.accounting_plan)
-    # @accounting_groups = @accounting_plan.accounting_groups
-    @accounting_groups = current_organization.templates.find(@template).accounting_plan.accounting_groups
-    gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer)
+    accounting_plan = current_organization.accounting_plans.find(@template.accounting_period.accounting_plan_id)
+    @accounting_groups = accounting_plan.accounting_groups.order(:number)
+    @accounts = accounting_plan.accounts.order(:number)
+    gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer),
+             accounts: ActiveModel::ArraySerializer.new(@accounts, each_serializer: AccountSerializer) 
   end
 
   # GET
