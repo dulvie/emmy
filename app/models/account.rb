@@ -29,6 +29,7 @@ class Account < ActiveRecord::Base
   validates :description, presence: true
 
   delegate :name, :number, to: :accounting_class, prefix: :class
+  delegate :name, :number, to: :accounting_group, prefix: :class
 
   def name
     number
