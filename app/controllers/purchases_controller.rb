@@ -79,8 +79,13 @@ class PurchasesController < ApplicationController
   end
 
   def state_change
+    supplier_reference = ''
+    if params[:purchase]
+      supplier_reference = params[:purchase][:supplier_reference] || ''
+      Rails.logger.info "->#{supplier_reference}"
+    end  
     @purchase = current_organization.purchases.find(params[:id])
-    if @purchase.state_change(params[:event], params[:state_change_at])
+    if @purchase.state_change(params[:event], params[:state_change_at], supplier_reference)
       msg = t(:success)
     else
       msg = t(:fail)

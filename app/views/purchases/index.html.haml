@@ -25,7 +25,7 @@
       - @purchases.each do |purchase|
         %tr
           %td= purchase.description
-          %td= purchase.ordered_at.nil? ? ' ': purchase.ordered_at.strftime("%Y-%m-%d")
+          %td= purchase.ordered_at
           %td= link_to purchase.supplier_name, purchase.supplier
           %td.numeric
             = as_sek(purchase.total_amount)

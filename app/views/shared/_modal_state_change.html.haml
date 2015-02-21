@@ -1,3 +1,4 @@
+- p1 ||= nil
 %script{ :type=>"text/ng_template", :id=>idx}
   .modal-header
     %h3{ :class=>"modal-title"}
@@ -7,6 +8,9 @@
     = simple_form_for(model, url: form_path, method: :post) do |f|
       = hidden_field_tag 'event', event
       = hidden_field_tag 'return_path', return_path
+      - if !p1.nil?
+        = f.input p1
+
       .form-group
         .input-group
           = hidden_field_tag "state_change_at", "{{date}}"
