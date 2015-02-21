@@ -21,6 +21,7 @@ class Purchase < ActiveRecord::Base
   # t.datetime :due_date
 
   scope :prepared, -> { where(state: 'prepared') }
+  scope :not_paid, -> { where(money_state: 'not_paid') }
   scope :not_received, -> { where(goods_state: 'not_received') }
 
   belongs_to :organization
@@ -43,14 +44,15 @@ class Purchase < ActiveRecord::Base
   VALID_PARENT_TYPES = ['Purchase', 'Production', 'Import']
 
   EVENTS = [
-    :mark_prepared, :mark_complete, # Generic state
+    :mark_prepared, :mark_invoiced, :mark_complete,  # Generic state
     :receive,   # Goods
     :pay,       # Money
   ]
 
-  def state_change(event, changed_at = nil)
+  def state_change(event, changed_at = nil, supplier_reference = nil)
+    Rails.logger.info "sc->#{supplier_reference}"
     return false unless EVENTS.include?(event.to_sym)
-    send(event, changed_at)
+    send(event, changed_at, supplier_reference)
   end
 
   def next_event
@@ -67,14 +69,19 @@ class Purchase < ActiveRecord::Base
   state_machine :state, initial: :meta_complete do
     before_transition on: :mark_prepared, do: :prepare_purchase
     after_transition on: :mark_prepared, do: :generate_accounts_payable
+    before_transition on: :mark_invoiced, do: :invoice_purchase
     before_transition on: :mark_complete, do: :complete_purchase
 
     event :mark_prepared do
       transition meta_complete: :prepared
     end
 
+    event :mark_invoiced do
+      transition prepared: :invoiced
+    end
+
     event :mark_complete do
-      transition prepared: :completed
+      transition invoiced: :completed
     end
   end
 
@@ -86,6 +93,12 @@ class Purchase < ActiveRecord::Base
      user = organization.users.find(user_id)
      verificate_creator = Services::VerificateCreator.new(organization, user, self)
      verificate_creator.accounts_payable
+  end
+
+  def invoice_purchase(transition)
+    self.due_date = transition.args[0]
+    Rails.logger.info "ip->#{transition.args} #{transition.args[1]}"
+    self.supplier_reference = transition.args[1]
   end
 
   def complete_purchase(transition)
@@ -150,7 +163,7 @@ class Purchase < ActiveRecord::Base
 
   def can_delete?
     return false if ['Production', 'Import'].include? parent_type
-    return false if ['prepared', 'completed'].include? state
+    return false if ['prepared', 'invoiced', 'completed'].include? state
     true
   end
 

@@ -1,6 +1,24 @@
 class PurchaseDecorator < Draper::Decorator
   delegate_all
 
+  def ordered_at
+    return l(object.ordered_at, format: "%Y-%m-%d") if object.ordered_at
+    ""
+  end
+
+  def due_date
+    return l(object.due_date, format: "%Y-%m-%d") if object.due_date
+    ""
+  end
+
+  def money_state
+    pretty_money_state
+  end
+
+  def goods_state
+    pretty_goods_state
+  end
+
   def states
     [pretty_state, pretty_goods_state, pretty_money_state]
   end
