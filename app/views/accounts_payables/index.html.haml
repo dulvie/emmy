@@ -1,0 +1,81 @@
+= simple_form_for(@ledger_account, wrapper: :horizontal_form, html: {class: 'form-horizontal'}, url:'ledger_accounts_path') do |f|
+  = f.input :account_number, disabled: true
+  = f.input :account_text, disabled: true
+  = f.input :sum, input_html: {value: -@ledger_account.sum}, disabled: true
+
+.table-responsive{}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:ordered_at)
+        %th= t(:due_date)
+        %th= t(:text)
+        %th= t(:state)
+        %th= t(:supplier)
+        %th.numeric= t(:amount)
+        %th
+        %th= t(:verificate)
+    %tbody{}
+      - total = BigDecimal.new(0)
+      - number = 0
+      - @account_payables_paid.each do |paid|
+        %tr
+          %td= paid.ordered_at
+          %td= paid.due_date
+          %td= paid.description
+          %td= paid.money_state 
+          %td= paid.supplier.name
+          - amount = BigDecimal.new(paid.total_amount)/100
+          %td.numeric= number_with_precision(amount, precision: 2)
+          %td= link_to settings_icon, purchase_path(paid.id)
+          - total += BigDecimal.new(paid.total_amount)/100
+          %td= link_to paid.verificate_state, verificate_path(paid.verificate_id)
+          - number += 1
+      -if number > 0
+        %tr
+          %td
+          %td
+          %td
+          %td
+          %th= t(:unrecorded)
+          %th
+          %td
+          %td
+      - sum_invoiced = 0
+      - total = BigDecimal.new(0)
+      - group = 'invoiced'
+      - @accounts_payables.each do |purchase|
+        - if !purchase.invoiced? && group == 'invoiced'
+          - group = 'invoiced'
+          %tr
+            %td
+            %td
+            %td
+            %td
+            %th= t(:invoiced)
+            %th.numeric= number_with_precision(sum_invoiced, precision: 2)
+            %td
+            %td
+        %tr
+          %td= purchase.ordered_at
+          %td= purchase.due_date
+          %td= purchase.description
+          %td= purchase.goods_state 
+          %td= purchase.supplier.name
+          - amount = BigDecimal.new(purchase.total_amount)/100
+          %td.numeric= number_with_precision(amount, precision: 2)
+          %td= link_to settings_icon, purchase_path(purchase.id)
+          - total += BigDecimal.new(purchase.total_amount)/100
+          - sum_invoiced += purchase.total_amount/100 if purchase.invoiced?
+          %td= link_to purchase.verificate_state, verificate_path(purchase.verificate_id)
+      %tr
+        %td
+        %td
+        %td
+        %td
+        %th= t(:total)
+        %th.numeric= number_with_precision(total, precision: 2)
+        %td
+        %td
+
+  = paginate @accounts_payables, :theme => 'twitter-bootstrap-3'
