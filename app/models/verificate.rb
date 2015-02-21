@@ -130,6 +130,7 @@ class Verificate < ActiveRecord::Base
 
   def can_delete?
     return false if final?
+    return false if parent_type?
     true
   end
 end

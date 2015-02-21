@@ -31,6 +31,10 @@ class SaleDecorator < Draper::Decorator
     ""
   end
 
+  def goods_state
+    pretty_goods_state
+  end
+
   def states
     [pretty_state, pretty_goods_state, pretty_money_state]
   end
