@@ -9,9 +9,11 @@
       %tr
         %th= t(:due_date)
         %th= t(:invoice)
+        %th= t(:state)
         %th= t(:customer)
         %th.numeric= t(:amount)
         %th
+        %th= t(:verificate)
     %tbody{}
       - sum   = 0
       - total = 0
@@ -22,22 +24,31 @@
           %tr
             %td
             %td
+            %td
             %th= t(:late_invoices)
             %th.numeric= sum
+            %td
             %td
         %tr
           %td= sale.due_date
           %td= sale.invoice_number
+          %td= sale.goods_state
           %td= sale.customer.name
           %td.numeric= sale.total_after_rounding/100
           %td= link_to settings_icon, sale_path(sale.id)
+          - if sale.verificate_state
+            %td= link_to sale.verificate_state, verificate_path(sale.verificate_id)
+          -else
+            %td  
           - total += sale.total_after_rounding/100
           - sum += sale.total_after_rounding/100 if sale.due_date < DateTime.now
       %tr
         %td
         %td
+        %td
         %th= t(:total)
         %th.numeric= total
+        %td
         %td
 
   = paginate @accounts_receivables, :theme => 'twitter-bootstrap-3'
