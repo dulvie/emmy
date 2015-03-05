@@ -126,6 +126,7 @@ se:
   groups: "Grupper"
   has_base_info: "Har basinformation"
   hello: "Hej världen"
+  help: "Hjälp"
   history: "Historia"
   import: "Import"
   import_bank_file: "Import bank fil"

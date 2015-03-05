@@ -148,6 +148,7 @@ en:
   groups: "Groups"
   has_base_info: "Has base info"
   hello: "Hello world"
+  help: "Help"
   history: "History"
   ib: "IB"
   import: "Import"
