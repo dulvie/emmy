@@ -73,6 +73,8 @@ Emmy::Application.routes.draw do
     resources :default_codes
     resources :documents
     resources :employees
+    get 'helps/show_help'
+    get 'helps/show_chapter_help'
     resources :import_bank_files do
       get  'upload', as: :upload
       post 'create_from_upload', as: :create_from_upload
