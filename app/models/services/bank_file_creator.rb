@@ -47,7 +47,7 @@ module Services
 
       bank_file_row = @import_bank_file.import_bank_file_rows.build
       bank_file_row.posting_date = posting_date
-      bank_file_row.amount = amount
+      bank_file_row.amount = amount.gsub(',', '.')
       bank_file_row.bank_account = bank_account
       bank_file_row.name = name
       bank_file_row.reference = reference
