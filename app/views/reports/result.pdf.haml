@@ -16,6 +16,8 @@
         %th.nowrap= item.cls_dsc
         %th
     %tr
+      - item.deb = 0 if item.deb == nil
+      - item.cre = 0 if item.cre == nil
       - sum = -item.deb + item.cre
       %td=item.num
       %td=item.desc
