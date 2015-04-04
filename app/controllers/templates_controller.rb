@@ -12,14 +12,17 @@ class TemplatesController < ApplicationController
 
   # GET
   def new
+    @accounting_plans = current_organization.accounting_plans
   end
 
   # GET
   def show
+    @accounting_plans = current_organization.accounting_plans
   end
 
   # GET
   def edit
+    @accounting_plans = current_organization.accounting_plans
   end
 
   # POST
@@ -31,6 +34,7 @@ class TemplatesController < ApplicationController
         format.html { redirect_to template_path(@template), notice: "#{t(:template)} #{t(:was_successfully_created)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:template)}"
+        @accounting_plans = current_organization.accounting_plans
         format.html { render action: 'new' }
       end
     end
@@ -43,6 +47,7 @@ class TemplatesController < ApplicationController
         format.html { redirect_to templates_path, notice: "#{t(:template)} #{t(:was_successfully_updated)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:template)}"
+        @accounting_plans = current_organization.accounting_plans
         format.html { render action: 'show' }
       end
     end
