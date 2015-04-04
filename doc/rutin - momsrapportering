@@ -1,0 +1,14 @@
+Beskrivning momsredovisning
+
+Förutsättning 
+1) Räkenskapsår registrerat och momsredovisningsperiod bestämd
+2) tax-codes för moms är satta och kopplade till rätt konton
+
+För varje momsredovisningsperiod
+1) Skapa momsredovisningsperiod - kolla datum
+2) Skapa underlag (summering av tax-codes, momsredovisningsblankett)
+3) Skapa verifikat av underlaget
+4) Skicka underlag till RSV
+5) Betala via bank, registrera överföring
+6) Ta hem fil från bank (OBS! UTF-8 format)
+7) Kontera bankfil, koppla till tidigare preliminära verifikat, OBS! Datum 

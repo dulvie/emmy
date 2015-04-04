@@ -1,0 +1,17 @@
+Beskrivning inköp
+
+Inköp kort
+1) Betalar inköp med kort
+2) Koppla upp mot bank och ta hem transaktionsfil
+3) Registrera från bankfil
+
+Beställning, inköp mot faktura, via LR
+1) order registreras och godkänns -besällning skickas(telefon)
+2) automatiskt preliminärt verifikat (LR - levererantörsskuld)
+3) godset kommer och godkänns
+4) faktura kommer, förfallodatun + referens läggs in (faktura scannas och läggs in som dokument)
+5) LR leverantörsskuld defenitivt verifikat
+5) betalning registreras, bankbetalning
+6) automatiskt preliminärt verifikat (LR - leverantörsbetalniong)
+7) Bank transaktionsfil tas hem och registreras.
+8) LR leverantörsbetalning definitivt verifikat
