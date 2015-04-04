@@ -1,0 +1,20 @@
+Beskrivning lönehantering
+
+Förberedelser
+1) Registrera anställd, födelsedata (för sociala avgifter) och anställningsperiod (lön)
+2) tax-codes med koppling skattekod konto för lönerapportering till skatteverket
+3) skapa löneperiod - kolla datum
+
+För varje period
+1) Skapa löenutbetalning, underlag från employee
+2) Komplettera med tillägg/avdrag
+3) Skapa verifikat för löenutbetalning
+4) Lägg in utbetalning bank
+5) Läs in utbetalning godkänn verifikat som skapats
+
+6) Skapa underlag för rapportering RSV
+7) Skapa verifikat för rapportering skatteverket
+8) Rapportera RSV
+9) Lägg in batalning till skatteverket
+10) Vid återrapportering utbalning godkäns verifikat
+

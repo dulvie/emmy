@@ -1,0 +1,39 @@
+Beskrivning uppstart av ekonomirutin
+
+Förutsätter att följande finns på plats:
+1) organization
+2) users
+
+Steg för att starta upp ekonomirutin
+
+1) Välj och läs in kontoplan
+Kommentar - för närvarande finns möjlighet att läsa in tre olika kontoplaner
+De finns under files/accounting_plans
+a) Bas 2014
+b) K1 2014
+c) K1 mini 2014
+
+2) Läs in tax-codes och koppla till aktuell kontoplan
+Kommentar - tax-codes är koppling mellan 
+a) moms-redovisning och konto
+b) löne-redovisning skatter/sociala avgifter och konton
+Kopplingen finns i filen files/TAX_codes. För närvarande finns koppling mot BAS-kontoplanen
+
+3) Läs in ink-coder (BAS) eller NE-coder (K1/K1-mini) koppling till aktuell kontoplan
+Kommentar - Dessa tabeller är kopplingen mellan deklarationsblankett och konton
+för användning vid deklaration
+
+4) Läs in default_codes
+Kommentar - Olika koder som möjliggör automatkontering
+
+5) Läs in templates för kontoplanen
+kommentar - Förutregistrerade för att underlätta kontering
+
+6) Skapa accounting_period
+kommentar - registrera räkenskapsår. Sätt momsperiod.
+
+7) Sätter IB
+kommentar - IB kan skapas på tre olika sätt
+a) Från föregående räkenskapsår. Ej aktuellt vid nystart.
+b) Import från SIE. Möjlighet vid övergång från annat system
+c) Helt manuell

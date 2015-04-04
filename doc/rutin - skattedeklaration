@@ -1,0 +1,11 @@
+Beskrivning skattedeklaration
+
+Förutsätter
+1) Använder BAS-kontoplan (för ink)
+2) INK-koder inlästa och kopplade
+
+Deklarationsdags
+1) Menypunkt skattedeklaration (tax_returns)
+2) Skapa skattedeklaration för räkenskapsåret
+3) Konton summeras under INK koder som  motsvarar deklarationsblanketten
+ 

@@ -1,0 +1,14 @@
+Beskrivning inläsning bankfile (Nordea)
+
+1) Logga på banken
+2) Exportera transaktionsfil lämpligt intervall
+3) Spara ner fil lokalt i csv format - tab-separerad
+4) Konvertera till UTF-8 (Notepad++)
+5) Ladda upp fil
+6) Gå in och visa alla transaktioner i filen
+7) Välj transaktioner i datumformat
+8) Associera transaktione med ett av alternativen
+- preliminärt verifikat som registrerats tidigare
+- template verifikat
+- manuellt ger endast bankbelopp som måste kompletteras manuellt
+9) Skapa preliminärt/definitivt verifikat med rätt datum 
