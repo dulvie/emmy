@@ -76,6 +76,8 @@ class SieExport
       f.write start[0] + "\r\n"
       f.write start[1] + "\r\n"
       trans.verificate_items.each do |item|
+        item.debit = 0 if item.debit.nil?
+        item.credit = 0 if item.credit.nil?
         row = trans(item.account_number, item.debit - item.credit)
         f.write row[0] + "\r\n"
       end
