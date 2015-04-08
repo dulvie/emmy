@@ -155,11 +155,11 @@ module Services
 
       account_rounding = account_from_default_code(accounting_plan, 02)
       if sale.total_rounding > 0
-        save_verificate_item(@verificate, account_rounding, sale.total_rounding/100, 0, accounting_period) if normal
-        save_verificate_item(@verificate, account_rounding, 0, sale.total_rounding/100, accounting_period) if !normal
-      else
         save_verificate_item(@verificate, account_rounding, 0, sale.total_rounding/100, accounting_period) if normal
         save_verificate_item(@verificate, account_rounding, sale.total_rounding/100, 0, accounting_period) if !normal
+      else
+        save_verificate_item(@verificate, account_rounding, -sale.total_rounding/100, 0, accounting_period) if normal
+        save_verificate_item(@verificate, account_rounding, 0, -sale.total_rounding/100, accounting_period) if !normal
       end
 
       account_receivable = account_from_default_code(accounting_plan, 03)
