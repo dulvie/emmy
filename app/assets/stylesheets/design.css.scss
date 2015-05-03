@@ -158,10 +158,21 @@ form.form-changepassword {
   a:focus {
     background: darken($sidebar-bg, 10%);
   }
-  .dropdown-menu a {
-    background: lighten($sidebar-bg, 10%);
-    color: $sidebar-color;
+  .dropdown-menu {
+    a {
+      background: lighten($sidebar-bg, 10%);
+      color: $sidebar-color;
+      &:hover {
+        background: lighten($sidebar-bg, 15%);
+        color: lighten($sidebar-color, 10%);
+      }
+    }
+    li.active a {
+      background: lighten($sidebar-bg, 15%);
+      color: lighten($sidebar-color, 10%);
+    }
   }
+
 }
 //.nav .open > a, .nav .open > a:hover, .nav .open > a:focus
 

@@ -9,6 +9,7 @@ var Setup = {
     this.submitFormOnSelectChange();
     //this.datepicker();
     this.offcanvasButton();
+    this.expandNavigation();
   },
 
   offcanvasButton: function()
@@ -28,6 +29,15 @@ var Setup = {
       placement: 'bottom',
       //placement: function() {return $(this).data('placement')},
     });
+  },
+
+  // @TODO This needs to be more performant. The navigation jumping is not good.
+  // Best solution would be to not need javascript at all.
+  expandNavigation: function()
+  {
+    var item = $('#sidebar-menu li.active');
+    var p = item.parent().parent();
+    p.find('.dropdown-toggle').click();
   },
 
   stateChangeForm: function()
