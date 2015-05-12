@@ -6,3 +6,4 @@ en:
       no_organization_email: "No email for this organization"
       taken: "Name not unique"
   accounting_period_missing: "Accounting period missing"
+  accounting_plan_missing: "Accounting plan missing"

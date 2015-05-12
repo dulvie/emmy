@@ -6,6 +6,7 @@ se:
       no_organization_email: "Ingen epost för denna organisation"
       taken: "Namnet inte unikt"
   accounting_period_missing: "Bokföringsperiod saknas"
+  accounting_plan_missing: "Kontoplan saknas"
   activerecord:
     errors:
       messages:

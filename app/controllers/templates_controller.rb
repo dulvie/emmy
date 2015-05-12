@@ -4,6 +4,7 @@ class TemplatesController < ApplicationController
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:edit, :show, :update]
+  before_filter :load_accounting_plans, only: [:index]
 
   # GET
   def index
@@ -80,7 +81,7 @@ class TemplatesController < ApplicationController
   
   def init
     @breadcrumbs = [['Templates']]
-    @accounting_plans = current_organization.accounting_plans.order('id')
+
     if params[:accounting_plan_id]
       plan = params[:accounting_plan_id]
       session[:accounting_plan_id] = plan
@@ -106,5 +107,12 @@ class TemplatesController < ApplicationController
 
   def show_breadcrumbs
     @breadcrumbs = [["#{t(:templates)}", templates_path], [@template.name]]
+  end
+
+  def load_accounting_plans
+    @accounting_plans = current_organization.accounting_plans.order('id')
+    if @accounting_plans.size == 0
+      redirect_to helps_show_message_path()+"&message="+I18n.t(:accounting_plan_missing), notice: "Errormessage"
+    end
   end
 end
