@@ -10,6 +10,10 @@ class HelpsController < ApplicationController
     render :layout => false
   end
 
+  def show_message
+    @breadcrumbs = [["#{t(:help)}"]]
+  end
+
   private
 
 
