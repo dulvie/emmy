@@ -1,9 +1,12 @@
 class ReportsController < ApplicationController
   respond_to :html, :json, :pdf
+  before_filter :load_accounting_period, only: [:order_verificates_report,
+                                                :order_ledger_report,
+                                                :order_result_report,
+                                                :order_balance_report]
 
   def order_verificates_report
     @breadcrumbs = [["#{t(:verificates)} #{t(:list)}"]]
-    @accounting_period = current_organization.accounting_periods.where('active = true').first
     @report = Report.new @accounting_period
     @accounting_periods = current_organization.accounting_periods
   end
@@ -23,7 +26,6 @@ class ReportsController < ApplicationController
 
   def order_ledger_report
     @breadcrumbs = [["#{t(:ledger)} #{t(:report)}"]]
-    @accounting_period = current_organization.accounting_periods.where('active = true').first
     @report = Report.new @accounting_period
     @accounting_periods = current_organization.accounting_periods
   end
@@ -56,7 +58,6 @@ class ReportsController < ApplicationController
 
   def order_result_report
     @breadcrumbs = [["#{t(:result)} #{t(:report)}"]]
-    @accounting_period = current_organization.accounting_periods.where('active = true').first
     @report = Report.new @accounting_period
     @accounting_periods = current_organization.accounting_periods
   end
@@ -80,7 +81,6 @@ class ReportsController < ApplicationController
 
   def order_balance_report
     @breadcrumbs = [["#{t(:balance)} #{t(:report)}"]]
-    @accounting_period = current_organization.accounting_periods.where('active = true').first
     @report = Report.new @accounting_period
     @accounting_periods = current_organization.accounting_periods
   end
@@ -144,105 +144,12 @@ class ReportsController < ApplicationController
     end
   end
 
-  # GET
-  def index
-    @breadcrumbs = [['Verificates']]
-    @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
-    if !params[:accounting_period_id] && @accounting_periods.count > 0
-      params[:accounting_period_id] = @accounting_periods.first.id
-    end
-    @verificates = current_organization.verificates.where('accounting_period_id=?', params[:accounting_period_id]).order(:number)
-    @verificates = @verificates.page(params[:page]).decorate
-  end
-
-  # GET
-  def new
-    @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
-    gon.push accounting_periods: ActiveModel::ArraySerializer.new(@accounting_periods, each_serializer: AccountingPeriodSerializer)
-    @templates = current_organization.templates
-  end
-
-  # GET
-  def show
-    @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
-    gon.push accounting_periods: ActiveModel::ArraySerializer.new(@accounting_periods, each_serializer: AccountingPeriodSerializer)
-  end
-
-  # GET
-  def edit
-  end
-
-  # POST
-  def create
-    Rails.logger.info "#{params.inspect}"
-    if !params[:template].blank?
-      template = current_organization.templates.find(params[:template])
-      params[:verificate][:description] = template.description + params[:verificate][:description]
-    end
-    #@accounting_period = current_organization.accounting_periods.find(params[:accounting_period_id])
-    #@verificate = @accounting_period.verificates.build verificate_params
-    @verificate = Verificate.new(verificate_params)
-    @verificate.organization = current_organization
-    respond_to do |format|
-      if @verificate.save
-        format.html { redirect_to verificate_path(@verificate), notice: "#{t(:verificate)} #{t(:was_successfully_created)}" }
-      else
-        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:verificate)}"
-        @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
-        gon.push accounting_periods: ActiveModel::ArraySerializer.new(@accounting_periods, each_serializer: AccountingPeriodSerializer)
-        format.html { render action: 'new' }
-      end
-    end
-  end
-
-  # PATCH/PUT
-  def update
-    respond_to do |format|
-      if @verificate.update(verificate_params)
-        format.html { redirect_to verificates_path, notice: "#{t(:verificate)} #{t(:was_successfully_updated)}" }
-      else
-        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:verificate)}"
-        @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
-        gon.push accounting_periods: ActiveModel::ArraySerializer.new(@accounting_periods, each_serializer: AccountingPeriodSerializer)
-        format.html { render action: 'show' }
-      end
-    end
-  end
-
-  # DELETE
-  def destroy
-    @verificate.destroy
-    respond_to do |format|
-      format.html { redirect_to verificates_path, notice:  "#{t(:verificate)} #{t(:was_successfully_deleted)}" }
-    end
-  end
-
-  def state_change
-    @verificate = current_organization.verificates.find(params[:id])
-    authorize! :manage, @verificate
-    if @verificate.state_change(params[:event])
-      msg_h = { notice: t(:success) }
-    else
-      msg_h = { alert: t(:fail) }
-    end
-    redirect_to @verificate, msg_h
-  end
-
-  def add_verificate_items
-    Rails.logger.info "Kolla: #{params.inspect}"
-    @verificate = current_organization.verificates.find(params[:id])
-    @verificate_items_creator = Services::VerificateItemsCreator.new(current_organization, current_user, @verificate, params)
-    respond_to do |format|
-      if @verificate_items_creator.save
-        format.html { redirect_to verificates_url, notice: "#{t(:verificates_items)} #{t(:was_successfully_created)}" }
-      else
-        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:verificates_items)}"
-        format.html { redirect_to verificates_url }
-      end
-    end
-  end
-
   private
 
-
+  def load_accounting_period
+    @accounting_period = current_organization.accounting_periods.where('active = true').first
+    unless @accounting_period
+      redirect_to helps_show_message_path()+"&message=AccountingPeriod missing", notice: "Errormessage"
+    end
+  end
 end
