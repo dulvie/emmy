@@ -4,10 +4,10 @@ class VatPeriodsController < ApplicationController
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:edit, :show, :update]
+  before_filter :load_accounting_periods , only: [:index]
 
   def index
     @breadcrumbs = [['Vat periods']]
-    @accounting_periods = current_organization.accounting_periods.order('id')
     if params[:accounting_period_id]
       session[:accounting_period_id] = params[:accounting_period_id]
       @period = params[:accounting_period_id]
@@ -104,5 +104,12 @@ class VatPeriodsController < ApplicationController
 
   def show_breadcrumbs
     @breadcrumbs = [['Vat periods', vat_periods_path], [@vat_period.name]]
+  end
+
+  def load_accounting_periods
+    @accounting_periods = current_organization.accounting_periods.order('id')
+    if @accounting_periods.size == 0
+      redirect_to helps_show_message_path()+"&message="+I18n.t(:accounting_period_missing), notice: "Errormessage"
+    end
   end
 end
