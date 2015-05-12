@@ -149,7 +149,7 @@ class ReportsController < ApplicationController
   def load_accounting_period
     @accounting_period = current_organization.accounting_periods.where('active = true').first
     unless @accounting_period
-      redirect_to helps_show_message_path()+"&message=AccountingPeriod missing", notice: "Errormessage"
+      redirect_to helps_show_message_path()+"&message="+I18n.t(:accounting_period_missing), notice: "Errormessage"
     end
   end
 end
