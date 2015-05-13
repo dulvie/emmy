@@ -63,6 +63,7 @@ class TemplatesController < ApplicationController
   end
 
   def import
+    @accounting_plans = current_organization.accounting_plans
     @accounting_plan = current_organization.accounting_plans.find(params[:accounting_plan_id])
     templates = Services::TemplateCreator.new(current_organization, current_user, @accounting_plan)
     respond_to do |format|
