@@ -15,12 +15,12 @@ module Services
         when 'load and connect'
           read_and_save(type, directory, file_name)
         when 'clear'
-          delete_ne_codes
+          delete_ink_codes
         when 'reload'
-          delete_ne_codes
+          delete_ink_codes
           read_and_save(type, directory, file_name)
         when 'reload and connect'
-          delete_ne_codes
+          delete_ink_codes
           read_and_save(type, directory, file_name)
         else
       end
@@ -81,6 +81,12 @@ module Services
       ink_code.organization = @organization
       ink_code.save
       return ink_code.id
+    end
+
+    def delete_ink_codes
+      @ink_codes.each do |ink_code|
+        ink_code.destroy
+      end
     end
 
     def ink_multiple(ink_code, bas_accounts)
