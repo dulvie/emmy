@@ -83,7 +83,8 @@ class Production < ActiveRecord::Base
     end
     material_amount = materials.first.batch.in_price * materials.first.quantity
     self.total_amount = work.total_amount + material_amount
-    self.cost_price = total_amount / quantity
+    total_cost_price = work.total_exkl_vat + material_amount
+    self.cost_price = total_cost_price / quantity
   end
 
   def create_from_transaction

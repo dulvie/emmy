@@ -193,6 +193,11 @@ class Purchase < ActiveRecord::Base
     purchase_items.inject(0) { |i, item| item.vat_amount + i }
   end
 
+  def total_exkl_vat
+    return 0 if purchase_items.count <= 0
+    purchase_items.inject(0) { |i, item| item.amount_exkl_vat + i }
+  end
+
   def parent_name
     description
   end
