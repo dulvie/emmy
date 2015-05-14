@@ -75,7 +75,8 @@ class Import < ActiveRecord::Base
   def completed_and_calculate(transition)
     self.completed_at = transition.args[0]
     self.amount = purchases.inject(0) { |acc, p| acc += p.total_amount }
-    self.cost_price = amount / import_quantity
+    total_cost_price =  purchases.inject(0) { |acc, p| acc += p.total_exkl_vat }
+    self.cost_price = total_cost_price / import_quantity
   end
 
   def can_edit_state?

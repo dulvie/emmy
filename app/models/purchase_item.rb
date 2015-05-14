@@ -37,6 +37,10 @@ class PurchaseItem < ActiveRecord::Base
     price * quantity * vat / 100
   end
 
+  def amount_exkl_vat
+    price * quantity
+  end
+
   private
 
   # Callback: after_validation
