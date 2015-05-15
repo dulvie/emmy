@@ -64,7 +64,7 @@ class ConversionsController < ApplicationController
 
   def clear
     respond_to do |format|
-      format.html { redirect_to conversions_url, notice:  "#{t(:conversion)} #{t(:was_successfully_deleted)}" }
+      format.html { redirect_to conversions_url, notice:  "#{t(:not_implemted)}" }
     end
   end
 

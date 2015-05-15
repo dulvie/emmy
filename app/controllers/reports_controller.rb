@@ -4,6 +4,7 @@ class ReportsController < ApplicationController
                                                 :order_ledger_report,
                                                 :order_result_report,
                                                 :order_balance_report]
+  before_filter :load_verificates, only: [:verificates]
 
   def order_verificates_report
     @breadcrumbs = [["#{t(:verificates)} #{t(:list)}"]]
@@ -12,9 +13,6 @@ class ReportsController < ApplicationController
   end
 
   def verificates
-    @report = Report.new params[:report][:accounting_period]
-    @accounting_period = current_organization.accounting_periods.find(@report.accounting_period)
-    @verificates = current_organization.verificates.where("accounting_period_id = ? AND state = 'final'", @accounting_period.id).order(:number)
     @verificates = @verificates.decorate
     respond_to do |format|
       format.pdf do
@@ -150,6 +148,15 @@ class ReportsController < ApplicationController
     @accounting_period = current_organization.accounting_periods.where('active = true').first
     unless @accounting_period
       redirect_to helps_show_message_path()+"&message="+I18n.t(:accounting_period_missing), notice: "Errormessage"
+    end
+  end
+
+  def load_verificates
+    @report = Report.new params[:report][:accounting_period]
+    @accounting_period = current_organization.accounting_periods.find(@report.accounting_period)
+    @verificates = current_organization.verificates.where("accounting_period_id = ? AND state = 'final'", @accounting_period.id).order(:number)
+    if @verificates.size == 0
+      redirect_to helps_show_message_path()+"&message="+I18n.t(:verificates_missing), notice: "Errormessage"
     end
   end
 end

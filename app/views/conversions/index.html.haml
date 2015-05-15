@@ -1,5 +1,5 @@
 = link_to "#{t(:create)} #{t(:conversion)}", new_conversion_path, class: 'btn btn-success'
-= link_to "#{t(:clear)}", conversion_clear_path(0), class: 'btn btn-warning'
+= link_to "#{t(:clear)}", conversion_clear_path(0), class: 'btn btn-warning', method: 'delete'
 
 .table-responsive{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}

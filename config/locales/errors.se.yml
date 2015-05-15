@@ -7,6 +7,9 @@ se:
       taken: "Namnet inte unikt"
   accounting_period_missing: "Bokföringsperiod saknas"
   accounting_plan_missing: "Kontoplan saknas"
+  accounts_receivables_missing: "Kundreskontrauppgifter saknas"
+  accounts_payables_missing: "Leverantörsreskontrauppgifter saknas"
+  verificates_missing: "Verifikat saknas"
   activerecord:
     errors:
       messages:
