@@ -280,59 +280,28 @@ rostsupp.organization = o
 rostsupp.save
 
 # Accounting plan ---------------------
-plan_bas = Services::AccountingPlanCreator.new(o, jtest)
-plan_bas.BAS_read_and_save
-bas = plan_bas.accounting_plan
+# plan_bas = Services::AccountingPlanCreator.new(o, jtest)
+# plan_bas.BAS_read_and_save
+# bas = plan_bas.accounting_plan
 
 # Ink codes ---------------------------
-ink_code = Services::InkCodeCreator.new(o, jtest, bas)
-ink_code.read_and_save
+# ink_code = Services::InkCodeCreator.new(o, jtest, bas)
+# ink_code.read_and_save
 
 # Tax codes ---------------------------
-tax_code = Services::TaxCodeCreator.new(o, jtest, bas)
-tax_code.tax_codes_save
-tax_code.BAS_tax_code_update
+# tax_code = Services::TaxCodeCreator.new(o, jtest, bas)
+# tax_code.tax_codes_save
+#tax_code.BAS_tax_code_update
 
 # Ne codes -----------------------------
-ne_code = Services::NeCodeCreator.new(o, jtest)
-ne_code.read_and_save
+# ne_code = Services::NeCodeCreator.new(o, jtest)
+# ne_code.read_and_save
 
 # Accounting period --------------------
-ap13 = AccountingPeriod.new({
-  name: "Räkenskapsår 2013",
-  accounting_from: DateTime.new(2013,01,01),
-  accounting_to: DateTime.new(2013,12,31),
-  active: 'true',
-  accounting_plan: bas,
-  vat_period_type: 'month'
-})
-ap13.organization = o
-ap13.save
 
-ap14 = AccountingPeriod.new({
-  name: "Räkenskapsår 2014",
-  accounting_from: DateTime.new(2014,01,01),
-  accounting_to: DateTime.new(2014,12,31),
-  active: 'true',
-  accounting_plan: bas,
-  vat_period_type: 'month'
-})
-ap14.organization = o
-ap14.save
-
-ap15 = AccountingPeriod.new({
-  name: "Räkenskapsår 2015",
-  accounting_from: DateTime.new(2015,01,01),
-  accounting_to: DateTime.new(2015,12,31),
-  active: 'false',
-  accounting_plan: bas,
-  vat_period_type: 'month'
-})
-ap15.organization = o
-ap15.save
 
 # Templates ----------------------------
-templates = Services::TemplateCreator.new(o, jtest, bas)
-templates.read_and_save
+# templates = Services::TemplateCreator.new(o, jtest, bas)
+# templates.read_and_save
 
 # @TODO create invoice(s)
