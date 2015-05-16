@@ -1,0 +1,11 @@
+= simple_form_for(@export_bank_file, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+  = f.input :export_date, as: :string, disabled: !@export_bank_file.new_record?
+  = f.input :from_date, as: :string, disabled: !@export_bank_file.new_record?
+  = f.input :to_date, as: :string, disabled: !@export_bank_file.new_record?
+  = f.input :reference, disabled: !@export_bank_file.new_record?
+
+  - if @export_bank_file.new_record?
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'

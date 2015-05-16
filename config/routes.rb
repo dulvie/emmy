@@ -73,6 +73,7 @@ Emmy::Application.routes.draw do
     resources :default_codes
     resources :documents
     resources :employees
+    resources :export_bank_files
     get 'helps/show_help'
     get 'helps/show_chapter_help'
     get 'helps/show_message'
