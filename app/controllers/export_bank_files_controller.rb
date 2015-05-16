@@ -26,6 +26,16 @@ class ExportBankFilesController < ApplicationController
 
   # POST
   def create
+    @export_bank_file = ExportBankFile.new(export_bank_file_params)
+    @export_bank_file.organization = current_organization
+    respond_to do |format|
+      if @export_bank_file.save
+        format.html { redirect_to export_bank_files_url, notice: "#{t(:export_bank_file)} #{t(:was_successfully_created)}" }
+      else
+        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:export_bank_file)}"
+        format.html { render action: 'new' }
+      end
+    end
   end
 
   # PATCH/PUT
@@ -34,9 +44,18 @@ class ExportBankFilesController < ApplicationController
 
   # DELETE
   def destroy
+    @export_bank_file.destroy
+    respond_to do |format|
+      format.html { redirect_to export_bank_files_url, notice:  "#{t(:export_bank_files)} #{t(:was_successfully_deleted)}" }
+    end
   end
 
   private
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def export_bank_file_params
+    params.require(:export_bank_file).permit(ExportBankFile.accessible_attributes.to_a)
+  end
 
   def new_breadcrumbs
     @breadcrumbs = [["#{t(:export_bank_files)}", export_bank_files_path], ["#{t(:new)} #{t(:export_bank_file)}"]]
