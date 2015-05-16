@@ -1,60 +1,65 @@
-%div{:ng_controller => "ModalCtrl"}
-  = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal', autocomplete: 'off'}) do |f|
-    = f.error_notification
+.col-md-36
+  %div{:ng_controller => "ModalCtrl"}
+    = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal', autocomplete: 'off'}) do |f|
+      = f.error_notification
+  
+      = f.input :description, as: :hidden
+      = f.association :our_reference, collection: @users, disabled: !@production.new_record?
+      = f.association :warehouse,  collection: @warehouses, disabled: !@production.new_record?
+  
+      - if !@production.new_record?
+  
+        = render partial: 'shared/state_labels_field', locals: {model: @production}
+        - if !@production.can_edit?
+          = f.input :started_at, :as => :string, :input_html => { :class => 'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
+        - if @production.completed?
+          = f.input :completed_at, :as => :string, :input_html => { :class => 'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
+  
+        - if !@production.batch.nil?
+          = f.association :batch, disabled: true
+          = f.input :quantity, disabled: true
+          = f.input :unit, disabled: true, :input_html => {:class =>'medium', :value => f.object.unit.name}
+  
+  
+        - if @production.completed?
+          = f.input :total_amount, disabled: true
+          = f.input :cost_price, disabled: true
+  
+      - if @production.material?
+        = render partial: 'shared/addon_edit_link', locals: {form: f, object: f.object.materials.first, label: :material, value: f.object.materials.first.batch.name, can_edit:  @production.can_edit?, link: production_material_path(@production, f.object.materials.first.id)}
+  
+      - if @production.work?
+        = render partial: 'shared/addon_edit_link', locals: {form: f, object: @production.work, label: :work, value: f.object.work.description, can_edit: @production.can_edit?, link: purchase_path(@production.work)}
+  
+      - if @production.new_record? || @production.actions?
+        .form-button-group
+          .actions
+            - if @production.new_record?
+              = f.submit class: 'btn btn-primary'
+            - if !@production.new_record? && @production.batch.nil?
+              = link_to t(:set_product_and_quantity), new_production_production_batch_path(@production), :class => 'btn btn-primary'
+            - if @production.can_start? || @production.can_complete?
+              %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
+                = t(:"#{@production.next_event}")
+            - if !@production.new_record? && !@production.batch.nil? && @production.materials.size == 0
+              = link_to t(:set_parts_and_quantities), new_production_material_path(@production), :class => 'btn btn-primary'
+            - if !@production.new_record? && !@production.batch.nil? && @production.work.nil?
+              - add_single_purchase_url = new_purchase_path({parent_id: @production.id, parent_type: 'Production', form: 'single_purchase'})
+              = link_to t(:ordering_work), add_single_purchase_url, :class => 'btn btn-primary'
+            - if @production.work? && !@production.work.paid?
+              %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','workPayContent' )"}
+                = t(:pay)
+    %br
+    - if !@production.new_record? && !@production.completed?
+      = render partial: 'shared/modal_state_change', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), event: @production.next_event, return_path: edit_production_path(@production)}
+    - if @production.work? && !@production.work.paid?
+      = render partial: 'shared/modal_state_change', locals: {idx: 'workPayContent', model: @production.work, form_path: state_change_purchase_path(@production.work), event: 'pay', return_path: edit_production_path(@production)}
 
-    = f.input :description, as: :hidden
-    = f.association :our_reference, collection: @users, disabled: !@production.new_record?
-    = f.association :warehouse,  collection: @warehouses, disabled: !@production.new_record?
-
-    - if !@production.new_record?
-
-      = render partial: 'shared/state_labels_field', locals: {model: @production}
-      - if !@production.can_edit?
-        = f.input :started_at, :as => :string, :input_html => { :class => 'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
-      - if @production.completed?
-        = f.input :completed_at, :as => :string, :input_html => { :class => 'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
-
-      - if !@production.batch.nil?
-        = f.association :batch, disabled: true
-        = f.input :quantity, disabled: true
-        = f.input :unit, disabled: true, :input_html => {:class =>'medium', :value => f.object.unit.name}
-
-
-      - if @production.completed?
-        = f.input :total_amount, disabled: true
-        = f.input :cost_price, disabled: true
-
-    - if @production.material?
-      = render partial: 'shared/addon_edit_link', locals: {form: f, object: f.object.materials.first, label: :material, value: f.object.materials.first.batch.name, can_edit:  @production.can_edit?, link: production_material_path(@production, f.object.materials.first.id)}
-
-    - if @production.work?
-      = render partial: 'shared/addon_edit_link', locals: {form: f, object: @production.work, label: :work, value: f.object.work.description, can_edit: @production.can_edit?, link: purchase_path(@production.work)}
-
-    - if @production.new_record? || @production.actions?
-      .form-button-group
-        .actions
-          - if @production.new_record?
-            = f.submit class: 'btn btn-primary'
-          - if !@production.new_record? && @production.batch.nil?
-            = link_to t(:set_product_and_quantity), new_production_production_batch_path(@production), :class => 'btn btn-primary'
-          - if @production.can_start? || @production.can_complete?
-            %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','productionContent' )"}
-              = t(:"#{@production.next_event}")
-          - if !@production.new_record? && !@production.batch.nil? && @production.materials.size == 0
-            = link_to t(:set_parts_and_quantities), new_production_material_path(@production), :class => 'btn btn-primary'
-          - if !@production.new_record? && !@production.batch.nil? && @production.work.nil?
-            - add_single_purchase_url = new_purchase_path({parent_id: @production.id, parent_type: 'Production', form: 'single_purchase'})
-            = link_to t(:ordering_work), add_single_purchase_url, :class => 'btn btn-primary'
-          - if @production.work? && !@production.work.paid?
-            %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','workPayContent' )"}
-              = t(:pay)
-  %br
-  - if !@production.new_record? && !@production.completed?
-    = render partial: 'shared/modal_state_change', locals: {idx: 'productionContent', model: @production, form_path: state_change_production_path(@production.id), event: @production.next_event, return_path: edit_production_path(@production)}
-  - if @production.work? && !@production.work.paid?
-    = render partial: 'shared/modal_state_change', locals: {idx: 'workPayContent', model: @production.work, form_path: state_change_purchase_path(@production.work), event: 'pay', return_path: edit_production_path(@production)}
-
-
+.col-md-12
+  .alert.alert-block.alert-success
+    Ange vem i föreningen som håller i kontakterna med rosteriet och var rostningen ska ske.
+  .alert.alert-block.alert-success
+    Ange uppgifter för satsen som skapas. När artikel väljs ger systemet namnförslag på satsen. Antal som ska rostas anges. Datum för rostningen och utgångsdatum anges.
 :javascript
   $(document).ready(function() {
     $('#production_total_amount').val($('#production_total_amount').val()/100);
