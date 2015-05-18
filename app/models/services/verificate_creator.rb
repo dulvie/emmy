@@ -45,9 +45,8 @@ module Services
       accounting_period = @organization.accounting_periods.find(wage_period.accounting_period_id)
       accounting_plan = accounting_period.accounting_plan
 
-      save_verificate(wage_period.payment_date, 'Löneutbetalning','','',accounting_period, nil)
-
-      # OBS! utbetalning separat för varje anställd till konto??
+      save_verificate(wage_period.payment_date, 'Salery payout', '', '', accounting_period, nil)
+      # @NOTE payout seperate for every employee to account??
       sum_salary = 0
       sum_tax = 0
       sum_payroll_tax = 0
