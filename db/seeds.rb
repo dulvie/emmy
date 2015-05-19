@@ -280,28 +280,40 @@ rostsupp.organization = o
 rostsupp.save
 
 # Accounting plan ---------------------
-# plan_bas = Services::AccountingPlanCreator.new(o, jtest)
-# plan_bas.BAS_read_and_save
-# bas = plan_bas.accounting_plan
+plan_bas = Services::AccountingPlanCreator.new(o, jtest)
+plan_bas.BAS_read_and_save('files/accounting_plans/', 'Kontoplan_Normal_2014_ver1.csv')
+bas = plan_bas.accounting_plan
 
 # Ink codes ---------------------------
-# ink_code = Services::InkCodeCreator.new(o, jtest, bas)
-# ink_code.read_and_save
+ink_code = Services::InkCodeCreator.new(o, jtest, nil, bas)
+ink_code.read_and_save('load and connect', 'files/codes/', 'INK2_15_ver1.csv')
 
 # Tax codes ---------------------------
-# tax_code = Services::TaxCodeCreator.new(o, jtest, bas)
-# tax_code.tax_codes_save
-#tax_code.BAS_tax_code_update
+tax_code = Services::TaxCodeCreator.new(o, jtest, nil, bas)
+tax_code.read_and_save('load and connect', 'files/codes/', 'TAX_codes.csv')
 
-# Ne codes -----------------------------
-# ne_code = Services::NeCodeCreator.new(o, jtest)
-# ne_code.read_and_save
+## Ne codes -----------------------------
+## ne_code = Services::NeCodeCreator.new(o, jtest)
+## ne_code.read_and_save
+
+# Default codes ------------------------
+ne_code = Services::NeCodeCreator.new(o, jtest, nil, bas)
+ne_code.read_and_save('load and connect',  'files/codes/', 'Default_codes.csv')
 
 # Accounting period --------------------
+ap15 = AccountingPeriod.new({
+  name: "Räkenskapsår 2015",
+  accounting_from: DateTime.new(2015,01,01),
+  accounting_to: DateTime.new(2015,12,31),
+  vat_period_type: 'month',
+  active: 'true',
+  accounting_plan: bas
+})
+ap15.organization = o
+ap15.save
 
-
-# Templates ----------------------------
-# templates = Services::TemplateCreator.new(o, jtest, bas)
-# templates.read_and_save
+## Templates ----------------------------
+## templates = Services::TemplateCreator.new(o, jtest, bas)
+## templates.read_and_save
 
 # @TODO create invoice(s)
