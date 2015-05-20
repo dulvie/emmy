@@ -32,7 +32,7 @@
                 = t(:receive)
               = render partial: 'shared/modal_state_change', locals: {idx: 'transfer_content_' + transfer.id.to_s, model: transfer, form_path: receive_package_transfer_path(transfer), event: 'receive_package', return_path: transfers_path}
 
-          %td= link_to settings_icon, transfer_path(transfer)
+          %td= link_to settings_icon, edit_transfer_path(transfer)
           %td= delete_modal_for transfer
 
   = paginate @transfers, :theme => 'twitter-bootstrap-3'
