@@ -1,7 +1,7 @@
 class TransfersController < ApplicationController
   load_and_authorize_resource  through: :current_organization
   before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :show_breadcrumbs, only: [:show, :update]
+  before_filter :show_breadcrumbs, only: [:show, :edit, :update]
 
   # Since load_and_authorize doesnt do this for non crud actions.
   before_filter :find_transfer, only: [:send_package, :receive_package]
@@ -17,14 +17,18 @@ class TransfersController < ApplicationController
   # GET /transfers/1
   # GET /transfers/1.json
   def show
-    @warehouses = current_organization.warehouses
+    init
+  end
+
+  # GET /transfer/1/edit
+  def edit
+    init
   end
 
   # GET /transfers/new
   def new
     @transfer.comments.build
-    @warehouses = current_organization.warehouses
-    gon.push warehouses: ActiveModel::ArraySerializer.new(@warehouses, each_serializer: WarehouseSerializer)
+    init
   end
 
   # POST /transfers
@@ -36,8 +40,7 @@ class TransfersController < ApplicationController
         format.html { redirect_to transfers_path, notice: "#{t(:transfer_transaction)} #{t(:was_successfully_created)}" }
         # format.json { render action: 'show', status: :created, location: @transfer }
       else
-        @warehouses = current_organization.warehouses
-        gon.push warehouses: ActiveModel::ArraySerializer.new(@warehouses, each_serializer: WarehouseSerializer)
+        init
         format.html { render action: 'new' }
         # format.json { render json: @transfer.errors, status: :unprocessable_entity }
       end
@@ -99,6 +102,11 @@ class TransfersController < ApplicationController
 
   def transfer_params
     params.require(:transfer).permit(Transfer.accessible_attributes.to_a)
+  end
+
+  def init
+    @warehouses = current_organization.warehouses
+    gon.push warehouses: ActiveModel::ArraySerializer.new(@warehouses, each_serializer: WarehouseSerializer)
   end
 
   def new_transfer
