@@ -97,6 +97,7 @@ se:
   document: "Dokument"
   documents: "Dokument"
   document_added: "Dokument lades till"
+  download: "Ladda ner"
   download_as_pdf: "Ladd ner PDF"
   due_date: "Förfallodatum"
   economics: "Ekonomi"
