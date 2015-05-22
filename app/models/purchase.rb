@@ -8,6 +8,7 @@ class Purchase < ActiveRecord::Base
   # t.string :contact_email
   # t.string :contact_name
   # t.string :description
+  # t.string  :supplier_reference
   # t.integer :our_reference_id
   # t.integer :to_warehouse_id
 
