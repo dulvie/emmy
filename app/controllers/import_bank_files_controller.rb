@@ -25,7 +25,7 @@ class ImportBankFilesController < ApplicationController
 
   # POST
   def create
-    @import_bank_file = Services::BankFileCreator.new(current_organization, current_user)
+    @import_bank_file = Services::ImportBankFileCreator.new(current_organization, current_user)
     respond_to do |format|
       if true # @import_bank_file.read_and_save_nordea
         format.html { redirect_to import_bank_files_path, notice: "#{t(:import_bank_file)} #{t(:was_successfully_created)}" }
@@ -65,7 +65,7 @@ class ImportBankFilesController < ApplicationController
   def create_from_upload
     uploaded = params[:import_bank_file][:upload]
     tempfile = uploaded.tempfile
-    @import_bank_file = Services::BankFileCreator.new(current_organization, current_user, tempfile)
+    @import_bank_file = Services::ImportBankFileCreator.new(current_organization, current_user, tempfile)
     if @import_bank_file.read_and_save_nordea
       redirect_to import_bank_files_path, notice: "#{t(:file_uploaded)}"
     else
