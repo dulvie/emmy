@@ -14,10 +14,14 @@ class ExportBankFilesController < ApplicationController
 
   # GET
   def new
+    @export_bank_file.pay_account = current_organization.bankgiro  #:postgiro, :plusgiro
+    @export_bank_file.iban = current_organization.iban  #:postgiro, :plusgiro
+    @export_bank_file.organization_number = current_organization.vat_number
   end
 
   # GET
   def show
+    @export_bank_file_rows = @export_bank_file.export_bank_file_rows.page
   end
 
   # GET
@@ -30,6 +34,8 @@ class ExportBankFilesController < ApplicationController
     @export_bank_file.organization = current_organization
     respond_to do |format|
       if @export_bank_file.save
+        export_bank_file_rows = Services::ExportBankFileCreator.new(current_organization, current_user, @export_bank_file)
+        export_bank_file_rows.read_verificates_and_create_rows
         format.html { redirect_to export_bank_files_url, notice: "#{t(:export_bank_file)} #{t(:was_successfully_created)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:export_bank_file)}"
@@ -47,6 +53,21 @@ class ExportBankFilesController < ApplicationController
     @export_bank_file.destroy
     respond_to do |format|
       format.html { redirect_to export_bank_files_url, notice:  "#{t(:export_bank_files)} #{t(:was_successfully_deleted)}" }
+    end
+  end
+
+  def download
+    export_bank_file = current_organization.export_bank_files.find(params[:export_bank_file_id])
+    export = Services::ExportBankFileCreator.new(current_organization, current_user, export_bank_file)
+    respond_to do |format|
+      if export.create_file_PO3
+      # if export.test_file_PO3
+        format.csv { send_file 'tmp/downloads/bank_file.txt', :type=>"text/plain", :x_sendfile=>true }
+        format.html { redirect_to export_bank_files_url, notice: "#{t(:export_bank_file)} #{t(:was_successfully_created)}" }
+      else
+        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:export_bank_file)}"
+        format.html { redirect_to export_bank_files_url, notice:"#{t(:failed_to_create)} #{t(:export_bank_file)}" }
+      end
     end
   end
 

@@ -5,6 +5,9 @@ class CreateExportBankFiles < ActiveRecord::Migration
       t.datetime :from_date
       t.datetime :to_date
       t.string   :reference
+      t.string   :organization_number
+      t.string   :pay_account
+      t.string   :iban
       t.integer  :organization_id
       t.timestamps
     end

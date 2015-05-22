@@ -1,0 +1,28 @@
+= link_to "#{t(:download)} #{t(:bank_file)}", export_bank_file_download_path(@export_bank_file, format: 'csv'), method: 'post', class: 'btn btn-success'
+
+.table-responsive{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:posting_date)
+        %th.numeric= t(:amount)
+        %th= t(:bank_account)
+        %th= t(:name)
+        %th= t(:reference)
+        %th
+        %th
+
+    %tbody{}
+      - @export_bank_file_rows.each do |export_bank_file_row|
+        %tr
+          %td= export_bank_file_row.posting_date
+          %td.numeric= export_bank_file_row.amount
+          %td= export_bank_file_row.bank_account
+          %td= export_bank_file_row.name
+          %td= export_bank_file_row.reference
+          %td.numeric= link_to settings_icon, export_bank_file_row_path(export_bank_file_row)
+          %td.numeric= delete_modal_for export_bank_file_row
+
+
+  = paginate @export_bank_file_rows, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
