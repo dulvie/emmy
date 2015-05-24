@@ -1,0 +1,16 @@
+Beskrivning export bankfile (Nordea)
+
+1) Skapa bankfil, hämtar preliminära verifikat med utbetalning för visst tidsintervall
+2) Rader i filen visar utbetlningar
+3) Skapa exportfil, återstående punkter
+   - Organisationsnummer saknas
+   - OBS! utbetlningskonto
+   - Betala till konto, skiljer bank och postgiro
+   - OBS! Valuta hantering, olika valuta för betalning och belastar konto
+   - Ej testat mot bank
+   - temporärfil per organisation
+   - möjligt ändra huvudet?
+   - ändra/ta bort/lägga till rader?
+4) Spara ner fil lokalt
+5) Logga på bank
+6) Ladda upp filen till banken
