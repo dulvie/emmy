@@ -120,6 +120,43 @@ module Services
       return @verificate.id
     end
 
+    def accounts_receivable
+      # create verificate
+      sale = @object
+      accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', sale.approved_at, sale.approved_at).first
+      accounting_plan = @organization.accounting_plans.find(accounting_period.accounting_plan_id)
+      ver_dsc = I18n.t(:customer) + ' ' + I18n.t(:invoice) + ' ' + sale.invoice_number.to_s
+      save_verificate(sale.approved_at, ver_dsc, '', '', accounting_period, nil)
+
+      # create sale
+      account_sale = account_from_default_code(accounting_plan, 05)
+      save_verificate_item(@verificate, account_sale, 0, BigDecimal.new(sale.total_price)/100, accounting_period)
+
+      # create vat 25
+      account_vat25 = account_from_tax_code(accounting_plan, 10)
+      save_verificate_item(@verificate, account_vat25, 0, sale.total_vat_25/100, accounting_period)
+      
+      # create vat 12
+      account_vat12 = account_from_tax_code(accounting_plan, 11)
+      save_verificate_item(@verificate, account_vat12, 0, sale.total_vat_12/100, accounting_period)
+
+      # create vat 06
+      account_vat06 = account_from_tax_code(accounting_plan, 12)
+      save_verificate_item(@verificate, account_vat06, 0, sale.total_vat_06/100, accounting_period)
+
+      # create rounding
+      account_rounding = account_from_default_code(accounting_plan, 02)
+      if sale.total_rounding > 0
+        save_verificate_item(@verificate, account_rounding, 0, sale.total_rounding/100, accounting_period)
+      else
+        save_verificate_item(@verificate, account_rounding, -sale.total_rounding/100, 0, accounting_period)
+      end
+
+      # create account receivable
+      account_receivable = account_from_default_code(accounting_plan, 03)
+      save_verificate_item(@verificate, account_receivable, sale.total_after_rounding/100, 0, accounting_period)
+    end
+
     def accounts_receivable(normal)
       sale = @object
       accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', sale.approved_at, sale.approved_at).first
