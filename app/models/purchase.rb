@@ -91,9 +91,7 @@ class Purchase < ActiveRecord::Base
   end
 
   def generate_accounts_payable
-     user = organization.users.find(user_id)
-     verificate_creator = Services::VerificateCreator.new(organization, user, self)
-     verificate_creator.accounts_payable
+    create_verificate_transaction('accounts_payable', self.ordered_at)
   end
 
   def invoice_purchase(transition)
@@ -134,6 +132,16 @@ class Purchase < ActiveRecord::Base
     end
   end
 
+  def create_verificate_transaction(ver_type, post_date)
+    verificate_transaction = VerificateTransaction.new(
+          parent: self,
+          posting_date: post_date,
+          user: self.user,
+          verificate_type: ver_type)
+    verificate_transaction.organization_id = organization_id
+    verificate_transaction.save
+  end
+
   state_machine :money_state, initial: :not_paid do
     before_transition on: :pay, do: :pay_purchase
     after_transition on: :pay, do: :generate_supplier_payments
@@ -148,9 +156,7 @@ class Purchase < ActiveRecord::Base
   end
 
   def generate_supplier_payments
-     user = organization.users.find(user_id)
-     verificate_creator = Services::VerificateCreator.new(organization, user, self)
-     verificate_creator.supplier_payments
+    create_verificate_transaction('supplier_payments', self.paid_at)
   end
 
   # after_transition filter for money_state and goods_state.

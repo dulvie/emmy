@@ -18,6 +18,10 @@ class Job::VerificateTransactionEvent
       @verificate_creator.accounts_receivable_reverse
     when 'customer_payments'
       @verificate_creator.customer_payments
+    when 'accounts_payable'
+      @verificate_creator.accounts_payable
+    when 'supplier_payments'
+      @verificate_creator.supplier_payments
     else
       Rails.logger.info "-->>#{trans.verificate_type} not implemented"
     end
