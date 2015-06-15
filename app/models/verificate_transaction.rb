@@ -1,4 +1,4 @@
-class VerificatTransaction < ActiveRecord::Base
+class VerificateTransaction < ActiveRecord::Base
   # t.string   :parent_type
   # t.integer  :parent_id
   # t.integer  :user_id

@@ -136,15 +136,11 @@ class Sale < ActiveRecord::Base
   end
 
   def generate_accounts_receivable
-     user = organization.users.find(user_id)
-     verificate_creator = Services::VerificateCreator.new(organization, user, self)
-     verificate_creator.accounts_receivable(true)
+     create_verificate_transaction('accounts_receivable', self.approved_at)
   end
 
   def reverse_accounts_receivable
-     user = organization.users.find(user_id)
-     verificate_creator = Services::VerificateCreator.new(organization, user, self)
-     verificate_creator.accounts_receivable(false)
+     create_verificate_transaction('accounts_receivable_reverse', self.approved_at)
   end
 
   state_machine :goods_state, initial: :not_delivered do
@@ -190,7 +186,7 @@ class Sale < ActiveRecord::Base
     verificate_transaction = VerificateTransaction.new(
           parent: self,
           posting_date: post_date,
-          user: sale.user,
+          user: self.user,
           verificate_type: ver_type)
     verificate_transaction.organization_id = organization_id
     verificate_transaction.save
@@ -216,9 +212,7 @@ class Sale < ActiveRecord::Base
   end
 
   def generate_customer_payments
-     user = organization.users.find(user_id)
-     verificate_creator = Services::VerificateCreator.new(organization, user, self)
-     verificate_creator.customer_payments
+      create_verificate_transaction('customer_payments', self.paid_at)
   end
 
   def can_edit_items?
@@ -262,6 +256,21 @@ class Sale < ActiveRecord::Base
   def total_vat
     return 0 if sale_items.count <= 0
     sale_items.inject(0) { |i, item| item.total_vat + i }
+  end
+
+  def total_vat_25
+    return 0 if sale_items.count <= 0
+    sale_items.inject(0) { |i, item| item.total_vat_25 + i }
+  end
+
+  def total_vat_12
+    return 0 if sale_items.count <= 0
+    sale_items.inject(0) { |i, item| item.total_vat_12 + i }
+  end
+
+  def total_vat_06
+    return 0 if sale_items.count <= 0
+    sale_items.inject(0) { |i, item| item.total_vat_06 + i }
   end
 
   def total_rounding
