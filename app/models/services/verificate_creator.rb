@@ -1,7 +1,19 @@
 module Services
   class VerificateCreator
 
-    def initialize(organization, user, object)
+    def initialize(organization, user, object, post_date)
+      @user = user
+      @organization = organization
+      @object = object
+      @verificate
+      @accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', post_date, post_date).first
+      if @accounting_period.nil?
+        Rails.logger.info "-->>VerificateCreator error accounting period missing"
+      end
+      @accounting_plan = @organization.accounting_plans.find(@accounting_period.accounting_plan_id)
+    end
+
+    def initializeOld(organization, user, object)
       @user = user
       @organization = organization
       @object = object
@@ -121,101 +133,101 @@ module Services
     end
 
     def accounts_receivable
-      # create verificate
       sale = @object
-      accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', sale.approved_at, sale.approved_at).first
-      accounting_plan = @organization.accounting_plans.find(accounting_period.accounting_plan_id)
-      ver_dsc = I18n.t(:customer) + ' ' + I18n.t(:invoice) + ' ' + sale.invoice_number.to_s
-      save_verificate(sale.approved_at, ver_dsc, '', '', accounting_period, nil)
 
-      # create sale
-      account_sale = account_from_default_code(accounting_plan, 05)
-      save_verificate_item(@verificate, account_sale, 0, BigDecimal.new(sale.total_price)/100, accounting_period)
+      Verificate.transaction do
+
+      # create verificate
+      ver_dsc = I18n.t(:customer) + ' ' + I18n.t(:invoice) + ' ' + sale.invoice_number.to_s
+      save_verificate(sale.approved_at, ver_dsc, '', '', @accounting_period, nil)
+
+       # create sale
+      account_sale = account_from_default_code(@accounting_plan, 05)
+      save_verificate_item(@verificate, account_sale, 0, sale.total_price/100, @accounting_period)
 
       # create vat 25
-      account_vat25 = account_from_tax_code(accounting_plan, 10)
-      save_verificate_item(@verificate, account_vat25, 0, sale.total_vat_25/100, accounting_period)
-      
+      account_vat25 = account_from_tax_code(@accounting_plan, 10)
+      save_verificate_item(@verificate, account_vat25, 0, sale.total_vat_25/100, @accounting_period)
+
       # create vat 12
-      account_vat12 = account_from_tax_code(accounting_plan, 11)
-      save_verificate_item(@verificate, account_vat12, 0, sale.total_vat_12/100, accounting_period)
+      account_vat12 = account_from_tax_code(@accounting_plan, 11)
+      save_verificate_item(@verificate, account_vat12, 0, sale.total_vat_1/100, @accounting_period)
 
       # create vat 06
-      account_vat06 = account_from_tax_code(accounting_plan, 12)
-      save_verificate_item(@verificate, account_vat06, 0, sale.total_vat_06/100, accounting_period)
+      account_vat06 = account_from_tax_code(@accounting_plan, 12)
+      save_verificate_item(@verificate, account_vat06, 0, sale.total_vat_06/100, @accounting_period)
 
       # create rounding
-      account_rounding = account_from_default_code(accounting_plan, 02)
+      account_rounding = account_from_default_code(@accounting_plan, 02)
       if sale.total_rounding > 0
-        save_verificate_item(@verificate, account_rounding, 0, sale.total_rounding/100, accounting_period)
+        save_verificate_item(@verificate, account_rounding, 0, sale.total_rounding/100, @accounting_period)
       else
-        save_verificate_item(@verificate, account_rounding, -sale.total_rounding/100, 0, accounting_period)
+        save_verificate_item(@verificate, account_rounding, -sale.total_rounding/100, 0, @accounting_period)
       end
 
       # create account receivable
-      account_receivable = account_from_default_code(accounting_plan, 03)
-      save_verificate_item(@verificate, account_receivable, sale.total_after_rounding/100, 0, accounting_period)
+      account_receivable = account_from_default_code(@accounting_plan, 03)
+      save_verificate_item(@verificate, account_receivable, sale.total_after_rounding/100, 0, @accounting_period)
+      end
     end
 
-    def accounts_receivable(normal)
+
+    def accounts_receivable_reverse
       sale = @object
-      accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', sale.approved_at, sale.approved_at).first
-      accounting_plan = @organization.accounting_plans.find(accounting_period.accounting_plan_id)
 
-      ver_dsc = I18n.t(:customer) + ' ' + I18n.t(:invoice) + ' ' + sale.invoice_number.to_s if normal
-      ver_dsc = I18n.t(:reverse) + ' ' + I18n.t(:customer) + ' ' + I18n.t(:invoice) + ' ' + sale.invoice_number.to_s if !normal
-      save_verificate(sale.approved_at, ver_dsc, '', '', accounting_period, nil) if normal
-      save_verificate(sale.canceled_at, ver_dsc, '', '', accounting_period, nil) if !normal
+      Verificate.transaction do
 
-      account_sale = account_from_default_code(accounting_plan, 05)
-      account_vat25 = account_from_tax_code(accounting_plan, 10)
-      account_vat12 = account_from_tax_code(accounting_plan, 11)
-      account_vat06 = account_from_tax_code(accounting_plan, 12)
+      # create verificate
+      ver_dsc = I18n.t(:reverse) + ' ' + I18n.t(:customer) + ' ' + I18n.t(:invoice) + ' ' + sale.invoice_number.to_s
+      save_verificate(sale.canceled_at, ver_dsc, '', '', @accounting_period, nil)
 
-      sale.sale_items.each do |item|
-        save_verificate_item(@verificate, account_sale, 0, BigDecimal.new(item.price_sum)/100, accounting_period) if normal
-        save_verificate_item(@verificate, account_sale, BigDecimal.new(item.price_sum)/100, 0, accounting_period) if !normal
-        case item.vat
-          when 6
-            save_verificate_item(@verificate, account_vat06, 0, item.total_vat/100, accounting_period) if normal
-            save_verificate_item(@verificate, account_vat06, item.total_vat/100, 0, accounting_period) if !normal
-          when 12
-            save_verificate_item(@verificate, account_vat12, 0, item.total_vat/100, accounting_period) if normal
-            save_verificate_item(@verificate, account_vat12, item.total_vat/100, 0, accounting_period) if !normal
-          when 25
-            save_verificate_item(@verificate, account_vat25, 0, item.total_vat/100, accounting_period) if normal
-            save_verificate_item(@verificate, account_vat25, item.total_vat/100, 0, accounting_period) if !normal
-          else
-        end
-      end
+      # create sale
+      account_sale = account_from_default_code(@accounting_plan, 05)
+      save_verificate_item(@verificate, account_sale, sale.total_price/100, 0, @accounting_period)
 
-      account_rounding = account_from_default_code(accounting_plan, 02)
+      # create vat 25
+      account_vat25 = account_from_tax_code(@accounting_plan, 10)
+      save_verificate_item(@verificate, account_vat25, sale.total_vat_25/100, 0, @accounting_period)
+
+      # create vat 12
+      account_vat12 = account_from_tax_code(@accounting_plan, 11)
+      save_verificate_item(@verificate, account_vat12, sale.total_vat_12/100, 0, @accounting_period)
+
+      # create vat 06
+      account_vat06 = account_from_tax_code(@accounting_plan, 12)
+      save_verificate_item(@verificate, account_vat06, sale.total_vat_06/100, 0, @accounting_period)
+
+      # create rounding
+      account_rounding = account_from_default_code(@accounting_plan, 02)
       if sale.total_rounding > 0
-        save_verificate_item(@verificate, account_rounding, 0, sale.total_rounding/100, accounting_period) if normal
-        save_verificate_item(@verificate, account_rounding, sale.total_rounding/100, 0, accounting_period) if !normal
+        save_verificate_item(@verificate, account_rounding, sale.total_rounding/100, 0, @accounting_period)
       else
-        save_verificate_item(@verificate, account_rounding, -sale.total_rounding/100, 0, accounting_period) if normal
-        save_verificate_item(@verificate, account_rounding, 0, -sale.total_rounding/100, accounting_period) if !normal
+        save_verificate_item(@verificate, account_rounding, 0, -sale.total_rounding/100, @accounting_period)
       end
 
-      account_receivable = account_from_default_code(accounting_plan, 03)
-      save_verificate_item(@verificate, account_receivable, sale.total_after_rounding/100, 0, accounting_period) if normal
-      save_verificate_item(@verificate, account_receivable, 0, sale.total_after_rounding/100, accounting_period) if !normal
+      # create account receivable
+      account_receivable = account_from_default_code(@accounting_plan, 03)
+      save_verificate_item(@verificate, account_receivable, 0, sale.total_after_rounding/100, @accounting_period)
+      end
     end
 
     def customer_payments
       sale = @object
-      accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', sale.paid_at, sale.paid_at).first
-      accounting_plan = @organization.accounting_plans.find(accounting_period.accounting_plan_id)
 
+      Verificate.transaction do
+
+      # create verificate
       ver_dsc = I18n.t(:customer) + ' ' + I18n.t(:payment)
-      save_verificate(sale.paid_at, ver_dsc, '', '', accounting_period, nil)
+      save_verificate(sale.paid_at, ver_dsc, '', '', @accounting_period, nil)
 
-      account_receivable = account_from_default_code(accounting_plan, 03)
-      save_verificate_item(@verificate, account_receivable, 0, sale.total_after_rounding/100, accounting_period)
+      # create account receivable
+      account_receivable = account_from_default_code(@accounting_plan, 03)
+      save_verificate_item(@verificate, account_receivable, 0, sale.total_after_rounding/100, @accounting_period)
 
-      customer_payment = account_from_default_code(accounting_plan, 01)
-      save_verificate_item(@verificate, customer_payment, sale.total_after_rounding/100, 0, accounting_period)
+      # create customer payments
+      customer_payment = account_from_default_code(@accounting_plan, 01)
+      save_verificate_item(@verificate, customer_payment, sale.total_after_rounding/100, 0, @accounting_period)
+      end
     end
 
     def accounts_payable
@@ -300,6 +312,7 @@ module Services
     end
 
     def save_verificate_item(verificate, account, debit, credit, accounting_period)
+      return if debit == 0 && credit == 0
       verificate_item = verificate.verificate_items.build
       verificate_item.account_id = account.id
       verificate_item.description = account.description
@@ -310,7 +323,6 @@ module Services
         verificate_item.debit = debit
         verificate_item.credit = credit
       end
-
       verificate_item.organization = @organization
       verificate_item.accounting_period = accounting_period
       verificate_item.save

@@ -43,6 +43,21 @@ class SaleItem < ActiveRecord::Base
     (quantity * price * (vat / 100.0))
   end
 
+  def total_vat_25
+    return (quantity * price * (vat / 100.0)) if vat == 25
+    0.0
+  end
+
+  def total_vat_12
+    return (quantity * price * (vat / 100.0)) if vat == 12
+    0.0
+  end
+
+  def total_vat_06
+    return (quantity * price * (vat / 100.0)) if vat == 6
+    0.0
+  end
+
   def product
   end
 
