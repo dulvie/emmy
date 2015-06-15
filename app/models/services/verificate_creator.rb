@@ -232,34 +232,42 @@ module Services
 
     def accounts_payable
       purchase = @object
-      accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', purchase.ordered_at, purchase.ordered_at).first
-      accounting_plan = @organization.accounting_plans.find(accounting_period.accounting_plan_id)
 
+      Verificate.transaction do
+
+      # create verificate
       ver_dsc = purchase.description
-      save_verificate(purchase.ordered_at, ver_dsc, '', '', accounting_period, nil)
+      save_verificate(purchase.ordered_at, ver_dsc, '', '', @accounting_period, nil)
 
       # Kostnadsförs manuellt på rätt kostnadskonto
 
-      account_vat = account_from_tax_code(accounting_plan, 48)
-      save_verificate_item(@verificate, account_vat, BigDecimal.new(purchase.total_vat)/100, 0, accounting_period)
+      # create vat
+      account_vat = account_from_tax_code(@accounting_plan, 48)
+      save_verificate_item(@verificate, account_vat, BigDecimal.new(purchase.total_vat)/100, 0, @accounting_period)
 
-      account_payable = account_from_default_code(accounting_plan, 04)
-      save_verificate_item(@verificate, account_payable, 0, BigDecimal.new(purchase.total_amount)/100, accounting_period)
+      # create accounts payable
+      account_payable = account_from_default_code(@accounting_plan, 04)
+      save_verificate_item(@verificate, account_payable, 0, BigDecimal.new(purchase.total_amount)/100, @accounting_period)
+      end
     end
 
     def supplier_payments
       purchase = @object
-      accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', purchase.paid_at, purchase.paid_at).first
-      accounting_plan = @organization.accounting_plans.find(accounting_period.accounting_plan_id)
 
+      Verificate.transaction do
+
+      # create verificate
       ver_dsc = I18n.t(:supplier) + ' ' + I18n.t(:payment)
-      save_verificate(purchase.paid_at, ver_dsc, '', '', accounting_period, nil)
+      save_verificate(purchase.paid_at, ver_dsc, '', '', @accounting_period, nil)
 
-      account_payable = account_from_default_code(accounting_plan, 04)
-      save_verificate_item(@verificate, account_payable, BigDecimal.new(purchase.total_amount)/100, 0, accounting_period)
+      # create accounts payable
+      account_payable = account_from_default_code(@accounting_plan, 04)
+      save_verificate_item(@verificate, account_payable, BigDecimal.new(purchase.total_amount)/100, 0, @accounting_period)
 
-      supplier_payment = account_from_default_code(accounting_plan, 01)
-      save_verificate_item(@verificate, supplier_payment, 0, BigDecimal.new(purchase.total_amount)/100, accounting_period)
+      # create supplier payments
+      supplier_payment = account_from_default_code(@accounting_plan, 01)
+      save_verificate_item(@verificate, supplier_payment, 0, BigDecimal.new(purchase.total_amount)/100, @accounting_period)
+      end
     end
 
     def account_from_tax_code(accounting_plan, tax_code)
