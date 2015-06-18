@@ -1,5 +1,5 @@
 - if @vat_period.can_report?
-  = link_to "#{t(:create)} #{t(:verificate)}", create_verificate_vat_period_path(params[:vat_period_id]), method: 'post', class: 'btn btn-success'
+  = link_to "#{t(:create)} #{t(:verificate)}", state_change_vat_period_path(@vat_period, event: 'mark_reported'), method: 'post', class: 'btn btn-success'
 
 .table-responsive
   %table{:class => 'table table-striped'}

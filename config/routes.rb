@@ -201,7 +201,7 @@ Emmy::Application.routes.draw do
     resources :vat_periods do
       resources :vat_reports
       member do
-        post 'create_verificate', as: :create_verificate
+        post 'state_change', as: :state_change
         post 'create_vat_report', as: :create_vat_report
       end
     end

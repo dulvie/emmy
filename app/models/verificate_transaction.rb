@@ -6,7 +6,7 @@ class VerificateTransaction < ActiveRecord::Base
   # t.datetime :posting_date
   # t.string   :verificate_type
 
-  attr_accessible :verificate_type, :parent, :posting_date, :user
+  attr_accessible :verificate_type, :parent, :posting_date, :user, :user_id
 
   belongs_to :user
   belongs_to :organization
