@@ -45,14 +45,15 @@ class VatPeriod < ActiveRecord::Base
 
   STATE_CHANGES = [:mark_calculated, :mark_reported, :mark_closed]
 
-  def state_change(event, changed_at = nil)
+  def state_change(event, changed_at = nil, user_id = nil)
     return false unless STATE_CHANGES.include?(event.to_sym)
-    send(event, changed_at)
+    send(event, changed_at, user_id)
   end
 
   state_machine :state, initial: :preliminary do
-    before_transition on: :mark_calulated, do: :calculate
+    before_transition on: :mark_calculated, do: :calculate
     before_transition on: :mark_reported, do: :report
+    after_transition on: :mark_reported, do: :generate_verificate_vat_report
     before_transition on: :mark_closed, do: :close
 
     event :mark_calculated do
@@ -76,8 +77,22 @@ class VatPeriod < ActiveRecord::Base
     self.reported_at = transition.args[0]
   end
 
+  def generate_verificate_vat_report(transition)
+     create_verificate_transaction('vat_report', self.deadline, transition.args[1])
+  end
+
   def close(transition)
     self.closed_at = transition.args[0]
+  end
+
+  def create_verificate_transaction(ver_type, post_date, user_id)
+    verificate_transaction = VerificateTransaction.new(
+          parent: self,
+          posting_date: post_date,
+          user_id: user_id,
+          verificate_type: ver_type)
+    verificate_transaction.organization_id = organization_id
+    verificate_transaction.save
   end
 
   def can_calculate?

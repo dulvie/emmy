@@ -22,6 +22,8 @@ class Job::VerificateTransactionEvent
       @verificate_creator.accounts_payable
     when 'supplier_payments'
       @verificate_creator.supplier_payments
+    when 'vat_report'
+      @verificate_creator.vat_report
     else
       Rails.logger.info "-->>#{trans.verificate_type} not implemented"
     end

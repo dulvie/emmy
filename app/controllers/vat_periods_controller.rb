@@ -63,6 +63,17 @@ class VatPeriodsController < ApplicationController
     end
   end
 
+  def state_change
+    @vat_period = current_organization.vat_periods.find(params[:id])
+    authorize! :manage, @vat_period
+    if @vat_period.state_change(params[:event], DateTime.now, current_user.id)
+      msg_h = { notice: t(:success) }
+    else
+      msg_h = { alert: t(:fail) }
+    end
+     redirect_to vat_periods_path, msg_h
+  end
+
   def create_vat_report
     # till status calculate
     @vat_report_creator = Services::VatReportCreator.new(current_organization, current_user, @vat_period)
@@ -72,19 +83,6 @@ class VatPeriodsController < ApplicationController
         format.html { redirect_to vat_period_vat_reports_url(@vat_period), notice: 'Vat report was successfully updated.' }
       else
         @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
-        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:vat_report)}"
-        format.html { render action: 'show' }
-      end
-    end
-  end
-
-  def create_verificate
-    # till status
-    @verificate_creator = Services::VerificateCreator.new(current_organization, current_user, @vat_period)
-    respond_to do |format|
-      if @verificate_creator.save_vat_report
-        format.html { redirect_to verificates_url, notice: 'Vat report was successfully updated.' }
-      else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:vat_report)}"
         format.html { render action: 'show' }
       end
