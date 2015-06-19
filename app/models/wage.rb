@@ -6,6 +6,7 @@ class Wage < ActiveRecord::Base
   # t.decimal  :addition
   # t.decimal  :discount
   # t.decimal  :tax
+  # t.decimal  :payroll_tax
   # t.decimal  :amount
   # t.integer  :organization_id
   # t.integer  :accounting_period_id

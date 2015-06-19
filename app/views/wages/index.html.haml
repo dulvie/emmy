@@ -1,6 +1,6 @@
 - if @wage_period.can_report_wage?
   = link_to "#{t(:create)} #{t(:wage)}", new_wage_period_wage_path(@wage_period), class: 'btn btn-success'
-  = link_to "#{t(:create)} #{t(:verificate)}", create_wage_verificate_wage_period_path(params[:wage_period_id]), method: 'post', class: 'btn btn-success'
+  = link_to "#{t(:create)} #{t(:verificate)}", state_change_wage_period_path(@wage_period, event: 'mark_wage_reported'), method: 'post', class: 'btn btn-success'
 
 .table-responsive{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}

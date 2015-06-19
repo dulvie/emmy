@@ -74,24 +74,23 @@ class WagePeriodsController < ApplicationController
     end
   end
 
+  def state_change
+    @wage_period = current_organization.wage_periods.find(params[:id])
+    authorize! :manage, @vat_period
+    if @wage_period.state_change(params[:event], DateTime.now, current_user.id)
+      msg_h = { notice: t(:success) }
+    else
+      msg_h = { alert: t(:fail) }
+    end
+     redirect_to wage_periods_path, msg_h
+  end
+
   def create_wage
     @accounting_period = current_organization.accounting_periods.find(@wage_period.accounting_period_id)
     @wage_creator = Services::WageCreator.new(current_organization, current_user, @wage_period)
     @wage_creator.save_wages
     respond_to do |format|
       format.html { redirect_to wage_period_wages_path(@wage_period), notice: 'wage was successfully created.'}
-    end
-  end
-
-  def create_wage_verificate
-    @verificate_creator = Services::VerificateCreator.new(current_organization, current_user, @wage_period)
-    respond_to do |format|
-      if @verificate_creator.save_wage
-        format.html { redirect_to verificates_url, notice: 'wage period was successfully updated.' }
-      else
-        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:wage_period)}"
-        format.html { render action: 'show' }
-      end
     end
   end
 
@@ -106,28 +105,6 @@ class WagePeriodsController < ApplicationController
         format.html { render action: 'show' }
       end
     end
-  end
-
-  def create_report_verificate
-    @verificate_creator = Services::VerificateCreator.new(current_organization, current_user, @wage_period)
-    respond_to do |format|
-      if @verificate_creator.save_wage_report
-        format.html { redirect_to verificates_url, notice: 'wage period was successfully updated.' }
-      else
-        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:wage_period)}"
-        format.html { render action: 'show' }
-      end
-    end
-  end
-
-  def state_change
-    @wage_period = current_organization.wage_periods.find(params[:id])
-    if @wage_period.state_change(params[:event], DateTime.now)
-      msg_h = { notice: t(:success) }
-    else
-      msg_h = { alert: t(:fail) }
-    end
-    redirect_to @wage_period, msg_h
   end
 
   private

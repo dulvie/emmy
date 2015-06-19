@@ -2,6 +2,7 @@ class WagePeriod < ActiveRecord::Base
   # t.string   :name
   # t.datetime :wage_from
   # t.datetime :wage_to
+  # t.datetime :payment_date
   # t.datetime :deadline
   # t.string   :state
   # t.datetime :wage_calculated_at
@@ -14,7 +15,6 @@ class WagePeriod < ActiveRecord::Base
   # t.integer  :accounting_period_id
 
   # t.timestamps
-
 
   attr_accessible :name, :wage_from, :wage_to, :payment_date, :deadline, :accounting_period_id
 
@@ -51,17 +51,19 @@ class WagePeriod < ActiveRecord::Base
   STATE_CHANGES = [:mark_wage_calculated, :mark_wage_reported, :mark_wage_closed,
                    :mark_tax_calculated, :mark_tax_reported, :mark_tax_closed]
 
-  def state_change(event, changed_at = nil)
+  def state_change(event, changed_at = nil, user_id = nil)
     return false unless STATE_CHANGES.include?(event.to_sym)
-    send(event, changed_at)
+    send(event, changed_at, user_id)
   end
 
   state_machine :state, initial: :preliminary do
     before_transition on: :mark_wage_calculated, do: :wage_calculate
     before_transition on: :mark_wage_reported, do: :wage_report
+    after_transition on: :mark_wage_reported, do: :generate_verificate_wage
     before_transition on: :mark_wage_closed, do: :wage_close
     before_transition on: :mark_tax_calculated, do: :tax_calculate
     before_transition on: :mark_tax_reported, do: :tax_report
+    after_transition on: :mark_tax_reported, do: :generate_verificate_tax
     before_transition on: :mark_tax_closed, do: :tax_close
 
     event :mark_wage_calculated do
@@ -92,6 +94,14 @@ class WagePeriod < ActiveRecord::Base
     self.wage_reported_at = transition.args[0]
   end
 
+  def generate_verificate_wage(transition)
+     create_verificate_transaction('wage', self.payment_date, transition.args[1])
+  end
+
+  def generate_verificate_tax(transition)
+     create_verificate_transaction('wage_tax', self.deadline, transition.args[1])
+  end
+
   def wage_close(transition)
     self.wage_closed_at = transition.args[0]
   end
@@ -106,6 +116,40 @@ class WagePeriod < ActiveRecord::Base
 
   def tax_close(transition)
     self.tax_closed_at = transition.args[0]
+  end
+
+  def create_verificate_transaction(ver_type, post_date, user_id)
+    verificate_transaction = VerificateTransaction.new(
+          parent: self,
+          posting_date: post_date,
+          user_id: user_id,
+          verificate_type: ver_type)
+    verificate_transaction.organization_id = organization_id
+    verificate_transaction.save
+  end
+
+  def total_salary
+    return 0 if wages.count <= 0
+    wages.inject(0) { |i, item| item.salary + i }
+  end
+
+  def total_tax
+    return 0 if wages.count <= 0
+    wages.inject(0) { |i, item| item.tax + i }
+  end
+
+  def total_payroll_tax
+    return 0 if wages.count <= 0
+    wages.inject(0) { |i, item| item.payroll_tax + i }
+  end
+
+  def total_amount
+    return 0 if wages.count <= 0
+    wages.inject(0) { |i, item| item.amount + i }
+  end
+
+  def sum_tax
+    total_tax + total_payroll_tax
   end
 
   def can_calculate_wage?

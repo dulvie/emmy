@@ -114,7 +114,7 @@ class VerificatesController < ApplicationController
 
   def reversal
     @verificate = current_organization.verificates.find(params[:id])
-    @verificate_creator = Services::VerificateCreator.new(current_organization, current_user, @verificate)
+    @verificate_creator = Services::VerificateCreator.new(current_organization, current_user, @verificate, @verificate.posting_date)
     respond_to do |format|
       if @verificate_creator.reversal
         format.html { redirect_to verificates_path, notice:  "#{t(:verificate)} #{t(:was_successfully_created)}" }
