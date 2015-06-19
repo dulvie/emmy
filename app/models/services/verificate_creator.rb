@@ -13,13 +13,6 @@ module Services
       @accounting_plan = @organization.accounting_plans.find(@accounting_period.accounting_plan_id)
     end
 
-    def initializeOld(organization, user, object)
-      @user = user
-      @organization = organization
-      @object = object
-      @verificate
-    end
-
     def verificate_id
       @verificate.id
     end
@@ -65,65 +58,97 @@ module Services
       end
     end
 
-    def save_wage
+    def wage
       wage_period = @object
-      accounting_period = @organization.accounting_periods.find(wage_period.accounting_period_id)
-      accounting_plan = accounting_period.accounting_plan
 
-      save_verificate(wage_period.payment_date, 'Salery payout', '', '', accounting_period, nil)
-      # @NOTE payout seperate for every employee to account??
-      sum_salary = 0
-      sum_tax = 0
-      sum_payroll_tax = 0
-      sum_amount = 0
-      wage_period.wages.each do |report|
-        sum_salary += report.salary
-        sum_tax += report.tax
-        sum_payroll_tax += report.payroll_tax
-        sum_amount += report.amount
-      end
+      Verificate.transaction do
 
-      account_wage_sum = account_from_tax_code(accounting_plan, 50)
-      save_verificate_item(@verificate, account_wage_sum, sum_salary, 0, accounting_period)
+      # create verificate
+      save_verificate(wage_period.payment_date, 'Salery payout', '', '', nil)
       @verificate.parent_extend = 'wage'
       @verificate.save
 
-      account_wage_tax = account_from_tax_code(accounting_plan, 82)
-      save_verificate_item(@verificate, account_wage_tax, 0, sum_tax, accounting_period)
+      # create total salery
+      tax_code = tax_code(50)
+      account = account_from_tax_code(tax_code)
+      amount = wage_period.total_salary
+      save_verificate_item(account, amount, 0)
 
-      account_payroll_deb = account_from_tax_code(accounting_plan, 100)
-      save_verificate_item(@verificate, account_payroll_deb, sum_payroll_tax, 0, accounting_period)
+      # create wage tax
+      tax_code = tax_code(82)
+      account = account_from_tax_code(tax_code)
+      amount = wage_period.total_tax
+      save_verificate_item(account, 0, amount)
 
-      account_payroll_cre = account_from_tax_code(accounting_plan, 78)
-      save_verificate_item(@verificate, account_payroll_cre, 0, sum_payroll_tax, accounting_period)
+      # create payroll debet
+      tax_code = tax_code(100)
+      account = account_from_tax_code(tax_code)
+      amount = wage_period.total_payroll_tax
+      save_verificate_item(account, amount, 0)
 
-      account_pay = account_from_default_code(accounting_plan, 01)
-      save_verificate_item(@verificate, account_pay, 0, sum_amount, accounting_period)
-      
-      wage_period.state_change('mark_wage_reported', DateTime.now)
+      # create payroll credit
+      tax_code = tax_code(78)
+      account = account_from_tax_code(tax_code)
+      amount = wage_period.total_payroll_tax
+      save_verificate_item(account, 0, amount)
+
+      # create payment
+      default_code = default_code(01)
+      account = account_from_default_code(default_code)
+      amount = wage_period.total_amount
+      save_verificate_item(account, 0, amount)
+      end
     end
 
-    def save_wage_report
-      wage_period = @object
-      accounting_period = AccountingPeriod.find(wage_period.accounting_period_id)
-      accounting_plan = accounting_period.accounting_plan
+    def wage_tax
+    wage_period = @object
 
-      save_verificate(wage_period.deadline, 'Skatteredovisning','','', accounting_period, nil)
+      Verificate.transaction do
+
+      # create verificate
+      save_verificate(wage_period.deadline, 'Skatteredovisning','','', nil)
       @verificate.parent_extend = 'tax'
       @verificate.save
 
-      wage_period.wage_reports.each do |report|
-        account = accounting_plan.accounts.find_by_tax_code_id(report.tax_code.id)
-        if report.amount != 0 && (report.tax_code.code == 78 || report.tax_code.code == 82)
-          save_verificate_item(@verificate, account, report.amount, 0, accounting_period)
-        elsif report.tax_code.code == 99
-          account_pay = account_from_default_code(accounting_plan, 01)
-          save_verificate_item(@verificate, account_pay, 0, report.amount, @accounting_period)
-        else
-        end
-      end
+      # create create payroll
+      tax_code = tax_code(78)
+      account = account_from_tax_code(tax_code)
+      amount = wage_period.total_payroll_tax
+      save_verificate_item(account, amount, 0)
 
-      wage_period.state_change('mark_tax_reported', DateTime.now)
+      # create wage tax
+      tax_code = tax_code(82)
+      account = account_from_tax_code(tax_code)
+      amount = wage_period.total_tax
+      save_verificate_item(account, amount, 0)
+
+      # create payment
+      default_code = default_code(01)
+      account = account_from_default_code(default_code)
+      amount = wage_period.sum_tax
+      save_verificate_item(account, 0, amount)
+      end
+    end
+
+    def bank_file_row
+      import_bank_file_row = @object
+
+      Verificate.transaction do
+
+      save_verificate( import_bank_file_row.posting_date, import_bank_file_row.name, import_bank_file_row.reference, import_bank_file_row.note, nil)
+
+      # create payment
+      if import_bank_file_row.amount > 0
+        debit = import_bank_file_row.amount
+        credit = 0
+      else
+        debit = 0
+        credit = -import_bank_file_row.amount
+      end
+      default_code = default_code(01)
+      account = account_from_default_code(default_code)
+      save_verificate_item(account, debit, credit)
+      end
     end
 
     def save_bank_file_row
@@ -322,37 +347,23 @@ module Services
       return vat_report.amount
     end
 
-    def account_from_tax_codeOld(accounting_plan, tax_code)
-      code = @organization.tax_codes.find_by_code(tax_code)
-      @account = accounting_plan.accounts.find_by_tax_code_id(code.id)
-      return @account
-    end
-
-    def account_from_default_codeOld(accounting_plan, default_code)
-      code = @organization.default_codes.find_by_code(default_code)
-      @account = accounting_plan.accounts.find_by_default_code_id(code.id)
-      return @account
-    end
-
-    def save_in_template(template_id)
-      # Förutsätter att det är en bankfilrow
+    def template(template_id)
       import_bank_file_row = @object
+      
       template = @organization.templates.find(template_id)
-      accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', import_bank_file_row.posting_date, import_bank_file_row.posting_date).first
-
-      save_verificate( import_bank_file_row.posting_date, template.description, import_bank_file_row.reference, import_bank_file_row.note, accounting_period, template)
-      return @verificate.id
+      save_verificate( import_bank_file_row.posting_date, template.description, import_bank_file_row.reference, import_bank_file_row.note, template)
     end
 
     def reversal
       verificate = @object
-      accounting_period = verificate.accounting_period
 
+      # create verificate
       ver_dsc = I18n.t(:reversal) + ' ' + I18n.t(:verificate) + ' ' + verificate.number.to_s
-      save_verificate(DateTime.now, ver_dsc, '', '', accounting_period, nil)
+      save_verificate(DateTime.now, ver_dsc, '', '', nil)
 
+      # create reversal items
       verificate.verificate_items.each do |verificate_item|
-        save_verificate_item(@verificate, verificate_item.account, verificate_item.credit, verificate_item.debit, accounting_period)
+        save_verificate_item(verificate_item.account, verificate_item.credit, verificate_item.debit)
       end
     end
 
@@ -370,21 +381,6 @@ module Services
       @verificate.save
     end
 
-    def save_verificateOld(posting_date, description, reference, note, accounting_period, template)
-      @verificate = Verificate.new
-      @verificate.posting_date = posting_date
-      @verificate.description = description
-      @verificate.reference = reference
-      @verificate.note = note
-      @verificate.organization = @organization
-      @verificate.accounting_period = accounting_period
-      @verificate.template = template if template
-      @verificate.parent_type = @object.class.name
-      @verificate.parent_id = @object.id
-      @verificate.save
-      return @verificate
-    end
-
     def save_verificate_item(account, debit, credit)
       return if debit == 0 && credit == 0
       verificate_item = @verificate.verificate_items.build
@@ -399,23 +395,6 @@ module Services
       end
       verificate_item.organization = @organization
       verificate_item.accounting_period = @accounting_period
-      verificate_item.save
-    end
-
-    def save_verificate_itemOld(verificate, account, debit, credit, accounting_period)
-      return if debit == 0 && credit == 0
-      verificate_item = verificate.verificate_items.build
-      verificate_item.account_id = account.id
-      verificate_item.description = account.description
-      if debit < 0 || credit < 0
-        verificate_item.debit = -credit
-        verificate_item.credit = -debit
-      else
-        verificate_item.debit = debit
-        verificate_item.credit = credit
-      end
-      verificate_item.organization = @organization
-      verificate_item.accounting_period = accounting_period
       verificate_item.save
     end
   end

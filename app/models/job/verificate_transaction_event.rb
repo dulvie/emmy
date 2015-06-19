@@ -24,6 +24,10 @@ class Job::VerificateTransactionEvent
       @verificate_creator.supplier_payments
     when 'vat_report'
       @verificate_creator.vat_report
+    when 'wage'
+      @verificate_creator.wage
+    when 'wage_tax'
+      @verificate_creator.wage_tax
     else
       Rails.logger.info "-->>#{trans.verificate_type} not implemented"
     end
