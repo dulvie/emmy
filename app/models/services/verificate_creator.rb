@@ -113,19 +113,20 @@ module Services
       # create create payroll
       tax_code = tax_code(78)
       account = account_from_tax_code(tax_code)
-      amount = wage_period.total_payroll_tax
+      amount = wage_amount(wage_period, tax_code)
       save_verificate_item(account, amount, 0)
 
       # create wage tax
       tax_code = tax_code(82)
       account = account_from_tax_code(tax_code)
-      amount = wage_period.total_tax
+      amount = wage_amount(wage_period, tax_code)
       save_verificate_item(account, amount, 0)
 
       # create payment
+      tax_code = tax_code(99)
       default_code = default_code(01)
       account = account_from_default_code(default_code)
-      amount = wage_period.sum_tax
+      amount = wage_amount(wage_period, tax_code)
       save_verificate_item(account, 0, amount)
       end
     end
@@ -345,6 +346,11 @@ module Services
     def vat_amount(vat_period, tax_code)
       vat_report = vat_period.vat_reports.where('tax_code_id = ?', tax_code.id).first
       return vat_report.amount
+    end
+
+    def wage_amount(wage_period, tax_code)
+      wage_report = wage_period.wage_reports.where('tax_code_id = ?', tax_code.id).first
+      return wage_report.amount
     end
 
     def template(template_id)
