@@ -62,6 +62,7 @@ class WagePeriod < ActiveRecord::Base
     after_transition on: :mark_wage_reported, do: :generate_verificate_wage
     before_transition on: :mark_wage_closed, do: :wage_close
     before_transition on: :mark_tax_calculated, do: :tax_calculate
+    after_transition on: :mark_tax_calculated, do: :generate_tax_agency_report
     before_transition on: :mark_tax_reported, do: :tax_report
     after_transition on: :mark_tax_reported, do: :generate_verificate_tax
     before_transition on: :mark_tax_closed, do: :tax_close
@@ -90,6 +91,10 @@ class WagePeriod < ActiveRecord::Base
     self.wage_calculated_at = transition.args[0]
   end
 
+  def generate_tax_agency_report(transition)
+     create_tax_agency_transaction('wage', self.deadline, transition.args[1])
+  end
+
   def wage_report(transition)
     self.wage_reported_at = transition.args[0]
   end
@@ -116,6 +121,16 @@ class WagePeriod < ActiveRecord::Base
 
   def tax_close(transition)
     self.tax_closed_at = transition.args[0]
+  end
+
+  def create_tax_agency_transaction(report_type, post_date, user_id)
+    tax_agency_transaction = TaxAgencyTransaction.new(
+          parent: self,
+          posting_date: post_date,
+          user_id: user_id,
+          report_type: report_type)
+    tax_agency_transaction.organization_id = organization_id
+    tax_agency_transaction.save
   end
 
   def create_verificate_transaction(ver_type, post_date, user_id)

@@ -30,8 +30,9 @@ module Services
       return @items
     end
 
-    def save_report
+    def report
       # sum all accounts markt with tax_code 49-99
+      WageReport.transaction do
       accounting_period = AccountingPeriod.find(@wage_period.accounting_period_id)
       ver_wage_period = @organization.verificates.where("accounting_period_id = ? AND state = 'final' AND posting_date >= ? AND posting_date <= ?", @wage_period.accounting_period_id, @wage_period.wage_from, @wage_period.wage_to).select(:id)
       ver_accounting_period = @organization.verificates.where("accounting_period_id = ? AND state = 'final' AND posting_date <= ?", @wage_period.accounting_period_id, @wage_period.wage_to).select(:id)
@@ -54,16 +55,15 @@ module Services
           else
         end
       end
-      if @wage_period.wage_closed?
-        @wage_period.state_change('mark_tax_calculated', DateTime.now)
       end
-      true
     end
 
     def delete_wage_report
+      WageReport.transaction do
       wage_reports = @organization.wage_reports.where("wage_period_id = ? ", @wage_period.id)
       wage_reports.each do |wage_report|
         wage_report.destroy
+      end
       end
     end
 
