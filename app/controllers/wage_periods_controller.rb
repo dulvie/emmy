@@ -76,7 +76,7 @@ class WagePeriodsController < ApplicationController
 
   def state_change
     @wage_period = current_organization.wage_periods.find(params[:id])
-    authorize! :manage, @vat_period
+    authorize! :manage, @wage_period
     if @wage_period.state_change(params[:event], DateTime.now, current_user.id)
       msg_h = { notice: t(:success) }
     else
@@ -91,19 +91,6 @@ class WagePeriodsController < ApplicationController
     @wage_creator.save_wages
     respond_to do |format|
       format.html { redirect_to wage_period_wages_path(@wage_period), notice: 'wage was successfully created.'}
-    end
-  end
-
-  def create_wage_report
-    @wage_report_creator = Services::WageReportCreator.new(current_organization, current_user, @wage_period)
-    @wage_report_creator.delete_wage_report
-    respond_to do |format|
-      if @wage_report_creator.save_report
-        format.html { redirect_to wage_period_wage_reports_url(@wage_period), notice: 'Wage report was successfully updated.' }
-      else
-        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:wage_report)}"
-        format.html { render action: 'show' }
-      end
     end
   end
 

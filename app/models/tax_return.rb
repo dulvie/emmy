@@ -40,7 +40,7 @@ class TaxReturn < ActiveRecord::Base
   end
 
   def calulate(transition)
-    # här skapas momsunderlager
+    # här skapas skatteunderlager
     self.calculated_at = transition.args[0]
   end
 
