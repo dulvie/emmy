@@ -72,20 +72,6 @@ class TaxReturnsController < ApplicationController
      redirect_to tax_returns_path, msg_h
   end
 
-  def create_tax_return_report
-    # till status calculate
-    @tax_return_report_creator = Services::TaxReturnReportCreator.new(current_organization, current_user, @tax_return)
-    @tax_return_report_creator.delete_report
-    respond_to do |format|
-      if @tax_return_report_creator.save_report
-        format.html { redirect_to tax_return_tax_return_reports_url(@tax_return), notice: 'Tax return report was successfully updated.' }
-      else
-        @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
-        format.html { redirect_to tax_return_url(@tax_return), notice: 'Failed to update tax return report'}
-      end
-    end
-  end
-
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.
