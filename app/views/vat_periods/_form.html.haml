@@ -25,4 +25,6 @@
         - if @vat_period.new_record? || @vat_period.preliminary?
           = f.submit class: 'btn btn-primary'
         - if !@vat_period.new_record? && @vat_period.can_calculate?
-          = link_to "#{t(:create)} #{t(:vat_report)}", create_vat_report_vat_period_path(@vat_period), method: 'post', class: 'btn btn-primary'
+          - url = state_change_vat_period_path + '&event=mark_calculated' 
+          = link_to "#{t(:create)} #{t(:vat_report)}", url, method: 'post', class: 'btn btn-primary'
+          

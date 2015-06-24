@@ -74,21 +74,6 @@ class VatPeriodsController < ApplicationController
      redirect_to vat_periods_path, msg_h
   end
 
-  def create_vat_report
-    # till status calculate
-    @vat_report_creator = Services::VatReportCreator.new(current_organization, current_user, @vat_period)
-    @vat_report_creator.delete_vat_report
-    respond_to do |format|
-      if @vat_report_creator.save_report
-        format.html { redirect_to vat_period_vat_reports_url(@vat_period), notice: 'Vat report was successfully updated.' }
-      else
-        @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
-        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:vat_report)}"
-        format.html { render action: 'show' }
-      end
-    end
-  end
-
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.

@@ -12,7 +12,6 @@ class VatPeriod < ActiveRecord::Base
 
   # t.timestamps
 
-
   attr_accessible :name, :vat_from, :vat_to, :accounting_period_id, :deadline
 
   belongs_to :organization
@@ -52,6 +51,7 @@ class VatPeriod < ActiveRecord::Base
 
   state_machine :state, initial: :preliminary do
     before_transition on: :mark_calculated, do: :calculate
+    after_transition on: :mark_calculated, do: :generate_tax_agency_report
     before_transition on: :mark_reported, do: :report
     after_transition on: :mark_reported, do: :generate_verificate_vat_report
     before_transition on: :mark_closed, do: :close
@@ -67,15 +67,19 @@ class VatPeriod < ActiveRecord::Base
     end
   end
 
-  def calulate(transition)
+  def calculate(transition)
     # här skapas momsunderlager
     self.calculated_at = transition.args[0]
   end
 
   def report(transition)
-    # här skapas verificate
     self.reported_at = transition.args[0]
   end
+
+  def generate_tax_agency_report(transition)
+     create_tax_agency_transaction('vat', self.deadline, transition.args[1])
+  end
+
 
   def generate_verificate_vat_report(transition)
      create_verificate_transaction('vat_report', self.deadline, transition.args[1])
@@ -84,6 +88,17 @@ class VatPeriod < ActiveRecord::Base
   def close(transition)
     self.closed_at = transition.args[0]
   end
+
+  def create_tax_agency_transaction(report_type, post_date, user_id)
+    tax_agency_transaction = TaxAgencyTransaction.new(
+          parent: self,
+          posting_date: post_date,
+          user_id: user_id,
+          report_type: report_type)
+    tax_agency_transaction.organization_id = organization_id
+    tax_agency_transaction.save
+  end
+
 
   def create_verificate_transaction(ver_type, post_date, user_id)
     verificate_transaction = VerificateTransaction.new(

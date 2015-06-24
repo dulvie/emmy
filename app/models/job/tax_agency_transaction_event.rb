@@ -15,7 +15,9 @@ class Job::TaxAgencyTransactionEvent
       @wage_report_creator.delete_wage_report
       @wage_report_creator.report
     when 'vat'
-
+      @vat_report_creator = Services::VatReportCreator.new(trans.organization, trans.user, trans.parent)
+      @vat_report_creator.delete_vat_report
+      @vat_report_creator.report
     when 'tax'
 
 
