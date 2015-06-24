@@ -61,6 +61,17 @@ class TaxReturnsController < ApplicationController
     end
   end
 
+  def state_change
+    @tax_return = current_organization.tax_returns.find(params[:id])
+    authorize! :manage, @tax_return
+    if @tax_return.state_change(params[:event], DateTime.now, current_user.id)
+      msg_h = { notice: t(:success) }
+    else
+      msg_h = { alert: t(:fail) }
+    end
+     redirect_to tax_returns_path, msg_h
+  end
+
   def create_tax_return_report
     # till status calculate
     @tax_return_report_creator = Services::TaxReturnReportCreator.new(current_organization, current_user, @tax_return)

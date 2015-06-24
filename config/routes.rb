@@ -177,7 +177,7 @@ Emmy::Application.routes.draw do
     resources :tax_returns do
       resources :tax_return_reports
       member do
-        post 'create_tax_return_report', as: :create_tax_return_report
+        post 'state_change', as: :state_change
       end
     end
 
@@ -202,7 +202,6 @@ Emmy::Application.routes.draw do
       resources :vat_reports
       member do
         post 'state_change', as: :state_change
-        post 'create_vat_report', as: :create_vat_report
       end
     end
     resources :vats
@@ -220,9 +219,6 @@ Emmy::Application.routes.draw do
       member do
         post 'state_change', as: :state_change
         post 'create_wage', as: :create_wage
-        post 'create_wage_verificate', as: :create_wage_verificate
-        post 'create_wage_report', as: :create_wage_report
-        post 'create_report_verificate', as: :create_report_verificate
       end
     end
     resources :warehouses

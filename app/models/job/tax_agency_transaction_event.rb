@@ -19,8 +19,9 @@ class Job::TaxAgencyTransactionEvent
       @vat_report_creator.delete_vat_report
       @vat_report_creator.report
     when 'tax'
-
-
+      @tax_return_report_creator = Services::TaxReturnReportCreator.new(trans.organization, trans.user, trans.parent)
+      @tax_return_report_creator.delete_report
+      @tax_return_report_creator.report
     else
       Rails.logger.info "-->>#{trans.report_type} not implemented"
     end
