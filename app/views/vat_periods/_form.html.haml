@@ -27,4 +27,3 @@
         - if !@vat_period.new_record? && @vat_period.can_calculate?
           - url = state_change_vat_period_path + '&event=mark_calculated' 
           = link_to "#{t(:create)} #{t(:vat_report)}", url, method: 'post', class: 'btn btn-primary'
-          

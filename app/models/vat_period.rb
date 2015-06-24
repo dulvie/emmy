@@ -80,7 +80,6 @@ class VatPeriod < ActiveRecord::Base
      create_tax_agency_transaction('vat', self.deadline, transition.args[1])
   end
 
-
   def generate_verificate_vat_report(transition)
      create_verificate_transaction('vat_report', self.deadline, transition.args[1])
   end
@@ -98,7 +97,6 @@ class VatPeriod < ActiveRecord::Base
     tax_agency_transaction.organization_id = organization_id
     tax_agency_transaction.save
   end
-
 
   def create_verificate_transaction(ver_type, post_date, user_id)
     verificate_transaction = VerificateTransaction.new(

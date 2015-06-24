@@ -216,6 +216,35 @@ ActiveRecord::Schema.define(version: 20151509141447) do
     t.datetime "updated_at"
   end
 
+  create_table "export_bank_file_rows", force: true do |t|
+    t.datetime "posting_date"
+    t.decimal  "amount",              precision: 9, scale: 2
+    t.string   "bank_account"
+    t.string   "ocr"
+    t.string   "name"
+    t.string   "reference"
+    t.datetime "bank_date"
+    t.string   "currency_paid"
+    t.string   "currency_debit"
+    t.integer  "organization_id"
+    t.integer  "export_bank_file_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "export_bank_files", force: true do |t|
+    t.datetime "export_date"
+    t.datetime "from_date"
+    t.datetime "to_date"
+    t.string   "reference"
+    t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "organization_number"
+    t.string   "pay_account"
+    t.string   "iban"
+  end
+
   create_table "import_bank_file_rows", force: true do |t|
     t.datetime "posting_date"
     t.decimal  "amount",              precision: 9,  scale: 2
@@ -544,6 +573,17 @@ ActiveRecord::Schema.define(version: 20151509141447) do
 
   add_index "suppliers", ["name", "organization_id"], name: "index_suppliers_on_name_and_organization_id", unique: true, using: :btree
 
+  create_table "tax_agency_transactions", force: true do |t|
+    t.integer  "organization_id"
+    t.integer  "user_id"
+    t.string   "parent_type"
+    t.integer  "parent_id"
+    t.datetime "posting_date"
+    t.string   "report_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "tax_codes", force: true do |t|
     t.integer  "code"
     t.string   "text"
@@ -690,6 +730,17 @@ ActiveRecord::Schema.define(version: 20151509141447) do
     t.integer  "verificate_id"
     t.integer  "result_unit_id"
     t.integer  "project_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "verificate_transactions", force: true do |t|
+    t.integer  "organization_id"
+    t.integer  "user_id"
+    t.string   "parent_type"
+    t.integer  "parent_id"
+    t.datetime "posting_date"
+    t.string   "verificate_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
