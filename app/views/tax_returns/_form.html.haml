@@ -19,4 +19,6 @@
         - if @tax_return.new_record? || @tax_return.preliminary?
           = f.submit class: 'btn btn-primary'
         - if !@tax_return.new_record? && @tax_return.can_calculate?
-          = link_to "#{t(:create)} #{t(:tax_return)} #{t(:report)}", create_tax_return_report_tax_return_path(@tax_return), method: 'post', class: 'btn btn-primary'
+          - url = state_change_tax_return_path + '&event=mark_calculated' 
+          = link_to "#{t(:create)} #{t(:tax_return)} #{t(:report)}", url, method: 'post', class: 'btn btn-primary'
+          
