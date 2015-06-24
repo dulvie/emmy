@@ -1,8 +1,8 @@
 class VerificateItem < ActiveRecord::Base
   # t.string   :account_id
   # t.string   :description
-  # t.integer  :debit
-  # t.integer  :credit
+  # t.decimal  :debit
+  # t.decimal  :credit
   # t.integer  :organization_id
   # t.integer  :accounting_period_id
   # t.integer  :verificate_id
@@ -20,6 +20,8 @@ class VerificateItem < ActiveRecord::Base
 
   validates :account_id, presence: true
   validates :description, presence: true
+  validates :debit, presence: true
+  validates :credit, presence: true
 
   def verificate_number
     verificate.number
