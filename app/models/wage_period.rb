@@ -21,7 +21,7 @@ class WagePeriod < ActiveRecord::Base
   belongs_to :organization
   belongs_to :accounting_period
   has_many :wages
-  has_many :wage_reports
+  has_many :wage_reports, dependent: :destroy
   has_many :verificates
 
   validates :accounting_period, presence: true
