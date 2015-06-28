@@ -16,7 +16,7 @@ class VatPeriod < ActiveRecord::Base
 
   belongs_to :organization
   belongs_to :accounting_period
-  has_many :vat_reports
+  has_many :vat_reports, dependent: :destroy
   has_one :verificate
 
   validates :accounting_period, presence: true
