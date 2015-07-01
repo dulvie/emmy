@@ -9,6 +9,7 @@
         %input{id: 'show', type: 'text', class: 'form-control', value: f.object.accounting_period.name, disabled: true}
 
     = f.input :name, disabled: !@tax_return.preliminary?
+    = f.input :tax_form, as: 'select', collection: TaxReturn::VALID_TAX_FORMS, include_blank: false, disabled: !@tax_return.preliminary?
     = render partial: 'shared/date_field', locals: {form: f, field: :deadline, in_id: 'in_deadline', in_value: @tax_return.deadline, out_id: 'tax_return[deadline]', field_id: 'deadline_short_date',  model: 'deadline_date', dp_open: 'deadline_open', dp_options: 'deadline_options', dp_click: 'open_deadline_date($event)'}
     .error_width
       = f.error :deadline

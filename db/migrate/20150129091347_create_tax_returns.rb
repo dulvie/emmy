@@ -2,6 +2,7 @@ class CreateTaxReturns < ActiveRecord::Migration
   def change
     create_table :tax_returns do |t|
       t.string   :name
+      t.string   :tax_form
       t.datetime :deadline
       t.string   :state
       t.datetime :calculated_at

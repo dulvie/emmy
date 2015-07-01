@@ -1,5 +1,6 @@
 class TaxReturn < ActiveRecord::Base
   # t.string   :name
+  # t.string   :tax_form
   # t.datetime :deadline
   # t.string   :state
   # t.datetime :calculated_at
@@ -14,11 +15,14 @@ class TaxReturn < ActiveRecord::Base
 
   belongs_to :organization
   belongs_to :accounting_period
-  has_many :tax_return_reports
+  has_many :tax_return_reports, dependent: :destroy
+
+  VALID_TAX_FORMS = ['INK2 - AB/ek.förening', 'INK3 - Ideell förening', 'INK4 - Handelsbolag', 'NE - Enskild firma']
 
   validates :accounting_period, presence: true
   validates :name, presence: true, uniqueness: {scope: :organization_id}
   validates :deadline, presence: true
+  validates :tax_form, inclusion: { in: VALID_TAX_FORMS }
 
   STATE_CHANGES = [:mark_calculated, :mark_reported]
 
