@@ -24,7 +24,12 @@ module Services
           read_and_save(type, directory, file_name)
         else
       end
-      connect_extra if type.include? "connect"
+      if file_name.start_with?('INK2')
+        connect_extra_INK2 if type.include? "connect"
+      else if file_name.start_with?('INK3')
+        connect_extra_INK3 if type.include? "connect"
+      end
+      end
       return true 
     end
 
@@ -48,7 +53,8 @@ module Services
           else
             ink_multiple(ink_code, row[3]) if type.include? "connect"
           end
-          balance = false if row[1] == '2.50'
+          balance = false if row[1] == '2.50'  # INK2
+          balance = false if row[1] == '5.21'  # INK3
         elsif !row[0].blank? && row[0].length == 4 && !row[1].blank?
           ink_code = row[1]
           add_ink_code(row[1], row[2], 'accounting_period', row[3]) if type.include? "load"
@@ -68,8 +74,12 @@ module Services
       end
     end
 
-    def connect_extra
+    def connect_extra_INK2
       ink_to_accounting_plan('3.25', '884x')
+    end
+
+    def connect_extra_INK3
+      ink_multiple('6.20', '883x, 885x, 8860, 8861-8864, 8880, 8881, 8892, 8885, 889x')
     end
 
     def add_ink_code(code, text, sum_method, bas_accounts)
@@ -126,6 +136,7 @@ module Services
 
     def ink_to_accounting_plan_exkl(ink_code, code, special)
       case code
+      # INK2
       when '2.1'
         ink_to_accounting_plan_interval(ink_code, '1000-1087')
         ink_to_accounting_plan_interval(ink_code, '1089-1099')
@@ -170,6 +181,18 @@ module Services
         ink_to_accounting_plan_interval(ink_code, '8300-8369')
         ink_to_accounting_plan_interval(ink_code, '8390-8399')
       when '3.26'
+        ink_to_accounting_plan_interval(ink_code, '8900-8989')
+      # INK3
+      when '5.2'
+        ink_to_accounting_plan_interval(ink_code, '1100-1129')
+        ink_to_accounting_plan_interval(ink_code, '1131-1199')
+      when '5.6'
+        ink_to_accounting_plan_interval(ink_code, '1290-1290')
+        ink_to_accounting_plan_interval(ink_code, '1292-1299')
+      when '6.13'
+        ink_to_accounting_plan_interval(ink_code, '8300-8369')
+        ink_to_accounting_plan_interval(ink_code, '8390-8399')
+      when '6.21'
         ink_to_accounting_plan_interval(ink_code, '8900-8989')
       else
       end

@@ -1,0 +1,68 @@
+2015;;Inkomstdeklaration 3;
+;;Ideella föreningar, stiftelser m.fl;
+;;;
+;;;Inga ändringa i kopplingstabellen har gjorts jämfört med föregående år.
+Fält-kod;Rad Ink 3;;Konton i BAS 2014
+;;BALANSRÄKNING;
+;;;
+;;Anläggningstillgångar;
+8720;5.1;Immateriella anläggningstillgångar;10xx
+8721;5.2;Byggnader och markanläggningar ;11xx exkl. 1130
+8722;5.3;Mark och andra tillgångar som inte får skrivas av;1130, 1291
+8723;5.4;Maskiner och inventarier ;121x-128x
+8724;5.5;Finansiella anläggningstillgångar ;13xx
+8725;5.6;Övriga anläggningstillgångar ;129x exkl. 1291
+;;;
+;;Omsättningstillgångar;
+8726;5.7;Varulager ;14xx
+8727;5.8;Kundfordringar ;15xx
+8728;5.9;Övriga fordringar ;16xx, 18xx
+8729;5.10;Upplupna intäkter och förutbetalda kostnader ;17xx
+8730;5.11;Kassa och bank ;19xx
+;;;
+;;Eget kapital;
+8735;5.12;Eget kapital;206x-207x
+;;;
+;;Obeskattade reserver;
+8736;5.13;Periodiseringsfonder ;211x-212x
+8737;5.14;Övriga obeskattade reserver;215x-219x
+;;;
+;; Avsättningar;
+8738;5.15;Avsättningar för pensioner och liknande förpliktelser ;221x, 223x
+8739;5.16;Övriga avsättningar;222x, 224x-229x
+;;;
+;;Skulder;
+8740;5.17;Låneskulder ;23xx, 241x-243x, 245x, 248x-249x
+8741;5.18;Skatteskulder ;25xx
+8742;5.19;Leverantörsskulder ;244x, 246x-247x
+8743;5.20;Övriga skulder ;26xx, 27xx, 28xx
+8744;5.21;Upplupna kostnader och förutbetalda intäkter;29xx
+;;;
+;;RESULTATRÄKNING;
+8650;6.1;Medlemsavgifter;(1)
+8651;6.2;Serviceavgifter;(1)
+8652;6.3;Gåvor och bidrag;(1)
+8653;6.4;Nettoomsättning ;30xx-38xx
+8654;6.5;Övriga intäkter ;39xx
+8750;6.6;Varor och legoarbeten ;40xx-49xx
+8751;6.7;Övriga externa kostnader ;50xx-69xx
+8752;6.8;Personalkostnader ;70xx-76xx
+8753;6.9;Av- och nedskrivningar ;77xx-78xx
+8754;6.10;Övriga rörelsekostnader ;79xx
+8655;6.11;Resultat från andelar i koncern- och intresseföretag;801x, 811x, 802x-803x, 812x-813x
+8755;;;802x-803x (-), 812x-813x (-)
+8656;6.12;Resultat vid avyttring av övriga finansiella anläggningstillgångar ;821x-826x, 829x
+8756;;;822x-824x, 829x
+8657;6.13;Övriga finansiella intäkter t.ex. ränteintäkter och utdelningar ;83xx exkl. (837x-838x)
+8757;6.14;Nedskrivning av finansiella anläggningstillgångar och kortfristiga placeringar;807x-808x, 817x-818x, 827x-828x, 837x-838x
+8758;6.15;Räntekostnader och liknande resultatposter;84xx
+8658;6.16;Extraordinära intäkter ;871x
+8759;6.17;Extraordinära kostnader ;875x
+8659;6.18;Återföring av periodiseringsfond;8810, 8819
+8760;6.19;Avsättning till periodiseringsfond ;8810, 8811
+8660;6.20;Övriga bokslutsdispositioner t.ex. mottagna koncernbidrag;882x, 885x, 8860, 8865-8869, 8880, 8882, 8886, 889x
+8761;;;883x, 885x, 8860, 8861-8864, 8880, 8881, 8892, 8885, 889x
+8762;6.21;Skatter;89xx exkl. 899x
+8665;6.22;Resultat enligt redovisning;899x
+;;;
+;;(1) BAS-kontoplanen innehåller inga standardiserade konton för medlemsavgifter, erhållna gåvor eller erhållna bidrag relaterade till den ideella verksamheten. De konton som ska kopplas till fältkod 8650, 8651 och 8652 måste företaget själv lägga in i kontoplanen.;
