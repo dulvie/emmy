@@ -14,7 +14,7 @@ module Services
       idx = 1
       from = '2099-12-31'
       to = '1900-01-01'
-      CSV.foreach(@file, { :col_sep => "\t" }) do |row|
+      CSV.foreach(@file, { col_sep: "\t",  encoding: "ISO-8859-1" }) do |row|
         case idx
           when 1
             # Check konto row[1]
