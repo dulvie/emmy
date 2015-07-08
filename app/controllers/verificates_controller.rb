@@ -92,7 +92,8 @@ class VerificatesController < ApplicationController
     else
       msg_h = { alert: t(:fail) }
     end
-    redirect_to verificates_url, msg_h
+    @verificate.parent_type == 'ImportBankFileRow' ? url = import_bank_file_path(@verificate.parent.import_bank_file): url = verificates_url
+    redirect_to url, msg_h
   end
 
   def add_verificate_items

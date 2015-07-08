@@ -6,9 +6,10 @@ Beskrivning inläsning bankfile (Nordea)
 4) OBS! Läser in ISO-8859-1 behöver ej konvertera till UTF-8 (Notepad++)
 5) Ladda upp fil
 6) Gå in och visa alla transaktioner i filen
-7) Välj transaktioner i datumformat
-8) Associera transaktione med ett av alternativen
+7) Välj transaktioner i datumordning
+8) Associera transaktionen med ett av alternativen
 - preliminärt verifikat som registrerats tidigare
 - template verifikat
 - manuellt ger endast bankbelopp som måste kompletteras manuellt
-9) Skapa preliminärt/definitivt verifikat med rätt datum 
+9) Skapa preliminärt/definitivt verifikat med rätt datum
+10) Fortsätt med nästa transaktion (step 7) 
