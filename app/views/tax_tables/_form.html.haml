@@ -1,0 +1,10 @@
+= simple_form_for(@tax_table, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+  = f.input :year
+  = f.input :name
+
+  .form-button-group
+    .actions
+      = f.submit class: 'btn btn-primary'
+
+

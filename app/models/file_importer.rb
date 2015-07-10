@@ -20,6 +20,12 @@ class FileImporter
     @directory
   end
 
+  def param1
+  end
+
+  def param2
+  end
+
   def types
     types = ['load'] if @accounting_plans.size == 0 && @codes.nil?
     types = ['load', 'load and connect'] if @accounting_plans.size > 0 && @codes.nil?

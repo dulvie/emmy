@@ -10,7 +10,10 @@
     .error_width
       = f.error :ending
     = f.input :salary
-    = f.input :tax
+    = f.association :tax_table, collection: @tax_tables, include_blank: false
+    = f.input :tax_table_column, collection: TaxTable::COLUMNS, include_blank: false, :input_html => {:class=>'numeric'}
+    
+    = f.input :tax, disabled: true
 
     .form-button-group
       .actions
