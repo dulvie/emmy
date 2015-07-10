@@ -1,0 +1,25 @@
+.table-responsive{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:calculation)
+        %th.numeric= "#{t(:from)}  #{t(:wage)}"
+        %th.numeric= "#{t(:to)} #{t(:wage)}"
+        %th.numeric= "#{t(:column)} 1"
+        %th.numeric= "#{t(:column)} 2"
+        %th
+        %th
+
+    %tbody{}
+      - @tax_table_rows.each do |tax_table_row|
+        %tr
+          %td= tax_table_row.calculation
+          %td.numeric= tax_table_row.from_wage
+          %td.numeric= tax_table_row.to_wage
+          %td.numeric= tax_table_row.column_1
+          %td.numeric= tax_table_row.column_2
+          %td.numeric= link_to settings_icon, tax_table_tax_table_row_path(tax_table_row.tax_table, tax_table_row)
+          %td.numeric= delete_modal_for tax_table_row
+
+  = paginate @tax_table_rows, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

@@ -13,6 +13,7 @@ class EmployeesController < ApplicationController
 
   # GET
   def new
+    @tax_tables = current_organization.tax_tables.order(:name)
   end
 
   # GET
@@ -31,12 +32,14 @@ class EmployeesController < ApplicationController
       @contact_relation_form_url = contact_relation_path(@contact_relation.id, parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
     end
 
+    @tax_tables = current_organization.tax_tables.order(:name)
     @contacts = current_organization.contacts
     gon.push contacts: ActiveModel::ArraySerializer.new(@contacts, each_serializer: ContactSerializer)
   end
 
   # GET
   def edit
+    @tax_tables = current_organization.tax_tables.order(:name)
   end
 
   # POST
@@ -48,6 +51,7 @@ class EmployeesController < ApplicationController
         format.html { redirect_to employees_url, notice: "#{t(:employee)} #{t(:was_successfully_created)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:employee)}"
+        @tax_tables = current_organization.tax_tables.order(:name)
         format.html { render action: 'new' }
       end
     end
@@ -60,6 +64,7 @@ class EmployeesController < ApplicationController
         format.html { redirect_to employees_url, notice: "#{t(:employee)} #{t(:was_successfully_updated)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:employee)}"
+        @tax_tables = current_organization.tax_tables.order(:name)
         format.html { render action: 'show' }
       end
     end
