@@ -39,6 +39,7 @@ se:
         product: "Produkt"
         quantity: "Kvantitet"
         refined_at: "Rostningsdatum"
+
         reseller: "Återförsjälare"
         retail_price: "Kund pris"
         retail_inc_vat: "Kundpris ink moms"
@@ -52,6 +53,8 @@ se:
         unit: "Enhet"
         vat: "Moms"
         vat_number: "VAT-nummer"
+        vat_from: "Moms från"
+        vat_to: "Moms till"
         warehouse: "Lager"
         warehouse_id: "Lager"
         work: "Arbete"
@@ -59,7 +62,6 @@ se:
 
       comment:
         completed_at: "Färdig"
-
       inventory:
         inventory: "Inventering"
         inventory_date: "Datum för inventering"

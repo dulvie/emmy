@@ -10,6 +10,7 @@
         %th= t(:to)
         %th
         %th
+        %th
     %tbody{}
       - @export_bank_files.each do |export_bank_file|
         %tr
@@ -17,7 +18,8 @@
           %td= export_bank_file.export_date
           %td= export_bank_file.from_date
           %td= export_bank_file.to_date
-          %td.numeric= link_to settings_icon, export_bank_file_path(export_bank_file)
+          %td.numeric= report_button_for export_bank_file_path(export_bank_file)
+          %td.numeric= link_to settings_icon, edit_export_bank_file_path(export_bank_file)
           %td.numeric= delete_modal_for export_bank_file
 
   = paginate @export_bank_files, :theme => 'twitter-bootstrap-3'

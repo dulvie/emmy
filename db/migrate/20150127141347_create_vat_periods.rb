@@ -11,6 +11,7 @@ class CreateVatPeriods < ActiveRecord::Migration
       t.datetime :closed_at
       t.integer  :organization_id
       t.integer  :accounting_period_id
+      t.integer  :supplier_id
 
       t.timestamps
     end

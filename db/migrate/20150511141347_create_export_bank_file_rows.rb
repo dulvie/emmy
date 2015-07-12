@@ -3,7 +3,8 @@ class CreateExportBankFileRows < ActiveRecord::Migration
     create_table :export_bank_file_rows do |t|
       t.datetime :posting_date
       t.decimal  :amount, precision: 9, scale: 2
-      t.string   :bank_account
+      t.string   :bankgiro
+      t.string   :plusgiro
       t.string   :ocr
       t.string   :name
       t.string   :reference
