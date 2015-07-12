@@ -19,7 +19,7 @@ class WagePeriodsController < ApplicationController
       @period = @accounting_periods.last.id
       session[:accounting_period_id] = @period
     end
-    @wage_periods = current_organization.wage_periods.where('accounting_period_id=?', @period)
+    @wage_periods = current_organization.wage_periods.where('accounting_period_id=?', @period).order(:wage_from)
     @wage_periods = @wage_periods.page(params[:page]).decorate
   end
 
@@ -27,6 +27,7 @@ class WagePeriodsController < ApplicationController
   def new
     @accounting_period = current_organization.accounting_periods.find(session[:accounting_period_id])
     @wage_period = @accounting_period.next_wage_period
+    @suppliers = current_organization.suppliers.where('supplier_type = ?', 'RSV')
   end
 
   # GET /wage_periods/1
@@ -35,6 +36,7 @@ class WagePeriodsController < ApplicationController
 
   # GET /wage/1/edit
   def edit
+    @suppliers = current_organization.suppliers.where('supplier_type = ?', 'RSV')
   end
 
   # POST /wage_periods
@@ -46,6 +48,7 @@ class WagePeriodsController < ApplicationController
       if @wage_period.save
         format.html { redirect_to wage_periods_url, notice: "#{t(:wage_period)} #{t(:was_successfully_created)}" }
       else
+        @suppliers = current_organization.suppliers.where('supplier_type = ?', 'RSV')
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:wage_period)}"
         format.html { render action: 'new' }
       end
@@ -59,6 +62,7 @@ class WagePeriodsController < ApplicationController
       if @wage_period.update(wage_period_params)
         format.html { redirect_to wage_periods_url, notice: "#{t(:wage_period)} #{t(:was_successfully_updated)}" }
       else
+        @suppliers = current_organization.suppliers.where('supplier_type = ?', 'RSV')
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:wage_period)}"
         format.html { render action: 'edit' }
       end

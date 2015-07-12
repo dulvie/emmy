@@ -5,7 +5,11 @@ class Supplier < ActiveRecord::Base
   # t.string  :zip
   # t.string  :city
   # t.string  :country
-  # t.string  :bg_number
+  # t.string  :bankgiro
+  # t.string  :postgiro
+  # t.string  :plusgiro
+  # t.string  :reference
+  # t.string  :supplier_type
   # t.string  :vat_number
   # t.integer :primary_contact_id
 
@@ -17,8 +21,11 @@ class Supplier < ActiveRecord::Base
   has_many :comments, as: :parent
   has_many :purchases
 
-  attr_accessible :name, :address, :zip, :city, :country, :bg_number, :vat_number, :primary_contact_id
+  attr_accessible :name, :address, :zip, :city, :country, :vat_number, 
+    :primary_contact_id, :bankgiro, :postgiro, :plusgiro, :reference, 
+    :supplier_type
 
+  TYPES = ['RSV', ' ']
   validates :name, presence: true, uniqueness: {scope: :organization_id}
 
   def can_delete?

@@ -1,9 +1,16 @@
 Beskrivning lönehantering
 
+länkar
+http://www.skatteverket.se/privat/skatter/arbeteinkomst/vadblirskattenskattetabellermm/skattetabeller/kommunalaskattesatsermmunder2015/skattetabellerforberakningavpreliminaraskatt.4.3f4496fd14864cc5ac9de2e.html
+
 Förberedelser
-1) Registrera anställd, födelsedata (för sociala avgifter) och anställningsperiod (lön)
-2) tax-codes med koppling skattekod konto för lönerapportering till skatteverket
-3) skapa löneperiod - kolla datum
+1) Importera skattetabell
+2) Registrera anställd, 
+     födelsedata (för sociala avgifter)
+     anställningsperiod (lön)
+     skattetabell och kolumn (se länk)
+3) tax-codes med koppling skattekod konto för lönerapportering till skatteverket
+4) skapa löneperiod - kolla datum
 
 För varje period
 1) Skapa löenutbetalning, underlag från employee

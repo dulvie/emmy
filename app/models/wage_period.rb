@@ -13,13 +13,16 @@ class WagePeriod < ActiveRecord::Base
   # t.integer  :tax_closed_at
   # t.integer  :organization_id
   # t.integer  :accounting_period_id
+  # t.integer  :supplier_id
 
   # t.timestamps
 
-  attr_accessible :name, :wage_from, :wage_to, :payment_date, :deadline, :accounting_period_id
+  attr_accessible :name, :wage_from, :wage_to, :payment_date, :deadline, :accounting_period_id,
+    :supplier_id
 
   belongs_to :organization
   belongs_to :accounting_period
+  belongs_to :supplier
   has_many :wages
   has_many :wage_reports, dependent: :destroy
   has_many :verificates

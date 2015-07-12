@@ -1,7 +1,7 @@
 module Services
   class ExportBankFileCreator
-  require 'tempfile'
-  include ApplicationHelper
+    require 'tempfile'
+    include ApplicationHelper
 
     def initialize(organization, user, export_bank_file)
       @user = user
@@ -10,22 +10,51 @@ module Services
     end
 
     def read_verificates_and_create_rows
+      # särbehandla wage_period#wage skapa utbetalningsrad för varje lön: verifikatet summerat
       verificates = @organization.verificates.where("state = 'preliminary' and posting_date >= ? and posting_date <= ?", @export_bank_file.from_date, @export_bank_file.to_date)
       verificates.each do |verificate|
         if verificate.bank_amount < 0
+
+          # init columns
+          bankgiro = ''
+          plusgiro = ''
           ocr = ''
-          name = verificate.parent
-          bgpg = '1'
+          name = ''
           ref = verificate.description
           cp = 'SEK'
           cd = 'SEK'
+
+          # Purchase//Vat_period//Wage_period:wage:tax//
           if verificate.parent_type == 'Purchase'
             purchase = verificate.parent
+            bankgiro = purchase.supplier.bankgiro
+            plusgiro = purchase.supplier.plusgiro
+            plusgiro = purchase.supplier.postgiro if !plusgiro
             ocr = purchase.supplier_reference
             name = purchase.supplier.name
-            bgpg = purchase.supplier.bg_number
+            save_bank_file_row(-verificate.bank_amount, bankgiro, plusgiro, ocr, name, ref, cp, cd)
+          elsif verificate.parent_type == 'VatPeriod'
+            vat_period = verificate.parent
+            bankgiro = vat_period.supplier.bankgiro
+            plusgiro = vat_period.supplier.plusgiro
+            plusgiro = vat_period.supplier.postgiro if !plusgiro
+            ocr = vat_period.supplier.reference
+            name = vat_period.supplier.name
+            save_bank_file_row(-verificate.bank_amount, bankgiro, plusgiro, ocr, name, ref, cp, cd)
+          elsif verificate.parent_type == 'WagePeriod' && verificate.parent_extend == 'tax'
+            wage_period = verificate.parent
+            bankgiro = wage_period.supplier.bankgiro
+            plusgiro = wage_period.supplier.plusgiro
+            plusgiro = wage_period.supplier.postgiro if !plusgiro
+            ocr = wage_period.supplier.reference
+            name = wage_period.supplier.name
+            save_bank_file_row(-verificate.bank_amount, bankgiro, plusgiro, ocr, name, ref, cp, cd)
+          elsif verificate.parent_type == 'WagePeriod' && verificate.parent_extend == 'wage'
+            # iterate wage and one row for every wage
+            # save_bank_file_row(-verificate.bank_amount, bankgiro, plusgiro, ocr, name, ref, cp, cd)
+          else
+            save_bank_file_row(-verificate.bank_amount, bankgiro, plusgiro, ocr, name, ref, cp, cd)
           end
-          save_bank_file_row(-verificate.bank_amount, bgpg, ocr, name, ref, cp, cd)
         end
       end
     end
@@ -62,26 +91,37 @@ module Services
       cd = ''
       file = File.open('tmp/downloads/bank_file.txt', 'w')
       @export_bank_file.export_bank_file_rows.each do |row|
-        if row.currency_pay != cp or row.currency_debit != cd
-          cp = row.currency_pay
+        if row.currency_paid != cp or row.currency_debit != cd
+          cp = row.currency_paid
           cd = row.currency_debit
           file.write(mh00(@export_bank_file.organization_number, @export_bank_file.pay_account, cp, cd))
         end
         counts += 1
         total += row.amount * 100
         amount = (row.amount * 100).to_i
-        file.write(pi00('00', row.bank_account, row.posting_date.strftime("%Y%m%d"), amount.to_s, row.ocr))
+        if !row.bankgiro.blank?
+          type = '05' 
+          bank_account = row.bankgiro
+        elsif !row.plusgiro.blank?
+          type = '00'
+          bank_account = row.plusgiro
+        else
+          # OBS! format
+          type = '02'
+        end
+        file.write(pi00(type, bank_account, row.posting_date.strftime("%Y%m%d"), amount.to_s, row.ocr))
       end
       file.write(mt00(counts.to_s, total.to_i.to_s))
       file.close
       true
     end
 
-    def save_bank_file_row(amount, bank_account, ocr, name, reference, cp, cd)
+    def save_bank_file_row(amount, bankgiro, plusgiro, ocr, name, reference, cp, cd)
       bank_file_row = @export_bank_file.export_bank_file_rows.build
       bank_file_row.posting_date = @export_bank_file.export_date
       bank_file_row.amount = amount
-      bank_file_row.bank_account = bank_account
+      bank_file_row.bankgiro = bankgiro
+      bank_file_row.plusgiro = plusgiro
       bank_file_row.ocr = ocr
       bank_file_row.name = name
       bank_file_row.reference = reference
@@ -109,7 +149,7 @@ module Services
     #00=Plusgiro, 02=Utbkort(annan def), 05=Bankgiro, 06=Pensionsinsättning(annan), 08=Löneinsättning(message=baknk)
     def pi00(type, to_account, account_date, amount, message)
       post_type = 'PI00'.ljust(4)
-      pay_type = type.ljust(2)  #00=PlusGiro
+      pay_type = type.ljust(2)  #00=PlusGiro, 05=Bankgiro
       blank_7_11 = ' '.ljust(5)
       pay_to_account = to_account.ljust(11)
       blank_23_24 = ' '.ljust(2)

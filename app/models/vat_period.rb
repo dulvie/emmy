@@ -9,13 +9,16 @@ class VatPeriod < ActiveRecord::Base
   # t.datetime :closed_at
   # t.integer  :organization_id
   # t.integer  :accounting_period_id
+  # t.integer  :suppier_id
 
   # t.timestamps
 
-  attr_accessible :name, :vat_from, :vat_to, :accounting_period_id, :deadline
+  attr_accessible :name, :vat_from, :vat_to, :accounting_period_id, :deadline,
+    :supplier_id
 
   belongs_to :organization
   belongs_to :accounting_period
+  belongs_to :supplier
   has_many :vat_reports, dependent: :destroy
   has_one :verificate
 

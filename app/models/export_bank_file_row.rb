@@ -12,7 +12,7 @@ class ExportBankFileRow < ActiveRecord::Base
   # t.integer  :export_bank_file_id
   # t.timestamps
 
-  attr_accessible :posting_date, :amount, :bank_account, :ocr, :name, :reference
+  attr_accessible :posting_date, :amount, :bankgiro, :plusgiro, :ocr, :name, :reference
 
   belongs_to :organization
   belongs_to :export_bank_file

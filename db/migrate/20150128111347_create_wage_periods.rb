@@ -16,6 +16,7 @@ class CreateWagePeriods < ActiveRecord::Migration
       t.datetime :tax_closed_at
       t.integer  :organization_id
       t.integer  :accounting_period_id
+      t.integer  :supplier_id
 
       t.timestamps
     end

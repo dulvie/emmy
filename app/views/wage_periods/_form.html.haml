@@ -21,6 +21,7 @@
     = render partial: 'shared/date_field', locals: {form: f, field: :deadline, in_id: 'in_deadline', in_value: @wage_period.deadline, out_id: 'wage_period[deadline]', field_id: 'deadline_short_date',  model: 'deadline_date', dp_open: 'deadline_open', dp_options: 'deadline_options', dp_click: 'open_deadline_date($event)'}
     .error_width
       = f.error :deadline
+    = f.association :supplier, collection: @suppliers, label: "#{t(:report_to)}", disabled: !@wage_period.new_record? && !@wage_period.preliminary?
     = f.input :state, disabled: true
 
     .form-button-group

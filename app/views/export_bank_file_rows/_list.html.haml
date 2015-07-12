@@ -6,7 +6,6 @@
       %tr
         %th= t(:posting_date)
         %th.numeric= t(:amount)
-        %th= t(:bank_account)
         %th= t(:name)
         %th= t(:reference)
         %th
@@ -17,7 +16,6 @@
         %tr
           %td= export_bank_file_row.posting_date
           %td.numeric= export_bank_file_row.amount
-          %td= export_bank_file_row.bank_account
           %td= export_bank_file_row.name
           %td= export_bank_file_row.reference
           %td.numeric= link_to settings_icon, export_bank_file_row_path(export_bank_file_row)

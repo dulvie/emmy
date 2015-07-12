@@ -22,6 +22,7 @@ class VatPeriodsController < ApplicationController
   end
 
   def new
+    @suppliers = current_organization.suppliers.where('supplier_type = ?', 'RSV')
     @accounting_period = current_organization.accounting_periods.find(session[:accounting_period_id])
     @vat_period = @accounting_period.next_vat_period
   end
@@ -30,6 +31,7 @@ class VatPeriodsController < ApplicationController
   end
 
   def edit
+    @suppliers = current_organization.suppliers.where('supplier_type = ?', 'RSV')
   end
 
   def create
@@ -39,6 +41,7 @@ class VatPeriodsController < ApplicationController
       if @vat_period.save
           format.html { redirect_to vat_periods_path, notice: "#{t(:vat_period)} #{t(:was_successfully_created)}" }
       else
+        @suppliers = current_organization.suppliers.where('supplier_type = ?', 'RSV')
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:vat_period)}"
         format.html { render action: 'new' }
       end
@@ -50,6 +53,7 @@ class VatPeriodsController < ApplicationController
       if @vat_period.update(vat_period_params)
         format.html { redirect_to vat_periods_path, notice: "#{t(:vat_period)} #{t(:was_successfully_updated)}"}
       else
+        @suppliers = current_organization.suppliers.where('supplier_type = ?', 'RSV')
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:vat_period)}"
         format.html { render action: 'edit' }
       end
