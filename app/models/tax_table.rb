@@ -20,7 +20,7 @@ class TaxTable < ActiveRecord::Base
 
   def calculate(wage, column)
     row = tax_table_rows.where('from_wage <= ? AND to_wage >= ?', wage, wage).first
-    return row.tax(column)
+    return row.tax(wage, column)
   end
 
   def can_delete?

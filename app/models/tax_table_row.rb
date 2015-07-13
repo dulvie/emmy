@@ -31,23 +31,26 @@ class TaxTableRow < ActiveRecord::Base
   validates :column_5, presence: true
   validates :column_6, presence: true
 
-  def tax(column)
+  def tax(wage, column)
+      col = 0
       case column
         when '1'
-          return column_1
+          col = column_1
         when '2'
-          return column_2
+          col = column_2
         when '3'
-          return column_3
+          col = column_3
         when '4'
-          return column_4
+          col = column_4
         when '5'
-          return column_5
+          col = column_5
         when '6'
-          return column_6
+          col = column_6
         else
-          return 0
+          col = 0
       end
+      return col * wage / 100 if self.calculation == 'procent'
+      return col
   end
 
   def can_delete?
