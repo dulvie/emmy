@@ -9,6 +9,8 @@ class CreateEmployees < ActiveRecord::Migration
       t.decimal  :tax, precision: 6, scale: 0
       t.integer  :tax_table_id
       t.string   :tax_table_column
+      t.string   :clearingnumber
+      t.string   :bank_account
       t.integer  :organization_id
 
       t.timestamps

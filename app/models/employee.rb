@@ -7,6 +7,8 @@ class Employee < ActiveRecord::Base
   # t.decimal  :tax
   # t.string   :tax_table_column
   # t.integer  :tax_table_id
+  # t.string   :clearingnumber
+  # t.string   :bank_account
   # t.integer  :organization_id
   
   # t.timestamps
@@ -15,7 +17,7 @@ class Employee < ActiveRecord::Base
   before_create :set_tax
 
   attr_accessible :name, :begin, :ending, :salary, :tax, :birth_year,
-    :tax_table_id, :tax_table_column
+    :tax_table_id, :tax_table_column, :clearingnumber, :bank_account
 
   validates :name, presence: true
   validates :birth_year, presence: true

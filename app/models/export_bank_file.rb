@@ -1,5 +1,4 @@
 class ExportBankFile < ActiveRecord::Base
-  # t.string   :name
   # t.datetime :export_date
   # t.datetime :from_date
   # t.datetime :to_date
@@ -15,6 +14,8 @@ class ExportBankFile < ActiveRecord::Base
   belongs_to :organization
   has_many   :export_bank_file_rows, dependent: :delete_all
   # validates_attachment_content_type :upload, content_type: ['text/csv']
+
+  TYPES = ['Fakturabetalning', 'Löneutbetalning']
 
   def can_delete?
     true

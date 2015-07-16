@@ -5,6 +5,8 @@ class CreateExportBankFileRows < ActiveRecord::Migration
       t.decimal  :amount, precision: 9, scale: 2
       t.string   :bankgiro
       t.string   :plusgiro
+      t.string   :clearingnumber
+      t.string   :bank_account
       t.string   :ocr
       t.string   :name
       t.string   :reference
