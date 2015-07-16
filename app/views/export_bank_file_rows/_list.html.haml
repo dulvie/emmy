@@ -15,12 +15,11 @@
       - @export_bank_file_rows.each do |export_bank_file_row|
         %tr
           %td= export_bank_file_row.posting_date
-          %td.numeric= export_bank_file_row.amount
+          %td.numeric= export_bank_file_row.amount_formatted
           %td= export_bank_file_row.name
           %td= export_bank_file_row.reference
           %td.numeric= link_to settings_icon, export_bank_file_row_path(export_bank_file_row)
           %td.numeric= delete_modal_for export_bank_file_row
-
 
   = paginate @export_bank_file_rows, :theme => 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

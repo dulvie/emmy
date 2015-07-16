@@ -12,8 +12,9 @@
     = f.input :salary
     = f.association :tax_table, collection: @tax_tables, include_blank: false
     = f.input :tax_table_column, collection: TaxTable::COLUMNS, include_blank: false, :input_html => {:class=>'numeric'}
-    
     = f.input :tax, disabled: true
+    = f.input :clearingnumber
+    = f.input :bank_account
 
     .form-button-group
       .actions

@@ -1,7 +1,8 @@
 class ExportBankFileRow < ActiveRecord::Base
   # t.datetime :posting_date
   # t.decimal  :amount, precision: 9, scale: 2
-  # t.string   :bank_account
+  # t.string   :bankgiro
+  # t.string   :plusgiro
   # t.string   :ocr
   # t.string   :name
   # t.string   :reference
@@ -12,7 +13,8 @@ class ExportBankFileRow < ActiveRecord::Base
   # t.integer  :export_bank_file_id
   # t.timestamps
 
-  attr_accessible :posting_date, :amount, :bankgiro, :plusgiro, :ocr, :name, :reference
+  attr_accessible :posting_date, :amount, :bankgiro, :plusgiro, :ocr, :name, :reference,
+    :bank_date
 
   belongs_to :organization
   belongs_to :export_bank_file
