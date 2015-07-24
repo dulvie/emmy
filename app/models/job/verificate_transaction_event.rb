@@ -28,6 +28,8 @@ class Job::VerificateTransactionEvent
       @verificate_creator.wage
     when 'wage_tax'
       @verificate_creator.wage_tax
+    when 'stock_value'
+      @verificate_creator.stock_value
     else
       Rails.logger.info "-->>#{trans.verificate_type} not implemented"
     end

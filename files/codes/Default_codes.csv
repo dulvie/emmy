@@ -3,12 +3,16 @@ code;02;Öresavrundning
 code;03;Kundfordran
 code;04;Leverantörsskuld
 code;05;Försäljning
+code;06;Lagervärde handelsvaror
+code;07;Förändring lagervärde
 
 connect;Normal_20;1920;01
 connect;Normal_20;3740;02
 connect;Normal_20;1510;03
 connect;Normal_20;2440;04
 connect;Normal_20;3000;05
+connect;Normal_20;1460;06
+connect;Normal_20;4960;07
 
 connect;K1_20;1920;01
 

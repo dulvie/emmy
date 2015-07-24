@@ -373,6 +373,35 @@ module Services
       end
     end
 
+    def stock_value
+      stock_value = @object
+
+      Verificate.transaction do
+
+      # create verificate
+      ver_dsc = stock_value.name
+      save_verificate(stock_value.reported_at, ver_dsc, '', '', nil)
+
+      # beräkna förändringen i lagervärde
+      default_code = default_code(06)
+      account = account_from_default_code(default_code)
+      ledger_account = @accounting_period.ledger.ledger_accounts.where('account_id = ?', account.id).first
+      account_sum = 0
+      if !ledger_account.blank?
+        account_sum = ledger_account.sum
+      end
+      diff = stock_value.value - account_sum
+
+      # create lagervärde handelsvaror
+      save_verificate_item(account, diff, 0)
+
+      # create lagervärde förändring
+      default_code = default_code(07)
+      account = account_from_default_code(default_code)
+      save_verificate_item(account, 0, diff)
+      end
+    end
+
     def save_verificate(posting_date, description, reference, note, template)
       @verificate = Verificate.new
       @verificate.posting_date = posting_date

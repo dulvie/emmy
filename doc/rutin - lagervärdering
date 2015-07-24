@@ -1,0 +1,19 @@
+Beskrivning lagervärdering
+  http://www.srfredovisning.se/bokforingsnamnden-bfn/bfnar-20003-redovisning-av-varulager/5-sammanstallning-over-lagervardering-i-mindre-foretag/
+
+Lagervärdering, lägsta av 
+  a) Anskaffningsvärdet, inköpspris+frakt+importavgift+tull
+  b) nettoförsäljningsvärdet, nettofösäljningsvärdet-försäljingskostnad
+
+Förutsätter för att skapa bokföringspost
+1) Ekonomin riggad (se ekonomisk uppstart)
+1) Default codes är inlästa och kopplade (kod 6 och 7)
+
+Skapa lagervärdering
+1) Skapa lagervärdering
+   en stock_value_item skapas för varje shelf
+   kvantitet från shelf
+   pris a) om batch skapats via production, pris = production.cost_price
+        b) om batch importerats, pris = import.cost_price
+2) manuellt pris eller kvantitet kan sättas
+3) skapa bokföringspost 
