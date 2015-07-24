@@ -1,0 +1,27 @@
+.btn-group
+  = link_to "#{t(:create)} #{t(:stock_value_item)}", new_stock_value_stock_value_item_path, class: 'btn btn-success'
+
+.table-responsive{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:warehouse)
+        %th= t(:batch)
+        %th.numeric= t(:quantity)
+        %th.numeric= t(:price)
+        %th.numeric= t(:value)
+        %th
+        %th
+    %tbody{}
+      - @stock_value_items.each do |stock_value_item|
+        %tr
+          %td= stock_value_item.warehouse.name
+          %td= stock_value_item.batch.name
+          %td.numeric= stock_value_item.quantity
+          %td.numeric= stock_value_item.price
+          %td.numeric= stock_value_item.value
+          %td.numeric= link_to settings_icon, stock_value_stock_value_item_path(@stock_value.id, stock_value_item)
+          %td.numeric= delete_modal_for stock_value_item, stock_value_stock_value_item_path(@stock_value.id, stock_value_item)
+
+  = paginate @stock_value_items, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

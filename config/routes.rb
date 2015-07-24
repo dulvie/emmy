@@ -170,6 +170,13 @@ Emmy::Application.routes.draw do
     post 'sie_imports/create_import'
     resources :suppliers
 
+    resources :stock_values do
+      resources :stock_value_items
+      member do
+        post 'state_change', as: :state_change
+      end
+    end
+
     get 'tax_code_order_import', to: 'tax_codes#order_import', as: 'tax_code_order_import'
     post 'tax_code_import', to: 'tax_codes#import', as: 'tax_code_import'
     resources :tax_codes

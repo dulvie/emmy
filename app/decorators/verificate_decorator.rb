@@ -13,6 +13,7 @@ class VerificateDecorator < Draper::Decorator
     return  h.link_to I18n.t(:wage_period), h.wage_period_wage_reports_path(object.parent_id) if object.parent_type == 'WagePeriod' && verificate.parent_extend == 'tax'
     return  h.link_to I18n.t(:import_bank_file), h.import_bank_file_path(verificate.parent.import_bank_file) if object.parent_type == 'ImportBankFileRow'
     return  h.link_to I18n.t(:purchase), h.purchase_path(object.parent_id) if object.parent_type == 'Purchase'
+    return  h.link_to I18n.t(:stock_value), h.stock_value_path(object.parent_id) if object.parent_type == 'StockValue'
     return ' '
   end
 
