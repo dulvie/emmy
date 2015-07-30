@@ -7,7 +7,7 @@ class Report
     @accounting_period = accounting_period
   end
 
-  attr_accessor :accounting_period
+  attr_accessor :accounting_period, :result_unit
 
   TYPES = ['pdf', 'list']
 

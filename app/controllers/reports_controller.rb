@@ -58,17 +58,31 @@ class ReportsController < ApplicationController
     @breadcrumbs = [["#{t(:result)} #{t(:report)}"]]
     @report = Report.new @accounting_period
     @accounting_periods = current_organization.accounting_periods
+    @result_unit = current_organization.result_units
   end
 
   def result_report
     @report = Report.new params[:report][:accounting_period]
+    result_unit_id = params[:report][:result_unit]
+    if !result_unit_id.blank?
+      @result_unit = current_organization.result_units.find(result_unit_id)
+    end
     @accounting_period = current_organization.accounting_periods.find(@report.accounting_period)
-    @verificate_items = VerificateItem
-    .joins(:verificate, :account => :accounting_class)
-    .where("verificate_items.organization_id = ? AND verificate_items.accounting_period_id = ? AND verificates.state = 'final' AND accounts.number > 2999 ", current_organization.id, @accounting_period.id)
-    .select('accounting_classes.number AS cls', 'accounting_classes.name AS cls_dsc', 'accounts.number AS num','accounts.description AS desc', "SUM(debit) AS deb", "SUM(credit) AS cre")
-    .group('accounting_classes.number', 'accounting_classes.name', 'accounts.number', 'accounts.description')
-    .order('accounts.number')
+    if result_unit_id.blank?
+      @verificate_items = VerificateItem
+      .joins(:verificate, :account => :accounting_class)
+      .where("verificate_items.organization_id = ? AND verificate_items.accounting_period_id = ? AND verificates.state = 'final' AND accounts.number > 2999 ", current_organization.id, @accounting_period.id)
+      .select('accounting_classes.number AS cls', 'accounting_classes.name AS cls_dsc', 'accounts.number AS num','accounts.description AS desc', "SUM(debit) AS deb", "SUM(credit) AS cre")
+      .group('accounting_classes.number', 'accounting_classes.name', 'accounts.number', 'accounts.description')
+      .order('accounts.number')
+    else
+      @verificate_items = VerificateItem
+      .joins(:verificate, :account => :accounting_class)
+      .where("verificate_items.organization_id = ? AND verificate_items.accounting_period_id = ? AND verificate_items.result_unit_id = ?  AND verificates.state = 'final' AND accounts.number > 2999 ", current_organization.id, @accounting_period.id, result_unit_id)
+      .select('accounting_classes.number AS cls', 'accounting_classes.name AS cls_dsc', 'accounts.number AS num','accounts.description AS desc', "SUM(debit) AS deb", "SUM(credit) AS cre")
+      .group('accounting_classes.number', 'accounting_classes.name', 'accounts.number', 'accounts.description')
+      .order('accounts.number')
+    end  
     respond_to do |format|
       format.pdf do
         render(pdf: 'result', template: 'reports/result.pdf.haml', layout: 'pdf')

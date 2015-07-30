@@ -10,9 +10,10 @@
         %th.numeric
     %tbody{}
       - @result_units.each do |result_unit|
-        %td= result_unit.name
-        %td.numeric= link_to settings_icon, edit_result_unit_path(result_unit)
-        %td.numeric= delete_modal_for result_unit
+        %tr
+          %td= result_unit.name
+          %td.numeric= link_to settings_icon, edit_result_unit_path(result_unit)
+          %td.numeric= delete_modal_for result_unit
 
   = paginate @result_units, :theme => 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

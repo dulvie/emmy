@@ -8,7 +8,8 @@
   = f.input :debit
   = f.input :credit
 
-  .form-button-group
-    .actions
-      = f.submit class: 'btn btn-primary'
+  - if @verificate_item.new_record? || @verificate_item.can_edit?
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'
 

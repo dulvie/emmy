@@ -1,6 +1,7 @@
 = simple_form_for(@report, wrapper: :horizontal_form, html: {class: 'form-horizontal', target: "_blank" }, url: reports_result_report_path(report_id: 0, format: 'pdf')) do |f|
   = f.error_notification
   = f.input :accounting_period, as: :select, collection: @accounting_periods, include_blank: false, selected: @accounting_period.id
+  = f.input :result_unit, as: :select, collection: @result_unit
 
   .form-button-group
     .actions
