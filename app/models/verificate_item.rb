@@ -10,7 +10,7 @@ class VerificateItem < ActiveRecord::Base
   # t.integer  :project_id
   # t.timestamps
 
-  attr_accessible :account_id, :description, :debit, :credit
+  attr_accessible :account_id, :description, :debit, :credit, :result_unit_id
 
   belongs_to :organization
   belongs_to :accounting_period
@@ -42,6 +42,11 @@ class VerificateItem < ActiveRecord::Base
   def final?
     return true if verificate.final?
     false
+  end
+
+  def can_edit?
+    return false if verificate.final?
+    true 
   end
 
   def can_delete?

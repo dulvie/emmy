@@ -4,6 +4,8 @@
     %td{colspan: '3'}
       .pull-left
         %h2= t(:result)
+        - if @result_unit
+          %h3= @result_unit.name
       .pull-right
         %h2= @accounting_period.name
   - @verificate_items.each do |item|

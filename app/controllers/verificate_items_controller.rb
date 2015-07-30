@@ -3,8 +3,8 @@ class VerificateItemsController < ApplicationController
   load_and_authorize_resource :verificate, through: :current_organization
   load_and_authorize_resource :verificate_item, through: :current_organization
 
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :show_breadcrumbs, only: [:edit, :show, :update]
+  before_filter :new_breadcrumbs, only: [:new, :create, :edit, :update]
+  before_filter :show_breadcrumbs, only: [:show]
 
   # GET
   def index
@@ -53,7 +53,7 @@ class VerificateItemsController < ApplicationController
         format.html { redirect_to verificate_path(@verificate), notice: "#{t(:verificate_item)} #{t(:was_successfully_updated)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:verificate_item)}"
-        format.html { render action: 'show' }
+        format.html { render action: 'edit' }
       end
     end
   end

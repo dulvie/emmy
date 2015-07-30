@@ -10,6 +10,7 @@
         %th.numeric= t(:credit)
         %th.nowrap= t(:result_unit)
         %th
+        %th
     %tbody{}
       - @verificate_items.each do |verificate_item|
         %tr
@@ -17,7 +18,8 @@
           %td= verificate_item.description
           %td.numeric= verificate_item.debit
           %td.numeric= verificate_item.credit
-          %td
+          %td= verificate_item.result_unit_name
+          %td= link_to settings_icon, edit_verificate_verificate_item_path(@verificate, verificate_item)
           %td= delete_modal_for verificate_item, verificate_verificate_item_path(@verificate, verificate_item)
       %tr
         %td
