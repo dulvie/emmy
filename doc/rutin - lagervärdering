@@ -1,13 +1,26 @@
 Beskrivning lagervärdering
+
+Om beräkning till valuedatum (annat än dagens datum)
+1) Beräkning av kvantitet från batch-transction fram till (valuedatum)
+2) Kan ej ta shelf då de tas bort om kvantitet = 0 och de tagits bort mellan valuedatum och dagens datum
+3) Måste läggas om till job
+
+Länktips
   http://www.srfredovisning.se/bokforingsnamnden-bfn/bfnar-20003-redovisning-av-varulager/5-sammanstallning-over-lagervardering-i-mindre-foretag/
+  http://www.bokforingstips.se/artikel/bokforing/lagervardering.aspx
 
 Lagervärdering, lägsta av 
   a) Anskaffningsvärdet, inköpspris+frakt+importavgift+tull
   b) nettoförsäljningsvärdet, nettofösäljningsvärdet-försäljingskostnad
 
+Förutsätter
+1) Alla försäljningar rapporterade
+2) Inventeringar gjorda (kontroll kvantitet)
+3) Åsätts rätt pris
+
 Förutsätter för att skapa bokföringspost
 1) Ekonomin riggad (se ekonomisk uppstart)
-1) Default codes är inlästa och kopplade (kod 6 och 7)
+2) Default codes är inlästa och kopplade (kod 6 och 7)
 
 Skapa lagervärdering
 1) Skapa lagervärdering
