@@ -16,6 +16,7 @@ class VerificateItemsController < ApplicationController
     accounting_plan = current_organization.accounting_plans.find(@verificate.accounting_period.accounting_plan_id)
     @accounting_groups = accounting_plan.accounting_groups.order(:number)
     @accounts = accounting_plan.accounts.order(:number)
+    @result_units = current_organization.result_units
     gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer),
              accounts: ActiveModel::ArraySerializer.new(@accounts, each_serializer: AccountSerializer) 
   end
@@ -38,6 +39,7 @@ class VerificateItemsController < ApplicationController
       if @verificate_item.save
         format.html { redirect_to verificate_path(@verificate), notice: "#{t(:verificate_item)} #{t(:was_successfully_created)}" }
       else
+        @result_units = current_organization.result_units
         @accounting_groups = current_organization.verificates.find(@verificate).accounting_period.accounting_plan.accounting_groups
         gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer)
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:verificate_item)}"
