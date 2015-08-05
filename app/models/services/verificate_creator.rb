@@ -279,7 +279,7 @@ module Services
       # create customer payments
       default_code = default_code(01)
       account = account_from_default_code(default_code)
-      save_verificate_item(customer_payment, sale.total_after_rounding/100, 0)
+      save_verificate_item(account, sale.total_after_rounding/100, 0)
       end
     end
 
