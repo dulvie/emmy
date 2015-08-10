@@ -11,6 +11,7 @@ class CreateAccounts < ActiveRecord::Migration
       t.integer  :ink_code_id
       t.integer  :ne_code_id
       t.integer  :default_code_id
+      t.boolean  :active, null: false, default: true
       t.timestamps
     end
   end

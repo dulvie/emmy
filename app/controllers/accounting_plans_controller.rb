@@ -71,11 +71,25 @@ class AccountingPlansController < ApplicationController
     @accounting_plan_creator = Services::AccountingPlanCreator.new(current_organization, current_user)
     respond_to do |format|
       if @accounting_plan_creator.read_and_save(directory, file_name)
-        format.html { redirect_to accounting_plans_url, notice: "#{t(:accounting_plan)} #{t(:was_successfully_created)}" }
+        format.html { redirect_to accounting_plans_url, notice: "#{t(:accounting_plan)} #{t(:was_successfully_updated)}" }
       else
         init_order_import
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:accounting_plan)}"
         format.html { render 'order_import' }
+      end
+    end
+  end
+
+  def disable_accounts
+    directory = "files/accounting_plans/"
+    file_name = "Kontoplan_Normal_2014_ver1.csv"
+    @accounting_plan_creator = Services::AccountingPlanCreator.new(current_organization, current_user)
+    @accounting_plan_creator.set_accounting_plan(current_organization.accounting_plans.find(params[:accounting_plan_id]))
+    respond_to do |format|
+      if @accounting_plan_creator.BAS_set_active(directory, file_name)
+        format.html { redirect_to accounting_plans_url, notice: "#{t(:accounts)} #{t(:was_successfully_updated)}" }
+      else
+        format.html { redirect_to accounting_plans_url, notice: "#{t(:failed_to_update)} #{t(:accounts)}" }
       end
     end
   end

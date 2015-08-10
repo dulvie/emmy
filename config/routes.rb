@@ -43,9 +43,12 @@ Emmy::Application.routes.draw do
     get 'accounting_plan_order_import', to: 'accounting_plans#order_import', as: 'accounting_plan_order_import'
     post 'accounting_plan_import', to: 'accounting_plans#import', as: 'accounting_plan_import'
     resources :accounting_plans do
+      post 'disable_accounts', as: :disable_accounts
       resources :accounting_groups
       resources :accounting_classes
-      resources :accounts
+      resources :accounts do
+        post 'toggle_active', as: :toggle_active
+      end
     end
     get 'accounts_receivables', to: 'accounts_receivables#index', as: 'accounts_receivables'
     get 'accounts_payables', to: 'accounts_payables#index', as: 'accounts_payables'

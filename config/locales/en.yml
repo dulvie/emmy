@@ -118,6 +118,7 @@ en:
   delivered: "Delivered"
   delivered_at: "Delivered at"
   description: "Description"
+  disable: "Disable"
   document: "Document"
   documents: "Documents"
   document_added: "Document added"

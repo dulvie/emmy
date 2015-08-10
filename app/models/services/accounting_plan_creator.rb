@@ -13,6 +13,10 @@ module Services
       @accounting_plan
     end
 
+    def set_accounting_plan(accounting_plan)
+      @accounting_plan = accounting_plan
+    end
+
     def read_and_save(directory, file_name)
       Rails.logger.info "->#{file_name}"
       case file_name
@@ -105,7 +109,29 @@ module Services
           save_account(row[2], row[3], class_id, group_id)
           save_account(row[5], row[6], class_id, group_id)
         end
+      end
+    end
 
+    def BAS_set_active(directory, file_name)
+      name = directory + file_name
+      first = true
+      Account.transaction do
+      CSV.foreach(name, { :col_sep => ';' }) do |row|
+        if first
+          first = false
+        elsif row[2].blank? && row[5] && row[5].length == 4
+          save_active(row[4], row[5])
+        elsif ((row[2] && row[2].strip.length == 1) || (row[2] && row[2].length == 3))
+          class_id = 'x'
+        elsif ((row[2] && row[2].length == 2) || (row[2] && row[2].length == 5))
+          group_id = 'y'
+        elsif row[2] && row[2].length == 4 && row[5].blank?
+          save_active(row[1], row[2])
+        elsif row[2] && row[2].length == 4 && row[5] && row[5].length == 4
+          save_active(row[1], row[2])
+          save_active(row[4], row[5])
+        end
+      end
       end
     end
 
@@ -175,6 +201,15 @@ module Services
       @account = @accounting_plan.accounts.find_by_number(account)
       @ink_code = @organization.ink_codes.find_by_code(ink_code)
       @account.ink_code = @ink_code
+      @account.save
+    end
+
+    def save_active(fld, account)
+      Rails.logger.info "-->#{fld}"
+      active = 'false'
+      active = 'true' if fld == ' ■'
+      @account = @accounting_plan.accounts.find_by_number(account)
+      @account.active = active
       @account.save
     end
   end

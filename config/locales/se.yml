@@ -96,6 +96,7 @@ se:
   delivered: "Levererad"
   delivered_at: "Leveransdatum"
   description: "Beskrivning"
+  disable: "Inaktivera"
   document: "Dokument"
   documents: "Dokument"
   document_added: "Dokument lades till"

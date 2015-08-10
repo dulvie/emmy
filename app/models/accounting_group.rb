@@ -14,6 +14,8 @@ class AccountingGroup < ActiveRecord::Base
   validates :number, presence: true, uniqueness: {scope: [:organization_id, :accounting_plan]}
   validates :name, presence: true
 
+  scope :active, -> { joins(:accounts).where('active = ?', true).group("accounting_groups.id")  }
+
   def can_delete?
     return false if accounts.size > 0
     true

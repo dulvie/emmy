@@ -24,6 +24,13 @@ module ApplicationHelper
     link_to tasks_icon, p
   end
 
+  def active_button_for(obj, other_path = nil)
+    p = other_path || obj
+    return link_to active_icon, p, method: 'post' if obj.active == true
+    return link_to inactive_icon, p, method: 'post' if obj.active == false
+    link_to task_icon, p
+  end
+
   def delete_button_for(obj, other_path = nil)
     return unless obj.can_delete?
     path = other_path || url_for(obj)
@@ -57,6 +64,12 @@ module ApplicationHelper
     glyphicon('trash', "delete-icon #{extra_css_class}")
   end
 
+  def active_icon
+    glyphicon('ok-circle', 'ok-circle-icon')
+  end
+  def inactive_icon
+    glyphicon('ban-circle', 'ban_circle-icon')
+  end
   def link_icon
     glyphicon('link', 'link-icon')
   end
