@@ -1,9 +1,12 @@
 - if params[:active] == 'true'
-  - @accounts = @accounting_plan.accounts.order('number').where('accounts.active = ?', 'true').page(params[:page_account]).decorate  
+  - @accounts = @accounting_plan.accounts.order('number').where('accounts.active = ?', 'true').page(params[:page_account]).decorate
+  %input{id: 'opt', value: 1, type: 'hidden'}
 - elsif params[:active] == 'false'
   - @accounts = @accounting_plan.accounts.order('number').where('accounts.active = ?', 'false').page(params[:page_account]).decorate
+  %input{id: 'opt', value: 2, type: 'hidden'}
 - else
   - @accounts = @accounting_plan.accounts.order('number').page(params[:page_account]).decorate
+  %input{id: 'opt', value: 0, type: 'hidden'}
 
 .pull-left
   = link_to "#{t(:create)} #{t(:account)}", new_accounting_plan_account_path(@accounting_plan), class: 'btn btn-success'
@@ -46,7 +49,9 @@
   
 :javascript
   $(document).ready(function() {
-    var path = document.location.pathname + document.location.search
-    $('#selp').val(path);
-    var params = Setup.getQueryParams(document.location.search);
+    //var path = document.location.pathname + document.location.search
+    //$('#selp').val(path);
+    var opt = Number($('#opt').val());
+    $('#selp option')[opt].selected = true;
+    //var params = Setup.getQueryParams(document.location.search);
   });
