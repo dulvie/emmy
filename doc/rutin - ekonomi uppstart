@@ -37,3 +37,9 @@ kommentar - IB kan skapas på tre olika sätt
 a) Från föregående räkenskapsår. Ej aktuellt vid nystart.
 b) Import från SIE. Möjlighet vid övergång från annat system
 c) Helt manuell
+
+8) Inaktivera konton
+I Baskontoplan Normal finns många konton. Konton kan aktiveras/inaktiveras individuellt.
+Konton som RSV anser grundläggande för de flesta kan aktiveras och övriga inaktiveras
+med funktionen "Inaktivera konton". OBS! Gäller bara för kontoplan Normal. Fördelen 
+med att inaktivera är att sökbox vid kontering blir mindre. 

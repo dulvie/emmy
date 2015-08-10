@@ -11,7 +11,7 @@ class Account < ActiveRecord::Base
   # t.integer  :accounting_group_id
   # t.timestamps
 
-  attr_accessible :number, :description, :tax_code_id, :default_code_id
+  attr_accessible :number, :description, :tax_code_id, :default_code_id, :active
 
   belongs_to :organization
   belongs_to :accounting_plan
@@ -30,6 +30,10 @@ class Account < ActiveRecord::Base
 
   delegate :name, :number, to: :accounting_class, prefix: :class
   delegate :name, :number, to: :accounting_group, prefix: :class
+
+  def toggle_active
+    active == true ? self.active = false : self.active = true
+  end
 
   def name
     number

@@ -1,6 +1,20 @@
-- @accounts = @accounting_plan.accounts.order('number').page(params[:page_account]).decorate
-.btn-group
-  = link_to "#{t(:create)} #{t(:account)}", new_accounting_plan_account_path(accounting_plan), class: 'btn btn-success'
+- if params[:active] == 'true'
+  - @accounts = @accounting_plan.accounts.order('number').where('accounts.active = ?', 'true').page(params[:page_account]).decorate  
+- elsif params[:active] == 'false'
+  - @accounts = @accounting_plan.accounts.order('number').where('accounts.active = ?', 'false').page(params[:page_account]).decorate
+- else
+  - @accounts = @accounting_plan.accounts.order('number').page(params[:page_account]).decorate
+
+.pull-left
+  = link_to "#{t(:create)} #{t(:account)}", new_accounting_plan_account_path(@accounting_plan), class: 'btn btn-success'
+  = link_to "#{t(:disable)} #{t(:accounts)}", accounting_plan_disable_accounts_path(@accounting_plan), class: 'btn btn-success', method: 'post', disabled: !@accounting_plan.disable_accounts?
+
+.col-sm-40.col-md-40.pull-right.text-right
+  %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
+    %option{value: accounting_plan_path(@accounting_plan)} #{t(:all)}
+    %option{value: accounting_plan_path(@accounting_plan) + '&active=true'} #{t(:active)}
+    %option{value: accounting_plan_path(@accounting_plan) + '&active=false'} #{t(:inactive)}
+.clear &nbsp;
 
 .table-responsive{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}
@@ -8,6 +22,7 @@
       %tr
         %th= t(:number)
         %th.nowrap= t(:name)
+        %th= t(:active)
         %th= t(:tax_code)
         %th= t(:ink_code)
         %th= t(:ne_code)
@@ -18,6 +33,7 @@
         %tr
           %td= account.number
           %td.nowrap= account.description
+          %td= active_button_for account, accounting_plan_account_toggle_active_path(@accounting_plan, account)
           %td= account.tax_code_code
           %td= account.ink_code_code
           %td= account.ne_code_code
@@ -26,3 +42,11 @@
 
   = paginate @accounts, param_name: "page_account", theme: 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+  
+:javascript
+  $(document).ready(function() {
+    var path = document.location.pathname + document.location.search
+    $('#selp').val(path);
+    var params = Setup.getQueryParams(document.location.search);
+  });

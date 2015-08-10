@@ -63,6 +63,15 @@ class AccountsController < ApplicationController
     end
   end
 
+  def toggle_active
+    @account = current_organization.accounts.find(params[:account_id])
+    @account.toggle_active
+    @account.save
+    respond_to do |format|
+      format.html {redirect_to :back }
+    end
+  end
+
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.

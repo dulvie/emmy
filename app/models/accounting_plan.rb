@@ -15,6 +15,11 @@ class AccountingPlan < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: {scope: :organization_id}
 
+  def disable_accounts?
+    return true if self.file_name.include? 'Normal'
+    false
+  end
+
   def can_delete?
     return false if accounting_periods.size > 0
     true
