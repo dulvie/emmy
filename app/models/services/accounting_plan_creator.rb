@@ -13,8 +13,8 @@ module Services
       @accounting_plan
     end
 
-    def set_accounting_plan(accounting_plan)
-      @accounting_plan = accounting_plan
+    def set_accounting_plan(accounting_plan_id)
+      @accounting_plan = @organization.accounting_plans.find(accounting_plan_id)
     end
 
     def read_and_save(directory, file_name)
@@ -205,7 +205,7 @@ module Services
     end
 
     def save_active(fld, account)
-      Rails.logger.info "-->#{fld}"
+      Rails.logger.info "-->#{fld} #{account}"
       active = 'false'
       active = 'true' if fld == ' ■'
       @account = @accounting_plan.accounts.find_by_number(account)
