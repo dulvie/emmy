@@ -66,11 +66,16 @@ class AccountingPlansController < ApplicationController
   end
 
   def import
-    directory = params[:file_importer][:directory]
-    file_name = params[:file_importer][:file]
-    @accounting_plan_creator = Services::AccountingPlanCreator.new(current_organization, current_user)
+    @accounting_plan_trans = AccountingPlanTransaction.new
+    @accounting_plan_trans.posting_date = DateTime.now
+    @accounting_plan_trans.directory = params[:file_importer][:directory]
+    @accounting_plan_trans.file = params[:file_importer][:file]
+    @accounting_plan_trans.execute = 'import'
+    @accounting_plan_trans.accounting_plan_id = nil
+    @accounting_plan_trans.user = current_user
+    @accounting_plan_trans.organization = current_organization
     respond_to do |format|
-      if @accounting_plan_creator.read_and_save(directory, file_name)
+      if @accounting_plan_trans.save
         format.html { redirect_to accounting_plans_url, notice: "#{t(:accounting_plan)} #{t(:was_successfully_updated)}" }
       else
         init_order_import
@@ -81,15 +86,21 @@ class AccountingPlansController < ApplicationController
   end
 
   def disable_accounts
-    directory = "files/accounting_plans/"
-    file_name = "Kontoplan_Normal_2014_ver1.csv"
-    @accounting_plan_creator = Services::AccountingPlanCreator.new(current_organization, current_user)
-    @accounting_plan_creator.set_accounting_plan(current_organization.accounting_plans.find(params[:accounting_plan_id]))
+    @accounting_plan_trans = AccountingPlanTransaction.new
+    @accounting_plan_trans.posting_date = DateTime.now
+    @accounting_plan_trans.directory = "files/accounting_plans/"
+    @accounting_plan_trans.file = "Kontoplan_Normal_2014_ver1.csv"
+    @accounting_plan_trans.execute = 'disable'
+    @accounting_plan_trans.accounting_plan_id = params[:accounting_plan_id]
+    @accounting_plan_trans.user = current_user
+    @accounting_plan_trans.organization = current_organization
     respond_to do |format|
-      if @accounting_plan_creator.BAS_set_active(directory, file_name)
-        format.html { redirect_to accounting_plans_url, notice: "#{t(:accounts)} #{t(:was_successfully_updated)}" }
+      if @accounting_plan_trans.save
+        format.html { redirect_to accounting_plans_url, notice: "#{t(:accounting_plan)} #{t(:was_successfully_updated)}" }
       else
-        format.html { redirect_to accounting_plans_url, notice: "#{t(:failed_to_update)} #{t(:accounts)}" }
+        init_order_import
+        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:accounting_plan)}"
+        format.html { render 'order_import' }
       end
     end
   end
