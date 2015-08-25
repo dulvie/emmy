@@ -21,7 +21,7 @@ Kopplingen finns i filen files/TAX_codes. För närvarande finns koppling mot BA
 
 3) Läs in ink-coder (BAS) eller NE-coder (K1/K1-mini) koppling till aktuell kontoplan
 Kommentar - Dessa tabeller är kopplingen mellan deklarationsblankett och konton
-för användning vid deklaration
+för användning vid deklaration. INK2 för aktiebolag/ek föreningar. INK3 idella föreningar.
 
 4) Läs in default_codes
 Kommentar - Olika koder som möjliggör automatkontering
