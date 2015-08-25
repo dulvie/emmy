@@ -1,5 +1,5 @@
 class Job::VerificateTransactionEvent
-  @queue = :verificater_transaction_events
+  @queue = :verificate_transaction_events
 
   def self.perform(verificate_transaction_id)
     trans = VerificateTransaction.find(verificate_transaction_id)
