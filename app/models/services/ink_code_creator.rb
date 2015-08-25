@@ -30,7 +30,6 @@ module Services
         connect_extra_INK3 if type.include? "connect"
       end
       end
-      return true 
     end
 
     def read_and_save(type, directory, file_name)
@@ -38,6 +37,7 @@ module Services
       first = true
       balance = true
       ink_code = 'x'
+      InkCode.transaction do
       CSV.foreach(name, { :col_sep => ';' }) do |row|
         if first
           first = false
@@ -72,14 +72,19 @@ module Services
           end
         end
       end
+      end
     end
 
     def connect_extra_INK2
+      InkCode.transaction do
       ink_to_accounting_plan('3.25', '884x')
+      end
     end
 
     def connect_extra_INK3
+      InkCode.transaction do
       ink_multiple('6.20', '883x, 885x, 8860, 8861-8864, 8880, 8881, 8892, 8885, 889x')
+      end
     end
 
     def add_ink_code(code, text, sum_method, bas_accounts)
@@ -94,8 +99,10 @@ module Services
     end
 
     def delete_ink_codes
+      InkCode.transaction do
       @ink_codes.each do |ink_code|
         ink_code.destroy
+      end
       end
     end
 

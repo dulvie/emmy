@@ -28,13 +28,13 @@ module Services
       end
       load_extra if type.include? "load"
       connect if type.include? "connect"
-      return true 
     end
 
     def read_and_save(type, directory, file_name)
       name = directory + file_name
       first = true
       ne_code = ''
+      NeCode.transaction do
       CSV.foreach(name, { :col_sep => ';' }) do |row|
         if first
           first = false
@@ -45,6 +45,7 @@ module Services
         elsif row[2].blank? && row[3] && row[3].length == 4
         elsif row[2].blank? && row[3] && row[3].length == 9
         end
+      end
       end
     end
 
@@ -60,6 +61,7 @@ module Services
       name = directory + file_name
       ne_code = 'x'
       first = true
+      NeCode.transaction do
       CSV.foreach(name, { :col_sep => ';' }) do |row|
         if first
           first = false
@@ -75,12 +77,14 @@ module Services
         end
       end
       set_connect('2090', 'U1')
+      end
     end
 
     def read_and_save_connect_Mini(diretory, file_name)
       name = diretory + file_name
       ne_code = 'x'
       first = true
+      NeCode.transaction do
       CSV.foreach(name, { :col_sep => ';' }) do |row|
         if first
           first = false
@@ -96,13 +100,16 @@ module Services
           }
         end
       end
+      end
     end
 
     def load_extra
+      NeCode.transaction do
       add_ne_code('U1', 'Upplysningar', 'ub')
       add_ne_code('U2', 'Upplysningar', 'ub')
       add_ne_code('U3', 'Upplysningar', 'ub')
       add_ne_code('U4', 'Upplysningar', 'ub')
+      end
     end
 
     def add_ne_code(code, text, sum_method)
@@ -116,8 +123,10 @@ module Services
     end
 
     def delete_ne_codes
+      NeCode.transaction do
       @ne_codes.each do |ne_code|
         ne_code.destroy
+      end
       end
     end
 

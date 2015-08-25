@@ -27,14 +27,13 @@ module Services
           read_and_save(type, directory, file_name)
         else
       end
-      
-      return true 
     end
 
     def read_and_save(type, directory, file_name)
       accounting_plan_file = @accounting_plan
       name = directory + file_name
       first = true
+      DefaultCode.transaction do
       CSV.foreach(name, { :col_sep => ';' }) do |row|
         if row[0] && row[0] == 'code'
           # row-type code text method type
@@ -42,6 +41,7 @@ module Services
         elsif row[0] && row[0] == 'connect'
           connect(row[1], row[2], row[3]) if type.include? "connect"
         end
+      end
       end
     end
 
@@ -58,8 +58,10 @@ module Services
     end
 
     def delete_default_codes
+      DefaultCode.transaction do
       @default_codes.each do |default_code|
         default_code.destroy
+      end
       end
     end
 

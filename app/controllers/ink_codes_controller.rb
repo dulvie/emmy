@@ -67,14 +67,16 @@ class InkCodesController < ApplicationController
   end
 
   def import
-    directory = params[:file_importer][:directory]
-    file_name = params[:file_importer][:file]
-    type = params[:file_importer][:type]
-    @accounting_plan = current_organization.accounting_plans.find(params[:file_importer][:accounting_plan])
-    @ink_codes = current_organization.ink_codes
-    ink_code_creator = Services::InkCodeCreator.new(current_organization, current_user, @ink_codes, @accounting_plan)
+    @code_trans = CodeTransaction.new
+    @code_trans.directory = params[:file_importer][:directory]
+    @code_trans.file = params[:file_importer][:file]
+    @code_trans.code = 'ink'
+    @code_trans.run_type = params[:file_importer][:type]
+    @code_trans.accounting_plan_id = params[:file_importer][:accounting_plan]
+    @code_trans.user = current_user
+    @code_trans.organization = current_organization
     respond_to do |format|
-      if ink_code_creator.execute(type, directory, file_name)
+      if @code_trans.save
         format.html { redirect_to ink_codes_url, notice: "#{t(:ink_codes)} #{t(:was_successfully_created)}" }
       else
         init_order_import
