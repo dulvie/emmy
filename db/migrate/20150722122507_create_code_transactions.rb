@@ -6,6 +6,7 @@ class CreateCodeTransactions  < ActiveRecord::Migration
       t.string   :file
       t.string   :code
       t.string   :run_type
+      t.boolean  :complete
       t.integer  :accounting_plan_id
       t.integer  :organization_id
       t.integer  :user_id

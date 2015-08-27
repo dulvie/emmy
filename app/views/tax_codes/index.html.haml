@@ -51,6 +51,8 @@
 
   = paginate @tax_codes, :theme => 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+  - if @trans.complete == false
+    = render partial: 'shared/modal_refresh', locals:{idx: 'refresh_id', back: tax_code_order_import_path, path: tax_codes_path}
 
 :javascript
   $(document).ready(function () {
