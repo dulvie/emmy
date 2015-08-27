@@ -28,6 +28,8 @@ class Job::CodeTransactionEvent
     else
       Rails.logger.info "-->>#{trans.code} not implemented"
     end
+    trans.complete = 'true'
+    trans.save
     Rails.logger.info "-->>END CodeTransactionEven"
   end
 end

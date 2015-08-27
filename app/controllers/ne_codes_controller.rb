@@ -11,6 +11,7 @@ class NeCodesController < ApplicationController
     @breadcrumbs = [['Ne codes']]
     @ne_codes = current_organization.ne_codes
     @ne_codes = @ne_codes.page(params[:page])
+    @trans = current_organization.code_transactions.where("code = 'ne'").order("created_at DESC").first
   end
 
   # GET /ne_codes/new
@@ -72,6 +73,7 @@ class NeCodesController < ApplicationController
     @code_trans.file = params[:file_importer][:file]
     @code_trans.code = 'ne'
     @code_trans.run_type = params[:file_importer][:type]
+    @code_trans.complete = 'false'
     @code_trans.accounting_plan_id = params[:file_importer][:accounting_plan]
     @code_trans.user = current_user
     @code_trans.organization = current_organization

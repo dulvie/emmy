@@ -10,6 +10,7 @@ class DefaultCodesController < ApplicationController
   def index
     @breadcrumbs = [['Default codes']]
     @default_codes = @default_codes.page(params[:page])
+    @trans = current_organization.code_transactions.where("code = 'default'").order("created_at DESC").first
   end
 
   # GET /default_codes/new
@@ -73,6 +74,7 @@ class DefaultCodesController < ApplicationController
     @code_trans.file = params[:file_importer][:file]
     @code_trans.code = 'default'
     @code_trans.run_type = params[:file_importer][:type]
+    @code_trans.complete = 'false'
     @code_trans.accounting_plan_id = params[:file_importer][:accounting_plan]
     @code_trans.user = current_user
     @code_trans.organization = current_organization
