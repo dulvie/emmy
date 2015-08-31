@@ -1,0 +1,17 @@
+Beskrivning försäljning
+
+Förutsätter
+1) Kund finns registrerad
+2) Ekonomi är uppsatt
+
+Försäljning
+1) Lägger upp köpare och artiklar
+2) Godkän försäljningen
+   create_verificate_transaktion skapar "accounts_receivable" som bakgrundsjob
+3) preliminär verifikat "accounts_receivable" godkänns i datumordning
+4) Leverans rapporteras
+5) Betalning rapporteras
+   create_verificate_transaction skapar "customer_payments" som bakgrundsjob
+6) Bank transaktionsfil tas hem.
+7) Banktransaktion matchas med preliminärt verifikat "customer_payments" och godkänns
+
