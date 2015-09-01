@@ -34,9 +34,7 @@ class ClosingBalancesController < ApplicationController
     @closing_balance.organization = current_organization
     respond_to do |format|
       if @closing_balance.save
-        @accounting_period = current_organization.accounting_periods.find(@closing_balance.accounting_period)
-        @closing_balance_creator = Services::ClosingBalanceCreator.new(current_organization, current_user, @closing_balance, @accounting_period)
-        @closing_balance_creator.add_from_ledger
+        create_transaction(@closing_balance.accounting_period, @closing_balance)
         format.html { redirect_to edit_accounting_period_path(@closing_balance.accounting_period_id), notice: "#{t(:closing_balance)} #{t(:was_successfully_created)}" }
       else
         format.html { redirect_to edit_accounting_period_path(@closing_balance.accounting_period_id), notice: "#{t(:failed_to_create)} #{t(:closing_balance)}"}
@@ -46,10 +44,9 @@ class ClosingBalancesController < ApplicationController
 
   # PATCH/PUT
   def update
-    @accounting_period = current_organization.accounting_periods.find(@closing_balance.accounting_period)
-    @closing_balance_creator = Services::ClosingBalanceCreator.new(current_organization, current_user, @closing_balance, @accounting_period)
     respond_to do |format|
-      if @closing_balance_creator.update_from_ledger
+      if @closing_balance.update(closing_balance_params)
+        create_transaction(@closing_balance.accounting_period, @closing_balance)
         format.html { redirect_to edit_accounting_period_path(@closing_balance.accounting_period), notice: "#{t(:closing_balance)} #{t(:was_successfully_created)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:closing_balance)}"
@@ -77,6 +74,17 @@ class ClosingBalancesController < ApplicationController
   end
 
   private
+
+  def create_transaction(accounting_period, closing_balance)
+    @balance_trans = BalanceTransaction.new
+    @balance_trans.parent = closing_balance
+    @balance_trans.execute = 'closing'
+    @balance_trans.complete = 'false'
+    @balance_trans.accounting_period = accounting_period
+    @balance_trans.user = current_user
+    @balance_trans.organization = current_organization
+    @balance_trans.save
+  end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def closing_balance_params

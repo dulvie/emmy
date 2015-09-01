@@ -77,16 +77,19 @@ class OpeningBalancesController < ApplicationController
 
   def create_from_ub
     @opening_balance = current_organization.opening_balances.find(params[:opening_balance_id])
-    @accounting_period = @opening_balance.accounting_period
-    @from = @accounting_period.previous_accounting_period
+    @balance_trans = BalanceTransaction.new
+    @balance_trans.parent = current_organization.opening_balances.find(params[:opening_balance_id])
+    @balance_trans.execute = 'opening'
+    @balance_trans.complete = 'false'
+    @balance_trans.accounting_period = @opening_balance.accounting_period
+    @balance_trans.user = current_user
+    @balance_trans.organization = current_organization
     respond_to do |format|
-      @opening_balance_creator = Services::OpeningBalanceCreator.new(current_organization, current_user, @accounting_period, @opening_balance)
-      if @opening_balance_creator.add_from_ub(@from.closing_balance)
-        format.html {redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:opening_balance)} #{t(:was_successfully_deleted)}" }
+      if @balance_trans.save
+        format.html {redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:opening_balance)} #{t(:was_successfully_updated)}" }
       else
         format.html {redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:opening_balance)} #{t(:faild_to_update)}" }
       end
-
     end
   end
 
