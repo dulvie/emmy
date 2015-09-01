@@ -22,3 +22,6 @@
 
   = paginate @import_bank_files, :theme => 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+  - if @bank_trans && @bank_trans.complete == false
+    = render partial: 'shared/modal_refresh', locals:{idx: 'bank_file_id', back: import_bank_files_path, path: import_bank_files_path}
+ 

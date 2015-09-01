@@ -2,11 +2,12 @@ module Services
   class ImportBankFileCreator
     require 'csv'
 
-    def initialize(organization, user, infile)
+    def initialize(organization, user, directory, file_name)
       @user = user
       @organization = organization
       @import_bank_file
-      @file = infile
+      # @file = infile
+      @file = directory + '/' + file_name
     end
 
     def read_and_save_nordea
@@ -14,6 +15,7 @@ module Services
       idx = 1
       from = '2099-12-31'
       to = '1900-01-01'
+      ImportBankFileRow.transaction do
       CSV.foreach(@file, { col_sep: "\t",  encoding: "ISO-8859-1" }) do |row|
         case idx
           when 1
@@ -27,6 +29,7 @@ module Services
             to = row[0] if row[0] > to
             end
         idx += idx
+      end
       end
       @import_bank_file.from_date = from
       @import_bank_file.to_date = to
