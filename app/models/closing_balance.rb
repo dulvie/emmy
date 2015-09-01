@@ -33,7 +33,7 @@ class ClosingBalance < ActiveRecord::Base
   def set_posting_date(transition)
     self.posting_date = transition.args[0]
   end
-  
+
   def total_debit
     return 0 if closing_balance_items.count <= 0
     closing_balance_items.inject(0) { |i, item| (item.debit || 0) + i }

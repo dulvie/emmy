@@ -29,7 +29,9 @@ class AccountingPeriodsController < ApplicationController
     @accounting_plans = current_organization.accounting_plans
     @opening_balance = init_opening_balance
     @closing_balance = init_closing_balance
-    @previous_accounting_period = @accounting_period.previous_accounting_period
+    @previous_accounting_period = @accounting_period.previous_accounting_period    
+    @opening_trans = current_organization.balance_transactions.where("parent_type = 'OpeningBalance'").order("created_at DESC").first
+    @closing_trans = current_organization.balance_transactions.where("parent_type = 'ClosingBalance'").order("created_at DESC").first
   end
 
   # POST
