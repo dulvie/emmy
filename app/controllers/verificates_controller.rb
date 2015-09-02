@@ -67,7 +67,7 @@ class VerificatesController < ApplicationController
   def update
     respond_to do |format|
       if @verificate.update(verificate_params)
-        format.html { redirect_to verificates_path, notice: "#{t(:verificate)} #{t(:was_successfully_updated)}" }
+        format.html { redirect_to verificate_path, notice: "#{t(:verificate)} #{t(:was_successfully_updated)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:verificate)}"
         @accounting_period = @verificate.accounting_period
