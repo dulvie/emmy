@@ -130,7 +130,7 @@ class Verificate < ActiveRecord::Base
 
   def can_delete?
     return false if final?
-    return false if parent_type?
+    return false if parent_type? && parent_type != 'ImportBankFileRow'
     true
   end
 end
