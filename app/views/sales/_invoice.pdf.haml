@@ -94,7 +94,7 @@
             .line= "#{sale.organization.zip} #{sale.organization.city}"
           %td
             %table.numbers.table.pull-right
-              - [:vat_number, :bankgiro, :plusgiro, :postgiro].each do |n|
+              - Organization::BANK_FIELDS.each do |n|
                 - unless sale.organization.send(n).blank?
                   %tr
                     %td.main-cell

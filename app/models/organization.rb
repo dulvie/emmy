@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Organization < ActiveRecord::Base
   # t.string :slug, null: false, unique: true
   # t.string :name
@@ -15,6 +16,7 @@ class Organization < ActiveRecord::Base
   # t.timestamps
 
   TYPES = ['Aktiebolag', 'Ekonomisk förening', 'Idell förening', 'Handelsbolag', 'Enskild firma']
+  BANK_FIELDS = %w(vat_number bankgiro plusgiro postgiro iban swift)
 
   attr_accessible :email, :name, :address, :zip, :organization_type, :organization_number, :vat_number, :bankgiro, :postgiro, :plusgiro, :city
 
