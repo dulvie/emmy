@@ -7,7 +7,7 @@
         %h2= @verificates.first.accounting_period.name
   - @verificates.each do |ver|
     %tr
-      %th.main= t(:number) + ": #{ver.number}"
+      %th.main= t(:number_the_string) + ": #{ver.number}"
       %th=ver.description
       %th{colspan: '2'}=ver.posting_date
 
