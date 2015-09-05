@@ -1,16 +1,23 @@
 module Services
   class VerificateCreator
+    attr_reader :errors
 
     def initialize(organization, user, object, post_date)
+      @errors = []
       @user = user
       @organization = organization
       @object = object
-      @verificate
       @accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', post_date, post_date).first
       if @accounting_period.nil?
+        @errors << "Unable to find accounting period"
         Rails.logger.info "-->>VerificateCreator error accounting period missing"
+        return
       end
       @accounting_plan = @organization.accounting_plans.find(@accounting_period.accounting_plan_id)
+    end
+
+    def valid?
+      errors.empty?
     end
 
     def verificate_id
