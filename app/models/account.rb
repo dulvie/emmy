@@ -1,14 +1,15 @@
 class Account < ActiveRecord::Base
-  # t.string   :number
+  # t.integer  :number
   # t.string   :description
-  # t.integer  :tax_code_id
-  # t.integer  :ink_code_id
-  # t.integer  :ne_code_id
-  # t.integer  :default_code_id
   # t.integer  :organization_id
   # t.integer  :accounting_plan_id
   # t.integer  :accounting_class_id
   # t.integer  :accounting_group_id
+  # t.integer  :tax_code_id
+  # t.integer  :ink_code_id
+  # t.integer  :ne_code_id
+  # t.integer  :default_code_id
+  # t.boolean  :active, null: false, default: true
   # t.timestamps
 
   attr_accessible :number, :description, :tax_code_id, :default_code_id, :active
