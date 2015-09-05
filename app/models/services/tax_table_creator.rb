@@ -17,6 +17,7 @@ module Services
           save_tax_table_row(calc, row[2].to_s, row[3], row[4].to_s, row[5], row[6], row[7], row[8], row[9])
         end
       end
+      return true
     end
  
     def save_tax_table(name, year)
