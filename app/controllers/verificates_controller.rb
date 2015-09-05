@@ -153,7 +153,7 @@ class VerificatesController < ApplicationController
   def load_accounting_periods
     @accounting_periods = current_organization.accounting_periods.order('id')
     if @accounting_periods.size == 0
-      redirect_to helps_show_message_path()+"&message="+I18n.t(:accounting_period_missing), notice: "Errormessage"
+      redirect_to helps_show_message_path(message: I18n.t(:accounting_period_missing))
     end
   end
 end
