@@ -27,6 +27,7 @@ class Job::CodeTransactionEvent
       tax_code_creator.execute(trans.run_type, trans.directory, trans.file)
     else
       Rails.logger.info "-->>#{trans.code} not implemented"
+      return
     end
     trans.complete = 'true'
     trans.save
