@@ -9,7 +9,11 @@ class Job::VerificateTransactionEvent
   def self.create_verificate(trans)
     Rails.logger.info "-->>VerificateTransactionEvent.create_verificate(#{trans.inspect})"
     @verificate_creator = Services::VerificateCreator.new(trans.organization, trans.user, trans.parent, trans.posting_date)
-    return if @verificate_creator.nil?
+    unless @verificate_creator.valid?
+      Rails.logger.info "unable to create VerificateCreator object:"\
+                        "#{@verificate_creator.errors.inspect}"
+      return
+    end
 
     case trans.verificate_type
     when 'accounts_receivable'
