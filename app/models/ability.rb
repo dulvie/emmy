@@ -77,6 +77,7 @@ class Ability
     can :manage, TaxCode, organization_id: oids
     can :manage, TaxReturn, organization_id: oids
     can :manage, TaxReturnReport, organization_id: oids
+    can :manage, TaxTable, organization_id: oids
     can :manage, Template, organization_id: oids
     can :manage, TemplateItem, organization_id: oids
     can :manage, Transfer, organization_id: oids
