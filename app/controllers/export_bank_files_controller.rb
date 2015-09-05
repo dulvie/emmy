@@ -10,7 +10,6 @@ class ExportBankFilesController < ApplicationController
   def index
     @breadcrumbs = [["#{t(:export_bank_files)}"]]
     @export_bank_files = @export_bank_files.page(params[:page]).decorate
-    # redirect_to helps_show_message_path()+"&message="+I18n.t(:under_development), notice: "Infomessage"
   end
 
   # GET
