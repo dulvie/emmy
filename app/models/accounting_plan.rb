@@ -16,7 +16,7 @@ class AccountingPlan < ActiveRecord::Base
   validates :name, presence: true, uniqueness: {scope: :organization_id}
 
   def disable_accounts?
-    return true if self.file_name.include? 'Normal'
+    return true if file_name && file_name.include?('Normal')
     false
   end
 
