@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150710132507) do
+ActiveRecord::Schema.define(version: 20150726122507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,18 @@ ActiveRecord::Schema.define(version: 20150710132507) do
     t.datetime "updated_at"
   end
 
+  create_table "accounting_plan_transactions", force: true do |t|
+    t.datetime "posting_date"
+    t.string   "directory"
+    t.string   "file"
+    t.string   "execute"
+    t.integer  "accounting_plan_id"
+    t.integer  "organization_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "accounting_plans", force: true do |t|
     t.string   "name"
     t.string   "description"
@@ -66,6 +78,29 @@ ActiveRecord::Schema.define(version: 20150710132507) do
     t.integer  "ink_code_id"
     t.integer  "ne_code_id"
     t.integer  "default_code_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "balance_transactions", force: true do |t|
+    t.string   "parent_type"
+    t.integer  "parent_id"
+    t.string   "execute"
+    t.boolean  "complete"
+    t.integer  "accounting_period_id"
+    t.integer  "organization_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "bank_file_transactions", force: true do |t|
+    t.string   "directory"
+    t.string   "file_name"
+    t.string   "execute"
+    t.boolean  "complete"
+    t.integer  "organization_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -115,6 +150,19 @@ ActiveRecord::Schema.define(version: 20150710132507) do
     t.string   "state"
     t.integer  "organization_id"
     t.integer  "accounting_period_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "code_transactions", force: true do |t|
+    t.string   "directory"
+    t.string   "file"
+    t.string   "code"
+    t.string   "run_type"
+    t.boolean  "complete"
+    t.integer  "accounting_plan_id"
+    t.integer  "organization_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
