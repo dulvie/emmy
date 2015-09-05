@@ -93,6 +93,7 @@ se:
   default: "Default"
   default_code: "Default kod"
   default_codes: "Default koder"
+  default_codes_missing: "Default koder saknas"
   deliver: "Leverera"
   delivered: "Levererad"
   delivered_at: "Leveransdatum"

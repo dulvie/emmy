@@ -115,6 +115,7 @@ en:
   default: "Default"
   default_code: "Default code"
   default_codes: "Default codes"
+  default_codes_missing: "Default codes missing"
   deliver: "Deliver"
   delivered: "Delivered"
   delivered_at: "Delivered at"
