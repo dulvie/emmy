@@ -197,7 +197,7 @@ se:
   not_received: "Ej mottagen"
   not_started: "Ej startad"
   note: "Notering"
-  number: "Nummer"
+  number_the_string: "Nummer"
   ok: "Ok"
   older_than: "Äldre än"
   old_number: "Gammalt nummer"
