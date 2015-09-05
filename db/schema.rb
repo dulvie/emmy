@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151509141447) do
+ActiveRecord::Schema.define(version: 20150710132507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,10 +49,10 @@ ActiveRecord::Schema.define(version: 20151509141447) do
   create_table "accounting_plans", force: true do |t|
     t.string   "name"
     t.string   "description"
+    t.string   "file_name"
     t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "file_name"
   end
 
   create_table "accounts", force: true do |t|
@@ -65,9 +65,9 @@ ActiveRecord::Schema.define(version: 20151509141447) do
     t.integer  "tax_code_id"
     t.integer  "ink_code_id"
     t.integer  "ne_code_id"
+    t.integer  "default_code_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "default_code_id"
   end
 
   create_table "batch_transactions", force: true do |t|
@@ -209,8 +209,12 @@ ActiveRecord::Schema.define(version: 20151509141447) do
     t.integer  "birth_year"
     t.datetime "begin"
     t.datetime "ending"
-    t.decimal  "salary",          precision: 6, scale: 0
-    t.decimal  "tax",             precision: 6, scale: 0
+    t.decimal  "salary",           precision: 6, scale: 0
+    t.decimal  "tax",              precision: 6, scale: 0
+    t.integer  "tax_table_id"
+    t.string   "tax_table_column"
+    t.string   "clearingnumber"
+    t.string   "bank_account"
     t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -219,6 +223,9 @@ ActiveRecord::Schema.define(version: 20151509141447) do
   create_table "export_bank_file_rows", force: true do |t|
     t.datetime "posting_date"
     t.decimal  "amount",              precision: 9, scale: 2
+    t.string   "bankgiro"
+    t.string   "plusgiro"
+    t.string   "clearingnumber"
     t.string   "bank_account"
     t.string   "ocr"
     t.string   "name"
@@ -237,12 +244,12 @@ ActiveRecord::Schema.define(version: 20151509141447) do
     t.datetime "from_date"
     t.datetime "to_date"
     t.string   "reference"
-    t.integer  "organization_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "organization_number"
     t.string   "pay_account"
     t.string   "iban"
+    t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "import_bank_file_rows", force: true do |t|
@@ -557,6 +564,31 @@ ActiveRecord::Schema.define(version: 20151509141447) do
     t.datetime "updated_at"
   end
 
+  create_table "stock_value_items", force: true do |t|
+    t.string   "name"
+    t.decimal  "price",           precision: 11, scale: 2, default: 0.0
+    t.integer  "quantity"
+    t.integer  "value"
+    t.integer  "organization_id"
+    t.integer  "stock_value_id"
+    t.integer  "warehouse_id"
+    t.integer  "batch_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "stock_values", force: true do |t|
+    t.datetime "value_date"
+    t.string   "name"
+    t.text     "comment"
+    t.integer  "value"
+    t.string   "state"
+    t.datetime "reported_at"
+    t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "suppliers", force: true do |t|
     t.integer  "organization_id"
     t.string   "name"
@@ -564,11 +596,15 @@ ActiveRecord::Schema.define(version: 20151509141447) do
     t.string   "zip"
     t.string   "city"
     t.string   "country"
-    t.string   "bg_number"
     t.string   "vat_number"
     t.integer  "primary_contact_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "reference"
+    t.string   "bankgiro"
+    t.string   "postgiro"
+    t.string   "plusgiro"
+    t.string   "supplier_type"
   end
 
   add_index "suppliers", ["name", "organization_id"], name: "index_suppliers_on_name_and_organization_id", unique: true, using: :btree
@@ -606,12 +642,37 @@ ActiveRecord::Schema.define(version: 20151509141447) do
 
   create_table "tax_returns", force: true do |t|
     t.string   "name"
+    t.string   "tax_form"
     t.datetime "deadline"
     t.string   "state"
     t.datetime "calculated_at"
     t.datetime "reported_at"
     t.integer  "organization_id"
     t.integer  "accounting_period_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tax_table_rows", force: true do |t|
+    t.string   "calculation"
+    t.integer  "from_wage"
+    t.integer  "to_wage"
+    t.integer  "column_1"
+    t.integer  "column_2"
+    t.integer  "column_3"
+    t.integer  "column_4"
+    t.integer  "column_5"
+    t.integer  "column_6"
+    t.integer  "organization_id"
+    t.integer  "tax_table_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tax_tables", force: true do |t|
+    t.string   "name"
+    t.integer  "year"
+    t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -630,11 +691,11 @@ ActiveRecord::Schema.define(version: 20151509141447) do
   create_table "templates", force: true do |t|
     t.string   "name"
     t.string   "description"
+    t.string   "template_type"
     t.integer  "organization_id"
     t.integer  "accounting_plan_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "template_type"
   end
 
   create_table "transfers", force: true do |t|
@@ -694,20 +755,21 @@ ActiveRecord::Schema.define(version: 20151509141447) do
     t.datetime "closed_at"
     t.integer  "organization_id"
     t.integer  "accounting_period_id"
+    t.integer  "supplier_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "vat_reports", force: true do |t|
     t.integer  "amount"
+    t.integer  "code"
+    t.string   "text"
     t.integer  "organization_id"
     t.integer  "accounting_period_id"
     t.integer  "vat_period_id"
     t.integer  "tax_code_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "code"
-    t.string   "text"
   end
 
   create_table "vats", force: true do |t|
@@ -723,8 +785,8 @@ ActiveRecord::Schema.define(version: 20151509141447) do
   create_table "verificate_items", force: true do |t|
     t.integer  "account_id"
     t.string   "description"
-    t.decimal  "debit",                precision: 11, scale: 2
-    t.decimal  "credit",               precision: 11, scale: 2
+    t.decimal  "debit",                precision: 11, scale: 2, default: 0.0
+    t.decimal  "credit",               precision: 11, scale: 2, default: 0.0
     t.integer  "organization_id"
     t.integer  "accounting_period_id"
     t.integer  "verificate_id"
@@ -755,11 +817,11 @@ ActiveRecord::Schema.define(version: 20151509141447) do
     t.integer  "organization_id"
     t.integer  "accounting_period_id"
     t.integer  "template_id"
+    t.string   "parent_type"
+    t.integer  "parent_id"
+    t.string   "parent_extend"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "parent_id"
-    t.string   "parent_type"
-    t.string   "parent_extend"
   end
 
   create_table "wage_periods", force: true do |t|
@@ -777,20 +839,21 @@ ActiveRecord::Schema.define(version: 20151509141447) do
     t.datetime "tax_closed_at"
     t.integer  "organization_id"
     t.integer  "accounting_period_id"
+    t.integer  "supplier_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "wage_reports", force: true do |t|
     t.integer  "amount"
+    t.integer  "code"
+    t.string   "text"
     t.integer  "organization_id"
     t.integer  "accounting_period_id"
     t.integer  "wage_period_id"
     t.integer  "tax_code_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "code"
-    t.string   "text"
   end
 
   create_table "wages", force: true do |t|
