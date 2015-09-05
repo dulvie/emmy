@@ -1,15 +1,16 @@
-%div{:id=>'refresh_id', :class=>'modal fade'}
-  .modal-dialog.modal-sm
-    .modal-content
-      .modal-header
-        %h3.modal-title
-          = t(:backgroundjob_processing)
-      .modal-body
-        = link_to t(:refresh), path, class: 'btn btn-primary'
-        = link_to t(:back), back, class: 'btn btn-default reseter', type: 'reset'
-
-:javascript
-  $(document).ready(function() {
-    $("#refresh_id").modal({ show : true });
-  });
+- if obj && obj.complete == false
+  %div{:id=>'refresh_id', :class=>'modal fade'}
+    .modal-dialog.modal-sm
+      .modal-content
+        .modal-header
+          %h3.modal-title
+            = t(:backgroundjob_processing)
+        .modal-body
+          = link_to t(:refresh), path, class: 'btn btn-primary'
+          = link_to t(:back), back, class: 'btn btn-default reseter', type: 'reset'
+  
+  :javascript
+    $(document).ready(function() {
+      $("#refresh_id").modal({ show : true });
+    });
 
