@@ -16,7 +16,7 @@ class AccountsPayablesController < ApplicationController
                           .joins("INNER JOIN verificates ON verificates.parent_type = 'Purchase' AND verificates.parent_id = purchases.id AND verificates.state = 'preliminary'")
                           .select("purchases.*, verificates.state as verificate_state, verificates.id AS verificate_id").decorate
     if @accounts_payables.size == 0
-      redirect_to helps_show_message_path()+"&message="+I18n.t(:accounts_payables_missing), notice: "Errormessage"
+      redirect_to helps_show_message_path(message: I18n.t(:accounts_payables_missing))
     end
   end
 
@@ -25,7 +25,7 @@ class AccountsPayablesController < ApplicationController
   def load_accounting_period
     @accounting_period = current_organization.accounting_periods.last
     unless @accounting_period
-      redirect_to helps_show_message_path()+"&message="+I18n.t(:accounting_period_missing), notice: "Errormessage"
+      redirect_to helps_show_message_path(message: I18n.t(:accounting_period_missing))
     end
   end
 end

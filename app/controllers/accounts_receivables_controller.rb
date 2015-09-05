@@ -12,7 +12,7 @@ class AccountsReceivablesController < ApplicationController
                             .select("sales.*, verificates.state as verificate_state, verificates.id AS verificate_id")
                             .page(params[:page]).decorate
     if @accounts_receivables.size == 0
-      redirect_to helps_show_message_path()+"&message="+I18n.t(:accounts_receivables_missing), notice: "Errormessage"
+      redirect_to helps_show_message_path(message: I18n.t(:accounts_receivables_missing))
     end
   end
 
@@ -21,7 +21,7 @@ class AccountsReceivablesController < ApplicationController
   def load_accounting_period
     @accounting_period = current_organization.accounting_periods.last
     unless @accounting_period
-      redirect_to helps_show_message_path()+"&message="+I18n.t(:accounting_period_missing), notice: "Errormessage"
+      redirect_to helps_show_message_path(message: I18n.t(:accounting_period_missing))
     end
   end
 
