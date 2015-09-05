@@ -34,11 +34,13 @@ module Services
 
     def read_and_save(type, directory, file_name)
       name = directory + file_name
+      Rails.logger.info "=>#{name}"
       first = true
       balance = true
       ink_code = 'x'
       InkCode.transaction do
       CSV.foreach(name, { :col_sep => ';' }) do |row|
+        Rails.logger.info "=>#{row[1]}"
         if first
           first = false
         elsif !row[0].blank? && row[0].length == 4 && balance
@@ -47,20 +49,21 @@ module Services
           add_ink_code(row[1], row[2], 'ub', row[3]) if type.include? "load"
           len = row[3].length
           if row[3].include? 'exkl'
-            ink_to_accounting_plan_exkl(ink_code, row[1], row[3]) if type.include? "connect"
+            ink_to_accounting_plan_exkl_file(ink_code, row[1], file_name) if type.include? "connect"
           elsif len == 4
             ink_to_accounting_plan(ink_code, row[3]) if type.include? "connect"
           else
             ink_multiple(ink_code, row[3]) if type.include? "connect"
           end
-          balance = false if row[1] == '2.50'  # INK2
-          balance = false if row[1] == '5.21'  # INK3
+          balance = false if row[1] == '2.50' if file_name.include? "INK2"
+          balance = false if row[1] == '5.21' if file_name.include? "INK3"
+          balance = false if row[1] == '2.35' if file_name.include? "INK4"
         elsif !row[0].blank? && row[0].length == 4 && !row[1].blank?
           ink_code = row[1]
           add_ink_code(row[1], row[2], 'accounting_period', row[3]) if type.include? "load"
           len = row[3].length
           if row[3].include? 'exkl'
-            ink_to_accounting_plan_exkl(ink_code, row[1], row[3]) if type.include? "connect"
+            ink_to_accounting_plan_exkl_file(ink_code, row[1], file_name) if type.include? "connect"
           elsif row[3].start_with?('+')
             ink_plus(ink_code, row[3]) if type.include? "connect"
           elsif row[3].start_with?('-')
@@ -114,16 +117,25 @@ module Services
       }
     end
 
+    def ink_multiple_one(ink_code, bas_accounts)
+      accounts = bas_accounts.split(',')
+      accounts.each { |account|
+        ink_to_accounting_plan(ink_code, account) if account.length == 4
+        ink_to_accounting_plan_interval(ink_code, account) if account.length == 9
+      }
+    end
+
     def ink_plus(ink_code, bas_account)
       account = bas_account.gsub(/[+ ]/, '')
       ink_to_accounting_plan(ink_code, account) if account.length == 4
-      ink_to_accounting_plan_interval(ink_code, account) if account.length == 9
+      ink_to_accounting_plan_interval(ink_code, account) if account.include? "-"
+      ink_multiple_one(ink_code, account) if account.include? ","
     end
 
     def ink_minus(ink_code, bas_account)
       account = bas_account.gsub(/-/, '')
       ink_to_accounting_plan(ink_code, account) if account.length == 4
-      ink_to_accounting_plan_interval(ink_code, account) if account.length == 9      
+      ink_to_accounting_plan_interval(ink_code, account) if account.length == 9
     end
 
     def ink_to_accounting_plan(ink_code, account)
@@ -141,14 +153,19 @@ module Services
       @accounting_plan.accounts.where('number >= ? AND number <= ?', from, to).update_all(ink_code_id: @ink_code.id )
     end
 
-    def ink_to_accounting_plan_exkl(ink_code, code, special)
+    def ink_to_accounting_plan_exkl_file(ink_code, code, file_name)
+      exkl_INK2(ink_code, code) if file_name.include? "INK2"
+      exkl_INK3(ink_code, code) if file_name.include? "INK3"
+      exkl_INK4(ink_code, code) if file_name.include? "INK4"
+    end
+
+    def exkl_INK2(ink_code, code)
       case code
-      # INK2
       when '2.1'
         ink_to_accounting_plan_interval(ink_code, '1000-1087')
         ink_to_accounting_plan_interval(ink_code, '1089-1099')
       when '2.3'
-        ink_to_accounting_plan_interval(ink_code, '1100-1199')
+        ink_to_accounting_plan_interval(ink_code, '1100-1119')
         ink_to_accounting_plan_interval(ink_code, '1130-1179')
         ink_to_accounting_plan_interval(ink_code, '1190-1199')
       when '2.4'
@@ -189,7 +206,12 @@ module Services
         ink_to_accounting_plan_interval(ink_code, '8390-8399')
       when '3.26'
         ink_to_accounting_plan_interval(ink_code, '8900-8989')
-      # INK3
+      else
+      end
+    end
+
+    def exkl_INK3(ink_code, code)
+      case code
       when '5.2'
         ink_to_accounting_plan_interval(ink_code, '1100-1129')
         ink_to_accounting_plan_interval(ink_code, '1131-1199')
@@ -201,6 +223,57 @@ module Services
         ink_to_accounting_plan_interval(ink_code, '8390-8399')
       when '6.21'
         ink_to_accounting_plan_interval(ink_code, '8900-8989')
+      else
+      end
+    end
+
+    def exkl_INK4(ink_code, code)
+      case code
+      when '2.1'
+        ink_to_accounting_plan_interval(ink_code, '1000-1087')
+        ink_to_accounting_plan_interval(ink_code, '1089-1099')
+      when '2.3'
+        ink_to_accounting_plan_interval(ink_code, '1100-1119')
+        ink_to_accounting_plan_interval(ink_code, '1130-1179')
+        ink_to_accounting_plan_interval(ink_code, '1190-1199')
+      when '2.4'
+        ink_to_accounting_plan_interval(ink_code, '1200-1279')
+        ink_to_accounting_plan_interval(ink_code, '1290-1299')
+      when '2.10'
+        ink_to_accounting_plan_interval(ink_code, '1400-1469')
+        ink_to_accounting_plan_interval(ink_code, '1490-1499')
+      when '2.14'
+        ink_to_accounting_plan_interval(ink_code, '1600-1659')
+        ink_to_accounting_plan_interval(ink_code, '1680-1699')
+      when '2.24'
+        ink_to_accounting_plan_interval(ink_code, '2100-2149')
+        ink_to_accounting_plan_interval(ink_code, '2160-2199')
+      when '2.27'
+        ink_to_accounting_plan_interval(ink_code, '2220-2229')
+      when '2.29'
+        ink_to_accounting_plan_interval(ink_code, '2300-2359')
+        ink_to_accounting_plan_interval(ink_code, '2380-2399')
+      when '3.2'
+        ink_to_accounting_plan_interval(ink_code, '4900-4909')
+        ink_to_accounting_plan_interval(ink_code, '4932-4959')
+        ink_to_accounting_plan_interval(ink_code, '4970-4979')
+        ink_to_accounting_plan_interval(ink_code, '4990-4999')
+      when '3.9'
+        ink_to_accounting_plan_interval(ink_code, '7700-7739')
+        ink_to_accounting_plan_interval(ink_code, '7750-7789')
+        ink_to_accounting_plan_interval(ink_code, '7800-7899')
+      when '3.11'
+        ink_to_accounting_plan_interval(ink_code, '8000-8069')
+        ink_to_accounting_plan_interval(ink_code, '8090-8099')
+      when '3.12'
+        ink_to_accounting_plan_interval(ink_code, '8100-8169')
+        ink_to_accounting_plan_interval(ink_code, '8190-8199')
+      when '3.13'
+        ink_to_accounting_plan_interval(ink_code, '8200-8269')
+        ink_to_accounting_plan_interval(ink_code, '8290-8299')
+      when '3.14'
+        ink_to_accounting_plan_interval(ink_code, '8300-8369')
+        ink_to_accounting_plan_interval(ink_code, '8390-8399')
       else
       end
     end
