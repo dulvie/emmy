@@ -1,3 +1,4 @@
+# encoding: utf-8
 class ExportBankFilesController < ApplicationController
   respond_to :html, :json
   load_and_authorize_resource through: :current_organization
