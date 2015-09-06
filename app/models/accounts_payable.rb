@@ -3,6 +3,7 @@ class AccountsPayable
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
+
   @default_codes
   @accounting_period
 
