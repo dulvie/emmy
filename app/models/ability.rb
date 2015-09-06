@@ -49,6 +49,7 @@ class Ability
     can :manage, DefaultCode, organization_id: oids
     can :manage, Document, organization_id: oids
     can :manage, Employee, organization_id: oids
+    can :manage, ExportBankFile, organization_id: oids
     can :manage, Import, organization_id: oids
     can :manage, ImportBankFile, organization_id: oids
     can :manage, ImportBankFileRow, organization_id: oids
