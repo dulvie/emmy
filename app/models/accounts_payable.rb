@@ -12,9 +12,9 @@ class AccountsPayable
     @default_codes = default_codes
   end
 
-  validate :dependens
+  validate :dependence
 
-  def dependens
+  def dependence
     if @accounting_period.blank?
       errors.add(:base, I18n.t(:accounting_period_missing))
       return
@@ -24,7 +24,7 @@ class AccountsPayable
       return
     end
     if @default_codes.find_by_code(04).blank?
-      errors.add(:base, "Default code 04 missing")
+      errors.add(:base,  I18n.t(:default_code_missing))
     end
   end
 

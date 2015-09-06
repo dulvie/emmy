@@ -114,6 +114,7 @@ en:
   deadline: "Deadline"
   default: "Default"
   default_code: "Default code"
+  default_code_missing: "Default code missing"
   default_codes: "Default codes"
   default_codes_missing: "Default codes missing"
   deliver: "Deliver"
