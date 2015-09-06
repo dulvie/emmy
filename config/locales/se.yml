@@ -92,6 +92,7 @@ se:
   deadline: "Deadline"
   default: "Default"
   default_code: "Default kod"
+  default_code_missing: "Default kod saknas"
   default_codes: "Default koder"
   default_codes_missing: "Default koder saknas"
   deliver: "Leverera"

@@ -1,6 +1,6 @@
 class AccountsPayablesController < ApplicationController
   respond_to :html, :json, :pdf
-  before_filter :load_dependens
+  before_filter :load_dependence
 
   def index
     @breadcrumbs = [["#{t(:accounts_payables)}"]]
@@ -22,7 +22,7 @@ class AccountsPayablesController < ApplicationController
 
   private
 
-  def load_dependens
+  def load_dependence
     @default_codes = current_organization.default_codes
     @accounting_period = current_organization.accounting_periods.last
     @accounts_payable = AccountsPayable.new(@accounting_period, @default_codes)
