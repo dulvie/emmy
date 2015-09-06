@@ -19,6 +19,7 @@ class AccountsPayablesController < ApplicationController
     end
   end
 
+
   private
 
   def load_dependens
