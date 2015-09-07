@@ -81,7 +81,7 @@ class ImportBankFilesController < ApplicationController
     if @bank_file_trans.save
       redirect_to import_bank_files_path, notice: "#{t(:file_uploaded)}"
     else
-      flash.now[:danger] = "#{t(:failed_to_upload)}"
+      flash.now[:danger] = "#{t(:file_upload)} #{t(:failed)}"
       render :upload
     end
   end
