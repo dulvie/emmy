@@ -1,5 +1,6 @@
 module Services
   class ImportSie
+
     def initialize(organization, user, directory, file_name, accounting_period, accounting_plan)
       @user = user
       @organization = organization
@@ -27,7 +28,6 @@ module Services
         end
         set_type(line) if line.starts_with?('#SIETYP')
       end
-      return true
     end
 
     def set_type(line)
