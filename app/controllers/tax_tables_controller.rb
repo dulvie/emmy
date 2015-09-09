@@ -11,6 +11,7 @@ class TaxTablesController < ApplicationController
     @breadcrumbs = [["#{t(:tax_tables)}"]]
     @tax_tables = current_organization.tax_tables.order(:name)
     @tax_tables = @tax_tables.page(params[:page])
+    @trans = current_organization.table_transactions.where("execute = 'tax_table'").order("created_at DESC").first
   end
 
   # GET /tax_tables/new
@@ -67,13 +68,17 @@ class TaxTablesController < ApplicationController
   end
 
   def import
-    directory = params[:file_importer][:directory]
-    file_name = params[:file_importer][:file]
-    year = params[:file_importer][:param1]
-    table = params[:file_importer][:param2]
-    tax_table_creator = Services::TaxTableCreator.new(current_organization, current_user)
-    respond_to do |format|
-      if tax_table_creator.read_and_save(directory, file_name, year, table)
+    @table_trans = TableTransaction.new
+    @table_trans.directory = params[:file_importer][:directory]
+    @table_trans.file_name = params[:file_importer][:file]
+    @table_trans.execute = 'tax_table'
+    @table_trans.year = params[:file_importer][:param1]
+    @table_trans.table = params[:file_importer][:param2]
+    @table_trans.complete = 'false'
+    @table_trans.user = current_user
+    @table_trans.organization = current_organization
+    respond_to do |format|    
+      if @table_trans.save
         format.html { redirect_to tax_tables_url, notice: "#{t(:tax_tables)} #{t(:was_successfully_created)}" }
       else
         init_order_import
@@ -82,6 +87,7 @@ class TaxTablesController < ApplicationController
       end
     end
   end
+
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.
