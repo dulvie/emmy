@@ -1,10 +1,10 @@
 class SieExportsController < ApplicationController
   respond_to :html, :json
   # load_and_authorize_resource :sie_export, through: :current_organization
+  before_filter :load_accounting_periods, only: [:order]
 
   def order
     @breadcrumbs = [['Export SIE']]
-    @accounting_periods = current_organization.accounting_periods
     @sie_export = SieExport.new(current_organization, current_user, nil, nil)
     @trans = current_organization.sie_transactions.where("execute = 'export'").order("created_at DESC").first
   end
@@ -50,4 +50,10 @@ class SieExportsController < ApplicationController
 
   private
 
+  def load_accounting_periods
+    @accounting_periods = current_organization.accounting_periods
+    unless @accounting_periods
+      redirect_to helps_show_message_path(message: I18n.t(:accounting_period_missing))
+    end
+  end
 end
