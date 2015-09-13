@@ -1,10 +1,10 @@
 class SieImportsController < ApplicationController
   respond_to :html, :json
+  before_filter :load_accounting_periods, only: [:upload]
 
   def upload
     @breadcrumbs = [['Import SIE']]
     @sie_import = SieImport.new(current_organization, nil, nil)
-    @accounting_periods = current_organization.accounting_periods
   end
 
   def create_from_upload
@@ -50,4 +50,10 @@ class SieImportsController < ApplicationController
 
   private
 
+  def load_accounting_periods
+    @accounting_periods = current_organization.accounting_periods
+    unless @accounting_periods
+      redirect_to helps_show_message_path(message: I18n.t(:accounting_period_missing))
+    end
+  end
 end
