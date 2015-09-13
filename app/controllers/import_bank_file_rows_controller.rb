@@ -5,6 +5,7 @@ class ImportBankFileRowsController < ApplicationController
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:edit, :show, :update]
+  before_filter :load_dependent, only: [:match_verificate]
 
   # GET
   def index
@@ -140,5 +141,12 @@ class ImportBankFileRowsController < ApplicationController
 
   def show_breadcrumbs
     # @breadcrumbs = [[t(:templates), templates_path], [@template.name, template_plan_path(@template)], [@import_bank_file_row.description]]
+  end
+
+  def load_dependent
+    @accounting_periods = current_organization.accounting_periods
+    unless @accounting_periods
+      redirect_to helps_show_message_path(message: I18n.t(:accounting_period_missing))
+    end
   end
 end
