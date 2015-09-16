@@ -1,4 +1,5 @@
-= link_to "#{t(:download)} #{t(:bank_file)}", export_bank_file_download_path(@export_bank_file, format: 'csv'), method: 'post', class: 'btn btn-success'
+- if @export_bank_file.file_exists?
+  = link_to "#{t(:download)} #{t(:bank_file)}", export_bank_file_download_path(@export_bank_file, format: 'csv'), method: 'get', class: 'btn btn-success'
 
 .table-responsive{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}
