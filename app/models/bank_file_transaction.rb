@@ -1,4 +1,6 @@
 class BankFileTransaction < ActiveRecord::Base
+  # t.string   :parent_type
+  # t.integer  :parent_id
   # t.string   :directory
   # t.string   :file_name
   # t.string   :execute
@@ -6,10 +8,11 @@ class BankFileTransaction < ActiveRecord::Base
   # t.integer  :user_id
   # t.integer  :organization_id
 
-  attr_accessible :directory, :file_name, :execute, :path, :user, :user_id
+  attr_accessible :parent, :directory, :file_name, :execute, :path, :user, :user_id
 
   belongs_to :user
   belongs_to :organization
+  belongs_to :parent, polymorphic: true
 
   def complete?
     return self.complete

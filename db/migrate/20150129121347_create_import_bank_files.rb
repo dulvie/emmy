@@ -6,6 +6,8 @@ class CreateImportBankFiles < ActiveRecord::Migration
       t.datetime :to_date
       t.string   :reference
       t.integer  :organization_id
+      t.integer  :user_id
+
       t.timestamps
     end
   end

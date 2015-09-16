@@ -118,7 +118,8 @@ module Services
       total = 0
       cp = ''
       cd = ''
-      file = File.open('tmp/downloads/bank_file.txt', 'w')
+      @file = @export_bank_file.directory + '/' + @export_bank_file.file_name
+      file = File.open(@file, 'w')
       @export_bank_file.export_bank_file_rows.each do |row|
         if row.currency_paid != cp or row.currency_debit != cd
           cp = row.currency_paid
@@ -148,6 +149,13 @@ module Services
       file.close
       true
     end
+
+  def remove_files
+    dir_files = Dir.glob(@export_bank_file.directory + @export_bank_file.file_filter)
+    dir_files.each do |dir_file|
+      File.delete(dir_file)
+    end
+  end
 
     def save_bank_file_row(bank_date, amount, bankgiro, plusgiro, clearing, bank_account, ocr, name, reference, cp, cd)
       bank_file_row = @export_bank_file.export_bank_file_rows.build

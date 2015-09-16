@@ -1,6 +1,8 @@
 class CreateBankFileTransactions  < ActiveRecord::Migration
   def change
     create_table :bank_file_transactions do |t|
+      t.string   :parent_type
+      t.integer  :parent_id
       t.string   :directory
       t.string   :file_name
       t.string   :execute

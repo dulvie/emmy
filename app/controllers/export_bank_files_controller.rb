@@ -35,9 +35,6 @@ class ExportBankFilesController < ApplicationController
     @export_bank_file.organization = current_organization
     respond_to do |format|
       if @export_bank_file.save
-        export_bank_file_rows = Services::ExportBankFileCreator.new(current_organization, current_user, @export_bank_file)
-        export_bank_file_rows.read_verificates_and_create_rows if @export_bank_file.reference == 'Fakturabetalning'
-        export_bank_file_rows.read_wages_and_create_rows if @export_bank_file.reference == 'Löneutbetalning'
         format.html { redirect_to export_bank_files_url, notice: "#{t(:export_bank_file)} #{t(:was_successfully_created)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:export_bank_file)}"
@@ -60,11 +57,10 @@ class ExportBankFilesController < ApplicationController
 
   def download
     export_bank_file = current_organization.export_bank_files.find(params[:export_bank_file_id])
-    export = Services::ExportBankFileCreator.new(current_organization, current_user, export_bank_file)
+    @file = export_bank_file.directory+'/'+export_bank_file.file_name
     respond_to do |format|
-      # if export.create_file_PO3
-      if export.test_file_PO3
-        format.csv { send_file 'tmp/downloads/bank_file.txt', :type=>"text/plain", :x_sendfile=>true }
+      if export_bank_file.file_exists?
+        format.csv {     send_file @file, :type=>"text/plain", :x_sendfile=>true }
         format.html { redirect_to export_bank_files_url, notice: "#{t(:export_bank_file)} #{t(:was_successfully_created)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:export_bank_file)}"
