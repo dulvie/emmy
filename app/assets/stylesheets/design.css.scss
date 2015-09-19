@@ -160,16 +160,22 @@ form.form-changepassword {
   }
   .dropdown-menu {
     a {
-      background: lighten($sidebar-bg, 10%);
-      color: $sidebar-color;
+      //background: lighten($sidebar-bg, 10%);
+      background: $sidebar-menu-bg;
+      //color: $sidebar-color;
+      color: $sidebar-menu-color;
       &:hover {
-        background: lighten($sidebar-bg, 15%);
-        color: lighten($sidebar-color, 10%);
+        //background: lighten($sidebar-bg, 15%);
+        background: lighten($sidebar-menu-bg, 25%);
+        //color: lighten($sidebar-color, 10%);
+        color: black;
       }
     }
     li.active a {
-      background: lighten($sidebar-bg, 15%);
-      color: lighten($sidebar-color, 10%);
+      //background: lighten($sidebar-bg, 15%);
+      background: lighten($sidebar-menu-bg, 25%);
+      //color: lighten($sidebar-color, 10%);
+      color: black;
     }
   }
 
