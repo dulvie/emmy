@@ -22,20 +22,24 @@ class WagesController < ApplicationController
 
   # GET /wages/new
   def new
-    @wage_periods = current_organization.wage_periods
+    @wage.accounting_period_id = @wage_period.accounting_period_id
+    @wage.wage_period_id = @wage_period.id
     @wage.wage_from = @wage_period.wage_from
     @wage.wage_to = @wage_period.wage_to
     @wage.payment_date = @wage_period.payment_date
+    @wage.salary = 0
+    @wage.addition = 0
+    @wage.discount = 0
+    @employees = current_organization.employees
   end
 
   # GET /wages/1
   def show
-
   end
 
   # GET /wage/1/edit
   def edit
-    @wage_periods = current_organization.wage_periods
+    @employees = current_organization.employees
   end
 
   # POST /wages
@@ -47,7 +51,7 @@ class WagesController < ApplicationController
       if @wage.save
         format.html { redirect_to wage_period_wages_path, notice: "#{t(:wage)} #{t(:was_successfully_created)}" }
       else
-        @wage_periods = current_organization.wage_periods
+        @employees = current_organization.employees
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:wage)}"
         format.html { render action: 'new' }
       end
@@ -61,7 +65,7 @@ class WagesController < ApplicationController
       if @wage.update(wage_params)
         format.html { redirect_to wage_period_wages_path, notice: "#{t(:wage)} #{t(:was_successfully_updated)}" }
       else
-        @wage_periods = current_organization.wage_periods
+        @employees = current_organization.employees
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:wage)}"
         format.html { render action: 'show' }
       end
@@ -85,8 +89,8 @@ class WagesController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Wage periods', wage_periods_path], [@wage.wage_period.name, wage_period_path(@wage.wage_period_id)],
-                    ['Wages', wage_period_wages_path(@wage.wage_period_id)],
+    @breadcrumbs = [['Wage periods', wage_periods_path], [@wage_period.name, wage_period_path(@wage_period.id)],
+                    ['Wages', wage_period_wages_path],
                     ['New wage']]
   end
 

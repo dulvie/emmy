@@ -13,7 +13,8 @@ class Wage < ActiveRecord::Base
   # t.integer  :wage_period_id
   # t.integer  :employee_id
 
-  attr_accessible :wage_from, :wage_to, :payment_date, :salary, :addition, :discount, :tax, :payroll_tax, :amount
+  attr_accessible :employee_id, :wage_from, :wage_to, :payment_date, :salary, :addition, :discount, :tax, 
+    :payroll_tax, :amount, :wage_period_id, :accounting_period_id
 
   belongs_to :organization
   belongs_to :accounting_period
@@ -21,11 +22,42 @@ class Wage < ActiveRecord::Base
   belongs_to :employee
   has_one :verificate
 
+  before_save :set_payroll_tax
+  before_save :set_tax
+  before_save :set_amount
+
   validates :accounting_period, presence: true
   validates :employee, presence: true
   validates :wage_from, presence: true
   validates :wage_to, presence: true
   validates :payment_date, presence: true
+
+  def gross
+    salary + addition - discount
+  end
+
+  def set_payroll_tax
+    age = employee.age
+    case age
+    when 0..26
+      proc = BigDecimal.new("0.1549")
+    when 26..65
+      proc = BigDecimal.new("0.3142")
+    when 65..99
+      proc = BigDecimal.new("0.1021")
+    else
+      proc = 1
+    end
+    self.payroll_tax = (gross * proc).round
+  end
+
+  def set_tax
+    self.tax = employee.tax_table.calculate(gross, employee.tax_table_column)
+  end
+
+  def set_amount
+    self.amount = gross - tax
+  end
 
   def can_delete?
     return true if wage_period.can_calculate_wage?

@@ -33,6 +33,11 @@ class Employee < ActiveRecord::Base
     self.tax = tax_table.calculate(salary, tax_table_column)
   end
 
+  def age
+   year = DateTime.now.strftime('%Y').to_i
+   return (year - birth_year)
+  end
+
   def parent_name
     self.name
   end
