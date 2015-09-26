@@ -32,6 +32,7 @@ class WagePeriodsController < ApplicationController
 
   # GET /wage_periods/1
   def show
+    @suppliers = current_organization.suppliers.where('supplier_type = ?', 'RSV')
   end
 
   # GET /wage/1/edit
@@ -87,15 +88,6 @@ class WagePeriodsController < ApplicationController
       msg_h = { alert: t(:fail) }
     end
      redirect_to wage_periods_path, msg_h
-  end
-
-  def create_wage
-    @accounting_period = current_organization.accounting_periods.find(@wage_period.accounting_period_id)
-    @wage_creator = Services::WageCreator.new(current_organization, current_user, @wage_period)
-    @wage_creator.save_wages
-    respond_to do |format|
-      format.html { redirect_to wage_period_wages_path(@wage_period), notice: 'wage was successfully created.'}
-    end
   end
 
   private

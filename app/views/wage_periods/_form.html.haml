@@ -29,7 +29,8 @@
         - if @wage_period.new_record? || @wage_period.preliminary?
           = f.submit class: 'btn btn-primary'
         - if !@wage_period.new_record? && @wage_period.can_calculate_wage?
-          = link_to "#{t(:create)} #{t(:wage)}", create_wage_wage_period_path(@wage_period), method: 'post', class: 'btn btn-primary'
+          - url = state_change_wage_period_path + '&event=mark_wage_calculated' 
+          = link_to "#{t(:create)} #{t(:wage)}", url, method: 'post', class: 'btn btn-primary'
         - if !@wage_period.new_record? && @wage_period.can_calculate_tax?
           - url = state_change_wage_period_path + '&event=mark_tax_calculated' 
           = link_to "#{t(:create)} #{t(:wage)} #{t(:report)}", url, method: 'post', class: 'btn btn-primary'

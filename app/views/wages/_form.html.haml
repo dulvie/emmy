@@ -1,8 +1,9 @@
 %div{ng_controller: 'wage_form_ctrl', ng_init: 'init()' }
   = simple_form_for([@wage_period, @wage], wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
     = f.error_notification
-    = f.association :wage_period, collection: @wage_periods, include_blank: false, disabled: true
-    = f.association :employee, disabled: !@wage.new_record?
+    = f.input :accounting_period_id, as: :hidden
+    = f.input :wage_period_id, as: :hidden
+    = f.association :employee, collection: @employees, disabled: !@wage.new_record?
     = render partial: 'shared/date_field', locals: {form: f, field: :wage_from, in_id: 'in_from', in_value: @wage.wage_from, out_id: 'wage[wage_from]', field_id: 'from_short_date',  model: 'from_date', dp_open: 'from_open', dp_options: 'from_options', dp_click: 'open_from_date($event)'}
     .error_width
       = f.error :wage_from
@@ -15,11 +16,11 @@
     = f.input :salary
     = f.input :addition
     = f.input :discount
-    = f.input :tax
-    = f.input :amount
-    = f.input :payroll_tax
+    = f.input :tax, disabled: true
+    = f.input :amount, disabled: true
+    = f.input :payroll_tax, disabled: true
 
-    - if @wage.can_delete?
+    - if @wage.new_record? || @wage.can_delete?
       .form-button-group
         .actions
           = f.submit class: 'btn btn-primary'
