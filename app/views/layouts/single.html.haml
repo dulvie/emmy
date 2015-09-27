@@ -11,9 +11,10 @@
     .page-wrapper
       .row-fluid
         = render partial: 'shared/top_bar'
-      .row-fluid.row-offcanvas.row-offcanvas-left.sidebar-wrapper
-        #page-content.col-xs-48.col-sm-38.col-md-40
+      .row-fluid
+        .col-xs-48
           = render partial: 'shared/notifications'
+        #page-content.col-xs-48.col-sm-38.col-sm-offset-5.col-md-40.col-md-offset-4
           = render(partial: 'shared/breadcrumb') if @breadcrumbs
           = yield
       .foot-pusher
