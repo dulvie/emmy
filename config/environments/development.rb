@@ -22,7 +22,7 @@ Emmy::Application.configure do
       :domain => "emmy.dev",
   }
   config.action_mailer.default_url_options = {
-    :host => 'lb.dev:3005'
+    :host => 'localhost:3000'
   }
 
   # Print deprecation notices to the Rails logger.
