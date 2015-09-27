@@ -82,7 +82,7 @@ class UsersController < ApplicationController
   end
 
   def role_params
-    rprms = params.require(:services_user_roles).permit(OrganizationRole::ROLES)
+    params.require(:services_user_roles).permit(OrganizationRole::ROLES)
   end
 
   def show_breadcrumbs
