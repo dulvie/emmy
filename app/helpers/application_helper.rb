@@ -43,6 +43,10 @@ module ApplicationHelper
     link_to delete_icon(obj), '#', :ng_click =>"open_delete($event, 'sm','deleteContent', '#{path}')"
   end
 
+  def info_modal_for(obj)
+    link_to info_icon, '#', :ng_click => "show_info($event, '#{obj}')"
+  end
+
   def import_button_for(obj, other_path = nil)
     p = other_path || obj
     link_to import_icon, p
@@ -106,7 +110,12 @@ module ApplicationHelper
   def edit_icon
     "<i class=\"glyphicon glyphicon-edit edit_icon\"> </i>".html_safe
   end
-
+  def info_icon
+    "<i class=\"glyphicon glyphicon-info-sign info_icon\"> </i>".html_safe
+  end
+  def right_icon
+    "<i class=\"glyphicon glyphicon-chevron-right right_icon\"> </i>".html_safe
+  end
   def envelope_icon
     "<i class=\"glyphicon glyphicon-envelope envelope_icon\"> </i>".html_safe
   end

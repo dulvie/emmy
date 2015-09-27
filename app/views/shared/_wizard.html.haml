@@ -1,0 +1,16 @@
+- if session[:wizard] == wizard
+  %div{id: 'wizard', style: 'position: absolute; right: 0px; top: 200px; height: 200px; width: 200px' }
+    .alert.alert-info
+      = session[:wizard_text]
+      = link_to right_icon, '#', :onclick => "set_height(event)"
+      %br
+        %nbr
+      = link_to t(:confirm), session[:wizard_confirm_url],  class: 'btn btn-primary'
+      = link_to t(:close), session[:wizard_close_url],  class: 'btn btn-primary'
+  :javascript
+  $(document).ready(function() {
+    function set_height(ev) {
+      $('#wizard').css('top', '400px');
+      ev.preventDefault();
+    };
+  });
