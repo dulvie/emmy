@@ -1,0 +1,18 @@
+.table-responsive
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:name)
+        %th.numeric= t(:from)
+        %th.numeric= t(:to)
+        %th= t(:active)
+
+    %tbody{}
+      - @accounting_periods.each do |accounting_period|
+        %tr
+          %td= accounting_period.name
+          %td.numeric= accounting_period.accounting_from
+          %td.numeric= accounting_period.accounting_to
+          %th= accounting_period.active
+
+  = paginate @accounting_periods, :theme => 'twitter-bootstrap-3'

@@ -240,6 +240,7 @@ Emmy::Application.routes.draw do
         post 'create_wage', as: :create_wage
       end
     end
+    resources :wages_wizard
     resources :warehouses
   end
 
