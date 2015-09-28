@@ -35,9 +35,10 @@ var Setup = {
   // Best solution would be to not need javascript at all.
   expandNavigation: function()
   {
-    var item = $('#sidebar-menu li.active');
-    var p = item.parent().parent();
-    p.find('.dropdown-toggle').click();
+    $('#sidebar-menu .dropdown.active a.toggler').click();
+    $('#sidebar-menu .dropdown-menu').click(function(event){
+      event.stopPropagation();
+    });
   },
 
   stateChangeForm: function()
