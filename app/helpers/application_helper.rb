@@ -1,3 +1,4 @@
+# encoding: utf-8
 module ApplicationHelper
 
   # @todo make currency a setting.
@@ -137,6 +138,15 @@ module ApplicationHelper
     end
   end
 
+  def dropdown_link(link_text)
+    content_tag(:a, 'class' => 'toggler', 'data-toggle' => 'dropdown') { link_text }
+  end
+
+  def dropdown_class(headline)
+    return 'dropdown active' if dropdown_auto_open(headline)
+    'dropdown'
+  end
+
   def form_submit(sform, text = nil)
     content_tag(:div, class: 'form-group') do
       if text
@@ -161,5 +171,24 @@ module ApplicationHelper
       end
     end
     a.reverse
+  end
+
+
+  def general_controllers
+    ['organizations', 'users', 'contacts', 'comments', 'help']
+  end
+
+  def logistics_controllers
+    ['warehosues']
+  end
+
+  def dropdown_auto_open(headline)
+    if general_controllers.include? controller_name
+      return headline == 'general'
+    elsif logistics_controllers.include? controller_name
+      return headline == 'logistics'
+    else
+      false
+    end
   end
 end
