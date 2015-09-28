@@ -1,9 +1,16 @@
+// default bootstrap colors
+$gray-base: #000;
+$gray-dark: lighten($gray-base, 20%);
+
+
+
 // Grid
 $grid-columns: 48;
 
 
 // Colors
 $body-bg: #fdfdfd;
+$text-color: $gray-dark;
 $navbar-default-bg: $body-bg;
 $navbar-default-border: $body-bg;
 
@@ -24,7 +31,16 @@ $navbar-inverse-bg: #5b5959;
 // $navbar-inverse-bg: darken($body-bg, 70%);
 
 // Emmy specific sidebar-* variables.
-$sidebar-bg: #2d353c;
+/**/
+
+/*$sidebar-bg: #2d353c;
 $sidebar-color: #92969a;
 $sidebar-menu-bg: #92969a;
 $sidebar-menu-color: #29353c;
+
+/**/
+$sidebar-bg: $body-bg;
+$sidebar-color: $text-color;
+$sidebar-menu-bg: $body-bg;
+$sidebar-menu-color: $text-color
+/**/
