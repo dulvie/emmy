@@ -11,36 +11,19 @@ $grid-columns: 48;
 // Colors
 $body-bg: #fdfdfd;
 $text-color: $gray-dark;
+$breadcrumb-bg: $body-bg;
 $navbar-default-bg: $body-bg;
 $navbar-default-border: $body-bg;
+$navbar-inverse-color: $body-bg;
+$navbar-inverse-link-color: $body-bg;
+$navbar-inverse-bg: $text-color;
 
 // Font
 // ? this is the default bootstrap value, why can't we just uses the variable instead?
 $font-family-serif: Georgia, "Times New Roman", Times, serif;
 $font-family-sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
-/**xi
+/**
  * @note fix nicer fonts!
  * $font-family-sans-serif: "Open Sans","Helvetica Neue",Helvetica,Arial,Verdana,sans-serif;
  */
 $font-family-base: $font-family-sans-serif;
-
-$navbar-inverse-color: $body-bg;
-$navbar-inverse-link-color: $body-bg;
-$navbar-inverse-bg: #5b5959;
-// This became to green.
-// $navbar-inverse-bg: darken($body-bg, 70%);
-
-// Emmy specific sidebar-* variables.
-/**/
-
-/*$sidebar-bg: #2d353c;
-$sidebar-color: #92969a;
-$sidebar-menu-bg: #92969a;
-$sidebar-menu-color: #29353c;
-
-/**/
-$sidebar-bg: $body-bg;
-$sidebar-color: $text-color;
-$sidebar-menu-bg: $body-bg;
-$sidebar-menu-color: $text-color
-/**/

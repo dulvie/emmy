@@ -27,7 +27,6 @@ var Setup = {
       content: function() {return $(this).parent().find('.content').html();},
       container: 'body',
       placement: 'bottom',
-      //placement: function() {return $(this).data('placement')},
     });
   },
 

@@ -18,7 +18,7 @@ h1,h2,h3,h4,h5,input,textarea,select,a,button,label,thead, .panel-heading, .cont
 /* This is here because the footer hack fails when window is verry small. */
 /* and we can't set body-bg to breadcrumb-bg in the variables file. */
 body {
-  background: darken($sidebar-bg, 20%); // same as navigation/footer
+  background: $body-bg;
 }
 
 .single-center {
@@ -156,7 +156,6 @@ form.form-changepassword {
 }
 
 .top-bar {
-  @extend .navbar-inverse;
   border: 0px;
   padding: 0;
   min-height: $line-height-computed;
@@ -169,16 +168,29 @@ form.form-changepassword {
   .navbar-nav {
     margin: 0;
   }
-  .navbar-nav > li a {
-    padding: 6px 15px;
+  .navbar-nav > .open > a,
+  .navbar-nav > .open > a:hover,
+  .navbar-nav > .open > a:focus {
+    background: $navbar-inverse-bg;
   }
-  .dropdown-menu {
-    background: darken($sidebar-bg, 20%);
-    border: 2px solid darken($sidebar-bg, 20%);
-    border-radius: 3px;
-    border-bottom-right-radius: 0;
-    a, a:focus {
-      color: $body-bg;
+  .navbar-nav > li > a {
+    padding: 6px $grid-gutter-width;
+    color: darken($body-bg, 10%);
+    &:hover {
+      color: lighten($body-bg, 10%);
+      background: $navbar-inverse-bg;
+    }
+  }
+  li > .dropdown-menu {
+    margin-top: 1px;
+    background: $navbar-inverse-bg;
+    border-top: none;
+    a {
+      color: darken($body-bg, 10%);
+      &:hover {
+        color: lighten($body-bg, 10%);
+        background: $navbar-inverse-bg;
+      }
     }
   }
 }
@@ -202,10 +214,10 @@ html, body {
 footer {
   height: 2.5em;
   box-sizing: border-box;
-  color: $sidebar-color;
+  color: darken($navbar-inverse-color, 20%);
   .footer-inner {
     min-height: 2.5em;
-    background: darken($sidebar-bg, 20%);
+    background: $navbar-inverse-bg;
   }
   ul {
     list-style: none;
@@ -218,7 +230,10 @@ footer {
     margin-right: 1em;
   }
   a {
-    color: darken($link-color, 10%);
+    color: darken($navbar-inverse-color, 10%);
+    &:hover {
+      color: $navbar-inverse-color;
+    }
   }
 }
 

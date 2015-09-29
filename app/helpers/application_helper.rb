@@ -139,7 +139,11 @@ module ApplicationHelper
   end
 
   def dropdown_link(link_text)
-    content_tag(:a, 'class' => 'toggler', 'data-toggle' => 'dropdown') { link_text }
+    content_tag(:a, 'class' => 'toggler',
+                    'data-toggle' => 'dropdown',
+                    'href' => '#') do
+      link_text
+    end
   end
 
   def dropdown_class(headline)
