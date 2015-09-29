@@ -1,23 +1,23 @@
-%ul.nav.nav-sidebar.list-group{id: 'sidebar-menu'}
-  - if user_signed_in?
-    %li.dropdown
-      %a.dropdown-toggle{'href' => '#'}
-        = t(:general)
-        -#%b.caret
-      %ul.dropdown-menu
-        = nav_link t(:organization_selector), organization_selector_path
-        - if current_organization
-          = nav_link t(:organization), organization_path
-          = nav_link t(:users), users_path
-          = nav_link t(:contacts), contacts_path
-          - path_to_comment = comments_path
-          = nav_link t(:comments), path_to_comment
-          = nav_link t(:help), helps_show_help_path
-    - if current_organization
-      %li.dropdown
-        %a.dropdown-toggle{'href' => '#'}
-          = t(:logistics)
-          -#%b.caret
+#sidebar-menu.navbar
+  %ul.nav.sidebar-nav
+    - unless user_signed_in?
+      %li= link_to t(:sign_in), new_user_session_path
+    - else
+
+      %li{'class' => "#{dropdown_class('general')}"}
+        = dropdown_link t(:general)
+        %ul.dropdown-menu
+          = nav_link t(:organization_selector), organization_selector_path
+          - if current_organization
+            = nav_link t(:organization), organization_path
+            = nav_link t(:users), users_path
+            = nav_link t(:contacts), contacts_path
+            - path_to_comment = comments_path
+            = nav_link t(:comments), path_to_comment
+            = nav_link t(:help), helps_show_help_path
+
+      %li{'class' => "#{dropdown_class('logistics')}"}
+        = dropdown_link t(:logistics)
         %ul.dropdown-menu
           = nav_link t(:warehouses), warehouses_path
           = nav_link t(:items), items_path
@@ -26,33 +26,29 @@
           = nav_link t(:vats), vats_path
           = nav_link t(:inventories), inventories_path
           = nav_link t(:stock_values), stock_values_path
-      %li.dropdown
-        %a.dropdown-toggle{'href' => '#'}
-          = t(:purchase)
-          -#%b.caret
+
+      %li{'class' => "#{dropdown_class('purchase')}"}
+        = dropdown_link t(:purchase)
         %ul.dropdown-menu
           = nav_link t(:suppliers), suppliers_path
           = nav_link t(:purchases), purchases_path
           = nav_link t(:imports), imports_path
           = nav_link t(:roasting), productions_path
-      %li.dropdown
-        %a.dropdown-toggle{'href' => '#'}
-          = t(:transfers)
-          -#%b.caret
+
+      %li{'class' => "#{dropdown_class('transfers')}"}
+        = dropdown_link t(:transfers)
         %ul.dropdown-menu
           = nav_link t(:manual_transactions), manuals_path
           = nav_link t(:transfers), transfers_path
-      %li.dropdown
-        %a.dropdown-toggle{'href' => '#'}
-          = t(:sale)
-          -#%b.caret
+
+      %li{'class' => "#{dropdown_class('sales')}"}
+        = dropdown_link t(:sale)
         %ul.dropdown-menu
           = nav_link t(:customers), customers_path
           = nav_link t(:sales), sales_path
-      %li.dropdown
-        %a.dropdown-toggle{'href' => '#'}
-          = t(:economics)
-          -#%b.caret
+
+      %li{'class' => "#{dropdown_class('economics')}"}
+        = dropdown_link t(:economics)
         %ul.dropdown-menu
           = nav_link t(:accounting_plans), accounting_plans_path
           = nav_link t(:tax_codes), tax_codes_path
@@ -63,29 +59,27 @@
           = nav_link t(:employees), employees_path
           = nav_link t(:result_units), result_units_path
           = nav_link t(:templates), templates_path
-      %li.dropdown
-        %a.dropdown-toggle{'href' => '#'}
-          = t(:accounting)
-          -#%b.caret
+
+      %li{'class' => "#{dropdown_class('accounting')}"}
+        = dropdown_link t(:accounting)
         %ul.dropdown-menu
           = nav_link t(:accounting_periods), accounting_periods_path
           = nav_link t(:verificates), verificates_path
           = nav_link t(:vat_periods), vat_periods_path
           = nav_link t(:wage_periods), wage_periods_path
           = nav_link t(:tax_returns), tax_returns_path
-      %li.dropdown
-        %a.dropdown-toggle{'href' => '#'}
-          = t(:interchanges)
-          -#%b.caret
+
+
+      %li{'class' => "#{dropdown_class('interchanges')}"}
+        = dropdown_link t(:interchanges)
         %ul.dropdown-menu
           = nav_link t(:sie_imports), sie_imports_upload_path
           = nav_link t(:sie_exports), sie_exports_order_path
           = nav_link t(:bank_imports), import_bank_files_path
           = nav_link t(:bank_exports), export_bank_files_path
-      %li.dropdown
-        %a.dropdown-toggle{'href' => '#'}
-          = t(:reports)
-          -#%b.caret
+
+      %li{'class' => "#{dropdown_class('reports')}"}
+        = dropdown_link t(:reports)
         %ul.dropdown-menu
           = nav_link t(:accounts_receivables), accounts_receivables_path
           = nav_link t(:accounts_payables), accounts_payables_path
@@ -94,5 +88,5 @@
           = nav_link t(:results), reports_order_result_report_path
           = nav_link t(:balances), reports_order_balance_report_path
 
-  - else
-    %li= link_to t(:sign_in), new_user_session_path
+      %li
+        = link_to (:single), '#'
