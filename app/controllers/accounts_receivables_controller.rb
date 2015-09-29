@@ -10,7 +10,7 @@ class AccountsReceivablesController < ApplicationController
                             .joins("LEFT OUTER JOIN verificates ON verificates.parent_type = 'Sale' AND verificates.parent_id = sales.id")
                             .select("sales.*, verificates.state as verificate_state, verificates.id AS verificate_id")
                             .page(params[:page]).decorate
-    if @accounts_receivables.size == 0
+    if @accounts_receivables.size == 0 || @ledger_account.nil?
       redirect_to helps_show_message_path(message: I18n.t(:accounts_receivables_missing))
     end
   end
