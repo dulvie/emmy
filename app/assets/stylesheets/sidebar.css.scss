@@ -1,0 +1,65 @@
+//@import 'bootstrap';
+
+.after-caret {
+  @extend .glyphicon;
+  float: right;
+  color: lighten($text-color, 70%);
+  width: 10px;
+}
+.after-caret-up {
+  content: '\e113';
+  @extend .after-caret;
+}
+.after-caret-down {
+  @extend .after-caret;
+  content: '\e114';
+}
+.after-caret-right {
+  @extend .after-caret;
+  content: '\e080';
+}
+
+#sidebar {
+  border-right: 1px solid darken($body-bg, 20%);
+}
+
+#sidebar-menu {
+  padding: $grid-gutter-width;
+
+  // bootstrap reverts
+  a {
+    color: $text-color;
+    background: $body-bg;
+  }
+  .dropdown-menu {
+    position: relative;
+    float: none;
+    border: 0;
+    box-shadow: none;
+    background: $body-bg;
+    padding: 0;
+    font-size: 100%;
+    a {
+      padding: $grid-gutter-width / 2;
+      padding-top: $grid-gutter-width / 3;
+      padding-bottom: $grid-gutter-width / 3;
+      padding-left: $grid-gutter-width;
+    }
+  }
+
+  // styling
+  .dropdown a.toggler:after {
+    @extend .after-caret-right;
+  }
+  .dropdown.open a.toggler:after {
+    @extend .after-caret-down;
+    color: $brand-success;
+    opacity: 0.5;
+  }
+
+  .dropdown-menu li.active a:before {
+    @extend .after-caret-right;
+    color: $brand-success;
+  }
+
+}
