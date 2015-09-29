@@ -35,6 +35,12 @@
     padding: $grid-gutter-width/2 $grid-gutter-width;
     border-top: 1px solid #efefef;
   }
+  li:first-child a {
+    border-top: 0;
+  }
+  li:last-child a {
+    border-bottom: 1px solid #efefef;
+  }
   .dropdown-menu {
     position: relative;
     float: none;
