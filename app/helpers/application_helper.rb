@@ -179,11 +179,27 @@ module ApplicationHelper
 
 
   def general_controllers
-    ['organizations', 'users', 'contacts', 'comments', 'help']
+    %w(organizations users contacts comments help)
   end
 
   def logistics_controllers
-    ['warehosues']
+    %w(warehouses items batches units vats inventories stock_values)
+  end
+
+  def purchase_controllers
+    %w(suppliers purchases imports productions)
+  end
+
+  def transfers_controllers
+    %w(transfers manual_transactions)
+  end
+
+  def sales_controllers
+    %w(customers sales)
+  end
+
+  def economics_controllers
+    %w(accounting_plans tax_codes ink_codes ne_codes default_codes tax_tables employees result_units templates_path)
   end
 
   def dropdown_auto_open(headline)
@@ -191,6 +207,14 @@ module ApplicationHelper
       return headline == 'general'
     elsif logistics_controllers.include? controller_name
       return headline == 'logistics'
+    elsif purchase_controllers.include? controller_name
+      return headline == 'purchase'
+    elsif transfers_controllers.include? controller_name
+      return headline == 'transfers'
+    elsif sales_controllers.include? controller_name
+      return headline == 'sales'
+    elsif economics_controllers.include? controller_name
+      return headline == 'economics'
     else
       false
     end
