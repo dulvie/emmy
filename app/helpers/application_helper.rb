@@ -199,7 +199,19 @@ module ApplicationHelper
   end
 
   def economics_controllers
-    %w(accounting_plans tax_codes ink_codes ne_codes default_codes tax_tables employees result_units templates_path)
+    %w(accounting_plans tax_codes ink_codes ne_codes default_codes tax_tables employees result_units templates)
+  end
+
+  def accounting_controllers
+    %w(accounting_periods verificates vat_periods wage_periods tax_returns)
+  end
+
+  def interchanges_controllers
+    %w(sie_imports sie_exports import_bank_files export_bank_files)
+  end
+
+  def reports_controllers
+    %w(accounts_receivables accounts_payables reports)
   end
 
   def dropdown_auto_open(headline)
@@ -215,6 +227,12 @@ module ApplicationHelper
       return headline == 'sales'
     elsif economics_controllers.include? controller_name
       return headline == 'economics'
+    elsif accounting_controllers.include? controller_name
+      return headline == 'accounting'
+    elsif interchanges_controllers.include? controller_name
+      return headline == 'interchanges'
+    elsif reports_controllers.include? controller_name
+      return headline == 'reports'
     else
       false
     end
