@@ -69,7 +69,6 @@
           = nav_link t(:wage_periods), wage_periods_path
           = nav_link t(:tax_returns), tax_returns_path
 
-
       %li{'class' => "#{dropdown_class('interchanges')}"}
         = dropdown_link t(:interchanges)
         %ul.dropdown-menu
@@ -87,6 +86,3 @@
           = nav_link t(:ledger), reports_order_ledger_report_path
           = nav_link t(:results), reports_order_result_report_path
           = nav_link t(:balances), reports_order_balance_report_path
-
-      %li
-        = link_to (:single), '#'
