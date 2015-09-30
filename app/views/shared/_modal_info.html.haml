@@ -3,7 +3,6 @@
     %h3{ :class=>"modal-title"}
       = t(:description)
   .modal-body
-    %p{ :ng_repeat => 'message in messages' }
-      {{message}}
+    %div{ :ng_bind_html => "info" }
   .modal-footer
     = button_tag t(:ok), class: 'btn btn-default reseter', type: 'reset', :ng_click=>"cancel()"
