@@ -11,6 +11,15 @@ class DefaultCode < ActiveRecord::Base
   validates :code, presence: true, uniqueness: {scope: :organization_id}
   validates :text, presence: true
 
+  DIRECTORY = 'files/codes/'
+  FILES = 'Default*.csv'
+
+  def self.validate_file(import_file)
+    file_importer = FileImporter.new(DIRECTORY, nil, nil)
+    files = file_importer.files(FILES)
+    files.include?(import_file)
+  end
+
   def name
     text
   end

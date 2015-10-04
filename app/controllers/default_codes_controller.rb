@@ -69,9 +69,10 @@ class DefaultCodesController < ApplicationController
   end
 
   def import
+    file = params[:file_importer][:file]
     @code_trans = CodeTransaction.new
-    @code_trans.directory = params[:file_importer][:directory]
-    @code_trans.file = params[:file_importer][:file]
+    @code_trans.directory = DefaultCode::DIRECTORY
+    @code_trans.file = file
     @code_trans.code = 'default'
     @code_trans.run_type = params[:file_importer][:type]
     @code_trans.complete = 'false'
@@ -79,7 +80,7 @@ class DefaultCodesController < ApplicationController
     @code_trans.user = current_user
     @code_trans.organization = current_organization
     respond_to do |format|
-      if @code_trans.save
+      if DefaultCode.validate_file(file) && @code_trans.save
         format.html { redirect_to default_codes_url, notice: "#{t(:default_codes)} #{t(:was_successfully_created)}" }
       else
         init_order_import
@@ -106,10 +107,9 @@ class DefaultCodesController < ApplicationController
 
   def init_order_import
     @breadcrumbs = [["#{t(:default_codes)}", default_codes_path], ["#{t(:order)} #{t(:import)}"]]
-    from_directory = "files/codes/"
     @default_codes = current_organization.default_codes
     @accounting_plans = current_organization.accounting_plans
-    @file_importer = FileImporter.new(from_directory, @default_codes, @accounting_plans)
-    @files = @file_importer.files('Default*.csv')
+    @file_importer = FileImporter.new(DefaultCode::DIRECTORY, @default_codes, @accounting_plans)
+    @files = @file_importer.files(DefaultCode::FILES)
   end
 end
