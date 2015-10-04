@@ -1,26 +1,5 @@
-//@import 'bootstrap';
-
-.after-caret {
-  @extend .glyphicon;
-  float: right;
-  color: lighten($text-color, 70%);
-  width: 10px;
-}
-.after-caret-up {
-  content: '\e113';
-  @extend .after-caret;
-}
-.after-caret-down {
-  @extend .after-caret;
-  content: '\e114';
-}
-.after-caret-right {
-  @extend .after-caret;
-  content: '\e080';
-}
-
 #sidebar {
-  border-right: 1px solid darken($body-bg, 20%);
+  background: $sidebar-bg;
 }
 
 #sidebar-menu {
@@ -30,8 +9,7 @@
   // bootstrap reverts
   a {
     color: $text-color;
-    background: $body-bg;
-             background: #dbe3cc;
+    background: $sidebar-bg;
     font-weight: bold;
     padding: $grid-gutter-width/2 $grid-gutter-width;
     border-top: 1px solid #efefef;
