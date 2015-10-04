@@ -31,6 +31,7 @@
   a {
     color: $text-color;
     background: $body-bg;
+             background: #dbe3cc;
     font-weight: bold;
     padding: $grid-gutter-width/2 $grid-gutter-width;
     border-top: 1px solid #efefef;
@@ -56,6 +57,7 @@
       padding-left: $grid-gutter-width * 1.5;
       font-weight: normal;
       border-top: none;
+         background: #fafaf0;
     }
   }
 
