@@ -84,3 +84,27 @@
 .clear {
   clear: both;
 }
+
+/**
+ * class that adds a an arrow to the right of the element.
+ * It uses font-awesome, but as a :after filter, removes an extra ement in in the markup.
+ */
+.after-caret {
+  @extend .glyphicon;
+  float: right;
+  color: lighten($text-color, 70%);
+  width: 10px;
+}
+.after-caret-up {
+  content: '\e113';
+  @extend .after-caret;
+}
+.after-caret-down {
+  @extend .after-caret;
+  content: '\e114';
+}
+.after-caret-right {
+  @extend .after-caret;
+  content: '\e080';
+}
+
