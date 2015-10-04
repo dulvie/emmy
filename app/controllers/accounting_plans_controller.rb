@@ -66,16 +66,18 @@ class AccountingPlansController < ApplicationController
   end
 
   def import
+    file = params[:file_importer][:file]
     @accounting_plan_trans = AccountingPlanTransaction.new
     @accounting_plan_trans.posting_date = DateTime.now
-    @accounting_plan_trans.directory = params[:file_importer][:directory]
-    @accounting_plan_trans.file = params[:file_importer][:file]
+    # @accounting_plan_trans.directory = params[:file_importer][:directory]
+    @accounting_plan_trans.directory = AccountingPlan::DIRECTORY
+    @accounting_plan_trans.file = file
     @accounting_plan_trans.execute = 'import'
     @accounting_plan_trans.accounting_plan_id = nil
     @accounting_plan_trans.user = current_user
     @accounting_plan_trans.organization = current_organization
     respond_to do |format|
-      if @accounting_plan_trans.save
+      if AccountingPlan.validate_file(file) && @accounting_plan_trans.save
         format.html { redirect_to accounting_plans_url, notice: "#{t(:accounting_plan)} #{t(:was_successfully_updated)}" }
       else
         init_order_import
@@ -88,7 +90,7 @@ class AccountingPlansController < ApplicationController
   def disable_accounts
     @accounting_plan_trans = AccountingPlanTransaction.new
     @accounting_plan_trans.posting_date = DateTime.now
-    @accounting_plan_trans.directory = "files/accounting_plans/"
+    @accounting_plan_trans.directory = AccountingPlan::DIRECTORY
     @accounting_plan_trans.file = "Kontoplan_Normal_2014_ver1.csv"
     @accounting_plan_trans.execute = 'disable'
     @accounting_plan_trans.accounting_plan_id = params[:accounting_plan_id]
@@ -127,10 +129,10 @@ class AccountingPlansController < ApplicationController
   
   def init_order_import
     @breadcrumbs = [["#{t(:accounting_plan)}", accounting_plans_path], ["#{t(:order)} #{t(:import)}"]]
-    from_directory = "files/accounting_plans/"
+    from_directory = AccountingPlan::DIRECTORY
     existing_plans = current_organization.accounting_plans.pluck(:file_name)
     @file_importer = FileImporter.new(from_directory, nil, nil)
     @file_importer.file_filter(existing_plans)
-    @files = @file_importer.files('*.csv')  
+    @files = @file_importer.files('*.csv')
   end
 end

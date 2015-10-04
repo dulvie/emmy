@@ -15,6 +15,14 @@ class AccountingPlan < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: {scope: :organization_id}
 
+ DIRECTORY = 'files/accounting_plans/'
+
+  def self.validate_file(import_file)
+    file_importer = FileImporter.new(DIRECTORY, nil, nil)
+    files = file_importer.files('*.csv')
+    files.include?(import_file)
+  end
+
   def disable_accounts?
     return true if file_name && file_name.include?('Normal')
     false
