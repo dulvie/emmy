@@ -69,7 +69,6 @@ class AccountingPlansController < ApplicationController
     file = params[:file_importer][:file]
     @accounting_plan_trans = AccountingPlanTransaction.new
     @accounting_plan_trans.posting_date = DateTime.now
-    # @accounting_plan_trans.directory = params[:file_importer][:directory]
     @accounting_plan_trans.directory = AccountingPlan::DIRECTORY
     @accounting_plan_trans.file = file
     @accounting_plan_trans.execute = 'import'
@@ -133,6 +132,6 @@ class AccountingPlansController < ApplicationController
     existing_plans = current_organization.accounting_plans.pluck(:file_name)
     @file_importer = FileImporter.new(from_directory, nil, nil)
     @file_importer.file_filter(existing_plans)
-    @files = @file_importer.files('*.csv')
+    @files = @file_importer.files(AccountingPlan::FILES)
   end
 end

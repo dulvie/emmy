@@ -16,10 +16,11 @@ class AccountingPlan < ActiveRecord::Base
   validates :name, presence: true, uniqueness: {scope: :organization_id}
 
  DIRECTORY = 'files/accounting_plans/'
+ FILES = '*.csv'
 
   def self.validate_file(import_file)
     file_importer = FileImporter.new(DIRECTORY, nil, nil)
-    files = file_importer.files('*.csv')
+    files = file_importer.files(FILES)
     files.include?(import_file)
   end
 
