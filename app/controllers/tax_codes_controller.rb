@@ -70,9 +70,10 @@ class TaxCodesController < ApplicationController
   end
 
   def import
+    file = params[:file_importer][:file]
     @code_trans = CodeTransaction.new
-    @code_trans.directory = params[:file_importer][:directory]
-    @code_trans.file = params[:file_importer][:file]
+    @code_trans.directory = TaxCode::DIRECTORY
+    @code_trans.file = file
     @code_trans.code = 'tax'
     @code_trans.run_type = params[:file_importer][:type]
     @code_trans.complete = 'false'
@@ -80,7 +81,7 @@ class TaxCodesController < ApplicationController
     @code_trans.user = current_user
     @code_trans.organization = current_organization
     respond_to do |format|
-      if @code_trans.save
+      if TaxCode.validate_file(file) && @code_trans.save
         format.html { redirect_to tax_codes_url, notice: "#{t(:tax_codes)} #{t(:was_successfully_created)}" }
       else
         init_order_import
@@ -107,10 +108,9 @@ class TaxCodesController < ApplicationController
 
   def init_order_import
     @breadcrumbs = [["#{t(:tax_codes)}", tax_codes_path], ["#{t(:order)} #{t(:import)}"]]
-    from_directory = "files/codes/"
     @tax_codes = current_organization.tax_codes
     @accounting_plans = current_organization.accounting_plans
-    @file_importer = FileImporter.new(from_directory, @tax_codes, @accounting_plans)
-    @files = @file_importer.files('TAX*.csv')
+    @file_importer = FileImporter.new(TaxCode::DIRECTORY, @tax_codes, @accounting_plans)
+    @files = @file_importer.files(TaxCode::FILES)
   end
 end
