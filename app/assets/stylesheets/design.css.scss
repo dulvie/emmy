@@ -160,6 +160,8 @@ form.form-changepassword {
   padding: 0;
   min-height: $line-height-computed;
   .navbar-brand {
+    font-size: 180%;
+    font-style: italic;
     padding: 4px;
     height: auto;
     line-height: $line-height-base;
