@@ -18,6 +18,15 @@ class TaxTable < ActiveRecord::Base
   validates :year, presence: true
   validates :name, presence: true, uniqueness: {scope: :organization_id}
 
+  DIRECTORY = 'files/codes/'
+  FILES = 'allm*.csv'
+
+  def self.validate_file(import_file)
+    file_importer = FileImporter.new(DIRECTORY, nil, nil)
+    files = file_importer.files(FILES)
+    files.include?(import_file)
+  end
+
   def calculate(wage, column)
     row = tax_table_rows.where('from_wage <= ? AND to_wage >= ?', wage, wage).first
     return row.tax(wage, column)
