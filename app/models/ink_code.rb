@@ -16,6 +16,16 @@ class InkCode < ActiveRecord::Base
   validates :text, presence: true
   validates :sum_method, inclusion: { in: SUM_METHODS }
 
+
+  DIRECTORY = 'files/codes/'
+  FILES = 'INK*.csv'
+
+  def self.validate_file(import_file)
+    file_importer = FileImporter.new(DIRECTORY, nil, nil)
+    files = file_importer.files(FILES)
+    files.include?(import_file)
+  end
+
   def name
     text
   end
