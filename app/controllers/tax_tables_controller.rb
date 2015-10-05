@@ -68,9 +68,10 @@ class TaxTablesController < ApplicationController
   end
 
   def import
+    file = params[:file_importer][:file]
     @table_trans = TableTransaction.new
-    @table_trans.directory = params[:file_importer][:directory]
-    @table_trans.file_name = params[:file_importer][:file]
+    @table_trans.directory = TaxTable::DIRECTORY
+    @table_trans.file_name = file
     @table_trans.execute = 'tax_table'
     @table_trans.year = params[:file_importer][:param1]
     @table_trans.table = params[:file_importer][:param2]
@@ -78,7 +79,7 @@ class TaxTablesController < ApplicationController
     @table_trans.user = current_user
     @table_trans.organization = current_organization
     respond_to do |format|    
-      if @table_trans.save
+      if TaxTable.validate_file(file) && @table_trans.save
         format.html { redirect_to tax_tables_url, notice: "#{t(:tax_tables)} #{t(:was_successfully_created)}" }
       else
         init_order_import
@@ -105,9 +106,8 @@ class TaxTablesController < ApplicationController
 
   def init_order_import
     @breadcrumbs = [["#{t(:tax_tables)}", tax_tables_path], ["#{t(:order)} #{t(:import)}"]]
-    from_directory = "files/codes/"
     @tax_tables = current_organization.tax_tables
-    @file_importer = FileImporter.new(from_directory, @tax_tables, nil)
-    @files = @file_importer.files('allm*.csv')
+    @file_importer = FileImporter.new(TaxTable::DIRECTORY, @tax_tables, nil)
+    @files = @file_importer.files(TaxTable::FILES)
   end
 end
