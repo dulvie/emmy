@@ -23,6 +23,15 @@ class TaxCode < ActiveRecord::Base
   scope :wage, -> { where(code_type: 'wage') }
   scope :default, -> { where(code_type: 'default') }
 
+  DIRECTORY = 'files/codes/'
+  FILES = 'TAX*.csv'
+
+  def self.validate_file(import_file)
+    file_importer = FileImporter.new(DIRECTORY, nil, nil)
+    files = file_importer.files(FILES)
+    files.include?(import_file)
+  end
+
   def name
     text
   end
