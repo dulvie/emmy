@@ -1,16 +1,25 @@
 - if session[:wizard] == wizard
   %div{id: 'wizard', style: 'position: absolute; right: 0px; top: 200px; height: 200px; width: 200px' }
     .alert.alert-info
-      = session[:wizard_text]
-      = link_to right_icon, '#', :onclick => "set_height(event)"
-      %br
-        %nbr
-      = link_to t(:confirm), session[:wizard_confirm_url],  class: 'btn btn-primary'
-      = link_to t(:close), session[:wizard_close_url],  class: 'btn btn-primary'
+      %div{ style: 'width: 0px; float:left; transform: rotate(90deg); transform-origin: left top 0; '}
+        = link_to 'Wizard', '#', :onclick => "toggle_width(event)", class: 'btn btn-primary' 
+      %div{ style: 'padding-left: 20px;'}
+        = session[:wizard_text]
+        %br
+          %nbr
+        = link_to t(:confirm), session[:wizard_confirm_url],  class: 'btn btn-primary'
+        = link_to t(:close), session[:wizard_close_url],  class: 'btn btn-primary'
+
   :javascript
   $(document).ready(function() {
-    function set_height(ev) {
-      $('#wizard').css('top', '400px');
+    function toggle_width(ev) {
+      var css_right = $("#wizard").css('right');
+      if (css_right == '0px') {
+        $('#wizard').css('right', '-180px'); 
+      }
+      else {
+        $('#wizard').css('right', '0px'); 
+      }
       ev.preventDefault();
     };
   });
