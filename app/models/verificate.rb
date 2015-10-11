@@ -9,14 +9,16 @@ class Verificate < ActiveRecord::Base
   # t.string   :parent_type
   # t.integer  :parent_id
   # t.string   :parent_extend
+  # t.integer  :import_bank_file_row_id
   # t.timestamps
 
-  attr_accessible :posting_date, :description, :accounting_period_id, :reference, :note, :template_id
+  attr_accessible :posting_date, :description, :accounting_period_id, :reference, :note, :template_id, :import_bank_file_row_id
 
   belongs_to :organization
   belongs_to :accounting_period
   belongs_to :template
   belongs_to :parent, polymorphic: true
+  belongs_to :import_bank_file_row
   has_many   :verificate_items, dependent: :delete_all
 
   validates :accounting_period_id, presence: true
@@ -58,7 +60,8 @@ class Verificate < ActiveRecord::Base
     self.parent.state_change('mark_closed', DateTime.now) if self.parent_type == 'VatPeriod'
     self.parent.state_change('mark_wage_closed', DateTime.now) if self.parent_type == 'WagePeriod' && self.parent_extend == 'wage'
     self.parent.state_change('mark_tax_closed', DateTime.now) if self.parent_type == 'WagePeriod' && self.parent_extend == 'tax'
-    self.parent.set_posted if self.parent_type == 'ImportBankFileRow'
+    # self.parent.set_posted if self.parent_type == 'ImportBankFileRow'
+    self.import_bank_file_row.set_posted if self.import_bank_file_row
   end
 
   def create_ledger_transactions

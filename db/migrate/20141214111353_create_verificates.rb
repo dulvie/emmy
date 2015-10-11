@@ -13,6 +13,7 @@ class CreateVerificates < ActiveRecord::Migration
       t.string   :parent_type
       t.integer  :parent_id
       t.string   :parent_extend
+      t.integer  :import_bank_file_row_id
 
       t.timestamps
     end

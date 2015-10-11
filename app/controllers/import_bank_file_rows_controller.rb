@@ -91,7 +91,7 @@ class ImportBankFileRowsController < ApplicationController
     @verificates ||= Array.new
     prel_verificates = current_organization.verificates.where('state = ?', 'preliminary')
     prel_verificates.each do |verificate|
-      if verificate.bank_amount == @import_bank_file_row.amount || (verificate.parent_type == 'ImportBankFileRow' && verificate.parent_id == @import_bank_file_row.id)
+      if verificate.bank_amount.abs == @import_bank_file_row.amount.abs || (verificate.parent_type == 'ImportBankFileRow' && verificate.parent_id == @import_bank_file_row.id)
         @verificates.push(verificate)
       end
     end

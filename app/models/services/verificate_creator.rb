@@ -420,6 +420,7 @@ module Services
       @verificate.template = template if template
       @verificate.parent_type = @object.class.name
       @verificate.parent_id = @object.id
+      @verificate.import_bank_file_row_id = @object.id if @object.class.name == 'ImportBankFileRow'
       @verificate.save
     end
 

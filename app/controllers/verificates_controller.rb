@@ -36,6 +36,10 @@ class VerificatesController < ApplicationController
   def show
     @accounting_period = @verificate.accounting_period
     gon.push root: AccountingPeriodSerializer.new(@accounting_period)
+
+    if params[:import_bank_file_row_id]
+      @verificate.import_bank_file_row_id = params[:import_bank_file_row_id]
+    end
   end
 
   # GET
