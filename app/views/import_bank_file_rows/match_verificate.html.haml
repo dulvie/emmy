@@ -12,15 +12,16 @@
           %td= verificate.posting_date_formatted
           %td= verificate.description
           %td= verificate.note
-          - url = verificate_path(verificate) + "&bank_amount=" + @import_bank_file_row.amount.to_s
+          - url = verificate_path(verificate) + "&import_bank_file_row_id=" + @import_bank_file_row.id.to_s
           %td= link_to ok_icon, url
-      - @templates.each do |template|
-        %tr
-          %td
-          %td= template.description
-          %td= template.name
-          - url = import_bank_file_import_bank_file_row_set_template_verificate_path(@import_bank_file, @import_bank_file_row) + "&template_id="+template.id.to_s
-          %td= link_to ok_icon, url
+      - if @templates 
+        - @templates.each do |template|
+          %tr
+            %td
+            %td= template.description
+            %td= template.name
+            - url = import_bank_file_import_bank_file_row_set_template_verificate_path(@import_bank_file, @import_bank_file_row) + "&template_id="+template.id.to_s
+            %td= link_to ok_icon, url
       %tr
         %td
         %td= t(:manually)

@@ -2,6 +2,7 @@
   = simple_form_for(@verificate, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
     = f.error_notification
     = f.association :accounting_period, as: :hidden
+    = f.input :import_bank_file_row_id, as: :hidden
     .form-group
       .labels_width.control-label
         = f.label :accounting_period
@@ -10,7 +11,7 @@
     - if @verificate.final?
       = f.input :number, disabled: true
       = f.input :posting_date, as: :string, disabled: true, :input_html => { :class => 'date', :value => localize(f.object.posting_date, :format => "%Y-%m-%d"), :readonly => 'readonly'}
-    = f.input :description, disabled: @verificate.final?, input_html: {ng_model: 'description'}
+    = f.input :description, disabled: @verificate.final?, input_html: {ng_model: 'description', ng_change: 'form_changed();'}
     - if @verificate.new_record?
       = f.association :template, collection: @templates
     = f.input :reference, disabled: !@verificate.new_record?
@@ -33,7 +34,7 @@
           = link_to "#{t(:create)} #{t(:verificate_item)}", new_verificate_verificate_item_path(@verificate), class: 'btn btn-primary'
           - if @verificate.balanced?
             %div{ng_controller: 'ModalCtrl', ng_init: "init(min_date, max_date)"}
-              %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','verificatesContent' )"}
+              %button{:id =>'state_change', :class=>'btn btn-primary', :ng_click=>"open($event, 'sm','verificatesContent' )"}
                 = t(:confirm)
               = render partial: 'shared/modal_state_change', locals: {idx: 'verificatesContent', model: @verificate, form_path: state_change_verificate_path(@verificate), event: 'mark_final', return_path: verificate_path(@verificate)}
     - else
