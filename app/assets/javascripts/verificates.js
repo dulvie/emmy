@@ -1,10 +1,10 @@
 app.controller('verificate_form_ctrl', function ($scope) {
 
     $scope.init = function() {
-        var url = document.URL;
-        if (url.indexOf('import_bank_file_row_id') > -1) {
-          $('#state_change').prop('disabled', true);
-        };
+        // var url = document.URL;
+        // if (url.indexOf('import_bank_file_row_id') > -1) {
+        //  $('#state_change').prop('disabled', true);
+        // };
         var min_date = gon.root.accounting_period.allow_from;
         var max_date = gon.root.accounting_period.allow_to;
         $scope.params = set_date(min_date, max_date);

@@ -39,6 +39,7 @@ class VerificatesController < ApplicationController
 
     if params[:import_bank_file_row_id]
       @verificate.import_bank_file_row_id = params[:import_bank_file_row_id]
+      @verificate.save
     end
   end
 
