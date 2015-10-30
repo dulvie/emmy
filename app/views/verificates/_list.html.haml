@@ -13,7 +13,7 @@
     %tbody{}
       - @verificates.each do |verificate|
         %tr
-          %td= verificate.posting_date
+          %td= verificate.format_posting_date
           %td= verificate.description
           %td.numeric= link_to settings_icon, edit_accounting_period_verificate_path(@accounting_period, verificate)
           %td.numeric= delete_modal_for verificate, accounting_period_verificate_path(@accounting_period, verificate)

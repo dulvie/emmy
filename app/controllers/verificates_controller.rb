@@ -34,6 +34,7 @@ class VerificatesController < ApplicationController
 
   # GET
   def show
+    @verificate = @verificate.decorate
     @accounting_period = @verificate.accounting_period
     gon.push root: AccountingPeriodSerializer.new(@accounting_period)
 
