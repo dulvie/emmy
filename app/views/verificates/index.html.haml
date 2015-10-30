@@ -23,7 +23,7 @@
       - @verificates.each do |verificate|
         %tr
           %td= verificate.number
-          %td= verificate.posting_date
+          %td= verificate.format_posting_date
           %td= verificate.description
           %td= verificate.pretty_state
           %td= verificate.parent

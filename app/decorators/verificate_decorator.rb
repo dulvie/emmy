@@ -1,7 +1,8 @@
 class VerificateDecorator < Draper::Decorator
+  include ActionView::Helpers::NumberHelper
   delegate_all
 
-  def posting_date
+  def format_posting_date
     return l(object.posting_date, format: "%Y-%m-%d") if object.posting_date
     ""
   end
@@ -23,6 +24,11 @@ class VerificateDecorator < Draper::Decorator
   def total_credit
     number_with_precision(object.total_credit, precision: 2)
   end
+
+  def states
+    [pretty_state]
+  end
+
   def pretty_state
     l = 'default'
     case object.state
