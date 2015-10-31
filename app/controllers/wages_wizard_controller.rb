@@ -6,10 +6,12 @@ class WagesWizardController < ApplicationController
   def new
     session[:wizard] ||= {}
     session[:wizard] = 'wage_wizard'
+    @steps = steps
     redirect_to wages_wizard_path(:eko_setup)
   end
 
   def show
+    @steps = steps
     case step
     when :eko_setup
       session[:wizard_text] = 'Är grunduppgifter för ekonomi registrerade. Om räkenskapsår saknas kan eko_wizard användas.'
@@ -21,7 +23,7 @@ class WagesWizardController < ApplicationController
     when :add_tax_table
       session[:wizard_text] = 'Finns alla skattetabeller som ska användas inlästa? Importera de som saknas. Bekräfta om alla finns.'
       session[:wizard_confirm_url] = wages_wizard_path(:add_employees)
-      redirect_to tax_tables_path
+      redirect_to tax_tables_path(step: @step, steps: @steps)
     when :add_employees
       session[:wizard_text] = 'Är alla anställda registrerade? Bekräfta när alla finns på plats.'
       session[:wizard_confirm_url] = wages_wizard_path(:create_wage_period)
