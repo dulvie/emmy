@@ -32,5 +32,8 @@ public/system
 .env
 Procfile.*
 
+# Ignore files used by docker
+env.development
+
 # Ignore coverage files.
 coverage/*
