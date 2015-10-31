@@ -237,4 +237,9 @@ module ApplicationHelper
       false
     end
   end
+
+  def wizard_url(url_parts)
+    url_for(controller: url_parts[0], action: url_parts[1])
+  end
+
 end
