@@ -1,5 +1,2 @@
-start
-
-= "next step: (#{@wizard.next_step})"
-
-= link_to "next_step", url_for(controller: @wizard.next_step[0], action: @wizard.next_step[1])
+= render 'accounting_periods/list'
+= render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'wages'

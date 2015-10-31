@@ -1,32 +1,30 @@
-- if session[:wizard] == wizard_name
-  - wizard = Wizard.by_name_and_controller(name, controller_name)
-  %div{id: 'wizard', style: 'position: absolute; right: 0px; top: 200px; height: 200px; width: 350px' }
-    .alert.alert-info
-      %div{ style: 'width: 0px; float:left; transform: rotate(90deg); transform-origin: left top 0; '}
-        = link_to 'Wizard', '#', :onclick => "toggle_width(event)", class: 'btn btn-primary'
-      %div{ style: 'padding-left: 20px;'}
-        - steps.each do | n |
+- wizard = Wizard.by_name_and_controller(wizard_name, controller_name, action_name)
+%div{id: 'wizard', style: 'position: absolute; right: 0px; top: 200px; height: 200px; width: 350px' }
+  .alert.alert-info
+    %div{ style: 'width: 0px; float:left; transform: rotate(90deg); transform-origin: left top 0; '}
+      = link_to 'Wizard', '#', :onclick => "toggle_width(event)", class: 'btn btn-primary'
+    %div{ style: 'padding-left: 20px;'}
+      %ul
+        - wizard.steps.each_with_index do |step, i|
           %li
-            = n
-            - if n == step
-              %br
-              = session[:wizard_text]
-        %br
-          %nbr
-      %div{ style: 'margin-left: 40px'}
-        = link_to t(:confirm), session[:wizard_confirm_url],  class: 'btn btn-primary'
-        = link_to t(:close), session[:wizard_close_url],  class: 'btn btn-primary'
+            = t(:"#{wizard.title_symbol(step)}")
+            - if i == wizard.current_step
+              %p= t(:"#{wizard.text_symbol(step)}")
+      
+    %hr
+    = link_to(t(:previous), wizard_url(wizard.previous_step), class: 'btn btn-primary') if wizard.previous_step
+    = link_to t(:next), wizard_url(wizard.next_step), class: 'btn btn-primary'
 
-  :javascript
-  $(document).ready(function() {
-    function toggle_width(ev) {
-      var css_right = $("#wizard").css('right');
-      if (css_right == '0px') {
-        $('#wizard').css('right', '-320px'); 
-      }
-      else {
-        $('#wizard').css('right', '0px'); 
-      }
-      ev.preventDefault();
-    };
-  });
+:javascript
+$(document).ready(function() {
+  function toggle_width(ev) {
+    var css_right = $("#wizard").css('right');
+    if (css_right == '0px') {
+      $('#wizard').css('right', '-320px'); 
+    }
+    else {
+      $('#wizard').css('right', '0px'); 
+    }
+    ev.preventDefault();
+  };
+});

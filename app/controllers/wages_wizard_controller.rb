@@ -13,6 +13,8 @@ class WagesWizardController < ApplicationController
   end
 
   def start
+    @accounting_periods = current_organization.accounting_periods.order(:accounting_from)
+    @accounting_periods = @accounting_periods.page(params[:page]).decorate
     session[:wizard] = 'wages'
   end
 
