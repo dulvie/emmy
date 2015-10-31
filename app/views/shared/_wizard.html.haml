@@ -1,12 +1,18 @@
 - if session[:wizard] == wizard
-  %div{id: 'wizard', style: 'position: absolute; right: 0px; top: 200px; height: 200px; width: 200px' }
+  %div{id: 'wizard', style: 'position: absolute; right: 0px; top: 200px; height: 200px; width: 350px' }
     .alert.alert-info
       %div{ style: 'width: 0px; float:left; transform: rotate(90deg); transform-origin: left top 0; '}
-        = link_to 'Wizard', '#', :onclick => "toggle_width(event)", class: 'btn btn-primary' 
+        = link_to 'Wizard', '#', :onclick => "toggle_width(event)", class: 'btn btn-primary'
       %div{ style: 'padding-left: 20px;'}
-        = session[:wizard_text]
+        - steps.each do | n |
+          %li
+            = n
+            - if n == step
+              %br
+              = session[:wizard_text]
         %br
           %nbr
+      %div{ style: 'margin-left: 40px'}
         = link_to t(:confirm), session[:wizard_confirm_url],  class: 'btn btn-primary'
         = link_to t(:close), session[:wizard_close_url],  class: 'btn btn-primary'
 
@@ -15,7 +21,7 @@
     function toggle_width(ev) {
       var css_right = $("#wizard").css('right');
       if (css_right == '0px') {
-        $('#wizard').css('right', '-180px'); 
+        $('#wizard').css('right', '-320px'); 
       }
       else {
         $('#wizard').css('right', '0px'); 
