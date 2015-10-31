@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150726122507) do
+ActiveRecord::Schema.define(version: 20150729122507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 20150726122507) do
     t.integer  "ink_code_id"
     t.integer  "ne_code_id"
     t.integer  "default_code_id"
+    t.boolean  "active",              default: true, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -95,6 +96,8 @@ ActiveRecord::Schema.define(version: 20150726122507) do
   end
 
   create_table "bank_file_transactions", force: true do |t|
+    t.string   "parent_type"
+    t.integer  "parent_id"
     t.string   "directory"
     t.string   "file_name"
     t.string   "execute"
@@ -296,6 +299,7 @@ ActiveRecord::Schema.define(version: 20150726122507) do
     t.string   "pay_account"
     t.string   "iban"
     t.integer  "organization_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -321,6 +325,7 @@ ActiveRecord::Schema.define(version: 20150726122507) do
     t.datetime "to_date"
     t.string   "reference"
     t.integer  "organization_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -612,6 +617,19 @@ ActiveRecord::Schema.define(version: 20150726122507) do
     t.datetime "updated_at"
   end
 
+  create_table "sie_transactions", force: true do |t|
+    t.string   "directory"
+    t.string   "file_name"
+    t.string   "execute"
+    t.string   "sie_type"
+    t.boolean  "complete"
+    t.integer  "accounting_period_id"
+    t.integer  "organization_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "stock_value_items", force: true do |t|
     t.string   "name"
     t.decimal  "price",           precision: 11, scale: 2, default: 0.0
@@ -656,6 +674,19 @@ ActiveRecord::Schema.define(version: 20150726122507) do
   end
 
   add_index "suppliers", ["name", "organization_id"], name: "index_suppliers_on_name_and_organization_id", unique: true, using: :btree
+
+  create_table "table_transactions", force: true do |t|
+    t.string   "directory"
+    t.string   "file_name"
+    t.string   "execute"
+    t.integer  "year"
+    t.string   "table"
+    t.boolean  "complete"
+    t.integer  "organization_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "tax_agency_transactions", force: true do |t|
     t.integer  "organization_id"
@@ -868,6 +899,7 @@ ActiveRecord::Schema.define(version: 20150726122507) do
     t.string   "parent_type"
     t.integer  "parent_id"
     t.string   "parent_extend"
+    t.integer  "import_bank_file_row_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -900,6 +932,16 @@ ActiveRecord::Schema.define(version: 20150726122507) do
     t.integer  "accounting_period_id"
     t.integer  "wage_period_id"
     t.integer  "tax_code_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "wage_transactions", force: true do |t|
+    t.string   "execute"
+    t.boolean  "complete"
+    t.integer  "wage_period_id"
+    t.integer  "organization_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
