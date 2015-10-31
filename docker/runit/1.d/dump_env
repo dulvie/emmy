@@ -1,0 +1,7 @@
+#!/bin/sh
+exec 2>&1
+export > /etc/envvars.tmp
+# Weave might add this var, it can not be handled by export properly.
+grep -v 'affinity:container' /etc/envvars.tmp > /etc/envvars
+rm /etc/envvars.tmp
+exit 0

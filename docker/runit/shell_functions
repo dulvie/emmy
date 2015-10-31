@@ -1,0 +1,6 @@
+#!/bin/sh
+log()
+{
+  echo "[runit] $1"
+}
+
