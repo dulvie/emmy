@@ -2,6 +2,8 @@ FROM debian:jessie
 
 ENV TERM=screen-256color
 
+WORKDIR /opt/apps/emmy
+
 EXPOSE 3000 1080
 
 # Install needed packages
