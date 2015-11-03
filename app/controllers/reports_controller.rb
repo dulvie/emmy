@@ -161,7 +161,7 @@ class ReportsController < ApplicationController
   def load_accounting_period
     @accounting_period = current_organization.accounting_periods.where('active = true').first
     unless @accounting_period
-      redirect_to helps_show_message_path(message: I18n.t(:accounting_period_missing))
+      redirect_to helps_show_message_path(message: "#{I18n.t(:accounting_period)} #{I18n.t(:missing)}")
     end
   end
 
@@ -170,7 +170,7 @@ class ReportsController < ApplicationController
     @accounting_period = current_organization.accounting_periods.find(@report.accounting_period)
     @verificates = current_organization.verificates.where("accounting_period_id = ? AND state = 'final'", @accounting_period.id).order(:number)
     if @verificates.size == 0
-      redirect_to helps_show_message_path(message: I18n.t(:verificates_missing))
+      redirect_to helps_show_message_path(message: "#{I18n.t(:verificates)} #{I18n.t(:missing)}")
     end
   end
 end
