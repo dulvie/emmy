@@ -15,7 +15,7 @@ class AccountsPayablesController < ApplicationController
                           .joins("INNER JOIN verificates ON verificates.parent_type = 'Purchase' AND verificates.parent_id = purchases.id AND verificates.state = 'preliminary'")
                           .select("purchases.*, verificates.state as verificate_state, verificates.id AS verificate_id").decorate
     if @accounts_payables.size == 0
-      redirect_to helps_show_message_path(message: I18n.t(:accounts_payables_missing))
+      redirect_to helps_show_message_path(message: "#{I18n.t(:accounts_payables)} #{I18n.t(:missing)}")
     end
   end
 

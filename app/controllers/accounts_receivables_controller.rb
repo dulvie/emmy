@@ -11,7 +11,7 @@ class AccountsReceivablesController < ApplicationController
                             .select("sales.*, verificates.state as verificate_state, verificates.id AS verificate_id")
                             .page(params[:page]).decorate
     if @accounts_receivables.size == 0 || @ledger_account.nil?
-      redirect_to helps_show_message_path(message: I18n.t(:accounts_receivables_missing))
+      redirect_to helps_show_message_path(message: "#{I18n.t(:accounts_receivables)} #{I18n.t(:missing)}")
     end
   end
 

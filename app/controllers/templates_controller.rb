@@ -113,7 +113,7 @@ class TemplatesController < ApplicationController
   def load_accounting_plans
     @accounting_plans = current_organization.accounting_plans.order('id')
     if @accounting_plans.size == 0
-      redirect_to helps_show_message_path(message: I18n.t(:accounting_plan_missing))
+      redirect_to helps_show_message_path(message: "#{I18n.t(:accounting_plan)} #{I18n.t(:missing)}")
     end
   end
 end
