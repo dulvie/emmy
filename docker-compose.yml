@@ -20,6 +20,8 @@ postgres:
   hostname: postgres
   volumes_from:
     - emmy-data
+  ports:
+    - '127.0.0.1:5432:5432'
 
 redis:
   env_file:

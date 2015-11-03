@@ -1,5 +1,9 @@
 #!/bin/sh
 exec 2>&1
+export > /etc/envvars.tmp
+grep -v 'affinity:container' /etc/envvars.tmp > /etc/envvars
+rm /etc/envvars.tmp
+
 . /etc/runit/shell_functions
 log "Starting up... (init 1)"
 log "run-parts --verbose /etc/runit/1.d"
