@@ -1,7 +1,5 @@
 .input-group.full-width
-  = link_to "#{t(:create)} #{t(:tax_tables)}", new_tax_table_path, class: 'btn btn-success'
   = link_to "#{t(:import)} #{t(:tax_tables)}", tax_table_order_import_path, class: 'btn btn-default'
-
 
 .table-responsive{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}
