@@ -5,7 +5,7 @@ se:
       no_customer_email: "Ingen epost till kunden"
       no_organization_email: "Ingen epost för denna organisation"
       taken: "Namnet inte unikt"
-  accounting_period_missing: "Bokföringsperiod saknas"
+  accounting_period_missing: "Räkenskapsår saknas"
   accounting_plan_missing: "Kontoplan saknas"
   accounts_receivables_missing: "Kundreskontrauppgifter saknas"
   accounts_payables_missing: "Leverantörsreskontrauppgifter saknas"
