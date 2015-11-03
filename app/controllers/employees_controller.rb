@@ -4,6 +4,8 @@ class EmployeesController < ApplicationController
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:edit, :show, :update]
+  before_filter :load_dependent, only: [:new, :show, :edit]
+
 
   # GET
   def index
@@ -13,7 +15,6 @@ class EmployeesController < ApplicationController
 
   # GET
   def new
-    @tax_tables = current_organization.tax_tables.order(:name)
   end
 
   # GET
@@ -32,14 +33,12 @@ class EmployeesController < ApplicationController
       @contact_relation_form_url = contact_relation_path(@contact_relation.id, parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
     end
 
-    @tax_tables = current_organization.tax_tables.order(:name)
     @contacts = current_organization.contacts
     gon.push contacts: ActiveModel::ArraySerializer.new(@contacts, each_serializer: ContactSerializer)
   end
 
   # GET
   def edit
-    @tax_tables = current_organization.tax_tables.order(:name)
   end
 
   # POST
@@ -96,5 +95,12 @@ class EmployeesController < ApplicationController
   def init
     @employees = current_organization.employees.order(:name)
     @employees = @employees.page(params[:page]).decorate
+  end
+
+  def load_dependent
+    @tax_tables = current_organization.tax_tables.order(:name)
+    if @tax_tables.size == 0
+      redirect_to helps_show_message_path(message:"#{I18n.t(:tax_tables)} #{I18n.t(:missing)}")
+    end
   end
 end
