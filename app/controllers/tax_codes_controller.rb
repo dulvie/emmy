@@ -109,8 +109,11 @@ class TaxCodesController < ApplicationController
   def init_order_import
     @breadcrumbs = [["#{t(:tax_codes)}", tax_codes_path], ["#{t(:order)} #{t(:import)}"]]
     @tax_codes = current_organization.tax_codes
-    @accounting_plans = current_organization.accounting_plans
     @file_importer = FileImporter.new(TaxCode::DIRECTORY, @tax_codes, @accounting_plans)
     @files = @file_importer.files(TaxCode::FILES)
+    @accounting_plans = current_organization.accounting_plans
+    if @accounting_plans.size == 0
+      redirect_to helps_show_message_path(message: "#{I18n.t(:accounting_plan)} #{I18n.t(:missing)}")
+    end
   end
 end

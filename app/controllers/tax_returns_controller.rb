@@ -4,10 +4,10 @@ class TaxReturnsController < ApplicationController
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:edit, :show, :update]
+  before_filter :load_dependence, only: [:index]
 
   def index
     @breadcrumbs = [['Tax returns']]
-    @accounting_periods = current_organization.accounting_periods.where('active = ?', true).order('id')
     if !params[:accounting_period_id] && @accounting_periods.count > 0
       params[:accounting_period_id] = @accounting_periods.first.id
     end
@@ -85,5 +85,12 @@ class TaxReturnsController < ApplicationController
 
   def show_breadcrumbs
     @breadcrumbs = [['Tax returns', tax_returns_path], [@tax_return.name]]
+  end
+
+  def load_dependence
+    @accounting_periods = current_organization.accounting_periods.where('active = ?', true).order('id')
+    if @accounting_periods.size == 0
+      redirect_to helps_show_message_path(message: "#{I18n.t(:accounting_periods)} #{I18n.t(:missing)}")
+    end
   end
 end
