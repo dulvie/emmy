@@ -4,6 +4,7 @@ class AccountingPeriodsController < ApplicationController
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:edit, :show, :update]
+  before_filter :load_dependence, only: [:new, :edit]
 
   # GET
   def index
@@ -17,7 +18,6 @@ class AccountingPeriodsController < ApplicationController
     @accounting_period.name = t(:accounting_period) + " " + (Date.current.year + 1).to_s
     @accounting_period.accounting_from = Date.new(Date.current.year+1, 1, 1)
     @accounting_period.accounting_to = Date.new(Date.current.year+1, 12, 31)
-    @accounting_plans = current_organization.accounting_plans
   end
 
   # GET
@@ -26,7 +26,6 @@ class AccountingPeriodsController < ApplicationController
 
   # GET
   def edit
-    @accounting_plans = current_organization.accounting_plans
     @opening_balance = init_opening_balance
     @closing_balance = init_closing_balance
     @previous_accounting_period = @accounting_period.previous_accounting_period    
@@ -111,5 +110,11 @@ class AccountingPeriodsController < ApplicationController
     @opening_balance = OpeningBalance.new
     @opening_balance.description = 'IB ' + @accounting_period.accounting_from.strftime("%Y")
     return @opening_balance
-  end  
+  end
+  def load_dependence
+    @accounting_plans = current_organization.accounting_plans
+    if @accounting_plans.size == 0
+      redirect_to helps_show_message_path(message: "#{I18n.t(:accounting_plans)} #{I18n.t(:missing)}")
+    end
+  end
 end
