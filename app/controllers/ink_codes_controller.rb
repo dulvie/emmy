@@ -108,6 +108,9 @@ class InkCodesController < ApplicationController
     @breadcrumbs = [["#{t(:ink_codes)}", ink_codes_path], ["#{t(:order)} #{t(:import)}"]]
     @ink_codes = current_organization.ink_codes
     @accounting_plans = current_organization.accounting_plans
+    if @accounting_plans.size == 0
+      redirect_to helps_show_message_path(message: "#{I18n.t(:accounting_plans)} #{I18n.t(:missing)}")
+    end
     @file_importer = FileImporter.new(InkCode::DIRECTORY, @ink_codes, @accounting_plans)
     @files = @file_importer.files(InkCode::FILES)
   end
