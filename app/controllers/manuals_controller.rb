@@ -94,5 +94,8 @@ class ManualsController < ApplicationController
   def init_collection
     @warehouses = current_organization.warehouses
     @batches = current_organization.batches
+    message = "#{I18n.t(:warehouses)} #{I18n.t(:missing)}" if @warehouses.size == 0
+    message = "#{I18n.t(:batches)} #{I18n.t(:missing)}" if @batches.size == 0
+    redirect_to helps_show_message_path(message:message) if @warehouses.size == 0 || @batches.size == 0
   end
 end
