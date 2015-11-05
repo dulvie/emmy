@@ -160,6 +160,10 @@ class PurchasesController < ApplicationController
     @suppliers = current_organization.suppliers
     @warehouses = current_organization.warehouses
     @users = current_organization.users
+
+    message = "#{I18n.t(:suppliers)} #{I18n.t(:missing)}" if @suppliers.size == 0
+    message = "#{I18n.t(:warehouses)} #{I18n.t(:missing)}" if @warehouses.size == 0
+    redirect_to helps_show_message_path(message:message) if @suppliers.size == 0 || @warehouses.size == 0
    end
 
   def purchase_item_params
