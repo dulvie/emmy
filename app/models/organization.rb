@@ -4,6 +4,8 @@ class Organization < ActiveRecord::Base
   # t.string :address
   # t.string :zip
   # t.string :city
+  # t.string :organization_type
+  # t.string :organization_number
   # t.string :vat_number
   # t.string :bankgiro
   # t.string :postgiro
@@ -12,7 +14,9 @@ class Organization < ActiveRecord::Base
   # t.string :iban
   # t.timestamps
 
-  attr_accessible :email, :name, :address, :zip, :vat_number, :bankgiro, :postgiro, :plusgiro, :city
+  TYPES = ['limited company', 'economic association', 'non-profit association', 'partnership', 'sole proprietorship']
+
+  attr_accessible :email, :name, :address, :zip, :organization_type, :organization_number, :vat_number, :bankgiro, :postgiro, :plusgiro, :city
 
   has_many :organization_roles
   has_many :users, through: :organization_roles
@@ -32,6 +36,7 @@ class Organization < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: true
   validates :slug, presence: true, uniqueness: true
+  validates :organization_type, inclusion: { in: TYPES }
 
   before_validation :generate_slug
 
