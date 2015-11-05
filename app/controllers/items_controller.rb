@@ -89,6 +89,9 @@ class ItemsController < ApplicationController
 
   def init_collection
     @units = current_organization.units
+    message = "#{I18n.t(:units)} #{I18n.t(:missing)}" if @units.size == 0
     @vats = current_organization.vats
+    message = "#{I18n.t(:vats)} #{I18n.t(:missing)}" if @vats.size == 0
+    redirect_to helps_show_message_path(message:message) if @units.size == 0 || @vats.size == 0
   end
 end

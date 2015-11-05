@@ -97,6 +97,7 @@ class ProductionsController < ApplicationController
   def init_collections
     @users = current_organization.users
     @warehouses = current_organization.warehouses
+    redirect_to helps_show_message_path(message: "#{I18n.t(:warehouses)} #{I18n.t(:missing)}") if @warehouses.size == 0
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

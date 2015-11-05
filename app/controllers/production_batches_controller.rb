@@ -9,6 +9,7 @@ class ProductionBatchesController < ApplicationController
     @production_batch = ProductionBatch.new
     @production_batch.production_id = @production.id
     @items = current_organization.items.where('stocked=?', 'true')
+    redirect_to helps_show_message_path(message: "#{I18n.t(:items)} #{I18n.t(:missing)}") if @items.size == 0
     gon.push items:  ActiveModel::ArraySerializer.new(@items, each_serializer: ItemSerializer)
   end
 
