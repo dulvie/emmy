@@ -43,6 +43,8 @@ se:
         item_id: "Artikel"
         materials: "Material"
         name: "Namn"
+        organization_number: "Org nummer"
+        organization_type: "Org typ"
         our_reference: "Vår referens"
         paid_at: "Betalad"
         payment_date: "Utbetalningsdag"
