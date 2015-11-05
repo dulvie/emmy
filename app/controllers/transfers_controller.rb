@@ -107,6 +107,7 @@ class TransfersController < ApplicationController
   def init
     @warehouses = current_organization.warehouses
     gon.push warehouses: ActiveModel::ArraySerializer.new(@warehouses, each_serializer: WarehouseSerializer)
+    redirect_to helps_show_message_path(message: "#{I18n.t(:warehouses)} #{I18n.t(:missing)}") if @warehouses.size == 0
   end
 
   def new_transfer
