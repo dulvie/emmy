@@ -181,6 +181,7 @@ class ImportsController < ApplicationController
   def init_collections
     @users = current_organization.users
     @warehouse = current_organization.warehouses
+    redirect_to helps_show_message_path(message: "#{I18n.t(:warehouses)} #{I18n.t(:missing)}") if @warehouse.size == 0
   end
 
   def init_purchase

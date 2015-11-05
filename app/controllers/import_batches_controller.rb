@@ -30,8 +30,11 @@ class ImportBatchesController < ApplicationController
 
   def init_new
     @items = current_organization.items.where("stocked=? and item_type IN('both', 'purchase')", 'true')
+    message = "#{I18n.t(:items)} #{I18n.t(:missing)}" if @items.size == 0
     @suppliers = current_organization.suppliers
+    message = "#{I18n.t(:suppliers)} #{I18n.t(:missing)}" if @suppliers.size == 0
     gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer), items: ActiveModel::ArraySerializer.new(@items, each_serializer: ItemSerializer)
+    redirect_to helps_show_message_path(message:message) if @items.size == 0 || @suppliers.size == 0
   end
 
   def load_import
