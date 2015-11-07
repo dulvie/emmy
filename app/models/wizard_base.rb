@@ -42,6 +42,10 @@ class WizardBase
     steps[current_step - 1]
   end
 
+  def last_step
+    steps[steps.size-1]
+  end
+
   def text_symbol(step)
     "wizard_#{name.to_s.gsub('wizard', '')}_#{step.join('_')}_text"
   end
