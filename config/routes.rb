@@ -80,6 +80,12 @@ Emmy::Application.routes.draw do
       post 'create_file', as: :create_file
       get 'download', as: :download
     end
+    resources :economics_wizard do
+      collection do
+        get 'start'
+        get 'stop'
+      end
+    end
     resources :export_bank_file_rows
     get 'helps/show_help'
     get 'helps/show_chapter_help'
