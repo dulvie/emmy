@@ -19,22 +19,7 @@ class EmployeesController < ApplicationController
 
   # GET
   def show
-    if @employee.contact.nil?
-      @new = true
-      @employee.contact_relation = ContactRelation.new
-      @employee.contact = Contact.new
-      @contact_relation = @employee.contact_relation
-      @contact = @employee.contact
-      @contact_relation_form_url = contact_relations_path(parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
-    else
-      @new = false
-      @contact_relation = @employee.contact_relation
-      @contact = @employee.contact
-      @contact_relation_form_url = contact_relation_path(@contact_relation.id, parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
-    end
-
-    @contacts = current_organization.contacts
-    gon.push contacts: ActiveModel::ArraySerializer.new(@contacts, each_serializer: ContactSerializer)
+    init_show
   end
 
   # GET
@@ -64,6 +49,7 @@ class EmployeesController < ApplicationController
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:employee)}"
         @tax_tables = current_organization.tax_tables.order(:name)
+        init_show
         format.html { render action: 'show' }
       end
     end
@@ -95,6 +81,25 @@ class EmployeesController < ApplicationController
   def init
     @employees = current_organization.employees.order(:name)
     @employees = @employees.page(params[:page]).decorate
+  end
+
+  def init_show
+    if @employee.contact.nil?
+      @new = true
+      @employee.contact_relation = ContactRelation.new
+      @employee.contact = Contact.new
+      @contact_relation = @employee.contact_relation
+      @contact = @employee.contact
+      @contact_relation_form_url = contact_relations_path(parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
+    else
+      @new = false
+      @contact_relation = @employee.contact_relation
+      @contact = @employee.contact
+      @contact_relation_form_url = contact_relation_path(@contact_relation.id, parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
+    end
+
+    @contacts = current_organization.contacts
+    gon.push contacts: ActiveModel::ArraySerializer.new(@contacts, each_serializer: ContactSerializer)
   end
 
   def load_dependent

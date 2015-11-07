@@ -20,7 +20,8 @@
         = info_modal_for('tax_table_column')
 
     = f.input :tax, disabled: true
-    
+
+    = f.input :personal, :input_html => {:class => 'short'}
     .form-group.form-inline
       .labels_width.control-label
         = f.label :clearingnumber
