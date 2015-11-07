@@ -14,6 +14,7 @@
     %hr
     = link_to(t(:previous), wizard_url(wizard.previous_step), class: 'btn btn-primary') if wizard.previous_step
     = link_to t(:next), wizard_url(wizard.next_step), class: 'btn btn-primary'
+    = link_to t(:close), wizard_url(wizard.last_step), class: 'btn btn-primary'
 
 :javascript
 $(document).ready(function() {
