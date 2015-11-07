@@ -29,3 +29,4 @@
 
   = paginate @templates, :theme => 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+= render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'economics'
