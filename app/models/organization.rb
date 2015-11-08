@@ -14,7 +14,7 @@ class Organization < ActiveRecord::Base
   # t.string :iban
   # t.timestamps
 
-  TYPES = ['limited company', 'economic association', 'non-profit association', 'partnership', 'sole proprietorship']
+  TYPES = ['Aktiebolag', 'Ekonomisk förening', 'Idell förening', 'Handelsbolag', 'Enskild firma']
 
   attr_accessible :email, :name, :address, :zip, :organization_type, :organization_number, :vat_number, :bankgiro, :postgiro, :plusgiro, :city
 
