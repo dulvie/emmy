@@ -10,7 +10,7 @@ class VerificatesController < ApplicationController
 
   # GET
   def index
-    @breadcrumbs = [['Verificates']]
+    @breadcrumbs = [[t(:verificates)]]
     if params[:accounting_period_id]
       session[:accounting_period_id] = params[:accounting_period_id]
       @period = params[:accounting_period_id]
@@ -139,7 +139,7 @@ class VerificatesController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [["#{t(:verificates)}", verificates_path], ["#{t(:new)} #{t(:verificate)}"]]
+    @breadcrumbs = [[t(:verificates), verificates_path], ["#{t(:new)} #{t(:verificate)}"]]
   end
 
   def show_breadcrumbs
@@ -152,7 +152,7 @@ class VerificatesController < ApplicationController
                       ["#{t(:matching)}", import_bank_file_import_bank_file_row_match_verificate_path(file, row)],
                       [bc]]
     else
-      @breadcrumbs = [["#{t(:verificates)}", verificates_path], [bc]]
+      @breadcrumbs = [[t(:verificates), verificates_path], [bc]]
     end
   end
 

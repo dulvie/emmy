@@ -8,7 +8,7 @@ class NeCodesController < ApplicationController
   # GET /ne_codes
   # GET /ne_codes.json
   def index
-    @breadcrumbs = [['Ne codes']]
+    @breadcrumbs = [[t(:ne_codes)]]
     @ne_codes = current_organization.ne_codes
     @ne_codes = @ne_codes.page(params[:page])
     @trans = current_organization.code_transactions.where("code = 'ne'").order("created_at DESC").first
@@ -97,11 +97,11 @@ class NeCodesController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Ne codes', ne_codes_path], ["#{t(:new)} #{t(:ne_code)}"]]
+    @breadcrumbs = [[t(:ne_codes), ne_codes_path], ["#{t(:new)} #{t(:ne_code)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Ne codes', ne_codes_path], [@ne_code.code]]
+    @breadcrumbs = [[t(:ne_codes), ne_codes_path], [@ne_code.code]]
   end
 
   def init_order_import

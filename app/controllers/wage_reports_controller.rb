@@ -87,19 +87,19 @@ class WageReportsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['wage reports', wage_reports_path], ["#{t(:new)} #{t(:wage_report)}"]]
+    @breadcrumbs = [[t(:wage_reports), wage_reports_path], ["#{t(:new)} #{t(:wage_report)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Wage periods', wage_periods_path], [@wage_report.wage_period.name, wage_period_path(@wage_report.wage_period_id)],
-                    ['Wage reports', wage_period_wage_reports_path(@wage_report.wage_period_id)],
+    @breadcrumbs = [[t(:wage_periods), wage_periods_path], [@wage_report.wage_period.name, wage_period_path(@wage_report.wage_period_id)],
+                    [t(:wage_reports), wage_period_wage_reports_path(@wage_report.wage_period_id)],
                     [@wage_report.code]]
   end
 
   def init
-    @breadcrumbs = [['Wage periods', wage_periods_path],
+    @breadcrumbs = [[t(:wage_periods), wage_periods_path],
                     [@wage_period.name, wage_period_path(@wage_period.id)],
-                    ['Wage report']]
+                    [t(:wage_report)]]
     @wage_reports = @wage_period.wage_reports
     @wage_reports = @wage_reports.page(params[:page])
   end

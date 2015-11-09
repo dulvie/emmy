@@ -87,18 +87,18 @@ class VatReportsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Vat periods', vat_periods_path],['Vat reports', vat_reports_path], ["#{t(:new)} #{t(:vat_report)}"]]
+    @breadcrumbs = [[t(:vat_periods) vat_periods_path],[t(:vat_reports), vat_reports_path], ["#{t(:new)} #{t(:vat_report)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Vat periods', vat_periods_path], [@vat_report.vat_period.name, vat_period_path(@vat_report.vat_period_id)],
-                    ['Vat reports', vat_period_vat_reports_path(@vat_report.vat_period_id)],
+    @breadcrumbs = [[t(:vat_periods), vat_periods_path], [@vat_report.vat_period.name, vat_period_path(@vat_report.vat_period_id)],
+                    [t(:vat_reports), vat_period_vat_reports_path(@vat_report.vat_period_id)],
                     [@vat_report.code]]
   end
 
   def init
-    @breadcrumbs = [['Vat periods', vat_periods_path], [@vat_period.name, vat_period_path(@vat_period.id)],
-                    ['Vat reports']]
+    @breadcrumbs = [[t(:vat_periods), vat_periods_path], [@vat_period.name, vat_period_path(@vat_period.id)],
+                    [t(:vat_report)]]
     @vat_periods = current_organization.vat_periods.order('id')
     if !params[:vat_period_id] && @vat_periods.count > 0
       params[:vat_period_id] = @vat_periods.first.id

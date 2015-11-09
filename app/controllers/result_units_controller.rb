@@ -8,7 +8,7 @@ class ResultUnitsController < ApplicationController
   # GET /result_units
   # GET /result_units.json
   def index
-    @breadcrumbs = [['Result units']]
+    @breadcrumbs = [[t(:result_units)]]
     @result_units = current_organization.result_units.order(:name)
     @result_units = @result_units.page(params[:page])
   end
@@ -70,10 +70,10 @@ class ResultUnitsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Result units', result_units_path], ["#{t(:new)} #{t(:result_unit)}"]]
+    @breadcrumbs = [[t(:result_units), result_units_path], ["#{t(:new)} #{t(:result_unit)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Result units', result_units_path], [@result_unit.name]]
+    @breadcrumbs = [[t(:result_units), result_units_path], [@result_unit.name]]
   end
 end

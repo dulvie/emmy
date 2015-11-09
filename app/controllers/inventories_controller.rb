@@ -4,7 +4,7 @@ class InventoriesController < ApplicationController
   before_filter :show_breadcrumbs, only: [:show, :update, :edit, :state_change]
 
   def index
-    @breadcrumbs = [['Inventories']]
+    @breadcrumbs = [[t(:inventories)]]
     @inventories = @inventories.order('started_at DESC').page(params[:page]).decorate
   end
 

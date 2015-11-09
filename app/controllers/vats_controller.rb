@@ -8,7 +8,7 @@ class VatsController < ApplicationController
   # GET /vats
   # GET /vats.json
   def index
-    @breadcrumbs = [['Vats']]
+    @breadcrumbs = [[t(:vats)]]
     @vats = current_organization.vats.order(:name).page(params[:page])
   end
 
@@ -69,10 +69,10 @@ class VatsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Vats', vats_path], ["#{t(:new)} #{t(:vat)}"]]
+    @breadcrumbs = [[t(:vats), vats_path], ["#{t(:new)} #{t(:vat)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Vats', vats_path], [@vat.name]]
+    @breadcrumbs = [[t(:vats), vats_path], [@vat.name]]
   end
 end

@@ -8,7 +8,7 @@ class TaxCodesController < ApplicationController
   # GET /tax_codes
   # GET /tax_codes.json
   def index
-    @breadcrumbs = [['Tax codes']]
+    @breadcrumbs = [[t(:tax_codes)]]
     @tax_codes = current_organization.tax_codes.order(:code)
     @tax_codes = @tax_codes.page(params[:page])
     @trans = current_organization.code_transactions.where("code = 'tax'").order("created_at DESC").first
@@ -99,15 +99,15 @@ class TaxCodesController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Tax codes', tax_codes_path], ["#{t(:new)} #{t(:tax_code)}"]]
+    @breadcrumbs = [[t(:tax_codes), tax_codes_path], ["#{t(:new)} #{t(:tax_code)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Tax codes', tax_codes_path], [@tax_code.code.to_s + ' ' + @tax_code.text]]
+    @breadcrumbs = [[t(:tax_codes), tax_codes_path], [@tax_code.code.to_s + ' ' + @tax_code.text]]
   end
 
   def init_order_import
-    @breadcrumbs = [["#{t(:tax_codes)}", tax_codes_path], ["#{t(:order)} #{t(:import)}"]]
+    @breadcrumbs = [[t(:tax_codes), tax_codes_path], ["#{t(:order)} #{t(:import)}"]]
     @accounting_plans = current_organization.accounting_plans
     if @accounting_plans.size == 0
       redirect_to helps_show_message_path(message: "#{I18n.t(:accounting_plan)} #{I18n.t(:missing)}")

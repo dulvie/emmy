@@ -7,7 +7,7 @@ class ClosingBalancesController < ApplicationController
 
   # GET
   def index
-    @breadcrumbs = [['Closing balances']]
+    @breadcrumbs = [[t(:closing_balances)]]
     @closing_balances = current_organization.closing_balances
     @closing_balances = @closing_balances.page(params[:page]).decorate
   end
@@ -92,10 +92,10 @@ class ClosingBalancesController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [["#{t(:closing_balances)}", closing_balances_path], ["#{t(:new)} #{t(:closing_balance)}"]]
+    @breadcrumbs = [[t(:closing_balances), closing_balances_path], ["#{t(:new)} #{t(:closing_balance)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [["#{t(:closing_balances)}", closing_balances_path], [@closing_balance.description]]
+    @breadcrumbs = [[t(:closing_balances), closing_balances_path], [@closing_balance.description]]
   end
 end

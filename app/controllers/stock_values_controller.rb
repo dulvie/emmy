@@ -7,7 +7,7 @@ class StockValuesController < ApplicationController
 
   # GET
   def index
-    @breadcrumbs = [['Stock_Values']]
+    @breadcrumbs = [[t(:stock_values)]]
     @stock_values = @stock_values.page(params[:page]).decorate
   end
 
@@ -78,11 +78,11 @@ class StockValuesController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [["#{t(:stock_values)}", stock_values_path], ["#{t(:new)} #{t(:stock_value)}"]]
+    @breadcrumbs = [[t(:stock_values), stock_values_path], ["#{t(:new)} #{t(:stock_value)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [["#{t(:stock_values)}", stock_values_path], [@stock_value.name]]
+    @breadcrumbs = [[t(:stock_values), stock_values_path], [@stock_value.name]]
   end
 
 end

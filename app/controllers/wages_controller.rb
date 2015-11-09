@@ -9,9 +9,9 @@ class WagesController < ApplicationController
   # GET /wages
   # GET /wages.json
   def index
-    @breadcrumbs = [['Wage periods', wage_periods_path],
+    @breadcrumbs = [[t(:wage_periods), wage_periods_path],
                     [@wage_period.name, wage_period_path(@wage_period.id)],
-                    ['Wages']]
+                    [t(:wages)]]
     @wage_periods = current_organization.wage_periods.order('id')
     if !params[:wage_period_id] && @wage_periods.count > 0
       params[:wage_period_id] = @wage_periods.first.id
@@ -89,14 +89,14 @@ class WagesController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Wage periods', wage_periods_path], [@wage_period.name, wage_period_path(@wage_period.id)],
-                    ['Wages', wage_period_wages_path],
-                    ['New wage']]
+    @breadcrumbs = [[t(:wage_periods), wage_periods_path], [@wage_period.name, wage_period_path(@wage_period.id)],
+                    [t(:wages), wage_period_wages_path],
+                    [t(:wage)]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Wage periods', wage_periods_path], [@wage.wage_period.name, wage_period_path(@wage.wage_period_id)],
-                    ['Wages', wage_period_wages_path(@wage.wage_period_id)],
+    @breadcrumbs = [[t(:wage_periods), wage_periods_path], [@wage.wage_period.name, wage_period_path(@wage.wage_period_id)],
+                    [t(:wages), wage_period_wages_path(@wage.wage_period_id)],
                     [@wage.employee.name]]
   end
 end

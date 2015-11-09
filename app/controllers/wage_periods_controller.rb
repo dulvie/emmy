@@ -9,7 +9,7 @@ class WagePeriodsController < ApplicationController
   # GET /wage_periods
   # GET /wage_periods.json
   def index
-    @breadcrumbs = [['Wage periods']]
+    @breadcrumbs = [[t(:wage_periods)]]
     if params[:accounting_period_id]
       session[:accounting_period_id] = params[:accounting_period_id]
       @period = params[:accounting_period_id]
@@ -98,11 +98,11 @@ class WagePeriodsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Wage periods', wage_periods_path], ["#{t(:new)} #{t(:wage_period)}"]]
+    @breadcrumbs = [[t(:wage_periods), wage_periods_path], ["#{t(:new)} #{t(:wage_period)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Wage periods', wage_periods_path], [@wage_period.name]]
+    @breadcrumbs = [[t(:wage_periods), wage_periods_path], [@wage_period.name]]
   end
 
   def load_accounting_periods
