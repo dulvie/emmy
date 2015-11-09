@@ -7,7 +7,7 @@ class VatPeriodsController < ApplicationController
   before_filter :load_accounting_periods , only: [:index]
 
   def index
-    @breadcrumbs = [['Vat periods']]
+    @breadcrumbs = [[t(:vat_periods)]]
     if params[:accounting_period_id]
       session[:accounting_period_id] = params[:accounting_period_id]
       @period = params[:accounting_period_id]
@@ -86,11 +86,11 @@ class VatPeriodsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Vat periods', vat_periods_path], ["#{t(:new)} #{t(:vat_period)}"]]
+    @breadcrumbs = [[t(:vat_periods), vat_periods_path], ["#{t(:new)} #{t(:vat_period)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Vat periods', vat_periods_path], [@vat_period.name]]
+    @breadcrumbs = [[t(:vat_periods), vat_periods_path], [@vat_period.name]]
   end
 
   def load_accounting_periods

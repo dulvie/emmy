@@ -8,7 +8,7 @@ class InkCodesController < ApplicationController
   # GET /ink_codes
   # GET /ink_codes.json
   def index
-    @breadcrumbs = [['Ink codes']]
+    @breadcrumbs = [[t(:ink_codes)]]
     @ink_codes = current_organization.ink_codes
     @ink_codes = @ink_codes.page(params[:page])
     @trans = current_organization.code_transactions.where("code = 'ink'").order("created_at DESC").first
@@ -97,15 +97,15 @@ class InkCodesController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Ink codes', ink_codes_path], ["#{t(:new)} #{t(:ink_code)}"]]
+    @breadcrumbs = [[t(:ink_codes), ink_codes_path], ["#{t(:new)} #{t(:ink_code)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Ink codes', ink_codes_path], [@ink_code.code]]
+    @breadcrumbs = [[t(:ink_codes), ink_codes_path], [@ink_code.code]]
   end
 
   def init_order_import
-    @breadcrumbs = [["#{t(:ink_codes)}", ink_codes_path], ["#{t(:order)} #{t(:import)}"]]
+    @breadcrumbs = [[t(:ink_codes), ink_codes_path], ["#{t(:order)} #{t(:import)}"]]
     @ink_codes = current_organization.ink_codes
     @accounting_plans = current_organization.accounting_plans
     if @accounting_plans.size == 0

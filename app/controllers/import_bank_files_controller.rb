@@ -2,12 +2,12 @@ class ImportBankFilesController < ApplicationController
   respond_to :html, :json
   load_and_authorize_resource through: :current_organization
 
-  before_filter :new_breadcrumbs, only: [:new, :create]
+  before_filter :new_breadcrumbs, only: [:new, :create, :upload]
   before_filter :show_breadcrumbs, only: [:edit, :show, :update]
 
   # GET
   def index
-    @breadcrumbs = [['Import bank files']]
+    @breadcrumbs = [[t(:import_bank_files)]]
     @import_bank_files = @import_bank_files.page(params[:page]).decorate
     @bank_trans = current_organization.bank_file_transactions.where("execute = 'import'").order("created_at DESC").first
   end
@@ -96,10 +96,10 @@ class ImportBankFilesController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [["#{t(:import_bank_files)}", import_bank_files_path], ["#{t(:new)} #{t(:import_bank_file)}"]]
+    @breadcrumbs = [[t(:import_bank_files), import_bank_files_path], ["#{t(:new)} #{t(:import_bank_file)}"]]
   end
 
   def show_breadcrumbs
-   @breadcrumbs = [["#{t(:import_bank_files)}", import_bank_files_path], [@import_bank_file.reference]]
+   @breadcrumbs = [[t(:import_bank_files), import_bank_files_path], [@import_bank_file.reference]]
   end
 end

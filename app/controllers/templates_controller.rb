@@ -81,7 +81,7 @@ class TemplatesController < ApplicationController
   private
   
   def init
-    @breadcrumbs = [['Templates']]
+    @breadcrumbs = [[t(:templates)]]
 
     if params[:accounting_plan_id]
       plan = params[:accounting_plan_id]
@@ -103,11 +103,11 @@ class TemplatesController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [["#{t(:templates)}", templates_path], ["#{t(:new)} #{t(:template)}"]]
+    @breadcrumbs = [[t(:templates), templates_path], ["#{t(:new)} #{t(:template)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [["#{t(:templates)}", templates_path], [@template.name]]
+    @breadcrumbs = [[t(:templates), templates_path], [@template.name]]
   end
 
   def load_accounting_plans

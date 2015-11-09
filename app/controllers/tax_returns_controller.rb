@@ -7,7 +7,7 @@ class TaxReturnsController < ApplicationController
   before_filter :load_dependence, only: [:index]
 
   def index
-    @breadcrumbs = [['Tax returns']]
+    @breadcrumbs = [[t(:tax_returns)]]
     if !params[:accounting_period_id] && @accounting_periods.count > 0
       params[:accounting_period_id] = @accounting_periods.first.id
     end
@@ -80,11 +80,11 @@ class TaxReturnsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Tax returns', tax_returns_path], ["#{t(:new)} #{t(:tax_return)}"]]
+    @breadcrumbs = [[t(:tax_returns), tax_returns_path], ["#{t(:new)} #{t(:tax_return)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Tax returns', tax_returns_path], [@tax_return.name]]
+    @breadcrumbs = [[t(:tax_returns), tax_returns_path], [@tax_return.name]]
   end
 
   def load_dependence

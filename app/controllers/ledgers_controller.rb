@@ -8,7 +8,7 @@ class LedgersController < ApplicationController
   # GET /ledgers
   # GET /ledgers.json
   def index
-    @breadcrumbs = [['Ledgers']]
+    @breadcrumbs = [[t(:ledgers)]]
     @ledgers = current_organization.ledgers.page(params[:page])
   end
 

@@ -8,7 +8,7 @@ class DefaultCodesController < ApplicationController
   # GET /default__codes
   # GET /default_codes.json
   def index
-    @breadcrumbs = [['Default codes']]
+    @breadcrumbs = [[t(:default_codes)]]
     @default_codes = @default_codes.page(params[:page])
     @trans = current_organization.code_transactions.where("code = 'default'").order("created_at DESC").first
   end
@@ -98,15 +98,15 @@ class DefaultCodesController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Default codes', default_codes_path], ["#{t(:new)} #{t(:default_code)}"]]
+    @breadcrumbs = [[t(:default_codes), default_codes_path], ["#{t(:new)} #{t(:default_code)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Default codes', default_codes_path], [@default_code.code.to_s + ' ' + @default_code.text]]
+    @breadcrumbs = [[t(:default_codes), default_codes_path], [@default_code.code.to_s + ' ' + @default_code.text]]
   end
 
   def init_order_import
-    @breadcrumbs = [["#{t(:default_codes)}", default_codes_path], ["#{t(:order)} #{t(:import)}"]]
+    @breadcrumbs = [[t(:default_codes), default_codes_path], ["#{t(:order)} #{t(:import)}"]]
     @default_codes = current_organization.default_codes
     @accounting_plans = current_organization.accounting_plans
     if @accounting_plans.size == 0

@@ -8,7 +8,7 @@ class TaxTablesController < ApplicationController
   # GET /tax_tables
   # GET /tax_tables.json
   def index
-    @breadcrumbs = [["#{t(:tax_tables)}"]]
+    @breadcrumbs = [[t(:tax_tables)]]
     @tax_tables = current_organization.tax_tables.order(:name)
     @tax_tables = @tax_tables.page(params[:page])
     @trans = current_organization.table_transactions.where("execute = 'tax_table'").order("created_at DESC").first
@@ -97,15 +97,15 @@ class TaxTablesController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [["#{t(:tax_tables)}", tax_tables_path], ["#{t(:new)} #{t(:tax_table)}"]]
+    @breadcrumbs = [[t(:tax_tables), tax_tables_path], ["#{t(:new)} #{t(:tax_table)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [["#{t(:tax_tables)}", tax_tables_path], [@tax_table.name]]
+    @breadcrumbs = [[t(:tax_tables), tax_tables_path], [@tax_table.name]]
   end
 
   def init_order_import
-    @breadcrumbs = [["#{t(:tax_tables)}", tax_tables_path], ["#{t(:order)} #{t(:import)}"]]
+    @breadcrumbs = [[t(:tax_tables), tax_tables_path], ["#{t(:order)} #{t(:import)}"]]
     @tax_tables = current_organization.tax_tables
     @file_importer = FileImporter.new(TaxTable::DIRECTORY, @tax_tables, nil)
     @files = @file_importer.files(TaxTable::FILES)

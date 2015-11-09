@@ -8,7 +8,7 @@ class AccountingPeriodsController < ApplicationController
 
   # GET
   def index
-    @breadcrumbs = [['Accounting periods']]
+    @breadcrumbs = [[t(:accounting_periods)]]
     @accounting_periods = current_organization.accounting_periods.order(:accounting_from)
     @accounting_periods = @accounting_periods.page(params[:page]).decorate
   end
@@ -91,11 +91,11 @@ class AccountingPeriodsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Accounting periods', accounting_periods_path], ["#{t(:new)} #{t(:accounting_period)}"]]
+    @breadcrumbs = [[t(:accounting_periods), accounting_periods_path], ["#{t(:new)} #{t(:accounting_period)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Accounting periods', accounting_periods_path], [@accounting_period.name]]
+    @breadcrumbs = [[t(:accounting_periods), accounting_periods_path], [@accounting_period.name]]
   end
 
   def init_closing_balance
