@@ -25,8 +25,8 @@
     .form-group.form-inline
       .labels_width.control-label
         = f.label :clearingnumber
-      .fields_width
-        = f.input :clearingnumber, label: false, :input_html => {:class=>'numeric form-control'}
+      .info_fields_width
+        = f.input :clearingnumber, label: false, :input_html => {:class=>'numeric'}
         = info_modal_for('clearingnumber')
 
     = f.input :bank_account
