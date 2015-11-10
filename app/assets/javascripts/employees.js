@@ -53,16 +53,3 @@ app.controller('employee_form_ctrl', function ($scope, $modal, $sce) {
     //$event.stopPropagation();
   };
 });
-
-app.controller('ModalInfoInstanceCtrl', function ($scope, $modalInstance, info) {
-  $scope.info = info;
-  $scope.openDate = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.isOpen = true;
-  };
-
-  $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
-  };
-});

@@ -59,6 +59,19 @@ app.directive('ngBlur', ['$parse', function($parse) {
 		});
 	}
 }]);
+
+app.controller('ModalInfoInstanceCtrl', function ($scope, $modalInstance, info) {
+    $scope.info = info;
+    $scope.openDate = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.isOpen = true;
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});
 $(document).on('ready page:load', function(){
 	  angular.bootstrap(document.body, ['emmy']);
     Setup.init();
