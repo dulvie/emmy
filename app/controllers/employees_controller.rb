@@ -6,7 +6,6 @@ class EmployeesController < ApplicationController
   before_filter :show_breadcrumbs, only: [:edit, :show, :update]
   before_filter :load_dependent, only: [:new, :show, :edit]
 
-
   # GET
   def index
     @breadcrumbs = [["#{t(:employees)}"]]
@@ -90,12 +89,15 @@ class EmployeesController < ApplicationController
       @employee.contact = Contact.new
       @contact_relation = @employee.contact_relation
       @contact = @employee.contact
-      @contact_relation_form_url = contact_relations_path(parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
+      @contact_relation_form_url = contact_relations_path(parent_type: @contact_relation.parent_type,
+                                                          parent_id: @contact_relation.parent_id)
     else
       @new = false
       @contact_relation = @employee.contact_relation
       @contact = @employee.contact
-      @contact_relation_form_url = contact_relation_path(@contact_relation.id, parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
+      @contact_relation_form_url = contact_relation_path(@contact_relation.id,
+                                                         parent_type: @contact_relation.parent_type,
+                                                         parent_id: @contact_relation.parent_id)
     end
 
     @contacts = current_organization.contacts
@@ -105,7 +107,7 @@ class EmployeesController < ApplicationController
   def load_dependent
     @tax_tables = current_organization.tax_tables.order(:name)
     if @tax_tables.size == 0
-      redirect_to helps_show_message_path(message:"#{I18n.t(:tax_tables)} #{I18n.t(:missing)}")
+      redirect_to helps_show_message_path(message: "#{I18n.t(:tax_tables)} #{I18n.t(:missing)}")
     end
   end
 end
