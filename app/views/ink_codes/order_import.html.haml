@@ -4,7 +4,7 @@
     .form-group.form-inline
       .labels_width.control-label
         = f.label :file
-      .info_fields_width
+      .fields_width
         = f.input :file, as: :select, collection: @files, include_blank: false, label: false
         = info_modal_for('file')
 
