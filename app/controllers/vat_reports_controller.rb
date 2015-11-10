@@ -87,7 +87,7 @@ class VatReportsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [[t(:vat_periods) vat_periods_path],[t(:vat_reports), vat_reports_path], ["#{t(:new)} #{t(:vat_report)}"]]
+    @breadcrumbs = [[t(:vat_periods)], [vat_periods_path],[t(:vat_reports), vat_reports_path], ["#{t(:new)} #{t(:vat_report)}"]]
   end
 
   def show_breadcrumbs
