@@ -12,6 +12,8 @@ se:
   accounting_period: "Räkenskapsår"
   accounting_periods: "Räkenskapsår"
   accounting_plan: "Kontoplan"
+  accounting_plan_file_bas: "Bas-kontoplanen Normal rekommenderas för aktiebolag, ekonomiska föreningar, ideella föreningar och handelsbolag"
+  accounting_plan_file_k1: "Kontoplanerna K1 eller K1-mini rekommenderas för enskild firma med förenklat bokslut"
   accounting_plans: "Kontoplaner"
   accounts_payables: "Leverantörsreskontra"
   accounts_receivables: "Kundreskontra"
