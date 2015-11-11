@@ -1,8 +1,8 @@
 = simple_form_for(@file_importer, wrapper: :horizontal_form, html: {class: 'form-horizontal'}, url: tax_table_import_path) do |f|
   = f.error_notification
   = f.input :file, as: :select, collection: @files, include_blank: false
-  = f.input :param1, as: :select, collection: ['2015'], label: 'Year', include_blank: false
-  = f.input :param2, as: :select, collection: TaxTable::TABLES, label: 'Table', include_blank: false
+  = f.input :param1, as: :select, collection: ['2015'], label: t(:year), include_blank: false
+  = f.input :param2, as: :select, collection: TaxTable::TABLES, label: t(:table), include_blank: false
 
   .form-button-group
     .actions

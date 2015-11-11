@@ -350,6 +350,7 @@ se:
   suppliers: "Leverantörer"
   swedish: "Svenska"
   system_message: "Meddelande från systemet"
+  table: "Tabell"
   tax: "Skatt"
   tax_calculated: "Skatt beräknad"
   tax_closed: "Skatt stängd"

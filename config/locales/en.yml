@@ -370,6 +370,7 @@ en:
   swedish: "Swedish"
   system_message: "Message from system"
   roles: "roles"
+  table: "Table"
   tax: "Tax"
   tax_calculated: "Tax calculated"
   tax_closed: "Tax closed"
