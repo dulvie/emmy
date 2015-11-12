@@ -59,7 +59,7 @@ class AccountsController < ApplicationController
   def destroy
     @account.destroy
     respond_to do |format|
-      format.html { redirect_to accounting_plan_path(@accounting_plan), notice:  "#{t(:account)} #{t(:was_successfully_deleted)}" }
+      format.html { redirect_to accounting_plan_path(@accounting_plan), notice: "#{t(:account)} #{t(:was_successfully_deleted)}" }
     end
   end
 
@@ -68,7 +68,7 @@ class AccountsController < ApplicationController
     @account.toggle_active
     @account.save
     respond_to do |format|
-      format.html {redirect_to :back }
+      format.html { redirect_to :back }
     end
   end
 
@@ -80,13 +80,17 @@ class AccountsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [[t(:accounting_plans), accounting_plans_path], [@accounting_plan.name, accounting_plan_path(@accounting_plan)], ["#{t(:new)} #{t(:account)}"]]
+    @breadcrumbs = [[t(:accounting_plans), accounting_plans_path],
+                    [@accounting_plan.name, accounting_plan_path(@accounting_plan)],
+                    ["#{t(:new)} #{t(:account)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [[t(:accounting_plans), accounting_plans_path], [@accounting_plan.name, accounting_plan_path(@accounting_plan)], [@account.name]]
+    @breadcrumbs = [[t(:accounting_plans), accounting_plans_path],
+                    [@accounting_plan.name, accounting_plan_path(@accounting_plan)],
+                    [@account.name]]
   end
-  
+
   def init
     @tax_codes = current_organization.tax_codes
     @default_codes = current_organization.default_codes
