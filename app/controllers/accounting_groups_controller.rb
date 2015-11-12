@@ -66,10 +66,14 @@ class AccountingGroupsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [[t(:accounting_plans), accounting_plans_path], [@accounting_plan.name, accounting_plan_path(@accounting_plan)], ["#{t(:new)} #{t(:accounting_group)}"]]
+    @breadcrumbs = [[t(:accounting_plans), accounting_plans_path],
+                    [@accounting_plan.name, accounting_plan_path(@accounting_plan)],
+                    ["#{t(:new)} #{t(:accounting_group)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [[t(:accounting_plans), accounting_plans_path], [@accounting_plan.name, accounting_plan_path(@accounting_plan)], [@accounting_group.name]]
+    @breadcrumbs = [[t(:accounting_plans), accounting_plans_path],
+                    [@accounting_plan.name, accounting_plan_path(@accounting_plan)],
+                    [@accounting_group.name]]
   end
 end

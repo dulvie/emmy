@@ -67,14 +67,10 @@ class AccountingPlansController < ApplicationController
 
   def import
     file = params[:file_importer][:file]
-    @accounting_plan_trans = AccountingPlanTransaction.new
-    @accounting_plan_trans.posting_date = DateTime.now
-    @accounting_plan_trans.directory = AccountingPlan::DIRECTORY
+    @accounting_plan_trans = init_accounting_plan_trans
     @accounting_plan_trans.file = file
     @accounting_plan_trans.execute = 'import'
     @accounting_plan_trans.accounting_plan_id = nil
-    @accounting_plan_trans.user = current_user
-    @accounting_plan_trans.organization = current_organization
     respond_to do |format|
       if AccountingPlan.validate_file(file) && @accounting_plan_trans.save
         format.html { redirect_to accounting_plans_url, notice: "#{t(:accounting_plan)} #{t(:was_successfully_updated)}" }
@@ -87,14 +83,10 @@ class AccountingPlansController < ApplicationController
   end
 
   def disable_accounts
-    @accounting_plan_trans = AccountingPlanTransaction.new
-    @accounting_plan_trans.posting_date = DateTime.now
-    @accounting_plan_trans.directory = AccountingPlan::DIRECTORY
-    @accounting_plan_trans.file = "Kontoplan_Normal_2014_ver1.csv"
+    @accounting_plan_trans = init_accounting_plan_trans
+    @accounting_plan_trans.file = 'Kontoplan_Normal_2014_ver1.csv'
     @accounting_plan_trans.execute = 'disable'
     @accounting_plan_trans.accounting_plan_id = params[:accounting_plan_id]
-    @accounting_plan_trans.user = current_user
-    @accounting_plan_trans.organization = current_organization
     respond_to do |format|
       if @accounting_plan_trans.save
         format.html { redirect_to accounting_plans_url, notice: "#{t(:accounting_plan)} #{t(:was_successfully_updated)}" }
@@ -125,7 +117,7 @@ class AccountingPlansController < ApplicationController
     @accounting_plans = current_organization.accounting_plans.order(:name)
     @accounting_plans = @accounting_plans.page(params[:page]).decorate
   end
-  
+
   def init_order_import
     @breadcrumbs = [["#{t(:accounting_plan)}", accounting_plans_path], ["#{t(:order)} #{t(:import)}"]]
     from_directory = AccountingPlan::DIRECTORY
@@ -133,5 +125,14 @@ class AccountingPlansController < ApplicationController
     @file_importer = FileImporter.new(from_directory, nil, nil)
     @file_importer.file_filter(existing_plans)
     @files = @file_importer.files(AccountingPlan::FILES)
+  end
+
+  def init_accounting_plan_trans
+    @accounting_plan_trans = AccountingPlanTransaction.new
+    @accounting_plan_trans.posting_date = DateTime.now
+    @accounting_plan_trans.directory = AccountingPlan::DIRECTORY
+    @accounting_plan_trans.user = current_user
+    @accounting_plan_trans.organization = current_organization
+    @accounting_plan_trans
   end
 end
