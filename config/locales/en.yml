@@ -31,6 +31,7 @@ en:
   accounting_class: "Accounting class"
   accounting_group: "Accounting group"
   accounting_period: "Accounting period"
+  accounting_period_vat_period_type: "Recognition of VAT to the tax occurs periodically. Choose an interval. Annually, quarterly or monthly."
   accounting_periods: "Accounting periods"
   accounting_plan: "Accounting plan"
   accounting_plans: "Accounting plans"
