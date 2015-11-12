@@ -10,6 +10,7 @@ se:
   accounting_class: "Konto klass"
   accounting_group: "Konto grupp"
   accounting_period: "Räkenskapsår"
+  accounting_period_vat_period_type: "Redovisning av moms till skatteverket sker periodvis. Välj ett intervall, årsvis, kvartalsvis eller månadsvis."
   accounting_periods: "Räkenskapsår"
   accounting_plan: "Kontoplan"
   accounting_plan_file_bas: "Bas-kontoplanen Normal rekommenderas för aktiebolag, ekonomiska föreningar, ideella föreningar och handelsbolag"
