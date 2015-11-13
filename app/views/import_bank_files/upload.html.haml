@@ -1,8 +1,19 @@
-= simple_form_for(@import_bank_file, wrapper: :horizontal_form, :html => {:class => 'form-horizontal', :multipart => true}, url: import_bank_file_create_from_upload_path, method: :post) do |f|
-  = f.error_notification
-  = f.input :name
-  = f.input :upload, wrapper: :horizontal_file_input, accept: 'text/csv'
+%div{ng_controller: 'import_bank_file_upload_ctrl'}
+  = simple_form_for(@import_bank_file, wrapper: :horizontal_form, :html => {:class => 'form-horizontal', :multipart => true}, url: import_bank_file_create_from_upload_path, method: :post) do |f|
+    = f.error_notification
 
-  .form-button-group
-    .actions
-      = f.submit class: 'btn btn-primary'
+    .form-group.form-inline
+      .labels_width.control-label
+        = f.label :name
+      .fields_width
+        = f.input :name, label: false
+        = info_modal_for('name')
+
+    = f.input :upload, wrapper: :horizontal_file_input, accept: 'text/csv'
+
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'
+
+  = render partial: 'shared/modal_info', locals: {idx: 'infoContent'}
+  = render partial: 'info'

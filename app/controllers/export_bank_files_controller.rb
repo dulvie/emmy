@@ -17,7 +17,7 @@ class ExportBankFilesController < ApplicationController
   def new
     @export_bank_file.pay_account = current_organization.bankgiro  #:postgiro, :plusgiro
     @export_bank_file.iban = current_organization.iban  #:postgiro, :plusgiro
-    @export_bank_file.organization_number = current_organization.vat_number
+    @export_bank_file.organization_number = current_organization.organization_number
   end
 
   # GET
