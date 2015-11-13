@@ -7,7 +7,7 @@
     = f.input :our_reference_id, :as => :hidden
 
     = f.input :description
-    = f.association :supplier,  :input_html => {:ng_model=>'supplier', :ng_change=>'select_supplier()'}
+    = f.association :supplier,  collection: @suppliers, :input_html => {:ng_model=>'supplier', :ng_change=>'select_supplier()'}
     = f.input :contact_name
     = f.input :contact_email
     = f.simple_fields_for(:purchase_items) do |ff|
