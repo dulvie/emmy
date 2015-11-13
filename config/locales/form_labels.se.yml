@@ -103,7 +103,7 @@ se:
         unit: "Enhet"
         upload: "Ladda upp"
         vat: "Moms"
-        vat_number: "VAT-nummer"
+        vat_number: "Momsregistreringnr"
         vat_from: "Moms från"
         vat_period_type: "Moms period"
         vat_to: "Moms till"
