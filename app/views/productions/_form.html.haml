@@ -1,11 +1,17 @@
-.col-md-36
+%div{:ng_controller => 'production_form_ctrl'}
   %div{:ng_controller => "ModalCtrl"}
     = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal', autocomplete: 'off'}) do |f|
       = f.error_notification
   
       = f.input :description, as: :hidden
       = f.association :our_reference, collection: @users, disabled: !@production.new_record?
-      = f.association :warehouse,  collection: @warehouses, disabled: !@production.new_record?
+
+      .form-group.form-inline
+        .labels_width.control-label
+          = f.label :warehouse
+        .fields_width
+          = f.association :warehouse, label: false, collection: @warehouses, include_blank: false, disabled: !@production.new_record?
+          = info_modal_for('warehouse')
   
       - if !@production.new_record?
   
@@ -55,11 +61,9 @@
     - if @production.work? && !@production.work.paid?
       = render partial: 'shared/modal_state_change', locals: {idx: 'workPayContent', model: @production.work, form_path: state_change_purchase_path(@production.work), event: 'pay', return_path: edit_production_path(@production)}
 
-.col-md-12
-  .alert.alert-block.alert-success
-    Ange vem i föreningen som håller i kontakterna med rosteriet och var rostningen ska ske.
-  .alert.alert-block.alert-success
-    Ange uppgifter för satsen som skapas. När artikel väljs ger systemet namnförslag på satsen. Antal som ska rostas anges. Datum för rostningen och utgångsdatum anges.
+  = render partial: 'shared/modal_info', locals: {idx: 'infoContent'}
+  = render partial: 'info'
+
 :javascript
   $(document).ready(function() {
     $('#production_total_amount').val($('#production_total_amount').val()/100);

@@ -1,24 +1,59 @@
-app.controller('production_material_form_ctrl', function ($scope) {
+app.controller('production_form_ctrl', function ($scope, $modal, $sce) {
 
-	$scope.init = function() {
-		$scope.shelf_qty = 0;
-		var idx = $('#material_batch_id').val();
-		for (x=0; x < gon.shelves.length; x++) {
-			if (gon.shelves[x].batch_id == idx) {
-				$scope.shelf_qty = gon.shelves[x].quantity;
-				$scope.bch = gon.shelves[x].batch_id;
-				$scope.set_unit();
-			}
-		}
-	};
-  $scope.set_unit = function() {
-    for (x=0; x < gon.batches.length; x++) {
-      if (gon.batches[x].id == $scope.bch) {
-        $('#material_unit').val(gon.batches[x].unit.name);
-      }
+    $scope.show_info = function($event, info) {
+        $scope.open_info('mb', 'infoContent', info);
+        $event.preventDefault();
+        $event.stopPropagation();
     };
-  
-  };
+
+    $scope.open_info = function (size, el, info) {
+        var info_el= '#'+info;
+        var info_html = $(info_el).html();
+        $scope.info = $sce.trustAsHtml(info_html);
+        var elem = '#'+el;
+        var temp = $(elem).html();
+        var modalInstance = $modal.open({
+            template: temp,
+            controller: 'ModalInfoInstanceCtrl',
+            size: size,
+            resolve: {
+                info: function () {
+                    return $scope.info;
+                }
+            }
+        });
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selected = selectedItem;
+        }, function () {
+            //$log.info('Modal dismissed at: ' + new Date());
+        });
+        //$event.preventDefault();
+        //$event.stopPropagation();
+    };
+});
+
+
+app.controller('production_material_form_ctrl', function ($scope, $modal, $sce) {
+
+    $scope.init = function() {
+        $scope.shelf_qty = 0;
+        var idx = $('#material_batch_id').val();
+        for (x=0; x < gon.shelves.length; x++) {
+            if (gon.shelves[x].batch_id == idx) {
+                $scope.shelf_qty = gon.shelves[x].quantity;
+                $scope.bch = gon.shelves[x].batch_id;
+                $scope.set_unit();
+            }
+        }
+    };
+    $scope.set_unit = function() {
+        for (x=0; x < gon.batches.length; x++) {
+          if (gon.batches[x].id == $scope.bch) {
+            $('#material_unit').val(gon.batches[x].unit.name);
+          }
+        };
+
+    };
 	$scope.change_batch = function() {
 		for (x=0; x < gon.shelves.length; x++) {
 			if (gon.shelves[x].batch_id == $scope.bch) {
@@ -27,9 +62,38 @@ app.controller('production_material_form_ctrl', function ($scope) {
 			}
 		}
 	};
+    $scope.show_info = function($event, info) {
+        $scope.open_info('mb', 'infoContent', info);
+        $event.preventDefault();
+        $event.stopPropagation();
+    };
 
+    $scope.open_info = function (size, el, info) {
+        var info_el= '#'+info;
+        var info_html = $(info_el).html();
+        $scope.info = $sce.trustAsHtml(info_html);
+        var elem = '#'+el;
+        var temp = $(elem).html();
+        var modalInstance = $modal.open({
+            template: temp,
+            controller: 'ModalInfoInstanceCtrl',
+            size: size,
+            resolve: {
+                info: function () {
+                    return $scope.info;
+                }
+            }
+        });
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selected = selectedItem;
+        }, function () {
+            //$log.info('Modal dismissed at: ' + new Date());
+        });
+        //$event.preventDefault();
+        //$event.stopPropagation();
+    };
 });
-app.controller('production_batch_ctrl', function ($scope, price) {
+app.controller('production_batch_ctrl', function ($scope, price, $modal, $sce) {
 
 	$scope.init = function() {
 		$scope.refined = true;
@@ -92,4 +156,34 @@ app.controller('production_batch_ctrl', function ($scope, price) {
     	$('#production_batch_retail_price').val(price.toInteger($('#retail_price_edit').val()));
 	};
 
+    $scope.show_info = function($event, info) {
+        $scope.open_info('mb', 'infoContent', info);
+        $event.preventDefault();
+        $event.stopPropagation();
+    };
+
+    $scope.open_info = function (size, el, info) {
+        var info_el= '#'+info;
+        var info_html = $(info_el).html();
+        $scope.info = $sce.trustAsHtml(info_html);
+        var elem = '#'+el;
+        var temp = $(elem).html();
+        var modalInstance = $modal.open({
+            template: temp,
+            controller: 'ModalInfoInstanceCtrl',
+            size: size,
+            resolve: {
+                info: function () {
+                    return $scope.info;
+                }
+            }
+        });
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selected = selectedItem;
+        }, function () {
+            //$log.info('Modal dismissed at: ' + new Date());
+        });
+        //$event.preventDefault();
+        //$event.stopPropagation();
+    };
 });
