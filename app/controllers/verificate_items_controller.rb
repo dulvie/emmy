@@ -18,7 +18,7 @@ class VerificateItemsController < ApplicationController
     @accounts = accounting_plan.accounts.where('active = ?', 'true').order(:number)
     @result_units = current_organization.result_units
     gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer),
-             accounts: ActiveModel::ArraySerializer.new(@accounts, each_serializer: AccountSerializer) 
+             accounts: ActiveModel::ArraySerializer.new(@accounts, each_serializer: AccountSerializer)
   end
 
   # GET
@@ -32,8 +32,7 @@ class VerificateItemsController < ApplicationController
     @accounts = accounting_plan.accounts.where('active = ?', 'true').order(:number)
     @result_units = current_organization.result_units
     gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer),
-             accounts: ActiveModel::ArraySerializer.new(@accounts, each_serializer: AccountSerializer) 
- 
+             accounts: ActiveModel::ArraySerializer.new(@accounts, each_serializer: AccountSerializer)
   end
 
   # POST
@@ -84,10 +83,14 @@ class VerificateItemsController < ApplicationController
 
   def new_breadcrumbs
     @verificate.number ? bc = @verificate.number : bc = '*'
-    @breadcrumbs = [[t(:verificates), verificates_path], [bc, verificate_path(@verificate)], ["#{t(:new)} #{t(:verificate_item)}"]]
+    @breadcrumbs = [[t(:verificates), verificates_path],
+                    [bc, verificate_path(@verificate)],
+                    ["#{t(:new)} #{t(:verificate_item)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [[t(:verificates), verificates_path], [@verificate.number, verificate_plan_path(@verificate)], [@verificate_item.description]]
+    @breadcrumbs = [[t(:verificates), verificates_path],
+                    [@verificate.number, verificate_plan_path(@verificate)],
+                    [@verificate_item.description]]
   end
 end
