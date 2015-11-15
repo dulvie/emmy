@@ -91,7 +91,8 @@ class WageReportsController < ApplicationController
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [[t(:wage_periods), wage_periods_path], [@wage_report.wage_period.name, wage_period_path(@wage_report.wage_period_id)],
+    @breadcrumbs = [[t(:wage_periods), wage_periods_path],
+                    [@wage_report.wage_period.name, wage_period_path(@wage_report.wage_period_id)],
                     [t(:wage_reports), wage_period_wage_reports_path(@wage_report.wage_period_id)],
                     [@wage_report.code]]
   end

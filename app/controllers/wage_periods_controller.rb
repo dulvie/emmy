@@ -75,7 +75,7 @@ class WagePeriodsController < ApplicationController
   def destroy
     @wage_period.destroy
     respond_to do |format|
-      format.html { redirect_to wage_periods_url, notice: "#{t(:wage_period)} #{t(:was_successfully_deleted)}"}
+      format.html { redirect_to wage_periods_url, notice: "#{t(:wage_period)} #{t(:was_successfully_deleted)}" }
     end
   end
 
@@ -87,7 +87,7 @@ class WagePeriodsController < ApplicationController
     else
       msg_h = { alert: t(:fail) }
     end
-     redirect_to wage_periods_path, msg_h
+    redirect_to wage_periods_path, msg_h
   end
 
   private
