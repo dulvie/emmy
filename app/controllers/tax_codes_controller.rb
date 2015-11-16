@@ -11,7 +11,9 @@ class TaxCodesController < ApplicationController
     @breadcrumbs = [[t(:tax_codes)]]
     @tax_codes = current_organization.tax_codes.order(:code)
     @tax_codes = @tax_codes.page(params[:page])
-    @trans = current_organization.code_transactions.where("code = 'tax'").order("created_at DESC").first
+    @trans = current_organization.code_transactions
+                 .where("code = 'tax'")
+                 .order('created_at DESC').first
   end
 
   # GET /tax_codes/new
@@ -20,7 +22,7 @@ class TaxCodesController < ApplicationController
 
   # GET /tax_codes/1
   def show
-    @connections = current_organization.accounts.where("tax_code_id = ? ", params[:id])
+    @connections = current_organization.accounts.where('tax_code_id = ? ', params[:id])
     @connections = @connections.page(params[:page])
   end
 

@@ -4,7 +4,7 @@ class VatPeriodsController < ApplicationController
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:edit, :show, :update]
-  before_filter :load_accounting_periods , only: [:index]
+  before_filter :load_accounting_periods, only: [:index]
 
   def index
     @breadcrumbs = [[t(:vat_periods)]]
@@ -39,7 +39,7 @@ class VatPeriodsController < ApplicationController
     @vat_period.organization = current_organization
     respond_to do |format|
       if @vat_period.save
-          format.html { redirect_to vat_periods_path, notice: "#{t(:vat_period)} #{t(:was_successfully_created)}" }
+        format.html { redirect_to vat_periods_path, notice: "#{t(:vat_period)} #{t(:was_successfully_created)}" }
       else
         @suppliers = current_organization.suppliers.where('supplier_type = ?', 'RSV')
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:vat_period)}"
@@ -51,7 +51,7 @@ class VatPeriodsController < ApplicationController
   def update
     respond_to do |format|
       if @vat_period.update(vat_period_params)
-        format.html { redirect_to vat_periods_path, notice: "#{t(:vat_period)} #{t(:was_successfully_updated)}"}
+        format.html { redirect_to vat_periods_path, notice: "#{t(:vat_period)} #{t(:was_successfully_updated)}" }
       else
         @suppliers = current_organization.suppliers.where('supplier_type = ?', 'RSV')
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:vat_period)}"
@@ -63,7 +63,7 @@ class VatPeriodsController < ApplicationController
   def destroy
     @vat_period.destroy
     respond_to do |format|
-      format.html { redirect_to vat_periods_path, notice: "#{t(:vat_period)} #{t(:was_successfully_deleted)}"}
+      format.html { redirect_to vat_periods_path, notice: "#{t(:vat_period)} #{t(:was_successfully_deleted)}" }
     end
   end
 
@@ -75,7 +75,7 @@ class VatPeriodsController < ApplicationController
     else
       msg_h = { alert: t(:fail) }
     end
-     redirect_to vat_periods_path, msg_h
+    redirect_to vat_periods_path, msg_h
   end
 
   private
@@ -96,7 +96,7 @@ class VatPeriodsController < ApplicationController
   def load_accounting_periods
     @accounting_periods = current_organization.accounting_periods.order('id')
     if @accounting_periods.size == 0
-      redirect_to helps_show_message_path(message:"#{I18n.t(:accounting_period)} #{I18n.t(:missing)}")
+      redirect_to helps_show_message_path(message: "#{I18n.t(:accounting_period)} #{I18n.t(:missing)}")
     end
   end
 end

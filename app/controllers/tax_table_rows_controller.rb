@@ -7,8 +7,10 @@ class TaxTableRowsController < ApplicationController
 
   # GET
   def index
-    @breadcrumbs = [[t(:tax_tables), tax_tables_path],[@tax_table.name]]
-    @tax_table_rows = current_organization.tax_table_rows.where('tax_table_id=?', @tax_table.id).order(:from_wage)
+    @breadcrumbs = [[t(:tax_tables), tax_tables_path], [@tax_table.name]]
+    @tax_table_rows = current_organization.tax_table_rows
+                          .where('tax_table_id=?', @tax_table.id)
+                          .order(:from_wage)
     @tax_table_rows = @tax_table_rows.page(params[:page])
   end
 
@@ -48,7 +50,9 @@ class TaxTableRowsController < ApplicationController
   end
 
   def show_breadcrumbs
-   @tax_table = @tax_table_row.tax_table
-   @breadcrumbs = [[t(:tax_tables), tax_tables_path], [@tax_table.name, tax_table_tax_table_rows_path(@tax_table)], [@tax_table_row.from_wage]]
+    @tax_table = @tax_table_row.tax_table
+    @breadcrumbs = [[t(:tax_tables), tax_tables_path],
+                    [@tax_table.name, tax_table_tax_table_rows_path(@tax_table)],
+                    [@tax_table_row.from_wage]]
   end
 end

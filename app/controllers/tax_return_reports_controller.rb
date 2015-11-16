@@ -9,19 +9,22 @@ class TaxReturnReportsController < ApplicationController
   # GET /vats
   # GET /vats.json
   def index
-    @breadcrumbs = [['Tax returns', tax_returns_path], [@tax_return.name, tax_return_path(@tax_return.id)],
+    @breadcrumbs = [['Tax returns', tax_returns_path],
+                    [@tax_return.name, tax_return_path(@tax_return.id)],
                     ['Tax return reports']]
     @tax_returns = current_organization.tax_returns.order('id')
     if !params[:tax_return_id] && @tax_returns.count > 0
       params[:tax_return_id] = @tax_returns.first.id
     end
-    @tax_return_reports = current_organization.tax_return_reports.where('tax_return_id=?', params[:tax_return_id])
+    @tax_return_reports = current_organization.tax_return_reports
+                              .where('tax_return_id=?', params[:tax_return_id])
     @tax_return_reports = @tax_return_reports.page(params[:page])
   end
 
   # GET /vats/new
   def new
-    @accounting_periods = current_organization.accounting_periods.where('active = ?', true).order('id')
+    @accounting_periods = current_organization.accounting_periods
+                              .where('active = ?', true).order('id')
     @vat_base = @accounting_periods.first.next_vat_base
   end
 
@@ -89,11 +92,14 @@ class TaxReturnReportsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [['Vat periods', vat_periods_path],['Vat reports', tax_return_reports_path], ["#{t(:new)} #{t(:tax_return_report)}"]]
+    @breadcrumbs = [['Vat periods', vat_periods_path],
+                    ['Vat reports', tax_return_reports_path],
+                    ["#{t(:new)} #{t(:tax_return_report)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [['Tax returns', tax_returns_path], [@tax_return.name, tax_return_path(@tax_return_report.tax_return_id)],
+    @breadcrumbs = [['Tax returns', tax_returns_path],
+                    [@tax_return.name, tax_return_path(@tax_return_report.tax_return_id)],
                     ['Tax return reports', tax_return_tax_return_reports_path(@tax_return_report.tax_return_id)],
                     [@tax_return_report.ink_code.code]]
   end
