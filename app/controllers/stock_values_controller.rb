@@ -84,5 +84,4 @@ class StockValuesController < ApplicationController
   def show_breadcrumbs
     @breadcrumbs = [[t(:stock_values), stock_values_path], [@stock_value.name]]
   end
-
 end
