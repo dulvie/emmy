@@ -87,17 +87,21 @@ class VatReportsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [[t(:vat_periods)], [vat_periods_path],[t(:vat_reports), vat_reports_path], ["#{t(:new)} #{t(:vat_report)}"]]
+    @breadcrumbs = [[t(:vat_periods)], [vat_periods_path],
+                    [t(:vat_reports), vat_reports_path],
+                    ["#{t(:new)} #{t(:vat_report)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [[t(:vat_periods), vat_periods_path], [@vat_report.vat_period.name, vat_period_path(@vat_report.vat_period_id)],
+    @breadcrumbs = [[t(:vat_periods), vat_periods_path],
+                    [@vat_report.vat_period.name, vat_period_path(@vat_report.vat_period_id)],
                     [t(:vat_reports), vat_period_vat_reports_path(@vat_report.vat_period_id)],
                     [@vat_report.code]]
   end
 
   def init
-    @breadcrumbs = [[t(:vat_periods), vat_periods_path], [@vat_period.name, vat_period_path(@vat_period.id)],
+    @breadcrumbs = [[t(:vat_periods), vat_periods_path],
+                    [@vat_period.name, vat_period_path(@vat_period.id)],
                     [t(:vat_report)]]
     @vat_periods = current_organization.vat_periods.order('id')
     if !params[:vat_period_id] && @vat_periods.count > 0

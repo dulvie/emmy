@@ -44,7 +44,7 @@ class TaxReturnsController < ApplicationController
     respond_to do |format|
       if @tax_return.update(tax_return_params)
         url = tax_returns_path + '&accounting_period_id=' + @tax_return.accounting_period_id.to_s
-        format.html { redirect_to url, notice: "#{t(:tax_return)} #{t(:was_successfully_updated)}"}
+        format.html { redirect_to url, notice: "#{t(:tax_return)} #{t(:was_successfully_updated)}" }
       else
         @accounting_periods = current_organization.accounting_periods.where('active = ?', true)
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:tax_return)}"
@@ -57,7 +57,7 @@ class TaxReturnsController < ApplicationController
     url = tax_returns_path + '&accounting_period_id=' + @tax_return.accounting_period_id.to_s
     @tax_return.destroy
     respond_to do |format|
-      format.html { redirect_to url, notice: "#{t(:tax_return)} #{t(:was_successfully_deleted)}"}
+      format.html { redirect_to url, notice: "#{t(:tax_return)} #{t(:was_successfully_deleted)}" }
     end
   end
 
@@ -69,7 +69,7 @@ class TaxReturnsController < ApplicationController
     else
       msg_h = { alert: t(:fail) }
     end
-     redirect_to tax_returns_path, msg_h
+    redirect_to tax_returns_path, msg_h
   end
 
   private

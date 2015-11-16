@@ -11,7 +11,9 @@ class TaxTablesController < ApplicationController
     @breadcrumbs = [[t(:tax_tables)]]
     @tax_tables = current_organization.tax_tables.order(:name)
     @tax_tables = @tax_tables.page(params[:page])
-    @trans = current_organization.table_transactions.where("execute = 'tax_table'").order("created_at DESC").first
+    @trans = current_organization.table_transactions
+        .where("execute = 'tax_table'")
+        .order('created_at DESC').first
   end
 
   # GET /tax_tables/new
@@ -78,7 +80,7 @@ class TaxTablesController < ApplicationController
     @table_trans.complete = 'false'
     @table_trans.user = current_user
     @table_trans.organization = current_organization
-    respond_to do |format|    
+    respond_to do |format|
       if TaxTable.validate_file(file) && @table_trans.save
         format.html { redirect_to tax_tables_url, notice: "#{t(:tax_tables)} #{t(:was_successfully_created)}" }
       else
