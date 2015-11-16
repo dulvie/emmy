@@ -8,8 +8,10 @@ class StockValueItemsController < ApplicationController
 
   # GET
   def index
-    @breadcrumbs = [[t(:stock_values), stock_values_path], [@stock_value.name, stock_value_path(@stock_value)]]
-    @stock_value_items = @stock_value_items.where('stock_value_id = ?', @stock_value).page(params[:page])
+    @breadcrumbs = [[t(:stock_values), stock_values_path],
+                    [@stock_value.name, stock_value_path(@stock_value)]]
+    @stock_value_items = @stock_value_items
+                             .where('stock_value_id = ?', @stock_value).page(params[:page])
   end
 
   # GET
@@ -58,7 +60,7 @@ class StockValueItemsController < ApplicationController
     @stock_value_item.destroy
     respond_to do |format|
       recalculate(@stock_value_item.stock_value)
-      format.html { redirect_to  stock_value_stock_value_items_path(@stock_value), notice:  "#{t(:stock_value_item)} #{t(:was_successfully_deleted)}" }
+      format.html { redirect_to  stock_value_stock_value_items_path(@stock_value), notice: "#{t(:stock_value_item)} #{t(:was_successfully_deleted)}" }
     end
   end
 
@@ -70,13 +72,17 @@ class StockValueItemsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [[t(:stock_values), stock_values_path], [@stock_value.name, stock_value_path(@stock_value)], ["#{t(:new)} #{t(:stock_value_item)}"]]
+    @breadcrumbs = [[t(:stock_values), stock_values_path],
+                    [@stock_value.name, stock_value_path(@stock_value)],
+                    ["#{t(:new)} #{t(:stock_value_item)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [[t(:stock_values), stock_values_path], [@stock_value.name, stock_value_path(@stock_value)], [@stock_value_item.name]]
+    @breadcrumbs = [[t(:stock_values), stock_values_path],
+                    [@stock_value.name, stock_value_path(@stock_value)],
+                    [@stock_value_item.name]]
   end
-  
+
   def recalculate(stock_value)
     @stock_value_creator = Services::StockValueCreator.new(current_organization, current_user, stock_value)
     @stock_value_creator.recalculate

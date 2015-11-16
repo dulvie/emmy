@@ -6,15 +6,15 @@ class SieExportsController < ApplicationController
   def order
     @breadcrumbs = [['Export SIE']]
     @sie_export = SieExport.new(current_organization, current_user, nil, nil)
-    @trans = current_organization.sie_transactions.where("execute = 'export'").order("created_at DESC").first
+    @trans = current_organization.sie_transactions.where("execute = 'export'").order('created_at DESC').first
   end
 
   def download
     @sie_export = SieExport.new(current_organization, current_user, nil, nil)
-    @file = @sie_export.directory+'/'+@sie_export.file_name
+    @file = @sie_export.directory + '/' + @sie_export.file_name
     respond_to do |format|
       if @sie_export.file_exists?
-        format.csv {     send_file @file, :type=>"text/plain", :x_sendfile=>true }
+        format.csv { send_file @file, type: 'text/plain', x_sendfile: true }
         format.html { redirect_to sie_export_order_path, notice: "#{t(:sie_exports)} #{t(:downloaded)}" }
       else
         @accounting_periods = current_organization.accounting_periods
@@ -46,7 +46,7 @@ class SieExportsController < ApplicationController
         format.html { redirect_to sie_export_order_path }
       end
     end
-  end 
+  end
 
   private
 

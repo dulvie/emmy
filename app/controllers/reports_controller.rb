@@ -37,7 +37,9 @@ class ReportsController < ApplicationController
       return
     end
 
-    @ledger_accounts = current_organization.ledger_accounts.where('accounting_period_id = ?', @report.accounting_period).sort_by { |ledger_account| ledger_account.account_number}
+    @ledger_accounts = current_organization.ledger_accounts
+                           .where('accounting_period_id = ?', @report.accounting_period)
+                           .sort_by { |ledger_account| ledger_account.account_number }
 
     # @verificate_items = VerificateItem
     # .joins(:verificate, :account)
@@ -168,7 +170,9 @@ class ReportsController < ApplicationController
   def load_verificates
     @report = Report.new params[:report][:accounting_period]
     @accounting_period = current_organization.accounting_periods.find(@report.accounting_period)
-    @verificates = current_organization.verificates.where("accounting_period_id = ? AND state = 'final'", @accounting_period.id).order(:number)
+    @verificates = current_organization.verificates
+                       .where("accounting_period_id = ? AND state = 'final'", @accounting_period.id)
+                       .order(:number)
     if @verificates.size == 0
       redirect_to helps_show_message_path(message: "#{I18n.t(:verificates)} #{I18n.t(:missing)}")
     end
