@@ -11,7 +11,9 @@ class InkCodesController < ApplicationController
     @breadcrumbs = [[t(:ink_codes)]]
     @ink_codes = current_organization.ink_codes
     @ink_codes = @ink_codes.page(params[:page])
-    @trans = current_organization.code_transactions.where("code = 'ink'").order("created_at DESC").first
+    @trans = current_organization.code_transactions
+                 .where("code = 'ink'")
+                 .order('created_at DESC').first
   end
 
   # GET /ink_codes/new
@@ -69,15 +71,10 @@ class InkCodesController < ApplicationController
 
   def import
     file = params[:file_importer][:file]
-    @code_trans = CodeTransaction.new
-    @code_trans.directory = InkCode::DIRECTORY
+    @code_trans = init_code_transaction
     @code_trans.file = file
-    @code_trans.code = 'ink'
     @code_trans.run_type = params[:file_importer][:type]
-    @code_trans.complete = 'false'
     @code_trans.accounting_plan_id = params[:file_importer][:accounting_plan]
-    @code_trans.user = current_user
-    @code_trans.organization = current_organization
     respond_to do |format|
       if InkCode.validate_file(file) && @code_trans.save
         format.html { redirect_to ink_codes_url, notice: "#{t(:ink_codes)} #{t(:was_successfully_created)}" }
@@ -113,5 +110,15 @@ class InkCodesController < ApplicationController
     end
     @file_importer = FileImporter.new(InkCode::DIRECTORY, @ink_codes, @accounting_plans)
     @files = @file_importer.files(InkCode::FILES)
+  end
+
+  def init_code_transaction
+    @code_trans = CodeTransaction.new
+    @code_trans.directory = InkCode::DIRECTORY
+    @code_trans.code = 'ink'
+    @code_trans.complete = 'false'
+    @code_trans.user = current_user
+    @code_trans.organization = current_organization
+    @code_trans
   end
 end

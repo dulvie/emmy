@@ -100,7 +100,7 @@ class ReportsController < ApplicationController
   end
 
   def balance_report
-  # OBS måste plocka bort verificate som inte är final
+  # OBS maste plocka bort verificate som inte är final
     @report = Report.new params[:report][:accounting_period]
     @accounting_period = current_organization.accounting_periods.find(@report.accounting_period)
 

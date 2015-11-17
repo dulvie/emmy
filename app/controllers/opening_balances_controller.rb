@@ -37,7 +37,7 @@ class OpeningBalancesController < ApplicationController
       if @opening_balance.save
         format.html { redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:opening_balance)} #{t(:was_successfully_created)}" }
       else
-        format.html {redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:failed_to_create)} #{t(:opening_balance)}"}
+        format.html {redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:failed_to_create)} #{t(:opening_balance)}" }
       end
     end
   end
@@ -61,12 +61,12 @@ class OpeningBalancesController < ApplicationController
     accounting_period = @opening_balance.accounting_period
     @opening_balance.destroy
     respond_to do |format|
-      format.html { redirect_to  edit_accounting_period_path(accounting_period), notice:  "#{t(:opening_balance)} #{t(:was_successfully_deleted)}" }
+      format.html { redirect_to  edit_accounting_period_path(accounting_period), notice: "#{t(:opening_balance)} #{t(:was_successfully_deleted)}" }
     end
   end
 
   def state_change
-    #X authorize! :manage, @verificate
+    # X authorize! :manage, @verificate
     if @opening_balance.state_change(params[:event], params[:state_change_at])
       msg_h = { notice: t(:success) }
     else
@@ -86,9 +86,9 @@ class OpeningBalancesController < ApplicationController
     @balance_trans.organization = current_organization
     respond_to do |format|
       if @balance_trans.save
-        format.html {redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:opening_balance)} #{t(:was_successfully_updated)}" }
+        format.html { redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:opening_balance)} #{t(:was_successfully_updated)}" }
       else
-        format.html {redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:opening_balance)} #{t(:faild_to_update)}" }
+        format.html { redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:opening_balance)} #{t(:faild_to_update)}" }
       end
     end
   end
@@ -101,10 +101,12 @@ class OpeningBalancesController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [[t(:opening_balances), opening_balances_path], ["#{t(:new)} #{t(:opening_balance)}"]]
+    @breadcrumbs = [[t(:opening_balances), opening_balances_path],
+                    ["#{t(:new)} #{t(:opening_balance)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [[t(:opening_balances), opening_balances_path], [@opening_balance.description]]
+    @breadcrumbs = [[t(:opening_balances), opening_balances_path],
+                    [@opening_balance.description]]
   end
 end

@@ -55,7 +55,8 @@ class ExportBankFileRowsController < ApplicationController
   end
 
   def show_breadcrumbs
-   @export_bank_file = @export_bank_file_row.export_bank_file
-   @breadcrumbs = [["#{t(:export_bank_file)}", export_bank_file_path(@export_bank_file)], [@export_bank_file_row.name]]
+    @export_bank_file = @export_bank_file_row.export_bank_file
+    @breadcrumbs = [["#{t(:export_bank_file)}", export_bank_file_path(@export_bank_file)],
+                    [@export_bank_file_row.name]]
   end
 end

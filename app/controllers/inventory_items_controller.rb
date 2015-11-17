@@ -26,7 +26,7 @@ class InventoryItemsController < ApplicationController
     respond_to do |format|
       if @inventory_item.update(inventory_item_params)
         format.html { redirect_to inventory_path(@inventory), notice: 'supplier was successfully updated.' }
-        format.json { head :no_content}
+        format.json { head :no_content }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:purchase)}"
         format.html { render action: 'show' }
@@ -56,6 +56,8 @@ class InventoryItemsController < ApplicationController
   end
 
   def set_breadcrumbs
-    @breadcrumbs = [[t(:inventory), inventories_path], ["##{@inventory.id}", inventory_path(@inventory)], [t(:add_inventory)]]
+    @breadcrumbs = [[t(:inventory), inventories_path],
+                    ["##{@inventory.id}", inventory_path(@inventory)],
+                    [t(:add_inventory)]]
   end
 end

@@ -11,7 +11,9 @@ class NeCodesController < ApplicationController
     @breadcrumbs = [[t(:ne_codes)]]
     @ne_codes = current_organization.ne_codes
     @ne_codes = @ne_codes.page(params[:page])
-    @trans = current_organization.code_transactions.where("code = 'ne'").order("created_at DESC").first
+    @trans = current_organization.code_transactions
+                 .where("code = 'ne'")
+                 .order('created_at DESC').first
   end
 
   # GET /ne_codes/new
