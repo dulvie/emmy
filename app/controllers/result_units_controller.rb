@@ -32,7 +32,8 @@ class ResultUnitsController < ApplicationController
     @result_unit.organization = current_organization
     respond_to do |format|
       if @result_unit.save
-        format.html { redirect_to result_units_url, notice: "#{t(:result_unit)} #{t(:was_successfully_created)}" }
+        msg = "#{t(:result_unit)} #{t(:was_successfully_created)}"
+        format.html { redirect_to result_units_url, notice: msg }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:result_unit)}"
         format.html { render action: 'new' }
@@ -45,7 +46,8 @@ class ResultUnitsController < ApplicationController
   def update
     respond_to do |format|
       if @result_unit.update(result_unit_params)
-        format.html { redirect_to result_units_url, notice:  "#{t(:result_unit)} #{t(:was_successfully_updated)}" }
+        msg = "#{t(:result_unit)} #{t(:was_successfully_updated)}"
+        format.html { redirect_to result_units_url, notice: msg }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:result_unit)}"
         format.html { render action: 'show' }
@@ -58,7 +60,8 @@ class ResultUnitsController < ApplicationController
   def destroy
     @result_unit.destroy
     respond_to do |format|
-      format.html { redirect_to result_units_url, notice:  "#{t(:result_unit)} #{t(:was_successfully_deleted)}" }
+      msg = "#{t(:result_unit)} #{t(:was_successfully_deleted)}"
+      format.html { redirect_to result_units_url, notice: msg }
     end
   end
 

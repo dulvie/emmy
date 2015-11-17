@@ -1,6 +1,6 @@
 class LedgerTransactionsController < ApplicationController
   respond_to :html, :json
-  load_and_authorize_resource  through: :current_organization
+  load_and_authorize_resource through: :current_organization
 
   before_filter :new_breadcrumbs, only: [:new, :create]
   before_filter :show_breadcrumbs, only: [:edit, :show, :update]
@@ -12,7 +12,9 @@ class LedgerTransactionsController < ApplicationController
     @account = current_organization.accounts.find(params[:account_id])
     name = @account.number.to_s + ' ' + @account.description
     @breadcrumbs = [[@ledger.name, ledger_ledger_accounts_path(@ledger.id)], [name]]
-    @ledger_transactions = current_organization.ledger_transactions.where('ledger_id = ? AND account_id = ? ', params[:ledger_id], params[:account_id]).page(params[:page]).decorate
+    @ledger_transactions = current_organization.ledger_transactions
+                               .where('ledger_id = ? AND account_id = ? ', params[:ledger_id], params[:account_id])
+                               .page(params[:page]).decorate
   end
 
   # GET /ledger_transation_transations/new

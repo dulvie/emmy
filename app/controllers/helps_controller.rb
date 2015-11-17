@@ -7,14 +7,10 @@ class HelpsController < ApplicationController
   end
 
   def show_chapter_help
-    render :layout => false
+    render layout: false
   end
 
   def show_message
     @breadcrumbs = [["#{t(:help)}"]]
   end
-
-  private
-
-
 end

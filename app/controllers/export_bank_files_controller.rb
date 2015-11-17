@@ -51,20 +51,20 @@ class ExportBankFilesController < ApplicationController
   def destroy
     @export_bank_file.destroy
     respond_to do |format|
-      format.html { redirect_to export_bank_files_url, notice:  "#{t(:export_bank_files)} #{t(:was_successfully_deleted)}" }
+      format.html { redirect_to export_bank_files_url, notice: "#{t(:export_bank_files)} #{t(:was_successfully_deleted)}" }
     end
   end
 
   def download
     export_bank_file = current_organization.export_bank_files.find(params[:export_bank_file_id])
-    @file = export_bank_file.directory+'/'+export_bank_file.file_name
+    @file = export_bank_file.directory + '/' + export_bank_file.file_name
     respond_to do |format|
       if export_bank_file.file_exists?
-        format.csv {     send_file @file, :type=>"text/plain", :x_sendfile=>true }
+        format.csv { send_file @file, type: 'text/plain', x_sendfile: true }
         format.html { redirect_to export_bank_files_url, notice: "#{t(:export_bank_file)} #{t(:was_successfully_created)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:export_bank_file)}"
-        format.html { redirect_to export_bank_files_url, notice:"#{t(:failed_to_create)} #{t(:export_bank_file)}" }
+        format.html { redirect_to export_bank_files_url, notice: "#{t(:failed_to_create)} #{t(:export_bank_file)}" }
       end
     end
   end
@@ -77,17 +77,19 @@ class ExportBankFilesController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [["#{t(:export_bank_files)}", export_bank_files_path], ["#{t(:new)} #{t(:export_bank_file)}"]]
+    @breadcrumbs = [["#{t(:export_bank_files)}", export_bank_files_path],
+                    ["#{t(:new)} #{t(:export_bank_file)}"]]
   end
 
   def show_breadcrumbs
-   @breadcrumbs = [["#{t(:export_bank_files)}", export_bank_files_path], [@export_bank_file.reference]]
+    @breadcrumbs = [["#{t(:export_bank_files)}", export_bank_files_path],
+                    [@export_bank_file.reference]]
   end
 
   def load_dependent
     @accounting_periods = current_organization.accounting_periods
     if @accounting_periods.size == 0
-      redirect_to helps_show_message_path(message:"#{I18n.t(:accounting_period)} #{I18n.t(:missing)}")
+      redirect_to helps_show_message_path(message: "#{I18n.t(:accounting_period)} #{I18n.t(:missing)}")
     end
   end
 end

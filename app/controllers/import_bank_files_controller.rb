@@ -9,7 +9,9 @@ class ImportBankFilesController < ApplicationController
   def index
     @breadcrumbs = [[t(:import_bank_files)]]
     @import_bank_files = @import_bank_files.page(params[:page]).decorate
-    @bank_trans = current_organization.bank_file_transactions.where("execute = 'import'").order("created_at DESC").first
+    @bank_trans = current_organization.bank_file_transactions
+                      .where("execute = 'import'")
+                      .order('created_at DESC').first
   end
 
   # GET
@@ -32,7 +34,7 @@ class ImportBankFilesController < ApplicationController
         format.html { redirect_to import_bank_files_path, notice: "#{t(:import_bank_file)} #{t(:was_successfully_created)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:import_bank_file)}"
-        format.html {redirect_to import_bank_files_path}
+        format.html { redirect_to import_bank_files_path }
       end
     end
   end
@@ -40,7 +42,7 @@ class ImportBankFilesController < ApplicationController
   # PATCH/PUT
   def update
     respond_to do |format|
-      if @import_bank_file.update()
+      if @import_bank_file.update
         format.html { redirect_to import_bank_files_path, notice: "#{t(:import_bank_file)} #{t(:was_successfully_updated)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:import_bank_file)}"
@@ -69,7 +71,7 @@ class ImportBankFilesController < ApplicationController
     directory = "#{Rails.root}/tmp/uploads"
     file_name = "#{current_organization.slug}_bank_file.csv"
     path = File.join(directory, file_name)
-    File.open(path, "wb") { |f| f.write(tempfile.read) }
+    File.open(path, 'wb') { |f| f.write(tempfile.read) }
 
     @bank_file_trans = BankFileTransaction.new
     @bank_file_trans.execute = 'import'
@@ -86,7 +88,6 @@ class ImportBankFilesController < ApplicationController
     end
   end
 
-
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.
@@ -96,10 +97,12 @@ class ImportBankFilesController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [[t(:import_bank_files), import_bank_files_path], ["#{t(:new)} #{t(:import_bank_file)}"]]
+    @breadcrumbs = [[t(:import_bank_files), import_bank_files_path],
+                    ["#{t(:new)} #{t(:import_bank_file)}"]]
   end
 
   def show_breadcrumbs
-   @breadcrumbs = [[t(:import_bank_files), import_bank_files_path], [@import_bank_file.reference]]
+    @breadcrumbs = [[t(:import_bank_files), import_bank_files_path],
+                    [@import_bank_file.reference]]
   end
 end

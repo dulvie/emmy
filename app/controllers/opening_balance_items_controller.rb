@@ -8,7 +8,7 @@ class OpeningBalanceItemsController < ApplicationController
 
   # GET
   def index
-    @breadcrumbs = [[t(:opening_balances), opening_balances_path],['Opening balance items']]
+    @breadcrumbs = [[t(:opening_balances), opening_balances_path], ['Opening balance items']]
     @opening_balance_items = @opening_balance_items.page(params[:page])
   end
 
@@ -18,7 +18,7 @@ class OpeningBalanceItemsController < ApplicationController
     @accounting_groups = accounting_plan.accounting_groups.order(:number)
     @accounts = accounting_plan.accounts.order(:number)
     gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer),
-             accounts: ActiveModel::ArraySerializer.new(@accounts, each_serializer: AccountSerializer) 
+             accounts: ActiveModel::ArraySerializer.new(@accounts, each_serializer: AccountSerializer)
   end
 
   # GET
@@ -75,10 +75,14 @@ class OpeningBalanceItemsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [[t(:opening_balances), opening_balances_path], [@opening_balance.description, opening_balance_path(@opening_balance)], ["#{t(:new)} #{t(:opening_balance_item)}"]]
+    @breadcrumbs = [[t(:opening_balances), opening_balances_path],
+                    [@opening_balance.description, opening_balance_path(@opening_balance)],
+                    ["#{t(:new)} #{t(:opening_balance_item)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [[t(:opening_balances), opening_balances_path], [@opening_balance.number, opening_balance_plan_path(@opening_balance)], [@opening_balance_item.description]]
+    @breadcrumbs = [[t(:opening_balances), opening_balances_path],
+                    [@opening_balance.number, opening_balance_plan_path(@opening_balance)],
+                    [@opening_balance_item.description]]
   end
 end
