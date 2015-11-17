@@ -37,7 +37,7 @@ class ClosingBalancesController < ApplicationController
         create_transaction(@closing_balance.accounting_period, @closing_balance)
         format.html { redirect_to edit_accounting_period_path(@closing_balance.accounting_period_id), notice: "#{t(:closing_balance)} #{t(:was_successfully_created)}" }
       else
-        format.html { redirect_to edit_accounting_period_path(@closing_balance.accounting_period_id), notice: "#{t(:failed_to_create)} #{t(:closing_balance)}"}
+        format.html { redirect_to edit_accounting_period_path(@closing_balance.accounting_period_id), notice: "#{t(:failed_to_create)} #{t(:closing_balance)}" }
       end
     end
   end
@@ -64,7 +64,7 @@ class ClosingBalancesController < ApplicationController
   end
 
   def state_change
-    #X authorize! :manage, @verificate
+    # X authorize! :manage, @verificate
     if @closing_balance.state_change(params[:event], params[:state_change_at])
       msg_h = { notice: t(:success) }
     else

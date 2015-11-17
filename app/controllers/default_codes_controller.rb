@@ -10,7 +10,9 @@ class DefaultCodesController < ApplicationController
   def index
     @breadcrumbs = [[t(:default_codes)]]
     @default_codes = @default_codes.page(params[:page])
-    @trans = current_organization.code_transactions.where("code = 'default'").order("created_at DESC").first
+    @trans = current_organization.code_transactions
+                 .where("code = 'default'")
+                 .order('created_at DESC').first
   end
 
   # GET /default_codes/new
@@ -19,7 +21,7 @@ class DefaultCodesController < ApplicationController
 
   # GET /default_codes/1
   def show
-    @connections = current_organization.accounts.where("default_code_id = ? ", params[:id])
+    @connections = current_organization.accounts.where('default_code_id = ? ', params[:id])
     @connections = @connections.page(params[:page])
   end
 
@@ -114,6 +116,5 @@ class DefaultCodesController < ApplicationController
     end
     @file_importer = FileImporter.new(DefaultCode::DIRECTORY, @default_codes, @accounting_plans)
     @files = @file_importer.files(DefaultCode::FILES)
-
   end
 end

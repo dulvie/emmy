@@ -17,7 +17,7 @@ class ClosingBalanceItemsController < ApplicationController
     @accounting_groups = accounting_plan.accounting_groups.order(:number)
     @accounts = accounting_plan.accounts.order(:number)
     gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer),
-             accounts: ActiveModel::ArraySerializer.new(@accounts, each_serializer: AccountSerializer) 
+             accounts: ActiveModel::ArraySerializer.new(@accounts, each_serializer: AccountSerializer)
   end
 
   # GET
@@ -74,10 +74,14 @@ class ClosingBalanceItemsController < ApplicationController
   end
 
   def new_breadcrumbs
-    @breadcrumbs = [[t(:closing_balances), closing_balances_path], [@closing_balance.description, closing_balance_path(@closing_balance)], ["#{t(:new)} #{t(:closing_balance_item)}"]]
+    @breadcrumbs = [[t(:closing_balances), closing_balances_path],
+                    [@closing_balance.description, closing_balance_path(@closing_balance)],
+                    ["#{t(:new)} #{t(:closing_balance_item)}"]]
   end
 
   def show_breadcrumbs
-    @breadcrumbs = [[t(:closing_balances), closing_balances_path], [@closing_balance.number, closing_balance_plan_path(@closing_balance)], [@closing_balance_item.description]]
+    @breadcrumbs = [[t(:closing_balances), closing_balances_path],
+                    [@closing_balance.number, closing_balance_plan_path(@closing_balance)],
+                    [@closing_balance_item.description]]
   end
 end
