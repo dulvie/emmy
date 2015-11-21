@@ -21,7 +21,6 @@ class ImportDecorator < Draper::Decorator
     labelify(str, l)
   end
 
-
   def labelify(str, label_state)
     h.content_tag :span, class: "label label-#{label_state}" do
       str
@@ -32,7 +31,4 @@ class ImportDecorator < Draper::Decorator
     return unless object.can_delete?
     h.link_to h.delete_icon, object, method: :delete, data: { confirm: 'Are you Sure?' }
   end
-
-
 end
-
