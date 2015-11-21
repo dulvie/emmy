@@ -1,6 +1,5 @@
 module Services
   class ClosingBalanceCreator
-
     def initialize(organization, user, closing_balance, accounting_period)
       @user = user
       @organization = organization
@@ -10,10 +9,10 @@ module Services
 
     def add_from_ledger
       ClosingBalanceItem.transaction do
-      @organization.ledger_accounts.where('accounting_period_id = ?', @accounting_period.id)
-      .each do |item|
-        add_closing_balance_item(item.account_id, item.sum)
-      end
+        @organization.ledger_accounts.where('accounting_period_id = ?', @accounting_period.id)
+            .each do |item|
+          add_closing_balance_item(item.account_id, item.sum)
+        end
       end
     end
 
@@ -39,13 +38,13 @@ module Services
       end
       closing_balance_item.save
     end
-    
+
     def delete_closing_balance_items
       @closing_balance_items = @closing_balance.closing_balance_items
       ClosingBalanceItem.transaction do
-      @closing_balance_items.each do |closing_balance|
-        closing_balance.destroy
-      end
+        @closing_balance_items.each do |closing_balance|
+          closing_balance.destroy
+        end
       end
     end
   end

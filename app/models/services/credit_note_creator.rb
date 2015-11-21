@@ -1,6 +1,5 @@
 module Services
   class CreditNoteCreator
-
     def initialize(organization, user, reference)
       @user = user
       @organization = organization
@@ -8,23 +7,11 @@ module Services
     end
 
     def save
-      ref_sale_items = @organization.sale_items.where("sale_id = ?", @reference.id)
-      return 0 if ref_sale_items == nil
+      ref_sale_items = @organization.sale_items.where('sale_id = ?', @reference.id)
+      return 0 if ref_sale_items.nil?
 
-      Rails.logger.info "Testar #{@reference.inspect}"
-      @sale = Sale.new
-      @sale.credit = true
-      @sale.credit_reference = @reference.id
-      @sale.warehouse_id = @reference.warehouse_id
-      @sale.customer_id = @reference.customer_id
-      @sale.user_id = @user.id
-      @sale.organization = @organization
-      @sale.contact_name = @reference.contact_name
-      @sale.contact_email = @reference.contact_email
-      @sale.contact_telephone = @reference.contact_telephone
-      @sale.payment_term = @reference.payment_term
-      Rails.logger.info "Testar #{@sale.inspect}"
-      return 0 if !@sale.save
+      @sale = init_sale
+      return 0 unless @sale.save
 
       ref_sale_items.each do |item|
         Rails.logger.info "Raden #{item.inspect}"
@@ -50,7 +37,23 @@ module Services
       end
       @reference.credit_reference = @sale.id
       @reference.save
-      return @sale.id
+      @sale.id
+    end
+
+    def init_sale
+      @sale = Sale.new
+      @sale.credit = true
+      @sale.credit_reference = @reference.id
+      @sale.warehouse_id = @reference.warehouse_id
+      @sale.customer_id = @reference.customer_id
+      @sale.user_id = @user.id
+      @sale.organization = @organization
+      @sale.contact_name = @reference.contact_name
+      @sale.contact_email = @reference.contact_email
+      @sale.contact_telephone = @reference.contact_telephone
+      @sale.payment_term = @reference.payment_term
+      Rails.logger.info "Testar #{@sale.inspect}"
+      @sale
     end
   end
 end
