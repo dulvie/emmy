@@ -1,6 +1,5 @@
 module Services
   class ImportSie
-
     def initialize(organization, user, directory, file_name, accounting_period, accounting_plan)
       @user = user
       @organization = organization
@@ -18,13 +17,13 @@ module Services
       ver_id = 0
       IO.foreach(@file) do |line|
         case @sietyp
-          when '4'
-            set_ub(line) if line.starts_with?('#UB') if import_type == 'UB'
-            set_ib(line) if line.starts_with?('#IB') if import_type == 'IB'
-            ver_id = set_ver(line) if line.starts_with?('#VER') if import_type == "Transactions"
-            set_trans(ver_id, line) if line.starts_with?('#TRANS') if import_type == "Transactions"
-            close_verificate(ver_id) if line.starts_with?('}') if import_type == "Transactions"
-          else
+        when '4'
+          set_ub(line) if line.starts_with?('#UB') if import_type == 'UB'
+          set_ib(line) if line.starts_with?('#IB') if import_type == 'IB'
+          ver_id = set_ver(line) if line.starts_with?('#VER') if import_type == 'Transactions'
+          set_trans(ver_id, line) if line.starts_with?('#TRANS') if import_type == 'Transactions'
+          close_verificate(ver_id) if line.starts_with?('}') if import_type == 'Transactions'
+        else
         end
         set_type(line) if line.starts_with?('#SIETYP')
       end
@@ -35,26 +34,26 @@ module Services
     end
 
     def set_ib(line)
-      #type, period, account, amount
+      # type, period, account, amount
       field = line.split(' ')
       set_opening_balance_item(field[2], field[3])
     end
 
     def set_ub(line)
-      #type, period, account, amount
+      # type, period, account, amount
       field = line.split(' ')
       set_closing_balance_item(field[2], field[3])
     end
 
     def set_ver(line)
-      #type, serie, vernr date, text, regdate
+      # type, serie, vernr date, text, regdate
       field = line.split(' ')
       text = line.split('"')
-      return save_verificate(field[2], field[3], text[1])
+      save_verificate(field[2], field[3], text[1])
     end
 
     def set_trans(ver_id, line)
-      #type, account, {}, amount date
+      # type, account, {}, amount date
       field = line.split(' ')
       set_verificate_item(ver_id, field[1], field[3])
     end
@@ -92,7 +91,8 @@ module Services
         credit = -sum
       end
 
-      @opening_balance_item = @opening_balance.opening_balance_items.where('account_id = ?', @account.id).first
+      @opening_balance_item = @opening_balance.opening_balance_items
+                                  .where('account_id = ?', @account.id).first
       if @opening_balance_item.nil?
         create_opening_balance_item(@account, debit, credit)
       else
@@ -115,7 +115,8 @@ module Services
         credit = -sum
       end
 
-      @closing_balance_item = @closing_balance.closing_balance_items.where('account_id = ?', @account.id).first
+      @closing_balance_item = @closing_balance.closing_balance_items
+                                  .where('account_id = ?', @account.id).first
       if @closing_balance_item.nil?
         create_closing_balance_item(@account, debit, credit)
       else
@@ -140,7 +141,6 @@ module Services
       opening_balance_item.save
     end
 
-
     def create_closing_balance_item(account, debit, credit)
       @closing_balance_item = @closing_balance.closing_balance_items.build
       @closing_balance_item.organization_id = @organization.id
@@ -162,14 +162,14 @@ module Services
       conversion = @organization.conversions.where('old_number = ?', number).first
       return nil if conversion.nil?
       @account = @accounting_plan.accounts.where('number = ?', conversion.new_number).first
-      return @account
+      @account
     end
 
     def set_diff_account(number)
-        conversion = Conversion.new
-        conversion.old_number = number
-        conversion.organization = @organization
-        conversion.save
+      conversion = Conversion.new
+      conversion.old_number = number
+      conversion.organization = @organization
+      conversion.save
     end
 
     def save_verificate(number, date, text)
@@ -179,7 +179,7 @@ module Services
       verificate.organization_id = @organization.id
       verificate.accounting_period_id = @accounting_period.id
       verificate.save
-      return verificate.id
+      verificate.id
     end
 
     def set_verificate_item(ver_id, number, amount)
