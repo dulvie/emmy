@@ -11,7 +11,9 @@ module Services
 
     def read_verificates_and_create_rows
       # särbehandla wage_period#wage skapa utbetalningsrad för varje lön: verifikatet summerat
-      verificates = @organization.verificates.where("state = 'preliminary' and posting_date >= ? and posting_date <= ?", @export_bank_file.from_date, @export_bank_file.to_date)
+      verificates = @organization.verificates
+                        .where("state = 'preliminary' and posting_date >= ? and posting_date <= ?",
+                               @export_bank_file.from_date, @export_bank_file.to_date)
       verificates.each do |verificate|
         if verificate.bank_amount < 0
 
@@ -60,7 +62,9 @@ module Services
 
     def read_wages_and_create_rows
       # Läs wages kontroller mot preliminärt verifikat
-      wages = @organization.wages.where("payment_date >= ? and payment_date <= ?", @export_bank_file.from_date, @export_bank_file.to_date)
+      wages = @organization.wages
+                  .where("payment_date >= ? and payment_date <= ?",
+                         @export_bank_file.from_date, @export_bank_file.to_date)
       sum = 0
       wages.each do |wage|
 

@@ -18,16 +18,16 @@ module Services
       ImportBankFileRow.transaction do
       CSV.foreach(@file, { col_sep: "\t",  encoding: "ISO-8859-1" }) do |row|
         case idx
-          when 1
-            # Check konto row[1]
-          when 2
-            # Rubrikrad
-          else
-            # bokföringsdatum, belopp, konto, namn, referens, saldo, , , , ,notering
-            save_bank_file_row(row[0], row[1], row[2], row[3], row[4], row[10])
-            from = row[0] if row[0] < from
-            to = row[0] if row[0] > to
-            end
+        when 1
+          # Check konto row[1]
+        when 2
+          # Rubrikrad
+        else
+          # bokföringsdatum, belopp, konto, namn, referens, saldo, , , , ,notering
+          save_bank_file_row(row[0], row[1], row[2], row[3], row[4], row[10])
+          from = row[0] if row[0] < from
+          to = row[0] if row[0] > to
+        end
         idx += idx
       end
       end
