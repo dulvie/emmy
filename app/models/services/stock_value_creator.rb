@@ -1,6 +1,5 @@
 module Services
   class StockValueCreator
-
     def initialize(organization, user, stock_value)
       @user = user
       @organization = organization
