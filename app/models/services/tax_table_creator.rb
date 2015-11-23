@@ -12,15 +12,15 @@ module Services
       name = directory + file_name
       save_tax_table('Tabell ' + table, year)
       TaxTableRow.transaction do
-      CSV.foreach(name, { col_sep: ';' }) do |row|
-        if row[1] == table
-          calc = (row[0] == '30B' ? 'belopp' : 'procent')
-          save_tax_table_row(calc, row[2].to_s, row[3], row[4].to_s, row[5], row[6], row[7], row[8], row[9])
+        CSV.foreach(name, col_sep: ';') do |row|
+          if row[1] == table
+            calc = (row[0] == '30B' ? 'belopp' : 'procent')
+            save_tax_table_row(calc, row[2].to_s, row[3], row[4].to_s, row[5], row[6], row[7], row[8], row[9])
+          end
         end
       end
-      end
     end
- 
+
     def save_tax_table(name, year)
       @tax_table = TaxTable.new
       @tax_table.name = name
@@ -44,5 +44,4 @@ module Services
       tax_file_row.save
     end
   end
-
 end

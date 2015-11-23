@@ -1,6 +1,5 @@
 module Services
   class OpeningBalanceCreator
-
     def initialize(organization, user, opening_balance, accounting_period)
       @user = user
       @organization = organization
@@ -11,9 +10,9 @@ module Services
     def add_from_ub
       from_period = @accounting_period.previous_accounting_period
       OpeningBalanceItem.transaction do
-      from_period.closing_balance.closing_balance_items.each do |item|
-        add_opening_balance_item(item.account_id, item.description, item.debit, item.credit)
-      end
+        from_period.closing_balance.closing_balance_items.each do |item|
+          add_opening_balance_item(item.account_id, item.description, item.debit, item.credit)
+        end
       end
     end
 
