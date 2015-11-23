@@ -1,6 +1,5 @@
 module Services
   class VerificateItemsCreator
-
     def initialize(organization, user, verificate, verificate_items)
       @user = user
       @organization = organization

@@ -7,7 +7,10 @@ module Services
       @user = user
       @organization = organization
       @object = object
-      @accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', post_date, post_date).first
+      @accounting_period = @organization.accounting_periods
+                               .where('accounting_from <= ? AND accounting_to >= ?',
+                                      post_date, post_date)
+                               .first
       if @accounting_period.nil?
         @errors << "Unable to find accounting period"
         Rails.logger.info "-->>VerificateCreator error accounting period missing"
@@ -161,7 +164,10 @@ module Services
 
     def save_bank_file_row
       import_bank_file_row = @object
-      accounting_period = @organization.accounting_periods.where('accounting_from <= ? AND accounting_to >= ?', import_bank_file_row.posting_date, import_bank_file_row.posting_date).first
+      accounting_period = @organization.accounting_periods
+                              .where('accounting_from <= ? AND accounting_to >= ?',
+                                     import_bank_file_row.posting_date, import_bank_file_row.posting_date)
+                              .first
       accounting_plan = accounting_period.accounting_plan
 
       save_verificate( import_bank_file_row.posting_date, import_bank_file_row.name, import_bank_file_row.reference, import_bank_file_row.note, accounting_period, nil)
