@@ -1,6 +1,5 @@
 module Services
   class WageCreator
-
     def initialize(organization, user, wage_period)
       @user = user
       @organization = organization
@@ -9,7 +8,8 @@ module Services
 
     def save_wages
       @accounting_period = AccountingPeriod.find(@wage_period.accounting_period_id)
-      employee = @organization.employees.where('begin < ? AND ending > ?', @wage_period.wage_to, @wage_period.wage_from)
+      employee = @organization.employees
+                     .where('begin < ? AND ending > ?', @wage_period.wage_to, @wage_period.wage_from)
       employee.each do |employee|
         save_wage(employee, employee.salary, @accounting_period, @wage_period)
       end
