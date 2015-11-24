@@ -15,7 +15,7 @@ class BankFileTransaction < ActiveRecord::Base
   belongs_to :parent, polymorphic: true
 
   def complete?
-    return self.complete
+    complete
   end
 
   after_commit :enqueue_event
@@ -23,7 +23,7 @@ class BankFileTransaction < ActiveRecord::Base
   # Callback: after_commit
   def enqueue_event
     return if complete?
-    Rails.logger.info "->#{self.inspect}"
+    Rails.logger.info "->#{inspect}"
     Resque.enqueue(Job::BankFileTransactionEvent, id)
   end
 end
