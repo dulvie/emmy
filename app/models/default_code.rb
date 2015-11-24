@@ -8,7 +8,7 @@ class DefaultCode < ActiveRecord::Base
   belongs_to :organization
   has_many   :accounts
 
-  validates :code, presence: true, uniqueness: {scope: :organization_id}
+  validates :code, presence: true, uniqueness: { scope: :organization_id }
   validates :text, presence: true
 
   DIRECTORY = 'files/codes/'
