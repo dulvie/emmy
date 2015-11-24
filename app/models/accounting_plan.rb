@@ -13,10 +13,10 @@ class AccountingPlan < ActiveRecord::Base
   has_many :accounts, dependent: :destroy
   has_many :accounting_periods
 
-  validates :name, presence: true, uniqueness: {scope: :organization_id}
+  validates :name, presence: true, uniqueness: { scope: :organization_id }
 
- DIRECTORY = 'files/accounting_plans/'
- FILES = '*.csv'
+  DIRECTORY = 'files/accounting_plans/'
+  FILES = '*.csv'
 
   def self.validate_file(import_file)
     file_importer = FileImporter.new(DIRECTORY, nil, nil)

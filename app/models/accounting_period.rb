@@ -21,7 +21,7 @@ class AccountingPeriod < ActiveRecord::Base
 
   VAT_TYPES = ['year', 'quarter', 'month']
 
-  validates :name, presence: true, uniqueness: {scope: :organization_id}
+  validates :name, presence: true, uniqueness: { scope: :organization_id }
   validates :accounting_from, presence: true
   validates :accounting_to, presence: true
   validate :check_to
@@ -35,7 +35,10 @@ class AccountingPeriod < ActiveRecord::Base
   end
 
   def overlaping_period
-    p = AccountingPeriod.where('organization_id = ? and accounting_to >= ? and accounting_from <= ?' , organization_id, accounting_from, accounting_to).count
+    p = AccountingPeriod
+            .where('organization_id = ? and accounting_to >= ? and accounting_from <= ?' ,
+                   organization_id, accounting_from, accounting_to)
+            .count
     if new_record?
       errors.add(:accounting_to, I18n.t(:within_period)) if p > 0
     else
@@ -54,11 +57,11 @@ class AccountingPeriod < ActiveRecord::Base
   end
 
   def from_formatted
-    accounting_from.strftime("%Y-%m-%d")
+    accounting_from.strftime('%Y-%m-%d')
   end
 
   def to_formatted
-    accounting_to.strftime("%Y-%m-%d")
+    accounting_to.strftime('%Y-%m-%d')
   end
 
   def allow_from
@@ -72,11 +75,17 @@ class AccountingPeriod < ActiveRecord::Base
   end
 
   def previous_accounting_period
-    organization.accounting_periods.where('accounting_from < ? and accounting_to > ?', accounting_from-10.day,accounting_from-10.day ).first
+    organization.accounting_periods
+        .where('accounting_from < ? and accounting_to > ?',
+               accounting_from-10.day,accounting_from-10.day )
+        .first
   end
 
   def next_accounting_period
-    organization.accounting_periods.where('accounting_from < ? and accounting_to > ?', accounting_to+10.day,accounting_to+10.day ).first
+    organization.accounting_periods
+        .where('accounting_from < ? and accounting_to > ?',
+               accounting_to+10.day,accounting_to+10.day )
+        .first
   end
 
   def next_vat_period
@@ -85,15 +94,15 @@ class AccountingPeriod < ActiveRecord::Base
     vat_period.name = 'Momsperiod ' + accounting_from.strftime('%Y') + ':' + (vat_periods.count + 1).to_s
     vat_period.vat_from = vat_periods.count > 0 ? vat_periods.last.vat_to + 1.days : accounting_from
     case vat_period_type
-      when 'year'
-        vat_period.vat_to = vat_period.vat_from + 1.year - 1.days
-        vat_period.deadline = vat_period.vat_to + 1.month + 26.days
-      when 'quarter'
-        vat_period.vat_to = vat_period.vat_from + 3.month - 1.days
-        vat_period.deadline = vat_period.vat_to + 1.month + 12.days
-      when 'month'
-        vat_period.vat_to = vat_period.vat_from.end_of_month
-        vat_period.deadline = vat_period.vat_to + 1.month + 12.days
+    when 'year'
+      vat_period.vat_to = vat_period.vat_from + 1.year - 1.days
+      vat_period.deadline = vat_period.vat_to + 1.month + 26.days
+    when 'quarter'
+      vat_period.vat_to = vat_period.vat_from + 3.month - 1.days
+      vat_period.deadline = vat_period.vat_to + 1.month + 12.days
+    when 'month'
+      vat_period.vat_to = vat_period.vat_from.end_of_month
+      vat_period.deadline = vat_period.vat_to + 1.month + 12.days
     end
     return vat_period
   end
@@ -106,7 +115,7 @@ class AccountingPeriod < ActiveRecord::Base
     wage_period.wage_to = wage_period.wage_from.end_of_month
     wage_period.payment_date = wage_period.wage_from + 17.days
     wage_period.deadline = wage_period.wage_to + 12.days
-    return wage_period
+    wage_period
   end
 
   def default_tax_return
@@ -114,7 +123,7 @@ class AccountingPeriod < ActiveRecord::Base
     tax_return.accounting_period_id = self.id
     tax_return.name = 'Inkomstdeklaration ' + accounting_from.strftime('%Y')
     tax_return.deadline = accounting_to + 5.months
-    return tax_return
+    tax_return
   end
 
   def can_delete?

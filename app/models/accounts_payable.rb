@@ -3,7 +3,6 @@ class AccountsPayable
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
-
   @default_codes
   @accounting_period
 
@@ -30,7 +29,7 @@ class AccountsPayable
 
   def default_code_id
     default_code = @default_codes.find_by_code(04)
-    return default_code.id
+    default_code.id
   end
 
   def accounting_plan_id
