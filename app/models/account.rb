@@ -26,7 +26,7 @@ class Account < ActiveRecord::Base
   has_many   :verificate_items
   has_many   :closing_balance_items
 
-  validates :number, presence: true, uniqueness: {scope: [:organization_id, :accounting_plan]}
+  validates :number, presence: true, uniqueness: { scope: [:organization_id, :accounting_plan] }
   validates :description, presence: true
 
   delegate :name, :number, to: :accounting_class, prefix: :class

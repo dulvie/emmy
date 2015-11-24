@@ -29,7 +29,7 @@ class AccountsReceivable
 
   def default_code_id
     default_code = @default_codes.find_by_code(03)
-    return default_code.id
+    default_code.id
   end
 
   def accounting_plan_id
