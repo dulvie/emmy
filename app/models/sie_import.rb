@@ -8,7 +8,7 @@ class SieImport
 
   # Paperclip required callbacks
   define_model_callbacks :save, :commit, only: [:after]
-  define_model_callbacks :destroy, only: [:before, :after]  
+  define_model_callbacks :destroy, only: [:before, :after]
 
   def initialize(current_organization, accounting_period, sie_type)
     @current_organization = current_organization

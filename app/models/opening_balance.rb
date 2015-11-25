@@ -12,7 +12,7 @@ class OpeningBalance < ActiveRecord::Base
   belongs_to :accounting_period
   has_many   :opening_balance_items, dependent: :delete_all
 
-  validates :accounting_period_id, presence: true, uniqueness: {scope: [:organization_id, :accounting_period_id]}
+  validates :accounting_period_id, presence: true, uniqueness: { scope: [:organization_id, :accounting_period_id] }
   validates :description, presence: true
 
 
@@ -64,7 +64,7 @@ class OpeningBalance < ActiveRecord::Base
   end
 
   def posting_date_formatted
-    posting_date.strftime("%Y-%m-%d")
+    posting_date.strftime('%Y-%m-%d')
   end
 
   def can_delete?
