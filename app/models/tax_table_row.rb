@@ -12,9 +12,8 @@ class TaxTableRow < ActiveRecord::Base
   # t.integer  :tax_table_id
   # t.timestamps
 
-
   attr_accessible :calculation, :from_wage, :to_wage, :column_1, :column_2,
-    :column_3, :column_4, :column_5, :column_6, :tax_table_id
+                  :column_3, :column_4, :column_5, :column_6, :tax_table_id
 
   CALCULATION_TYPES = ['belopp', 'procent']
 
@@ -32,25 +31,25 @@ class TaxTableRow < ActiveRecord::Base
   validates :column_6, presence: true
 
   def tax(wage, column)
+    col = 0
+    case column
+    when '1'
+      col = column_1
+    when '2'
+      col = column_2
+    when '3'
+      col = column_3
+    when '4'
+      col = column_4
+    when '5'
+      col = column_5
+    when '6'
+      col = column_6
+    else
       col = 0
-      case column
-        when '1'
-          col = column_1
-        when '2'
-          col = column_2
-        when '3'
-          col = column_3
-        when '4'
-          col = column_4
-        when '5'
-          col = column_5
-        when '6'
-          col = column_6
-        else
-          col = 0
-      end
-      return col * wage / 100 if self.calculation == 'procent'
-      return col
+    end
+    return col * wage / 100 if calculation == 'procent'
+    col
   end
 
   def can_delete?

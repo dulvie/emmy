@@ -6,7 +6,6 @@ class TaxReturnReport < ActiveRecord::Base
   # t.integer  :ink_code_id
   # t.timestamps
 
-
   attr_accessible :amount, :accounting_period_id, :ink_code_id
 
   belongs_to :organization

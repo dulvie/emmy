@@ -11,7 +11,7 @@ class StockValue < ActiveRecord::Base
   belongs_to :organization
   has_many   :stock_value_items, dependent: :destroy
 
-  validates :name, presence: true, uniqueness: {scope: [:organization_id]}
+  validates :name, presence: true, uniqueness: { scope: [:organization_id] }
   validates :value_date, presence: true
 
   STATE_CHANGES = [:mark_reported]
@@ -27,7 +27,7 @@ class StockValue < ActiveRecord::Base
 
     event :mark_reported do
       transition preliminary: :reported
-    end    
+    end
   end
 
   def report(transition)
@@ -35,7 +35,7 @@ class StockValue < ActiveRecord::Base
   end
 
   def generate_verificate_stock_value(transition)
-     create_verificate_transaction('stock_value', transition.args[0], transition.args[1])
+    create_verificate_transaction('stock_value', transition.args[0], transition.args[1])
   end
 
   def create_verificate_transaction(ver_type, post_date, user_id)
