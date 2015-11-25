@@ -12,10 +12,9 @@ class InkCode < ActiveRecord::Base
 
   SUM_METHODS = ['ub', 'accounting_period', 'total', 'none']
 
-  validates :code, presence: true, uniqueness: {scope: :organization_id}
+  validates :code, presence: true, uniqueness: { scope: :organization_id }
   validates :text, presence: true
   validates :sum_method, inclusion: { in: SUM_METHODS }
-
 
   DIRECTORY = 'files/codes/'
   FILES = 'INK*.csv'
@@ -32,7 +31,7 @@ class InkCode < ActiveRecord::Base
 
   def can_delete?
     return false if accounts.size > 0
-    return false if self.sum_method == 'total'
+    return false if sum_method == 'total'
     true
   end
 end
