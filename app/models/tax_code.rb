@@ -10,11 +10,12 @@ class TaxCode < ActiveRecord::Base
   belongs_to :organization
   has_many   :accounts
 
-  SUM_METHODS = ['accounting_period', 'vat_period', 'total', 'wage_period', 'subset_55','subset_56','subset_57',
-                 'subset_58', 'subset_59', 'subset_60', 'include_81', 'none']
+  SUM_METHODS = ['accounting_period', 'vat_period', 'total', 'wage_period', 'subset_55',
+                 'subset_56', 'subset_57', 'subset_58', 'subset_59', 'subset_60',
+                 'include_81', 'none']
   CODE_TYPES = ['vat', 'wage', 'default']
 
-  validates :code, presence: true, uniqueness: {scope: :organization_id}
+  validates :code, presence: true, uniqueness: { scope: :organization_id }
   validates :text, presence: true
   validates :sum_method, inclusion: { in: SUM_METHODS }
   validates :code_type, inclusion: { in: CODE_TYPES }
@@ -38,8 +39,8 @@ class TaxCode < ActiveRecord::Base
 
   def can_delete?
     return false if accounts.size > 0
-    return false if self.sum_method == 'total'
-    return false if self.code_type == 'default'
+    return false if sum_method == 'total'
+    return false if code_type == 'default'
     true
   end
 end

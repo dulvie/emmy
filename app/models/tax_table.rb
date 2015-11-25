@@ -5,7 +5,6 @@ class TaxTable < ActiveRecord::Base
 
   # t.timestamps
 
-
   attr_accessible :name, :year
 
   belongs_to :organization
@@ -13,10 +12,10 @@ class TaxTable < ActiveRecord::Base
   has_many :employees
 
   TABLES = *(29..40)
-  COLUMNS = ['1', '2','3','4','5','6']
+  COLUMNS = ['1', '2', '3', '4', '5', '6']
 
   validates :year, presence: true
-  validates :name, presence: true, uniqueness: {scope: :organization_id}
+  validates :name, presence: true, uniqueness: { scope: :organization_id }
 
   DIRECTORY = 'files/codes/'
   FILES = 'allm*.csv'
@@ -29,7 +28,7 @@ class TaxTable < ActiveRecord::Base
 
   def calculate(wage, column)
     row = tax_table_rows.where('from_wage <= ? AND to_wage >= ?', wage, wage).first
-    return row.tax(wage, column)
+    row.tax(wage, column)
   end
 
   def can_delete?

@@ -14,7 +14,7 @@ class TableTransaction < ActiveRecord::Base
   belongs_to :organization
 
   def complete?
-    return self.complete
+    complete
   end
 
   after_commit :enqueue_event
@@ -22,9 +22,7 @@ class TableTransaction < ActiveRecord::Base
   # Callback: after_commit
   def enqueue_event
     return if complete?
-    Rails.logger.info "->#{self.inspect}"
+    Rails.logger.info "->#{inspect}"
     Resque.enqueue(Job::TableTransactionEvent, id)
   end
-
-
 end
