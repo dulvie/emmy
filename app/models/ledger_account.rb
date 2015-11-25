@@ -23,9 +23,11 @@ class LedgerAccount < ActiveRecord::Base
   def account_number
     account.number
   end
+
   def account_text
     account.description
   end
+
   def can_delete?
     false
   end

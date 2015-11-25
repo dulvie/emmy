@@ -10,7 +10,8 @@ class ExportBankFile < ActiveRecord::Base
   # t.integer  :user_id
   # t.timestamps
 
-  attr_accessible :export_date, :from_date, :to_date, :reference, :pay_account, :organization_number, :iban
+  attr_accessible :export_date, :from_date, :to_date, :reference, :pay_account,
+                  :organization_number, :iban
 
   belongs_to :organization
   belongs_to :user
@@ -28,7 +29,7 @@ class ExportBankFile < ActiveRecord::Base
   end
 
   def directory
-    "tmp/downloads"
+    'tmp/downloads'
   end
 
   def file_exists?

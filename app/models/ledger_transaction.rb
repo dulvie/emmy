@@ -10,7 +10,8 @@ class LedgerTransaction < ActiveRecord::Base
   # t.string   :text
   # t.decimal  :sum
 
-  attr_accessible :name, :parent, :accounting_period, :ledger, :account, :posting_date, :number, :text, :sum
+  attr_accessible :name, :parent, :accounting_period, :ledger, :account, :posting_date,
+                  :number, :text, :sum
 
   belongs_to :organization
   belongs_to :accounting_period
@@ -26,7 +27,7 @@ class LedgerTransaction < ActiveRecord::Base
 
   # Callback: after_commit
   def enqueue_event
-    Rails.logger.info "->#{self.inspect}"
+    Rails.logger.info "->#{inspect}"
     Resque.enqueue(Job::LedgerTransactionEvent, id)
   end
 end
