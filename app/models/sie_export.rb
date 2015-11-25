@@ -15,13 +15,13 @@ class SieExport
   def file_name
     "#{@organization.slug}_export.sie"
   end
-  
+
   def directory
-    "tmp/downloads"
+    'tmp/downloads'
   end
 
   def file_exists?
-    File.exists?directory+'/'+file_name
+    File.exist? directory + '/' + file_name
   end
 
   def persisted?

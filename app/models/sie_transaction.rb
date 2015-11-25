@@ -15,7 +15,7 @@ class SieTransaction < ActiveRecord::Base
   belongs_to :accounting_period
 
   def complete?
-    return self.complete
+    complete
   end
 
   after_commit :enqueue_event
@@ -23,9 +23,7 @@ class SieTransaction < ActiveRecord::Base
   # Callback: after_commit
   def enqueue_event
     return if complete?
-    Rails.logger.info "->#{self.inspect}"
+    Rails.logger.info "->#{inspect}"
     Resque.enqueue(Job::SieTransactionEvent, id)
   end
-
-
 end

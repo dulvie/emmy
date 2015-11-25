@@ -7,7 +7,7 @@ class ResultUnit < ActiveRecord::Base
   belongs_to :organization
   has_many   :verificate_items
 
-  validates :name, presence: true, uniqueness: {scope: :organization_id}
+  validates :name, presence: true, uniqueness: { scope: :organization_id }
 
   def can_delete?
     return false if verificate_items.size > 0
