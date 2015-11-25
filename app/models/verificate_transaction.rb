@@ -16,7 +16,7 @@ class VerificateTransaction < ActiveRecord::Base
 
   # Callback: after_commit
   def enqueue_event
-    Rails.logger.info "->#{self.inspect}"
+    Rails.logger.info "->#{inspect}"
     Resque.enqueue(Job::VerificateTransactionEvent, id)
   end
 end

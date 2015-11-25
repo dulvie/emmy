@@ -4,7 +4,7 @@ class WageTransaction < ActiveRecord::Base
   # t.integer  :user_id
   # t.integer  :organization_id
   # t.integer  :wage_period_id
-    
+
   attr_accessible :execute, :complete, :user, :user_id, :wage_period_id
 
   belongs_to :wage_period
@@ -12,7 +12,7 @@ class WageTransaction < ActiveRecord::Base
   belongs_to :organization
 
   def complete?
-    return self.complete
+    complete
   end
 
   after_commit :enqueue_event
@@ -20,7 +20,7 @@ class WageTransaction < ActiveRecord::Base
   # Callback: after_commit
   def enqueue_event
     return if complete?
-    Rails.logger.info "->#{self.inspect}"
+    Rails.logger.info "->#{inspect}"
     Resque.enqueue(Job::WageTransactionEvent, id)
   end
 end

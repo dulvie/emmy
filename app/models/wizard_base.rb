@@ -1,5 +1,4 @@
 class WizardBase
-
   attr_accessor :controller_name, :action_name
 
   def initialize(controller_name, action_name)
@@ -8,7 +7,7 @@ class WizardBase
   end
 
   def steps
-    fail "You need to implement #steps"
+    fail 'You need to implement #steps'
   end
 
   def name
@@ -43,7 +42,7 @@ class WizardBase
   end
 
   def last_step
-    steps[steps.size-1]
+    steps[steps.size - 1]
   end
 
   def text_symbol(step)
@@ -53,5 +52,4 @@ class WizardBase
   def title_symbol(step)
     "wizard_#{name.to_s.gsub('wizard', '')}_#{step.join('_')}_title"
   end
-
 end

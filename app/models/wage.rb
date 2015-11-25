@@ -13,8 +13,8 @@ class Wage < ActiveRecord::Base
   # t.integer  :wage_period_id
   # t.integer  :employee_id
 
-  attr_accessible :employee_id, :wage_from, :wage_to, :payment_date, :salary, :addition, :discount, :tax, 
-    :payroll_tax, :amount, :wage_period_id, :accounting_period_id
+  attr_accessible :employee_id, :wage_from, :wage_to, :payment_date, :salary, :addition, :discount,
+                  :tax, :payroll_tax, :amount, :wage_period_id, :accounting_period_id
 
   belongs_to :organization
   belongs_to :accounting_period
@@ -40,11 +40,11 @@ class Wage < ActiveRecord::Base
     age = employee.age
     case age
     when 0..26
-      proc = BigDecimal.new("0.1549")
+      proc = BigDecimal.new('0.1549')
     when 26..65
-      proc = BigDecimal.new("0.3142")
+      proc = BigDecimal.new('0.3142')
     when 65..99
-      proc = BigDecimal.new("0.1021")
+      proc = BigDecimal.new('0.1021')
     else
       proc = 1
     end

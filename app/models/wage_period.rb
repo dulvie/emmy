@@ -18,7 +18,7 @@ class WagePeriod < ActiveRecord::Base
   # t.timestamps
 
   attr_accessible :name, :wage_from, :wage_to, :payment_date, :deadline, :accounting_period_id,
-    :supplier_id
+                  :supplier_id
 
   belongs_to :organization
   belongs_to :accounting_period
@@ -28,7 +28,7 @@ class WagePeriod < ActiveRecord::Base
   has_many :verificates
 
   validates :accounting_period, presence: true
-  validates :name, presence: true, uniqueness: {scope: :organization_id}
+  validates :name, presence: true, uniqueness: { scope: :organization_id }
   validates :wage_from, presence: true
   validates :wage_to, presence: true
   validate :check_to
@@ -43,7 +43,10 @@ class WagePeriod < ActiveRecord::Base
   end
 
   def overlaping_period
-    p = WagePeriod.where('organization_id = ? and wage_to >= ? and wage_from <= ?' , organization_id, wage_from, wage_to).count
+    p = WagePeriod
+            .where('organization_id = ? and wage_to >= ? and wage_from <= ?',
+                   organization_id, wage_from, wage_to)
+            .count
     if new_record?
       errors.add(:wage_to, I18n.t(:within_period)) if p > 0
     else
@@ -106,7 +109,7 @@ class WagePeriod < ActiveRecord::Base
   end
 
   def generate_tax_agency_report(transition)
-     create_tax_agency_transaction('wage', self.deadline, transition.args[1])
+    create_tax_agency_transaction('wage', deadline, transition.args[1])
   end
 
   def wage_report(transition)
@@ -114,11 +117,11 @@ class WagePeriod < ActiveRecord::Base
   end
 
   def generate_verificate_wage(transition)
-     create_verificate_transaction('wage', self.payment_date, transition.args[1])
+    create_verificate_transaction('wage', payment_date, transition.args[1])
   end
 
   def generate_verificate_tax(transition)
-     create_verificate_transaction('wage_tax', self.deadline, transition.args[1])
+    create_verificate_transaction('wage_tax', deadline, transition.args[1])
   end
 
   def wage_close(transition)
