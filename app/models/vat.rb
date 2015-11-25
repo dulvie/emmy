@@ -8,7 +8,7 @@ class Vat < ActiveRecord::Base
 
   attr_accessible :name, :vat_percent
 
-  validates :name, presence: true, uniqueness: {scope: :organization_id}
+  validates :name, presence: true, uniqueness: { scope: :organization_id }
   validates :vat_percent, presence: true
 
   def can_delete?

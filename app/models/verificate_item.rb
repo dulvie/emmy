@@ -46,7 +46,7 @@ class VerificateItem < ActiveRecord::Base
 
   def can_edit?
     return false if verificate.final?
-    true 
+    true
   end
 
   def can_delete?

@@ -8,7 +8,6 @@ class WageReport < ActiveRecord::Base
   # t.integer  :tax_code_id
   # t.timestamps
 
-
   attr_accessible :amount, :accounting_period_id, :wage_period_id, :tax_code_id
 
   belongs_to :organization

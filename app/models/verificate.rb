@@ -12,7 +12,8 @@ class Verificate < ActiveRecord::Base
   # t.integer  :import_bank_file_row_id
   # t.timestamps
 
-  attr_accessible :posting_date, :description, :accounting_period_id, :reference, :note, :template_id, :import_bank_file_row_id
+  attr_accessible :posting_date, :description, :accounting_period_id, :reference, :note,
+                  :template_id, :import_bank_file_row_id
 
   belongs_to :organization
   belongs_to :accounting_period
@@ -49,19 +50,21 @@ class Verificate < ActiveRecord::Base
   end
 
   def generate_verificate_number(transition)
-    return false if !self.balanced?
+    return false unless self.balanced?
     self.posting_date = transition.args[0]
-    return false if self.posting_date <  accounting_period.allow_from
-    return false if self.posting_date >  accounting_period.allow_to
-    self.number = (Verificate.where(organization_id: self.organization_id, accounting_period_id: self.accounting_period_id).maximum(:number) || 0) +1
+    return false if posting_date <  accounting_period.allow_from
+    return false if posting_date >  accounting_period.allow_to
+    self.number = (Verificate
+                       .where(organization_id: organization_id, accounting_period_id: accounting_period_id)
+                       .maximum(:number) || 0) + 1
   end
 
   def set_dependent
-    self.parent.state_change('mark_closed', DateTime.now) if self.parent_type == 'VatPeriod'
-    self.parent.state_change('mark_wage_closed', DateTime.now) if self.parent_type == 'WagePeriod' && self.parent_extend == 'wage'
-    self.parent.state_change('mark_tax_closed', DateTime.now) if self.parent_type == 'WagePeriod' && self.parent_extend == 'tax'
+    parent.state_change('mark_closed', DateTime.now) if parent_type == 'VatPeriod'
+    parent.state_change('mark_wage_closed', DateTime.now) if parent_type == 'WagePeriod' && parent_extend == 'wage'
+    parent.state_change('mark_tax_closed', DateTime.now) if parent_type == 'WagePeriod' && parent_extend == 'tax'
     # self.parent.set_posted if self.parent_type == 'ImportBankFileRow'
-    self.import_bank_file_row.set_posted if self.import_bank_file_row
+    import_bank_file_row.set_posted if import_bank_file_row
   end
 
   def create_ledger_transactions
@@ -117,8 +120,8 @@ class Verificate < ActiveRecord::Base
   end
 
   def posting_date_formatted
-    return if !posting_date
-    posting_date.strftime("%Y-%m-%d")
+    return unless posting_date
+    posting_date.strftime('%Y-%m-%d')
   end
 
   def preliminary?

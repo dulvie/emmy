@@ -37,7 +37,9 @@ class VatPeriod < ActiveRecord::Base
   end
 
   def overlaping_period
-    p = VatPeriod.where('organization_id = ? and vat_to >= ? and vat_from <= ?' , organization_id, vat_from, vat_to).count
+    p = VatPeriod
+            .where('organization_id = ? and vat_to >= ? and vat_from <= ?' ,
+                   organization_id, vat_from, vat_to).count
     if new_record?
       errors.add(:vat_to, I18n.t(:within_period)) if p > 0
     else

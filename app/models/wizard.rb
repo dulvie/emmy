@@ -8,7 +8,7 @@ class Wizard
       WagesWizard.new(controller_name, action_name)
     else
       Rails.logger.info "==>#{name}"
-      abort "unknown wizard"
+      abort 'unknown wizard'
     end
   end
 end
