@@ -104,11 +104,12 @@ class ReportsController < ApplicationController
     @report = Report.new params[:report][:accounting_period]
     @accounting_period = current_organization.accounting_periods.find(@report.accounting_period)
 
-    ib = "(select sum(debit-credit) as ib
+    ib = "(select sum(debit-credit)
            from opening_balance_items
            where opening_balance_items.accounting_period_id = #{@accounting_period.id} and
                  opening_balance_items.account_id = accounts.id)"
-    ver = "(select sum(debit-credit) as ver
+
+    ver = "(select sum(debit-credit)
             from verificate_items INNER JOIN verificates ON verificate_items.verificate_id = verificates.id
             where verificate_items.accounting_period_id = #{@accounting_period.id} AND
                   verificate_items.account_id = accounts.id AND
@@ -120,8 +121,8 @@ class ReportsController < ApplicationController
              accounts.description as desc,
              accounting_classes.number as cls,
              accounting_classes.name as cls_desc,
-             #{ib},
-             #{ver}")
+             #{ib} as ib,
+             #{ver} as ver")
     .where("accounts.number < '2999'")
     .order('accounts.number')
 

@@ -1,4 +1,5 @@
 - save_class = ''
+- total = 0.00
 %table.table.table-striped
   %tr
     %td{colspan: '3'}
@@ -21,6 +22,11 @@
       - item.deb = 0 if item.deb == nil
       - item.cre = 0 if item.cre == nil
       - sum = -item.deb + item.cre
+      - total += sum
       %td=item.num
       %td=item.desc
       %td.numeric=sum
+  %tr
+    %th
+    %th= t(:result)
+    %th.numeric=total
