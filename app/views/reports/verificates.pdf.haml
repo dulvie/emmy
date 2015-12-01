@@ -9,7 +9,7 @@
     %tr
       %th.main= t(:number_the_string) + ": #{ver.number}"
       %th=ver.description
-      %th{colspan: '2'}=ver.posting_date
+      %th{colspan: '2'}=ver.format_posting_date
 
     - ver.verificate_items.each do |item|
       %tr
