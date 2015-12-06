@@ -53,6 +53,7 @@ test:
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
   template: template0
+  host: <%= ENV['DB_HOST'] || 'localhost' %>
 
 production:
   adapter: postgresql

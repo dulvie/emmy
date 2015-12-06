@@ -24,6 +24,7 @@ Kommentar - Dessa tabeller är kopplingen mellan deklarationsblankett och konton
 för användning vid deklaration. INK2 för aktiebolag/ek föreningar. INK3 idella föreningar.
 INK4 handelsbolag
 OBS Filerna csv-format, semikolonseparerade och i UTF-8
+
 4) Läs in default_codes
 Kommentar - Olika koder som möjliggör automatkontering
 
