@@ -14,8 +14,8 @@ Given /^I click delete link for "(.*?)" customer in "(.*?)"$/ do |customer_name,
   assert_equal c.name, customer_name
 
   delete_link = find(".delete-icon.customer-#{c.id}")
-  delete_link.click
-  delete_link_confirm = find(:xpath, "//a[contains(@href,'#{customer_path(org_slug, c)}') and contains (@data-method, 'delete')]")
+  delete_link.trigger('click')
+  delete_link_confirm = find(:xpath, "//a[contains(@href,'#{customer_path(org_slug, c)}') and contains(@data-method, 'delete')]")
   delete_link_confirm.click
 end
 

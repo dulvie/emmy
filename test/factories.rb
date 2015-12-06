@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :organization do
     name 'test organization'
+    organization_type 'Aktiebolag'
   end
 
   factory :user do
