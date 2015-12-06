@@ -14,7 +14,7 @@ b) K1 2014
 c) K1 mini 2014
 
 2) Läs in tax-codes och koppla till aktuell kontoplan
-Kommentar - tax-codes är koppling mellan 
+Kommentar - tax-codes är koppling mellan
 a) moms-redovisning och konto
 b) löne-redovisning skatter/sociala avgifter och konton
 Kopplingen finns i filen files/TAX_codes. För närvarande finns koppling mot BAS-kontoplanen
