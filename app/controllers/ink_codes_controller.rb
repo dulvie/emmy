@@ -37,7 +37,7 @@ class InkCodesController < ApplicationController
       if @ink_code.save
         format.html { redirect_to ink_codes_url, notice: 'ink code period was successfully created.' }
       else
-        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:ink_code)}"
+        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:ink_codes)}"
         format.html { render action: 'new' }
       end
     end
@@ -106,7 +106,7 @@ class InkCodesController < ApplicationController
     @ink_codes = current_organization.ink_codes
     @accounting_plans = current_organization.accounting_plans
     if @accounting_plans.size == 0
-      redirect_to helps_show_message_path(message: "#{I18n.t(:accounting_plans)} #{I18n.t(:missing)}")
+      redirect_to helps_show_message_path(message: "#{I18n.t(:accounting_plan)} #{I18n.t(:missing)}")
     end
     @file_importer = FileImporter.new(InkCode::DIRECTORY, @ink_codes, @accounting_plans)
     @files = @file_importer.files(InkCode::FILES)

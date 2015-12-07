@@ -1,10 +1,3 @@
-Given /^I click edit link for "(.*?)" accounting_plan in "(.*?)"$/ do |accounting_plan, org_slug|
-  a = AccountingPlan.find_by_name accounting_plan
-  assert a, "no accounting plan found"
-  edit_link = find(:xpath, "//a[contains(@href,'#{accounting_plan_path(org_slug, a)}')]")
-  edit_link.click
-end
-
 Given(/^tax_code imported$/) do
   Rails.logger.level = 4
   o = Organization.find_by_name("test organization")

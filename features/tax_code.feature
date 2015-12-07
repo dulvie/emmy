@@ -1,7 +1,7 @@
 Feature: Manage tax_codes
   In order to handle tax_codes
   a user should be able to import and connect tax_codes to accounting plan
-  where read should check accounting_plan.
+
 
   Scenario: fail to import tax codes when accounting_plan missing
     Given database is clean
