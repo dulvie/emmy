@@ -9,7 +9,6 @@ Given(/^default_code imported$/) do
   default_code_creator.execute('load and connect', DefaultCode::DIRECTORY, 'Default_codes.csv')
 end
 
-
 Then /^I should see (\d+) default_codes connected to accounts in "(.*?)"$/ do |nbr, accounting_plan|
   a = AccountingPlan.find_by_name accounting_plan
   accounts = a.accounts.where('default_code_id NOTNULL')
