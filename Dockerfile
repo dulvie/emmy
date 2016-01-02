@@ -37,10 +37,12 @@ RUN apt-get install -y \
       runit
 
 # Install bundler and gems
+# Install gems to ~/ as well to comply with using IDE outside of the docker container
 COPY Gemfile Gemfile.lock /setup/
 RUN cd /setup && \
     gem install bundler && \
     bundle install && \
+    bundle install --path ~/.gem && \
     gem install --no-ri --no-rdoc mailcatcher && \
     rm -rf /setup/*
 
