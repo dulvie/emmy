@@ -22,4 +22,4 @@
             = render partial: 'shared/modal_state_change', locals: {idx: 'inventoryContent', model: @inventory, form_path: state_change_inventory_path(@inventory), event: @inventory.next_event, return_path: inventory_path(@inventory)}
 
   #inventory-comments.tab-pane
-    = render partial: 'comments/index', locals: {comments: @inventory.comments, parent: @inventory}
+    = render partial: 'comments/index', locals: {comments: @invent.comments, parent: @invent}
