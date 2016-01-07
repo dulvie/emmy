@@ -10,6 +10,7 @@ class InventoriesController < ApplicationController
 
   def show
     @warehouses = current_organization.warehouses
+    @invent = @inventory
     @inventory = @inventory.decorate
   end
 
