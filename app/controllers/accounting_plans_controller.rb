@@ -18,6 +18,7 @@ class AccountingPlansController < ApplicationController
 
   # GET /accounting_plan/1
   def show
+    init_accounts
   end
 
   # GET /vat/1/edit
@@ -134,5 +135,23 @@ class AccountingPlansController < ApplicationController
     @accounting_plan_trans.user = current_user
     @accounting_plan_trans.organization = current_organization
     @accounting_plan_trans
+  end
+
+  def init_accounts
+    account_number = params[:account_number]
+    account_number = 0000 if account_number.blank?
+    if params[:active] == 'active'
+      @accounts = @accounting_plan.accounts.order('number')
+                      .where('accounts.active = ? and accounts.number >= ?', 'true', account_number)
+                      .page(params[:page_account]).decorate
+    elsif params[:active] == 'inactive'
+      @accounts = @accounting_plan.accounts.order('number')
+                      .where('accounts.active = ? and accounts.number >= ?', 'false', account_number)
+                      .page(params[:page_account]).decorate
+    else
+      @accounts = @accounting_plan.accounts.order('number')
+                      .where('accounts.number >= ?', account_number)
+                      .page(params[:page_account]).decorate
+    end
   end
 end

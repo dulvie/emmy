@@ -1,22 +1,21 @@
-- if params[:active] == 'true'
-  - @accounts = @accounting_plan.accounts.order('number').where('accounts.active = ?', 'true').page(params[:page_account]).decorate
-  %input{id: 'opt', value: 1, type: 'hidden'}
-- elsif params[:active] == 'false'
-  - @accounts = @accounting_plan.accounts.order('number').where('accounts.active = ?', 'false').page(params[:page_account]).decorate
-  %input{id: 'opt', value: 2, type: 'hidden'}
-- else
-  - @accounts = @accounting_plan.accounts.order('number').page(params[:page_account]).decorate
-  %input{id: 'opt', value: 0, type: 'hidden'}
-
 .pull-left
   = link_to "#{t(:create)} #{t(:account)}", new_accounting_plan_account_path(@accounting_plan), class: 'btn btn-success'
   = link_to "#{t(:disable)} #{t(:accounts)}", accounting_plan_disable_accounts_path(@accounting_plan), class: 'btn btn-success', method: 'post', disabled: !@accounting_plan.disable_accounts?
 
 .col-sm-40.col-md-40.pull-right.text-right
-  %select{id: 'selp', class: 'btn btn-default', onchange: 'location = this.options[this.selectedIndex].value;'}
-    %option{value: accounting_plan_path(@accounting_plan)} #{t(:all)}
-    %option{value: accounting_plan_path(@accounting_plan) + '&active=true'} #{t(:active)}
-    %option{value: accounting_plan_path(@accounting_plan) + '&active=false'} #{t(:inactive)}
+  = form_tag accounting_plan_path(@accounting_plan), class: 'form-inline submit-on-change', method: :get do
+    .input-group
+      = text_field_tag('account_number',
+        params[:account_number],
+        placeholder: t(:search),
+        class: 'form-control')
+      .span.input-group-btn
+        = button_tag(search_icon, class: 'btn btn-default')
+
+    = select_tag(:active,
+      options_for_select(Account::FILTER_STAGES.each.collect{|s| [t(s), s]}, params[:active]),
+      class: 'btn btn-default')
+
 .clear &nbsp;
 
 .table-responsive{:ng_controller=>'ModalCtrl'}
@@ -45,13 +44,3 @@
 
   = paginate @accounts, param_name: "page_account", theme: 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
-
-  
-:javascript
-  $(document).ready(function() {
-    //var path = document.location.pathname + document.location.search
-    //$('#selp').val(path);
-    var opt = Number($('#opt').val());
-    $('#selp option')[opt].selected = true;
-    //var params = Setup.getQueryParams(document.location.search);
-  });
