@@ -252,6 +252,7 @@ en:
   not_started: "not started"
   note: "Note"
   number: "Number"
+  number_the_string: "Number"
   ok: "Ok"
   older_than: "Older than"
   old_number: "Old number"
