@@ -3,6 +3,8 @@ Emmy::Application.routes.draw do
   get 'profile', to: 'profile#show'
   patch 'profile', to: 'profile#update'
 
+  mount Resque::Server.new, at: "/resque"
+
   root 'pages#start'
   devise_for :users, controllers: {sessions: 'user_sessions'}
   [:about, :start, :formats, :test].each do |p|

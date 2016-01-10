@@ -16,11 +16,7 @@ module Services
       # OBS Aktuell kvantitet vid ett value_date
       shelves = @organization.shelves
       shelves.each do |shelf|
-        price = 0
-        production = @organization.productions.where('batch_id = ?', shelf.batch_id).first
-        import = @organization.imports.where('batch_id = ?', shelf.batch_id).first
-        price = production.cost_price if production
-        price = import.cost_price if import
+        price = shelf.batch.inventory_price
         save_stock_value_item(shelf.warehouse, shelf.batch, price, shelf.quantity)
       end
       recalculate
