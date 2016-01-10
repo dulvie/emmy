@@ -57,6 +57,15 @@ class Batch < ActiveRecord::Base
     qty + ext
   end
 
+  def inventory_price
+    price = 0
+    import = organization.imports.where('batch_id = ?', id).first
+    price = production.cost_price if production
+    price = import.cost_price if import
+    price = in_price / 100 if price == 0 && in_price
+    return price
+  end
+
   def in_quantity
     qty = organization.purchases.prepared.not_received
       .joins(:purchase_items)
