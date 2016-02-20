@@ -45,7 +45,6 @@ class ApplicationController < ActionController::Base
     authorize! :read, @current_organization
   end
 
-
   private
 
   # only allow certian locales to be passed.
