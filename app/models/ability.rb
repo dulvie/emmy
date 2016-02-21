@@ -12,8 +12,6 @@ class Ability
     admin_at = admin_roles.map{|r| r.organization_id}
     admin_or_staff_at = roles.map{|r| r.organization_id}.uniq
 
-
-
     can(:manage, :all) if user.superadmin?
 
     readable_user_ids = OrganizationRole.where('organization_id in (?)', admin_or_staff_at).pluck(:user_id)
