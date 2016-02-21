@@ -18,7 +18,8 @@ class Organization < ActiveRecord::Base
   TYPES = ['Aktiebolag', 'Ekonomisk förening', 'Idell förening', 'Handelsbolag', 'Enskild firma']
   BANK_FIELDS = %w(vat_number bankgiro plusgiro postgiro iban swift)
 
-  attr_accessible :email, :name, :address, :zip, :organization_type, :organization_number, :vat_number, :bankgiro, :postgiro, :plusgiro, :city
+  attr_accessible :email, :name, :address, :zip, :organization_type, :organization_number,
+                  :vat_number, :bankgiro, :postgiro, :plusgiro, :city, :swift, :iban
 
   has_many :organization_roles
   has_many :users, through: :organization_roles
