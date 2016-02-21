@@ -10,14 +10,12 @@
     = include_gon
     .page-wrapper
       .row-fluid
-        = render partial: 'shared/top_bar'
-      .row-fluid.row-offcanvas.row-offcanvas-left.sidebar-wrapper
-        #sidebar.col-xs-48.col-sm-48.col-md-12.col-lg-9.sidebar-offcanvas
+        #sidebar.col-xs-48.col-sm-48.col-md-12.col-lg-9
           = render partial: 'shared/sidebar'
-        #page-content.col-xs-48.col-sm-48.col-md-36.col-lg-39
+          = render partial: 'shared/footer'
+        #content-area.col-xs-48.col-sm-48.col-md-36.col-lg-39
           = render partial: 'shared/notifications'
           = render(partial: 'shared/breadcrumb') if @breadcrumbs
           = yield
-      .foot-pusher
-        &nbsp;
-    = render partial: 'shared/footer'
+          .foot-pusher
+            &nbsp;

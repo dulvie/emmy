@@ -17,6 +17,7 @@ $navbar-default-border: $body-bg;
 $navbar-inverse-color: $body-bg;
 $navbar-inverse-link-color: $body-bg;
 $navbar-inverse-bg: $text-color;
+//$brand-primary: #c00;
 
 // Font
 // ? this is the default bootstrap value, why can't we just uses the variable instead?
@@ -28,4 +29,7 @@ $font-family-sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
  */
 $font-family-base: $font-family-sans-serif;
 
-$sidebar-bg: #dbe3cc;
+//$sidebar-bg: #dbe3cc;
+$sidebar-bg: #666;
+$sidebar-color: lighten($sidebar-bg, 40%);
+$brand-color: #fefefe;
