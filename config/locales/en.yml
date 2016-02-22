@@ -304,6 +304,7 @@ en:
   purchase: "Purchase"
   purchase_id: "Purchase id"
   purchase_item: "Purchase item"
+  purchase_item_price: "Price is purchase price without vat. Items purchase price is default."
   purchase_marked_complete: "Purchase was marked complete"
   purchases: "Purchases"
   quantity: "Quantity"
