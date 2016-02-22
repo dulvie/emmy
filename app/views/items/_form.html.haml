@@ -41,17 +41,17 @@
     $(document).ready(function() {
 
       // hide expire/refined at fields when type is not refined.
-      $("#item_item_group").change(function() {
+      $("#item_item_type").change(function() {
         var $me = $(this);
-        if ($me.val() == 'refined') {
-          $('#date-fields-wrapper').show();
-        } else {
+        if ($me.val() == 'purchases') {
           $('#date-fields-wrapper').hide();
+        } else {
+          $('#date-fields-wrapper').show();
         }
       });
-      if ($('#item_item_group').val() == 'refined') {
-        $('#date-fields-wrapper').show();
-      } else {
+      if ($('#item_item_type').val() == 'purchases') {
         $('#date-fields-wrapper').hide();
+      } else {
+        $('#date-fields-wrapper').show();
       }
     });
