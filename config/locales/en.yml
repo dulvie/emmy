@@ -34,6 +34,8 @@ en:
   accounting_period_vat_period_type: "Recognition of VAT to the tax occurs periodically. Choose an interval. Annually, quarterly or monthly."
   accounting_periods: "Accounting periods"
   accounting_plan: "Accounting plan"
+  accounting_plan_file_bas: "Bass nomenclature Normal is recommended for limited companies, economic associations, voluntary associations and partnerships"
+  accounting_plan_file_k1: "Accounting plan K1 or K1-mini is recommended for sole proprietorship with simplified financial statements"
   accounting_plans: "Accounting plans"
   accounts_receivables: "Accounts receivable"
   accounts_payables: "Accounts payable"
