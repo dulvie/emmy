@@ -11,6 +11,7 @@
     = f.input :name, hint: (@production) ? link_to("#{t(:roasting)}", edit_production_path(@production.id)) : ''
     = f.input :comment
     = f.input :vat, disabled: true, as: :string, input_html: {value: ((@batch.item) ? @batch.vat : '')}
+    = f.input :unit, disabled: true, input_html: {value: ((@batch.item.unit) ? @batch.item.unit.name : '')}
     = f.input :in_price, as: :hidden
     .form-group
       .labels_width.control-label
