@@ -8,10 +8,14 @@
   = f.input :address
   = f.input :zip
   = f.input :city
+  = f.input :organization_type, as: 'select', collection: Organization::TYPES, include_blank: false, :input_html => {:class=>'medium'}
+  = f.input :organization_number
   = f.input :vat_number
   = f.input :bankgiro
   = f.input :postgiro
   = f.input :plusgiro
+  = f.input :swift
+  = f.input :iban
 
   .form-button-group
     .actions
