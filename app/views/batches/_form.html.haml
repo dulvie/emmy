@@ -6,7 +6,11 @@
     %input{:type => 'hidden', :name => 'class',  :value => params['class']}
     %input{:type => 'hidden', :name => 'object', :value => params['object']}
 
-    = f.association :item, collection: @items, disabled: !@batch.new_record?, :input_html => {:ng_model => 'item_id', :ng_change => 'select_item(true)'}
+    - if @batch.new_record?
+      = f.association :item, collection: @items, :input_html => {:ng_model => 'item_id', :ng_change => 'select_item(true)'}
+    - else
+      = render partial: 'shared/addon_plus_link', locals: {form: f, label: :item, value: f.object.item.name, link: item_path(f.object.item_id)}
+
 
     = f.input :name, hint: (@production) ? link_to("#{t(:roasting)}", edit_production_path(@production.id)) : ''
     = f.input :comment

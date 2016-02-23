@@ -3,6 +3,6 @@
     = form.label  label
   .fields_width
     .input-group
+      %input{:class=>'form-control', :value =>value, :readonly=>'readonly'}
       .input-group-addon
         = link_to plus_icon, link
-      %input{:class=>'form-control', :readonly=>'readonly'}
