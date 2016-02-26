@@ -15,6 +15,16 @@ class ProductionBatch
     errors.add(:name, :taken) if u > 0
   end
 
+  def distributor_inc_vat
+    return 0 if !distributor_price || !vat
+    (distributor_price + distributor_price * vat.add_factor)/100
+  end
+
+  def retail_inc_vat
+    return 0 if !retail_price || !vat
+    (retail_price + retail_price * vat.add_factor)/100
+  end
+  
   def submit
     return false unless valid?
     @production = Production.find(production_id)
