@@ -382,6 +382,7 @@ se:
   total_amount: "Belopp"
   total_sum: "Belopp"
   total: "Total"
+  transactions: "Transaktioner"
   transfer: "Förflyttning"
   transfer_marked_as_sent: "Markerad som skickad"
   transfer_marked_as_received: "Markerad som mottagen"

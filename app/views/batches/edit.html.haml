@@ -1,9 +1,12 @@
 %ul{:class => 'nav nav-tabs'}
   %li.active= link_to t(:base_information), "#batch-form", {"data-toggle" => "tab"}
   %li= link_to t(:quantities), "#quantity-index", {"data-toggle" => "tab"}
+  %li= link_to t(:transactions), "#transactions-list", {"data-toggle" => "tab"}
 .tab-content
   #batch-form.tab-pane.active
     %br
     = render 'form'
   #quantity-index.tab-pane
     = render "quantities", {shelves: Shelf.where('batch_id = ?', @batch)}
+  #transactions-list.tab-pane
+    = render "batch_transactions/list", {batch_transactions: @batch.batch_transactions.order('created_at DESC').page(params[:page]).decorate}

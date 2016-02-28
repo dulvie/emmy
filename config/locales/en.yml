@@ -403,6 +403,7 @@ en:
   total: "Total"
   total_amount: "Amount"
   total_sum: "Total amount"
+  transactions: "Transactions"
   transfer: "Transfer"
   transfer_marked_as_received: "Marked as received"
   transfer_marked_as_sent: "Marked as sent"

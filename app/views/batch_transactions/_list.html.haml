@@ -1,0 +1,18 @@
+.table-responsive{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:created_at)
+        %th= t(:parent)
+        %th= t(:warehouse)
+        %th.numeric= t(:quantity)
+    %tbody
+      - batch_transactions.each do |trans|
+        %tr
+          %td= trans.format_created_at
+          %td= link_to trans.parent_type, polymorphic_path(trans.parent)
+          %td= trans.warehouse.name
+          %td.numeric= trans.quantity
+
+  = paginate batch_transactions, :theme => 'twitter-bootstrap-3'
+

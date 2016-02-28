@@ -15,4 +15,9 @@ class BatchTransactionDecorator < Draper::Decorator
       ""
     end
   end
+
+  def format_created_at
+    return l(object.created_at, format: '%Y-%m-%d') if object.created_at
+    ''
+  end
 end
