@@ -1,7 +1,13 @@
 = simple_form_for(@manual, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
   = f.error_notification
   = f.input :warehouse_id, as: :select, collection: @warehouses, disabled: !@manual.new_record?
-  = f.input :batch_id, as: :select, collection: @batches, disabled: !@manual.new_record?
+
+  - if @manual.new_record?
+    = f.input :batch_id, as: :select, collection: @batches
+  - else
+    = render partial: 'shared/addon_show_link', locals: {form: f, label: :batch, value: f.object.batch.name, link: batch_path(f.object.batch_id)}
+
+
   = f.input :quantity, disabled: !@manual.new_record?, :input_html => {:class => 'numeric'}
   - if @manual.new_record?
     = f.simple_fields_for :comments do |c|
