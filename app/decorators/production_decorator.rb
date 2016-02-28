@@ -28,6 +28,10 @@ class ProductionDecorator < Draper::Decorator
     end
   end
 
+  def parent_type
+    object
+  end
+
   def delete_button
     return unless object.can_delete?
     h.link_to h.delete_icon, object, method: :delete, data: { confirm: 'Are you Sure?' }

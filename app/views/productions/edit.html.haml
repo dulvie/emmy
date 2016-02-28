@@ -6,4 +6,4 @@
     %br
     = render partial: 'form'
   #comment-index.tab-pane
-    = render partial: 'comments/index', locals: {comments: @production.comments, parent: @production}
+    = render partial: 'comments/index', locals: {comments: @production.comments, parent: @production.parent_type}
