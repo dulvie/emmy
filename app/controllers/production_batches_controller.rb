@@ -1,6 +1,5 @@
 class ProductionBatchesController < ApplicationController
-  #skip_authorization_check
-  before_filter :load_production
+  load_and_authorize_resource :production, through: :current_organization
   before_filter :new_breadcrumbs, only: [:new, :create]
 
   respond_to :html
@@ -16,6 +15,7 @@ class ProductionBatchesController < ApplicationController
   def create
     @production_batch = ProductionBatch.new(production_batch_params)
     @production_batch.organization_id = current_organization.id
+    @production_batch.production_id = @production.id
     respond_to do |format|
       if @production_batch.submit
         format.html { redirect_to edit_production_path(@production_batch.production_id), notice: 'batch was successfully created.' }
@@ -31,10 +31,6 @@ class ProductionBatchesController < ApplicationController
 
 
   private
-
-  def load_production
-    @production = Production.find(params[:production_id])
-  end
 
   def production_batch_params
     params.require(:production_batch).permit(:production_id, :item_id, :name, :comment, :in_price, :distributor_price, :retail_price,

@@ -1,8 +1,7 @@
 %div{ :ng_controller => 'production_batch_ctrl', :ng_init => 'init()'}
-  = simple_form_for(@production_batch, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = simple_form_for([@production, @production_batch], wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
     = f.error_notification
-    = f.input :production_id, as: :hidden
-    %input{:name => 'production_id', :value => @production.id, :hidden => true}
+
     = f.input :item_id, collection: @items, :input_html => {:ng_model => 'item_id', :ng_change => 'select_item(true)'}
     = f.input :name, :label => t(:name_of_new_batch)
     = f.input :comment, as: :text
