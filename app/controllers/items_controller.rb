@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
 
   load_and_authorize_resource through: :current_organization
   before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :edit_breadcrumbs, only: [:edit, :update]
+  before_filter :edit_breadcrumbs, only: [:edit, :update, :show]
 
   # GET /items
   # GET /items.json
