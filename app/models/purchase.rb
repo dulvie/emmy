@@ -34,6 +34,7 @@ class Purchase < ActiveRecord::Base
   has_many :purchase_items, dependent: :delete_all
   has_many :documents, as: :parent, dependent: :delete_all
   has_many :to_transaction, class_name: 'BatchTransaction', as: :parent
+  has_many :comments, as: :parent
 
   accepts_nested_attributes_for :purchase_items
   attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id,
