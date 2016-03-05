@@ -1,15 +1,16 @@
 #brand
   %h2.title
-    %ul.pull-right
-      %li.dropdown
-        %a.dropdown-toggle{'href' => '#'}
-          = user_icon
-          = current_user.name
-        %ul.dropdown-menu
-          - if current_user.superadmin?
-            %li=link_to t(:admin), admin_dashboard_path
-          %li=link_to t(:profile), profile_path
-          %li=link_to t(:sign_out), destroy_user_session_path, method: :delete
+    - if user_signed_in?
+      %ul.pull-right
+        %li.dropdown
+          %a.dropdown-toggle{'href' => '#'}
+            = user_icon
+            = current_user.name
+          %ul.dropdown-menu
+            - if current_user.superadmin?
+              %li=link_to t(:admin), admin_dashboard_path
+            %li=link_to t(:profile), profile_path
+            %li=link_to t(:sign_out), destroy_user_session_path, method: :delete
     Emmy
   .current-organization
     - if current_organization
