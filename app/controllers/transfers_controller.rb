@@ -10,6 +10,7 @@ class TransfersController < ApplicationController
   # GET /transfers.json
   def index
     @breadcrumbs = [['Transfers']]
+    @transfers = @transfers.includes(:from_warehouse, :to_warehouse, :batch)
     transfers = TransferDecorator.decorate_collection(@transfers.order('id DESC'))
     @transfers = Kaminari.paginate_array(transfers).page(params[:page])
   end
