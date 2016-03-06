@@ -13,17 +13,27 @@
     .glyphicon {
       font-size: .8em;
     }
-    text-shadow: 0px 0px 15px black;
-    a {
-      font-size: $font-size-base;
-      padding: 0;
+    a.brand-link {
+      text-shadow: 0px 0px 15px black;
       color: lighten($sidebar-color, 20%);
     }
-    ul {
+    .profile-menu {
       list-style: none;
       padding: 0;
       margin: 0;
-      margin-right: $grid-gutter-width / 2;
+      position: relative;
+      a {
+        color: lighten($sidebar-color, 20%);
+        font-size: $font-size-base;
+        padding: 1em;
+      }
+      .dropdown-menu {
+        background: $sidebar-color;
+        a {
+          padding: 1em;
+          color: black;
+        }
+      }
     }
   }
   .current-organization {
