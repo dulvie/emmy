@@ -95,6 +95,8 @@ app.controller('production_material_form_ctrl', function ($scope, $modal, $sce) 
 });
 app.controller('production_batch_ctrl', function ($scope, price, $modal, $sce) {
 
+    var item = {};
+
 	$scope.init = function() {
 		$scope.refined = true;
 		$scope.sales = true;
@@ -125,15 +127,29 @@ app.controller('production_batch_ctrl', function ($scope, price, $modal, $sce) {
 		$scope.re_open = true;
 	};
 
+    $scope.calc_retail = function() {
+        var price = Number($('#retail_price_edit').val());
+        var moms = Number(price * item.vat_add_factor);
+        var ink_moms = (price + moms).toFixed(2);
+        $('#production_batch_retail_inc_vat').val(ink_moms);
+    };
+    $scope.calc_distributor = function() {
+        var price = Number($('#distributor_price_edit').val());
+        var moms = Number(price * item.vat_add_factor);
+        var ink_moms = (price + moms).toFixed(2);
+        $('#production_batch_distributor_inc_vat').val(ink_moms);
+    };
+
 	$scope.select_item = function(default_price) {
 		$scope.refined = true;
 		$scope.sales = true;
-		for (x=0; x < gon.items.length; x++) {
+  		for (x=0; x < gon.items.length; x++) {
 			if (gon.items[x].id == $scope.item_id) {
+              item = gon.items[x];
 			  var d = new Date();
 			  if (default_price)
 			    $('#production_batch_name').val(gon.items[x].name + " " + d.getFullYear() + ":" + (d.getMonth()+1))
-        $('#production_batch_unit').val(gon.items[x].unit.name);
+                $('#production_batch_unit').val(gon.items[x].unit.name);
 				$('#in_price_edit').val(price.toDecimal(gon.items[x].in_price));
 				if (default_price)
 					$('#production_batch_distributor_price').val(gon.items[x].distributor_price);
@@ -141,6 +157,8 @@ app.controller('production_batch_ctrl', function ($scope, price, $modal, $sce) {
 					$('#production_batch_retail_price').val(gon.items[x].retail_price);
 				$('#distributor_price_edit').val(price.toDecimal($('#production_batch_distributor_price').val()));
 				$('#retail_price_edit').val(price.toDecimal($('#production_batch_retail_price').val()));
+                $scope.calc_retail();
+                $scope.calc_distributor();
 				if (gon.items[x].item_group == 'refined') {
 					$scope.refined = false;
 				}

@@ -1,4 +1,5 @@
 class ProductionBatch
+  include Draper::Decoratable
   include ActiveModel::Model
 
   attr_accessor :organization_id, :production_id, :item_id, :name, :comment,
