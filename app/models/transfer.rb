@@ -35,7 +35,7 @@ class Transfer < ActiveRecord::Base
   validates :quantity, presence: true
   validates_exclusion_of :quantity, in: 0..0, message: 'Positive or negative quantities'
   validates_associated :comments
-  validate :check_max_quantities
+  validate :check_max_quantities, on: :create
 
   def check_max_quantities
     shelf = organization.shelves.where('warehouse_id = ? and batch_id = ?', from_warehouse_id,  batch_id).first
