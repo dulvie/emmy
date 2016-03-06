@@ -336,7 +336,7 @@ module Services
       # create supplier payments
       default_code = default_code(01)
       account = account_from_default_code(default_code)
-      save_verificate_item(supplier_payment, 0, BigDecimal.new(purchase.total_amount)/100)
+      save_verificate_item(account, 0, BigDecimal.new(purchase.total_amount)/100)
       end
     end
 
