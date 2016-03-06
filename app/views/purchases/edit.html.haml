@@ -1,5 +1,6 @@
 %ul{:class => 'nav nav-tabs'}
   %li.active= link_to t(:base_information), "#purchase-form", {"data-toggle" => "tab"}
+  %li= link_to t(:comments), "#comment-index", {"data-toggle" => "tab"}
   %li= link_to t(:documents), "#document-index", {"data-toggle" => "tab"}
 .tab-content
   #purchase-form.tab-pane.active
@@ -7,5 +8,23 @@
     = render 'form'
     = render 'buttons'
     = render partial: 'purchase_items/index'
+  #comment-index.tab-pane
+    = render partial: 'comments/index', locals: {comments: @purchase.comments, parent: @purchase}
   #document-index.tab-pane
     = render partial: 'documents/index', locals: {documents: @purchase.documents, parent: @purchase}
+
+:javascript
+  $(document).ready(function() {
+
+  $('a[data-toggle="tab"]').on("click", function(e) {
+   localStorage.setItem('purchase_tab', $(e.target).attr("href").substr(1));
+  });
+
+  var lastTab = localStorage.getItem('purchase_tab');
+  if (lastTab) {
+    $('ul.nav-tabs').children().removeClass('active');
+    $('a[href=#'+ lastTab +']').parents('li:first').addClass('active');
+    $('div.tab-content').children().removeClass('active');
+    $('#'+lastTab).addClass('active');
+  }
+  });
