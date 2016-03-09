@@ -283,6 +283,7 @@ se:
   purchase: "Inköp"
   purchase_id: "Inköp id"
   purchase_item: "Inköps rad"
+  purchase_items: "Inköps rader"
   purchase_item_price: "Priset avser inköpspris utan moms. Förslag kommer från artikelns inköpspris."
   purchase_marked_complete: "Inköp markerades komplett"
   purchases: "Inköp"
