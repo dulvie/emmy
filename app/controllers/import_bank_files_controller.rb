@@ -65,7 +65,9 @@ class ImportBankFilesController < ApplicationController
   end
 
   # Create fromn upload
-  def create_from_upload
+  def create_from_upload_DISABLED
+    return nil
+
     uploaded = params[:import_bank_file][:upload]
     tempfile = uploaded.tempfile
     directory = "#{Rails.root}/tmp/uploads"
