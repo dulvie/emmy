@@ -9,9 +9,6 @@ class ImportBankFilesController < ApplicationController
   def index
     @breadcrumbs = [[t(:import_bank_files)]]
     @import_bank_files = @import_bank_files.page(params[:page]).decorate
-    @bank_trans = current_organization.bank_file_transactions
-                      .where("execute = 'import'")
-                      .order('created_at DESC').first
   end
 
   # GET
@@ -28,13 +25,19 @@ class ImportBankFilesController < ApplicationController
 
   # POST
   def create
-    @import_bank_file = Services::ImportBankFileCreator.new(current_organization, current_user)
+    @import_bank_file = current_organization.import_bank_files.build(import_bank_file_params)
+    @import_bank_file.user = current_user
     respond_to do |format|
-      if true # @import_bank_file.read_and_save_nordea
-        format.html { redirect_to import_bank_files_path, notice: "#{t(:import_bank_file)} #{t(:was_successfully_created)}" }
+      if @import_bank_file.save
+        format.html {
+          redirect_to(import_bank_file_path(@import_bank_file),
+                      notice: "#{t(:import_bank_file)} #{t(:was_successfully_created)}")
+        }
       else
-        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:import_bank_file)}"
-        format.html { redirect_to import_bank_files_path }
+        format.html {
+          flash.now[:danger] = "#{t(:failed_to_create)} #{t(:import_bank_file)}"
+          render :new
+        }
       end
     end
   end
@@ -56,37 +59,6 @@ class ImportBankFilesController < ApplicationController
     @import_bank_file.destroy
     respond_to do |format|
       format.html { redirect_to import_bank_files_path, notice:  "#{t(:import_bank_file)} #{t(:was_successfully_deleted)}" }
-    end
-  end
-
-  # UPLOAD
-  def upload
-    @import_bank_file = ImportBankFile.new
-  end
-
-  # Create fromn upload
-  def create_from_upload_DISABLED
-    return nil
-
-    uploaded = params[:import_bank_file][:upload]
-    tempfile = uploaded.tempfile
-    directory = "#{Rails.root}/tmp/uploads"
-    file_name = "#{current_organization.slug}_bank_file.csv"
-    path = File.join(directory, file_name)
-    File.open(path, 'wb') { |f| f.write(tempfile.read) }
-
-    @bank_file_trans = BankFileTransaction.new
-    @bank_file_trans.execute = 'import'
-    @bank_file_trans.complete = 'false'
-    @bank_file_trans.directory = directory
-    @bank_file_trans.file_name = file_name
-    @bank_file_trans.user = current_user
-    @bank_file_trans.organization = current_organization
-    if @bank_file_trans.save
-      redirect_to import_bank_files_path, notice: "#{t(:file_uploaded)}"
-    else
-      flash.now[:danger] = "#{t(:file_upload)} #{t(:failed)}"
-      render :upload
     end
   end
 
