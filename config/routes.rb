@@ -93,8 +93,6 @@ Emmy::Application.routes.draw do
     get 'helps/show_chapter_help'
     get 'helps/show_message'
     resources :import_bank_files do
-      get  'upload', as: :upload
-      post 'create_from_upload', as: :create_from_upload
       resources :import_bank_file_rows do
         get 'match_verificate', as: :match_verificate
         get 'set_verificate', as: :set_verificate

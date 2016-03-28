@@ -1,22 +1,18 @@
+# encoding: utf-8
 module Services
   class ImportBankFileCreator
     require 'csv'
 
-    def initialize(organization, user, directory, file_name)
-      @user = user
-      @organization = organization
-      @import_bank_file
-      # @file = infile
-      @file = directory + '/' + file_name
+    def initialize(import_bank_file)
+      @import_bank_file = import_bank_file
     end
 
     def read_and_save_nordea
-      save_bank_file
       idx = 1
       from = '2099-12-31'
       to = '1900-01-01'
       ImportBankFileRow.transaction do
-      CSV.foreach(@file, { col_sep: "\t",  encoding: "ISO-8859-1" }) do |row|
+      CSV.foreach(@import_bank_file.upload.path, { col_sep: "\t",  encoding: "ISO-8859-1" }) do |row|
         case idx
         when 1
           # Check konto row[1]
@@ -31,23 +27,13 @@ module Services
         idx += idx
       end
       end
+      @import_bank_file.import_date = DateTime.now
       @import_bank_file.from_date = from
       @import_bank_file.to_date = to
       @import_bank_file.save
     end
 
-    def save_bank_file
-      @import_bank_file = ImportBankFile.new
-      @import_bank_file.import_date = DateTime.now
-      @import_bank_file.from_date = DateTime.now
-      @import_bank_file.to_date = DateTime.now
-      @import_bank_file.reference = 'Import'
-      @import_bank_file.organization = @organization
-      @import_bank_file.save
-    end
-
     def save_bank_file_row(posting_date, amount, bank_account, name, reference, note)
-
       bank_file_row = @import_bank_file.import_bank_file_rows.build
       bank_file_row.posting_date = posting_date
       bank_file_row.amount = amount.gsub(',', '.')
@@ -56,7 +42,7 @@ module Services
       bank_file_row.reference = reference
       bank_file_row.note = note
       bank_file_row.posted = false
-      bank_file_row.organization = @organization
+      bank_file_row.organization = @import_bank_file.organization
       bank_file_row.save
     end
   end

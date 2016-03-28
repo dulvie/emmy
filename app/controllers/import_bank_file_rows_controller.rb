@@ -98,7 +98,9 @@ class ImportBankFileRowsController < ApplicationController
         @verificates.push(verificate)
       end
     end
-    @templates = current_organization.templates.where('template_type = ?', 'cost')
+    template_type = 'cost'
+    template_type = 'income' if @import_bank_file_row.amount > 0
+    @templates = current_organization.templates.where('template_type = ?', template_type)
   end
 
   def set_template_verificate
