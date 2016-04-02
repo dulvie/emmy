@@ -177,8 +177,8 @@ Emmy::Application.routes.draw do
     get  'sie_exports/order'
     post 'sie_exports/create_file'
     get  'sie_exports/download'
-    get  'sie_imports/upload'
-    post 'sie_imports/create_from_upload'
+
+    resources :sie_imports
 
     resources :suppliers
 
