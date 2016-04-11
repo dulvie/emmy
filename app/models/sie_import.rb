@@ -9,7 +9,7 @@ class SieImport < ActiveRecord::Base
   # t.timestamps
 
   VALID_EVENTS = %w(import_event)
-  SIE_TYPES =['IB', 'UB', 'Transactions']
+  SIE_TYPES = %w(IB UB Transactions)
 
   attr_accessible :import_date, :sie_type, :accounting_period_id, :upload
 
@@ -18,13 +18,10 @@ class SieImport < ActiveRecord::Base
   belongs_to :user
   belongs_to :accounting_period
 
-
-  has_attached_file :upload
-
   validates_presence_of :organization_id
   validates_presence_of :user_id
   validates_presence_of :upload
-  validates_attachment_content_type :upload, content_type: ['text/plain'], on: :create
+  validates_attachment_content_type :upload, content_type: %w(text/plain)
   validate :check_ib, on: :create
   validate :check_ub, on: :create
   validate :check_transactions, on: :create
@@ -65,9 +62,9 @@ class SieImport < ActiveRecord::Base
   # Run from the 'Job::ImportSieEvent' model
   def import_event
     return nil if completed?
-    logger.info "** SieImport start"
+    logger.info '** SieImport start'
     parse_and_import = Services::ImportSie.new(self)
-    logger.info "** SieImport start - 1"
+    logger.info '** SieImport start - 1'
     if parse_and_import.read_and_save(sie_type)
       logger.info "** SieImport #{id} parse/import returned ok, marking complete"
       complete
