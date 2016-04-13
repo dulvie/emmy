@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160328132321) do
+ActiveRecord::Schema.define(version: 20160408122507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -214,6 +214,19 @@ ActiveRecord::Schema.define(version: 20160328132321) do
     t.datetime "updated_at"
   end
 
+  create_table "csv_transactions", force: true do |t|
+    t.string   "directory"
+    t.string   "file_name"
+    t.string   "execute"
+    t.string   "csv_type"
+    t.boolean  "complete"
+    t.integer  "accounting_period_id"
+    t.integer  "organization_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "customers", force: true do |t|
     t.integer  "organization_id",    null: false
     t.string   "address"
@@ -329,7 +342,6 @@ ActiveRecord::Schema.define(version: 20160328132321) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "completed_at"
     t.string   "state"
     t.string   "upload_file_name"
     t.string   "upload_content_type"
@@ -622,6 +634,36 @@ ActiveRecord::Schema.define(version: 20160328132321) do
     t.integer  "quantity",        default: 0
     t.integer  "warehouse_id"
     t.integer  "batch_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sie_exports", force: true do |t|
+    t.datetime "export_date"
+    t.string   "sie_type"
+    t.string   "state"
+    t.string   "download_file_name"
+    t.string   "download_content_type"
+    t.integer  "download_file_size"
+    t.datetime "download_updated_at"
+    t.integer  "accounting_period_id"
+    t.integer  "organization_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sie_imports", force: true do |t|
+    t.datetime "import_date"
+    t.string   "sie_type"
+    t.string   "upload_file_name"
+    t.string   "upload_content_type"
+    t.integer  "upload_file_size"
+    t.datetime "upload_updated_at"
+    t.string   "state"
+    t.integer  "accounting_period_id"
+    t.integer  "organization_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

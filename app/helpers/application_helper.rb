@@ -69,6 +69,9 @@ module ApplicationHelper
     glyphicon('trash', "delete-icon #{extra_css_class}")
   end
 
+  def download_icon
+    glyphicon('download-alt', 'download-alt-icon')
+  end
   def active_icon
     glyphicon('ok-circle', 'ok-circle-icon')
   end
