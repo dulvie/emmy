@@ -78,10 +78,7 @@ Emmy::Application.routes.draw do
     resources :default_codes
     resources :documents
     resources :employees
-    resources :export_bank_files do
-      post 'create_file', as: :create_file
-      get 'download', as: :download
-    end
+    resources :export_bank_files
     resources :economics_wizard do
       collection do
         get 'start'

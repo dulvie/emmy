@@ -3,10 +3,17 @@ module Services
     require 'tempfile'
     include ApplicationHelper
 
-    def initialize(organization, user, export_bank_file)
-      @user = user
-      @organization = organization
+    def initialize(export_bank_file)
       @export_bank_file = export_bank_file
+      @user = @export_bank_file.user
+      @organization = @export_bank_file.organization
+    end
+
+    def read_and_create_file
+    read_verificates_and_create_rows if @export_bank_file.reference == ExportBankFile::TYPES[0]
+    read_wages_and_create_rows if @export_bank_file.reference == ExportBankFile::TYPES[1]
+    remove_files
+    create_file_PO3
     end
 
     def read_verificates_and_create_rows
@@ -146,10 +153,14 @@ module Services
         else
           # OBS! format
           type = 'XX'
+          bank_account = 'empty'
         end
         file.write(pi00(type, clearing, bank_account, row.posting_date.strftime("%Y%m%d"), amount.to_s, row.ocr))
       end
       file.write(mt00(counts.to_s, total.to_i.to_s))
+      file.flush
+      @export_bank_file.download = file
+      @export_bank_file.save
       file.close
       true
     end

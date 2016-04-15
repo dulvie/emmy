@@ -15,4 +15,9 @@ class ExportBankFileDecorator < Draper::Decorator
     return l(object.to_date, format: '%Y-%m-%d') if object.to_date
     ''
   end
+
+  def states
+    return h.labelify('active', 'warning') if !object.completed?
+    h.labelify('complete', 'success')
+  end
 end

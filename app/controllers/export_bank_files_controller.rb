@@ -1,6 +1,6 @@
 # encoding: utf-8
 class ExportBankFilesController < ApplicationController
-  respond_to :html, :json
+  respond_to :html, :json, :text
   load_and_authorize_resource through: :current_organization
 
   before_filter :new_breadcrumbs, only: [:new, :create]
@@ -23,6 +23,13 @@ class ExportBankFilesController < ApplicationController
   # GET
   def show
     @export_bank_file_rows = @export_bank_file.export_bank_file_rows.page(params[:page]).decorate
+    respond_to do |format|
+      format.text { send_file @export_bank_file.download.path,
+                    :file_name => @export_bank_file.download_file_name,
+                    :type => @export_bank_file.download_content_type,
+                    :disposition => 'attachment' }
+      format.html {}
+    end
   end
 
   # GET
@@ -33,6 +40,7 @@ class ExportBankFilesController < ApplicationController
   def create
     @export_bank_file = ExportBankFile.new(export_bank_file_params)
     @export_bank_file.organization = current_organization
+    @export_bank_file.user = current_user
     respond_to do |format|
       if @export_bank_file.save
         format.html { redirect_to export_bank_files_url, notice: "#{t(:export_bank_file)} #{t(:was_successfully_created)}" }
@@ -52,20 +60,6 @@ class ExportBankFilesController < ApplicationController
     @export_bank_file.destroy
     respond_to do |format|
       format.html { redirect_to export_bank_files_url, notice: "#{t(:export_bank_files)} #{t(:was_successfully_deleted)}" }
-    end
-  end
-
-  def download
-    export_bank_file = current_organization.export_bank_files.find(params[:export_bank_file_id])
-    @file = export_bank_file.directory + '/' + export_bank_file.file_name
-    respond_to do |format|
-      if export_bank_file.file_exists?
-        format.csv { send_file @file, type: 'text/plain', x_sendfile: true }
-        format.html { redirect_to export_bank_files_url, notice: "#{t(:export_bank_file)} #{t(:was_successfully_created)}" }
-      else
-        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:export_bank_file)}"
-        format.html { redirect_to export_bank_files_url, notice: "#{t(:failed_to_create)} #{t(:export_bank_file)}" }
-      end
     end
   end
 
