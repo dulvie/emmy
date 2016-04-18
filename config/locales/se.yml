@@ -197,6 +197,7 @@ se:
   item_type: "Artikeltyp"
   late_invoices: "Sena fakturor"
   ledger: "Huvudbok"
+  ledger_accounts: "Huvudboks rader"
   ledgers: "Huvudböcker"
   list: "Lista"
   logistics: "Logistik"

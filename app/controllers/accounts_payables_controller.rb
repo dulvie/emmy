@@ -19,6 +19,9 @@ class AccountsPayablesController < ApplicationController
     if @accounts_payables.size == 0
       redirect_to helps_show_message_path(message: "#{I18n.t(:accounts_payables)} #{I18n.t(:missing)}")
     end
+    if !@ledger_account
+      redirect_to helps_show_message_path(message: "#{I18n.t(:ledger_accounts)} #{I18n.t(:missing)}")
+    end
   end
 
   private
