@@ -14,8 +14,10 @@ module Services
         verificate_item.accounting_period = @verificate.accounting_period
         verificate_item.account_id = item[1][:account_id]
         verificate_item.description = item[1][:description]
-        verificate_item.debit = item[1][:debit].gsub(",", ".")
-        verificate_item.credit = item[1][:credit].gsub(",", ".")
+        Rails.logger.info "==>#{item[1][:debit]}"
+        Rails.logger.info "==>#{item[1][:credit]}"
+        verificate_item.debit = item[1][:debit]
+        verificate_item.credit = item[1][:credit]
         verificate_item.save if item[1][:debit] != '0' || item[1][:credit] != '0'
       end
       if @verificate.balanced?

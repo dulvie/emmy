@@ -1,4 +1,4 @@
-= simple_form_for @verificate, url: add_verificate_items_verificate_path(@verificate),  method: 'post', :html => { :class => 'form-horizontal' } do |f|
+= simple_form_for @verificate, url: add_verificate_items_verificate_path(@verificate),  method: 'post', :html => { :class => 'form-horizontal frm' } do |f|
   / = render partial: 'shared/date_field', locals: {form: f, field: :posting_date, in_id: 'in_posting_date', in_value: @verificate.posting_date, out_id: 'verificate[posting_date]', field_id: 'posting_short_date',  model: 'posting_date', dp_open: 'posting_open', dp_options: 'posting_options', dp_click: 'open_posting_date($event)'}
   .table-responsive{}
     %table{:class => 'table table-striped'}
@@ -42,6 +42,11 @@
   $('#confirm').attr('disabled', 'disabled');
 
   set_bank_amount();
+
+  $('.frm').submit(function(e) {
+      $.each($(".debit"), function(idx,el){el.value = el.value.replace(',','.');});
+      $.each($(".credit"), function(idx,el){el.value = el.value.replace(',','.');});
+  });
 
   $(".debit").change(function() {
       $('#total_debit').val(summa(".debit"));
