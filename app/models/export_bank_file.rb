@@ -50,22 +50,8 @@ class ExportBankFile < ActiveRecord::Base
   end
 
   def file_name
-    return "#{organization.slug}_payment_bank_file_#{id}.txt" if self.reference == TYPES[0]
-    return "#{organization.slug}_wage_bank_file_#{id}.txt" if self.reference == TYPES[1]
-    return nil
-  end
-
-  def directory
-    'files/tmp'
-  end
-
-  def file_exists?
-    File.exists?directory+'/'+file_name
-  end
-
-  def file_filter
-    return '/' + "#{organization.slug}_payment_bank_file*.*" if self.reference == TYPES[0]
-    return '/' + "#{organization.slug}_wage_bank_file*.*" if self.reference == TYPES[1]
+    return "#{organization.slug}_payment_bank_file_#{id}" if self.reference == TYPES[0]
+    return "#{organization.slug}_wage_bank_file_#{id}" if self.reference == TYPES[1]
     return nil
   end
 

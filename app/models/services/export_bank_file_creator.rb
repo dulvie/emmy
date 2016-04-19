@@ -12,7 +12,6 @@ module Services
     def read_and_create_file
     read_verificates_and_create_rows if @export_bank_file.reference == ExportBankFile::TYPES[0]
     read_wages_and_create_rows if @export_bank_file.reference == ExportBankFile::TYPES[1]
-    remove_files
     create_file_PO3
     end
 
@@ -129,48 +128,44 @@ module Services
       total = 0
       cp = ''
       cd = ''
-      @file = @export_bank_file.directory + '/' + @export_bank_file.file_name
-      file = File.open(@file, 'w')
-      @export_bank_file.export_bank_file_rows.each do |row|
-        if row.currency_paid != cp or row.currency_debit != cd
-          cp = row.currency_paid
-          cd = row.currency_debit
-          file.write(mh00(@export_bank_file.organization_number, @export_bank_file.pay_account, cp, cd))
+      begin
+        file = Tempfile.new([@export_bank_file.file_name, '.txt'])
+        @export_bank_file.export_bank_file_rows.each do |row|
+          if row.currency_paid != cp or row.currency_debit != cd
+            cp = row.currency_paid
+            cd = row.currency_debit
+            file.write(mh00(@export_bank_file.organization_number, @export_bank_file.pay_account, cp, cd))
+          end
+          counts += 1
+          total += row.amount * 100
+          amount = (row.amount * 100).to_i
+          if @export_bank_file.reference == 'Löneutbetalning'
+            type = '08'
+            clearing = row.clearingnumber
+            bank_account = row.bank_account
+          elsif !row.bankgiro.blank?
+            type = '05'
+            bank_account = row.bankgiro
+          elsif !row.plusgiro.blank?
+            type = '00'
+            bank_account = row.plusgiro
+          else
+            # OBS! format
+            type = 'XX'
+            bank_account = 'empty'
+          end
+          file.write(pi00(type, clearing, bank_account, row.posting_date.strftime("%Y%m%d"), amount.to_s, row.ocr))
         end
-        counts += 1
-        total += row.amount * 100
-        amount = (row.amount * 100).to_i
-        if @export_bank_file.reference == 'Löneutbetalning'
-          type = '08'
-          clearing = row.clearingnumber
-          bank_account = row.bank_account
-        elsif !row.bankgiro.blank?
-          type = '05'
-          bank_account = row.bankgiro
-        elsif !row.plusgiro.blank?
-          type = '00'
-          bank_account = row.plusgiro
-        else
-          # OBS! format
-          type = 'XX'
-          bank_account = 'empty'
-        end
-        file.write(pi00(type, clearing, bank_account, row.posting_date.strftime("%Y%m%d"), amount.to_s, row.ocr))
+        file.write(mt00(counts.to_s, total.to_i.to_s))
+        file.flush
+        @export_bank_file.download = file
+        @export_bank_file.save
+      ensure
+        file.close
+        file.unlink
       end
-      file.write(mt00(counts.to_s, total.to_i.to_s))
-      file.flush
-      @export_bank_file.download = file
-      @export_bank_file.save
-      file.close
       true
     end
-
-  def remove_files
-    dir_files = Dir.glob(@export_bank_file.directory + @export_bank_file.file_filter)
-    dir_files.each do |dir_file|
-      File.delete(dir_file)
-    end
-  end
 
     def save_bank_file_row(bank_date, amount, bankgiro, plusgiro, clearing, bank_account, ocr, name, reference, cp, cd)
       bank_file_row = @export_bank_file.export_bank_file_rows.build
