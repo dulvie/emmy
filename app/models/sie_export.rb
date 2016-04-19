@@ -26,11 +26,6 @@ class SieExport < ActiveRecord::Base
   validate :check_balances
 
   def check_balances
-    Rails.logger.info "==>#{accounting_period.closing_balance}"
-    Rails.logger.info "==>#{SIE_TYPES[0]} -- #{sie_type}"
-    if :sie_type == SIE_TYPES[0] && accounting_period.opening_balance.size == 0
-      errors.add(:sie_type, I18n.t(:opening_balance_not_set))
-    end
     if :sie_type == SIE_TYPES[0] && accounting_period.closing_balance.size == 0
       errors.add(:sie_type, I18n.t(:closing_balance_not_set))
     end
@@ -40,7 +35,7 @@ class SieExport < ActiveRecord::Base
 
   def tmp_file
     # download.path
-    'files/tmp/' + "#{organization.slug}_sieexport_#{id}.txt"
+    "#{organization.slug}_sieexport_#{id}"
   end
 
   def can_delete?

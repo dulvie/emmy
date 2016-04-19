@@ -1,5 +1,7 @@
 module Services
   class ExportSie
+    require 'tempfile'
+
     def initialize(sie_export)
       @sie_export = sie_export
       @current_organization = @sie_export.organization
@@ -9,26 +11,28 @@ module Services
     end
 
     def create_file(export_type)
-      # File.delete(temp_file) if File.exist?(temp_file)
       Rails.logger.info "==> Start creating SIE file"
-      file = File.new(@sie_export.tmp_file, 'w')
-      case export_type
-      when SieExport::SIE_TYPES[0]
-        balances(file)
-      when SieExport::SIE_TYPES[1]
-        period(file)
-      when SieExport::SIE_TYPES[2]
-        objects(file)
-      when SieExport::SIE_TYPES[3]
-        transactions(file)
-      else
-        error
+      begin
+        file = Tempfile.new([@sie_export.tmp_file, 'txt'])
+        case export_type
+        when SieExport::SIE_TYPES[0]
+          balances(file)
+        when SieExport::SIE_TYPES[1]
+          period(file)
+        when SieExport::SIE_TYPES[2]
+          objects(file)
+        when SieExport::SIE_TYPES[3]
+          transactions(file)
+        else
+          error
+        end
+        file.flush
+        @sie_export.download = file
+        @sie_export.save
+      ensure
+        file.close
+        file.unlink
       end
-      file.flush
-      @sie_export.download = file
-      @sie_export.save
-      file.close
-      File.delete(@sie_export.tmp_file)
       Rails.logger.info "==> SIE file crated"
     end
 
@@ -62,7 +66,7 @@ module Services
     end
 
     def transactions(file)
-      verificates = @accounting_period.verificates
+      verificates = @accounting_period.verificates.final
       header.each do |row|
         file.write row + "\r\n"
       end

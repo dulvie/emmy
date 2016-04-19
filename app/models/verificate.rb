@@ -39,6 +39,8 @@ class Verificate < ActiveRecord::Base
     send(new_state, changed_at)
   end
 
+  scope :final, -> { where(state: 'final') }
+
   state_machine :state, initial: :preliminary do
     before_transition on: :mark_final, do: :generate_verificate_number
     after_transition on: :mark_final, do: :set_dependent
