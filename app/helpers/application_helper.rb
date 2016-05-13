@@ -90,6 +90,9 @@ module ApplicationHelper
   def import_icon
     glyphicon('import', 'import-icon')
   end
+  def nav_icon
+    glyphicon('align-justify')
+  end
   def plus_icon
     "<i class=\"glyphicon glyphicon-plus-sign plus-icon\"> </i>".html_safe
   end
