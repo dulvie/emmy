@@ -27,11 +27,15 @@
         font-size: $font-size-base;
         padding: 1em;
       }
+      a.dropdown-toggle i.glyphicon {
+        margin-right: $grid-gutter-width / 4;
+      }
       .dropdown-menu {
-        background: $sidebar-color;
-        a {
-          padding: 1em;
-          color: black;
+        margin: 0;
+        padding: 0;
+        background: lighten($sidebar-bg, 10%);
+        a:hover {
+          background: $sidebar-bg;
         }
       }
     }
