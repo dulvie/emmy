@@ -1,5 +1,5 @@
 class SieExport < ActiveRecord::Base
-  
+
   # t.datetime :export_date
   # t.datetime :sie_type
   # t.string   :state
