@@ -33,7 +33,6 @@ module Services
         file.close
         file.unlink
       end
-      Rails.logger.info "==> SIE file crated"
     end
 
     def balances(file)

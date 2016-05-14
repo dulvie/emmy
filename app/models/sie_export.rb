@@ -1,5 +1,4 @@
 class SieExport < ActiveRecord::Base
-
   # t.datetime :export_date
   # t.datetime :sie_type
   # t.string   :state
@@ -36,7 +35,7 @@ class SieExport < ActiveRecord::Base
 
   def tmp_file
     # download.path
-    "#{organization.slug}_sieexport_#{id}"
+    'files/tmp/' + "#{organization.slug}_sieexport_#{id}.txt"
   end
 
   def can_delete?
