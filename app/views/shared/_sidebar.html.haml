@@ -3,7 +3,7 @@
     - if user_signed_in?
       %ul.pull-right.profile-menu
         %li.dropdown
-          %a.dropdown-toggle{'href' => '#'}
+          %a.dropdown-toggle{'href' => '#', 'data-toggle' => 'dropdown'}
             = user_icon
             = current_user.name
           %ul.dropdown-menu.dropdown-menu-right
