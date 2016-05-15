@@ -19,7 +19,10 @@
           %td= transfer.created_at
           %td= link_to(transfer.from_warehouse.name, edit_warehouse_path(transfer.from_warehouse))
           %td= link_to(transfer.to_warehouse.name, edit_warehouse_path(transfer.to_warehouse))
-          %td= link_to(transfer.batch.name, edit_batch_path(transfer.batch))
+          - if transfer.batch
+            %td= link_to(transfer.batch.name, edit_batch_path(transfer.batch))
+          - else
+            %td= "NN"
           %td= transfer.quantity
           %td= transfer.state
           %td

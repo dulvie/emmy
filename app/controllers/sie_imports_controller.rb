@@ -1,54 +1,69 @@
 class SieImportsController < ApplicationController
   respond_to :html, :json
-  before_filter :load_accounting_periods, only: [:upload]
+  load_and_authorize_resource through: :current_organization
 
-  def upload
-    @breadcrumbs = [['Import SIE']]
-    @sie_import = SieImport.new(current_organization, nil, nil)
+  before_filter :new_breadcrumbs, only: [:new, :create]
+  before_filter :load_accounting_periods, only: [:new, :create]
+
+
+  # GET
+  def index
+    @breadcrumbs = [[t(:sie_imports)]]
+    @sie_imports = @sie_imports.page(params[:page]).decorate
   end
 
-  def create_from_upload
-    uploaded = params[:sie_import][:upload]
-    tempfile = uploaded.tempfile
-    directory = "#{Rails.root}/tmp/uploads"
-    file_name = "#{current_organization.slug}_sie_import.csv"
-    path = File.join(directory, file_name)
-    File.open(path, 'wb') { |f| f.write(tempfile.read) }
+  def new
+    # @sie_import = SieImport.new(current_organization, nil, nil)
+  end
 
-    @accounting_period = current_organization.accounting_periods.find(params[:sie_import][:accounting_period])
-    import_type = params[:sie_import][:import_type]
-    @sie_trans = SieTransaction.new
-    @sie_trans.execute = 'import'
-    @sie_trans.complete = 'false'
-    @sie_trans.directory = directory
-    @sie_trans.file_name = file_name
-    @sie_trans.sie_type = import_type
-    @sie_trans.accounting_period_id = params[:sie_import][:accounting_period]
-    @sie_trans.user = current_user
-    @sie_trans.organization = current_organization
-
-    @sie_import = SieImport.new(current_organization, @accounting_period, import_type)
+  # POST
+  def create
+    @sie_import = current_organization.sie_imports.build(sie_import_params)
+    @sie_import.user = current_user
+    @sie_import.import_date = DateTime.now
     respond_to do |format|
-      if @sie_import.valid? && @sie_trans.save
-        if import_type == 'IB'
-          url = edit_accounting_period_path(@accounting_period)  # OBS page reload
-        elsif import_type == 'UB'
-          url = closing_balance_path(@accounting_period.closing_balance)
-        elsif import_type == 'Transactions'
-          url = verificates_path + '&accounting_period_id=' + @accounting_period.id
-        else
-          url = sie_imports_upload_path
-        end
-        format.html { redirect_to url, notice: "#{t(:file_uploaded)}" }
+      if  @sie_import.save
+        # url = new_sie_import_path
+        # balances and transactions is created in background-jobs
+        # if @sie_import.sie_type == 'IB'
+        #  url = opening_balance_path(@sie_import.accounting_period.opening_balance)  # OBS page reload
+        # elsif @sie_import.sie_type == 'UB'
+        #  url = closing_balance_path(@sie_import.accounting_period.closing_balance)
+        # elsif @sie_import.sie_type == 'Transactions'
+        #  url = verificates_path + '&accounting_period_id=' + @sie_import.accounting_period.id.to_s
+        # end
+        format.html {
+          redirect_to(sie_imports_path, notice: "#{t(:sie_imports)} #{t(:was_successfully_created)}")
+        }
       else
-        @accounting_periods = current_organization.accounting_periods
-        flash.now[:danger] = "#{t(:file_upload)} #{t(:failed)}"
-        format.html { render action: 'upload' }
+        format.html {
+          flash.now[:danger] = "#{t(:failed_to_create)} #{t(:sie_imports)}"
+          render :new
+        }
       end
     end
   end
 
+  # DELETE
+  def destroy
+    @sie_import.destroy
+    respond_to do |format|
+      format.html { redirect_to sie_imports_path, notice:  "#{t(:sie_import)} #{t(:was_successfully_deleted)}" }
+    end
+  end
+
   private
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def sie_import_params
+    params.require(:sie_import).permit(SieImport.accessible_attributes.to_a)
+    # params.permit(current_organization, current_user)
+  end
+
+
+  def new_breadcrumbs
+    @breadcrumbs = [[t(:sie_imports), sie_imports_path],
+                    ["#{t(:new)} #{t(:sie_import)}"]]
+  end
 
   def load_accounting_periods
     @accounting_periods = current_organization.accounting_periods

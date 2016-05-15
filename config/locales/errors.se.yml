@@ -14,3 +14,4 @@ se:
     errors:
       messages:
         blank: "Fältet får inte vara tomt."
+        spoofed_media_type: "Felaktigt filformat."

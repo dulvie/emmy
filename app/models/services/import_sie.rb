@@ -1,21 +1,22 @@
 module Services
   class ImportSie
-    def initialize(organization, user, directory, file_name, accounting_period, accounting_plan)
-      @user = user
-      @organization = organization
-      @accounting_plan = accounting_plan
-      @accounting_period = accounting_period
-      @opening_balance = accounting_period.opening_balance
-      @closing_balance = accounting_period.closing_balance
+
+    def initialize(sie_import)
+      @user = sie_import.user
+      @organization = sie_import.organization
+      @accounting_plan = sie_import.accounting_period.accounting_plan
+      @accounting_period = sie_import.accounting_period
+      @opening_balance = sie_import.accounting_period.opening_balance
+      @closing_balance = sie_import.accounting_period.closing_balance
+      @sie_import = sie_import
       @sietyp = ''
-      @file = directory + '/' + file_name
     end
 
     def read_and_save(import_type)
       save_closing_balance if @closing_balance.nil? && import_type == 'UB'
       save_opening_balance if @opening_balance.nil? && import_type == 'IB'
       ver_id = 0
-      IO.foreach(@file) do |line|
+      IO.foreach(@sie_import.upload.path) do |line|
         case @sietyp
         when '4'
           set_ub(line) if line.starts_with?('#UB') if import_type == 'UB'
@@ -27,6 +28,7 @@ module Services
         end
         set_type(line) if line.starts_with?('#SIETYP')
       end
+      true
     end
 
     def set_type(line)

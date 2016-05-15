@@ -3,7 +3,7 @@
     - if user_signed_in?
       %ul.pull-right.profile-menu
         %li.dropdown
-          %a.dropdown-toggle{'href' => '#'}
+          %a.dropdown-toggle{'href' => '#', 'data-toggle' => 'dropdown'}
             = user_icon
             = current_user.name
           %ul.dropdown-menu.dropdown-menu-right
@@ -11,11 +11,14 @@
               %li=link_to t(:admin), admin_dashboard_path
             %li=link_to t(:profile), profile_path
             %li=link_to t(:sign_out), destroy_user_session_path, method: :delete
+    .pull-right
+      %button.button-toggle-nav.visible-xs.visible-sm{'data-toggle' => 'collapse', 'data-target' => '#sidebar-menu'}
+        = nav_icon
     = link_to 'Emmy', root_path, class: 'brand-link'
   .current-organization
     - if current_organization
       = current_organization.name
-#sidebar-menu.navbar
+#sidebar-menu.navbar.collapse.in
   %ul.nav.sidebar-nav
     - unless user_signed_in?
       %li= link_to t(:sign_in), new_user_session_path
@@ -89,8 +92,8 @@
         %li{'class' => "#{dropdown_class('interchanges')}"}
           = dropdown_link t(:interchanges)
           %ul.dropdown-menu
-            = nav_link t(:sie_imports), sie_imports_upload_path
-            = nav_link t(:sie_exports), sie_exports_path
+            = nav_link t(:sie_imports), sie_imports_path
+            = nav_link t(:sie_exports), sie_exports_order_path
             = nav_link t(:bank_imports), import_bank_files_path
             = nav_link t(:bank_exports), export_bank_files_path
 

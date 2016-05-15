@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.8'
+gem 'rails', '4.2.6'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0'
+gem 'sass-rails', '~> 5.0'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -31,7 +31,8 @@ gem 'unicorn'
 
 gem 'resque', '~> 1.25'
 
-gem 'devise'
+gem 'devise', '~> 3.5'
+gem 'responders', '~> 2.0' # required by devise
 gem 'simple_form', git: 'https://github.com/plataformatec/simple_form.git'
 gem 'bootstrap-sass', '~> 3.2'
 
@@ -40,10 +41,11 @@ gem 'protected_attributes', '~> 1.0.5'
 
 gem 'wicked_pdf'
 gem 'foreman'
+gem 'dotenv'
 gem 'cancan'
 gem 'modernizr-rails'
 gem 'state_machine'
-gem 'draper', '~> 1.3'
+gem 'draper', '~> 2.0'
 gem 'haml', '~> 4.0'
 gem 'angularjs-rails'
 gem 'active_model_serializers'
@@ -52,7 +54,7 @@ gem 'angular-ui-bootstrap-rails'
 gem 'country_select'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
-gem 'paperclip'
+gem 'paperclip', '~> 4.3'
 gem 'exception_notification', '~> 4.0'
 
 group :test, :development do
