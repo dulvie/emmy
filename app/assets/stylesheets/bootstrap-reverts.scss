@@ -1,0 +1,41 @@
+/*
+.navbar-static-top .container,
+.navbar-fixed-top .container,
+.navbar-fixed-bottom .container,
+.container {
+  width: 1200px;
+}*/
+
+.navbar-toggle {
+  float: left;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+
+.nav-sidebar .dropdown > .dropdown-menu {
+  min-width: auto;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-shadow: none;
+  position: relative;
+  float: none;
+  a {
+    padding: 10px 15px;
+  }
+}
+.nav-sidebar .dropdown-menu {
+  -webkit-transform-origin: top;
+  transform-origin: top;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-transform: scale(1, 0);
+  transition: all 0.2s ease-out;
+  -webkit-transition: all 0.2s ease-out;
+}
+.open > .dropdown-menu {
+  -webkit-transform: scale(1, 1);
+  transform: scale(1, 1);
+}
