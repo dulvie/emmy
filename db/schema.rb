@@ -292,6 +292,11 @@ ActiveRecord::Schema.define(version: 20160516152321) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "state",                 limit: 255
+    t.string   "download_file_name",    limit: 255
+    t.string   "download_content_type", limit: 255
+    t.integer  "download_file_size"
+    t.datetime "download_updated_at"
   end
 
   create_table "import_bank_file_rows", force: :cascade do |t|

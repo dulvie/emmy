@@ -1,54 +1,64 @@
 class SieExportsController < ApplicationController
-  respond_to :html, :json
-  # load_and_authorize_resource :sie_export, through: :current_organization
-  before_filter :load_accounting_periods, only: [:order]
+  respond_to :html, :txt
+  load_and_authorize_resource :sie_export, through: :current_organization
+  before_filter :load_accounting_periods, only: [:new, :create, :show]
+  before_filter :new_breadcrumbs, only: [:new, :create]
+  before_filter :show_breadcrumbs, only: [:edit, :show, :update]
 
-  def order
-    @breadcrumbs = [['Export SIE']]
-    @sie_export = SieExport.new(current_organization, current_user, nil, nil)
-    @trans = current_organization.sie_transactions.where("execute = 'export'").order('created_at DESC').first
+  def index
+    @breadcrumbs = [['SIE Exports']]
+    @sie_exports = @sie_exports.page(params[:page]).decorate
   end
 
-  def download
-    @sie_export = SieExport.new(current_organization, current_user, nil, nil)
-    @file = @sie_export.directory + '/' + @sie_export.file_name
+  def show
     respond_to do |format|
-      if @sie_export.file_exists?
-        format.csv { send_file @file, type: 'text/plain', x_sendfile: true }
-        format.html { redirect_to sie_export_order_path, notice: "#{t(:sie_exports)} #{t(:downloaded)}" }
+      format.text { send_file @sie_export.download.path,
+                  :filename => @sie_export.download_file_name,
+                  :type => @sie_export.download_content_type,
+                  :disposition => 'attachment'}
+      format.html { }
+    end
+  end
+
+  def new
+  end
+
+  def create
+    @sie_export = SieExport.new(sie_export_params)
+    @sie_export.organization = current_organization
+    @sie_export.user = current_user
+    @sie_export.export_date = DateTime.now
+    respond_to do |format|
+      if @sie_export.save
+        format.html { redirect_to sie_exports_path, notice: "#{t(:sie_export)} #{t(:was_successfully_created)}" }
       else
-        @accounting_periods = current_organization.accounting_periods
-        flash.now[:danger] = "#{t(:download)} #{t(:failed)}"
-        format.html { redirect_to sie_export_order_path }
+        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:sie_export)}"
+        format.html { render action: 'new' }
       end
     end
   end
 
-  def create_file
-    @sie_export = SieExport.new(current_organization, current_user, nil, nil)
-
-    @sie_trans = SieTransaction.new
-    @sie_trans.execute = 'export'
-    @sie_trans.complete = 'false'
-    @sie_trans.directory = @sie_export.directory
-    @sie_trans.file_name = @sie_export.file_name
-    @sie_trans.sie_type = params[:sie_export][:export_type]
-    @sie_trans.accounting_period_id = params[:sie_export][:accounting_period]
-    @sie_trans.user = current_user
-    @sie_trans.organization = current_organization
-
-    respond_to do |format|
-      if @sie_trans.save
-        format.html {redirect_to sie_exports_order_path, notice: "#{t(:sie_exports)} #{t(:was_successfully_created)}" }
-      else
-        @accounting_periods = current_organization.accounting_periods
-        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:sie_exports)}"
-        format.html { redirect_to sie_export_order_path }
-      end
-    end
+  def destroy
+    @sie_export.destroy
+    redirect_to sie_exports_path, notice: "#{t(:sie_export)} #{t(:was_successfully_deleted)}"
   end
 
   private
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def sie_export_params
+    params.require(:sie_export).permit(SieExport.accessible_attributes.to_a)
+    # params.permit(current_organization, current_user)
+  end
+
+  def new_breadcrumbs
+    @breadcrumbs = [[t(:sie_exports), sie_exports_path],
+                    ["#{t(:new)} #{t(:sie_export)}"]]
+    end
+
+  def show_breadcrumbs
+    @breadcrumbs = [[t(:sie_exports), sie_exports_path],
+                    ['SIE Export']]
+  end
 
   def load_accounting_periods
     @accounting_periods = current_organization.accounting_periods

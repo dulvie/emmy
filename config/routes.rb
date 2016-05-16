@@ -169,10 +169,8 @@ Emmy::Application.routes.draw do
     end
     get 'statistics/index'
     resources :shelves
-    get  'sie_exports/order'
-    post 'sie_exports/create_file'
-    get  'sie_exports/download'
 
+    resources :sie_exports
     resources :sie_imports
 
     resources :suppliers
