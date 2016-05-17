@@ -1,0 +1,111 @@
+.hidden {
+  @extend .hide;
+}
+
+.alert-notice {
+  @extend .alert-success;
+}
+
+.flash {
+  position: absolute;
+  width: 100%;
+  z-index: 100;
+}
+
+.error_notification {
+  @extend .alert-danger;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+
+.flash {
+  margin-top: -($grid-gutter-width/1.5);
+  left: 0px;
+  border-radius: 0;
+}
+.breadcrumb {
+  // margin-top: -$grid-gutter-width/2;
+  font-size: $font-size-base * 1.7;
+  padding: 0;
+  padding-bottom: $grid-gutter-width;
+}
+
+.translation_missing {
+  background: #c00;
+  color: #fff;
+}
+
+.state-change-form {
+  form {
+    @extend .well;
+    margin-left: 1em;
+    top: 0;
+    background: $body-bg;
+    z-index: 10;
+    position: absolute;
+
+    /* Since absolute, the width needs to be enforced. */
+    width: 179px;
+
+  }
+}
+
+.info_icon {
+  cursor: pointer;
+  margin-left: 10px;
+}
+.info {
+  display: none;
+}
+.numeric {
+  text-align: right;
+  width: 8em;
+  white-space: nowrap;
+}
+.tabnum{
+  text-align: right;
+}
+.date {
+  width: 260px;
+}
+.short {
+  width: 160px;
+}
+.medium {
+  width: 260px;
+}
+.full-width {
+  width: 100%;
+}
+
+.tab-content.after-nav-tabs {
+  margin-top: 1.5em;
+}
+.clear {
+  clear: both;
+}
+
+/**
+ * class that adds a an arrow to the right of the element.
+ * It uses font-awesome, but as a :after filter, removes an extra ement in in the markup.
+ */
+.after-caret {
+  @extend .glyphicon;
+  float: right;
+  color: lighten($text-color, 70%);
+  width: 10px;
+}
+.after-caret-up {
+  content: '\e113';
+  @extend .after-caret;
+}
+.after-caret-down {
+  @extend .after-caret;
+  content: '\e114';
+}
+.after-caret-right {
+  @extend .after-caret;
+  content: '\e080';
+}
+
