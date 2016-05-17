@@ -37,4 +37,13 @@ namespace :eko do
       verificate_creator.customer_payments
     end
   end
+
+  desc 'recalculate all shelves'
+  task :recalculate_all_shelves => :environment do |_,_|
+    Shelf.all.each do |shelf|
+      puts "recalculating shelf: #{shelf.id} #{shelf.warehouse.name} #{shelf.batch.item.name}"
+      shelf.recalculate
+      puts
+    end
+  end
 end

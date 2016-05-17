@@ -219,6 +219,7 @@ en:
   items: "Items"
   late_invoices: "Late invoices"
   ledger: "Ledger"
+  ledger_accounts: "Ledger accounts"
   ledgers: "Ledgers"
   list: "List"
   logistics: "Logistics"

@@ -18,7 +18,7 @@ class ImportBankFile < ActiveRecord::Base
   belongs_to :user
   has_many :import_bank_file_rows, dependent: :destroy
 
-  validates_attachment_content_type :upload, content_type: ['text/csv']
+  validates_attachment_content_type :upload, content_type: ['text/plain', 'text/csv', 'application/vnd.ms-excel']
   validates_presence_of :organization_id
   validates_presence_of :user_id
 
