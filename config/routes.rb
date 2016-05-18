@@ -42,8 +42,6 @@ Emmy::Application.routes.draw do
 
     resources :accounting_periods
 
-    get 'accounting_plan_order_import', to: 'accounting_plans#order_import', as: 'accounting_plan_order_import'
-    post 'accounting_plan_import', to: 'accounting_plans#import', as: 'accounting_plan_import'
     resources :accounting_plans do
       post 'disable_accounts', as: :disable_accounts
       resources :accounting_groups

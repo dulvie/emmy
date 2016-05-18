@@ -1,7 +1,16 @@
 module Services
   class AccountingPlanCreator
     require 'csv'
-    def initialize(organization, user)
+
+    def initialize(accounting_plan_id)
+      @accounting_plan = @organization.accounting_plans.find(accounting_plan_id)
+      @user = @accounting_plan.user
+      @organization = @accounting_plan.organization
+      @accounting_class
+      @accounting_group
+    end
+
+    def initialize_old(organization, user)
       @user = user
       @organization = organization
       @accounting_plan

@@ -14,6 +14,7 @@ class AccountingPlansController < ApplicationController
 
   # GET /accounting_plan/new
   def new
+    init_new
   end
 
   # GET /accounting_plan/1
@@ -119,7 +120,15 @@ class AccountingPlansController < ApplicationController
     @accounting_plans = @accounting_plans.page(params[:page]).decorate
   end
 
-  def init_order_import
+  def init_new
+    from_directory = AccountingPlan::DIRECTORY
+    existing_plans = current_organization.accounting_plans.pluck(:file_name)
+    @file_importer = FileImporter.new(from_directory, nil, nil)
+    @file_importer.file_filter(existing_plans)
+    @files = @file_importer.files(AccountingPlan::FILES)
+  end
+
+  def init_order_import_old
     @breadcrumbs = [["#{t(:accounting_plan)}", accounting_plans_path], ["#{t(:order)} #{t(:import)}"]]
     from_directory = AccountingPlan::DIRECTORY
     existing_plans = current_organization.accounting_plans.pluck(:file_name)
