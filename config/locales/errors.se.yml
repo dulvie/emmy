@@ -9,6 +9,7 @@ se:
   accounting_plan_missing: "Kontoplan saknas"
   accounts_receivables_missing: "Kundreskontrauppgifter saknas"
   accounts_payables_missing: "Leverantörsreskontrauppgifter saknas"
+  name_error: "Namet_ej_tillåtet"
   verificates_missing: "Verifikat saknas"
   activerecord:
     errors:

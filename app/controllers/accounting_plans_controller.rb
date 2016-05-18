@@ -36,6 +36,7 @@ class AccountingPlansController < ApplicationController
         format.html { redirect_to accounting_plans_url, notice: "#{t(:accounting_plan)} #{t(:was_successfully_created)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:accounting_plan)}"
+        init_new
         format.html { render action: 'new' }
       end
     end
@@ -63,11 +64,11 @@ class AccountingPlansController < ApplicationController
     end
   end
 
-  def order_import
+  def order_import_old
     init_order_import
   end
 
-  def import
+  def import_old
     file = params[:file_importer][:file]
     @accounting_plan_trans = init_accounting_plan_trans
     @accounting_plan_trans.file = file
@@ -85,6 +86,19 @@ class AccountingPlansController < ApplicationController
   end
 
   def disable_accounts
+    @accounting_plan = current_organization.accounting_plans.find(params[:accounting_plan_id])
+    respond_to do |format|
+      if @accounting_plan.disable_accounts
+        format.html { redirect_to accounting_plans_url, notice: "#{t(:accounting_plan)} #{t(:was_successfully_updated)}" }
+      else
+        init_order_import
+        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:accounting_plan)}"
+        format.html { render 'show' }
+      end
+    end
+  end
+
+  def disable_accounts_old
     @accounting_plan_trans = init_accounting_plan_trans
     @accounting_plan_trans.file = 'Kontoplan_Normal_2014_ver1.csv'
     @accounting_plan_trans.execute = 'disable'
@@ -137,7 +151,7 @@ class AccountingPlansController < ApplicationController
     @files = @file_importer.files(AccountingPlan::FILES)
   end
 
-  def init_accounting_plan_trans
+  def init_accounting_plan_trans_old
     @accounting_plan_trans = AccountingPlanTransaction.new
     @accounting_plan_trans.posting_date = DateTime.now
     @accounting_plan_trans.directory = AccountingPlan::DIRECTORY

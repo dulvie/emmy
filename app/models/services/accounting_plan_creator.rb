@@ -2,19 +2,9 @@ module Services
   class AccountingPlanCreator
     require 'csv'
 
-    def initialize(accounting_plan_id)
-      @accounting_plan = @organization.accounting_plans.find(accounting_plan_id)
-      @user = @accounting_plan.user
+    def initialize(accounting_plan)
+      @accounting_plan = accounting_plan
       @organization = @accounting_plan.organization
-      @accounting_class
-      @accounting_group
-    end
-
-    def initialize_old(organization, user)
-      @user = user
-      @organization = organization
-      @accounting_plan
-      @accounting_class
       @accounting_group
     end
 
@@ -64,7 +54,7 @@ module Services
         elsif row[1] && row[3].length > 4
           accounts = row[3].split(', ')
           accounts.each { |account|
-            save_account(account, row[2], class_id, nil)
+            save_account(account, row[2], class_id, nil) if !check_account(account)
           }
         else
         end
@@ -107,7 +97,7 @@ module Services
           save_account_plan(row[1],'importerat', file_name)
           first = false
         elsif row[2].blank? && row[5] && row[5].length == 4
-          save_account(row[5], row[6], class_id, group_id)
+          save_account(row[5], row[6], class_id, group_id) if !check_account(row[5])
         elsif ((row[2] && row[2].strip.length == 1) || (row[2] && row[2].length == 3))
           class_id = save_account_class(row[2], row[3])
         elsif ((row[2] && row[2].length == 2) || (row[2] && row[2].length == 5))
@@ -116,7 +106,7 @@ module Services
           save_account(row[2], row[3], class_id, group_id)
         elsif row[2] && row[2].length == 4 && row[5] && row[5].length == 4
           save_account(row[2], row[3], class_id, group_id)
-          save_account(row[5], row[6], class_id, group_id)
+          save_account(row[5], row[6], class_id, group_id) if !check_account(row[5])
         end
       end
     end
@@ -142,6 +132,7 @@ module Services
         end
       end
       end
+      return true
     end
 
     def K1_tax_code_update
@@ -160,11 +151,9 @@ module Services
     end
 
     def save_account_plan(name, description, file_name)
-      @accounting_plan = AccountingPlan.new
       @accounting_plan.name = name
       @accounting_plan.description = description
       @accounting_plan.file_name = file_name
-      @accounting_plan.organization_id = @organization.id
       @accounting_plan.save
     end
 
@@ -220,6 +209,11 @@ module Services
       @account = @accounting_plan.accounts.find_by_number(account)
       @account.active = active
       @account.save
+    end
+
+    def check_account(account)
+      return true if @accounting_plan.accounts.find_by_number(account)
+      return false
     end
   end
 end

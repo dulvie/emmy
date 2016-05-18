@@ -9,4 +9,5 @@ en:
   accounting_plan_missing: "Accounting plan missing"
   accounts_receivables_missing: "Accounts receivables missing"
   accounts_payables_missing: "Accounts payables missing"
+  name_error: "Name_not_allowed"
   verificates_missing: "Verificates missing" 
