@@ -16,7 +16,7 @@ class AccountingPlan < ActiveRecord::Base
 
   # validates :name, presence: true, uniqueness: { scope: :organization_id }
   validate :check_file_name, on: :create
-  VALID_EVENTS = %w(import_event disable_accounts_event)
+  VALID_EVENTS = %w(import_event disable_accounts_event destroy_event)
 
   DIRECTORY = 'files/accounting_plans/'
   FILES = '*.csv'
@@ -79,14 +79,34 @@ class AccountingPlan < ActiveRecord::Base
     end
   end
 
+  def background_destroy
+    logger.info '** AccountingPlan enqueue a job that will destroy all.'
+    mark_deleted
+    Resque.enqueue(Job::AccountingPlanEvent, id, 'destroy_event')
+  end
+
+  # Run from the 'Job::AccountingPlanEvent' model
+  def destroy_event
+    logger.info '** AccountingPlan destroy_event start'
+    destroy
+    logger.info "** AccountingPlan destroy_event finnish"
+  end
+
   state_machine :state, initial: :created do
     event :complete do
       transition created: :completed
+    end
+    event :mark_deleted do
+      transition completed: :deleted
     end
   end
 
   def completed?
     state.eql? 'completed'
+  end
+
+  def deleted?
+    state.eql? 'deleted'
   end
 
   def can_delete?

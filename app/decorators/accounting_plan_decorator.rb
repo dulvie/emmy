@@ -1,7 +1,9 @@
 class AccountingPlanDecorator < Draper::Decorator
   delegate_all
 
-  def active
-    return h.labelify('active', 'success') if object.active?
+  def states
+    return h.labelify('deleted', 'warning') if object.deleted?
+    return h.labelify('created', 'warning') if object.created?
+    h.labelify('completed', 'success')
   end
 end

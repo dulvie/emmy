@@ -7,6 +7,7 @@
       %tr
         %th= t(:name)
         %th= t(:description)
+        %th= t(:state)
         %th
         %th
     %tbody{}
@@ -14,7 +15,7 @@
         %tr
           %td= accounting_plan.name
           %td= accounting_plan.description
-          %td= accounting_plan.state
+          %td= accounting_plan.states
           %td.numeric= link_to settings_icon, accounting_plan_path(accounting_plan)
           %td.numeric= delete_modal_for accounting_plan
 

@@ -8,14 +8,6 @@ module Services
       @accounting_group
     end
 
-    def accounting_plan
-      @accounting_plan
-    end
-
-    def set_accounting_plan(accounting_plan_id)
-      @accounting_plan = @organization.accounting_plans.find(accounting_plan_id)
-    end
-
     def read_and_save(directory, file_name)
       Rails.logger.info "->#{file_name}"
       case file_name
@@ -211,6 +203,7 @@ module Services
       @account.save
     end
 
+    # Same account multiple times is not working with state change
     def check_account(account)
       return true if @accounting_plan.accounts.find_by_number(account)
       return false

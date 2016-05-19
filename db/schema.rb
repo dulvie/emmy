@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160516132321) do
+ActiveRecord::Schema.define(version: 20160516152321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,18 +42,6 @@ ActiveRecord::Schema.define(version: 20160516132321) do
     t.boolean  "active"
     t.integer  "organization_id"
     t.integer  "accounting_plan_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "accounting_plan_transactions", force: :cascade do |t|
-    t.datetime "posting_date"
-    t.string   "directory",          limit: 255
-    t.string   "file",               limit: 255
-    t.string   "execute",            limit: 255
-    t.integer  "accounting_plan_id"
-    t.integer  "organization_id"
-    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
