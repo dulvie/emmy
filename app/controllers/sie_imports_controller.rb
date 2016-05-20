@@ -13,7 +13,6 @@ class SieImportsController < ApplicationController
   end
 
   def new
-    # @sie_import = SieImport.new(current_organization, nil, nil)
   end
 
   # POST
