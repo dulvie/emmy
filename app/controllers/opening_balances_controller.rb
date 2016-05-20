@@ -77,15 +77,8 @@ class OpeningBalancesController < ApplicationController
 
   def create_from_ub
     @opening_balance = current_organization.opening_balances.find(params[:opening_balance_id])
-    @balance_trans = BalanceTransaction.new
-    @balance_trans.parent = current_organization.opening_balances.find(params[:opening_balance_id])
-    @balance_trans.execute = 'opening'
-    @balance_trans.complete = 'false'
-    @balance_trans.accounting_period = @opening_balance.accounting_period
-    @balance_trans.user = current_user
-    @balance_trans.organization = current_organization
     respond_to do |format|
-      if @balance_trans.save
+      if @opening_balance.enqueue_create_from_ub
         format.html { redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:opening_balance)} #{t(:was_successfully_updated)}" }
       else
         format.html { redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:opening_balance)} #{t(:faild_to_update)}" }
