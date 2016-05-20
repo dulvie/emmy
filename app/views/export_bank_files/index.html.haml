@@ -8,6 +8,7 @@
         %th= t(:exported_at)
         %th= t(:from)
         %th= t(:to)
+        %th= t(:state)
         %th
         %th
         %th
@@ -18,6 +19,7 @@
           %td= export_bank_file.export_date
           %td= export_bank_file.from_date
           %td= export_bank_file.to_date
+          %td= export_bank_file.states
           %td.numeric= report_button_for export_bank_file_path(export_bank_file)
           %td.numeric= link_to settings_icon, edit_export_bank_file_path(export_bank_file)
           %td.numeric= delete_modal_for export_bank_file

@@ -3,10 +3,16 @@ module Services
     require 'tempfile'
     include ApplicationHelper
 
-    def initialize(organization, user, export_bank_file)
-      @user = user
-      @organization = organization
+    def initialize(export_bank_file)
       @export_bank_file = export_bank_file
+      @user = @export_bank_file.user
+      @organization = @export_bank_file.organization
+    end
+
+    def read_and_create_file
+      read_verificates_and_create_rows if @export_bank_file.reference == ExportBankFile::TYPES[0]
+      read_wages_and_create_rows if @export_bank_file.reference == ExportBankFile::TYPES[1]
+      create_file_PO3
     end
 
     def read_verificates_and_create_rows
@@ -85,21 +91,21 @@ module Services
 
     def test_file_PO3
       file = File.open('tmp/downloads/bank_file.txt', 'w')
-      # MH00        5164005810            44580231  SEK      SEK     
+      # MH00        5164005810            44580231  SEK      SEK
       file.write(mh00('5164005810', '44580231', 'SEK', 'SEK'))
 
-      # PI0000     8377004      2011113000000001000001234567899                         
+      # PI0000     8377004      2011113000000001000001234567899
       file.write(pi00('00', '', '8377004', '20150720', '100000', '1234567899'))
-      # BA00                           BETALNING NR 2 OCRREF 
+      # BA00                           BETALNING NR 2 OCRREF
       file.write(ba00(' ', 'BETALNING NR 2 OCRREF'))
 
       file.write(pi00('05', '', '2374825', '20150720', '100000', '1111111116'))
       file.write(ba00(' ', 'BETALNING NR 4 OCRREF'))
 
-      # PI0005     50052976     201111300000000100000                                   
-      # BA00                           BETALNING NR 5                                   
+      # PI0005     50052976     201111300000000100000
+      # BA00                           BETALNING NR 5
       # BM99Betalning för införda annonser under augusti månad. Avdrag för felaktigheter
-      # BM99i den första annonsen har gjorts enligt överenskommelse. 
+      # BM99i den första annonsen har gjorts enligt överenskommelse.
       file.write(pi00('05', '', '50052976', '20150720', '100000', ''))
       file.write(ba00(' ', 'BETALNING NR 5'))
       # bm99 går ej igenom banktest
@@ -109,7 +115,7 @@ module Services
       file.write(pi00('08', '3145', '7715481', '20150720', '1500000', ''))
       file.write(ba00(' ', 'BETALNING NR 9'))
 
-      # MT00                         0000011000000001100000 
+      # MT00                         0000011000000001100000
       file.write(mt00('4', '1800000'))
       file.close
       return true
@@ -122,44 +128,44 @@ module Services
       total = 0
       cp = ''
       cd = ''
-      @file = @export_bank_file.directory + '/' + @export_bank_file.file_name
-      file = File.open(@file, 'w')
-      @export_bank_file.export_bank_file_rows.each do |row|
-        if row.currency_paid != cp or row.currency_debit != cd
-          cp = row.currency_paid
-          cd = row.currency_debit
-          file.write(mh00(@export_bank_file.organization_number, @export_bank_file.pay_account, cp, cd))
+      begin
+        file = Tempfile.new([@export_bank_file.file_name, '.txt'])
+        @export_bank_file.export_bank_file_rows.each do |row|
+          if row.currency_paid != cp or row.currency_debit != cd
+            cp = row.currency_paid
+            cd = row.currency_debit
+            file.write(mh00(@export_bank_file.organization_number, @export_bank_file.pay_account, cp, cd))
+          end
+          counts += 1
+          total += row.amount * 100
+          amount = (row.amount * 100).to_i
+          if @export_bank_file.reference == 'Löneutbetalning'
+            type = '08'
+            clearing = row.clearingnumber
+            bank_account = row.bank_account
+          elsif !row.bankgiro.blank?
+            type = '05'
+            bank_account = row.bankgiro
+          elsif !row.plusgiro.blank?
+            type = '00'
+            bank_account = row.plusgiro
+          else
+            # OBS! format
+            type = 'XX'
+            bank_account = 'empty'
+          end
+          file.write(pi00(type, clearing, bank_account, row.posting_date.strftime("%Y%m%d"), amount.to_s, row.ocr))
         end
-        counts += 1
-        total += row.amount * 100
-        amount = (row.amount * 100).to_i
-        if @export_bank_file.reference == 'Löneutbetalning'
-          type = '08'
-          clearing = row.clearingnumber
-          bank_account = row.bank_account
-        elsif !row.bankgiro.blank?
-          type = '05'
-          bank_account = row.bankgiro
-        elsif !row.plusgiro.blank?
-          type = '00'
-          bank_account = row.plusgiro
-        else
-          # OBS! format
-          type = 'XX'
-        end
-        file.write(pi00(type, clearing, bank_account, row.posting_date.strftime("%Y%m%d"), amount.to_s, row.ocr))
+        file.write(mt00(counts.to_s, total.to_i.to_s))
+        file.flush
+        @export_bank_file.download = file
+        @export_bank_file.save
+      ensure
+        file.close
+        file.unlink
       end
-      file.write(mt00(counts.to_s, total.to_i.to_s))
-      file.close
       true
     end
-
-  def remove_files
-    dir_files = Dir.glob(@export_bank_file.directory + @export_bank_file.file_filter)
-    dir_files.each do |dir_file|
-      File.delete(dir_file)
-    end
-  end
 
     def save_bank_file_row(bank_date, amount, bankgiro, plusgiro, clearing, bank_account, ocr, name, reference, cp, cd)
       bank_file_row = @export_bank_file.export_bank_file_rows.build
@@ -189,8 +195,8 @@ module Services
       currency_deb = cd.ljust(3)
       blank_57_80 = ' '.ljust(24)
       record = post_type + blank_5_12 + org_nr + blank_23_34 +
-               bank_account + currency_pay + blank_48_53 +
-               currency_deb + blank_57_80 + "\r\n"
+          bank_account + currency_pay + blank_48_53 +
+          currency_deb + blank_57_80 + "\r\n"
     end
 
     #00=Plusgiro, 02=Utbkort(annan def), 05=Bankgiro, 06=Pensionsinsättning(annan), 08=Löneinsättning(message=baknk)
@@ -203,11 +209,11 @@ module Services
       blank_23_24 = ' '.ljust(2)
       pay_date = account_date.ljust(8)
       pay_amount = amount.rjust(13, '0')
-      pay_message = message.ljust(25) #Blank för Lön 
+      pay_message = message.ljust(25) #Blank för Lön
       blank_71_80 = ' '.ljust(10)
       record = post_type + pay_type + blank_7_11 + pay_to_account +
-               blank_23_24  + pay_date + pay_amount + pay_message +
-               blank_71_80 + "\r\n"
+          blank_23_24  + pay_date + pay_amount + pay_message +
+          blank_71_80 + "\r\n"
     end
 
     def ba00(int_note, ext_note)
@@ -217,7 +223,7 @@ module Services
       extern = ext_note.ljust(35)
       blank_67_80 = ' '.ljust(14)
       record = post_type + intern + blank_23_31 +
-               extern + blank_67_80 + "\r\n"
+          extern + blank_67_80 + "\r\n"
     end
 
     def bm99(msg1, msg2, reserv)
@@ -226,7 +232,7 @@ module Services
       msg2 = msg2.ljust(35)
       blank_75_80 = reserv.ljust(6)
       record = post_type + msg1 +
-               msg2 + blank_75_80 + "\r\n"
+          msg2 + blank_75_80 + "\r\n"
     end
 
     # counts=antal betalningsposter, total=betalningssumma
@@ -237,7 +243,7 @@ module Services
       pi00_total = total.rjust(15, '0')
       blank_52_80 = ' '.ljust(29)
       record = post_type + blank_5_29 +
-               pi00_count + pi00_total + "\r\n"
+          pi00_count + pi00_total + "\r\n"
     end
   end
 end
