@@ -203,19 +203,6 @@ ActiveRecord::Schema.define(version: 20160516152321) do
     t.datetime "updated_at"
   end
 
-  create_table "csv_transactions", force: :cascade do |t|
-    t.string   "directory",            limit: 255
-    t.string   "file_name",            limit: 255
-    t.string   "execute",              limit: 255
-    t.string   "csv_type",             limit: 255
-    t.boolean  "complete"
-    t.integer  "accounting_period_id"
-    t.integer  "organization_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "customers", force: :cascade do |t|
     t.integer  "organization_id",                null: false
     t.string   "address",            limit: 255
@@ -297,19 +284,14 @@ ActiveRecord::Schema.define(version: 20160516152321) do
     t.datetime "export_date"
     t.datetime "from_date"
     t.datetime "to_date"
-    t.string   "reference",             limit: 255
-    t.string   "organization_number",   limit: 255
-    t.string   "pay_account",           limit: 255
-    t.string   "iban",                  limit: 255
+    t.string   "reference",           limit: 255
+    t.string   "organization_number", limit: 255
+    t.string   "pay_account",         limit: 255
+    t.string   "iban",                limit: 255
     t.integer  "organization_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "state",                 limit: 255
-    t.string   "download_file_name",    limit: 255
-    t.string   "download_content_type", limit: 255
-    t.integer  "download_file_size"
-    t.datetime "download_updated_at"
   end
 
   create_table "import_bank_file_rows", force: :cascade do |t|
@@ -628,21 +610,6 @@ ActiveRecord::Schema.define(version: 20160516152321) do
     t.integer  "quantity",        default: 0
     t.integer  "warehouse_id"
     t.integer  "batch_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "sie_exports", force: :cascade do |t|
-    t.datetime "export_date"
-    t.string   "sie_type"
-    t.string   "state"
-    t.string   "download_file_name"
-    t.string   "download_content_type"
-    t.integer  "download_file_size"
-    t.datetime "download_updated_at"
-    t.integer  "accounting_period_id"
-    t.integer  "organization_id"
-    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
