@@ -17,7 +17,7 @@
   var lastTab = localStorage.getItem('employee_tab');
   if (lastTab) {
     $('ul.nav-tabs').children().removeClass('active');
-    $('a[href=#'+ lastTab +']').parents('li:first').addClass('active');
+    $('a[href="#'+ lastTab +'"]').parents('li:first').addClass('active');
     $('div.tab-content').children().removeClass('active');
     $('#'+lastTab).addClass('active');
   }
