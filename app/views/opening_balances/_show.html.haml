@@ -20,6 +20,3 @@
             = render partial: 'shared/modal_state_change', locals: {idx: 'balanceContent', model: @opening_balance, form_path: state_change_opening_balance_path(@opening_balance), event: 'mark_final', return_path: opening_balances_path}
             = delete_button_for @opening_balance
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
-  - if @opening_trans && @opening_trans.complete == false
-    = render partial: 'shared/modal_refresh', locals:{idx: 'opening_balance_id', obj: @opening_trans, back: edit_accounting_period_path, path: edit_accounting_period_path}
-  

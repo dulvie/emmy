@@ -14,6 +14,7 @@ class OpeningBalance < ActiveRecord::Base
 
   validates :accounting_period_id, presence: true, uniqueness: { scope: [:organization_id, :accounting_period_id] }
   validates :description, presence: true
+  VALID_EVENTS = %w(create_from_ub_event)
 
 
   STATE_CHANGES = [:mark_final]
@@ -50,6 +51,26 @@ class OpeningBalance < ActiveRecord::Base
           sum: debit - credit)
       ledger_transaction.organization_id = organization_id
       ledger_transaction.save
+    end
+  end
+
+  def enqueue_create_from_ub
+    if final?
+      logger.info "** OpeningBalance #{id} is final, will not enqueue_event"
+      return
+    end
+    logger.info '** OpeningBalance enqueue a job that will create IB from UB.'
+    Resque.enqueue(Job::OpeningBalanceEvent, id, 'create_from_ub_event')
+  end
+
+  # Run from the 'Job::OpenBalanceEvent' model
+  def create_from_ub_event
+    return nil if final?
+    opening_balance_creator = Services::OpeningBalanceCreator.new(self)
+    if opening_balance_creator.add_from_ub
+      logger.info "** OpeningBalance #{id} add_from_ub returned ok"
+    else
+      logger.info "** OpeningBalance #{id} add_from_ub did NOT return ok"
     end
   end
 
