@@ -1,6 +1,5 @@
 .input-group.full-width
-  = link_to "#{t(:create)} #{t(:default_code)}", new_default_code_path, class: 'btn btn-success'
-  = link_to "#{t(:import)} #{t(:default_codes)}", new_default_code_header_path, class: 'btn btn-default'
+  = link_to "#{t(:create)} #{t(:default_code_header)}", new_default_code_header_path, class: 'btn btn-success'
 
 .table-responsive{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}
@@ -21,5 +20,5 @@
 
   = paginate @default_codes, :theme => 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
-  = render partial: 'shared/modal_state_refresh', locals:{idx: 'refresh_id', obj: @default_code_header, back: new_default_code_header_path, path: default_codes_path}
+  = render partial: 'shared/modal_refresh', locals:{idx: 'refresh_id', obj: @trans, back: default_code_order_import_path, path: default_codes_path}
 = render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'economics'

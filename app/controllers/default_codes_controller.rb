@@ -10,8 +10,7 @@ class DefaultCodesController < ApplicationController
   def index
     @breadcrumbs = [[t(:default_codes)]]
     @default_codes = @default_codes.page(params[:page])
-    @trans = current_organization.code_transactions
-                 .where("code = 'default'")
+    @default_code_header = current_organization.default_code_headers
                  .order('created_at DESC').first
   end
 

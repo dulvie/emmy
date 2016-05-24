@@ -47,6 +47,7 @@ class Ability
     can :manage, Conversion, organization_id: oids
     can :manage, Customer, organization_id: oids
     can :manage, DefaultCode, organization_id: oids
+    can :manage, DefaultCodeHeader, organization_id: oids
     can :manage, Document, organization_id: oids
     can :manage, Employee, organization_id: oids
     can :manage, ExportBankFile, organization_id: oids
