@@ -102,8 +102,7 @@ Emmy::Application.routes.draw do
         post 'create_purchase', as: :create_pruchase
       end
     end
-    get 'ink_code_order_import', to: 'ink_codes#order_import', as: 'ink_code_order_import'
-    post 'ink_code_import', to: 'ink_codes#import', as: 'ink_code_import'
+    resources :ink_code_headers
     resources :ink_codes
     resources :inventories do
       resources :inventory_items

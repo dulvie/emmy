@@ -55,6 +55,7 @@ class Ability
     can :manage, ImportBankFile, organization_id: oids
     can :manage, ImportBankFileRow, organization_id: oids
     can :manage, InkCode, organization_id: oids
+    can :manage, InkCodeHeader, organization_id: oids
     can :manage, Inventory, organization_id: oids
     can :manage, InventoryItem, organization_id: oids
     can :manage, Item, organization_id: oids

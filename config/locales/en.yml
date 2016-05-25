@@ -195,6 +195,7 @@ en:
   incoming: "Incoming"
   ink_code: "Ink code"
   ink_code_file: "select file by the declaration to be used. Sole proprietorship using the NE-codes. "
+  ink_code_header: "Ink code header"
   ink_codes: "Declaration - Ink codes"
   ink2: "income tax return 2"
   ink2_info: "for limited companies and economic associations recommended INK2 table that is linked to the forms INK2R and INK2S."

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160620132321) do
+ActiveRecord::Schema.define(version: 20160621122507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -358,6 +358,17 @@ ActiveRecord::Schema.define(version: 20160620132321) do
     t.string   "state",            limit: 255
     t.datetime "started_at"
     t.datetime "completed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ink_code_headers", force: :cascade do |t|
+    t.string   "name"
+    t.string   "file_name"
+    t.string   "run_type"
+    t.string   "state"
+    t.integer  "accounting_plan_id"
+    t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
