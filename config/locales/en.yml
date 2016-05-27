@@ -241,6 +241,7 @@ en:
   name_of_new_batch: "Name of new Batch"
   name_search: "Name Search"
   ne_code: "NE code"
+  ne_code_header: "Ne code header"
   ne_codes: "Declarations - NE codes"
   next: "Next"
   new: "New"

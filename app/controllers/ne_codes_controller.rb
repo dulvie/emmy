@@ -11,8 +11,7 @@ class NeCodesController < ApplicationController
     @breadcrumbs = [[t(:ne_codes)]]
     @ne_codes = current_organization.ne_codes
     @ne_codes = @ne_codes.page(params[:page])
-    @trans = current_organization.code_transactions
-                 .where("code = 'ne'")
+    @ne_code_header = current_organization.ne_code_headers
                  .order('created_at DESC').first
   end
 
@@ -65,32 +64,6 @@ class NeCodesController < ApplicationController
     end
   end
 
-  def order_import
-    init_order_import
-  end
-
-  def import
-    file = params[:file_importer][:file]
-    @code_trans = CodeTransaction.new
-    @code_trans.directory = NeCode::DIRECTORY
-    @code_trans.file = file
-    @code_trans.code = 'ne'
-    @code_trans.run_type = params[:file_importer][:type]
-    @code_trans.complete = 'false'
-    @code_trans.accounting_plan_id = params[:file_importer][:accounting_plan]
-    @code_trans.user = current_user
-    @code_trans.organization = current_organization
-    respond_to do |format|
-      if NeCode.validate_file(file) && @code_trans.save
-        format.html { redirect_to ne_codes_url, notice: "#{t(:ne_codes)} #{t(:was_successfully_created)}" }
-      else
-        init_order_import
-        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:ne_codes)}"
-        format.html { render 'order_import' }
-      end
-    end
-  end
-
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.
@@ -104,16 +77,5 @@ class NeCodesController < ApplicationController
 
   def show_breadcrumbs
     @breadcrumbs = [[t(:ne_codes), ne_codes_path], [@ne_code.code]]
-  end
-
-  def init_order_import
-    @breadcrumbs = [["#{t(:ne_codes)}", ne_codes_path], ["#{t(:order)} #{t(:import)}"]]
-    @ne_codes = current_organization.ne_codes
-    @accounting_plans = current_organization.accounting_plans
-    if @accounting_plans.size == 0
-      redirect_to helps_show_message_path(message: "#{I18n.t(:accounting_plans)} #{I18n.t(:missing)}")
-    end
-    @file_importer = FileImporter.new(NeCode::DIRECTORY, @ne_codes, @accounting_plans)
-    @files = @file_importer.files(NeCode::FILES)
   end
 end

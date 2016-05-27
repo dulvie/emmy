@@ -219,6 +219,7 @@ se:
   name_of_new_batch: "Namn för ny sats"
   name_search: "Namnsök"
   ne_code: "NE kod"
+  ne_code_header: "NE kod huvud"
   ne_codes: "Skattedekl. - NE koder"
   next: "Nästa"
   new: "Ny"

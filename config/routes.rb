@@ -117,9 +117,7 @@ Emmy::Application.routes.draw do
     resources :ledger_transactions
     resources :manuals
     resources :materials
-    
-    get 'ne_code_order_import', to: 'ne_codes#order_import', as: 'ne_code_order_import'
-    post 'ne_code_import', to: 'ne_codes#import', as: 'ne_code_import'
+    resources :ne_code_headers
     resources :ne_codes
     resources :opening_balances do
       post 'create_from_ub'

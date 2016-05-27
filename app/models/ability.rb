@@ -65,6 +65,7 @@ class Ability
     can :manage, Manual, organization_id: oids
     can :manage, Material, organization_id: oids
     can :manage, NeCode, organization_id: oids
+    can :manage, NeCodeHeader, organization_id: oids
     can :read,   Organization, id: oids
     can :manage, OpeningBalance, organization_id: oids
     can :manage, OpeningBalanceItem, organization_id: oids
