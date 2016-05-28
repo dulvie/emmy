@@ -65,32 +65,6 @@ class DefaultCodesController < ApplicationController
     end
   end
 
-  def order_import
-    init_order_import
-  end
-
-  def import
-    file = params[:file_importer][:file]
-    @code_trans = CodeTransaction.new
-    @code_trans.directory = DefaultCode::DIRECTORY
-    @code_trans.file = file
-    @code_trans.code = 'default'
-    @code_trans.run_type = params[:file_importer][:type]
-    @code_trans.complete = 'false'
-    @code_trans.accounting_plan_id = params[:file_importer][:accounting_plan]
-    @code_trans.user = current_user
-    @code_trans.organization = current_organization
-    respond_to do |format|
-      if DefaultCode.validate_file(file) && @code_trans.save
-        format.html { redirect_to default_codes_url, notice: "#{t(:default_codes)} #{t(:was_successfully_created)}" }
-      else
-        init_order_import
-        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:default_codes)}"
-        format.html { render 'order_import' }
-      end
-    end
-  end
-
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.

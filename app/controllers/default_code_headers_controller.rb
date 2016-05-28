@@ -12,6 +12,7 @@ class DefaultCodeHeadersController < ApplicationController
 
   # GET /default_codes/new
   def new
+    @default_code_header.name = 'Default CODES'
     init_form
   end
 

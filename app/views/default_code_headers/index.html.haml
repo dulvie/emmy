@@ -1,24 +1,19 @@
 .input-group.full-width
   = link_to "#{t(:create)} #{t(:default_code_header)}", new_default_code_header_path, class: 'btn btn-success'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
-        %th.numeric= t(:code)
-        %th= t(:text)
-        %th= t(:accounts)
+        %th= t(:created_at)
+        %th= t(:name)
+        %th= t(:file_name)
         %th
     %tbody{}
-      - @default_codes.each do |default_code|
+      - @default_code_headers.each do |default_code_header|
         %tr
-          %td.numeric= default_code.code
-          %td= default_code.text
-          %td= link_to link_icon, default_code_path(default_code)
-          %td= link_to settings_icon, edit_default_code_path(default_code)
-          %td= delete_modal_for default_code
+          %td= default_code_header.created_at
+          %td= default_code_header.name
+          %td= default_code_header.file_name
 
   = paginate @default_codes, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
-  = render partial: 'shared/modal_refresh', locals:{idx: 'refresh_id', obj: @trans, back: default_code_order_import_path, path: default_codes_path}
-= render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'economics'

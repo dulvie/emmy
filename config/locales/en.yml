@@ -125,6 +125,7 @@ en:
   deadline: "Deadline"
   default: "Default"
   default_code: "Default code"
+  default_code_header: "Default code header"
   default_code_missing: "Default code missing"
   default_codes: "Automatic coding - codes"
   default_codes_missing: "Default codes missing"

@@ -3,7 +3,7 @@
   = f.input :name
   = f.input :file_name, as: :select, collection: @files, include_blank: false
   = f.input :run_type, as: :select, collection: @file_importer.types, include_blank: false, input_html: {class: 'medium'}
-  = f.input :accounting_plan, as: :select, collection: @accounting_plans, include_blank: false
+  = f.association :accounting_plan, as: :select, collection: @accounting_plans, include_blank: false
 
   .form-button-group
     .actions

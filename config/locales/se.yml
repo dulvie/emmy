@@ -103,6 +103,7 @@ se:
   deadline: "Deadline"
   default: "Default"
   default_code: "Default kod"
+  default_code_header: "Default kod huvud"
   default_code_missing: "Default kod saknas"
   default_codes: "Automat kontering - koder"
   default_codes_missing: "Default koder saknas"
