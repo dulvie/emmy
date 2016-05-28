@@ -372,6 +372,7 @@ se:
   tax_calculated: "Skatt beräknad"
   tax_closed: "Skatt stängd"
   tax_code: "Skattekod"
+  tax_code_header: "Skattekod huvud"
   tax_codes: "Moms, soc.avg - koder"
   tax_reported: "Skatt rapporterad"
   tax_return: "Skattedeklaration"

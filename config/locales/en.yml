@@ -394,6 +394,7 @@ en:
   tax_calculated: "Tax calculated"
   tax_closed: "Tax closed"
   tax_code: "Tax code"
+  tax_code_header: "Tax code header"
   tax_codes: "Vat, soc.fees - codes"
   tax_reported: "Tax reported"
   tax_return: "Tax return"

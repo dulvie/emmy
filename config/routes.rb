@@ -178,8 +178,7 @@ Emmy::Application.routes.draw do
       end
     end
 
-    get 'tax_code_order_import', to: 'tax_codes#order_import', as: 'tax_code_order_import'
-    post 'tax_code_import', to: 'tax_codes#import', as: 'tax_code_import'
+    resources :tax_code_headers
     resources :tax_codes
 
     resources :tax_returns do

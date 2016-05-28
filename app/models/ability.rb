@@ -83,6 +83,7 @@ class Ability
     can :manage, StockValueItem, organization_id: oids
     can :manage, Supplier, organization_id: oids
     can :manage, TaxCode, organization_id: oids
+    can :manage, TaxCodeHeader, organization_id: oids
     can :manage, TaxReturn, organization_id: oids
     can :manage, TaxReturnReport, organization_id: oids
     can :manage, TaxTableRow, organization_id: oids

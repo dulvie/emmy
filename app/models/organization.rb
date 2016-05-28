@@ -32,10 +32,10 @@ class Organization < ActiveRecord::Base
    :ledgers, :ledger_accounts, :ledger_transactions, :manuals, :materials, :ne_codes, :ne_code_headers,
    :opening_balances, :opening_balance_items, :productions, :purchases, :purchase_items, :result_units,
    :shelves, :sales, :sale_items, :sie_exports, :sie_imports, :stock_values, :sie_transactions,
-   :stock_value_items, :suppliers, :table_transactions, :tax_codes, :tax_returns, :tax_return_reports,
-   :tax_tables, :tax_table_rows, :templates, :template_items, :transfers, :units, :vat_periods,
-   :vat_reports, :vats, :verificates, :verificate_items, :wage_periods, :wage_reports, :wages,
-   :warehouses].each do |model_sym|
+   :stock_value_items, :suppliers, :table_transactions, :tax_codes, :tax_code_headers, :tax_returns,
+   :tax_return_reports, :tax_tables, :tax_table_rows, :templates, :template_items, :transfers, :units,
+   :vat_periods, :vat_reports, :vats, :verificates, :verificate_items, :wage_periods, :wage_reports,
+   :wages, :warehouses].each do |model_sym|
     has_many model_sym
   end
 
