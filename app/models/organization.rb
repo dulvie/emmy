@@ -25,8 +25,8 @@ class Organization < ActiveRecord::Base
   has_many :users, through: :organization_roles
 
   [:accounting_classes, :accounting_groups, :accounting_periods, :accounting_plans, :accounts,
-   :bank_file_transactions, :batches, :batch_transactions, :closing_balances,
-   :code_transactions, :comments, :contact_relations, :contacts, :conversions, :customers, :default_codes,
+   :balance_transactions, :bank_file_transactions, :batches, :batch_transactions, :closing_balances,
+   :comments, :contact_relations, :contacts, :conversions, :customers, :default_codes,
    :default_code_headers, :documents, :employees, :export_bank_files, :export_bank_file_rows, :imports,
    :ink_codes, :ink_code_headers, :import_bank_files, :import_bank_file_rows, :inventories, :items,
    :ledgers, :ledger_accounts, :ledger_transactions, :manuals, :materials, :ne_codes, :ne_code_headers,
