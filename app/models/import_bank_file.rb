@@ -29,7 +29,7 @@ class ImportBankFile < ActiveRecord::Base
   end
 
   def can_delete?
-    (!completed?)
+    (completed?)
   end
 
   def enqueue_import_event
