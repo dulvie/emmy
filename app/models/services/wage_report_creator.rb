@@ -1,6 +1,11 @@
 module Services
   class WageReportCreator
-    def initialize(organization, user, wage_period)
+    def initialize(wage_period)
+      @wage_period = wage_period
+      @organization = @wage_period.organization
+    end
+
+    def initialize_old(organization, user, wage_period)
       @user = user
       @organization = organization
       @wage_period = wage_period

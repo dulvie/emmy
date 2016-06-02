@@ -390,6 +390,7 @@ en:
   table: "Table"
   tax: "Tax"
   tax_calculated: "Tax calculated"
+  tax_calulation_in_progress: "Tax calulation in progress"
   tax_closed: "Tax closed"
   tax_code: "Tax code"
   tax_codes: "Vat, soc.fees - codes"

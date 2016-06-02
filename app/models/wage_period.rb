@@ -35,6 +35,7 @@ class WagePeriod < ActiveRecord::Base
   validate :overlaping_period
   validates :payment_date, presence: true
   validates :deadline, presence: true
+  VALID_EVENTS = %w(tax_report_event)
 
   def check_to
     if wage_from >= wage_to
@@ -84,7 +85,10 @@ class WagePeriod < ActiveRecord::Base
       transition wage_reported: :wage_closed
     end
     event :mark_tax_calculated do
-      transition wage_closed: :tax_calculated
+      transition wage_closed: :start_tax_calculation
+    end
+    event :finnish_tax_calculation do
+      transition start_tax_calculation: :tax_calculated
     end
     event :mark_tax_reported do
       transition tax_calculated: :tax_reported
@@ -109,7 +113,8 @@ class WagePeriod < ActiveRecord::Base
   end
 
   def generate_tax_agency_report(transition)
-    create_tax_agency_transaction('wage', deadline, transition.args[1])
+    # create_tax_agency_transaction('wage', deadline, transition.args[1])
+    enqueue_tax_report
   end
 
   def wage_report(transition)
@@ -138,6 +143,24 @@ class WagePeriod < ActiveRecord::Base
 
   def tax_close(transition)
     self.tax_closed_at = transition.args[0]
+  end
+
+  def enqueue_tax_report
+    logger.info '** WagePeriod enqueue a job that will create tax report.'
+    Resque.enqueue(Job::WagePeriodEvent, id, 'tax_report_event')
+  end
+
+  # Run from the 'Job::WagePeriodEvent' model
+  def tax_report_event
+    logger.info '** WagePeriod tax_report_event start'
+    wage_report_creator = Services::WageReportCreator.new(self)
+    wage_report_creator.delete_wage_report
+    if wage_report_creator.report
+      logger.info "** WagePeriod #{id} tax_report returned ok, marking complete"
+      finnish_tax_calculation
+    else
+      logger.info "** WagePeriod #{id} tax_report did NOT return ok, not marking complete"
+    end
   end
 
   def create_tax_agency_transaction(report_type, post_date, user_id)

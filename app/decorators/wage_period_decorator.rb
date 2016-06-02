@@ -22,6 +22,8 @@ class WagePeriodDecorator < Draper::Decorator
     when 'preliminary'
       l = 'info'
       str = h.t(:preliminary)
+      :start_tax_calculation
+
     when 'wage_calculated'
       l = 'warning'
       str = h.t(:wage_calculated)
@@ -31,6 +33,9 @@ class WagePeriodDecorator < Draper::Decorator
     when 'wage_closed'
       l = 'success'
       str = h.t(:wage_closed)
+    when 'start_tax_calculation'
+        l = 'danger'
+        str = h.t(:tax_calulation_in_progress)
     when 'tax_calculated'
       l = 'warning'
       str = h.t(:tax_calculated)
