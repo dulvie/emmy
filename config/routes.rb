@@ -193,8 +193,6 @@ Emmy::Application.routes.draw do
       end
     end
 
-    get 'tax_table_order_import', to: 'tax_tables#order_import', as: 'tax_table_order_import'
-    post 'tax_table_import', to: 'tax_tables#import', as: 'tax_table_import'
     resources :tax_tables do
       resources :tax_table_rows
     end
