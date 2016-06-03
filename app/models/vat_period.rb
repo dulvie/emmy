@@ -85,7 +85,6 @@ class VatPeriod < ActiveRecord::Base
   end
 
   def generate_tax_agency_report(transition)
-     # create_tax_agency_transaction('vat', self.deadline, transition.args[1])
     enqueue_vat_report
   end
 
@@ -113,16 +112,6 @@ class VatPeriod < ActiveRecord::Base
     else
       logger.info "** VatPeriod #{id} vat_report did NOT return ok, not marking complete"
     end
-  end
-
-  def create_tax_agency_transaction(report_type, post_date, user_id)
-    tax_agency_transaction = TaxAgencyTransaction.new(
-          parent: self,
-          posting_date: post_date,
-          user_id: user_id,
-          report_type: report_type)
-    tax_agency_transaction.organization_id = organization_id
-    tax_agency_transaction.save
   end
 
   def create_verificate_transaction(ver_type, post_date, user_id)

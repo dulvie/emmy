@@ -52,7 +52,6 @@ class TaxReturn < ActiveRecord::Base
   end
 
   def generate_tax_agency_report(transition)
-     # create_tax_agency_transaction('tax', self.deadline, transition.args[1])
      enqueue_tax_report
   end
 
@@ -80,16 +79,6 @@ class TaxReturn < ActiveRecord::Base
     else
       logger.info "** TaxReturn #{id} tax_report did NOT return ok, not marking complete"
     end
-  end
-
-  def create_tax_agency_transaction(report_type, post_date, user_id)
-    tax_agency_transaction = TaxAgencyTransaction.new(
-          parent: self,
-          posting_date: post_date,
-          user_id: user_id,
-          report_type: report_type)
-    tax_agency_transaction.organization_id = organization_id
-    tax_agency_transaction.save
   end
 
   def can_calculate?

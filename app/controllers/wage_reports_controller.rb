@@ -22,7 +22,7 @@ class WageReportsController < ApplicationController
   def show
     @wage_period = WagePeriod.find(@wage_report.wage_period_id)
     @tax_code = current_organization.tax_codes.find_by_code(params[:code])
-    @wage_report_creator = Services::WageReportCreator.new(current_organization, current_user, @wage_period)
+    @wage_report_creator = Services::WageReportCreator.new(@wage_period)
     respond_to do |format|
       if @tax_code
         @items = @wage_report_creator.tax_code_part(@tax_code)

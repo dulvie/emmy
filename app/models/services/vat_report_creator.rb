@@ -5,12 +5,6 @@ module Services
       @organization = @vat_period.organization
     end
 
-    def initialize_old(organization, user, vat_period)
-      @user = user
-      @organization = organization
-      @vat_period = vat_period
-    end
-
     def tax_code_part(tax_code)
       accounting_period = AccountingPeriod.find(@vat_period.accounting_period_id)
       accounts = Account

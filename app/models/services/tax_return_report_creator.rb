@@ -5,12 +5,6 @@ module Services
       @organization = @tax_return.organization
     end
 
-    def initialize_old(organization, user, tax_return)
-      @user = user
-      @organization = organization
-      @tax_return = tax_return
-    end
-
     def ink_code_part(ink_code)
       @accounting_period = AccountingPeriod.find(@tax_return.accounting_period_id)
       @accounts = Account
