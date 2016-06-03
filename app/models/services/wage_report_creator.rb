@@ -5,12 +5,6 @@ module Services
       @organization = @wage_period.organization
     end
 
-    def initialize_old(organization, user, wage_period)
-      @user = user
-      @organization = organization
-      @wage_period = wage_period
-    end
-
     def tax_code_part(tax_code)
       accounting_period = AccountingPeriod.find(@wage_period.accounting_period_id)
       accounts = Account

@@ -29,6 +29,7 @@ class VatPeriod < ActiveRecord::Base
   validate :check_to
   validate :overlaping_period
   validates :deadline, presence: true
+  VALID_EVENTS = %w(vat_report_event)
 
   def check_to
     if vat_from >= vat_to
@@ -62,7 +63,10 @@ class VatPeriod < ActiveRecord::Base
     before_transition on: :mark_closed, do: :close
 
     event :mark_calculated do
-      transition preliminary: :calculated
+      transition preliminary: :start_calculation
+    end
+    event :finnish_calculation do
+      transition start_calculation: :calculated
     end
     event :mark_reported do
       transition calculated: :reported
@@ -73,7 +77,6 @@ class VatPeriod < ActiveRecord::Base
   end
 
   def calculate(transition)
-    # här skapas momsunderlager
     self.calculated_at = transition.args[0]
   end
 
@@ -82,7 +85,8 @@ class VatPeriod < ActiveRecord::Base
   end
 
   def generate_tax_agency_report(transition)
-     create_tax_agency_transaction('vat', self.deadline, transition.args[1])
+     # create_tax_agency_transaction('vat', self.deadline, transition.args[1])
+    enqueue_vat_report
   end
 
   def generate_verificate_vat_report(transition)
@@ -91,6 +95,24 @@ class VatPeriod < ActiveRecord::Base
 
   def close(transition)
     self.closed_at = transition.args[0]
+  end
+
+  def enqueue_vat_report
+    logger.info '** VatPeriod enqueue a job that will create vat report.'
+    Resque.enqueue(Job::VatPeriodEvent, id, 'vat_report_event')
+  end
+
+  # Run from the 'Job::VatPeriodEvent' model
+  def vat_report_event
+    logger.info '** VatPeriod vat_report_event start'
+    vat_report_creator = Services::VatReportCreator.new(self)
+    vat_report_creator.delete_vat_report
+    if vat_report_creator.report
+      logger.info "** VatPeriod #{id} vat_report returned ok, marking complete"
+      finnish_calculation
+    else
+      logger.info "** VatPeriod #{id} vat_report did NOT return ok, not marking complete"
+    end
   end
 
   def create_tax_agency_transaction(report_type, post_date, user_id)
