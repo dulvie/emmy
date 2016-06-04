@@ -453,6 +453,7 @@ en:
   verificates: "Verificates"
   wage: "Wage"
   wages: "Wages"
+  wage_calculation_in_progress: "Wage calculation in progress"
   economics_wizard: "Economics wizard"
   wizard_economics_accounting_plans_index_title: "Accountingplan"
   wizard_economics_accounting_plans_index_text: "Importera lämplig kontoplan. För närvarande finns mest stöd för Bas-kontoplanen (Kontoplan_Normal_2014_ver1). Väljs baskontoplanen kan sällan använda konton inaktiveras."
