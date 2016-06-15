@@ -14,6 +14,9 @@ class ClosingBalance < ActiveRecord::Base
 
   validates :accounting_period_id, presence: true, uniqueness: { scope: [:organization_id, :accounting_period_id] }
   validates :description, presence: true
+  VALID_EVENTS = %w(update_from_ledger_event)
+
+  after_commit :enqueue_update_from_ledger_event
 
   STATE_CHANGES = [:mark_final]
 
@@ -32,6 +35,26 @@ class ClosingBalance < ActiveRecord::Base
 
   def set_posting_date(transition)
     self.posting_date = transition.args[0]
+  end
+
+  def enqueue_update_from_ledger_event
+    if final?
+      logger.info "** ClosingBalance #{id} is final, will not enqueue_event"
+      return
+    end
+    logger.info '** ClosingBalance enqueue a job that will create UB from ledger.'
+    Resque.enqueue(Job::ClosingBalanceEvent, id, 'update_from_ledger_event')
+  end
+
+  # Run from the 'Job::ClosingBalanceEvent' model
+  def update_from_ledger_event
+    return nil if final?
+    closing_balance_creator = Services::ClosingBalanceCreator.new(self)
+    if closing_balance_creator.update_from_ledger
+      logger.info "** ClosingBalance #{id} update_from_ledger returned ok"
+    else
+      logger.info "** ClosingBalance #{id} update_from_ledger did NOT return ok"
+    end
   end
 
   def total_debit

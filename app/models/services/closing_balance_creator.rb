@@ -1,10 +1,10 @@
 module Services
   class ClosingBalanceCreator
-    def initialize(organization, user, closing_balance, accounting_period)
-      @user = user
-      @organization = organization
+
+    def initialize(closing_balance)
       @closing_balance = closing_balance
-      @accounting_period = accounting_period
+      @organization = @closing_balance.organization
+      @accounting_period = @closing_balance.accounting_period
     end
 
     def add_from_ledger
