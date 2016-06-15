@@ -20,7 +20,12 @@ module Services
           # Rubrikrad
         else
           # bokföringsdatum, belopp, konto, namn, referens, saldo, , , , ,notering
-          save_bank_file_row(row[0], row[1], row[2], row[3], row[4], row[10])
+          if row[4].length > 50
+            ref = row[4].first(50)
+          else
+            ref = row[4]
+          end
+          save_bank_file_row(row[0], row[1], row[2], row[3], ref, row[10])
           from = row[0] if row[0] < from
           to = row[0] if row[0] > to
         end
