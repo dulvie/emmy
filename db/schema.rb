@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160623122507) do
+ActiveRecord::Schema.define(version: 20160627152321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,19 +134,6 @@ ActiveRecord::Schema.define(version: 20160623122507) do
     t.datetime "updated_at"
   end
 
-  create_table "code_transactions", force: :cascade do |t|
-    t.string   "directory",          limit: 255
-    t.string   "file",               limit: 255
-    t.string   "code",               limit: 255
-    t.string   "run_type",           limit: 255
-    t.boolean  "complete"
-    t.integer  "accounting_plan_id"
-    t.integer  "organization_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "comments", force: :cascade do |t|
     t.integer  "organization_id"
     t.text     "body"
@@ -187,6 +174,19 @@ ActiveRecord::Schema.define(version: 20160623122507) do
     t.integer  "old_number"
     t.integer  "new_number"
     t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "csv_transactions", force: :cascade do |t|
+    t.string   "directory",            limit: 255
+    t.string   "file_name",            limit: 255
+    t.string   "execute",              limit: 255
+    t.string   "csv_type",             limit: 255
+    t.boolean  "complete"
+    t.integer  "accounting_period_id"
+    t.integer  "organization_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -741,17 +741,6 @@ ActiveRecord::Schema.define(version: 20160623122507) do
     t.datetime "updated_at"
   end
 
-  create_table "tax_agency_transactions", force: :cascade do |t|
-    t.integer  "organization_id"
-    t.integer  "user_id"
-    t.string   "parent_type",     limit: 255
-    t.integer  "parent_id"
-    t.datetime "posting_date"
-    t.string   "report_type",     limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "tax_code_headers", force: :cascade do |t|
     t.string   "name"
     t.string   "file_name"
@@ -818,6 +807,9 @@ ActiveRecord::Schema.define(version: 20160623122507) do
     t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "file_name"
+    t.string   "table_name"
+    t.string   "state"
   end
 
   create_table "template_items", force: :cascade do |t|
@@ -996,16 +988,6 @@ ActiveRecord::Schema.define(version: 20160623122507) do
     t.integer  "accounting_period_id"
     t.integer  "wage_period_id"
     t.integer  "tax_code_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "wage_transactions", force: :cascade do |t|
-    t.string   "execute",         limit: 255
-    t.boolean  "complete"
-    t.integer  "wage_period_id"
-    t.integer  "organization_id"
-    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
