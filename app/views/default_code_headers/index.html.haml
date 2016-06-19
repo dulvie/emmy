@@ -1,0 +1,19 @@
+.input-group.full-width
+  = link_to "#{t(:create)} #{t(:default_code_header)}", new_default_code_header_path, class: 'btn btn-success'
+
+.table-responsive
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:created_at)
+        %th= t(:name)
+        %th= t(:file_name)
+        %th
+    %tbody{}
+      - @default_code_headers.each do |default_code_header|
+        %tr
+          %td= default_code_header.created_at
+          %td= default_code_header.name
+          %td= default_code_header.file_name
+
+  = paginate @default_codes, :theme => 'twitter-bootstrap-3'

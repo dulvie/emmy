@@ -2,7 +2,13 @@ module Services
   class DefaultCodeCreator
     require 'csv'
 
-    def initialize(organization, user, default_codes, accounting_plan)
+    def initialize(organization, default_codes, accounting_plan)
+      @organization = organization
+      @default_codes = default_codes
+      @accounting_plan = accounting_plan
+    end
+
+    def initialize_old(organization, user, default_codes, accounting_plan)
       @user = user
       @organization = organization
       @default_codes = default_codes
@@ -27,6 +33,7 @@ module Services
         read_and_save(type, directory, file_name)
       else
       end
+      true
     end
 
     def read_and_save(type, directory, file_name)

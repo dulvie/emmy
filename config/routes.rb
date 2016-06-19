@@ -71,9 +71,8 @@ Emmy::Application.routes.draw do
         get 'city_search', as: :city_search
       end
     end
-    get 'default_code_order_import', to: 'default_codes#order_import', as: 'default_code_order_import'
-    post 'default_code_import', to: 'default_codes#import', as: 'default_code_import'
     resources :default_codes
+    resources :default_code_headers
     resources :documents
     resources :employees
     resources :export_bank_files
@@ -103,8 +102,7 @@ Emmy::Application.routes.draw do
         post 'create_purchase', as: :create_pruchase
       end
     end
-    get 'ink_code_order_import', to: 'ink_codes#order_import', as: 'ink_code_order_import'
-    post 'ink_code_import', to: 'ink_codes#import', as: 'ink_code_import'
+    resources :ink_code_headers
     resources :ink_codes
     resources :inventories do
       resources :inventory_items
@@ -119,9 +117,7 @@ Emmy::Application.routes.draw do
     resources :ledger_transactions
     resources :manuals
     resources :materials
-    
-    get 'ne_code_order_import', to: 'ne_codes#order_import', as: 'ne_code_order_import'
-    post 'ne_code_import', to: 'ne_codes#import', as: 'ne_code_import'
+    resources :ne_code_headers
     resources :ne_codes
     resources :opening_balances do
       post 'create_from_ub'
@@ -182,8 +178,7 @@ Emmy::Application.routes.draw do
       end
     end
 
-    get 'tax_code_order_import', to: 'tax_codes#order_import', as: 'tax_code_order_import'
-    post 'tax_code_import', to: 'tax_codes#import', as: 'tax_code_import'
+    resources :tax_code_headers
     resources :tax_codes
 
     resources :tax_returns do

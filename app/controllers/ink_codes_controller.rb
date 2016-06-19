@@ -11,8 +11,7 @@ class InkCodesController < ApplicationController
     @breadcrumbs = [[t(:ink_codes)]]
     @ink_codes = current_organization.ink_codes
     @ink_codes = @ink_codes.page(params[:page])
-    @trans = current_organization.code_transactions
-                 .where("code = 'ink'")
+    @ink_code_header = current_organization.ink_code_headers
                  .order('created_at DESC').first
   end
 
@@ -65,27 +64,6 @@ class InkCodesController < ApplicationController
     end
   end
 
-  def order_import
-    init_order_import
-  end
-
-  def import
-    file = params[:file_importer][:file]
-    @code_trans = init_code_transaction
-    @code_trans.file = file
-    @code_trans.run_type = params[:file_importer][:type]
-    @code_trans.accounting_plan_id = params[:file_importer][:accounting_plan]
-    respond_to do |format|
-      if InkCode.validate_file(file) && @code_trans.save
-        format.html { redirect_to ink_codes_url, notice: "#{t(:ink_codes)} #{t(:was_successfully_created)}" }
-      else
-        init_order_import
-        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:ink_codes)}"
-        format.html { render 'order_import' }
-      end
-    end
-  end
-
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.
@@ -99,26 +77,5 @@ class InkCodesController < ApplicationController
 
   def show_breadcrumbs
     @breadcrumbs = [[t(:ink_codes), ink_codes_path], [@ink_code.code]]
-  end
-
-  def init_order_import
-    @breadcrumbs = [[t(:ink_codes), ink_codes_path], ["#{t(:order)} #{t(:import)}"]]
-    @ink_codes = current_organization.ink_codes
-    @accounting_plans = current_organization.accounting_plans
-    if @accounting_plans.size == 0
-      redirect_to helps_show_message_path(message: "#{I18n.t(:accounting_plan)} #{I18n.t(:missing)}")
-    end
-    @file_importer = FileImporter.new(InkCode::DIRECTORY, @ink_codes, @accounting_plans)
-    @files = @file_importer.files(InkCode::FILES)
-  end
-
-  def init_code_transaction
-    @code_trans = CodeTransaction.new
-    @code_trans.directory = InkCode::DIRECTORY
-    @code_trans.code = 'ink'
-    @code_trans.complete = 'false'
-    @code_trans.user = current_user
-    @code_trans.organization = current_organization
-    @code_trans
   end
 end

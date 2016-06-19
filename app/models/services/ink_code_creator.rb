@@ -1,8 +1,7 @@
 module Services
   class InkCodeCreator
     require 'csv'
-    def initialize(organization, user, ink_codes, accounting_plan)
-      @user = user
+    def initialize(organization, ink_codes, accounting_plan)
       @organization = organization
       @ink_codes = ink_codes
       @accounting_plan = accounting_plan
@@ -29,6 +28,7 @@ module Services
       elsif file_name.start_with?('INK3')
         connect_extra_INK3 if type.include? 'connect'
       end
+      true
     end
 
     def read_and_save(type, directory, file_name)

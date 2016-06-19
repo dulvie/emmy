@@ -1,0 +1,19 @@
+.input-group.full-width
+  = link_to "#{t(:create)} #{t(:tax_code_header)}", new_tax_code_header_path, class: 'btn btn-success'
+
+.table-responsive
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:created_at)
+        %th= t(:name)
+        %th= t(:file_name)
+        %th
+    %tbody{}
+      - @tax_code_headers.each do |tax_code_header|
+        %tr
+          %td= tax_code_header.created_at
+          %td= tax_code_header.name
+          %td= tax_code_header.file_name
+
+  = paginate @ink_code_headers, :theme => 'twitter-bootstrap-3'

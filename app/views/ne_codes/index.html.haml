@@ -1,6 +1,6 @@
 .input-group
   = link_to "#{t(:create)} #{t(:ne_code)}", new_ne_code_path, class: 'btn btn-success'
-  = link_to "#{t(:import)} #{t(:ne_codes)}", ne_code_order_import_path, class: 'btn btn-default'
+  = link_to "#{t(:import)} #{t(:ne_codes)}", new_ne_code_header_path, class: 'btn btn-default'
 
 .table-responsive{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table table-striped'}
@@ -22,5 +22,5 @@
 
   = paginate @ne_codes, :theme => 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
-  = render partial: 'shared/modal_refresh', locals:{idx: 'refresh_id', obj: @trans, back: ne_code_order_import_path, path: ne_codes_path}
+  = render partial: 'shared/modal_state_refresh', locals:{idx: 'refresh_id', obj: @ne_code_header, back: new_ne_code_header_path, path: ne_codes_path}
 = render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'economics'
