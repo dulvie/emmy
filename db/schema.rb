@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160625132321) do
+ActiveRecord::Schema.define(version: 20160627152321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,19 +134,6 @@ ActiveRecord::Schema.define(version: 20160625132321) do
     t.datetime "updated_at"
   end
 
-  create_table "code_transactions", force: :cascade do |t|
-    t.string   "directory",          limit: 255
-    t.string   "file",               limit: 255
-    t.string   "code",               limit: 255
-    t.string   "run_type",           limit: 255
-    t.boolean  "complete"
-    t.integer  "accounting_plan_id"
-    t.integer  "organization_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "comments", force: :cascade do |t|
     t.integer  "organization_id"
     t.text     "body"
@@ -187,19 +174,6 @@ ActiveRecord::Schema.define(version: 20160625132321) do
     t.integer  "old_number"
     t.integer  "new_number"
     t.integer  "organization_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "csv_transactions", force: :cascade do |t|
-    t.string   "directory",            limit: 255
-    t.string   "file_name",            limit: 255
-    t.string   "execute",              limit: 255
-    t.string   "csv_type",             limit: 255
-    t.boolean  "complete"
-    t.integer  "accounting_period_id"
-    t.integer  "organization_id"
-    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -1012,16 +986,6 @@ ActiveRecord::Schema.define(version: 20160625132321) do
     t.integer  "accounting_period_id"
     t.integer  "wage_period_id"
     t.integer  "tax_code_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "wage_transactions", force: :cascade do |t|
-    t.string   "execute",         limit: 255
-    t.boolean  "complete"
-    t.integer  "wage_period_id"
-    t.integer  "organization_id"
-    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

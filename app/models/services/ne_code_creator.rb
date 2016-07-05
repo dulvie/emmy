@@ -2,8 +2,7 @@ module Services
   class NeCodeCreator
     require 'csv'
 
-    def initialize(organization, user, ne_codes, accounting_plan)
-      @user = user
+    def initialize(organization, ne_codes, accounting_plan)
       @organization = organization
       @ne_codes = ne_codes
       @accounting_plan = accounting_plan
@@ -28,6 +27,7 @@ module Services
       end
       load_extra if type.include? 'load'
       connect if type.include? 'connect'
+      true
     end
 
     def read_and_save(type, directory, file_name)

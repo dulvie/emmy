@@ -1,4 +1,4 @@
-app.controller('ink_code_form_ctrl', function ($scope, $modal, $sce) {
+app.controller('ink_code_headers_form_ctrl', function ($scope, $modal, $sce) {
 
   $scope.show_info = function($event, info) {
     $scope.open_info('mb', 'infoContent', info);

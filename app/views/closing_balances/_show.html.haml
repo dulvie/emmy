@@ -16,6 +16,3 @@
             %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','balanceContent' )"}
               = t(:confirm)
             = render partial: 'shared/modal_state_change', locals: {idx: 'balanceContent', model: @closing_balance, form_path: state_change_closing_balance_path(@closing_balance), event: 'mark_final', return_path: closing_balances_path}
-  - if @closing_trans.complete == false
-    = render partial: 'shared/modal_refresh', locals:{idx: 'closing_balance_id', back: edit_accounting_period_path, path: edit_accounting_period_path}
-

@@ -1,6 +1,6 @@
 .input-group.full-width
   = link_to "#{t(:create)} #{t(:tax_code)}", new_tax_code_path, class: 'btn btn-success'
-  = link_to "#{t(:import)} #{t(:tax_codes)}", tax_code_order_import_path, class: 'btn btn-default'
+  = link_to "#{t(:import)} #{t(:tax_codes)}", new_tax_code_header_path, class: 'btn btn-default'
 
   .btn-group.pull-right{"data-toggle" => "buttons"}
     %label.btn.btn-default.active
@@ -51,7 +51,7 @@
 
   = paginate @tax_codes, :theme => 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
-  = render partial: 'shared/modal_refresh', locals:{idx: 'refresh_id', obj: @trans, back: tax_code_order_import_path, path: tax_codes_path}
+  = render partial: 'shared/modal_state_refresh', locals:{idx: 'refresh_id', obj: @tax_code_header, back: new_tax_code_header_path, path: tax_codes_path}
 = render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'economics'
 :javascript
   $(document).ready(function () {

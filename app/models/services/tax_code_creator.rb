@@ -2,8 +2,7 @@ module Services
   class TaxCodeCreator
     require 'csv'
 
-    def initialize(organization, user, tax_codes, accounting_plan)
-      @user = user
+    def initialize(organization, tax_codes, accounting_plan)
       @organization = organization
       @tax_codes = tax_codes
       @accounting_plan = accounting_plan
@@ -27,6 +26,7 @@ module Services
         read_and_save(type, directory, file_name)
       else
       end
+      true
     end
 
     def read_and_save(type, directory, file_name)

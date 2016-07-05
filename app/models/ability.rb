@@ -47,6 +47,7 @@ class Ability
     can :manage, Conversion, organization_id: oids
     can :manage, Customer, organization_id: oids
     can :manage, DefaultCode, organization_id: oids
+    can :manage, DefaultCodeHeader, organization_id: oids
     can :manage, Document, organization_id: oids
     can :manage, Employee, organization_id: oids
     can :manage, ExportBankFile, organization_id: oids
@@ -54,6 +55,7 @@ class Ability
     can :manage, ImportBankFile, organization_id: oids
     can :manage, ImportBankFileRow, organization_id: oids
     can :manage, InkCode, organization_id: oids
+    can :manage, InkCodeHeader, organization_id: oids
     can :manage, Inventory, organization_id: oids
     can :manage, InventoryItem, organization_id: oids
     can :manage, Item, organization_id: oids
@@ -63,6 +65,7 @@ class Ability
     can :manage, Manual, organization_id: oids
     can :manage, Material, organization_id: oids
     can :manage, NeCode, organization_id: oids
+    can :manage, NeCodeHeader, organization_id: oids
     can :read,   Organization, id: oids
     can :manage, OpeningBalance, organization_id: oids
     can :manage, OpeningBalanceItem, organization_id: oids
@@ -80,6 +83,7 @@ class Ability
     can :manage, StockValueItem, organization_id: oids
     can :manage, Supplier, organization_id: oids
     can :manage, TaxCode, organization_id: oids
+    can :manage, TaxCodeHeader, organization_id: oids
     can :manage, TaxReturn, organization_id: oids
     can :manage, TaxReturnReport, organization_id: oids
     can :manage, TaxTableRow, organization_id: oids
