@@ -2,15 +2,13 @@ module Services
   class TaxTableCreator
     require 'csv'
 
-    def initialize(organization, user)
-      @user = user
-      @organization = organization
-      @tax_table
+    def initialize(tax_table)
+      @tax_table = tax_table
+      @organization = @tax_table.organization
     end
 
-    def read_and_save(directory, file_name, year, table)
+    def read_and_save(directory, file_name, table)
       name = directory + file_name
-      save_tax_table('Tabell ' + table, year)
       TaxTableRow.transaction do
         CSV.foreach(name, col_sep: ';') do |row|
           if row[1] == table
@@ -19,14 +17,7 @@ module Services
           end
         end
       end
-    end
-
-    def save_tax_table(name, year)
-      @tax_table = TaxTable.new
-      @tax_table.name = name
-      @tax_table.year = year
-      @tax_table.organization = @organization
-      @tax_table.save
+      true
     end
 
     def save_tax_table_row(calculation, from_wage, to_wage, column_1, column_2, column_3, column_4, column_5, column_6)

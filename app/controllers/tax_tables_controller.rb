@@ -11,21 +11,23 @@ class TaxTablesController < ApplicationController
     @breadcrumbs = [[t(:tax_tables)]]
     @tax_tables = current_organization.tax_tables.order(:name)
     @tax_tables = @tax_tables.page(params[:page])
-    @trans = current_organization.table_transactions
-        .where("execute = 'tax_table'")
+    @tax_table = current_organization.tax_tables
         .order('created_at DESC').first
   end
 
   # GET /tax_tables/new
   def new
+    init_form
   end
 
   # GET /tax_tables/1
   def show
+    init_form
   end
 
   # GET /tax_table/1/edit
   def edit
+    init_form
   end
 
   # POST /tax_tables
@@ -38,6 +40,7 @@ class TaxTablesController < ApplicationController
         format.html { redirect_to tax_tables_url, notice: 'tax table was successfully created.' }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:tax_table)}"
+        init_form
         format.html { render action: 'new' }
       end
     end
@@ -51,6 +54,7 @@ class TaxTablesController < ApplicationController
         format.html { redirect_to tax_tables_url, notice: 'tax table was successfully updated.' }
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:tax_table)}"
+        init_form
         format.html { render action: 'show' }
       end
     end
@@ -59,35 +63,9 @@ class TaxTablesController < ApplicationController
   # DELETE /tax_tables/1
   # DELETE /tax_tables/1.json
   def destroy
-    @tax_table.destroy
+    @tax_table.background_destroy
     respond_to do |format|
       format.html { redirect_to tax_tables_url, notice: 'tax tax table was successfully deleted.' }
-    end
-  end
-
-  def order_import
-    init_order_import
-  end
-
-  def import
-    file = params[:file_importer][:file]
-    @table_trans = TableTransaction.new
-    @table_trans.directory = TaxTable::DIRECTORY
-    @table_trans.file_name = file
-    @table_trans.execute = 'tax_table'
-    @table_trans.year = params[:file_importer][:param1]
-    @table_trans.table = params[:file_importer][:param2]
-    @table_trans.complete = 'false'
-    @table_trans.user = current_user
-    @table_trans.organization = current_organization
-    respond_to do |format|
-      if TaxTable.validate_file(file) && @table_trans.save
-        format.html { redirect_to tax_tables_url, notice: "#{t(:tax_tables)} #{t(:was_successfully_created)}" }
-      else
-        init_order_import
-        flash.now[:danger] = "#{t(:failed_to_create)} #{t(:tax_tables)}"
-        format.html { render 'order_import' }
-      end
     end
   end
 
@@ -106,8 +84,7 @@ class TaxTablesController < ApplicationController
     @breadcrumbs = [[t(:tax_tables), tax_tables_path], [@tax_table.name]]
   end
 
-  def init_order_import
-    @breadcrumbs = [[t(:tax_tables), tax_tables_path], ["#{t(:order)} #{t(:import)}"]]
+  def init_form
     @tax_tables = current_organization.tax_tables
     @file_importer = FileImporter.new(TaxTable::DIRECTORY, @tax_tables, nil)
     @files = @file_importer.files(TaxTable::FILES)
