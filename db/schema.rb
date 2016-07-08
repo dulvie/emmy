@@ -178,19 +178,6 @@ ActiveRecord::Schema.define(version: 20160627152321) do
     t.datetime "updated_at"
   end
 
-  create_table "csv_transactions", force: :cascade do |t|
-    t.string   "directory",            limit: 255
-    t.string   "file_name",            limit: 255
-    t.string   "execute",              limit: 255
-    t.string   "csv_type",             limit: 255
-    t.boolean  "complete"
-    t.integer  "accounting_period_id"
-    t.integer  "organization_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "customers", force: :cascade do |t|
     t.integer  "organization_id",                null: false
     t.string   "address",            limit: 255
