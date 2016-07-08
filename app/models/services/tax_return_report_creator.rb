@@ -1,9 +1,8 @@
 module Services
   class TaxReturnReportCreator
-    def initialize(organization, user, tax_return)
-      @user = user
-      @organization = organization
+    def initialize(tax_return)
       @tax_return = tax_return
+      @organization = @tax_return.organization
     end
 
     def ink_code_part(ink_code)

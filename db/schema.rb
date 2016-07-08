@@ -178,6 +178,19 @@ ActiveRecord::Schema.define(version: 20160627152321) do
     t.datetime "updated_at"
   end
 
+  create_table "csv_transactions", force: :cascade do |t|
+    t.string   "directory",            limit: 255
+    t.string   "file_name",            limit: 255
+    t.string   "execute",              limit: 255
+    t.string   "csv_type",             limit: 255
+    t.boolean  "complete"
+    t.integer  "accounting_period_id"
+    t.integer  "organization_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "customers", force: :cascade do |t|
     t.integer  "organization_id",                null: false
     t.string   "address",            limit: 255
@@ -728,13 +741,13 @@ ActiveRecord::Schema.define(version: 20160627152321) do
     t.datetime "updated_at"
   end
 
-  create_table "tax_agency_transactions", force: :cascade do |t|
+  create_table "tax_code_headers", force: :cascade do |t|
+    t.string   "name"
+    t.string   "file_name"
+    t.string   "run_type"
+    t.string   "state"
+    t.integer  "accounting_plan_id"
     t.integer  "organization_id"
-    t.integer  "user_id"
-    t.string   "parent_type",     limit: 255
-    t.integer  "parent_id"
-    t.datetime "posting_date"
-    t.string   "report_type",     limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end

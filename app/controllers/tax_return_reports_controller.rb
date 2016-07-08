@@ -32,7 +32,7 @@ class TaxReturnReportsController < ApplicationController
   def show
     @tax_return = TaxReturn.find(@tax_return_report.tax_return_id)
     @ink_code = InkCode.find(params[:ink_code_id])
-    @tax_return_report_creator = Services::TaxReturnReportCreator.new(current_organization, current_user, @tax_return)
+    @tax_return_report_creator = Services::TaxReturnReportCreator.new(@tax_return)
     @items = @tax_return_report_creator.ink_code_part(@ink_code)
     Rails.logger.info "#{@items[0].inspect}"
     respond_to do |format|

@@ -10,7 +10,7 @@ class TaxReturn < ActiveRecord::Base
 
   # t.timestamps
 
-  attr_accessible :name, :deadline, :accounting_period_id
+  attr_accessible :name, :tax_form, :deadline, :accounting_period_id
 
   belongs_to :organization
   belongs_to :accounting_period
@@ -22,6 +22,7 @@ class TaxReturn < ActiveRecord::Base
   validates :name, presence: true, uniqueness: {scope: :organization_id}
   validates :deadline, presence: true
   validates :tax_form, inclusion: { in: VALID_TAX_FORMS }
+  VALID_EVENTS = %w(tax_report_event)
 
   STATE_CHANGES = [:mark_calculated, :mark_reported]
 
@@ -36,7 +37,10 @@ class TaxReturn < ActiveRecord::Base
     before_transition on: :mark_reported, do: :report
 
     event :mark_calculated do
-      transition preliminary: :calculated
+      transition preliminary: :start_calculation
+    end
+    event :finnish_calculation do
+      transition start_calculation: :calculated
     end
     event :mark_reported do
       transition calculated: :reported
@@ -44,12 +48,11 @@ class TaxReturn < ActiveRecord::Base
   end
 
   def calculate(transition)
-    # här skapas skatteunderlager
     self.calculated_at = transition.args[0]
   end
 
   def generate_tax_agency_report(transition)
-     create_tax_agency_transaction('tax', self.deadline, transition.args[1])
+     enqueue_tax_report
   end
 
   def report(transition)
@@ -57,14 +60,25 @@ class TaxReturn < ActiveRecord::Base
     self.reported_at = transition.args[0]
   end
 
-  def create_tax_agency_transaction(report_type, post_date, user_id)
-    tax_agency_transaction = TaxAgencyTransaction.new(
-          parent: self,
-          posting_date: post_date,
-          user_id: user_id,
-          report_type: report_type)
-    tax_agency_transaction.organization_id = organization_id
-    tax_agency_transaction.save
+  def enqueue_tax_report
+    logger.info '** TaxReturn enqueue a job that will create tax report.'
+    Resque.enqueue(Job::TaxReturnEvent, id, 'tax_report_event')
+  end
+
+  # Run from the 'Job::TaxReturnEvent' model
+  def tax_report_event
+    logger.info '** TaxReturn tax_report_event start'
+    vat_report_creator = Services::VatReportCreator.new(self)
+    vat_report_creator.delete_vat_report
+
+    tax_return_report_creator = Services::TaxReturnReportCreator.new(self)
+    tax_return_report_creator.delete_report
+    if tax_return_report_creator.report
+      logger.info "** TaxReturn #{id} tax_report returned ok, marking complete"
+      finnish_calculation
+    else
+      logger.info "** TaxReturn #{id} tax_report did NOT return ok, not marking complete"
+    end
   end
 
   def can_calculate?

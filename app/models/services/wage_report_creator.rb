@@ -1,9 +1,8 @@
 module Services
   class WageReportCreator
-    def initialize(organization, user, wage_period)
-      @user = user
-      @organization = organization
+    def initialize(wage_period)
       @wage_period = wage_period
+      @organization = @wage_period.organization
     end
 
     def tax_code_part(tax_code)

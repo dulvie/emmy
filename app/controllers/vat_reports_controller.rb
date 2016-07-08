@@ -21,7 +21,7 @@ class VatReportsController < ApplicationController
   # GET /vats/1
   def show
     @vat_period = VatPeriod.find(@vat_report.vat_period_id)
-    @vat_report_creator = Services::VatReportCreator.new(current_organization, current_user, @vat_period)
+    @vat_report_creator = Services::VatReportCreator.new(@vat_period)
     @tax_code = current_organization.tax_codes.find_by_code(params[:code])
     respond_to do |format|
       if @tax_code

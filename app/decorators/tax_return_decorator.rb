@@ -12,6 +12,9 @@ class TaxReturnDecorator < Draper::Decorator
     when 'preliminary'
       l = 'info'
       str = h.t(:preliminary)
+    when 'start_calculation'
+      l = 'danger'
+      str = h.t(:calculation_in_progress)
     when 'calculated'
       l = 'warning'
       str = h.t(:calculated)

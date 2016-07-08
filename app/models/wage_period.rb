@@ -35,6 +35,7 @@ class WagePeriod < ActiveRecord::Base
   validate :overlaping_period
   validates :payment_date, presence: true
   validates :deadline, presence: true
+  VALID_EVENTS = %w(tax_report_event wage_calculation_event)
 
   def check_to
     if wage_from >= wage_to
@@ -64,7 +65,7 @@ class WagePeriod < ActiveRecord::Base
 
   state_machine :state, initial: :preliminary do
     before_transition on: :mark_wage_calculated, do: :wage_calculate
-    after_transition on: :mark_wage_calculated, do: :generate_wage_calculation
+    after_transition on: :mark_wage_calculated, do: :enqueue_wage_calculation
     before_transition on: :mark_wage_reported, do: :wage_report
     after_transition on: :mark_wage_reported, do: :generate_verificate_wage
     before_transition on: :mark_wage_closed, do: :wage_close
@@ -75,7 +76,10 @@ class WagePeriod < ActiveRecord::Base
     before_transition on: :mark_tax_closed, do: :tax_close
 
     event :mark_wage_calculated do
-      transition [:preliminary, :wage_calculated] => :wage_calculated
+      transition [:preliminary, :wage_calculated] => :start_wage_calculation
+    end
+    event :finnish_wage_calculation do
+      transition start_wage_calculation: :wage_calculated
     end
     event :mark_wage_reported do
       transition wage_calculated: :wage_reported
@@ -84,7 +88,10 @@ class WagePeriod < ActiveRecord::Base
       transition wage_reported: :wage_closed
     end
     event :mark_tax_calculated do
-      transition wage_closed: :tax_calculated
+      transition wage_closed: :start_tax_calculation
+    end
+    event :finnish_tax_calculation do
+      transition start_tax_calculation: :tax_calculated
     end
     event :mark_tax_reported do
       transition tax_calculated: :tax_reported
@@ -98,18 +105,26 @@ class WagePeriod < ActiveRecord::Base
     self.wage_calculated_at = transition.args[0]
   end
 
-  def generate_wage_calculation(transition)
-    wage_transaction = WageTransaction.new(
-      execute: 'wage_calculate',
-      complete: 'false',
-      user_id: transition.args[1],
-      wage_period_id: self.id)
-    wage_transaction.organization_id = organization_id
-    wage_transaction.save
+  def enqueue_wage_calculation
+    logger.info '** WagePeriod enqueue a job that will create wages.'
+    Resque.enqueue(Job::WagePeriodEvent, id, 'wage_calculation_event')
+  end
+
+  # Run from the 'Job::WagePeriodEvent' model
+  def wage_calculation_event
+    logger.info '** WagePeriod wage_calculation_event start'
+    wage_creator = Services::WageCreator.new(self)
+    wage_creator.delete_wages
+    if wage_creator.save_wages
+      logger.info "** WagePeriod #{id} wage_calculation returned ok, marking complete"
+      finnish_wage_calculation
+    else
+      logger.info "** WagePeriod #{id} wage_calculation did NOT return ok, not marking complete"
+    end
   end
 
   def generate_tax_agency_report(transition)
-    create_tax_agency_transaction('wage', deadline, transition.args[1])
+    enqueue_tax_report
   end
 
   def wage_report(transition)
@@ -140,14 +155,22 @@ class WagePeriod < ActiveRecord::Base
     self.tax_closed_at = transition.args[0]
   end
 
-  def create_tax_agency_transaction(report_type, post_date, user_id)
-    tax_agency_transaction = TaxAgencyTransaction.new(
-          parent: self,
-          posting_date: post_date,
-          user_id: user_id,
-          report_type: report_type)
-    tax_agency_transaction.organization_id = organization_id
-    tax_agency_transaction.save
+  def enqueue_tax_report
+    logger.info '** WagePeriod enqueue a job that will create tax report.'
+    Resque.enqueue(Job::WagePeriodEvent, id, 'tax_report_event')
+  end
+
+  # Run from the 'Job::WagePeriodEvent' model
+  def tax_report_event
+    logger.info '** WagePeriod tax_report_event start'
+    wage_report_creator = Services::WageReportCreator.new(self)
+    wage_report_creator.delete_wage_report
+    if wage_report_creator.report
+      logger.info "** WagePeriod #{id} tax_report returned ok, marking complete"
+      finnish_tax_calculation
+    else
+      logger.info "** WagePeriod #{id} tax_report did NOT return ok, not marking complete"
+    end
   end
 
   def create_verificate_transaction(ver_type, post_date, user_id)
