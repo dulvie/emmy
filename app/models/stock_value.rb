@@ -14,6 +14,8 @@ class StockValue < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { scope: [:organization_id] }
   validates :value_date, presence: true
 
+  VALID_EVENTS = %w(create_verificate_event)
+
   STATE_CHANGES = [:mark_reported]
 
   def state_change(event, changed_at = nil, user_id = nil)
@@ -35,7 +37,24 @@ class StockValue < ActiveRecord::Base
   end
 
   def generate_verificate_stock_value(transition)
-    create_verificate_transaction('stock_value', transition.args[0], transition.args[1])
+    # create_verificate_transaction('stock_value', transition.args[0], transition.args[1])
+    enqueue_create_verificate(transition.args[0])
+  end
+
+  def enqueue_create_verificate(post_date)
+    logger.info '** StockValue enqueue a job that will create verificate.'
+    Resque.enqueue(Job::StockValueEvent, id, 'create_verificate_event', post_date)
+  end
+
+  # Run from the 'Job::StockValueEvent' model
+  def create_verificate_event(post_date)
+    logger.info '** StockValue create_verificate_event start'
+    stock_value_verificate = Services::StockValueVerificate.new(self, post_date)
+    if stock_value_verificate.create
+      logger.info "** StockValue #{id} create_verificate returned ok"
+    else
+      logger.info "** StockValue #{id} create_verificate did NOT return ok"
+    end
   end
 
   def create_verificate_transaction(ver_type, post_date, user_id)

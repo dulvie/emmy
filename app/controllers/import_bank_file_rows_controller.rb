@@ -37,7 +37,7 @@ class ImportBankFileRowsController < ApplicationController
     if ver_id > 0
       redirect_to verificate_path(ver_id)
     else
-      @verificate_creator = Services::VerificateCreator.new(current_organization,
+      @verificate_creator = Services::VerificateCreatorOld.new(current_organization,
                                                             current_user,
                                                             @import_bank_file_row,
                                                             @import_bank_file_row.posting_date)
@@ -105,7 +105,7 @@ class ImportBankFileRowsController < ApplicationController
 
   def set_template_verificate
     @import_bank_file_row = current_organization.import_bank_file_rows.find(params[:import_bank_file_row_id])
-    @verificate_creator = Services::VerificateCreator.new(current_organization,
+    @verificate_creator = Services::VerificateCreatorOld.new(current_organization,
                                                           current_user,
                                                           @import_bank_file_row,
                                                           @import_bank_file_row.posting_date)
@@ -123,7 +123,7 @@ class ImportBankFileRowsController < ApplicationController
 
   def set_verificate
     @import_bank_file_row = current_organization.import_bank_file_rows.find(params[:import_bank_file_row_id])
-    @verificate_creator = Services::VerificateCreator.new(current_organization,
+    @verificate_creator = Services::VerificateCreatorOld.new(current_organization,
                                                           current_user,
                                                           @import_bank_file_row,
                                                           @import_bank_file_row.posting_date)

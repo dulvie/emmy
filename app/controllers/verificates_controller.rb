@@ -124,7 +124,7 @@ class VerificatesController < ApplicationController
 
   def reversal
     @verificate = current_organization.verificates.find(params[:id])
-    @verificate_creator = Services::VerificateCreator.new(current_organization,
+    @verificate_creator = Services::VerificateCreatorOld.new(current_organization,
                                                           current_user,
                                                           @verificate,
                                                           @verificate.posting_date)
