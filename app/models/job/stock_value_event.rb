@@ -10,7 +10,7 @@ module Job
         Rails.logger.info "** Job::StockValueEvent unknown event_name(#{event_name})"
       end
     rescue ActiveRecord::RecordNotFound
-      Rails.logger.info '** Job::TaxTableEvent could not find ' \
+      Rails.logger.info '** Job::StockValueEvent could not find ' \
         "object with id #{stock_value_id}"
     end
   end

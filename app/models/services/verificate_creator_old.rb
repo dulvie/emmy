@@ -387,6 +387,7 @@ module Services
     end
 
     def stock_value
+      # moved to stock_value_verificate
       stock_value = @object
 
       Verificate.transaction do

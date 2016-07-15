@@ -15,12 +15,8 @@ module Services
         Rails.logger.info "-->>StockValueVerificate error accounting period missing"
         return
       end
-      # @accounting_plan = @organization.accounting_plans.find(@accounting_period.accounting_plan_id)
       @accounting_plan = @accounting_period.accounting_plan
-      Rails.logger.info "==>#{@accounting_period.inspect}"
-      Rails.logger.info "==>#{@stock_value.inspect}"
       @verificate_creator = Services::VerificateCreator.new(@accounting_period, @stock_value)
-      Rails.logger.info "==>VerificateCreator.init_end"
     end
 
     def valid?
@@ -32,7 +28,6 @@ module Services
     end
 
     def create
-      Rails.logger.info "==>StockValueVerificate.create"
       Verificate.transaction do
 
         # create verificate

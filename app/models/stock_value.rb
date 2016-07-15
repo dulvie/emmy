@@ -37,7 +37,6 @@ class StockValue < ActiveRecord::Base
   end
 
   def generate_verificate_stock_value(transition)
-    # create_verificate_transaction('stock_value', transition.args[0], transition.args[1])
     enqueue_create_verificate(transition.args[0])
   end
 
@@ -55,16 +54,6 @@ class StockValue < ActiveRecord::Base
     else
       logger.info "** StockValue #{id} create_verificate did NOT return ok"
     end
-  end
-
-  def create_verificate_transaction(ver_type, post_date, user_id)
-    verificate_transaction = VerificateTransaction.new(
-          parent: self,
-          posting_date: post_date,
-          user_id: user_id,
-          verificate_type: ver_type)
-    verificate_transaction.organization_id = organization_id
-    verificate_transaction.save
   end
 
   def can_edit?
