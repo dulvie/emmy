@@ -8,7 +8,7 @@ class Job::VerificateTransactionEvent
 
   def self.create_verificate(trans)
     Rails.logger.info "-->>VerificateTransactionEvent.create_verificate(#{trans.inspect})"
-    @verificate_creator = Services::VerificateCreator.new(trans.organization, trans.user, trans.parent, trans.posting_date)
+    @verificate_creator = Services::VerificateCreatorOld.new(trans.organization, trans.user, trans.parent, trans.posting_date)
     unless @verificate_creator.valid?
       Rails.logger.info "unable to create VerificateCreator object:"\
                         "#{@verificate_creator.errors.inspect}"
@@ -33,7 +33,7 @@ class Job::VerificateTransactionEvent
     when 'wage_tax'
       @verificate_creator.wage_tax
     when 'stock_value'
-      @verificate_creator.stock_value
+      # @verificate_creator.stock_value
     else
       Rails.logger.info "-->>#{trans.verificate_type} not implemented"
     end
