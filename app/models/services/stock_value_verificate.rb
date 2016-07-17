@@ -32,7 +32,7 @@ module Services
 
         # create verificate
         ver_dsc = @stock_value.name
-        @verificate_creator.save_verificate(@stock_value.reported_at, ver_dsc, '', '', nil)
+        @verificate_creator.save_verificate(@stock_value.reported_at, ver_dsc, '', '', nil, nil)
 
         # beräkna förändringen i lagervärde
         default_code = default_code(06)

@@ -35,7 +35,7 @@ class WagePeriod < ActiveRecord::Base
   validate :overlaping_period
   validates :payment_date, presence: true
   validates :deadline, presence: true
-  VALID_EVENTS = %w(tax_report_event wage_calculation_event)
+  VALID_EVENTS = %w(tax_report_event wage_calculation_event wage_verificate_event)
 
   def check_to
     if wage_from >= wage_to
@@ -67,10 +67,10 @@ class WagePeriod < ActiveRecord::Base
     before_transition on: :mark_wage_calculated, do: :wage_calculate
     after_transition on: :mark_wage_calculated, do: :enqueue_wage_calculation
     before_transition on: :mark_wage_reported, do: :wage_report
-    after_transition on: :mark_wage_reported, do: :generate_verificate_wage
+    after_transition on: :mark_wage_reported, do: :enqueue_wage_verificate
     before_transition on: :mark_wage_closed, do: :wage_close
     before_transition on: :mark_tax_calculated, do: :tax_calculate
-    after_transition on: :mark_tax_calculated, do: :generate_tax_agency_report
+    after_transition on: :mark_tax_calculated, do: :enqueue_tax_report
     before_transition on: :mark_tax_reported, do: :tax_report
     after_transition on: :mark_tax_reported, do: :generate_verificate_tax
     before_transition on: :mark_tax_closed, do: :tax_close
@@ -123,16 +123,24 @@ class WagePeriod < ActiveRecord::Base
     end
   end
 
-  def generate_tax_agency_report(transition)
-    enqueue_tax_report
-  end
-
   def wage_report(transition)
     self.wage_reported_at = transition.args[0]
   end
 
-  def generate_verificate_wage(transition)
-    create_verificate_transaction('wage', payment_date, transition.args[1])
+  def enqueue_wage_verificate(transition)
+    logger.info '** WagePeriod enqueue a job that will create wage verificate.'
+    Resque.enqueue(Job::WagePeriodEvent, id, 'wage_verificate_event')
+  end
+
+  # Run from the 'Job::WagePeriodEvent' model
+  def wage_verificate_event
+    logger.info '** WagePeriod create_verificate_event start'
+    wage_verificate = Services::WageVerificate.new(self, payment_date)
+    if wage_verificate.wage
+      logger.info "** WagePeriod #{id} create_verificate returned ok"
+    else
+      logger.info "** WagePeriod #{id} create_verificate did NOT return ok"
+    end
   end
 
   def generate_verificate_tax(transition)
