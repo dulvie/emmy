@@ -61,6 +61,38 @@ module Services
       end
     end
 
+
+    def tax
+      Verificate.transaction do
+        # create verificate
+        @verificate_creator.save_verificate(@wage_period.deadline, 'Skatteredovisning','','', nil, 'tax')
+
+        # create create payroll
+        tax_code = tax_code(78)
+        account = account_from_tax_code(tax_code)
+        amount = wage_amount(tax_code)
+        @verificate_creator.save_verificate_item(account, amount, 0)
+
+        # create wage tax
+        tax_code = tax_code(82)
+        account = account_from_tax_code(tax_code)
+        amount = wage_amount(tax_code)
+        @verificate_creator.save_verificate_item(account, amount, 0)
+
+        # create payment
+        tax_code = tax_code(99)
+        default_code = default_code(01)
+        account = account_from_default_code(default_code)
+        amount = wage_amount(tax_code)
+        @verificate_creator.save_verificate_item(account, 0, amount)
+      end
+    end
+
+    def wage_amount(tax_code)
+      wage_report = @wage_period.wage_reports.where('tax_code_id = ?', tax_code.id).first
+      return wage_report.amount
+    end
+
     def tax_code(code)
       @organization.tax_codes.find_by_code(code)
     end
