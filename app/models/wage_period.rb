@@ -35,7 +35,7 @@ class WagePeriod < ActiveRecord::Base
   validate :overlaping_period
   validates :payment_date, presence: true
   validates :deadline, presence: true
-  VALID_EVENTS = %w(tax_report_event wage_calculation_event)
+  VALID_EVENTS = %w(tax_report_event wage_calculation_event wage_verificate_event tax_verificate_event)
 
   def check_to
     if wage_from >= wage_to
@@ -67,12 +67,12 @@ class WagePeriod < ActiveRecord::Base
     before_transition on: :mark_wage_calculated, do: :wage_calculate
     after_transition on: :mark_wage_calculated, do: :enqueue_wage_calculation
     before_transition on: :mark_wage_reported, do: :wage_report
-    after_transition on: :mark_wage_reported, do: :generate_verificate_wage
+    after_transition on: :mark_wage_reported, do: :enqueue_wage_verificate
     before_transition on: :mark_wage_closed, do: :wage_close
     before_transition on: :mark_tax_calculated, do: :tax_calculate
-    after_transition on: :mark_tax_calculated, do: :generate_tax_agency_report
+    after_transition on: :mark_tax_calculated, do: :enqueue_tax_report
     before_transition on: :mark_tax_reported, do: :tax_report
-    after_transition on: :mark_tax_reported, do: :generate_verificate_tax
+    after_transition on: :mark_tax_reported, do: :enqueue_tax_verificate
     before_transition on: :mark_tax_closed, do: :tax_close
 
     event :mark_wage_calculated do
@@ -123,20 +123,40 @@ class WagePeriod < ActiveRecord::Base
     end
   end
 
-  def generate_tax_agency_report(transition)
-    enqueue_tax_report
-  end
-
   def wage_report(transition)
     self.wage_reported_at = transition.args[0]
   end
 
-  def generate_verificate_wage(transition)
-    create_verificate_transaction('wage', payment_date, transition.args[1])
+  def enqueue_wage_verificate(transition)
+    logger.info '** WagePeriod enqueue a job that will create wage verificate.'
+    Resque.enqueue(Job::WagePeriodEvent, id, 'wage_verificate_event')
   end
 
-  def generate_verificate_tax(transition)
-    create_verificate_transaction('wage_tax', deadline, transition.args[1])
+  # Run from the 'Job::WagePeriodEvent' model
+  def wage_verificate_event
+    logger.info '** WagePeriod create_verificate_event start'
+    wage_verificate = Services::WageVerificate.new(self, payment_date)
+    if wage_verificate.wage
+      logger.info "** WagePeriod #{id} create_verificate returned ok"
+    else
+      logger.info "** WagePeriod #{id} create_verificate did NOT return ok"
+    end
+  end
+
+  def enqueue_tax_verificate(transition)
+    logger.info '** WagePeriod enqueue a job that will create tax verificate.'
+    Resque.enqueue(Job::WagePeriodEvent, id, 'tax_verificate_event')
+  end
+
+  # Run from the 'Job::WagePeriodEvent' model
+  def tax_verificate_event
+    logger.info '** WagePeriod create_verificate_event start'
+    wage_verificate = Services::WageVerificate.new(self, deadline)
+    if wage_verificate.tax
+      logger.info "** WagePeriod #{id} create_verificate returned ok"
+    else
+      logger.info "** WagePeriod #{id} create_verificate did NOT return ok"
+    end
   end
 
   def wage_close(transition)
@@ -171,16 +191,6 @@ class WagePeriod < ActiveRecord::Base
     else
       logger.info "** WagePeriod #{id} tax_report did NOT return ok, not marking complete"
     end
-  end
-
-  def create_verificate_transaction(ver_type, post_date, user_id)
-    verificate_transaction = VerificateTransaction.new(
-          parent: self,
-          posting_date: post_date,
-          user_id: user_id,
-          verificate_type: ver_type)
-    verificate_transaction.organization_id = organization_id
-    verificate_transaction.save
   end
 
   def total_salary
