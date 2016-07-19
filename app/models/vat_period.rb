@@ -29,7 +29,7 @@ class VatPeriod < ActiveRecord::Base
   validate :check_to
   validate :overlaping_period
   validates :deadline, presence: true
-  VALID_EVENTS = %w(vat_report_event)
+  VALID_EVENTS = %w(vat_report_event vat_verificate_event)
 
   def check_to
     if vat_from >= vat_to
@@ -57,9 +57,9 @@ class VatPeriod < ActiveRecord::Base
 
   state_machine :state, initial: :preliminary do
     before_transition on: :mark_calculated, do: :calculate
-    after_transition on: :mark_calculated, do: :generate_tax_agency_report
+    after_transition on: :mark_calculated, do: :enqueue_vat_report
     before_transition on: :mark_reported, do: :report
-    after_transition on: :mark_reported, do: :generate_verificate_vat_report
+    after_transition on: :mark_reported, do: :enqueue_verificate
     before_transition on: :mark_closed, do: :close
 
     event :mark_calculated do
@@ -84,12 +84,20 @@ class VatPeriod < ActiveRecord::Base
     self.reported_at = transition.args[0]
   end
 
-  def generate_tax_agency_report(transition)
-    enqueue_vat_report
+  def enqueue_verificate
+    logger.info '** VatPeriod enqueue a job that will create verificate.'
+    Resque.enqueue(Job::VatPeriodEvent, id, 'vat_verificate_event')
   end
 
-  def generate_verificate_vat_report(transition)
-     create_verificate_transaction('vat_report', self.deadline, transition.args[1])
+  # Run from the 'Job::VatPeriodEvent' model
+  def vat_verificate_event
+    logger.info '** VatPeriod verificate_event start'
+    vat_verificate = Services::VatVerificate.new(self, deadline)
+    if vat_verificate.create
+      logger.info "** VatPeriod #{id} create_verificate returned ok"
+    else
+      logger.info "** VatPeriod #{id} create_verificate did NOT return ok"
+    end
   end
 
   def close(transition)
@@ -112,16 +120,6 @@ class VatPeriod < ActiveRecord::Base
     else
       logger.info "** VatPeriod #{id} vat_report did NOT return ok, not marking complete"
     end
-  end
-
-  def create_verificate_transaction(ver_type, post_date, user_id)
-    verificate_transaction = VerificateTransaction.new(
-          parent: self,
-          posting_date: post_date,
-          user_id: user_id,
-          verificate_type: ver_type)
-    verificate_transaction.organization_id = organization_id
-    verificate_transaction.save
   end
 
   def can_calculate?
