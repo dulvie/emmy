@@ -37,12 +37,10 @@ class ImportBankFileRowsController < ApplicationController
     if ver_id > 0
       redirect_to verificate_path(ver_id)
     else
-      @verificate_creator = Services::VerificateCreatorOld.new(current_organization,
-                                                            current_user,
-                                                            @import_bank_file_row,
-                                                            @import_bank_file_row.posting_date)
-      @verificate_creator.bank_file_row
-      redirect_to verificate_path(@verificate_creator.verificate_id)
+      @import_bank_file_verificate = Services::ImportBankFileVerificate.new( @import_bank_file_row,
+                                                                             @import_bank_file_row.posting_date)
+      @import_bank_file_verificate.create
+      redirect_to verificate_path(@import_bank_file_verificate.verificate_id)
     end
 
   end
@@ -105,13 +103,11 @@ class ImportBankFileRowsController < ApplicationController
 
   def set_template_verificate
     @import_bank_file_row = current_organization.import_bank_file_rows.find(params[:import_bank_file_row_id])
-    @verificate_creator = Services::VerificateCreatorOld.new(current_organization,
-                                                          current_user,
-                                                          @import_bank_file_row,
-                                                          @import_bank_file_row.posting_date)
+    @import_bank_file_verificate = Services::ImportBankFileVerificate.new( @import_bank_file_row,
+                                                                           @import_bank_file_row.posting_date)
     respond_to do |format|
-      @verificate_creator.template(params[:template_id])
-      ver_id = @verificate_creator.verificate_id
+      @import_bank_file_verificate.template(params[:template_id])
+      ver_id = @import_bank_file_verificate.verificate_id
       if ver_id > 0
         format.html { redirect_to verificate_path(ver_id) + "&bank_amount=" + @import_bank_file_row.amount.to_s, notice: 'Verificate was successfully updated.' }
       else
@@ -123,13 +119,12 @@ class ImportBankFileRowsController < ApplicationController
 
   def set_verificate
     @import_bank_file_row = current_organization.import_bank_file_rows.find(params[:import_bank_file_row_id])
-    @verificate_creator = Services::VerificateCreatorOld.new(current_organization,
-                                                          current_user,
-                                                          @import_bank_file_row,
-                                                          @import_bank_file_row.posting_date)
+    @import_bank_file_verificate = Services::ImportBankFileVerificate.new( @import_bank_file_row,
+                                                                           @import_bank_file_row.posting_date)
     respond_to do |format|
-      @verificate_creator.bank_file_row
-      ver_id = @verificate_creator.verificate_id
+      @import_bank_file_verificate.create
+      ver_id = @import_bank_file_verificate.verificate_id
+      Rails.logger.info "==>#{ver_id}"
       if ver_id > 0
         format.html { redirect_to verificate_path(ver_id), notice: 'Verificate was successfully updated.' }
       else
