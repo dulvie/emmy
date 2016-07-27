@@ -44,6 +44,7 @@ class Purchase < ActiveRecord::Base
   validates :supplier_id, presence: true
 
   VALID_PARENT_TYPES = ['Purchase', 'Production', 'Import']
+  VALID_EVENTS = %w(accounts_payable_event supplier_payments_event)
 
   EVENTS = [
     :mark_prepared, :mark_invoiced, :mark_complete,  # Generic state
@@ -70,7 +71,7 @@ class Purchase < ActiveRecord::Base
 
   state_machine :state, initial: :meta_complete do
     before_transition on: :mark_prepared, do: :prepare_purchase
-    after_transition on: :mark_prepared, do: :generate_accounts_payable
+    after_transition on: :mark_prepared, do: :enqueue_accounts_payable
     before_transition on: :mark_invoiced, do: :invoice_purchase
     before_transition on: :mark_complete, do: :complete_purchase
 
@@ -91,8 +92,20 @@ class Purchase < ActiveRecord::Base
     self.ordered_at = transition.args[0]
   end
 
-  def generate_accounts_payable
-    create_verificate_transaction('accounts_payable', self.ordered_at)
+  def enqueue_accounts_payable
+    logger.info '** Purchase enqueue a job that will create account payable.'
+    Resque.enqueue(Job::PurchaseEvent, id, 'accounts_payable_event')
+  end
+
+  # Run from the 'Job::PurchaseEvent' model
+  def accounts_payable_event
+    logger.info '** Purchase accounts_payable_event start'
+    purchase_verificate = Services::PurchaseVerificate.new(self, ordered_at)
+    if purchase_verificate.accounts_payable
+      logger.info "** Purchase #{id} accounts_payable verificate returned ok"
+    else
+      logger.info "** Purchase #{id} accounts_payable verificate did NOT return ok"
+    end
   end
 
   def invoice_purchase(transition)
@@ -133,19 +146,9 @@ class Purchase < ActiveRecord::Base
     end
   end
 
-  def create_verificate_transaction(ver_type, post_date)
-    verificate_transaction = VerificateTransaction.new(
-          parent: self,
-          posting_date: post_date,
-          user: self.user,
-          verificate_type: ver_type)
-    verificate_transaction.organization_id = organization_id
-    verificate_transaction.save
-  end
-
   state_machine :money_state, initial: :not_paid do
     before_transition on: :pay, do: :pay_purchase
-    after_transition on: :pay, do: :generate_supplier_payments
+    after_transition on: :pay, do: :enqueue_supplier_payments
     after_transition on: :pay, do: :check_for_completeness
     event :pay do
       transition not_paid: :paid
@@ -156,8 +159,20 @@ class Purchase < ActiveRecord::Base
     self.paid_at = transition.args[0]
   end
 
-  def generate_supplier_payments
-    create_verificate_transaction('supplier_payments', self.paid_at)
+  def enqueue_supplier_payments
+    logger.info '** Purchase enqueue a job that will create supplier payments.'
+    Resque.enqueue(Job::PurchaseEvent, id, 'supplier_payments_event')
+  end
+
+  # Run from the 'Job::PurchaseEvent' model
+  def supplier_payments_event
+    logger.info '** Purchase supplier_payments_event start'
+    purchase_verificate = Services::PurchaseVerificate.new(self, paid_at)
+    if purchase_verificate.supplier_payments
+      logger.info "** Purchase #{id} supplier_payments_verificate returned ok"
+    else
+      logger.info "** Purchase #{id} supplier_payments_verificate did NOT return ok"
+    end
   end
 
   # after_transition filter for money_state and goods_state.
