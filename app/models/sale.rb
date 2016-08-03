@@ -52,6 +52,7 @@ class Sale < ActiveRecord::Base
   validates :customer_id, presence: true
   validates :warehouse_id, presence: true
   validates :payment_term, presence: true
+  VALID_EVENTS = %w(accounts_receivable_event accounts_receivable_reverse_event customer_payments_event)
 
   after_create :add_invoice_number
 
@@ -77,11 +78,11 @@ class Sale < ActiveRecord::Base
   state_machine :state, initial: :meta_complete do
     before_transition on: :mark_prepared, do:  :prepare_sale
     after_transition on: :mark_prepared, do: :generate_invoice
-    after_transition on: :mark_prepared, do: :generate_accounts_receivable
+    after_transition on: :mark_prepared, do: :enqueue_accounts_receivable
     before_transition on: :mark_canceled, do:  :cancel_sale
     after_transition on: :mark_canceled, do: :create_reverse_transactions
     after_transition on: :mark_canceled, do: :generate_invoice
-    after_transition on: :mark_canceled, do: :reverse_accounts_receivable
+    after_transition on: :mark_canceled, do: :enqueue_accounts_receivable_reverse
 
     event :mark_prepared do
       transition meta_complete: :prepared
@@ -135,12 +136,36 @@ class Sale < ActiveRecord::Base
     d.save!
   end
 
-  def generate_accounts_receivable
-     create_verificate_transaction('accounts_receivable', self.approved_at)
+  def enqueue_accounts_receivable
+    logger.info '** Sale enqueue a job that will create accounts receivable.'
+    Resque.enqueue(Job::SaleEvent, id, 'accounts_receivable_event')
   end
 
-  def reverse_accounts_receivable
-     create_verificate_transaction('accounts_receivable_reverse', self.approved_at)
+  # Run from the 'Job::SaleEvent' model
+  def accounts_receivable_event
+    logger.info '** Sale accounts_receivable_event start'
+    sale_verificate = Services::SaleVerificate.new(self, approved_at)
+    if sale_verificate.accounts_receivable
+      logger.info "** Sale #{id} accounts_receivable verificate returned ok"
+    else
+      logger.info "** Sale #{id} accounts_receivable verificate did NOT return ok"
+    end
+  end
+
+  def enqueue_accounts_receivable_reverse
+    logger.info '** Sale enqueue a job that will create accounts receivable reverse.'
+    Resque.enqueue(Job::SaleEvent, id, 'accounts_receivable_reverse_event')
+  end
+
+  # Run from the 'Job::SaleEvent' model
+  def accounts_receivable_reverse_event
+    logger.info '** Sale accounts_receivable_reverse_event start'
+    sale_verificate = Services::SaleVerificate.new(self, approved_at)
+    if sale_verificate.accounts_receivable_reverse
+      logger.info "** Sale #{id} accounts_receivable_reverse verificate returned ok"
+    else
+      logger.info "** Sale #{id} accounts_receivable_reverse verificate did NOT return ok"
+    end
   end
 
   state_machine :goods_state, initial: :not_delivered do
@@ -194,7 +219,7 @@ class Sale < ActiveRecord::Base
 
   state_machine :money_state, initial: :not_paid do
     before_transition on: :pay, do:  :pay_sale
-    after_transition on: :pay, do: :generate_customer_payments
+    after_transition on: :pay, do: :enqueue_customer_payments
     after_transition on: :pay, do: :check_for_completeness
 
     event :pay do
@@ -211,8 +236,20 @@ class Sale < ActiveRecord::Base
     mark_complete if paid? && delivered?
   end
 
-  def generate_customer_payments
-      create_verificate_transaction('customer_payments', self.paid_at)
+  def enqueue_customer_payments
+    logger.info '** Sale enqueue a job that will create customer payments.'
+    Resque.enqueue(Job::SaleEvent, id, 'customer_payments_event')
+  end
+
+  # Run from the 'Job::SaleEvent' model
+  def customer_payments_event
+    logger.info '** Sale customer_payments_event start'
+    sale_verificate = Services::SaleVerificate.new(self, paid_at)
+    if sale_verificate.customer_payments
+      logger.info "** Sale #{id} customer_payments verificate returned ok"
+    else
+      logger.info "** Sale #{id} customer_payments verificate did NOT return ok"
+    end
   end
 
   def can_edit_items?
