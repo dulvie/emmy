@@ -15,6 +15,7 @@ class VerificateDecorator < Draper::Decorator
     return  h.link_to I18n.t(:import_bank_file), h.import_bank_file_path(verificate.parent.import_bank_file) if object.parent_type == 'ImportBankFileRow' && verificate.parent
     return  h.link_to I18n.t(:purchase), h.purchase_path(object.parent_id) if object.parent_type == 'Purchase'
     return  h.link_to I18n.t(:stock_value), h.stock_value_path(object.parent_id) if object.parent_type == 'StockValue'
+    return  h.link_to I18n.t(:verificate), h.verificate_path(object.parent_id) if object.parent_type == 'Verificate'
     ' '
   end
 
