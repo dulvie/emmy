@@ -207,16 +207,6 @@ class Sale < ActiveRecord::Base
     end
   end
 
-  def create_verificate_transaction(ver_type, post_date)
-    verificate_transaction = VerificateTransaction.new(
-          parent: self,
-          posting_date: post_date,
-          user: self.user,
-          verificate_type: ver_type)
-    verificate_transaction.organization_id = organization_id
-    verificate_transaction.save
-  end
-
   state_machine :money_state, initial: :not_paid do
     before_transition on: :pay, do:  :pay_sale
     after_transition on: :pay, do: :enqueue_customer_payments

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160627152321) do
+ActiveRecord::Schema.define(version: 20160801152321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -739,17 +739,6 @@ ActiveRecord::Schema.define(version: 20160627152321) do
     t.datetime "updated_at"
   end
 
-  create_table "tax_code_headers", force: :cascade do |t|
-    t.string   "name"
-    t.string   "file_name"
-    t.string   "run_type"
-    t.string   "state"
-    t.integer  "accounting_plan_id"
-    t.integer  "organization_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "tax_codes", force: :cascade do |t|
     t.integer  "code"
     t.string   "text",            limit: 255
@@ -925,17 +914,6 @@ ActiveRecord::Schema.define(version: 20160627152321) do
     t.integer  "verificate_id"
     t.integer  "result_unit_id"
     t.integer  "project_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "verificate_transactions", force: :cascade do |t|
-    t.integer  "organization_id"
-    t.integer  "user_id"
-    t.string   "parent_type",     limit: 255
-    t.integer  "parent_id"
-    t.datetime "posting_date"
-    t.string   "verificate_type", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end

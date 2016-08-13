@@ -14,8 +14,7 @@ namespace :eko do
     sales = o.sales.where("approved_at > ? and approved_at < ? and state <> 'canceled'", f, t)
     sales.each do |sale|
       puts sale.invoice_number
-      verificate_creator = Services::VerificateCreatorOld.new(o, u, sale)
-      verificate_creator.accounts_receivable(true)
+      sale.accounts_receivable_event
     end
   end
 
@@ -33,8 +32,7 @@ namespace :eko do
     sales = o.sales.where("paid_at > ? and paid_at < ? and state <> 'canceled'", f, t)
     sales.each do |sale|
       puts sale.invoice_number
-      verificate_creator = Services::VerificateCreatorOld.new(o, u, sale)
-      verificate_creator.customer_payments
+      sale.customer_payments_event
     end
   end
 
