@@ -188,7 +188,7 @@ se:
   inventory: "Inventering"
   inventory_information: "Inventeringsuppgifter"
   inventory_item: "Inventeringsrad"
-  inventory_link: "Finns satser som saknas i listan sker registreing nedan."
+  inventory_link: "Finns satser som saknas i listan sker registrering nedan."
   inventory_text: "Ange den faktiska inventerade kvantiteten som gäller inveteringsdatumet på de satser som finns i listan. Rapportera alla rader."
   inventories: "Inventeringar"
   invite: "Inbjudan"
