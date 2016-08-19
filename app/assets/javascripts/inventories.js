@@ -1,8 +1,11 @@
-app.controller('inventory_form_ctrl', function ($scope) {
+app.controller('inventory_form_ctrl', function ($scope, $modal, $sce) {
 
 	$scope.init = function() {
-		var inv = $('#in_inventory_date').val().split(/\D/);
-		inv.length == 1 ? $scope.inv_date = new Date() : $scope.inv_date = new Date(inv[0], --inv[1], inv[2]);
+        if ($('#in_inventory_date').val()== undefined) {
+        } else {
+            var inv = $('#in_inventory_date').val().split(/\D/);
+            inv.length == 1 ? $scope.inv_date = new Date() : $scope.inv_date = new Date(inv[0], --inv[1], inv[2]);
+        }
 	};
 
 	$scope.inv_options = {'starting-day': 1,'show-weeks': false};
@@ -11,6 +14,37 @@ app.controller('inventory_form_ctrl', function ($scope) {
 		$event.stopPropagation();
 		$scope.inv_open = true;
 	};
+
+    $scope.show_info = function($event, info) {
+        $scope.open_info('mb', 'infoContent', info);
+        $event.preventDefault();
+        $event.stopPropagation();
+    };
+
+    $scope.open_info = function (size, el, info) {
+        var info_el= '#'+info;
+        var info_html = $(info_el).html();
+        $scope.info = $sce.trustAsHtml(info_html);
+        var elem = '#'+el;
+        var temp = $(elem).html();
+        var modalInstance = $modal.open({
+            template: temp,
+            controller: 'ModalInfoInstanceCtrl',
+            size: size,
+            resolve: {
+                info: function () {
+                    return $scope.info;
+                }
+            }
+        });
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selected = selectedItem;
+        }, function () {
+            //$log.info('Modal dismissed at: ' + new Date());
+        });
+        //$event.preventDefault();
+        //$event.stopPropagation();
+    };
 
 });
 app.controller('inventory_item_list_ctrl', function($scope, ajaxService) {
