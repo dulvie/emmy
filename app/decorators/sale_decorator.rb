@@ -112,4 +112,7 @@ class SaleDecorator < Draper::Decorator
     object.user.email
   end
 
+  def report_delivery
+    "report_delivery"
+  end
 end

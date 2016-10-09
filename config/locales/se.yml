@@ -307,6 +307,7 @@ se:
   reported: "Rapporterad"
   report: "Rapport"
   reports: "Rapporter"
+  report_delivery: "Rapportera leverans"
   report_to: "Rapportera till"
   reseller: "Återförsäljare"
   result: "Resultat"

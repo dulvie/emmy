@@ -1,4 +1,5 @@
 - p1 ||= nil
+- p2 ||= nil
 %script{ :type=>"text/ng_template", :id=>idx}
   .modal-header
     %h3{ :class=>"modal-title"}
@@ -10,7 +11,9 @@
       = hidden_field_tag 'return_path', return_path
       - if !p1.nil?
         = f.input p1
-
+      - if !p2.nil?
+        = f.check_box p2, checked: true
+        = f.label t(:"#{p2}")
       .form-group
         .input-group
           = hidden_field_tag "state_change_at", "{{date}}"
