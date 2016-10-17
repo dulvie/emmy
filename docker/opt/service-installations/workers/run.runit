@@ -1,0 +1,25 @@
+#!/bin/sh
+exec 2>&1
+set -eu
+. /etc/envvars
+. /opt/shell_utils
+
+NAME=workers
+APP_DIR="${APP_DIR:-/app/current}"
+USER="${USER:-user}"
+export RAILS_LOG_TO_STDOUT=true
+export TERM_CHILD=1
+export QUEUE="${QUEUE:-*}"
+
+if [ ! -n "${DATABASE_URL:-}" ] ; then
+  disable_service $NAME "stopping since no DATABASE_URL"
+fi
+if [ ! -n "${REDIS_URL:-}" ] ; then
+  disable_service $NAME "stopping since no REDIS_URL"
+fi
+if [ ! -n "${DEVISE_PEPPER:-}" ] ; then
+  disable_service $NAME "stopping since no DEVISE_PEPPER"
+fi
+
+cd $APP_DIR
+exec chpst -u $USER:$USER bundle exec rake resque:work

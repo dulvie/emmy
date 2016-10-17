@@ -26,5 +26,9 @@ module Emmy
 
     # bootstrap-sass compliance fix for rails 4
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+    if ENV["RAILS_LOG_TO_STDOUT"].present?
+        config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+    end
+
   end
 end

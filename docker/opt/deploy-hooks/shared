@@ -1,0 +1,32 @@
+#!/bin/sh
+set -eu
+EXEC_DIR="${1:-}"
+[ ! -d "$EXEC_DIR" ] && echo "the execute directory ($EXEC_DIR) doesn't exist " && exit 1
+cd $EXEC_DIR
+
+[ ! -d "$PUBLIC_DIR" ] && echo "hook(shared): PUBLIC_DIR: $PUBLIC_DIR does not exist" && exit 1
+[ ! -d "$SHARED_DIR" ] && echo "hook(shared): SHARED_DIR: $SHARED_DIR does not exist" && exit 1
+
+shared_dirs="log tmp public/system"
+
+for dir in $shared_dirs ; do
+  # 1. Remove the target if it exists.
+  # 2. Ensure the source directory exists.
+  # 3. Symlink source to target.
+  [ -d "$dir" ] && rm -rf "$dir"
+  [ ! -d "$SHARED_DIR/$dir" ] && mkdir -p "$SHARED_DIR/$dir"
+  (set -x ; ln -sf "$SHARED_DIR/$dir" "$dir")
+done
+
+# Copy all files in public to public
+for asset in $(find public/ -maxdepth 1 -mindepth 1) ; do
+  # Don't copy symlinks
+  [ -L "$asset" ] && continue
+  # Just copy the file
+  [ -f "$asset" ] && (set -x ;cp $asset $PUBLIC_DIR/$(basename $asset))
+  # Dirs needs special care to make a new copy it self into the previous dir
+  [ -d "$asset" ] && \
+        (mkdir -p $PUBLIC_DIR/$(basename $asset) || true) && \
+        (set -x; cp -r $asset/* $PUBLIC_DIR/$(basename $asset)/)
+done
+exit 0 # otherwise, the exit code from [ -d "$asset" ] will be used...

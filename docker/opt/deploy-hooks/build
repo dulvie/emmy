@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eux
+EXEC_DIR="${1:-}"
+[ ! -d "$EXEC_DIR" ] && echo "the execute directory ($EXEC_DIR) doesn't exist " && exit 1
+cd $EXEC_DIR
+if [ -n "$GEM_DIR" ] ; then
+  bundle install --path $GEM_DIR
+else
+  bundle install
+fi
+bundle exec rake assets:clean
+bundle exec rake assets:clobber
+bundle exec rake assets:precompile

@@ -1,7 +1,0 @@
-#!/bin/sh
-exec 2>&1
-. /etc/runit/shell_functions
-log "Cleaning potenitally old PID files"
-log "rm $(ls /var/run/*.pid)"
-rm -f /var/run/*.pid
-

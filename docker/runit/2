@@ -1,6 +1,0 @@
-#!/bin/sh
-exec 2>&1
-. /etc/runit/shell_functions
-log "exec /usr/bin/runsvdir -P /etc/service"
-exec /usr/bin/runsvdir -P /etc/service
-

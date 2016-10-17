@@ -1,7 +1,0 @@
-#!/bin/sh
-exec 2>&1
-. /etc/runit/shell_functions
-log "Shuting down .. (init 3)"
-log "run-parts --verbose /etc/runit/3.d"
-/bin/run-parts --verbose /etc/runit/3.d
-

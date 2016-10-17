@@ -58,8 +58,4 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  #database: <%= ENV['DB_PREFIX'] %>_production
-  database: <%= ENV['DB_PREFIX'] %>_production
-  pool: 5
-  username: <%= ENV['DB_USERNAME'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>

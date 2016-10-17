@@ -56,6 +56,7 @@ gem 'kaminari'
 gem 'bootstrap-kaminari-views'
 gem 'paperclip', '~> 4.3'
 gem 'exception_notification', '~> 4.0'
+gem 'puma'
 
 group :test, :development do
   gem 'byebug'
