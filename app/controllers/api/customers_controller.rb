@@ -7,6 +7,7 @@ class Api::CustomersController < ApplicationController
 
   def create
     @customer = Customer.new(customer_params)
+    @customer.organization_id =  params[:customer][:organization_id]
     respond_to do |format|
       if @customer.save
         if !params[:customer][:contact].nil?
@@ -14,12 +15,14 @@ class Api::CustomersController < ApplicationController
           @contact.name = params[:customer][:contact]
           @contact.telephone = params[:customer][:contact_telephone]
           @contact.email = params[:customer][:contact_email]
+          @contact.organization_id =  params[:customer][:organization_id]
           @contact.save
         end
         if params[:customer][:comment].length > 3
           @comment = @customer.comments.build
           @comment.body = params[:customer][:comment]
           @comment.user = User.find(1)
+          @comment.organization_id =  params[:customer][:organization_id]
           @comment.save
         end
         format.json { render json: @customer.id, status: :created }

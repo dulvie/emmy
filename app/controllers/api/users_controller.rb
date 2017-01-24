@@ -33,6 +33,7 @@ class Api::UsersController < ApplicationController
       @contact.organization_id = params[:user][:organization_id]
       @contact.name = params[:user][:fullname]
       @contact.email = params[:user][:email]
+      @contact.telephone = params[:user][:phone]
       @contact.save
 
       @contact_relation.contact = @contact

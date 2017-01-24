@@ -45,7 +45,8 @@ class Sale < ActiveRecord::Base
   has_one :document, as: :parent, dependent: :delete
 
   attr_accessible :warehouse_id, :customer_id, :contact_email, :contact_name, :contact_telephone,
-                  :payment_term
+                  :payment_term, :state, :goods_state, :money_state, :approved_at, :delivered_at,
+                  :paid_at
 
   attr_accessor :custom_error
 

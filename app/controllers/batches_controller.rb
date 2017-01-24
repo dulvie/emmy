@@ -24,6 +24,11 @@ class BatchesController < ApplicationController
     @production = current_organization.productions.where('batch_id = ?', @batch.id).first
   end
 
+  def show
+    init_new
+    @production = current_organization.productions.where('batch_id = ?', @batch.id).first
+  end
+
   # POST /batches
   def create
     @batch = Batch.new(batch_params)

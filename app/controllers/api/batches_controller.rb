@@ -7,6 +7,7 @@ class Api::BatchesController < ApplicationController
 
   def create
     @batch = Batch.new(batch_params)
+    @batch.organization_id =  params[:batch][:organization_id]
     respond_to do |format|
       if @batch.save
         format.json { render json: @batch.id, status: :created }
