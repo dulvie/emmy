@@ -234,6 +234,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    puma (3.6.0)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -391,6 +392,7 @@ DEPENDENCIES
   paperclip (~> 4.3)
   pg
   protected_attributes (~> 1.0.5)
+  puma
   rails (= 4.2.6)
   responders (~> 2.0)
   resque (~> 1.25)
@@ -407,4 +409,4 @@ DEPENDENCIES
   wicked_pdf
 
 BUNDLED WITH
-   1.10.6
+   1.13.7
