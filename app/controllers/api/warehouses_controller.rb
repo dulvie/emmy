@@ -7,6 +7,7 @@ class Api::WarehousesController < ApplicationController
 
   def create
     @warehouse = Warehouse.new(warehouse_params)
+    @warehouse.organization_id =  params[:warehouse][:organization_id]
     respond_to do |format|
       if @warehouse.save
         format.json { render json: @warehouse.id, status: :created }

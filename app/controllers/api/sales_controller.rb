@@ -8,6 +8,9 @@ class Api::SalesController < ApplicationController
   def create
     @sale = Sale.new sale_params
     @sale.user = User.find(params[:sale][:user_id])
+    @sale.organization_id =  params[:sale][:organization_id]
+    @sale.invoice_number = params[:sale][:invoice_number]
+
     respond_to do |format|
       if @sale.save
         items = params[:sale][:sale_items]
@@ -30,6 +33,7 @@ class Api::SalesController < ApplicationController
             @sale_item.quantity = item[:quantity]
             @sale_item.vat = item[:vat]
           end
+          @sale_item.organization_id =  params[:sale][:organization_id]
           @sale_item.save
         end
         format.json { render json: @sale.id, status: :created }

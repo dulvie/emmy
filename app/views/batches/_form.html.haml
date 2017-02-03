@@ -5,6 +5,7 @@
 
     %input{:type => 'hidden', :name => 'class',  :value => params['class']}
     %input{:type => 'hidden', :name => 'object', :value => params['object']}
+    %input{:type => 'hidden', :id => :batch_item_id, :value => @batch.item_id}
 
     - if @batch.new_record?
       = f.association :item, collection: @items, :input_html => {:ng_model => 'item_id', :ng_change => 'select_item(true)'}

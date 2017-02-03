@@ -13,13 +13,14 @@ class Api::ManualsController < ApplicationController
     batch_transaction = BatchTransaction.new(
       warehouse: warehouse,
       batch: batch,
-      quantity: params[:manual][:quantity],
-      organization_id: params[:manual][:organization_id])
+      quantity: params[:manual][:quantity])
+    batch_transaction.organization = organization
 
     @manual = Manual.new(manual_params)
-    @manual.comments.build(user_id: 1, body: params[:manual][:comment], organization_id: params[:manual][:organization_id])
+    @manual.comments.build(user_id: 1, body: params[:manual][:comment])
     @manual.batch_transaction = batch_transaction
     @manual.organization = organization
+
     respond_to do |format|
       if @manual.save
         format.json { render json: @manual.id, status: :created }

@@ -19,7 +19,7 @@ class OrganizationRole < ActiveRecord::Base
   belongs_to :user
   belongs_to :organization
 
-  attr_accessible :name, :user_id
+  attr_accessible :name, :user_id, :organization_id
 
   validates :name, presence: true, inclusion: { in: ALL_ROLES }
 end
