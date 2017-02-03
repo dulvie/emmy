@@ -9,6 +9,7 @@ class Api::SalesController < ApplicationController
     @sale = Sale.new sale_params
     @sale.user = User.find(params[:sale][:user_id])
     @sale.organization_id =  params[:sale][:organization_id]
+    @sale.invoice_number = params[:sale][:invoice_number]
 
     respond_to do |format|
       if @sale.save
