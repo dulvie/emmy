@@ -11,15 +11,6 @@ Emmy::Application.routes.draw do
     get "/#{p}", to: "pages##{p}"
   end
 
-  namespace :api do
-    resources :warehouses, :defaults => {:format => 'json'}
-    resources :users, :defaults => {:format => 'json'}
-    resources :customers, :defaults => {:format => 'json'}
-    resources :batches, :defaults => {:format => 'json'}
-    resources :manuals, :defaults => {:format => 'json'}
-    resources :sales, :defaults => {:format => 'json'}
-  end
-
   namespace :admin do
     resources :organizations
     resources :users do
