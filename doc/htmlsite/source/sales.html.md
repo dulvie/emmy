@@ -4,7 +4,7 @@ title: "Försäljning"
 
 
 Registrera försäljning
-Förutsättning
+Förutsätter följande uppgifter
 
 1. Lagerställe finns registrerat (Logistik/Lagerställen)
 2. På lagerställets hyllor finns aktuella kvantiteter
