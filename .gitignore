@@ -37,3 +37,7 @@ env.development
 
 # Ignore coverage files.
 coverage/*
+
+# Ignore build artifacts from the docsite
+doc/htmlsite/build
+doc/htmlsite/log
