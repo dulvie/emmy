@@ -8,6 +8,13 @@ cd $EXEC_DIR
 [ ! -d "$SHARED_DIR" ] && echo "hook(shared): SHARED_DIR: $SHARED_DIR does not exist" && exit 1
 
 shared_dirs="log tmp public/system"
+shared_files="config/environments/production.rb"
+
+for file_path in $shared_files do
+  [ ! -f "$SHARED_DIR/$file_path" ] && echo "no file at $SHARED_DIR/$file_path, not symlinkin..." && continue
+  [ -f "$file_path" ] && (set -x ; rm "$file_path")
+  (set -x ; ln -sf "$SHARED_DIR/$file_path" "$file_path")
+done
 
 for dir in $shared_dirs ; do
   # 1. Remove the target if it exists.

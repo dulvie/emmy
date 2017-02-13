@@ -1,5 +1,6 @@
 %p
   = link_to "#{t(:create)} #{t(:user)}", new_admin_user_path(organization_id: @organization.id), class: 'btn btn-success'
+  = link_to "#{t(:invite)} #{t(:user)}", new_user_path(organization_slug: @organization.slug), class: 'btn btn-success'
 
 .table-responsive{:ng_controller=>'ModalCtrl'}
   %table{:class => 'table'}
