@@ -1,8 +1,8 @@
 ---
-title: "V_lkommen"
+title: "Välkommen"
 ---
 
-Hej och valkommen till dokumentation for emmy.
+Hej och välkommen till dokumentation for emmy.
 
-Tyvarr kan vi bara erbjuda dokumentation pa svenska for tillfallet.
+Tyvärr kan vi bara erbjuda dokumentation pa svenska for tillfället.
 
