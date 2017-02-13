@@ -18,7 +18,7 @@ Moms (den momssats som gäller)
 
 ### Försäljning lista:
 
-![forsäljningslista](sales-list.png)
+![forsäljningslista](images/sales-list.png)
 
 
 >Satser finns registrerat
