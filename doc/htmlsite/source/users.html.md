@@ -12,6 +12,6 @@ Uppgifter om användaren finns under användarnamnet/Profil
 ![user_baseinfo](images/user_baseinformation.png)
 
 Under fliken Basinformation finns användarnamnet och e-mail adressen.
-Här väls språk och lösenordet kan bytas.
+Här väljs språk och lösenordet kan bytas.
 
 Under fliken Konakt kan kontaktinformation läggas upp.
