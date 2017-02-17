@@ -19,8 +19,8 @@ Satsen kopplas till en övergripande artikel. Den får enhet och momssats från 
 Under fliken basinformation
 Koppling till **Artikel** och **Namn** är obligatoriskt.
 
-Under fliken Kvantiteter
+Under fliken Antal
 Här finns uppgifter om kvantiteter och på vilka lagerställen satserna finns
 
-Under fliken transaktioner
+Under fliken Transaktioner
 Här finns alla transaktioner som förändrat satsens kvantitet
