@@ -1,31 +1,40 @@
 ---
-title: "Hantera batches"
+title: "Hantera batches (satser)"
 ---
 
-## Hantering av kvantiteter
+### Vad är det som kvantitetshanteras i Emmy?
 
-**_Vad är det som kvantitetshanteras i systemet?_**
-För att systemet ska hantera kvantiteter måste en sats (batch) registreras. Det är på denna enhet som
-kvantiteter hanteras. Satsen måste knytas till en artikel (item).
+För att systemet ska hantera kvantiteter måste en sats (batch) registreras.  
+Det är på denna enhet som kvantiteter hanteras.  
+Satsen måste knytas till en artikel (item).  
 
-**_Var finns kvantiteter?_**
-Kvantiteter ligger på lagerställets (warehouse) hyllor.
+### Var finns kvantiteter?
 
-**_Hur kommer kvantiteter in i systemet?_**
+Kvantiteter ligger på lagerställets (warehouse) "hyllor".
+
+### Hur kommer kvantiteter in i systemet?
+
 Det kan ske på flera olika sätt.  
-1. Logistik/Manual
-Registrering av antal och sats som läggs till på ett visst lagerställe
-2. Inköp
-Inköp av sats (batch), kvantitet läggs till på lagerstället som gör inköpet.
-3. Produktion
-Produktion av sats (batch), kvantitet läggs till på produktionens lagerställe.
 
-**_Hur kontrolleras att kvantiteter i systemet stämmer med faktiska kvantiteter?_**
-Genom inventering (Logistik/Inventeringar) hålls antalet av varje sats aktuellt.
+1.  Logistik/Manual
+    Registrering av antal och sats som läggs till på ett visst lagerställe
+2.  Inköp
+    Inköp av sats (batch), kvantitet läggs till på lagerstället som gör inköpet.
+3.  Produktion
+    Produktion av sats (batch), kvantitet läggs till på produktionens lagerställe.
 
-**_Kan kvantiteter flyttas mellan lagerställen?_**
-Ja, med (Förflyttningar/Förflyttningar) kan antal i en sats flyttas till annat lagerställe.
+### Hur kontrolleras att kvantiteter i systemet stämmer med faktiska kvantiteter?
 
-**_Vad händer vid försäljning?_**
-När orderns leverans registreras (knappen Levererad) räknas säljande lagerställes kvantitet ner med
-orderns kvantitet.
+Genom inventering (Logistik/Inventeringar) kan antalet i en "sats" justeras.
+
+
+### Kan kvantiteter flyttas mellan lagerställen?
+
+Ja, med (Förflyttningar/Förflyttningar) kan antal i en "sats" flyttas till annat lagerställe.
+
+_obs_ Det lagerställe som är "mottagare" måste bekräfta att leveransen har kommit fram innan "hyllan" fylls på och försäljningar av "satsen" kan göras från lagerstället.
+
+### Vad händer vid försäljning?
+
+När "Försäljningens" markeras som "Levererad" (Knapp på försäljningen)  räknas säljande lagerställes kvantitet ner med
+Försäljningens kvantitet.

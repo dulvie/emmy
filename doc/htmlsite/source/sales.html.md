@@ -3,20 +3,20 @@ title: "Försäljning"
 ---
 
 
-Registrera försäljning
-Förutsätter följande uppgifter
+För att registrera en försäljning krävs följande uppgifter:
+
+1.  Enheter finns registrerat (Logistik/Enheter)
+2.  Momssatser finns registrerat (Logistik/Moms)
+3.  Artiklar finns registrerade (Logistik/artiklar)
 
 1. Lagerställe finns registrerat (Logistik/Lagerställen)
 2. På lagerställets hyllor finns aktuella kvantiteter
-3. Enheter finns registrerat (Logistik/Enheter)
-4. Momssatser finns registrerat (Logistik/Moms)
-5. Artiklar finns registrerade (Logistik/artiklar)
 6. I artiklar finns grunduppgifter som Artikel typ (purchase/sale/both)
 Lagerförd (ska bockas i om systemet ska hålla reda på kvantiteter)
 Enhet (den enhet som gäller)
 Moms (den momssats som gäller)
 
-### Försäljning lista:
+### Försäljningslista:
 
 ![forsäljningslista](images/sales-list.png)
 
