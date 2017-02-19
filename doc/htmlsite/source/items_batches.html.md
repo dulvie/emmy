@@ -2,25 +2,43 @@
 title: "Artiklar och satser"
 ---
 
-Uppgifter om artiklar som köps/säljs registreras på artiklar (items) och satser (batches). 
-Artiklar är övergripande. Momssats och försäljningsenhet sätts. 
+Grunduppgifter om det som ska säljs(och/eller köpas) registreras på "artiklar"
 
 ![items](images/items.png)
 
-Obligatoriska uppgifter. 
-**Namn**, **Enhet** och **Momssats**
+- Typ: "refined" dvs, rafinerad, i det här fallet rör det sig om rostat kaffe.
+- Lagerförd: innebär att satser kan registreras och systemet håller koll på kvantiteter.
+- Enhet
+- Momssats
+- Inköpspris
+- Återförsäljarpris
+- Slutkundspris
 
-**Lagerförd** innebär att satser kan registreras och systemet håller koll på kvantiteter.
+Om artikeln inte ska lagerföras, t.ex. "Föreläsning" räcker "Artikel" för att en försäljning ska kunna skapas.
+
+Men om artikeln ska lagerföras, tex. "Bryggkaffe" behövs en "Sats", kopplad till den övergripanden artikeln skapas.
 
 ![items](images/batches.png)
 
-Satsen kopplas till en övergripande artikel. Den får enhet och momssats från artikeln.
+"Sats" eller i bland kallad "Batch" har tre "flikar"
 
-Under fliken basinformation
-Koppling till **Artikel** och **Namn** är obligatoriskt.
+#### Basinformation
 
-Under fliken Antal
-Här finns uppgifter om kvantiteter och på vilka lagerställen satserna finns
+En "Sats" får sin enhet, momsats och pris från "Artikeln".
 
-Under fliken Transaktioner
-Här finns alla transaktioner som förändrat satsens kvantitet
+#### Antal
+
+Här hittar du uppgifter om kvantiteter och på vilka lagerställen satserna finns.
+
+#### Transaktioner
+
+Här finns en lista över alla transaktioner som förändrat satsens kvantitet.
+
+En "satsförändring", eller "lagerförändring" har ett par möjliga anledningar, vad det är som har "triggat" förändringen finns länkad i kolumnen "parent". Dessa kan vara:
+
+- Försäljning, t.ex. 7st paket brygg kaffe har sålts, satsen räknas ned -7 på det lagerställe som kaffet såldes ifrån.
+- Inventering. Någon har räknat hur många paket som finns på ett lager och justerar det som står i systemet, en anledning kan t.ex. vara pysta paket, inbrott eller liknande.
+- Förflyttning, varan har flyttas från ett lager till ett annat.
+- Manuell förflyttning, t.ex. Nya produkter har importerats
+- ..mm
+
