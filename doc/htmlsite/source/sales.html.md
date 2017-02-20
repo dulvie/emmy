@@ -8,32 +8,46 @@ För att registrera en försäljning krävs följande uppgifter:
 1.  Enheter finns registrerat (Logistik/Enheter)
 2.  Momssatser finns registrerat (Logistik/Moms)
 3.  Artiklar finns registrerade (Logistik/artiklar)
-
-1. Lagerställe finns registrerat (Logistik/Lagerställen)
-2. På lagerställets hyllor finns aktuella kvantiteter
-6. I artiklar finns grunduppgifter som Artikel typ (purchase/sale/both)
-Lagerförd (ska bockas i om systemet ska hålla reda på kvantiteter)
-Enhet (den enhet som gäller)
-Moms (den momssats som gäller)
-
-### Försäljningslista:
-
-![forsäljningslista](images/sales-list.png)
+4.  Satser finns registrerade (Logistik/satser)
+5.  Lagerställe finns registrerat (Logistik/Lagerställen)
+6.  På lagerställets hyllor finns tillräckliga kvantiteter
 
 
->Satser finns registrerat
-Det är satsen (Batches) som kvantitetshanteras. Den hänvisar till artikel för enhet och momssats. På satsen sätts det pris som gäller.
-Kunder (Försäljning/Kunder) finns registrerat Registrering försäljning
+### Försäljning kunduppgifter
 
-1. Ange lagerställe där försäljningen sker
+![sale](images/sale.png)
+
+
+1. Välj lager där försäljningen sker
 2. Ange kund
-3. Ange första bokstäverna så kommer en sökning att ske bland registrerade
-4. kunduppgifter.  Saknas kunden kan länken till höger om registreringsfältet användas för att skapa en ny kunduppgift.
-5. Lägg till sats
-6. Försäljningstyp har två alternativ. Artikel refererar till artiklar/satser som registrerats. De väljs under kolumnen produkt. Andra alternativet är text. En textrad som kan registreras på försäljningen. OBS! Anges textrad måste momssats väljas.  Pris anges före moms.
+   Om några bokstäverna anges så kommer en sökning att ske bland registrerade kunduppgifter.
+   Saknas kunden kan länken till höger om registreringsfältet användas för att skapa en ny kunduppgift.
+3. Kontaktuppgifter hos kunden kan registreras
+4. Betalningsvillkor väljs.
+
+
+### Försäljning artikeluppgifter
+
+![sale_item](images/sale_item.png)
+
+1. Välj försäljningstyp, artikel eller text
+   Väljs artikel visas en lista av produkter som hämtas från registrerade artiklar eller satser.
+   Väljs text kan valfri textrad registreras. OBS! Momssats måste anges.
+2. Kvantitet anges
+3. Pris exklusive moms anges. Om försäljningstyp artikel valts kommer prisförslag från artikel eller satsuppgiften.
+
+
+#### Godkännande
 
 När alla artiklar är registrerade och ordern godkänd används knappen beställd.
 Försäljningens status blir Förberedd. PDF-dokument med fakturan skapas.
-När försäljningen levereras används knappen Levererad. Försäljningens status blir
-levererad.
+
+
+#### Leverans
+
+När försäljningen levereras används knappen Levererad. Försäljningens status blir levererad.
+
+
+#### Betalning
+
 När betalning sker används kappen Betalad. Försäljningens status blir Betalad.
