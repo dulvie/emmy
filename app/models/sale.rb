@@ -169,6 +169,9 @@ class Sale < ActiveRecord::Base
     end
   end
 
+  # include state change of goods_state with mark prepared
+  # the condition is checkbox is checked, args[1] is checkbox for reporting deliver
+  # sending same date, args[0], as sales marked prepared
   def report_delivery(transition)
     if transition.args[1] == '1'
       send('deliver', transition.args[0])
