@@ -12,7 +12,7 @@
     - if @purchase.prepared?
       %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','invoiceContent' )"}
         = t(:invoiced)
-      = render partial: 'shared/modal_state_change', locals: {idx: 'invoiceContent', model: @purchase, form_path: state_change_purchase_path(@purchase), event: 'mark_invoiced', return_path: purchase_path(@purchase), p1: :supplier_reference}
+      = render partial: 'shared/modal_state_change', locals: {idx: 'invoiceContent', model: @purchase, form_path: state_change_purchase_path(@purchase), event: 'mark_invoiced', return_path: purchase_path(@purchase), input: :supplier_reference}
 
     - if (!@purchase.can_edit_items? && !@purchase.received?)
       %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','goodsContent' )"}
