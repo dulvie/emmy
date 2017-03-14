@@ -57,9 +57,9 @@ class Sale < ActiveRecord::Base
   after_create :add_invoice_number
 
 
-  def state_change(new_state, changed_at = nil)
+  def state_change(new_state, changed_at = nil, report_delivery = nil)
     return false unless STATE_CHANGES.include?(new_state.to_sym)
-    send(new_state, changed_at)
+    send(new_state, changed_at, report_delivery)
   end
 
   def next_step
@@ -79,6 +79,7 @@ class Sale < ActiveRecord::Base
     before_transition on: :mark_prepared, do:  :prepare_sale
     after_transition on: :mark_prepared, do: :generate_invoice
     after_transition on: :mark_prepared, do: :enqueue_accounts_receivable
+    after_transition on: :mark_prepared, do: :report_delivery
     before_transition on: :mark_canceled, do:  :cancel_sale
     after_transition on: :mark_canceled, do: :create_reverse_transactions
     after_transition on: :mark_canceled, do: :generate_invoice
@@ -165,6 +166,15 @@ class Sale < ActiveRecord::Base
       logger.info "** Sale #{id} accounts_receivable_reverse verificate returned ok"
     else
       logger.info "** Sale #{id} accounts_receivable_reverse verificate did NOT return ok"
+    end
+  end
+
+  # include state change of goods_state with mark prepared
+  # the condition is checkbox is checked, args[1] is checkbox for reporting deliver
+  # sending same date, args[0], as sales marked prepared
+  def report_delivery(transition)
+    if transition.args[1] == '1'
+      send('deliver', transition.args[0])
     end
   end
 

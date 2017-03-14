@@ -75,8 +75,9 @@ class SalesController < ApplicationController
 
   def state_change
     @sale = current_organization.sales.find(params[:id])
+    deliver = params[:sale].nil? ? nil : params[:sale][:report_delivery]
     authorize! :manage, @sale
-    if @sale.state_change(params[:event], params[:state_change_at])
+    if @sale.state_change(params[:event], params[:state_change_at], deliver)
       msg_h = { notice: t(:success) }
     else
       msg_h = { alert: t(:fail) }

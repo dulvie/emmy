@@ -9,7 +9,7 @@
       - if @sale.can_edit_items?
         %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','salesContent' )"}
           = t(:ordered)
-        = render partial: 'shared/modal_state_change', locals: {idx: 'salesContent', model: @sale, form_path: state_change_sale_path(@sale), event: 'mark_prepared', return_path: sale_path(@sale)}
+        = render partial: 'shared/modal_state_change', locals: {idx: 'salesContent', model: @sale, form_path: state_change_sale_path(@sale), event: 'mark_prepared', return_path: sale_path(@sale), checkbox: :report_delivery}
 
       - elsif !@sale.canceled?
         - if !@sale.delivered?
