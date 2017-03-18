@@ -9,6 +9,9 @@ RUN apt-get update \
       gstreamer1.0-tools \
       gstreamer1.0-x
 
+RUN gem update --system && \
+    echo y | gem uninstall bundler && \
+    gem install bundler
 COPY docker/ /
 COPY Gemfil* /tmp/
 RUN /opt/bin/post-install
