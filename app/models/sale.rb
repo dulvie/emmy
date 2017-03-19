@@ -24,6 +24,7 @@ class Sale < ActiveRecord::Base
     :pay,     # Money
   ]
 
+  # For the search filters (/sales/?...)
   FILTER_STAGES=[:meta_complete, :prepared, :cancel, :not_delivered, :not_paid]
   FILTER_STAGES.each do |state|
     case state
@@ -51,7 +52,7 @@ class Sale < ActiveRecord::Base
 
   validates :customer_id, presence: true
   validates :warehouse_id, presence: true
-  validates :payment_term, presence: true
+  validates :payment_term, numericality: { greater_than: 1, less_than: 365 }
   VALID_EVENTS = %w(accounts_receivable_event accounts_receivable_reverse_event customer_payments_event)
 
   after_create :add_invoice_number
