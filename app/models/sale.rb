@@ -37,6 +37,8 @@ class Sale < ActiveRecord::Base
     end
   end
 
+  DEFAULT_PAYMENT_TERM = 30
+
   belongs_to :user
   belongs_to :customer
   belongs_to :warehouse
@@ -55,6 +57,7 @@ class Sale < ActiveRecord::Base
   validates :payment_term, numericality: { greater_than: 1, less_than: 365 }
   VALID_EVENTS = %w(accounts_receivable_event accounts_receivable_reverse_event customer_payments_event)
 
+  after_initialize :default_values
   after_create :add_invoice_number
 
 
@@ -108,7 +111,6 @@ class Sale < ActiveRecord::Base
   def cancel_sale(transition)
     self.canceled_at = transition.args[0]
     self.canceled_at ||= Time.now
-    
   end
 
   # @todo refactor this into a job instead.
@@ -351,5 +353,10 @@ class Sale < ActiveRecord::Base
   def has_document?
     return false if document.nil?
     return true
+  end
+
+  # Callback: after_initialize
+  def default_values
+    self.payment_term = DEFAULT_PAYMENT_TERM
   end
 end
