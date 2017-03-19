@@ -12,7 +12,7 @@
     = f.input :contact_email, disabled: true
     = f.input :contact_telephone, disabled: true
 
-  = f.input :payment_term, as: :select, collection: ['30', '10'], include_blank: false, disabled: !@sale.new_record?, :input_html =>{:class=>'numeric form_control'}
+  = f.input :payment_term, disabled: !@sale.new_record?, :input_html =>{:class=>'numeric form_control'}
 
   - if @sale.new_record?
     .form-button-group
