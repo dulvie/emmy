@@ -19,6 +19,8 @@ jtest = User.new({
 })
 jtest.default_organization_id = 3
 [o,o2,o3].each do |org|
+  org.organization_type = 'Aktiebolag'
+  org.save!
   r = jtest.organization_roles.build(name: OrganizationRole::ROLE_ADMIN)
   r.organization_id = org.id
 end
