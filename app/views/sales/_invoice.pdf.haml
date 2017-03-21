@@ -92,6 +92,7 @@
             .line= sale.organization.name
             .line= sale.organization.address
             .line= "#{sale.organization.zip} #{sale.organization.city}"
+            .line.multi-line= "#{sale.organization.invoice_text}"
           %td
             %table.numbers.table.pull-right
               - Organization::BANK_FIELDS.each do |n|

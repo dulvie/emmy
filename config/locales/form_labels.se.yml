@@ -56,6 +56,7 @@ se:
         importing: "Import"
         ink_code: "Inkomstdekl. (INK)"
         in_price: "Inköpspris"
+        invoice_text: "Extra fakturatext"
         item: "Artikel"
         item_id: "Artikel"
         materials: "Material"
