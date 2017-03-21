@@ -69,8 +69,12 @@ class SalesController < ApplicationController
   end
 
   def destroy
-    @sale.destroy
-    redirect_to sales_path, notice: "#{t(:sale)} #{t(:was_successfully_deleted)}"
+    if @sale.can_delete?
+      @sale.destroy
+      redirect_to sales_path, notice: "#{t(:sale)} #{t(:was_successfully_deleted)}"
+    else
+      redirect_to sales_path, alert: "#{t(:sale)} #{t('errors.messages.can_not_be_deleted')}"
+    end
   end
 
   def state_change
@@ -97,7 +101,7 @@ class SalesController < ApplicationController
   end
 
   def regenerate_invoice
-    @sale.document.destroy
+    @sale.document.destroy if @sale.document
     @sale.generate_invoice
     redirect_to @sale
   end
