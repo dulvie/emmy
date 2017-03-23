@@ -33,6 +33,7 @@
     %td{width: '50%'}
       %h3= t(:our_reference)
       .line= sale.user_name
+      .line= sale.user_telephone if sale.user_telephone
       .line= sale.user_email
     %td
       %h3= t(:your_reference)

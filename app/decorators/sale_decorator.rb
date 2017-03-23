@@ -100,6 +100,11 @@ class SaleDecorator < Draper::Decorator
     object.customer.primary_email
   end
 
+  def user_telephone
+    user_contact = object.user.contacts.first
+    return nil unless user_contact
+    user_contact.telephone
+  end
   def warehouse_name
     object.warehouse.name
   end
