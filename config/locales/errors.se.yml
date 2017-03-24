@@ -5,6 +5,7 @@ se:
       no_customer_email: "Ingen epost till kunden"
       no_organization_email: "Ingen epost för denna organisation"
       taken: "Namnet inte unikt"
+      can_not_be_deleted: "kan inte tas bort"
   accounting_period_missing: "Räkenskapsår saknas"
   accounting_plan_missing: "Kontoplan saknas"
   accounts_receivables_missing: "Kundreskontrauppgifter saknas"

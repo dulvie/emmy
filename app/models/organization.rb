@@ -13,13 +13,15 @@ class Organization < ActiveRecord::Base
   # t.string :plusgiro
   # t.string :swift
   # t.string :iban
+  # t.string :invoice_text
   # t.timestamps
 
   TYPES = ['Aktiebolag', 'Ekonomisk förening', 'Idell förening', 'Handelsbolag', 'Enskild firma']
   BANK_FIELDS = %w(vat_number bankgiro plusgiro postgiro iban swift)
 
   attr_accessible :email, :name, :address, :zip, :organization_type, :organization_number,
-                  :vat_number, :bankgiro, :postgiro, :plusgiro, :city, :swift, :iban
+                  :vat_number, :bankgiro, :postgiro, :plusgiro, :city, :swift, :iban,
+                  :invoice_text
 
   has_many :organization_roles
   has_many :users, through: :organization_roles
