@@ -1,13 +1,21 @@
+<% open_sans_path = File.join(Rails.root, 'public', 'fonts', 'OpenSans', 'OpenSans-Regular.ttf') %>
 <!DOCTYPE html>
 <html>
   <head>
     <title>something</title>
     <style>
+      @font-face {
+        font-style: normal;
+        font-weight: 400;
+        font-family: OpenSans;
+        src: url('<%= open_sans_path %>') format('truetype');
+      }
       body, html, table.wrapper {
         height: 100%;
         width: 100%;
         margin: 0;
         font-size: 14px;
+        font-family: OpenSans;
       }
       /**
         Subset of bootstrap used only by wicked_pdf / wkhtmltopdf
