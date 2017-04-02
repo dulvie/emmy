@@ -234,3 +234,14 @@ footer {
 #logo-form {
   padding-bottom: 2em;
 }
+
+.search-by-invoice-number {
+  margin-top: -6em;
+  float: right;
+}
+// on small screens, this is needed, breadcrumbs will be hidden otherwise.
+@media (max-width: 768px) {
+  .search-by-invoice-number {
+    margin-top: 0em;
+  }
+}
