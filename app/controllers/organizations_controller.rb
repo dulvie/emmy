@@ -5,7 +5,10 @@ class OrganizationsController < ApplicationController
 
   # GET /:organization_slug
   def show
-     @org_url = organization_path(current_organization.slug, @organization)
+    @org_url = organization_path(current_organization.slug, @organization)
+    @organization = @organization.decorate
+    @document = @organization.logo || @organization.build_logo
+    @document_form_url = documents_path(parent_type: 'Organization', parent_id: @organization.id)
   end
 
   # PATCH/PUT /:organization_slug

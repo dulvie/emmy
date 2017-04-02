@@ -19,10 +19,11 @@ class Organization < ActiveRecord::Base
   BANK_FIELDS = %w(vat_number bankgiro plusgiro postgiro iban swift)
 
   attr_accessible :email, :name, :address, :zip, :organization_type, :organization_number,
-                  :vat_number, :bankgiro, :postgiro, :plusgiro, :city, :swift, :iban
+                  :vat_number, :bankgiro, :postgiro, :plusgiro, :city, :swift, :iban, :logo
 
   has_many :organization_roles
   has_many :users, through: :organization_roles
+  has_one :logo, as: :parent, dependent: :delete, class_name: 'Document'
 
   [:accounting_classes, :accounting_groups, :accounting_periods, :accounting_plans, :accounts,
    :bank_file_transactions, :batches, :batch_transactions, :closing_balances, :comments,
@@ -52,5 +53,14 @@ class Organization < ActiveRecord::Base
 
   def generate_slug
     self.slug = name.parameterize if name
+  end
+
+  # logo.nil? == true means there is no logo.
+  def logo?
+    !logo.nil? && logo.upload.file?
+  end
+
+  def parent_name
+    name
   end
 end

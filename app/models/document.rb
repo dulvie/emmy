@@ -13,7 +13,7 @@ class Document < ActiveRecord::Base
   attr_accessible :name, :user, :parent, :user_id, :parent_id, :parent_type, :upload
 
   validates_attachment_content_type :upload, content_type: ['application/pdf', 'image/jpeg', 'image/png']
-  VALID_PARENT_TYPES = ['Purchase', 'nil']
+  VALID_PARENT_TYPES = ['Purchase', 'Organization', 'nil']
 
   # Callbacks
   before_save :name_fallback

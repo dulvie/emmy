@@ -1,1 +1,14 @@
-= render 'form'
+%ul{:class => 'nav nav-tabs'}
+  %li.active= link_to t(:base_information), "#organization-form", {"data-toggle" => "tab"}
+  %li= link_to t(:logo), "#logo-form", {"data-toggle" => "tab"}
+.tab-content.after-nav-tabs
+  #organization-form.tab-pane.active
+    = render 'form'
+  #logo-form.tab-pane
+    - unless @organization.logo_url.blank?
+      .show-organization-logo
+        = image_tag @organization.logo_url
+    = render 'documents/form'
+    - unless @organization.logo_url.blank?
+      .button-wrapper
+        = link_to t(:delete_to_upload_new_logo), @organization.logo, method: :delete, class: 'btn btn-primary'
