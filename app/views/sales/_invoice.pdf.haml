@@ -9,8 +9,12 @@
     %td{colspan: '2'}
       .pull-left
         %h1= t(:invoice)
-      .pull-right.logo
-        %h1= (organization.logo?) ? image_tag(organization.logo_path) : organization.name
+      - if organization.logo?
+        .pull-right.logo
+          %h1= image_tag(organization.logo_path)
+      - else
+        .pull-right
+          %h1= organization.name
   %tr
     %td
       %h3
