@@ -1,4 +1,5 @@
 - customer = sale.customer.decorate
+- organization = sale.organization.decorate
 - if sale.canceled?
   .watermark
     =t(:canceled_invoice_mark)
@@ -8,8 +9,8 @@
     %td{colspan: '2'}
       .pull-left
         %h1= t(:invoice)
-      .pull-right
-        %h1= sale.organization.name
+      .pull-right.logo
+        %h1= (organization.logo?) ? image_tag(organization.logo_path) : organization.name
   %tr
     %td
       %h3

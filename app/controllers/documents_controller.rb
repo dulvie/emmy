@@ -30,6 +30,9 @@ class DocumentsController < ApplicationController
       @document.parent_type = 'nil'
       @document.parent_id = 0
       redirect_path = documents_path
+    elsif @parent.class.name == 'Organization'
+      @document = @parent.build_logo document_params
+      redirect_path = organization_path
     else
       @document = @parent.documents.build document_params
       redirect_path = edit_polymorphic_path(@parent)
@@ -61,6 +64,8 @@ class DocumentsController < ApplicationController
   def destroy
     if @parent.nil?
       redirect_path = documents_path
+    elsif @parent.class.name == 'Organization'
+      redirect_path = organization_path
     else
       redirect_path = edit_polymorphic_path(@parent)
     end
@@ -70,6 +75,8 @@ class DocumentsController < ApplicationController
 
   private
 
+  # @TODO document/ensure there is no authorization/security issue with this method.
+  #       i.e. it only does #authorize! if the parent_type is not the STRING 'nil'.
   def find_and_authorize_parent
     # if comment exists, but no parent_type, add from comment.
     if !params.key?(:parent_type) && !@document.nil?
@@ -101,8 +108,12 @@ class DocumentsController < ApplicationController
 
   def show_breadcrumbs
     if !@parent.nil?
-      @breadcrumbs = [["#{@document.parent_type.pluralize}", send("#{@parent.class.name.downcase}s_path")],
-                      [@document.parent_name, @document.parent], ["#{t(:documents)}(#{@document.name})"]]
+      if @parent.class.name == 'Organization'
+        organization_breadcrumbs
+      else
+        @breadcrumbs = [["#{@document.parent_type.pluralize}", send("#{@parent.class.name.downcase}s_path")],
+                        [@document.parent_name, @document.parent], ["#{t(:documents)}(#{@document.name})"]]
+      end
     else
       @breadcrumbs = [["#{@document.class.name.pluralize}", send("#{@document.class.name.downcase}s_path")],
                       ["#{t(:documents)}(#{@document.name})"]]
@@ -111,11 +122,20 @@ class DocumentsController < ApplicationController
 
   def new_breadcrumbs
     if !@parent.nil?
-      @breadcrumbs = [["#{@parent.class.name.pluralize}", send("#{@parent.class.name.downcase}s_path")],
-                      [@parent.parent_name, @parent], ["#{t(:new)} #{t(:document)}"]]
+      if @parent.class.name == 'Organization'
+        organization_breadcrumbs
+      else
+        @breadcrumbs = [["#{@parent.class.name.pluralize}", send("#{@parent.class.name.downcase}s_path")],
+                        [@parent.parent_name, @parent], ["#{t(:new)} #{t(:document)}"]]
+      end
     else
       @breadcrumbs = [["#{@document.class.name.pluralize}", send("#{@document.class.name.downcase}s_path")],
                       ["#{t(:new)} #{t(:document)}"]]
     end
+  end
+
+  def organization_breadcrumbs
+    @breadcrumbs = [[@parent.name, organization_path],
+                    ["#{t(:documents)}(#{@document.name})"]]
   end
 end
