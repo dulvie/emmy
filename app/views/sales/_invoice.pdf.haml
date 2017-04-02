@@ -65,7 +65,7 @@
               %td.numeric
                 = "(#{item.vat}%) "
                 = as_sek(item.total_vat, '')
-              %td.numeric= as_sek(item.price_sum, '')
+              %td.numeric= as_sek((item.price_sum + item.total_vat), '')
           %tr.filler
             %td{colspan: '5'} &nbsp;
         %tfoot
