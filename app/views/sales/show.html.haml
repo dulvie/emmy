@@ -1,3 +1,13 @@
+.search-by-invoice-number
+  = form_tag sales_path, class: 'form-inline submit-on-change', method: :get do
+    .input-group
+      = text_field_tag('invoice_number',
+        params[:invoice_number],
+        placeholder: t(:invoice_search),
+        class: 'form-control')
+      .span.input-group-btn
+        = button_tag(search_icon, class: 'btn btn-default')
+
 = render partial: 'form'
 
 .form-horizontal
