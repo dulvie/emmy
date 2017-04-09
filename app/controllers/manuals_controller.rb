@@ -8,6 +8,7 @@ class ManualsController < ApplicationController
   def index
     @breadcrumbs = [['Manuals']]
     @manuals = current_organization.manuals.page(params[:page])
+                                           .order('created_at desc')
   end
 
   # GET /manuals/1
