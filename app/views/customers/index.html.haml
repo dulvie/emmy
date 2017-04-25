@@ -3,7 +3,8 @@
     = link_to "#{t(:create)} #{t(:customer)}", new_customer_path, class: 'btn btn-success'
 
   .col-sm-40.col-md-40.pull-right.text-right
-    = form_tag customers_path, class: 'form-inline submit-on-change', method: :get do
+    = form_tag customers_path, class: 'form-inline submit-on-change', method: :get, enforce_utf8: false do
+      = text_field_tag('locale' , params[:locale], type:'hidden')
       .input-group
         = text_field_tag('q',
           params[:q],

@@ -2,7 +2,8 @@
   .col-sm-8.col-md-5.pull-left
     = link_to "#{t(:create)} #{t(:sale)}", new_sale_path, class: 'btn btn-success'
   .col-sm-40.col-md-40.pull-right.text-right
-    = form_tag sales_path, class: 'form-inline submit-on-change', method: :get do
+    = form_tag sales_path, class: 'form-inline submit-on-change', method: :get, enforce_utf8: false do
+      = text_field_tag('locale' , params[:locale], type:'hidden')
 
       = select_tag(:newer_than,
         options_for_select(months_list, params[:newer_than]),
