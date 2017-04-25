@@ -3,7 +3,8 @@
   = link_to "#{t(:create)} #{t(:tax_return)}", url, class: 'btn btn-success'
 
 .col-sm-40.col-md-40.pull-right.text-right
-  = form_tag tax_returns_path, class: 'form-inline submit-on-change', method: :get do
+  = form_tag tax_returns_path, class: 'form-inline submit-on-change', method: :get, enforce_utf8: false  do
+    = text_field_tag('locale' , params[:locale], type:'hidden')
     = select_tag(:accounting_period_id,
       options_for_select(@accounting_periods.each.collect{|w| [w.name, w.id]}, params[:accounting_period_id]),
       class: 'btn btn-default')

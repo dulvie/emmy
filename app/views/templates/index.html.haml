@@ -4,7 +4,8 @@
   = link_to "#{t(:import)} #{t(:templates)}", templates_import_path + "&accounting_plan_id={{plan}}", class: 'btn btn-default', method: 'post'
 
   .col-sm-30.col-md-30.pull-right.text-right
-    = form_tag templates_path, class: 'form-inline submit-on-change', method: :get do
+    = form_tag templates_path, class: 'form-inline submit-on-change', method: :get, enforce_utf8: false do
+      = text_field_tag('locale' , params[:locale], type:'hidden')
       = select_tag(:accounting_plan_id,
         options_for_select(@accounting_plans.each.collect{|w| [w.name, w.id]}, params[:accounting_plan_id]),
         ng_model: 'plan',

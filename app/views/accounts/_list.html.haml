@@ -3,7 +3,8 @@
   = link_to "#{t(:disable)} #{t(:accounts)}", accounting_plan_disable_accounts_path(@accounting_plan), class: 'btn btn-success', method: 'post', disabled: !@accounting_plan.disable_accounts?
 
 .col-sm-40.col-md-40.pull-right.text-right
-  = form_tag accounting_plan_path(@accounting_plan), class: 'form-inline submit-on-change', method: :get do
+  = form_tag accounting_plan_path(@accounting_plan), class: 'form-inline submit-on-change', method: :get,  enforce_utf8: false  do
+    = text_field_tag('locale' , params[:locale], type:'hidden')
     .input-group
       = text_field_tag('account_number',
         params[:account_number],
