@@ -10,8 +10,28 @@
 
   = f.input :quantity, disabled: !@manual.new_record?, :input_html => {:class => 'numeric'}
   - if @manual.new_record?
+    = f.input :unit, input_html: {value: '', disabled: true, class: 'short'}
+  - else
+    = f.input :unit, input_html: {value: f.object.batch.unit.name, disabled: true, class: 'short'}
+
+  - if @manual.new_record?
     = f.simple_fields_for :comments do |c|
       = c.input :body, as: :text
     .form-button-group
       .actions
         = f.submit class: 'btn btn-primary'
+
+:javascript
+  $(document).ready(function() {
+    $('#manual_batch_id').change(function() {
+      var batch_id = $('#manual_batch_id').val();
+      $('#manual_unit').val(get_unit(batch_id));
+    });
+    function get_unit(batch_id) {
+      for (i = 0; i < gon.batches.length; ++i) {
+        if (gon.batches[i].id == batch_id)
+          return gon.batches[i].unit.name;
+      }
+      return 'nn';
+    };
+  });

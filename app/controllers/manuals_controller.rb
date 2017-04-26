@@ -28,6 +28,7 @@ class ManualsController < ApplicationController
     init_collection
     @manual.batch_transaction = BatchTransaction.new
     @manual.comments.build
+    gon.push batches: ActiveModel::ArraySerializer.new(@batches, each_serializer: BatchSerializer)
   end
 
   # POST /manuals
@@ -40,6 +41,7 @@ class ManualsController < ApplicationController
         # format.json { render action: 'show', status: :created, location: @manual }
       else
         init_collection
+        gon.push batches: ActiveModel::ArraySerializer.new(@batches, each_serializer: BatchSerializer)
         format.html { render action: 'new' }
         # format.json { render json: @manual.errors, status: :unprocessable_entity }
       end
