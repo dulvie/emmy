@@ -7,7 +7,7 @@
     %th
   - shelves.each do |shelf|
     %tr
-      %td= shelf.name
+      %td= link_to shelf.name, batch_path(shelf.batch_id)
       %td= shelf.incoming
       %td= shelf.quantity
       %td= shelf.outgoing
