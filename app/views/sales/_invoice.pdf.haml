@@ -1,5 +1,8 @@
 - customer = sale.customer.decorate
 - organization = sale.organization.decorate
+- comment = ''
+- if sale.comments.first
+  - comment = sale.comments.first.body
 - if sale.canceled?
   .watermark
     =t(:canceled_invoice_mark)
@@ -68,6 +71,10 @@
               %td.numeric= as_sek(item.price_sum, '')
           %tr.filler
             %td{colspan: '5'} &nbsp;
+          %tr
+            %td{colspan: '5'}
+              = comment
+
         %tfoot
           %tr.total
             %td.numeric{colspan: '4'}= "#{t(:total)} ex #{t(:vat)}"

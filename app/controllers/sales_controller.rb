@@ -38,7 +38,13 @@ class SalesController < ApplicationController
     @sale.customer_id = params[:customer_id] if params[:customer_id]
   end
 
+  # returnpath from adding comments
+  def edit
+    redirect_to sale_path(@sale)
+  end
+
   def show
+    @object = @sale
     @sale = @sale.decorate
     respond_to do |format|
       format.html { @warehouses = current_organization.warehouses }

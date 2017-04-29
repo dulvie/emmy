@@ -1,28 +1,53 @@
-.search-by-invoice-number
-  = form_tag sales_path, class: 'form-inline submit-on-change', method: :get do
-    .input-group
-      = text_field_tag('invoice_number',
-        params[:invoice_number],
-        placeholder: t(:invoice_search),
-        class: 'form-control')
-      .span.input-group-btn
-        = button_tag(search_icon, class: 'btn btn-default')
+%ul{:class => 'nav nav-tabs'}
+  %li.active= link_to t(:base_information), "#sale-form", {"data-toggle" => "tab"}
+  %li= link_to t(:comments), "#comment-index", {"data-toggle" => "tab"}
 
-= render partial: 'form'
+.tab-content
+  #sale-form.tab-pane.active
+    .search-by-invoice-number
+      = form_tag sales_path, class: 'form-inline submit-on-change', method: :get do
+        .input-group
+          = text_field_tag('invoice_number',
+            params[:invoice_number],
+            placeholder: t(:invoice_search),
+            class: 'form-control')
+          .span.input-group-btn
+            = button_tag(search_icon, class: 'btn btn-default')
+    %br
+    = render partial: 'form'
 
-.form-horizontal
-  .form-group
-    .labels_width.control-label
-      %label= t(:form_items)
-    .fields_width
-      = render partial: 'sale_items/list', locals: {sale_items: @sale.sale_items}
+    .form-horizontal
+      .form-group
+        .labels_width.control-label
+          %label= t(:form_items)
+        .fields_width
+          = render partial: 'sale_items/list', locals: {sale_items: @sale.sale_items}
 
-  - if @sale.has_document?
-    .labels_width.control-label
-      %label= "PDF #{t(:invoice)}"
-    .fields_width.form-control-static
-      = link_to doc_icon, sale_path(@sale, format: 'pdf'), target: '_blank'
-      = link_to refresh_icon, regenerate_invoice_sale_path(@sale), method: :post
+      - if @sale.has_document?
+        .labels_width.control-label
+          %label= "PDF #{t(:invoice)}"
+        .fields_width.form-control-static
+          = link_to doc_icon, sale_path(@sale, format: 'pdf'), target: '_blank'
+          = link_to refresh_icon, regenerate_invoice_sale_path(@sale), method: :post
 
-- if @sale.can_edit_items? or @sale.sale_items.count > 0 && !@sale.completed? && !@sale.canceled?
-  = render partial: 'action_buttons'
+    - if @sale.can_edit_items? or @sale.sale_items.count > 0 && !@sale.completed? && !@sale.canceled?
+      = render partial: 'action_buttons'
+
+  #comment-index.tab-pane
+    = render partial: 'comments/index', locals: {comments: @object.comments, parent: @object}
+
+:javascript
+  $(document).ready(function() {
+
+  $('a[data-toggle="tab"]').on("click", function(e) {
+   localStorage.setItem('sale_tab', $(e.target).attr("href").substr(1));
+  });
+
+  var lastTab = localStorage.getItem('sale_tab');
+  if (lastTab) {
+    $('ul.nav-tabs').children().removeClass('active');
+    $('a[href="#'+ lastTab +'"]').parents('li:first').addClass('active');
+    $('div.tab-content').children().removeClass('active');
+    $('#'+lastTab).addClass('active');
+  }
+  });

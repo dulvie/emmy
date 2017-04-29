@@ -46,6 +46,7 @@ class Sale < ActiveRecord::Base
   has_many :sale_items, dependent: :delete_all
   has_many :from_transaction, class_name: 'BatchTransaction', as: :parent
   has_one :document, as: :parent, dependent: :delete
+  has_many :comments, as: :parent
 
   attr_accessible :warehouse_id, :customer_id, :contact_email, :contact_name, :contact_telephone,
                   :payment_term
@@ -358,5 +359,9 @@ class Sale < ActiveRecord::Base
   # Callback: after_initialize
   def default_values
     self.payment_term = DEFAULT_PAYMENT_TERM
+  end
+
+  def parent_name
+    '#'+id.to_s
   end
 end
