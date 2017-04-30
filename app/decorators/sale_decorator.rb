@@ -110,6 +110,8 @@ class SaleDecorator < Draper::Decorator
   end
 
   def user_name
+    user_contact = object.user.contacts.first
+    return user_contact.name if user_contact
     object.user.name
   end
 
