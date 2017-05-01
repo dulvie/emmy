@@ -5,6 +5,7 @@ class Sale < ActiveRecord::Base
   # t.integer :organization_id
   # t.string :contact_email
   # t.string :contact_name
+  # t.text    :invoice_text
   # t.integer :payment_term
 
   # t.string :state
@@ -49,7 +50,7 @@ class Sale < ActiveRecord::Base
   has_many :comments, as: :parent
 
   attr_accessible :warehouse_id, :customer_id, :contact_email, :contact_name, :contact_telephone,
-                  :payment_term
+                  :payment_term, :invoice_text
 
   attr_accessor :custom_error
 
@@ -362,6 +363,6 @@ class Sale < ActiveRecord::Base
   end
 
   def parent_name
-    '#'+id.to_s
+    '#'+self.invoice_number.to_s
   end
 end

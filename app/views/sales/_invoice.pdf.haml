@@ -1,8 +1,5 @@
 - customer = sale.customer.decorate
 - organization = sale.organization.decorate
-- comment = ''
-- if sale.comments.first
-  - comment = sale.comments.first.body
 - if sale.canceled?
   .watermark
     =t(:canceled_invoice_mark)
@@ -73,7 +70,8 @@
             %td{colspan: '5'} &nbsp;
           %tr
             %td{colspan: '5'}
-              = comment
+              %p{style:"white-space: pre-line;"}
+                = sale.invoice_text
 
         %tfoot
           %tr.total

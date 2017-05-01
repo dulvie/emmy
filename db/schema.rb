@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170319155846) do
+ActiveRecord::Schema.define(version: 20170501155846) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -178,6 +178,19 @@ ActiveRecord::Schema.define(version: 20170319155846) do
     t.datetime "updated_at"
   end
 
+  create_table "csv_transactions", force: :cascade do |t|
+    t.string   "directory",            limit: 255
+    t.string   "file_name",            limit: 255
+    t.string   "execute",              limit: 255
+    t.string   "csv_type",             limit: 255
+    t.boolean  "complete"
+    t.integer  "accounting_period_id"
+    t.integer  "organization_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "customers", force: :cascade do |t|
     t.integer  "organization_id",                null: false
     t.string   "address",            limit: 255
@@ -201,11 +214,11 @@ ActiveRecord::Schema.define(version: 20170319155846) do
     t.string   "name"
     t.string   "file_name"
     t.string   "run_type"
-    t.string   "state"
     t.integer  "accounting_plan_id"
     t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "state"
   end
 
   create_table "default_codes", force: :cascade do |t|
@@ -278,9 +291,9 @@ ActiveRecord::Schema.define(version: 20170319155846) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "state"
-    t.string   "download_file_name"
-    t.string   "download_content_type"
+    t.string   "state",                 limit: 255
+    t.string   "download_file_name",    limit: 255
+    t.string   "download_content_type", limit: 255
     t.integer  "download_file_size"
     t.datetime "download_updated_at"
   end
@@ -617,6 +630,7 @@ ActiveRecord::Schema.define(version: 20170319155846) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "canceled_at"
+    t.text     "invoice_text"
   end
 
   create_table "shelves", force: :cascade do |t|
