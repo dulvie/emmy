@@ -201,11 +201,11 @@ ActiveRecord::Schema.define(version: 20170501155846) do
     t.string   "name"
     t.string   "file_name"
     t.string   "run_type"
+    t.string   "state"
     t.integer  "accounting_plan_id"
     t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "state"
   end
 
   create_table "default_codes", force: :cascade do |t|
@@ -278,9 +278,9 @@ ActiveRecord::Schema.define(version: 20170501155846) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "state",                 limit: 255
-    t.string   "download_file_name",    limit: 255
-    t.string   "download_content_type", limit: 255
+    t.string   "state",
+    t.string   "download_file_name",
+    t.string   "download_content_type",
     t.integer  "download_file_size"
     t.datetime "download_updated_at"
   end
