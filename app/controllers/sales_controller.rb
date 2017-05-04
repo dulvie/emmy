@@ -39,7 +39,7 @@ class SalesController < ApplicationController
   end
 
   def show
-    @object = @sale
+    @non_decorated_sale = @sale
     @sale = @sale.decorate
     respond_to do |format|
       format.html { @warehouses = current_organization.warehouses }

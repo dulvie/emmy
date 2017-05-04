@@ -34,7 +34,7 @@
       = render partial: 'action_buttons'
 
   #comment-index.tab-pane
-    = render partial: 'comments/index', locals: {comments: @object.comments, parent: @object}
+    = render partial: 'comments/index', locals: {comments: @non_decorated_sale.comments, parent: @non_decorated_sale}
 
 :javascript
   $(document).ready(function() {
