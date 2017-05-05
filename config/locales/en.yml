@@ -24,6 +24,7 @@ en:
   about_lead_text: "Emmy is an app to handle logistics (warehouse, sales etc) for a small organization that is importing, refining and selling some kind of product."
   about_sub_text: "It's currently in beta, if you already have an account please"
   account: "Account"
+  account_date: "Account date"
   account_number: "Account"
   account_text: "Description"
   accounts: "Accounts"

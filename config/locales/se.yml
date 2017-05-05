@@ -3,6 +3,7 @@ se:
   about_lead_text: "Emmy är en applikation för att hantera logistik (lager, försäljning etc) för små organisationer som importerar, raffinerar och säljer någon typ av produkt"
   about_sub_text: "Det är fortfarande i beta, om du har ett konto kan du"
   account: "Konto"
+  account_date: "Bokföringsdatum"
   account_number: "Konto"
   account_text: "Beskrivning"
   accounts: "Konton"
