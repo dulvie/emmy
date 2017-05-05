@@ -5,6 +5,7 @@ class Sale < ActiveRecord::Base
   # t.integer :organization_id
   # t.string :contact_email
   # t.string :contact_name
+  # t.text    :invoice_text
   # t.integer :payment_term
 
   # t.string :state
@@ -46,9 +47,10 @@ class Sale < ActiveRecord::Base
   has_many :sale_items, dependent: :delete_all
   has_many :from_transaction, class_name: 'BatchTransaction', as: :parent
   has_one :document, as: :parent, dependent: :delete
+  has_many :comments, as: :parent
 
   attr_accessible :warehouse_id, :customer_id, :contact_email, :contact_name, :contact_telephone,
-                  :payment_term
+                  :payment_term, :invoice_text
 
   attr_accessor :custom_error
 
@@ -358,5 +360,9 @@ class Sale < ActiveRecord::Base
   # Callback: after_initialize
   def default_values
     self.payment_term = DEFAULT_PAYMENT_TERM
+  end
+
+  def parent_name
+    '#'+self.invoice_number.to_s
   end
 end

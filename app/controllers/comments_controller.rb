@@ -58,7 +58,7 @@ class CommentsController < ApplicationController
     if @parent.nil?
       return comments_path
     else
-      if [:inventory, :customer].include?(@parent.class.name.downcase.to_sym)
+      if [:inventory, :customer, :sale].include?(@parent.class.name.downcase.to_sym)
         return @parent
       else
         return edit_polymorphic_path(@parent)

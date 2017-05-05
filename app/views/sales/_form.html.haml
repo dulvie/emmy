@@ -12,6 +12,7 @@
     = f.input :contact_email, disabled: true
     = f.input :contact_telephone, disabled: true
 
+  = f.input :invoice_text, disabled: !@sale.new_record?
   = f.input :payment_term, disabled: !@sale.new_record?, :input_html =>{:class=>'numeric form_control'}
 
   - if @sale.new_record?

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170319155846) do
+ActiveRecord::Schema.define(version: 20170501155846) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -278,9 +278,9 @@ ActiveRecord::Schema.define(version: 20170319155846) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "state"
-    t.string   "download_file_name"
-    t.string   "download_content_type"
+    t.string   "state",
+    t.string   "download_file_name",
+    t.string   "download_content_type",
     t.integer  "download_file_size"
     t.datetime "download_updated_at"
   end
@@ -617,6 +617,7 @@ ActiveRecord::Schema.define(version: 20170319155846) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "canceled_at"
+    t.text     "invoice_text"
   end
 
   create_table "shelves", force: :cascade do |t|
