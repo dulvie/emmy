@@ -10,7 +10,7 @@ cd $EXEC_DIR
 shared_dirs="log tmp public/system"
 shared_files="config/environments/production.rb"
 
-for file_path in $shared_files do
+for file_path in $shared_files ; do
   [ ! -f "$SHARED_DIR/$file_path" ] && echo "no file at $SHARED_DIR/$file_path, not symlinkin..." && continue
   [ -f "$file_path" ] && (set -x ; rm "$file_path")
   (set -x ; ln -sf "$SHARED_DIR/$file_path" "$file_path")
