@@ -63,7 +63,7 @@ class VatPeriod < ActiveRecord::Base
     before_transition on: :mark_closed, do: :close
 
     event :mark_calculated do
-      transition preliminary: :start_calculation
+      transition [:preliminary, :calculated] => :start_calculation
     end
     event :finnish_calculation do
       transition start_calculation: :calculated
