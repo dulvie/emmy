@@ -233,6 +233,7 @@ se:
   name_search: "Namnsök"
   ne_code: "NE kod"
   ne_code_header: "NE kod huvud"
+  ne_code_info: "Deklaration av enskild firma görs med NE-blanketter. Funktionen kopplar rutor i inkomstdeklarationen till konton. Den så kallade SRU-kopplingen, Standardiserad RäkenskapsUtdrag. "
   ne_codes: "Skattedekl. - NE koder"
   next: "Nästa"
   new: "Ny"

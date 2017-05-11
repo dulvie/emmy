@@ -254,6 +254,7 @@ en:
   name_search: "Name Search"
   ne_code: "NE code"
   ne_code_header: "Ne code header"
+  ne_code_info: "Declaration of individual company is made with NE forms. The function links boxes in the revenue declaration to accounts. The so-called SRU link, Standardized Accounts Extraction."
   ne_codes: "Declarations - NE codes"
   next: "Next"
   new: "New"
