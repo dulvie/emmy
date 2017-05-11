@@ -200,7 +200,7 @@ en:
   ink_code: "Ink code"
   ink_code_file: "select file by the declaration to be used. Sole proprietorship using the NE-codes. "
   ink_code_header: "Ink code header"
-  ink_code_info: "The function couples accounts with boxes (code) into the tax forms. The so-called SRU link, Standardized Accounts. The declaration is made with different forms depending on the company type."
+  ink_code_info: "In order to facilitate and make suggestions for income declarations, accounts are linked together with boxes (code) in the tax forms. The so-called SRU link, Standardized Accounts Extraction. The declaration is made with different forms depending on the company type."
   ink_code_INK2: "For Company Companies and Economic Associations, Income Declaration 2 (INK2) applies."
   ink_code_INK3: "For Ideal Societies, Income Declaration 3 (INK3) applies."
   ink_code_INK4: "For Trading Company, Income Declaration 4 (INK4) applies."

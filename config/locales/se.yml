@@ -179,7 +179,7 @@ se:
   ink_code: "INK kod"
   ink_code_file: "Välj file utifrån den deklarationsblankett som ska användas. Enskild firma använder NE-koder. "
   ink_code_header: "Ink kod huvud"
-  ink_code_info: "Funktionen kopplar ihop konton med rutor (kod) i skatteblanketterna. Den så kallade SRU-kopplingen, Standardiserad räkenskapsutdrag. Deklarationen sker med olika blanketter beroende på företagstyp."
+  ink_code_info: "För att underlätta och ge förslag på inkomstdeklaration kopplas konton ihop med rutor (kod) i skatteblanketterna. Den så kallade SRU-kopplingen, Standardiserad RäkenskapsUtdrag. Deklarationen sker med olika blanketter beroende på företagstyp."
   ink_code_INK2: "För Aktiebolag och ekonomiska föreningar gäller Inkomstdeklaration 2 (INK2)."
   ink_code_INK3: "För Ideella föreningar gäller Inkomstdeklaration 3 (INK3)."
   ink_code_INK4: "För Handelsbolag gäller Inkomstdeklaration 4 (INK4)."
