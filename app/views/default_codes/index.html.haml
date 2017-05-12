@@ -1,25 +1,29 @@
-.input-group.full-width
-  = link_to "#{t(:create)} #{t(:default_code)}", new_default_code_path, class: 'btn btn-success'
-  = link_to "#{t(:import)} #{t(:default_codes)}", new_default_code_header_path, class: 'btn btn-default'
+%div{ng_controller: 'default_code_index_ctrl' }
+  .input-group.full-width
+    = link_to "#{t(:create)} #{t(:default_code)}", new_default_code_path, class: 'btn btn-success'
+    = link_to "#{t(:import)} #{t(:default_codes)}", new_default_code_header_path, class: 'btn btn-default'
+    = info_modal_for('default_codes')
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
-  %table{:class => 'table table-striped'}
-    %thead
-      %tr
-        %th.numeric= t(:code)
-        %th= t(:text)
-        %th= t(:accounts)
-        %th
-    %tbody{}
-      - @default_codes.each do |default_code|
+  .table-responsive{:ng_controller=>'ModalCtrl'}
+    %table{:class => 'table table-striped'}
+      %thead
         %tr
-          %td.numeric= default_code.code
-          %td= default_code.text
-          %td= link_to link_icon, default_code_path(default_code)
-          %td= link_to settings_icon, edit_default_code_path(default_code)
-          %td= delete_modal_for default_code
+          %th.numeric= t(:code)
+          %th= t(:text)
+          %th= t(:accounts)
+          %th
+      %tbody{}
+        - @default_codes.each do |default_code|
+          %tr
+            %td.numeric= default_code.code
+            %td= default_code.text
+            %td= link_to link_icon, default_code_path(default_code)
+            %td= link_to settings_icon, edit_default_code_path(default_code)
+            %td= delete_modal_for default_code
 
-  = paginate @default_codes, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
-  = render partial: 'shared/modal_state_refresh', locals:{idx: 'refresh_id', obj: @default_code_header, back: new_default_code_header_path, path: default_codes_path}
-= render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'economics'
+    = paginate @default_codes, :theme => 'twitter-bootstrap-3'
+    = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+    = render partial: 'shared/modal_state_refresh', locals:{idx: 'refresh_id', obj: @default_code_header, back: new_default_code_header_path, path: default_codes_path}
+  = render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'economics'
+  = render partial: 'shared/modal_info', locals: {idx: 'infoContent'}
+  = render partial: 'info'

@@ -129,6 +129,7 @@ en:
   default_code: "Default code"
   default_code_header: "Default code header"
   default_code_missing: "Default code missing"
+  default_code_info: "To enable automation, accounts must be linked to data needed for automatic posting. Areas where automation is done is sales, purchase and inventory valuation."
   default_codes: "Automatic coding - codes"
   default_codes_missing: "Default codes missing"
   delete_to_upload_new_logo: "Delete to upload new logo"
