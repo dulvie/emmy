@@ -1,0 +1,40 @@
+.row
+  .col-sm-40.col-md-40.pull-right.text-right
+    = form_tag reports_sale_statistics_path, class: 'form-inline submit-on-change', method: :get, enforce_utf8: false do
+      = text_field_tag('locale' , params[:locale], type:'hidden')
+
+      = select_tag(:newer_than,
+        options_for_select(months_list, params[:newer_than]),
+        class: 'btn btn-default',
+        prompt: "#{t(:filter)} #{t(:newer_than)}: #{t(:all)}")
+
+      = select_tag(:older_than,
+        options_for_select(months_list, params[:older_than]),
+        class: 'btn btn-default',
+        prompt: "#{t(:filter)} #{t(:older_than)}: #{t(:all)}")
+
+.table-responsive
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:warehouse)
+        %th= t(:num_sales)
+        %th= t(:batch)
+        %th= t(:num_pkg)
+        %th= t(:sum_amount)
+    %tbody
+      - @sale_stats.each do |sale_stat|
+        %tr
+          %td= link_to sale_stat.warehouse.name, warehouse_path(sale_stat.warehouse)
+          %td= sale_stat.num_sales
+          %td= sale_stat.batch_names
+          %td= sale_stat.num_pkg
+          %td= as_sek(sale_stat.sum_amount)
+
+    %tfoot
+      %tr
+        %th= t(:sum)
+        %th= @sale_stat_sum.num_sales
+        %th= @sale_stat_sum.batch_names
+        %th= @sale_stat_sum.num_pkg
+        %th= as_sek(@sale_stat_sum.sum_amount)

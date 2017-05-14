@@ -137,6 +137,7 @@ Emmy::Application.routes.draw do
     get 'reports/order_ledger_report'
     get 'reports/order_result_report'
     get 'reports/order_balance_report'
+    get 'reports/sale_statistics'
     post 'reports/verificates'
     post 'reports/ledger'
     post 'reports/result_report'

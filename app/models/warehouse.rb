@@ -13,6 +13,7 @@ class Warehouse < ActiveRecord::Base
   has_many :comments, as: :parent
   has_many :batch_transactions
   has_many :manuals, through: :batch_transactions, source: :parent, source_type: 'Manual'
+  has_many :sales
 
   attr_accessible :name, :address, :zip, :city, :primary_contact_id
 

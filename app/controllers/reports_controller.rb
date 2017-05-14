@@ -159,6 +159,18 @@ class ReportsController < ApplicationController
     end
   end
 
+  def sale_statistics
+    @breadcrumbs = [[t(:sale_statistics)]]
+    # Statistics::SaleStat.from_params will return early if params[..].blank?
+    @sale_stats = Statistics::SaleStat.list_from_params(current_organization,
+                                                   params[:newer_than],
+                                                   params[:older_than])
+    @sale_stat_sum = Statistics::SaleStat.as_sumarized(@sale_stats)
+    respond_to do |format|
+      format.html
+    end
+  end
+
   private
 
   def load_accounting_period
