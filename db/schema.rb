@@ -278,9 +278,9 @@ ActiveRecord::Schema.define(version: 20170501155846) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "state",
-    t.string   "download_file_name",
-    t.string   "download_content_type",
+    t.string   "state"
+    t.string   "download_file_name"
+    t.string   "download_content_type"
     t.integer  "download_file_size"
     t.datetime "download_updated_at"
   end
