@@ -111,10 +111,7 @@ app.controller('sale_items_new_ctrl', function ($scope, $modal, price) {
 		modalInstance.result.then(function (selectedItem) {
 			$scope.selected = selectedItem;
 		}, function () {
-			//$log.info('Modal dismissed at: ' + new Date());
 		});
-		//$event.preventDefault();
-		//$event.stopPropagation();
 	};
 
 });

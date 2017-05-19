@@ -1,4 +1,4 @@
-app.controller('import_bank_file_upload_ctrl', function ($scope, $modal, $sce) {
+app.controller('ne_code_index_ctrl', function ($scope, $modal, $sce) {
 
   $scope.show_info = function($event, info) {
     $scope.open_info('mb', 'infoContent', info);

@@ -27,8 +27,6 @@ app.controller('contact_relations_form_ctrl', function ($scope) {
 	    }
 	};
 	$scope.new_contact = function ($event) {
-		//$('#contact_id').val(0);
-		//$event.preventDefault();
-	    //$event.stopPropagation();
+
 	}
 });
