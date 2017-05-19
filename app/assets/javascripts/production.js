@@ -199,9 +199,6 @@ app.controller('production_batch_ctrl', function ($scope, price, $modal, $sce) {
         modalInstance.result.then(function (selectedItem) {
             $scope.selected = selectedItem;
         }, function () {
-            //$log.info('Modal dismissed at: ' + new Date());
         });
-        //$event.preventDefault();
-        //$event.stopPropagation();
     };
 });

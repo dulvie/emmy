@@ -40,10 +40,7 @@ app.controller('inventory_form_ctrl', function ($scope, $modal, $sce) {
         modalInstance.result.then(function (selectedItem) {
             $scope.selected = selectedItem;
         }, function () {
-            //$log.info('Modal dismissed at: ' + new Date());
         });
-        //$event.preventDefault();
-        //$event.stopPropagation();
     };
 
 });

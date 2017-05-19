@@ -64,9 +64,6 @@ app.controller('purchase_items_form_ctrl', function ($scope, $filter, price, $mo
         modalInstance.result.then(function (selectedItem) {
             $scope.selected = selectedItem;
         }, function () {
-            //$log.info('Modal dismissed at: ' + new Date());
         });
-        //$event.preventDefault();
-        //$event.stopPropagation();
     };
 });
