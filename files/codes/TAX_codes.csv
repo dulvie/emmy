@@ -23,6 +23,9 @@ code;99;Summa avgift och skatt att betala;total;wage
 code;100;Utgiftskonto sociala avgifter;none;default
 
 connect;Normal_20;3000;05
+connect;Normal_20;3001;05
+connect;Normal_20;3002;05
+connect;Normal_20;3003;05
 connect;Normal_20;2610;10
 connect;Normal_20;2620;11
 connect;Normal_20;2630;12
