@@ -107,6 +107,7 @@ Emmy::Application.routes.draw do
     end
     resources :ledger_transactions
     resources :manuals
+    resources :mail_templates
     resources :materials
     resources :ne_code_headers
     resources :ne_codes

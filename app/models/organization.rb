@@ -32,7 +32,7 @@ class Organization < ActiveRecord::Base
    :contact_relations, :contacts, :conversions, :customers, :default_code_headers,
    :default_codes, :documents, :employees, :export_bank_files, :export_bank_file_rows,
    :imports, :ink_code_headers, :ink_codes, :import_bank_files, :import_bank_file_rows,
-   :inventories, :items, :ledgers, :ledger_accounts, :ledger_transactions, :manuals,
+   :inventories, :items, :ledgers, :ledger_accounts, :ledger_transactions, :mail_templates, :manuals,
    :materials, :ne_code_headers, :ne_codes, :opening_balances, :opening_balance_items,
    :productions, :purchases, :purchase_items, :result_units, :shelves, :sales, :sale_items,
    :sie_exports, :sie_imports, :stock_values, :sie_transactions, :stock_value_items,

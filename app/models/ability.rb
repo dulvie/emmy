@@ -62,6 +62,7 @@ class Ability
     can :manage, Ledger, organization_id: oids
     can :manage, LedgerAccount, organization_id: oids
     can :manage, LedgerTransaction, organization_id: oids
+    can :manage, MailTemplate, organization_id: oids
     can :manage, Manual, organization_id: oids
     can :manage, Material, organization_id: oids
     can :manage, NeCode, organization_id: oids
