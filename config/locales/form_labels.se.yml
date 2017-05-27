@@ -61,6 +61,7 @@ se:
         invoice_text: "Extra fakturatext"
         item: "Artikel"
         item_id: "Artikel"
+        mail_template: "E-post mall"
         materials: "Material"
         name: "Namn"
         ne_code: "Inkomstdekl. (NE)"

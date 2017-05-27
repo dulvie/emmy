@@ -24,6 +24,7 @@ class SalesController < ApplicationController
     @breadcrumbs = [[t(:sales)]]
     @sales = @sales.order 'approved_at desc'
     @sales = @sales.page(params[:page]).decorate
+    @mail_templates = current_organization.mail_templates
     respond_to do |format|
       format.csv
       format.pdf do
@@ -36,11 +37,13 @@ class SalesController < ApplicationController
   def new
     @warehouses = current_organization.warehouses
     @sale.customer_id = params[:customer_id] if params[:customer_id]
+    @mail_templates = current_organization.mail_templates
   end
 
   def show
     @non_decorated_sale = @sale
     @sale = @sale.decorate
+    @mail_templates = current_organization.mail_templates
     respond_to do |format|
       format.html { @warehouses = current_organization.warehouses }
       format.pdf do
@@ -92,8 +95,9 @@ class SalesController < ApplicationController
 
   def send_email
     @sale = current_organization.sales.find(params[:id])
+    @mail_template = current_organization.mail_templates.find(params[:sale][:mail_template])
     authorize! :manage, @sale
-    if @sale.send_invoice!
+    if @sale.send_invoice!(@mail_template)
       flash[:notice] = t(:sent_email)
     else
       flash[:danger] = "#{t(:unable_to_send_email)}: #{@sale.errors[:custom_error].join(',')}"

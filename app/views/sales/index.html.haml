@@ -68,10 +68,11 @@
               = link_to doc_icon, sale_path(sale, format: 'pdf'), target: '_blank'
             - if sale.prepared?
               - unless sale.invoice_sent?
-                = link_to envelope_icon,
-                  send_email_sale_path(sale),
-                  method: 'post',
-                  data: {confirm: t(:send_email_to_customer)}
+                %button{:class=>'btn btn-xs', :ng_click=>"open($event, 'sm','dialogContent' )"}
+                  = envelope_icon
+                - title = t(:send_email_to_customer)
+                = render partial: 'shared/modal_dialog', locals: {idx: 'dialogContent', title: title, model: sale, select: 'mail_template', form_path: send_email_sale_path(sale), return_path: sales_path, collection: @mail_templates}
+
           %td= link_to settings_icon, sale
           %td= delete_modal_for sale
 
