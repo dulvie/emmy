@@ -1,1 +1,10 @@
-<%= @mail_template.text %>
+<% if @text %>
+  <%= @text %>
+<% else %>
+  Invoice sent to you by <%= @organization.name %>
+  =====================================================
+
+  Please see attached document.
+
+  This invoice was sent by <%= @sale.user.name %>
+<% end %>

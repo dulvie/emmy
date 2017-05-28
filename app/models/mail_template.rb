@@ -17,6 +17,10 @@ class MailTemplate < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: { scope: :organization_id}
   validates :template_type, inclusion: { in: TEMPLATE_TYPES }
+  validates :from, presence: true
+  validates :to, presence: true
+  validates :subject, presence: true
+  validates :text, presence: true
 
   def can_delete?
     true

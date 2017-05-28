@@ -95,7 +95,9 @@ class SalesController < ApplicationController
 
   def send_email
     @sale = current_organization.sales.find(params[:id])
-    @mail_template = current_organization.mail_templates.find(params[:sale][:mail_template])
+    if current_organization.mail_templates.size > 0
+      @mail_template = current_organization.mail_templates.find(params[:sale][:mail_template])
+    end
     authorize! :manage, @sale
     if @sale.send_invoice!(@mail_template)
       flash[:notice] = t(:sent_email)
