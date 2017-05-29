@@ -1,0 +1,10 @@
+<% if @text %>
+  <%= @text %>
+<% else %>
+  Reminder sent to you by <%= @organization.name %>
+  =====================================================
+
+  Please see attached document.
+
+  This reminder was sent by <%= @sale.user.name %>
+<% end %>

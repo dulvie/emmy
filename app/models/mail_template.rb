@@ -22,6 +22,9 @@ class MailTemplate < ActiveRecord::Base
   validates :subject, presence: true
   validates :text, presence: true
 
+  scope :invoice, -> { where(template_type: 'invoice') }
+  scope :reminder, -> { where(template_type: 'reminder') }
+
   def can_delete?
     true
   end

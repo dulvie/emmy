@@ -66,12 +66,18 @@
           %td
             - if sale.has_document?
               = link_to doc_icon, sale_path(sale, format: 'pdf'), target: '_blank'
-            - if sale.prepared?
-              - unless sale.invoice_sent?
-                %button{:class=>'btn btn-xs', :ng_click=>"open($event, 'sm','dialogContent' )"}
-                  = envelope_icon
-                - title = t(:send_email_to_customer)
-                = render partial: 'shared/modal_dialog', locals: {idx: 'dialogContent', title: title, model: sale, select: 'mail_template', form_path: send_email_sale_path(sale), return_path: sales_path, collection: @mail_templates}
+            - if sale.prepared? && !sale.invoice_sent? && !sale.overdue?
+              - dc = 'dialogContent' + sale.invoice_number.to_s
+              %button{:class=>'btn btn-xs', :ng_click=>"open($event, 'sm', '"+dc+"' )"}
+                = envelope_icon
+              - title = t(:send_email_to_customer)
+              = render partial: 'shared/modal_dialog', locals: {idx: dc, title: title, model: sale, select: 'mail_template', form_path: send_email_sale_path(sale), return_path: sales_path, collection: @mail_templates_invoice}
+            - if sale.overdue?
+              - dc = 'dialogContent' + sale.invoice_number.to_s
+              %button{:class=>'btn btn-xs btn-warning', :ng_click=>"open($event, 'sm', '"+dc+"' )"}
+                = envelope_icon
+              - title = t(:send_reminder_to_customer)
+              = render partial: 'shared/modal_dialog', locals: {idx: dc, title: title, model: sale, select: 'mail_template', form_path: send_reminder_email_sale_path(sale), return_path: sales_path, collection: @mail_templates_reminder}
 
           %td= link_to settings_icon, sale
           %td= delete_modal_for sale

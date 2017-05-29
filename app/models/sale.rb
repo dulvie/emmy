@@ -348,8 +348,28 @@ class Sale < ActiveRecord::Base
     end
   end
 
+  def send_reminder!(mail_template)
+    errors.add(:custom_error, :no_customer_email) and return false if contact_email.blank?
+    errors.add(:custom_error, :no_organization_email) and return false if organization.email.blank?
+
+    if InvoiceMailer.reminder_email(self, mail_template).deliver
+      save
+      true
+    else
+      logger.info "sale#send_reminder!, deliver on InvoiceMailer returned false"
+      false
+    end
+  end
+
   def invoice_sent?
     (sent_email_at)
+  end
+
+  def overdue?
+    return false if paid?
+    return false if due_date.nil?
+    return false if due_date >= DateTime.now
+    true
   end
 
   def has_document?
