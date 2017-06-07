@@ -24,7 +24,7 @@
           - else
             %td= "NN"
           %td= transfer.quantity
-          %td= transfer.state
+          %td= transfer.pretty_state
           %td
             - if transfer.state == 'not_sent'
               %button{:class => 'btn btn-info', :ng_click=>"open($event, 'sm','transfer_content_" + transfer.id.to_s + "')"}
