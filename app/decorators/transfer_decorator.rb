@@ -22,4 +22,19 @@ class TransferDecorator < Draper::Decorator
     end
   end
 
+  def pretty_state
+    l = 'default'
+    case object.state
+      when 'not_sent'
+        l = 'warning'
+        str = h.t(:not_sent)
+      when 'sent'
+        l = 'warning'
+        str = h.t(:sent)
+      when 'received'
+        l = 'success'
+        str = h.t(:received)
+    end
+    h.labelify(str, l)
+  end
 end

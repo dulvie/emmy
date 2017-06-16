@@ -31,7 +31,12 @@
         = c.input :body, as: :text
 
     - if !@transfer.new_record?
-      = f.input :state, disabled: true, :input_html => {:class => 'medium'}
+      .form-group
+        .labels_width.control-label
+          %label
+            = t(:status)
+        .fields_width
+          = @transfer.decorate.pretty_state
     - if @transfer.sent?
       = f.input :sent_at, as: :string, disabled: true,  :input_html => { :class => 'date', :value => localize(f.object.sent_at, :format => "%Y-%m-%d") }
     - if @transfer.received?
@@ -41,3 +46,16 @@
       .form-button-group
         .actions
           = f.submit class: 'btn btn-primary'
+
+- if !@transfer.new_record?
+  %div{:ng_controller => 'ModalCtrl'}
+    .form-button-group
+      .actions
+        - if @transfer.state == 'not_sent'
+          %button{:class => 'btn btn-info', :ng_click=>"open($event, 'sm','transfer_content_" + @transfer.id.to_s + "')"}
+            = t(:send)
+          = render partial: 'shared/modal_state_change', locals: {idx: 'transfer_content_' + @transfer.id.to_s, model: @transfer, form_path: send_package_transfer_path(@transfer), event: 'send_package', return_path: transfers_path}
+        - elsif @transfer.state == 'sent'
+          %button{:class => 'btn btn-info', :ng_click=>"open($event, 'sm','transfer_content_" + @transfer.id.to_s + "')"}
+            = t(:receive)
+          = render partial: 'shared/modal_state_change', locals: {idx: 'transfer_content_' + @transfer.id.to_s, model: @transfer, form_path: receive_package_transfer_path(@transfer), event: 'receive_package', return_path: transfers_path}
