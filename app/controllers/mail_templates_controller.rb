@@ -84,10 +84,10 @@ class MailTemplatesController < ApplicationController
   end
 
   def set_variable
-    @mail_template.subject = 'Faktura från ' + current_organization.name
-    @mail_template.text = 'Faktura skickad av Demo organization' + "\n" +
+    @mail_template.subject = "#{t(:invoice_from)} #{current_organization.name}"
+    @mail_template.text = "#{t(:invoice_from)} #{current_organization.name}" + "\n" +
                           '=====================================================' + "\n\n" +
-                          'Se bifogat dokument.' + "\n\n" +
-                          'OBS! Ange fakturanummer på betalningen.'
+                          "#{t(:see_attached_document)}" + "\n\n" +
+                          "#{t(:enter_invoice_number)}"
   end
 end
