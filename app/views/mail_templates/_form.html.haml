@@ -31,7 +31,8 @@
       .labels_width.control-label
         = f.label :text
       .fields_width
-        = f.text_area :text, cols: '70', rows: '8'
+        = f.text_area :text, cols: '70', rows: '10'
+        = info_modal_for('mail_text')
 
     .form-button-group
       .actions

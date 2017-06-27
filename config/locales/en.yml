@@ -240,6 +240,7 @@ en:
   mail_template: "Mail template"
   mail_template_attachment: "The invoice created will be attached to the mail."
   mail_template_from: "The sender address is retrieved from the organization's email address. Registered under General / Organization / Basic Information / Email"
+  mail_template_text: "Here the text is registered for the mail. Variables from contact details can be registered on the form <%= name %>. <%= telephone %> or <%= email %> NOTE! If variables is used then the contact information for the person who registers the sale must exist."
   mail_template_to: "Mailet skickas till den adress som registrerats i 'kontakt e-post' vid försäljningen."
   mail_templates: "Mail templates"
   manual: "Manual"

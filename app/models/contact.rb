@@ -30,6 +30,10 @@ class Contact < ActiveRecord::Base
     true
   end
 
+  def get_binding
+    binding()
+  end
+
   def parent_name
     parent.name
   end
