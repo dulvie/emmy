@@ -31,12 +31,20 @@ class InvoiceMailer < ActionMailer::Base
   end
 
   def set_text(organization, sale, mail_template)
-    if !mail_template.text.include? "<%"
+    if !mail_template.text.include? "#"
       return mail_template.text
     elsif sale.user.contacts.present?
       contact = organization.contacts.find(sale.user.contacts)
-      return ERB.new(mail_template.text).result(contact.get_binding)
+      return set_variables(mail_template.text, Contact::ALLOWED_COLUMNS, contact.attributes)
     end
     nil
+  end
+
+  def set_variables(text, columns, fields)
+    columns.each do |col|
+      val = fields[col[1..-1]]
+      text.gsub! col, val
+    end
+    return text
   end
 end

@@ -219,7 +219,7 @@ se:
   mail_template: "E-post mall"
   mail_template_attachment: "Den faktura som skapats bifogas mailet."
   mail_template_from: "Avsändaradressen hämtas från organisationens e-post adress. Registreras under Allmän / Organisation / Bas-information / E-post"
-  mail_template_text: "Här registeras texten i mailet. Variabler från kontaktuppgifter kan registreras på formen <%= namn %>. <%= telephone %> eller <%= email %> OBS! Används variabler måste kontaktuppgifter finnas för den som registrerar försäljningen."
+  mail_template_text: "Här registeras texten i mailet. Variabler från kontaktuppgifter kan registreras på formen #namn, #telephone eller #email. OBS! Används variabler måste kontaktuppgifter finnas för den som registrerar försäljningen."
   mail_template_to: "Mailet skickas till den adress som registrerats i 'kontakt e-post' vid försäljningen."
   mail_templates: "E-post mallar"
   manual: "Manuell"
