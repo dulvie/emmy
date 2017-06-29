@@ -78,8 +78,6 @@ class MailTemplatesController < ApplicationController
   end
 
   def set_default
-    @mail_template.from = current_organization.email
-    @mail_template.to = 'sale.contact_email'
     @mail_template.attachment = 'sale.invoice_number.pdf'
   end
 
