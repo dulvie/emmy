@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170501155846) do
+ActiveRecord::Schema.define(version: 20170615122507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -426,6 +426,17 @@ ActiveRecord::Schema.define(version: 20170501155846) do
     t.string   "name",                 limit: 255
     t.integer  "organization_id"
     t.integer  "accounting_period_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "mail_templates", force: :cascade do |t|
+    t.string   "name"
+    t.string   "template_type"
+    t.string   "subject"
+    t.string   "attachment"
+    t.text     "text"
+    t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
