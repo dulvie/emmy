@@ -18,7 +18,6 @@ class Contact < ActiveRecord::Base
   validates :email, presence: true, uniqueness: {scope: :organization_id}
 
   VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', 'ContactRelation', 'User', 'Employee']
-  ALLOWED_COLUMNS = ['#name', '#telephone', '#email']
 
   def user_parent?
     return true if contact_relations.where("parent_type = 'User'").count > 0
