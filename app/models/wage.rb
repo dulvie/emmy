@@ -37,18 +37,7 @@ class Wage < ActiveRecord::Base
   end
 
   def set_payroll_tax
-    age = employee.age
-    case age
-    when 0..26
-      proc = BigDecimal.new('0.1549')
-    when 26..65
-      proc = BigDecimal.new('0.3142')
-    when 65..99
-      proc = BigDecimal.new('0.1021')
-    else
-      proc = 1
-    end
-    self.payroll_tax = (gross * proc).round
+    self.payroll_tax = (gross * employee.payroll_percent).round
   end
 
   def set_tax

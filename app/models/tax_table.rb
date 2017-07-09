@@ -35,6 +35,7 @@ class TaxTable < ActiveRecord::Base
   end
 
   def calculate(wage, column)
+    return 0 if wage <= 0
     row = tax_table_rows.where('from_wage <= ? AND to_wage >= ?', wage, wage).first
     row.tax(wage, column)
   end

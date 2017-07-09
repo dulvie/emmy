@@ -1,6 +1,7 @@
 = simple_form_for(@result_unit, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
   = f.error_notification
   = f.input :name
+  = f.association :employee
 
   .form-button-group
     .actions

@@ -10,8 +10,27 @@ module Services
       employee = @organization.employees
                      .where('begin < ? AND ending > ?', @wage_period.wage_to, @wage_period.wage_from)
       employee.each do |employee|
-        save_wage(employee, employee.salary, @accounting_period, @wage_period)
+        salary = calculate_wage(employee)
+        save_wage(employee, salary, @accounting_period, @wage_period)
       end
+    end
+
+    def calculate_wage(employee)
+      return employee.salary if employee.wage_type == 'Fixed'
+      period = @wage_period.accounting_period_id
+      result_unit = employee.result_unit
+      @result_unit_vers = @organization.verificate_items.period(period, result_unit.id)
+      sum = 0
+      @result_unit_vers.each do |ver|
+        case ver.account_number
+          when  3000..6999
+            sum += ver.credit - ver.debit
+          when  7600..8800
+            sum += ver.credit - ver.debit
+          else
+        end
+      end
+      return sum/(1+employee.payroll_percent)
     end
 
     def delete_wages

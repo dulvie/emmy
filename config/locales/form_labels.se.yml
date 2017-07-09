@@ -112,6 +112,7 @@ se:
         vat_to: "Moms till"
         wage_from: "Lön från"
         wage_to: "Lön till"
+        wage_type: "Löne typ"
         warehouse: "Lager"
         warehouse_id: "Lager"
         work: "Arbete"

@@ -3,6 +3,7 @@ class Employee < ActiveRecord::Base
   # t.integer  :birth_year
   # t.datetime :begin
   # t.datetime :end
+  # t.string   :wage_type
   # t.decimal  :salary
   # t.decimal  :tax
   # t.string   :tax_table_column
@@ -17,19 +18,23 @@ class Employee < ActiveRecord::Base
   before_update :set_tax
   before_create :set_tax
 
-  attr_accessible :name, :begin, :ending, :salary, :tax, :birth_year, :tax_table_id,
+  attr_accessible :name, :begin, :ending, :wage_type, :salary, :tax, :birth_year, :tax_table_id,
                   :tax_table_column, :personal, :clearingnumber, :bank_account
+
+  WAGE_TYPES = ['Fixed', 'Invoiced']
 
   validates :name, presence: true
   validates :birth_year, presence: true
   validates :name, presence: true, uniqueness: { scope: :organization_id }
   validates_format_of :personal, with: /\A[0-9]{2}[0-1]{1}[0-9]{1}[0-3]{1}[0-9]{1}-[0-9]{4}\z/
+  validates :wage_type, inclusion: { in: WAGE_TYPES }
 
   belongs_to :organization
   has_one :contact_relation, as: :parent
   has_one :contact, through: :contact_relation
   belongs_to :tax_table
   has_many :wages
+  has_one :result_unit
 
   def set_tax
     self.tax = tax_table.calculate(salary, tax_table_column)
@@ -38,6 +43,19 @@ class Employee < ActiveRecord::Base
   def age
     year = DateTime.now.strftime('%Y').to_i
     (year - birth_year)
+  end
+
+  def payroll_percent
+    case age
+      when 0..26
+        proc = BigDecimal.new('0.1549')
+      when 26..65
+        proc = BigDecimal.new('0.3142')
+      when 65..99
+        proc = BigDecimal.new('0.1021')
+      else
+        proc = 1
+    end
   end
 
   def parent_name
