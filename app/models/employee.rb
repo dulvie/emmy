@@ -36,6 +36,11 @@ class Employee < ActiveRecord::Base
   has_many :wages
   has_one :result_unit
 
+  def full_name
+    return contact.name if !contact.nil?
+    name
+  end
+
   def set_tax
     self.tax = tax_table.calculate(salary, tax_table_column)
   end

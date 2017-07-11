@@ -15,15 +15,16 @@ module Services
         @verificate_items = []
         salary = calculate_wage(employee)
         @wage = save_wage(employee, salary, @accounting_period, @wage_period)
-        generate_spec if !@verificate_items.nil?
+        generate_spec
       end
     end
 
     def calculate_wage(employee)
-      return employee.salary if employee.wage_type == 'Fixed'
-      period = @wage_period.accounting_period_id
+      return employee.salary if employee.result_unit.nil?
+      fom = @wage_period.wage_from - 1.month
+      tom = @wage_period.wage_to - 1.month
       result_unit = employee.result_unit
-      @result_unit_vers = @organization.verificate_items.period(period, result_unit.id)
+      @result_unit_vers = @organization.verificate_items.period(fom, tom, result_unit.id)
       sum = 0
       @result_unit_vers.each do |ver|
         case ver.account_number
@@ -36,6 +37,7 @@ module Services
           else
         end
       end
+      return employee.salary if employee.wage_type == 'Fixed'
       return (sum/(1+employee.payroll_percent)).round
     end
 
