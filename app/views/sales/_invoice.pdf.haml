@@ -3,6 +3,9 @@
 - if sale.canceled?
   .watermark
     =t(:canceled_invoice_mark)
+- if sale.overdue?
+  .watermark
+    =t(:reminder)
 
 %table.wrapper
   %tr

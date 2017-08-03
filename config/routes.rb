@@ -107,6 +107,7 @@ Emmy::Application.routes.draw do
     end
     resources :ledger_transactions
     resources :manuals
+    resources :mail_templates
     resources :materials
     resources :ne_code_headers
     resources :ne_codes
@@ -149,6 +150,7 @@ Emmy::Application.routes.draw do
       member do
         post 'state_change', as: :state_change
         post 'send_email', as: :send_email
+        post 'send_reminder_email', as: :send_reminder_email
         post 'regenerate_invoice', as: :regenerate_invoice
       end
       collection do

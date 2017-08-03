@@ -21,12 +21,18 @@
           %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','payContent' )"}
             = t(:paid)
           = render partial: 'shared/modal_state_change', locals: {idx: 'payContent', model: @sale, form_path: state_change_sale_path(@sale), event: 'pay', return_path: sale_path(@sale)}
-          - unless @sale.invoice_sent?
-            = link_to t(:send_email_with_invoice),
-              send_email_sale_path(@sale),
-              class: 'btn btn-primary',
-              method: 'post',
-              data: {confirm: t(:send_email_to_customer)}
+          - if !@sale.invoice_sent? && !@sale.overdue?
+            %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','dialog_invoice' )"}
+              = t(:send_email_with_invoice)
+            - title = t(:send_email_to_customer)
+            = render partial: 'shared/modal_dialog', locals: {idx: 'dialog_invoice', title: title, model: @sale, select: 'mail_template', form_path: send_email_sale_path(@sale), return_path: sales_path, collection: @mail_templates_invoice}
+          - if @sale.overdue?
+            %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','dialog_reminder' )"}
+              = t(:send_reminder_to_customer)
+            - title = t(:send_reminder_to_customer)
+            = render partial: 'shared/modal_dialog', locals: {idx: 'dialog_reminder', title: title, model: @sale, select: 'mail_template', form_path: send_reminder_email_sale_path(@sale), return_path: sales_path, collection: @mail_templates_reminder}
+
+
           %button{:class=>'btn btn-default', :ng_click=>"open($event, 'sm','salesContent' )"}
             = t(:cancel)
           = render partial: 'shared/modal_state_change', locals: {idx: 'salesContent', model: @sale, form_path: state_change_sale_path(@sale), event: 'mark_canceled', return_path: sale_path(@sale)}

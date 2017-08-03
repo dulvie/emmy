@@ -1,10 +1,10 @@
 <% if @text %>
   <%= @text %>
 <% else %>
-  Invoice sent to you by <%= @organization.name %>
+  Reminder sent to you by <%= @organization.name %>
   =====================================================
 
   Please see attached document.
 
-  This invoice was sent by <%= @sale.user.name %>
+  This reminder was sent by <%= @sale.user.name %>
 <% end %>

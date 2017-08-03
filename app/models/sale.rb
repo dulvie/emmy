@@ -52,7 +52,7 @@ class Sale < ActiveRecord::Base
   attr_accessible :warehouse_id, :customer_id, :contact_email, :contact_name, :contact_telephone,
                   :payment_term, :invoice_text
 
-  attr_accessor :custom_error
+  attr_accessor :custom_error, :mail_template
 
   validates :customer_id, presence: true
   validates :warehouse_id, presence: true
@@ -333,13 +333,13 @@ class Sale < ActiveRecord::Base
   end
 
   # @todo move this to a job.
-  def send_invoice!
+  def send_invoice!(mail_template)
     errors.add(:custom_error, :already_sent) and return false if sent_email_at
     errors.add(:custom_error, :no_customer_email) and return false if contact_email.blank?
     errors.add(:custom_error, :no_organization_email) and return false if organization.email.blank?
 
     self.sent_email_at = Time.now
-    if InvoiceMailer.invoice_email(self).deliver
+    if InvoiceMailer.invoice_email(self, mail_template).deliver
       save
       true
     else
@@ -348,8 +348,28 @@ class Sale < ActiveRecord::Base
     end
   end
 
+  def send_reminder!(mail_template)
+    errors.add(:custom_error, :no_customer_email) and return false if contact_email.blank?
+    errors.add(:custom_error, :no_organization_email) and return false if organization.email.blank?
+
+    if InvoiceMailer.reminder_email(self, mail_template).deliver
+      save
+      true
+    else
+      logger.info "sale#send_reminder!, deliver on InvoiceMailer returned false"
+      false
+    end
+  end
+
   def invoice_sent?
     (sent_email_at)
+  end
+
+  def overdue?
+    return false if paid?
+    return false if due_date.nil?
+    return false if due_date >= DateTime.now
+    true
   end
 
   def has_document?

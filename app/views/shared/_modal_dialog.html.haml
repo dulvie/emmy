@@ -1,0 +1,14 @@
+- select ||= nil
+%script{ :type=>"text/ng_template", :id=>idx}
+  .modal-header
+    %h3{ :class=>"modal-title"}
+      = title
+
+  .modal-body
+    = simple_form_for(model, url: form_path, method: :post) do |f|
+      = hidden_field_tag 'return_path', return_path
+      - if !select.nil? && collection && collection.size > 0
+        = f.input select, as: :select, collection: collection, include_blank: false
+
+      = submit_tag t(:confirm), class: 'btn btn-primary'
+      = button_tag t(:back), class: 'btn btn-danger reseter', type: 'reset', :ng_click=>"cancel()"
