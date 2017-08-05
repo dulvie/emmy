@@ -35,13 +35,13 @@ class Wage < ActiveRecord::Base
 
   def set_document(name, pdf_string)
     d = build_document
-    logger.info 'will try to write to temp file'
+    logger.info 'Wage#set_document: will try to write to temp file'
     tempfile = Tempfile.new([name, '.pdf'], Rails.root.join('tmp'))
     tempfile.binmode
     tempfile.write pdf_string
-    logger.info "will now set d.upload = #{tempfile.path} or rather, content of that file"
+    logger.info "Wage#set_document: will now set d.upload = #{tempfile.path} or rather, content of that file"
     d.upload = tempfile
-    logger.info 'SAVING!'
+    logger.info 'Wage#set_document: SAVING!'
     tempfile.close
     tempfile.unlink
     d.save!

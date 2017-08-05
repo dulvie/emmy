@@ -12,7 +12,7 @@ class TaxCode < ActiveRecord::Base
 
   SUM_METHODS = ['accounting_period', 'vat_period', 'total', 'wage_period', 'subset_55',
                  'subset_56', 'subset_57', 'subset_58', 'subset_59', 'subset_60',
-                 'include_81', 'none']
+                 'subset_61', 'subset_62', 'include_81', 'none']
   CODE_TYPES = ['vat', 'wage', 'default']
 
   validates :code, presence: true, uniqueness: { scope: :organization_id }

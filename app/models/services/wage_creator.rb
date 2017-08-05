@@ -42,7 +42,7 @@ module Services
     end
 
     def generate_spec
-      Rails.logger.info "==>#{@wage.inspect}"
+      Rails.logger.info "WageCreator#generate_spec @wage: #{@wage.inspect}"
       pdf_string = WickedPdf.new.pdf_from_string(
           WagesController.new.render_to_string(
               template: '/wages/show.pdf.haml',
