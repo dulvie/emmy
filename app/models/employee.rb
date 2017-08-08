@@ -22,6 +22,9 @@ class Employee < ActiveRecord::Base
                   :tax_table_column, :personal, :clearingnumber, :bank_account
 
   WAGE_TYPES = ['Fixed', 'Invoiced']
+
+  # payroll_tax percentage to be reported in box 55, 59 and 61
+  # see https://www.skatteverket.se/foretagochorganisationer/arbetsgivare/arbetsgivaravgifterochskatteavdrag/arbetsgivaravgifter.4.233f91f71260075abe8800020817.html
   PAYROLL_TAX_55 = '0.3142'
   PAYROLL_TAX_59 = '0.1636'
   PAYROLL_TAX_61 = '0.0615'
@@ -56,26 +59,26 @@ class Employee < ActiveRecord::Base
   def payroll_percent
     case age
       when 0..65
-        procentage = BigDecimal.new(PAYROLL_TAX_55)
+        percentage = BigDecimal.new(PAYROLL_TAX_55)
       when 65..78
-        procentage = BigDecimal.new(PAYROLL_TAX_59)
+        percentage = BigDecimal.new(PAYROLL_TAX_59)
       when 78..99
-        procentage = BigDecimal.new(PAYROLL_TAX_61)
+        percentage = BigDecimal.new(PAYROLL_TAX_61)
       else
-        procentage = 1
+        percentage = 1
     end
   end
 
   def payroll_percent_old
     case age
       when 0..26
-        procentage = BigDecimal.new('0.1549')
+        percentage = BigDecimal.new('0.1549')
       when 26..65
-        procentage = BigDecimal.new('0.3142')
+        percentage = BigDecimal.new('0.3142')
       when 65..99
-        procentage = BigDecimal.new('0.1021')
+        percentage = BigDecimal.new('0.1021')
       else
-        procentage = 1
+        percentage = 1
     end
   end
 
