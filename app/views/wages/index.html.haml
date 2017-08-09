@@ -14,6 +14,7 @@
         %th.numeric= t(:amount)
         %th
         %th
+        %th
     %tbody{}
       - @wages.each do |wage|
         %tr
@@ -23,6 +24,9 @@
           %td= wage.payment_date
           %td.numeric= wage.tax
           %td.numeric= wage.amount
+          %td
+            - if wage.has_document?
+              = link_to doc_icon, wage_period_wage_path(@wage_period, wage, format: 'pdf'), target: '_blank'
           %td.numeric= link_to settings_icon, edit_wage_period_wage_path(@wage_period, wage)
           %td.numeric= delete_modal_for wage, wage_period_wage_path(@wage_period, wage)
 

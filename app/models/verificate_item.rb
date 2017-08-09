@@ -23,6 +23,11 @@ class VerificateItem < ActiveRecord::Base
   validates :debit, presence: true
   validates :credit, presence: true
 
+
+  scope :period, -> (fom, tom, result_unit) {
+    joins(:verificate)
+        .where("state = 'final' and posting_date >= ? and posting_date <= ? and result_unit_id = ?", fom, tom, result_unit) }
+
   def verificate_number
     verificate.number
   end

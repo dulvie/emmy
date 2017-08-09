@@ -35,6 +35,14 @@ class WagesController < ApplicationController
 
   # GET /wages/1
   def show
+    respond_to do |format|
+      format.html
+      format.pdf do
+        send_file(@wage.document.upload.path,
+                  filename: "spec_#{@wage.id}.pdf",
+                  type: 'application/pdf')
+      end
+    end
   end
 
   # GET /wage/1/edit

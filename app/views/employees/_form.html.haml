@@ -9,7 +9,9 @@
     = render partial: 'shared/date_field', locals: {form: f, field: :ending, in_id: 'in_ending', in_value: @employee.ending, out_id: 'employee[ending]', field_id: 'ending_short_date',  model: 'ending_date', dp_open: 'ending_open', dp_options: 'ending_options', dp_click: 'open_ending_date($event)'}
     .error_width
       = f.error :ending
-    = f.input :salary
+    = f.input :wage_type, collection: Employee::WAGE_TYPES, include_blank: false
+    #salary-wrapper
+      = f.input :salary
     = f.association :tax_table, collection: @tax_tables, include_blank: false
 
     .form-group.form-inline
@@ -18,8 +20,8 @@
       .fields_width
         = f.input :tax_table_column, label: false, collection: TaxTable::COLUMNS, include_blank: false, :input_html => {:class=>'numeric form-control'}
         = info_modal_for('tax_table_column')
-
-    = f.input :tax, disabled: true
+    #tax-wrapper
+      = f.input :tax, disabled: true
     = f.input :personal, :input_html => {:class => 'short'}
 
     .form-group.form-inline
@@ -37,3 +39,21 @@
 
   = render partial: 'shared/modal_info', locals: {idx: 'infoContent'}
   = render partial: 'info'
+
+:javascript
+  $(document).ready(function() {
+    $("#employee_wage_type").change(function() {
+      wage_type_fields();
+    });
+    function wage_type_fields() {
+      if ($('#employee_wage_type').val() == 'Fixed') {
+        $('#salary-wrapper').show();
+        $('#tax-wrapper').show();
+        }
+      else {
+        $('#salary-wrapper').hide();
+        $('#tax-wrapper').hide();
+      };
+    };
+    wage_type_fields();
+  });

@@ -1,0 +1,91 @@
+- organization = wage.organization.decorate
+- wage = wage.decorate
+- total = wage.salary + wage.payroll_tax
+- sum = 0
+%table
+  %tr
+    %td
+      .pull-left
+        %h2= wage.wage_period.name
+    %td
+    %td
+      - if organization.logo?
+        .pull-right.logo
+          %h1= image_tag(organization.logo_path)
+      - else
+        .pull-right
+          %h1= organization.name
+  %tr
+    %td
+      %h2= wage.employee.full_name
+  %tr
+    %td
+      = t(:salary)
+    %td.pull-right
+      = number_with_precision(wage.salary, precision: 2)
+    %td.filler
+  %tr
+    %td
+      = t(:tax)
+    %td.pull-right
+      = wage.wage_tax
+    %td
+      .pull-right
+        = wage.employee.tax_table.name
+        = " : "
+        = wage.employee.tax_table_column
+  %tr
+    %td
+      = t(:net)
+    %td.pull-right
+      = number_with_precision(wage.amount, precision: 2)
+    %td.filler
+  %tr
+    %td
+      = t(:payroll_tax)
+    %td.pull-right
+      = wage.wage_payroll_tax
+    %td.filler
+  %tr
+    %td
+      = "#{t(:total)} ( #{t(:salary)} + #{t(:payroll_tax)} )"
+    %td.pull-right
+      = number_with_precision(total, precision: 2)
+    %td.filler
+  %tr
+    %td.filler
+  %tr
+    %td{colspan: '2'}
+      %h2= t(:based_on)
+  %tr
+    %th
+      .pull-left
+        = t(:account_date)
+    %th
+      .pull-left
+        = t(:description)
+    %th
+      .pull-right.numeric
+        = t(:amount)
+  - verificate_items.each do | item |
+    %tr
+      %td
+        .pull-left
+          = item.posting_date
+      %td
+        .pull-left
+          = item.verificate_description
+      %td
+        .pull-right.numeric
+          - amount = item.credit - item.debit
+          - sum = sum + amount
+          = number_with_precision(amount, precision: 2)
+  %tr
+    %td
+      .pull-left
+    %td
+      .pull-left
+        = t(:total)
+    %td
+      .pull-right.numeric
+        = number_with_precision(sum, precision: 2)

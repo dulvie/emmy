@@ -1,4 +1,5 @@
 class WageDecorator < Draper::Decorator
+  include ActionView::Helpers::NumberHelper
   delegate_all
 
   def wage_from
@@ -14,6 +15,14 @@ class WageDecorator < Draper::Decorator
   def payment_date
     return l(object.payment_date, format: '%Y-%m-%d') if object.payment_date
     ''
+  end
+
+  def wage_tax
+    number_with_precision(object.tax, precision: 2)
+  end
+
+  def wage_payroll_tax
+    number_with_precision(object.payroll_tax, precision: 2)
   end
 
   def state

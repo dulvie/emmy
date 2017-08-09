@@ -21,6 +21,7 @@ class Wage < ActiveRecord::Base
   belongs_to :wage_period
   belongs_to :employee
   has_one :verificate
+  has_one :document, as: :parent, dependent: :delete
 
   before_save :set_payroll_tax
   before_save :set_tax
@@ -32,23 +33,26 @@ class Wage < ActiveRecord::Base
   validates :wage_to, presence: true
   validates :payment_date, presence: true
 
+  def set_document(name, pdf_string)
+    d = build_document
+    logger.info 'Wage#set_document: will try to write to temp file'
+    tempfile = Tempfile.new([name, '.pdf'], Rails.root.join('tmp'))
+    tempfile.binmode
+    tempfile.write pdf_string
+    logger.info "Wage#set_document: will now set d.upload = #{tempfile.path} or rather, content of that file"
+    d.upload = tempfile
+    logger.info 'Wage#set_document: SAVING!'
+    tempfile.close
+    tempfile.unlink
+    d.save!
+  end
+
   def gross
     salary + addition - discount
   end
 
   def set_payroll_tax
-    age = employee.age
-    case age
-    when 0..26
-      proc = BigDecimal.new('0.1549')
-    when 26..65
-      proc = BigDecimal.new('0.3142')
-    when 65..99
-      proc = BigDecimal.new('0.1021')
-    else
-      proc = 1
-    end
-    self.payroll_tax = (gross * proc).round
+    self.payroll_tax = (gross * employee.payroll_percent).round
   end
 
   def set_tax
@@ -57,6 +61,11 @@ class Wage < ActiveRecord::Base
 
   def set_amount
     self.amount = gross - tax
+  end
+
+  def has_document?
+    return false if document.nil?
+    return true
   end
 
   def can_delete?

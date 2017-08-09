@@ -24,6 +24,7 @@ module Services
     end
 
     def wage
+      # wage per result_unit + payment to bankaccount + add result_unit to ver_item
       Verificate.transaction do
 
         # create verificate
