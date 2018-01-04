@@ -6,6 +6,7 @@
       %tr
         %th= t(:account)
         %th= t(:description)
+        %th.numeric= t(:result_unit)
         %th.numeric= t(:debit)
         %th.numeric= t(:credit)
         %th
@@ -14,6 +15,9 @@
         %tr
           %td= template_item.account.number
           %td= template_item.description
+          %td
+            - if template_item.enable_result_unit
+              %input{class: 'numeric form-control', disabled: true}
           %td
             - if template_item.enable_debit
               %input{class: 'numeric form-control', disabled: true}
