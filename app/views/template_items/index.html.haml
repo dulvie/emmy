@@ -7,6 +7,7 @@
       %tr
         %th= t(:account)
         %th= t(:description)
+        %th= t(:result_unit)
         %th= t(:debet)
         %th= t(:kredit)
         %th
@@ -16,6 +17,7 @@
         %tr
           %td= template_item.account
           %td= template_item.description
+          %td= template_item.enable_result_unit
           %td= template_item.enable_debet
           %td= template_item.enable_kredit
           %td.numeric= link_to settings_icon, template_item_path(template_item)
