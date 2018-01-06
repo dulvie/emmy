@@ -101,7 +101,7 @@ class Verificate < ActiveRecord::Base
 
     # create reversal items
     verificate_items.each do |verificate_item|
-      verificate_creator.save_verificate_item(verificate_item.account, verificate_item.credit, verificate_item.debit)
+      verificate_creator.save_verificate_item(verificate_item.account, verificate_item.credit, verificate_item.debit, verificate_item.result_unit_id)
     end
   end
 
