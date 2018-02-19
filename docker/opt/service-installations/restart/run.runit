@@ -1,0 +1,14 @@
+#!/bin/sh
+exec 2>&1
+set -eu
+. /etc/envvars
+echo "Running restart service"
+touch $RESTART_NOTIFY_FILE
+if [ -e /etc/service/workers ] ; then
+  sv restart workers
+fi
+if [ -e /etc/service/rails ] ; then
+  # 2 = usr2
+  sv 2 rails
+fi
+exec inotifywait $RESTART_NOTIFY_FILE

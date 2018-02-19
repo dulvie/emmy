@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
-
 set -eu
-EXEC_DIR="${1:-}"
-[ ! -d "$EXEC_DIR" ] && echo "the execute directory ($EXEC_DIR) doesn't exist " && exit 1
-cd $EXEC_DIR
 
+[ ! -d "$NEXT_DIR" ] && echo "the execute directory ($NEXT_DIR) doesn't exist " && exit 1
 [ ! -d "$PUBLIC_DIR" ] && echo "hook(shared): PUBLIC_DIR: $PUBLIC_DIR does not exist" && exit 1
 [ ! -d "$SHARED_DIR" ] && echo "hook(shared): SHARED_DIR: $SHARED_DIR does not exist" && exit 1
 
+echo "work_dir: $NEXT_DIR"
+echo "nginx public dir: $PUBLIC_DIR"
+echo "shared assets dir: $SHARED_DIR"
+
 shared_dirs="log tmp public/system"
 shared_files="config/environments/production.rb"
+
+cd "$NEXT_DIR"
 
 for file_path in $shared_files ; do
   [ ! -f "$SHARED_DIR/$file_path" ] && echo "no file at $SHARED_DIR/$file_path, not symlinkin..." && continue

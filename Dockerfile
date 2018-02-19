@@ -1,5 +1,6 @@
 FROM dulvie/ruby-node
-ENV APP_NAME=emmy
+ENV APP_NAME=emmy \
+    PUBLIC_DIR=/shared/sites/emmy/public
 
 #RUN apt-get update \
 #    && apt-get install -y \
