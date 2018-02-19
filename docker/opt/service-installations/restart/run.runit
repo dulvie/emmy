@@ -4,6 +4,7 @@ set -eu
 . /etc/envvars
 echo "Running restart service"
 touch $RESTART_NOTIFY_FILE
+chmod a+w "$RESTART_NOTIFY_FILE"
 if [ -e /etc/service/workers ] ; then
   sv restart workers
 fi

@@ -5,8 +5,8 @@ set -eu
 . /opt/shell_utils
 
 NAME=workers
-APP_DIR="${APP_DIR:-/app/current}"
-USER="${USER:-user}"
+APP_DIR="/app/current"
+USER="user"
 export RAILS_LOG_TO_STDOUT=true
 export TERM_CHILD=1
 export QUEUE="${QUEUE:-*}"

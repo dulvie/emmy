@@ -5,8 +5,8 @@ set -eu
 . /opt/shell_utils
 
 NAME=rails
-APP_DIR="${APP_DIR:-/app/current}"
-USER="${USER:-user}"
+APP_DIR="/app/current"
+USER="user"
 PORT="${PORT:-3000}"
 export RAILS_LOG_TO_STDOUT=true
 

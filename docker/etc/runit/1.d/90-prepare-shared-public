@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -eu
+. /etc/envvars
+echo "**** $0"
+
+USER=user
+
+echo "preparing public and shared directories"
+set -x
+mkdir -p "$PUBLIC_DIR"
+mkdir -p "$SHARED_DIR"
+chown $USER:$USER -R $PUBLIC_DIR
+chown $USER:$USER -R $SHARED_DIR
+
+# dump related env variables to the APP_DIR
+# ($APP_DIR/envvars will be created by 90-prepare_repo)
+(set -x ; cat /etc/envvars | grep -E 'DATABASE_URL|DB_|SECRET_KEY_BASE|RACK_ENV|APP_NAME|RESTART_NOTIFY' >> "${APP_DIR}/envvars")

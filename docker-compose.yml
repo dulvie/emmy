@@ -1,32 +1,38 @@
-rubyemmy:
-  env_file:
-    - ./env.development
-  image: rubyemmy
-  hostname: ruby
-  command: /sbin/runit-init
-  volumes:
-    - .:/opt/apps/emmy
-  links:
-    - redis
-    - postgres
-  ports:
-    - '127.0.0.1:3000:3000'
-    - '127.0.0.1:1080:1080'
+version: '2'
+services:
+  emmy:
+    env_file:
+      - ./env.development
+    image: emmy-dev
+    hostname: ruby
+    command: bundle exec foreman start
+    volumes:
+      - .:/app/
+    links:
+      - redis
+      - postgres
+    ports:
+      - '127.0.0.1:3000:3000'
+      - '127.0.0.1:1080:1080'
 
-postgres:
-  env_file:
-    - ./env.development
-  image: postgres:9.1
-  hostname: postgres
-  volumes_from:
-    - emmy-data
-  ports:
-    - '127.0.0.1:5432:5432'
+  postgres:
+    env_file:
+      - ./env.development
+    image: postgres:9.6
+    hostname: postgres
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 
-redis:
-  env_file:
-    - ./env.development
-  image: redis:2.6
-  hostname: redis
-  volumes_from:
-    - emmy-data
+  redis:
+    env_file:
+      - ./env.development
+    image: redis:2.6
+    hostname: redis
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:
+  postgres-data:

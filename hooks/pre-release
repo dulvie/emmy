@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 set -eu
 [ ! -d "$NEXT_DIR" ] && echo "the execute directory ($NEXT_DIR) doesn't exist " && exit 1
+echo "** Will build using RACK_ENV=$RACK_ENV"
 set -x
 cd $NEXT_DIR
 bundle install --path $GEM_DIR --without test --without development
+bundle exec rake db:migrate
 bundle exec rake assets:clean
 bundle exec rake assets:clobber
 bundle exec rake assets:precompile
