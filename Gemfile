@@ -56,7 +56,7 @@ gem 'kaminari'
 gem 'bootstrap-kaminari-views'
 gem 'paperclip', '~> 4.3'
 gem 'exception_notification', '~> 4.0'
-gem 'puma'
+gem 'puma', '~> 3.10'
 
 group :test, :development do
   gem 'byebug'
@@ -70,7 +70,7 @@ group :test do
   gem 'minitest'
   gem 'cucumber-rails', '~> 1.4', require: false
   gem 'database_cleaner'
-  gem 'capybara-webkit', '~> 1.3'
+  gem 'capybara-webkit', '~> 1.15'
   gem 'resque_unit'
   gem 'simplecov', '~> 0.7.1'
   gem 'rubocop', require: false
