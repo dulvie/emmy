@@ -26,12 +26,9 @@ end
 # Use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
 
-# Use unicorn as the app server
-gem 'unicorn'
-
 gem 'resque', '~> 1.25'
 
-gem 'devise', '~> 3.5'
+gem 'devise', '~> 4.4'
 gem 'responders', '~> 2.0' # required by devise
 gem 'simple_form', git: 'https://github.com/plataformatec/simple_form.git'
 gem 'bootstrap-sass', '~> 3.2'
@@ -64,6 +61,7 @@ group :test, :development do
   gem 'guard'
   gem 'guard-zeus'
   gem 'i18n-tasks'
+  gem 'mailcatcher'
 end
 
 group :test do

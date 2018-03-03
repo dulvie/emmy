@@ -1,8 +1,8 @@
-.PHONY: emmy
-.DEFAULT_GOAL: emmy
+.PHONY: prod dev
+.DEFAULT_GOAL: dev
 
-emmy:
-	docker build -t dulvie/emmy .
+prod:
+	docker build -f Dockerfile.production -t dulvie/emmy .
 
 dev:
 	docker build -f Dockerfile.dev -t emmy-dev .

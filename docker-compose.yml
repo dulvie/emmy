@@ -2,7 +2,7 @@ version: '2'
 services:
   emmy:
     env_file:
-      - ./env.development
+      - ./dot_env.development
     image: emmy-dev
     hostname: ruby
     command: bundle exec foreman start
@@ -17,7 +17,7 @@ services:
 
   postgres:
     env_file:
-      - ./env.development
+      - ./dot_env.development
     image: postgres:9.6
     hostname: postgres
     ports:
@@ -27,8 +27,9 @@ services:
 
   redis:
     env_file:
-      - ./env.development
-    image: redis:2.6
+      - ./dot_env.development
+        #image: redis:2.6
+    image: redis:4
     hostname: redis
     volumes:
       - redis-data:/data

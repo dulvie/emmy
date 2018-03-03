@@ -1,0 +1,47 @@
+FROM ruby:2.5-stretch
+
+ENV NODE_MAJOR=8 \
+    RACK_ENV=development \
+    RAILS_ENV=development
+
+RUN apt-get update \
+    && apt-get install -y apt-utils apt-transport-https
+
+RUN curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
+    && echo "deb https://deb.nodesource.com/node_${NODE_MAJOR}.x jessie main" > /etc/apt/sources.list.d/nodesource.list \
+    && echo "deb-src https://deb.nodesource.com/node_${NODE_MAJOR}.x jessie main" >> /etc/apt/sources.list.d/nodesource.list
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+      openssh-server \
+      openssh-client \
+      zlib1g \
+      zlib1g-dev \
+      libffi-dev \
+      libxml2-dev \
+      libreadline-dev \
+      libcurl4-openssl-dev \
+      libpq-dev \
+      libssl-dev \
+      libsqlite3-dev \
+      sqlite3 \
+      nodejs \
+      pkg-config \
+      xvfb \
+      build-essential \
+      git \
+      file \
+      qt5-default \
+      libqt5webkit5-dev \
+      gstreamer1.0-plugins-base \
+      gstreamer1.0-tools \
+      gstreamer1.0-x
+
+RUN gem update --system \
+    && mkdir -p /app
+
+WORKDIR /app
+
+COPY Gemfile* /app/
+
+RUN bundle install && gem install mailcatcher
