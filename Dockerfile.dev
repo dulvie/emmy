@@ -27,6 +27,7 @@ RUN apt-get update \
       sqlite3 \
       nodejs \
       pkg-config \
+      xauth \
       xvfb \
       build-essential \
       git \
