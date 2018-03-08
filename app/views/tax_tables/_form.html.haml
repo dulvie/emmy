@@ -2,11 +2,9 @@
   = f.error_notification
   = f.input :name
   = f.input :file_name, as: :select, collection: @files, include_blank: false, disabled: !@tax_table.new_record?
-  = f.input :year, as: :select, collection: ['2015'], include_blank: false, disabled: !@tax_table.new_record?
+  = f.input :year, as: :select, collection: [Date.current.year, Date.current.year+1], include_blank: false, disabled: !@tax_table.new_record?
   = f.input :table_name, as: :select, collection: TaxTable::TABLES, include_blank: false, disabled: !@tax_table.new_record?
 
   .form-button-group
     .actions
       = f.submit class: 'btn btn-primary'
-
-
