@@ -1,13 +1,15 @@
 class TemplateItem < ActiveRecord::Base
   # t.string   :account_id
   # t.string   :description
+  # t.boolean  :enable_result_unit
   # t.boolean  :enable_debit
   # t.boolean  :enable_credit
   # t.integer  :organization_id
   # t.integer  :template_id
   # t.timestamps
 
-  attr_accessible :account_id, :description, :enable_debit, :enable_credit
+  attr_accessible :account_id, :description, :enable_debit, :enable_credit,
+                  :enable_result_unit
 
   belongs_to :organization
   belongs_to :account

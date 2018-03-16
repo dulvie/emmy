@@ -33,11 +33,12 @@ module Services
       @verificate.save
     end
 
-    def save_verificate_item(account, debit, credit)
+    def save_verificate_item(account, debit, credit, result_unit = nil)
       return if debit == 0 && credit == 0
       verificate_item = @verificate.verificate_items.build
       verificate_item.account_id = account.id
       verificate_item.description = account.description
+      verificate_item.result_unit_id = result_unit if result_unit
       if debit < 0 || credit < 0
         verificate_item.debit = -credit
         verificate_item.credit = -debit
