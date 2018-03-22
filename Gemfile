@@ -74,5 +74,5 @@ group :test do
   gem 'capybara-webkit', '~> 1.15'
   gem 'resque_unit'
   gem 'simplecov', '~> 0.7.1'
-  gem 'rubocop', require: false
+  gem 'rubocop', '~> 0.54', require: false
 end
