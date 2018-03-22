@@ -196,7 +196,7 @@ GEM
     listen (3.0.6)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9.7)
-    loofah (2.2.0)
+    loofah (2.2.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.10)
@@ -404,6 +404,7 @@ DEPENDENCIES
   i18n-tasks
   jquery-rails
   kaminari
+  loofah (~> 2.2.1)
   mailcatcher
   minitest
   modernizr-rails

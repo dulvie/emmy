@@ -55,8 +55,11 @@ gem 'paperclip', '~> 4.3'
 gem 'exception_notification', '~> 4.0'
 gem 'puma', '~> 3.10'
 
-# ensure rack-protection is up to date
+# Ensure rack-protection is up to date.
 gem 'rack-protection', '~> 1.5.5'
+
+# bump due to cve CVE-2018-8048
+gem 'loofah', '~> 2.2.1'
 
 group :test, :development do
   gem 'byebug'
