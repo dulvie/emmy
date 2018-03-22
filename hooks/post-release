@@ -10,15 +10,8 @@ echo "nginx public dir: $PUBLIC_DIR"
 echo "shared assets dir: $SHARED_DIR"
 
 shared_dirs="log tmp public/system"
-shared_files="config/environments/production.rb"
 
 cd "$NEXT_DIR"
-
-for file_path in $shared_files ; do
-  [ ! -f "$SHARED_DIR/$file_path" ] && echo "no file at $SHARED_DIR/$file_path, not symlinkin..." && continue
-  [ -f "$file_path" ] && (set -x ; rm "$file_path")
-  (set -x ; ln -sf "$SHARED_DIR/$file_path" "$file_path")
-done
 
 for dir in $shared_dirs ; do
   # 1. Remove the target if it exists.

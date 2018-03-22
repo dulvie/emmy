@@ -51,9 +51,15 @@ gem 'angular-ui-bootstrap-rails'
 gem 'country_select'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
-gem 'paperclip', '~> 4.3'
+gem 'paperclip', '~> 5.2'
 gem 'exception_notification', '~> 4.0'
 gem 'puma', '~> 3.10'
+
+# Ensure rack-protection is up to date.
+gem 'rack-protection', '~> 1.5.5'
+
+# bump due to cve CVE-2018-8048
+gem 'loofah', '~> 2.2.1'
 
 group :test, :development do
   gem 'byebug'
@@ -71,5 +77,5 @@ group :test do
   gem 'capybara-webkit', '~> 1.15'
   gem 'resque_unit'
   gem 'simplecov', '~> 0.7.1'
-  gem 'rubocop', require: false
+  gem 'rubocop', '~> 0.54', require: false
 end

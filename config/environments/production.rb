@@ -16,7 +16,8 @@ Emmy::Application.configure do
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
-  # For large-scale production use, consider using a caching reverse proxy like nginx, varnish or squid.
+  # For large-scale production use, consider using a
+  # caching reverse proxy like nginx, varnish or squid.
   # config.action_dispatch.rack_cache = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
@@ -66,6 +67,18 @@ Emmy::Application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: ENV.fetch('SMTP_SERVER') { abort 'You must specify SMTP_SERVER' },
+    port: ENV.fetch('SMTP_PORT') { abort 'You must specify SMTP_PORT' },
+    user_name: ENV['SMTP_USERNAME'],
+    password: ENV['SMTP_PASSWORD'],
+    authentication: ENV.fetch('SMTP_AUTH') { :plain },
+    enable_starttls_auto: ENV.fetch('SMTP_STARTTLS') { true }
+  }
+  config.action_mailer.default_url_options = {
+    host: ENV.fetch('SITE_HOSTNAME') { abort 'You must specify SITE_HOSTNAME' }
+  }
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found).
   config.i18n.fallbacks = true
