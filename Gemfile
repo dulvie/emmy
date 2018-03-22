@@ -58,8 +58,8 @@ gem 'puma', '~> 3.10'
 # Ensure rack-protection is up to date.
 gem 'rack-protection', '~> 1.5.5'
 
-# bump due to cve CVE-2018-8048
-gem 'loofah', '~> 2.2.1'
+# bump due to cve CVE-2018-3741 (CVE-2018-8048 loofah)
+gem 'rails-html-sanitizer', '~> 1.0.4'
 
 group :test, :development do
   gem 'byebug'
