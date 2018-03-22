@@ -14,4 +14,4 @@ chown $USER:$USER -R $SHARED_DIR
 
 # dump related env variables to the APP_DIR
 # ($APP_DIR/envvars will be created by 90-prepare_repo)
-(set -x ; cat /etc/envvars | grep -E 'DATABASE_URL|DB_|SECRET_KEY_BASE|RACK_ENV|APP_NAME|RESTART_NOTIFY|DEVISE' >> "${APP_DIR}/envvars")
+(set -x ; cat /etc/envvars | grep -E 'DATABASE_URL|DB_|SECRET_KEY_BASE|RACK_ENV|APP_NAME|RESTART_NOTIFY|DEVISE|SMTP|SITE_' >> "${APP_DIR}/envvars")

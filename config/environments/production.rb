@@ -71,10 +71,10 @@ Emmy::Application.configure do
   config.action_mailer.smtp_settings = {
     address: ENV.fetch('SMTP_SERVER') { abort 'You must specify SMTP_SERVER' },
     port: ENV.fetch('SMTP_PORT') { abort 'You must specify SMTP_PORT' },
-    user_name: ENV.fetch('SMTP_USERNAME') { abort 'You must specify SMTP_USERNAME' },
-    password: ENV.fetch('SMTP_PASSWORD') { abort 'You must specify SMTP_PASSWORD' },
-    authentication: :plain,
-    enable_starttls_auto: true
+    user_name: ENV.fetch['SMTP_USERNAME'],
+    password: ENV.fetch['SMTP_PASSWORD'],
+    authentication: ENV.fetch('SMTP_AUTH') { :plain },
+    enable_starttls_auto: ENV.FETCH('SMTP_STARTTLS') { true }
   }
   config.action_mailer.default_url_options = {
     host: ENV.fetch('SITE_HOSTNAME') { abort 'You must specify SITE_HOSTNAME' }

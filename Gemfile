@@ -51,7 +51,7 @@ gem 'angular-ui-bootstrap-rails'
 gem 'country_select'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
-gem 'paperclip', '~> 4.3'
+gem 'paperclip', '~> 5.2'
 gem 'exception_notification', '~> 4.0'
 gem 'puma', '~> 3.10'
 
