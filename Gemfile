@@ -55,6 +55,9 @@ gem 'paperclip', '~> 4.3'
 gem 'exception_notification', '~> 4.0'
 gem 'puma', '~> 3.10'
 
+# ensure rack-protection is up to date
+gem 'rack-protection', '~> 1.5.5'
+
 group :test, :development do
   gem 'byebug'
   gem 'factory_girl_rails', '~> 4.0'
