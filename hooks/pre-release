@@ -4,7 +4,7 @@ set -eu
 echo "** Will build using RACK_ENV=$RACK_ENV"
 set -x
 cd $NEXT_DIR
-bundle install --path $GEM_DIR --without test --without development
+bundle install --path $GEM_HOME --without test --without development
 bundle exec rake db:migrate
 bundle exec rake assets:clean
 bundle exec rake assets:clobber
