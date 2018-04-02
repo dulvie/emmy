@@ -10,6 +10,11 @@ USER="user"
 PORT="${PORT:-3000}"
 export RAILS_LOG_TO_STDOUT=true
 
+# bundler needs the HOME variable set correctly
+# chpst doesn't change it even when starting the process as
+# another user...
+export HOME=/home/$USER
+
 if [ ! -n "${DATABASE_URL:-}" ] ; then
   disable_service $NAME "stopping since no DATABASE_URL"
 fi
