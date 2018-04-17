@@ -8,6 +8,7 @@ class ImportBankFilesController < ApplicationController
   # GET
   def index
     @breadcrumbs = [[t(:import_bank_files)]]
+    @import_bank_files = @import_bank_files.order 'import_date desc'
     @import_bank_files = @import_bank_files.page(params[:page]).decorate
   end
 
