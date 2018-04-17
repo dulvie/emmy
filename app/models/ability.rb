@@ -74,6 +74,8 @@ class Ability
     can :manage, Purchase, organization_id: oids
     can :manage, PurchaseItem, organization_id: oids
     can :manage, ResultUnit, organization_id: oids
+    can :manage, ReversedVat, organization_id: oids
+    can :manage, ReversedVatReport, organization_id: oids
     can :manage, Sale, organization_id: oids
     can :manage, SaleItem, organization_id: oids
     can :manage, Shelf, organization_id: oids

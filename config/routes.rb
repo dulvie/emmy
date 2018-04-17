@@ -145,6 +145,14 @@ Emmy::Application.routes.draw do
     post 'reports/balance_report'
 
     resources :result_units
+
+    resources :reversed_vats do
+      resources :reversed_vat_reports
+      member do
+        post 'state_change', as: :state_change
+      end
+    end
+
     resources :sales do
       resources :sale_items
       member do

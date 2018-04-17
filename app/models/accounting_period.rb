@@ -17,6 +17,7 @@ class AccountingPeriod < ActiveRecord::Base
   has_many :verificates
   has_many :vat_periods, dependent: :delete_all
   has_many :wage_periods, dependent: :delete_all
+  has_many :reversed_vats, dependent: :delete_all
   has_one  :ledger, dependent: :delete
 
   VAT_TYPES = ['year', 'quarter', 'month']
@@ -116,6 +117,16 @@ class AccountingPeriod < ActiveRecord::Base
     wage_period.payment_date = wage_period.wage_from + 17.days
     wage_period.deadline = wage_period.wage_to + 12.days
     wage_period
+  end
+
+  def next_reversed_vat
+    reversed_vat = ReversedVat.new
+    reversed_vat.accounting_period_id = self.id
+    reversed_vat.name = 'Omvänd moms ' + accounting_from.strftime('%Y') + ':' + (reversed_vats.count + 1).to_s
+    reversed_vat.vat_from = reversed_vats.count > 0 ? reversed_vats.last.vat_to + 1.days : accounting_from
+    reversed_vat.vat_to = reversed_vat.vat_from.end_of_month
+    reversed_vat.deadline = reversed_vat.vat_to + 12.days
+    reversed_vat
   end
 
   def default_tax_return

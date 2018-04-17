@@ -1,0 +1,32 @@
+%div
+  = simple_form_for(@reversed_vat, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+    = f.error_notification
+    = f.association :accounting_period, as: :hidden
+    .form-group
+      .labels_width.control-label
+        = f.label :accounting_period
+      .fields_width
+        %input{id: 'show', type: 'text', class: 'form-control', value: f.object.accounting_period.name, disabled: true}
+
+    = f.input :name, disabled: !@reversed_vat.preliminary?
+    = f.input :vat_from, as: :string, :input_html => { :class => 'date', :value => localize(f.object.vat_from, :format => "%Y-%m-%d"), :readonly => 'readonly'}
+    = f.input :vat_to, as: :string, :input_html => { :class => 'date', :value => localize(f.object.vat_to, :format => "%Y-%m-%d"), :readonly => 'readonly'}
+    = f.input :deadline, as: :string, :input_html => { :class => 'date', :value => localize(f.object.deadline, :format => "%Y-%m-%d"), :readonly => 'readonly'}
+    = f.input :state, disabled: true
+    - if @reversed_vat.calculated?
+      = f.input :calculated_at, as: :string, :input_html => { :class => 'date', :value => localize(f.object.calculated_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
+    - if @reversed_vat.reported?
+      = f.input :reported_at, as: :string, :input_html => { :class => 'date', :value => localize(f.object.reported_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
+
+    .form-button-group
+      .actions
+        - if @reversed_vat.new_record? || @reversed_vat.preliminary?
+          = f.submit class: 'btn btn-primary'
+        - if !@reversed_vat.new_record? && @reversed_vat.can_calculate?
+          - url = state_change_reversed_vat_path + '&event=mark_calculated'
+          = link_to "#{t(:calculate)}", url, method: 'post', class: 'btn btn-primary'
+        - if !@reversed_vat.new_record? && @reversed_vat.can_report?
+          - url = state_change_reversed_vat_path + '&event=mark_reported'
+          = link_to "#{t(:report)}", url, method: 'post', class: 'btn btn-primary'
+  - if @reversed_vat_reports
+    = render partial: 'reversed_vat_reports/list', locals: {reversed_vat_reports: @reversed_vat_reports}

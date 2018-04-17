@@ -1,0 +1,25 @@
+.table-responsive{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:vat_number)
+        %th.numeric= t(:goods)
+        %th.numeric= t(:services)
+        %th.numeric= t(:third_part)
+        %th= t(:note)
+        %th
+    %tbody{}
+      - reversed_vat_reports.each do |reversed_vat_report|
+        %tr
+          %td= reversed_vat_report.vat_number
+          %td.numeric= reversed_vat_report.goods
+          %td.numeric= reversed_vat_report.services
+          %td.numeric= reversed_vat_report.third_part
+          %td= reversed_vat_report.note
+          - if !reversed_vat_report.reversed_vat.reported?
+            %td.numeric= link_to settings_icon, edit_reversed_vat_reversed_vat_report_path(reversed_vat_report.reversed_vat_id, reversed_vat_report)
+          - else
+            %td
+
+  = paginate reversed_vat_reports, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

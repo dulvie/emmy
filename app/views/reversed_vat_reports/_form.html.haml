@@ -1,0 +1,12 @@
+%div
+  = simple_form_for([@reversed_vat, @reversed_vat_report], wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+    = f.error_notification
+    = f.input :vat_number
+    = f.input :goods
+    = f.input :services
+    = f.input :third_part
+    = f.input :note
+
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'
