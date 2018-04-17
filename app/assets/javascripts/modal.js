@@ -71,7 +71,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, dat, min_d
     $scope.min_date = min_date;
     $scope.max_date = max_date;
 	$scope.date = dat;
-	$scope.dpOptions = {'starting-day': 1,'show-weeks': false};
+	$scope.dpOptions = {'starting-day': 1,'show-weeks': false, initDate: new Date(dat)};
 	$scope.openDate = function($event) {
 		$event.preventDefault();
 		$event.stopPropagation();
