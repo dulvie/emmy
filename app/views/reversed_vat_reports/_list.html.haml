@@ -8,6 +8,7 @@
         %th.numeric= t(:third_part)
         %th= t(:note)
         %th
+        %th
     %tbody{}
       - reversed_vat_reports.each do |reversed_vat_report|
         %tr
@@ -20,6 +21,7 @@
             %td.numeric= link_to settings_icon, edit_reversed_vat_reversed_vat_report_path(reversed_vat_report.reversed_vat_id, reversed_vat_report)
           - else
             %td
+          %td= delete_modal_for reversed_vat_report, reversed_vat_reversed_vat_report_path(@reversed_vat, reversed_vat_report)
 
   = paginate reversed_vat_reports, :theme => 'twitter-bootstrap-3'
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

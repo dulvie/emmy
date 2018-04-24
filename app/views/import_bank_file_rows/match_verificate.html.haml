@@ -6,7 +6,7 @@
         %th= t(:description)
         %th= t(:name)
         %th= t(:choose)
-    %tbody{}
+    %tbody
       - @verificates.each do |verificate|
         %tr
           %td= verificate.posting_date_formatted
@@ -22,6 +22,12 @@
             %td= template.name
             - url = import_bank_file_import_bank_file_row_set_template_verificate_path(@import_bank_file, @import_bank_file_row) + "&template_id="+template.id.to_s
             %td= link_to ok_icon, url
+      %tr
+        %td
+        %td= t(:sale_eu_countries)
+        %td= t(:reversed_vat)
+        - url = new_simplified_sale_path + "&import_bank_file_row_id=" + @import_bank_file_row.id.to_s
+        %td= link_to ok_icon, url
       %tr
         %td
         %td= t(:manually)

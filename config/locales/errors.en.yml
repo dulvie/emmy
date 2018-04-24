@@ -6,6 +6,7 @@ en:
       no_organization_email: "No email for this organization"
       taken: "Name not unique"
       could_not_be_deleted: "can not be deleted"
+      country: "Contrycode missing"
   accounting_period_missing: "Accounting period missing"
   accounting_plan_missing: "Accounting plan missing"
   accounts_receivables_missing: "Accounts receivables missing"

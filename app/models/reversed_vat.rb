@@ -113,6 +113,7 @@ class ReversedVat < ActiveRecord::Base
   end
 
   def can_delete?
+    return false if reported?
     return false if accounting_period.active
     true
   end

@@ -171,6 +171,8 @@ Emmy::Application.routes.draw do
     resources :sie_exports
     resources :sie_imports
 
+    resources :simplified_sales
+
     resources :suppliers
 
     resources :stock_values do

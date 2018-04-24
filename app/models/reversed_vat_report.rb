@@ -20,6 +20,7 @@ class ReversedVatReport < ActiveRecord::Base
   validates :reversed_vat, presence: true
 
   def can_delete?
+    return false if reversed_vat.reported?
     true
   end
 end

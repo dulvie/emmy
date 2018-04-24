@@ -81,6 +81,7 @@ class Ability
     can :manage, Shelf, organization_id: oids
     can :manage, SieExport, organization_id: oids
     can :manage, SieImport, organization_id: oids
+    can :manage, SimplifiedSale, organization_id: oids
     can :read,   Statistics::Report, organization_id: oids
     can :manage, StockValue, organization_id: oids
     can :manage, StockValueItem, organization_id: oids

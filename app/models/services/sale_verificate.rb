@@ -24,7 +24,7 @@ module Services
     end
 
     def verificate_id
-      @verificate.id
+      @verificate_creator.verificate_id
     end
 
     def accounts_receivable
@@ -129,6 +129,24 @@ module Services
         default_code = default_code(01)
         account = account_from_default_code(default_code)
         @verificate_creator.save_verificate_item(account, @sale.total_after_rounding/100, 0)
+      end
+    end
+
+    def reverse_charge(vat_number, result_unit)
+      Verificate.transaction do
+        # create verificate
+        ver_dsc = I18n.t(:payment) + ' ' + I18n.t(:reversed_vat)
+        @verificate_creator.save_verificate(@sale.paid_at, ver_dsc, '', '', nil, vat_number)
+
+        # create income
+        tax_code = tax_code(39)
+        account = account_from_tax_code(tax_code)
+        @verificate_creator.save_verificate_item(account, 0, @sale.total_price/100, result_unit)
+
+        # create customer payments
+        default_code = default_code(01)
+        account = account_from_default_code(default_code)
+        @verificate_creator.save_verificate_item(account, @sale.total_price/100, 0)
       end
     end
 
