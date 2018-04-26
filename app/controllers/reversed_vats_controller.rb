@@ -24,7 +24,6 @@ class ReversedVatsController < ApplicationController
   def new
     @accounting_period = current_organization.accounting_periods.find(session[:accounting_period_id])
     @reversed_vat = @accounting_period.next_reversed_vat
-    Rails.logger.info "#{@reversed_vat.inspect}"
   end
 
   def show
@@ -42,6 +41,8 @@ class ReversedVatsController < ApplicationController
       if @reversed_vat.save
         format.html { redirect_to reversed_vats_path, notice: "#{t(:reversed_vat)} #{t(:was_successfully_created)}" }
       else
+        @accounting_period = current_organization.accounting_periods.find(session[:accounting_period_id])
+        @reversed_vat = @accounting_period.next_reversed_vat
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:reversed_vat)}"
         format.html { render action: 'new' }
       end
@@ -53,6 +54,7 @@ class ReversedVatsController < ApplicationController
       if @reversed_vat.update(reversed_vat_period_params)
         format.html { redirect_to reversed_vats_path, notice: "#{t(:reversed_vat)} #{t(:was_successfully_updated)}" }
       else
+        @reversed_vat_reports = @reversed_vat.reversed_vat_reports.page(params[:page])
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:reversed_vat)}"
         format.html { render action: 'edit' }
       end
