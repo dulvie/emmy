@@ -24,35 +24,41 @@ module Services
     end
 
     def wage
-      # wage per result_unit + payment to bankaccount + add result_unit to ver_item
       Verificate.transaction do
 
         # create verificate
         @verificate_creator.save_verificate(@wage_period.payment_date, 'Salery payout', '', '', nil, 'wage')
 
-        # create total salery
-        tax_code = tax_code(50)
-        account = account_from_tax_code(tax_code)
-        amount = @wage_period.total_salary
-        @verificate_creator.save_verificate_item(account, amount, 0)
+        # create verificate_items for all wages
+        @wage_period.wages.each do |wage|
+          result_unit_id = ''
+          result_unit = wage.employee.result_unit
+          result_unit_id = result_unit.id if result_unit
 
-        # create wage tax
-        tax_code = tax_code(82)
-        account = account_from_tax_code(tax_code)
-        amount = @wage_period.total_tax
-        @verificate_creator.save_verificate_item(account, 0, amount)
+          # create total salery
+          tax_code = tax_code(50)
+          account = account_from_tax_code(tax_code)
+          amount = wage.salary
+          @verificate_creator.save_verificate_item(account, amount, 0, result_unit_id)
 
-        # create payroll debet
-        tax_code = tax_code(100)
-        account = account_from_tax_code(tax_code)
-        amount = @wage_period.total_payroll_tax
-        @verificate_creator.save_verificate_item(account, amount, 0)
+          # create wage tax
+          tax_code = tax_code(82)
+          account = account_from_tax_code(tax_code)
+          amount = wage.tax
+          @verificate_creator.save_verificate_item(account, 0, amount)
 
-        # create payroll credit
-        tax_code = tax_code(78)
-        account = account_from_tax_code(tax_code)
-        amount = @wage_period.total_payroll_tax
-        @verificate_creator.save_verificate_item(account, 0, amount)
+          # create payroll debet
+          tax_code = tax_code(100)
+          account = account_from_tax_code(tax_code)
+          amount = wage.payroll_tax
+          @verificate_creator.save_verificate_item(account, amount, 0, result_unit_id)
+
+          # create payroll credit
+          tax_code = tax_code(78)
+          account = account_from_tax_code(tax_code)
+          amount = wage.payroll_tax
+          @verificate_creator.save_verificate_item(account, 0, amount)
+        end
 
         # create payment
         default_code = default_code(01)
