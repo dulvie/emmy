@@ -5,6 +5,8 @@ code;12;Utgående moms på försäljning 6 %;accounting_period;vat
 code;30;Utgående moms på försäljning 25 %;accounting_period;vat
 code;31;Utgående moms på försäljning 12 %;accounting_period;vat
 code;32;Utgående moms på försäljning 6 %;accounting_period;vat
+code;39;Försäljning av tjänster till EU-land;accounting_period;vat
+code;40;Försäljning av tjänster utanför Sverige;accounting_period;vat
 code;48;Ingående moms;accounting_period;vat
 code;49;Moms att betala eller få tillbaka;total;vat
 
@@ -29,6 +31,8 @@ connect;Normal_20;3003;05
 connect;Normal_20;2610;10
 connect;Normal_20;2620;11
 connect;Normal_20;2630;12
+connect;Normal_20;3308;39
+connect;Normal_20;3305;40
 connect;Normal_20;2640;48
 
 connect;Normal_20;2614;30
