@@ -48,6 +48,7 @@ class Employee < ActiveRecord::Base
   end
 
   def set_tax
+    return 0 if salary.nil?
     self.tax = tax_table.calculate(salary, tax_table_column)
   end
 
