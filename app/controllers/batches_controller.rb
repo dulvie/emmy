@@ -47,7 +47,9 @@ class BatchesController < ApplicationController
   # PATCH/PUT /batches/1
   def update
     if @batch.update(batch_params)
-      redirect_to batches_path, notice: "#{t(:batch)} #{t(:was_successfully_updated)}"
+      url = batches_path
+      url = edit_production_path(params[:return_path]) if !params[:return_path].blank?
+      redirect_to url, notice: "#{t(:batch)} #{t(:was_successfully_updated)}"
     else
       flash.now[:danger] = "#{t(:failed_to_update)} #{t(:batch)}"
       init_new
