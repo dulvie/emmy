@@ -8,15 +8,17 @@ class VerificateItem < ActiveRecord::Base
   # t.integer  :verificate_id
   # t.integer  :result_unit_id
   # t.integer  :project_id
+  # t.integer  :tax_code_id
   # t.timestamps
 
-  attr_accessible :account_id, :description, :debit, :credit, :result_unit_id
+  attr_accessible :account_id, :description, :debit, :credit, :result_unit_id, :tax_code_id
 
   belongs_to :organization
   belongs_to :accounting_period
   belongs_to :verificate
   belongs_to :account
   belongs_to :result_unit
+  belongs_to :tax_code
 
   validates :account_id, presence: true
   validates :description, presence: true
