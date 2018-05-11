@@ -17,6 +17,7 @@ class VerificateItemsController < ApplicationController
     @accounting_groups = accounting_plan.accounting_groups.active.order(:number)
     @accounts = accounting_plan.accounts.where('active = ?', 'true').order(:number)
     @result_units = current_organization.result_units
+    @tax_codes = current_organization.tax_codes.vat_purchase_basis
     gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer),
              accounts: ActiveModel::ArraySerializer.new(@accounts, each_serializer: AccountSerializer)
   end
@@ -31,6 +32,7 @@ class VerificateItemsController < ApplicationController
     @accounting_groups = accounting_plan.accounting_groups.active.order(:number)
     @accounts = accounting_plan.accounts.where('active = ?', 'true').order(:number)
     @result_units = current_organization.result_units
+    @tax_codes = current_organization.tax_codes.vat_purchase_basis
     gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer),
              accounts: ActiveModel::ArraySerializer.new(@accounts, each_serializer: AccountSerializer)
   end

@@ -134,6 +134,22 @@ class Verificate < ActiveRecord::Base
     true
   end
 
+  def check_vat_report
+    vat = false
+    vat_basis = false
+    verificate_items.each do |verificate_item|
+      if verificate_item.account.tax_code && verificate_item.account.tax_code.vat_purchase
+        vat = true
+      end
+      if verificate_item.tax_code && verificate_item.tax_code.vat_purchase_basis
+        vat_basis = true
+      end
+    end
+    return true if vat && vat_basis
+    return true if !vat && !vat_basis
+    false
+  end
+
   def verificate_items?
     return true if verificate_items.count > 0
     false
