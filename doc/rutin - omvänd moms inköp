@@ -1,0 +1,11 @@
+Omvänd moms vid inköp
+
+Förutsättning 
+1) Räkenskapsår registrerat och momsredovisningsperiod bestämd
+2) tax-codes för moms är satta och kopplade till rätt konton
+3) vid kostnadskontering av inköp markeras varifrån inköpet gjorts
+4) beräkning av moms görs på särskild konteringsrad
+
+I momsrapport
+1) Summering av underlag för omvänd momsredovisning i speciell kolumn
+2) Summering av beräknad moms dels utgående och dels ingående

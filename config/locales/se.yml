@@ -466,6 +466,7 @@ se:
   vats: "Moms"
   vat_information: "Momsinformation"
   vat_percent: "Moms i procent"
+  vat_purchase_info: "Används på kostnadskontot vid inköp med omvänd skattskyldighet. Dvs om moms ska redovisas för inköp utifrån"
   verificate: "Verifikat"
   verificate_item: "Verifikatrad"
   verificate_items: "Verifikatrader"

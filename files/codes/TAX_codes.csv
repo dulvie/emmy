@@ -2,9 +2,14 @@ code;05;Momspliktig försäljning;vat_period;vat
 code;10;Utgående moms på försäljning 25 %;accounting_period;vat
 code;11;Utgående moms på försäljning 12 %;accounting_period;vat
 code;12;Utgående moms på försäljning 6 %;accounting_period;vat
-code;30;Utgående moms på försäljning 25 %;accounting_period;vat
-code;31;Utgående moms på försäljning 12 %;accounting_period;vat
-code;32;Utgående moms på försäljning 6 %;accounting_period;vat
+code;20;Inköp varor EU-land;verificate_items;vat
+code;21;Inköp tjänst EU-land;verificate_items;vat
+code;22;Inköp tjänst utanför EU;verificate_items;vat
+code;23;Inköp varor Sverige;verificate_items;vat
+code;24;Övrig inköp tjänster;verificate_items;vat
+code;30;Utgående moms på inköp 25 %;accounting_period;vat
+code;31;Utgående moms på inköp 12 %;accounting_period;vat
+code;32;Utgående moms på inköp 6 %;accounting_period;vat
 code;39;Försäljning av tjänster till EU-land;accounting_period;vat
 code;40;Försäljning av tjänster utanför Sverige;accounting_period;vat
 code;48;Ingående moms;accounting_period;vat

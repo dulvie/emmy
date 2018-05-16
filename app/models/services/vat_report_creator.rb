@@ -77,6 +77,12 @@ module Services
             save_vat_report(tax_code, -amount, accounting_period)
           when 'total'
             save_vat_report(tax_code, -total, accounting_period)
+          when 'verificate_items'
+            amount = VerificateItem
+                         .where('verificate_id IN(?) AND tax_code_id = ?',
+                                ver_vat_period, tax_code.id)
+                         .sum('debit-credit')
+            save_vat_report(tax_code, amount, accounting_period)
           else
           end
         end

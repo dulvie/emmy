@@ -12,8 +12,10 @@ class TaxCode < ActiveRecord::Base
 
   SUM_METHODS = ['accounting_period', 'vat_period', 'total', 'wage_period', 'subset_55',
                  'subset_56', 'subset_57', 'subset_58', 'subset_59', 'subset_60',
-                 'subset_61', 'subset_62', 'include_81', 'none']
+                 'subset_61', 'subset_62', 'include_81', 'verificate_items', 'none']
   CODE_TYPES = ['vat', 'wage', 'default']
+  VAT_PURCHASE = [30,31,32]
+  VAT_PURCHASE_BASIS = [20,21,22,23,24]
 
   validates :code, presence: true, uniqueness: { scope: :organization_id }
   validates :text, presence: true
@@ -23,6 +25,17 @@ class TaxCode < ActiveRecord::Base
   scope :vat, -> { where(code_type: 'vat') }
   scope :wage, -> { where(code_type: 'wage') }
   scope :default, -> { where(code_type: 'default') }
+
+  scope :vat_purchase, -> { where("code in (?)", VAT_PURCHASE)}
+  scope :vat_purchase_basis, -> { where("code in(?)", VAT_PURCHASE_BASIS)}
+
+  def vat_purchase
+    VAT_PURCHASE.include? code
+  end
+
+  def vat_purchase_basis
+    VAT_PURCHASE_BASIS.include? code
+  end
 
   def name
     text

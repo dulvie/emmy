@@ -32,7 +32,7 @@
       .form-button-group
         .actions
           = link_to "#{t(:create)} #{t(:verificate_item)}", new_verificate_verificate_item_path(@verificate), class: 'btn btn-primary'
-          - if @verificate.balanced?
+          - if @verificate.balanced? && @verificate.check_vat_report
             %div{ng_controller: 'ModalCtrl', ng_init: "init(min_date, max_date)"}
               %button{:id =>'state_change', :class=>'btn btn-primary', :ng_click=>"open($event, 'sm','verificatesContent' )"}
                 = t(:confirm)

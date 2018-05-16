@@ -487,6 +487,7 @@ en:
   vats: "VATS"
   vat_information: "VAT information"
   vat_percent: "VAT percent"
+  vat_purchase_info: "Used on the cost account for purchases with reverse tax liability. That is, if VAT is to be reported for external purchases"
   verificate: "Verificate"
   verificate_item: "Verificate item"
   verificate_items: "Verificate items"
