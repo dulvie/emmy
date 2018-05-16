@@ -1,0 +1,35 @@
+.input-group.col-sm-48
+  = link_to "#{t(:create)} #{t(:reversed_vat)}", new_reversed_vat_path, class: 'btn btn-success'
+
+  .col-sm-30.col-md-30.pull-right.text-right
+    = form_tag reversed_vats_path, class: 'form-inline submit-on-change', method: :get, enforce_utf8: false  do
+      = text_field_tag('locale' , params[:locale], type:'hidden')
+      = select_tag(:accounting_period_id,
+        options_for_select(@accounting_periods.each.collect{|w| [w.name, w.id]}, @period),
+        class: 'btn btn-default')
+.clear &nbsp;
+
+.table-responsive{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:name)
+        %th.numeric= t(:from)
+        %th.numeric= t(:to)
+        %th.numeric= t(:deadline)
+        %th= t(:state)
+        %th
+        %th
+    %tbody{}
+      - @reversed_vats.each do |reversed_vat|
+        %tr
+          %td= reversed_vat.name
+          %td.numeric= reversed_vat.vat_from
+          %td.numeric= reversed_vat.vat_to
+          %td.numeric= reversed_vat.deadline
+          %td= reversed_vat.state
+          %td.numeric= link_to settings_icon, edit_reversed_vat_path(reversed_vat)
+          %td.numeric= delete_modal_for reversed_vat
+
+  = paginate @reversed_vats, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

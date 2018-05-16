@@ -1,0 +1,18 @@
+Beskrivning omvänd moms
+
+Förutsätter
+1) Använder BAS-kontoplan
+2) TAX-koder inlästa och kopplade
+3) Räkenskapsår
+
+Kontering försäljning
+1) Från inläsning bankfil välj Omvänd moms
+2) Fyll i uppgifter i formulär Förenklad försäljning
+3) sale, sale_item, verificate och verificate_items skapas
+4) godkänn verificate
+
+Ta ut rapport
+1) Menypunkt rapporter/omvänd moms
+2) Registrera rapport för perioden
+3) Starta beräkning som sker i bakgrunden
+4) Rapporten visar en summering per momsnummer
