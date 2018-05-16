@@ -22,7 +22,8 @@
           = f.input :completed_at, :as => :string, :input_html => { :class => 'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
   
         - if !@production.batch.nil?
-          = render partial: 'shared/addon_show_link', locals: {form: f, object: f.object.batch, label: :batch, value: f.object.batch.name, link: edit_batch_path(f.object.batch)}
+          - return_path = '&return_path=' + @production.id.to_s
+          = render partial: 'shared/addon_show_link', locals: {form: f, object: f.object.batch, label: :batch, value: f.object.batch.name, link: edit_batch_path(f.object.batch)+return_path}
           = f.input :quantity, disabled: true
           = f.input :unit, disabled: true, :input_html => {:class =>'medium', :value => f.object.unit.name}
   
