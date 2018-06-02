@@ -1,10 +1,17 @@
 ## Förteckning personrelaterade uppgifter
 
-Enda uppgifter som förs vidare är löneuppgifter till bank och skatteverk.
-
-Borttag sker med underhållsfunktioner.
-
+Enda uppgifter som förs vidare är löneuppgifter till bank och skatteverk.  
+Borttag sker med underhållsfunktioner.  
 Autentisering sker på användarnivå. 
+
+Uppgiftsansvarig och kontakt
+
+:organization.name  
+:organization.address  
+:organization.zip :organization.city
+
+:user.email
+
 
 
 ### Användare av systemet
