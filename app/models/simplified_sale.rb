@@ -6,6 +6,7 @@ class SimplifiedSale
                 :name, :price, :quantity, :vat,
                 :posting_date, :description, :accounting_period_id,
                 :parent_type, :parent_id, :parent_extend,
+                :import_bank_file_row_id,
                 :debit, :credit, :result_unit_id,
                 :organization_id, :verificate_id
 
@@ -68,6 +69,8 @@ class SimplifiedSale
       Rails.logger.info "** Simplified_sale reverse_charge verificate did NOT return ok"
       return false
     end
+    @import_bank_file_row = ImportBankFileRow.find(import_bank_file_row_id)
+    @import_bank_file_row.set_posted
     @verificate_id = sale_verificate.verificate_id
     true
   end
