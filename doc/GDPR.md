@@ -1,10 +1,14 @@
 ## Förteckning personrelaterade uppgifter
 
+Med personrelaterad uppgift menas sådan uppgift som kan kopplas till enskild person. De uppgifter som samlas in, registreras och lagras i emmy är specificerade nedan.
+
 Enda uppgifter som förs vidare är löneuppgifter till bank och skatteverk.  
 Borttag sker med underhållsfunktioner.  
-Autentisering sker på användarnivå. 
+Autentisering sker på användarnivå.
+ 
+### Uppgiftsansvarig och kontakt
 
-Uppgiftsansvarig och kontakt
+Organisation som använder emmy ska sätt email-adress för frågor och kontakt i GDPR-frågor.  
 
 :organization.name  
 :organization.address  
@@ -16,7 +20,8 @@ Uppgiftsansvarig och kontakt
 
 ### Användare av systemet
 
-Varje användare är unik i systemet	
+Varje användare är unik i systemet.  
+De är ansvariga och kan hantera sina egna uppgifter.	
 
 - namn					
 - email
@@ -31,7 +36,8 @@ Varje användare är unik i systemet
 
 ### Kontaktuppgift hos kund	
 
-Nödvändigt för kontakt med kund 
+Nödvändigt för kontakt med kund.  
+Användare i organisationen är ansvarig och kan hantera uppgifterna.  
 
 - namn
 - email
@@ -44,7 +50,9 @@ Nödvändigt för kontakt med kund
 
 ### Kontaktuppgift hos leverantör
 
-Nödvändigt för kontakt med leverantör
+Nödvändigt för kontakt med leverantör.  
+Användare i organisationen är ansvarig och kan hantera uppgifterna.  
+ 
 
 - namn
 - email
@@ -57,7 +65,8 @@ Nödvändigt för kontakt med leverantör
 
 ### Uppgift över anställd
 
-Uppgifter nödvändiga för löneutbetalning och skatteredovisning
+Uppgifter nödvändiga för löneutbetalning och skatteredovisning  
+Användare i organisationen är ansvarig och kan hantera uppgifterna.  
 
 - namn
 - personnummer/födelseår
