@@ -530,6 +530,7 @@ se:
   welcome: "Välkommen"
   welcome_to_emmy: "Välkommen till Emmy, appen som hanterar logistik för små organisationer."
   which_organization_do_you_want_to_work_on: "Vilken organisation vill du arbeta i"
+  within_period: "Inom annan period"
   work: "Arbete"
   your_reference: "Er referens"
   your_organizations: "Dina organisationer"

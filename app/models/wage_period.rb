@@ -23,7 +23,7 @@ class WagePeriod < ActiveRecord::Base
   belongs_to :organization
   belongs_to :accounting_period
   belongs_to :supplier
-  has_many :wages
+  has_many :wages, dependent: :destroy
   has_many :wage_reports, dependent: :destroy
   has_many :verificates
 
@@ -61,6 +61,7 @@ class WagePeriod < ActiveRecord::Base
   def state_change(event, changed_at = nil, user_id = nil)
     return false unless STATE_CHANGES.include?(event.to_sym)
     send(event, changed_at, user_id)
+    true
   end
 
   state_machine :state, initial: :preliminary do
@@ -243,7 +244,7 @@ class WagePeriod < ActiveRecord::Base
   end
 
   def can_delete?
-    return false if wages.size > 0
+    # return false if wages.size > 0
     return false if wage_reports.size > 0
     true
   end

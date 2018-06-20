@@ -1,0 +1,43 @@
+- year = DateTime.now
+- year = DateTime.new(params[:year].to_i) if params[:year].present?
+- wage_years = []
+- wages.each do |wage|
+  - payment_year = wage.payment_date.year
+  - if !wage_years.include? payment_year
+    - wage_years.push(payment_year)
+- wages = wages.by_year(year).page(params[:page]).decorate
+
+.row
+  .col-sm-40.col-md-40.pull-right.text-right
+    = form_tag employee_path(employee), class: 'form-inline submit-on-change', method: :get, enforce_utf8: false do
+      = text_field_tag('locale' , params[:locale], type:'hidden')
+
+      = select_tag("year",
+        options_for_select(wage_years, year.year),
+        class: 'btn btn-default')
+
+.table-responsive{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:from)
+        %th= t(:to)
+        %th= t(:payment_date)
+        %th= t(:salary)
+        %th.numeric= t(:tax)
+        %th.numeric= t(:amount)
+        %th
+    %tbody{}
+      - wages.each do |wage|
+        %tr
+          %td= wage.wage_from
+          %td= wage.wage_to
+          %td= wage.payment_date
+          %td= wage.salary
+          %td.numeric= wage.tax
+          %td.numeric= wage.amount
+          %td
+            - if wage.has_document?
+              = link_to doc_icon, wage_period_wage_path(wage.wage_period, wage, format: 'pdf'), target: '_blank'
+
+  = paginate wages, :theme => 'twitter-bootstrap-3'

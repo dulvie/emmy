@@ -82,12 +82,13 @@ class WagePeriodsController < ApplicationController
   def state_change
     @wage_period = current_organization.wage_periods.find(params[:id])
     authorize! :manage, @wage_period
-    if @wage_period.state_change(params[:event], DateTime.now, current_user.id)
-      msg_h = { notice: t(:success) }
-    else
-      msg_h = { alert: t(:fail) }
+    respond_to do |format|
+      if @wage_period.state_change(params[:event], DateTime.now, current_user.id)
+        format.html { redirect_to wage_periods_url, notice: "#{t(:success)}" }
+      else
+        format.html { redirect_to wage_periods_url, notice: "#{t(:fail)}" }
+      end
     end
-    redirect_to wage_periods_path, msg_h
   end
 
   private

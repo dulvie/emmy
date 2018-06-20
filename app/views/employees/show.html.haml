@@ -1,12 +1,14 @@
 %ul{:class => 'nav nav-tabs'}
   %li.active= link_to t(:base_information), "#employee-form", {"data-toggle" => "tab"}
   %li= link_to t(:contact), "#contact", {"data-toggle" => "tab"}
+  %li= link_to t(:wages), "#wages", {"data-toggle" => "tab"}
 .tab-content.after-nav-tabs
-  #employee-form.tab-pane.active
+  #employee-form.tab-pane
     = render 'form'
   #contact.tab-pane
     = render partial: 'contact_relations/form', locals: {contact_relations: @employee.contact_relation, parent: @employee}
-
+  #wages.tab-pane
+    = render partial: 'wages/list', locals: {wages: @employee.wages, employee: @employee}
 :javascript
   $(document).ready(function() {
 
