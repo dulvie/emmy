@@ -26,7 +26,7 @@
 
     .form-button-group
       .actions
-        - if @wage_period.new_record? || @wage_period.preliminary?
+        - if @wage_period.new_record? || @wage_period.can_calculate_wage?
           = f.submit class: 'btn btn-primary'
         - if !@wage_period.new_record? && @wage_period.can_calculate_wage?
           - url = state_change_wage_period_path + '&event=mark_wage_calculated' 

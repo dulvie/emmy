@@ -9,20 +9,22 @@ module Services
 
     def save_wages
       @accounting_period = AccountingPeriod.find(@wage_period.accounting_period_id)
-      employee = @organization.employees
+      employees = @organization.employees
                      .where('begin < ? AND ending > ?', @wage_period.wage_to, @wage_period.wage_from)
-      employee.each do |employee|
+      employees.each do |employee|
         @verificate_items = []
         salary = calculate_wage(employee)
         @wage = save_wage(employee, salary, @accounting_period, @wage_period)
-        generate_spec
+        pdf = generate_spec
+        @wage.set_document("spec_#{@wage.id}", pdf) if !pdf.nil?
       end
+      true
     end
 
     def calculate_wage(employee)
       return employee.salary if employee.result_unit.nil?
-      fom = @wage_period.wage_from - 1.month
-      tom = @wage_period.wage_to - 1.month
+      fom = @wage_period.wage_from
+      tom = @wage_period.wage_to
       result_unit = employee.result_unit
       @result_unit_vers = @organization.verificate_items.period(fom, tom, result_unit.id)
       sum = 0
@@ -43,16 +45,21 @@ module Services
 
     def generate_spec
       Rails.logger.info "WageCreator#generate_spec @wage: #{@wage.inspect}"
-      pdf_string = WickedPdf.new.pdf_from_string(
-          WagesController.new.render_to_string(
-              template: '/wages/show.pdf.haml',
-              layout: 'pdf',
-              locale: I18n.locale = 'se',
-              locals: { :wage => @wage, :verificate_items => @verificate_items }
-          ),
-          pdf: "spec_#{@wage.id}"
+      str = WagesController.new.render_to_string(
+          template: '/wages/show.pdf.haml',
+          layout: 'pdf',
+          locale: I18n.locale = 'se',
+          locals: { :wage => @wage, :verificate_items => @verificate_items }
       )
-      @wage.set_document("spec_#{@wage.id}", pdf_string)
+      begin
+        pdf_string = ""
+        pdf_string = WickedPdf.new.pdf_from_string(str, pdf: "spec_#{@wage.id}")
+      rescue Exception => e
+        Rails.logger.info "==>WickedPdf Error #{e.message}"
+        pdf_string = nil
+      ensure
+      end
+      return pdf_string
     end
 
     def delete_wages

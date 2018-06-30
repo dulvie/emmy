@@ -17,6 +17,7 @@ class Employee < ActiveRecord::Base
 
   before_update :set_tax
   before_create :set_tax
+  before_save   :set_salary
 
   attr_accessible :name, :begin, :ending, :wage_type, :salary, :tax, :birth_year, :tax_table_id,
                   :tax_table_column, :personal, :clearingnumber, :bank_account
@@ -50,6 +51,10 @@ class Employee < ActiveRecord::Base
   def set_tax
     return 0 if salary.nil?
     self.tax = tax_table.calculate(salary, tax_table_column)
+  end
+
+  def set_salary
+    self.salary = 0 if salary.nil?
   end
 
   def age
