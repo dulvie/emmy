@@ -164,6 +164,81 @@ module Services
 
     def exkl_INK2(ink_code, code)
       case code
+        when '2.1'
+          ink_to_accounting_plan_interval(ink_code, '1000-1087')
+          ink_to_accounting_plan_interval(ink_code, '1089-1099')
+        when '2.3'
+          ink_to_accounting_plan_interval(ink_code, '1100-1119')
+          ink_to_accounting_plan_interval(ink_code, '1130-1179')
+          ink_to_accounting_plan_interval(ink_code, '1190-1199')
+        when '2.4'
+          ink_to_accounting_plan_interval(ink_code, '1200-1279')
+          ink_to_accounting_plan_interval(ink_code, '1290-1299')
+        when '2.8'
+          ink_to_accounting_plan_interval(ink_code, '1330-1335')
+          ink_to_accounting_plan_interval(ink_code, '1338-1339')
+        when '2.10'
+          ink_to_accounting_plan_interval(ink_code, '1320-1345')
+          ink_to_accounting_plan_interval(ink_code, '1348-1349')
+        when '2.20'
+          ink_to_accounting_plan_interval(ink_code, '1560-1572')
+          ink_to_accounting_plan_interval(ink_code, '1574-1679')
+          ink_to_accounting_plan_interval(ink_code, '1660-1679')
+        when '2.25'
+          ink_to_accounting_plan_interval(ink_code, '1800-1859')
+          ink_to_accounting_plan_interval(ink_code, '1870-1899')
+        when '2.34'
+          ink_to_accounting_plan_interval(ink_code, '2220-2229')
+          ink_to_accounting_plan_interval(ink_code, '2240-2299')
+        when '2.38'
+          ink_to_accounting_plan_interval(ink_code, '2360-2372')
+          ink_to_accounting_plan_interval(ink_code, '2374-2379')
+        when '2.47'
+          ink_to_accounting_plan_interval(ink_code, '2460-2472')
+          ink_to_accounting_plan_interval(ink_code, '2474-2479')
+          ink_to_accounting_plan_interval(ink_code, '2860-2872')
+          ink_to_accounting_plan_interval(ink_code, '2874-2879')
+        when '2.48'
+          ink_to_accounting_plan_interval(ink_code, '2490-2491')
+          ink_to_accounting_plan_interval(ink_code, '2493-2499')
+          ink_to_accounting_plan_interval(ink_code, '2600-2799')
+          ink_to_accounting_plan_interval(ink_code, '2800-2859')
+          ink_to_accounting_plan_interval(ink_code, '2473-2473')
+          ink_to_accounting_plan_interval(ink_code, '2873-2473')
+          ink_to_accounting_plan_interval(ink_code, '2880-2899')
+        when '3.2'
+          ink_to_accounting_plan_interval(ink_code, '4900-4909')
+          ink_to_accounting_plan_interval(ink_code, '4932-4959')
+          ink_to_accounting_plan_interval(ink_code, '4970-4979')
+          ink_to_accounting_plan_interval(ink_code, '4990-4999')
+        when '3.9'
+          ink_to_accounting_plan_interval(ink_code, '7700-7739')
+          ink_to_accounting_plan_interval(ink_code, '7750-7789')
+          ink_to_accounting_plan_interval(ink_code, '7800-7899')
+        when '3.12'
+          ink_to_accounting_plan_interval(ink_code, '8000-8069')
+          ink_to_accounting_plan_interval(ink_code, '8090-8099')
+        when '3.13'
+          ink_to_accounting_plan_interval(ink_code, '8100-8112')
+          ink_to_accounting_plan_interval(ink_code, '8114-8117')
+          ink_to_accounting_plan_interval(ink_code, '8119-8122')
+          ink_to_accounting_plan_interval(ink_code, '8124-8132')
+          ink_to_accounting_plan_interval(ink_code, '8134-8167')
+          ink_to_accounting_plan_interval(ink_code, '8190-8199')
+        when '3.15'
+          ink_to_accounting_plan_interval(ink_code, '8200-8269')
+          ink_to_accounting_plan_interval(ink_code, '8290-8299')
+        when '3.16'
+          ink_to_accounting_plan_interval(ink_code, '8300-8369')
+          ink_to_accounting_plan_interval(ink_code, '8390-8399')
+        when '3.25'
+          ink_to_accounting_plan_interval(ink_code, '8900-8989')
+        else
+      end
+    end
+
+    def exkl_INK2_14(ink_code, code)
+      case code
       when '2.1'
         ink_to_accounting_plan_interval(ink_code, '1000-1087')
         ink_to_accounting_plan_interval(ink_code, '1089-1099')
