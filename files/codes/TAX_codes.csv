@@ -10,8 +10,8 @@ code;24;Övrig inköp tjänster;verificate_items;vat
 code;30;Utgående moms på inköp 25 %;accounting_period;vat
 code;31;Utgående moms på inköp 12 %;accounting_period;vat
 code;32;Utgående moms på inköp 6 %;accounting_period;vat
-code;39;Försäljning av tjänster till EU-land;accounting_period;vat
-code;40;Försäljning av tjänster utanför Sverige;accounting_period;vat
+code;39;Försäljning av tjänster till EU-land;vat_period;vat
+code;40;Försäljning av tjänster utanför Sverige;vat_period;vat
 code;48;Ingående moms;accounting_period;vat
 code;49;Moms att betala eller få tillbaka;total;vat
 
