@@ -16,7 +16,9 @@ module Services
       when 'Kontoplan_K1_2014_ver1.csv'
         K1_read_and_save(directory, file_name)
       when 'Kontoplan_Normal_2014_ver1.csv'
-        BAS_read_and_save(directory, file_name)  
+        BAS_read_and_save(directory, file_name)
+      when 'Kontoplan_Normal_2018.csv'
+          BAS_read_and_save(directory, file_name)
       else
       end
       return true
