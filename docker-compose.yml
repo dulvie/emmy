@@ -3,11 +3,11 @@ services:
   emmy:
     env_file:
       - ./dot_env.development
-    image: emmy-dev2
+    image: emmy-dev
     hostname: ruby
     #command: bundle exec foreman start
-    command: sh -c 'bundle exec foreman start'
-    #command: sh -c 'while true ; do sleep 500 ; done'
+    #command: sh -c 'bundle exec foreman start'
+    command: sh -c 'while true ; do sleep 500 ; done'
     volumes:
       - .:/app/
     links:
