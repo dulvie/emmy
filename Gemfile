@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.1.1'
+gem 'rails', '5.2.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -28,6 +28,7 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'devise', '~> 4.4'
 gem 'responders', '~> 2.0' # required by devise
+gem 'simple_form', '~> 4.0'
 
 gem 'resque', '~> 1.25'
 
@@ -68,7 +69,7 @@ group :test, :development do
   gem 'guard'
   gem 'guard-zeus'
   gem 'i18n-tasks'
-  gem 'mailcatcher'
+  #gem 'mailcatcher', '~> 0.6'
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
