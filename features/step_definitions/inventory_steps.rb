@@ -1,8 +1,8 @@
 Given /^I have set up a inventory for warehouse "(.*?)"$/ do |warehouse_name|
-  w = FactoryGirl.create(:warehouse)
+  w = FactoryBot.create(:warehouse)
   w.name = warehouse_name
   w.save
-  i = FactoryGirl.create(:inventory)
+  i = FactoryBot.create(:inventory)
   i.warehouse_id=w.id
   i.save
   inventory = Inventory.find_by_warehouse_id w.id

@@ -11,14 +11,14 @@ class TransferTest < ActiveSupport::TestCase
   end
 
   test "creation and completion of a transfer" do
-    user = FactoryGirl.create :user
+    user = FactoryBot.create :user
     qty = 50
-    from_warehouse= FactoryGirl.create :warehouse, name: 'from_warehouse'
-    to_warehouse = FactoryGirl.create :warehouse, name: 'to_warehouse'
-    unit = FactoryGirl.create :unit
-    vat = FactoryGirl.create :vat
-    item = FactoryGirl.create :item, unit: unit, vat: vat
-    batch = FactoryGirl.create :batch, item_id: item.id
+    from_warehouse= FactoryBot.create :warehouse, name: 'from_warehouse'
+    to_warehouse = FactoryBot.create :warehouse, name: 'to_warehouse'
+    unit = FactoryBot.create :unit
+    vat = FactoryBot.create :vat
+    item = FactoryBot.create :item, unit: unit, vat: vat
+    batch = FactoryBot.create :batch, item_id: item.id
     assert_equal 0, from_warehouse.shelves.count
     assert_equal 0, to_warehouse.shelves.count
 

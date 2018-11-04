@@ -65,7 +65,7 @@ gem 'jbuilder', '~> 2.5'
 
 group :test, :development do
   gem 'byebug'
-  gem 'factory_girl_rails', '~> 4.0'
+  gem 'factory_bot_rails'
   gem 'guard'
   gem 'guard-zeus'
   gem 'i18n-tasks'

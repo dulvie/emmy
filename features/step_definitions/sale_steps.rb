@@ -1,9 +1,9 @@
 Given /^database posts exists to create a new sale$/ do
-  c = FactoryGirl.create :customer
+  c = FactoryBot.create :customer
 
-  p = FactoryGirl.create :batch
-  w = FactoryGirl.create :warehouse
-  m = FactoryGirl.create :manual
+  p = FactoryBot.create :batch
+  w = FactoryBot.create :warehouse
+  m = FactoryBot.create :manual
   t = m.build_product_transaction quantity: 100
   m.batch = p
   m.warehouse = w
@@ -59,14 +59,14 @@ Given /^the warehouse "(.*?)" have a shelf with "(.*?)" of the batch "(.*?)"$/ d
   quantity = quantity.to_i
   w = Warehouse.find_by_name warehouse
   o = w.organization
-  i = FactoryGirl.build :item, name: batch.split(" ").first
+  i = FactoryBot.build :item, name: batch.split(" ").first
   i.organization_id = o.id
   assert_save i
 
   b = i.batches.build(name: batch, quantity: quantity)
   assert_save b
 
-  m = FactoryGirl.build :manual
+  m = FactoryBot.build :manual
   m.organization_id = o.id
   m.batch_transaction = BatchTransaction.new warehouse_id: w.id, batch_id: b.id, quantity: (quantity - 1)
   assert_save m

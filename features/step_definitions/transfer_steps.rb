@@ -2,14 +2,14 @@
 Given /^a batch with name "(.*?)" exists$/ do |batch_name|
   p = Batch.find_by_name batch_name
   unless p
-    FactoryGirl.create :batch, name: batch_name
+    FactoryBot.create :batch, name: batch_name
   end
 end
 
 Given /^a warehouse with name "(.*?)" exists$/ do |warehouse_name|
   w = Warehouse.find_by_name warehouse_name
   unless w
-    FactoryGirl.create :warehouse, name: warehouse_name
+    FactoryBot.create :warehouse, name: warehouse_name
   end
 end
 

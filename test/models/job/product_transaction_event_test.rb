@@ -10,8 +10,8 @@ class ProductTransactionEventTest < ActiveSupport::TestCase
   end
 
   test "recalculate_shelf" do
-    w = FactoryGirl.create :warehouse
-    p = FactoryGirl.create :product
+    w = FactoryBot.create :warehouse
+    p = FactoryBot.create :product
     t = ProductTransaction.new product: p, warehouse: w
     assert_equal t.warehouse, w
     assert_equal t.product, p
