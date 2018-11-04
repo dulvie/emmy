@@ -3,8 +3,8 @@ class VerificateItemsController < ApplicationController
   load_and_authorize_resource :verificate, through: :current_organization
   load_and_authorize_resource :verificate_item, through: :current_organization
 
-  before_filter :new_breadcrumbs, only: [:new, :create, :edit, :update]
-  before_filter :show_breadcrumbs, only: [:show]
+  before_action :new_breadcrumbs, only: [:new, :create, :edit, :update]
+  before_action :show_breadcrumbs, only: [:show]
 
   # GET
   def index

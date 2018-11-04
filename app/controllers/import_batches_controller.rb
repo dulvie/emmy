@@ -1,7 +1,7 @@
 class ImportBatchesController < ApplicationController
   skip_authorization_check
-  before_filter :load_import
-  before_filter :new_breadcrumbs, only: [:new, :create]
+  before_action :load_import
+  before_action :new_breadcrumbs, only: [:new, :create]
 
   respond_to :html
 

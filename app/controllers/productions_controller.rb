@@ -1,8 +1,8 @@
 class ProductionsController < ApplicationController
   load_and_authorize_resource through: :current_organization
 
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
+  before_action :new_breadcrumbs, only: [:new, :create]
+  before_action :edit_breadcrumbs, only: [:show, :edit, :update]
 
   # GET /productions
   # GET /productions.json

@@ -1,9 +1,9 @@
 class SuppliersController < ApplicationController
   load_and_authorize_resource through: :current_organization
 
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
-  before_filter :load_contacts, only: [:show, :new, :edit, :create, :update]
+  before_action :new_breadcrumbs, only: [:new, :create]
+  before_action :edit_breadcrumbs, only: [:show, :edit, :update]
+  before_action :load_contacts, only: [:show, :new, :edit, :create, :update]
 
   # GET /suppliers
   # GET /suppliers.json

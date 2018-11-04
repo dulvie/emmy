@@ -1,6 +1,6 @@
 class AccountsReceivablesController < ApplicationController
   respond_to :html, :json, :pdf
-  before_filter :load_dependence
+  before_action :load_dependence
 
   def index
     @breadcrumbs = [["#{t(:accounts_receivables)}"]]

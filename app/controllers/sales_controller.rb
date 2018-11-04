@@ -2,10 +2,10 @@
 class SalesController < ApplicationController
   load_and_authorize_resource through: :current_organization
 
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :show_breadcrumbs, only: [:show, :update]
-  before_filter :add_warehouses, only: [:index, :new, :invoice_search]
-  before_filter :add_search_filter, only: [:index]
+  before_action :new_breadcrumbs, only: [:new, :create]
+  before_action :show_breadcrumbs, only: [:show, :update]
+  before_action :add_warehouses, only: [:index, :new, :invoice_search]
+  before_action :add_search_filter, only: [:index]
 
   def create
     @sale = Sale.new sale_params

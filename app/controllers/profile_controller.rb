@@ -1,8 +1,8 @@
 class ProfileController < ApplicationController
   authorize_resource :user
-  before_filter :set_breadcrumbs
-  before_filter :load_user
-  before_filter :load_contact_variables, only: [:show]
+  before_action :set_breadcrumbs
+  before_action :load_user
+  before_action :load_contact_variables, only: [:show]
 
   def show
   end

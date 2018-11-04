@@ -2,9 +2,9 @@ module Admin
   class UsersController < Admin::ApplicationController
     load_and_authorize_resource :organization
     load_and_authorize_resource :user, through: :organization
-    before_filter :set_breadcrumbs
-    before_filter :new_breadcrumbs, only: [:new, :create]
-    before_filter :show_breadcrumbs, only: [:show, :update_role]
+    before_action :set_breadcrumbs
+    before_action :new_breadcrumbs, only: [:new, :create]
+    before_action :show_breadcrumbs, only: [:show, :update_role]
 
     def new
     end

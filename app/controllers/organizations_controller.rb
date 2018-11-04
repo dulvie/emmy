@@ -1,7 +1,7 @@
 class OrganizationsController < ApplicationController
-  before_filter :load_organization_from_current
+  before_action :load_organization_from_current
   authorize_resource
-  before_filter :show_breadcrumbs
+  before_action :show_breadcrumbs
 
   # GET /:organization_slug
   def show

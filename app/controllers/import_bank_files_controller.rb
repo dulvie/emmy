@@ -2,8 +2,8 @@ class ImportBankFilesController < ApplicationController
   respond_to :html, :json
   load_and_authorize_resource through: :current_organization
 
-  before_filter :new_breadcrumbs, only: [:new, :create, :upload]
-  before_filter :show_breadcrumbs, only: [:edit, :show, :update]
+  before_action :new_breadcrumbs, only: [:new, :create, :upload]
+  before_action :show_breadcrumbs, only: [:edit, :show, :update]
 
   # GET
   def index

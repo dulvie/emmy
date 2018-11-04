@@ -1,9 +1,9 @@
 class WarehousesController < ApplicationController
   respond_to :html, :json
   load_and_authorize_resource :warehouse, through: :current_organization
-  before_filter :show_breadcrumbs, only: [:show, :edit, :update]
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :load_contats, only: [:show, :new, :edit, :create, :update]
+  before_action :show_breadcrumbs, only: [:show, :edit, :update]
+  before_action :new_breadcrumbs, only: [:new, :create]
+  before_action :load_contats, only: [:show, :new, :edit, :create, :update]
 
   # GET /warehouses
   def index

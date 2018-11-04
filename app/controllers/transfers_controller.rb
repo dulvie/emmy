@@ -1,10 +1,10 @@
 class TransfersController < ApplicationController
   load_and_authorize_resource  through: :current_organization
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :show_breadcrumbs, only: [:show, :edit, :update]
+  before_action :new_breadcrumbs, only: [:new, :create]
+  before_action :show_breadcrumbs, only: [:show, :edit, :update]
 
   # Since load_and_authorize doesnt do this for non crud actions.
-  before_filter :find_transfer, only: [:send_package, :receive_package]
+  before_action :find_transfer, only: [:send_package, :receive_package]
 
   # GET /transfers
   # GET /transfers.json

@@ -1,10 +1,10 @@
 module Admin
   class OrganizationsController < Admin::ApplicationController
     load_and_authorize_resource
-    before_filter :load_by_pagination, only: :index
+    before_action :load_by_pagination, only: :index
 
-    before_filter :new_breadcrumbs, only: [:new, :create]
-    before_filter :show_breadcrumbs, only: [:show, :update]
+    before_action :new_breadcrumbs, only: [:new, :create]
+    before_action :show_breadcrumbs, only: [:show, :update]
 
 
     # GET /organizations

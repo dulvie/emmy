@@ -1,7 +1,7 @@
 class InventoriesController < ApplicationController
   load_and_authorize_resource through: :current_organization
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :show_breadcrumbs, only: [:show, :update, :edit, :state_change]
+  before_action :new_breadcrumbs, only: [:new, :create]
+  before_action :show_breadcrumbs, only: [:show, :update, :edit, :state_change]
 
   def index
     @breadcrumbs = [[t(:inventories)]]

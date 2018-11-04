@@ -1,9 +1,9 @@
 class SieExportsController < ApplicationController
   respond_to :html, :txt
   load_and_authorize_resource :sie_export, through: :current_organization
-  before_filter :load_accounting_periods, only: [:new, :create, :show]
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :show_breadcrumbs, only: [:edit, :show, :update]
+  before_action :load_accounting_periods, only: [:new, :create, :show]
+  before_action :new_breadcrumbs, only: [:new, :create]
+  before_action :show_breadcrumbs, only: [:edit, :show, :update]
 
   def index
     @breadcrumbs = [['SIE Exports']]

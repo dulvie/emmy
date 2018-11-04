@@ -3,7 +3,7 @@ class TaxTableRowsController < ApplicationController
   load_and_authorize_resource :tax_table, through: :current_organization
   load_and_authorize_resource :tax_table_row, through: :current_organization
 
-  before_filter :show_breadcrumbs, only: [:edit, :show, :update]
+  before_action :show_breadcrumbs, only: [:edit, :show, :update]
 
   # GET
   def index
