@@ -2,8 +2,8 @@ class ItemsController < ApplicationController
   respond_to :html, :json
 
   load_and_authorize_resource through: :current_organization
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :edit_breadcrumbs, only: [:edit, :update, :show]
+  before_action :new_breadcrumbs, only: [:new, :create]
+  before_action :edit_breadcrumbs, only: [:edit, :update, :show]
 
   # GET /items
   # GET /items.json

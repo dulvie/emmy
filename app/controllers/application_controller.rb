@@ -4,14 +4,14 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   # Default is the always ensure the user is signed in.
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
 
   # Default to always check for authorization (cancan),
   # except the devise controller (sign in).
   check_authorization unless: :devise_controller?
 
   # i18n support using param from the url.
-  before_filter :set_locale
+  before_action :set_locale
   def set_locale
     current_locale = current_user.default_locale if current_user
     I18n.locale = locale_from_params || current_locale || I18n.default_locale

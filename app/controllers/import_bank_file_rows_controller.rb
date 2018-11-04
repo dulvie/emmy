@@ -3,9 +3,9 @@ class ImportBankFileRowsController < ApplicationController
   load_and_authorize_resource :import_bank_file, through: :current_organization
   load_and_authorize_resource :import_bank_file_row, through: :current_organization
 
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :show_breadcrumbs, only: [:edit, :show, :update]
-  before_filter :load_dependent, only: [:match_verificate]
+  before_action :new_breadcrumbs, only: [:new, :create]
+  before_action :show_breadcrumbs, only: [:edit, :show, :update]
+  before_action :load_dependent, only: [:match_verificate]
 
   # GET
   def index

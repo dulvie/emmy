@@ -1,10 +1,10 @@
 class ReportsController < ApplicationController
   respond_to :html, :json, :pdf
-  before_filter :load_accounting_period, only: [:order_verificates_report,
+  before_action :load_accounting_period, only: [:order_verificates_report,
                                                 :order_ledger_report,
                                                 :order_result_report,
                                                 :order_balance_report]
-  before_filter :load_verificates, only: [:verificates]
+  before_action :load_verificates, only: [:verificates]
 
   def order_verificates_report
     @breadcrumbs = [["#{t(:verificates)} #{t(:list)}"]]

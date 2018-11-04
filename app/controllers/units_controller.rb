@@ -3,8 +3,8 @@ class UnitsController < ApplicationController
 
   load_and_authorize_resource through: :current_organization
 
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :show_breadcrumbs, only: [:edit, :show, :update]
+  before_action :new_breadcrumbs, only: [:new, :create]
+  before_action :show_breadcrumbs, only: [:edit, :show, :update]
 
   # GET /units
   # GET /units.json

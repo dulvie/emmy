@@ -2,8 +2,8 @@ class SieImportsController < ApplicationController
   respond_to :html, :json
   load_and_authorize_resource through: :current_organization
 
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :load_accounting_periods, only: [:new, :create]
+  before_action :new_breadcrumbs, only: [:new, :create]
+  before_action :load_accounting_periods, only: [:new, :create]
 
 
   # GET

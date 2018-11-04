@@ -1,9 +1,9 @@
 class ImportsController < ApplicationController
   load_and_authorize_resource through: :current_organization
 
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :edit_breadcrumbs, only: [:show, :edit, :update]
-  before_filter :purchase_breadcrumbs, only: [:new_purchase, :single_purchase]
+  before_action :new_breadcrumbs, only: [:new, :create]
+  before_action :edit_breadcrumbs, only: [:show, :edit, :update]
+  before_action :purchase_breadcrumbs, only: [:new_purchase, :single_purchase]
 
   # GET /imports
   # GET /imports.json

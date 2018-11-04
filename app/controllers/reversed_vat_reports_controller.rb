@@ -3,8 +3,8 @@ class ReversedVatReportsController < ApplicationController
   load_and_authorize_resource :reversed_vat, through: :current_organization
   load_and_authorize_resource :reversed_vat_report, through: :current_organization
 
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :show_breadcrumbs, only: [:edit, :show, :update]
+  before_action :new_breadcrumbs, only: [:new, :create]
+  before_action :show_breadcrumbs, only: [:edit, :show, :update]
 
   def index
   end

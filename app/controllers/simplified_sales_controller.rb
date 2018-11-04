@@ -1,6 +1,6 @@
 class SimplifiedSalesController < ApplicationController
   #load_and_authorize_resource :production, through: :current_organization
-  before_filter :new_breadcrumbs, only: [:new, :create]
+  before_action :new_breadcrumbs, only: [:new, :create]
 
   respond_to :html
 

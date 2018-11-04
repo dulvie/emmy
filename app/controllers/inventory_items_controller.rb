@@ -3,7 +3,7 @@ class InventoryItemsController < ApplicationController
   load_and_authorize_resource :inventory, through: :current_organization
   load_and_authorize_resource :inventory_item, through: :inventory
 
-  before_filter :set_breadcrumbs, only: [:new, :create]
+  before_action :set_breadcrumbs, only: [:new, :create]
 
   def new
   end

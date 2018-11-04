@@ -2,8 +2,8 @@ class ResultUnitsController < ApplicationController
   respond_to :html, :json
   load_and_authorize_resource through: :current_organization
 
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :show_breadcrumbs, only: [:edit, :show, :update]
+  before_action :new_breadcrumbs, only: [:new, :create]
+  before_action :show_breadcrumbs, only: [:edit, :show, :update]
 
   # GET /result_units
   # GET /result_units.json

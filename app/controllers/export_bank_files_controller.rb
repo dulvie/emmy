@@ -3,9 +3,9 @@ class ExportBankFilesController < ApplicationController
   respond_to :html, :json, :text
   load_and_authorize_resource through: :current_organization
 
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :show_breadcrumbs, only: [:edit, :show, :update]
-  before_filter :load_dependent, only: [:new]
+  before_action :new_breadcrumbs, only: [:new, :create]
+  before_action :show_breadcrumbs, only: [:edit, :show, :update]
+  before_action :load_dependent, only: [:new]
 
   # GET
   def index

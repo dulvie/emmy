@@ -1,9 +1,9 @@
 class PurchasesController < ApplicationController
   load_and_authorize_resource through: :current_organization
-  before_filter :find_and_authorize_parent
+  before_action :find_and_authorize_parent
 
-  before_filter :new_breadcrumbs, only: [:new, :create]
-  before_filter :show_breadcrumbs, only: [:show, :update, :edit]
+  before_action :new_breadcrumbs, only: [:new, :create]
+  before_action :show_breadcrumbs, only: [:show, :update, :edit]
 
   def index
     @breadcrumbs = [[t(:purchases)]]

@@ -2,7 +2,7 @@ class ExportBankFileRowsController < ApplicationController
   respond_to :html, :json
   load_and_authorize_resource :export_bank_file_row, through: :current_organization
 
-  before_filter :show_breadcrumbs, only: [:edit, :show, :update]
+  before_action :show_breadcrumbs, only: [:edit, :show, :update]
 
   # GET
   def index

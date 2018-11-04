@@ -2,7 +2,7 @@ class PurchaseItemsController < ApplicationController
   load_and_authorize_resource :purchase, through: :current_organization
   load_and_authorize_resource :purchase_item, through: :current_organization
 
-  before_filter :set_breadcrumbs, only: [:new, :create]
+  before_action :set_breadcrumbs, only: [:new, :create]
 
   def new
     init_new

@@ -1,6 +1,6 @@
 module Admin
   class ApplicationController < ::ApplicationController
-    before_filter :ensure_superadmin
+    before_action :ensure_superadmin
 
     def ensure_superadmin
       unless current_user.superadmin?

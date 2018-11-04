@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_filter :load_user, only: [:show, :update_roles]
-  before_filter :show_breadcrumbs, only: [:show, :update]
-  before_filter :new_breadcrumbs, only: [:new, :create]
+  before_action :load_user, only: [:show, :update_roles]
+  before_action :show_breadcrumbs, only: [:show, :update]
+  before_action :new_breadcrumbs, only: [:new, :create]
 
   # GET /users
   # GET /users.json

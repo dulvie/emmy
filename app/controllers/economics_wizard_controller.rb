@@ -1,6 +1,6 @@
 # encoding: utf-8
 class EconomicsWizardController < ApplicationController
-  before_filter :set_wizard
+  before_action :set_wizard
 
   def set_wizard
     @wizard = Wizard.by_name_and_controller('economics', 'economics_wizard', action_name)
