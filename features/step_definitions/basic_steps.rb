@@ -34,7 +34,7 @@ end
 
 
 Given /^I am signed in as a superadmin$/ do
-  u = FactoryGirl.create(:user)
+  u = FactoryBot.create(:user)
   r = u.organization_roles.build(name: OrganizationRole::ROLE_SUPERADMIN)
   r.organization_id = 0
   r.save!
@@ -45,7 +45,7 @@ Given /^I am signed in as a superadmin$/ do
 end
 
 Given /^I am signed in as an admin on "(.*?)"$/ do |organization_name|
-  u = FactoryGirl.create(:user)
+  u = FactoryBot.create(:user)
   assert u, "no user found"
   o = Organization.find_by_name organization_name
   assert o, "no organization found"
@@ -60,8 +60,8 @@ Given /^I am signed in as an admin on "(.*?)"$/ do |organization_name|
 end
 
 Given /^I am a signed in user$/ do
-  u = FactoryGirl.create(:user)
-  o = FactoryGirl.build(:organization)
+  u = FactoryBot.create(:user)
+  o = FactoryBot.build(:organization)
   oc = Services::OrganizationCreator.new(o, u)
   assert oc.save
   u.default_organization_id = o.id
@@ -73,7 +73,7 @@ Given /^I am a signed in user$/ do
 end
 
 Given /^I am a signed in user without an organization$/ do
-  u = FactoryGirl.create(:user)
+  u = FactoryBot.create(:user)
   visit new_user_session_path
   fill_in "user_email", with: u.email
   fill_in "user_password", with: u.password
@@ -165,7 +165,7 @@ Given /^a "(.*?)" with "(.*?)" equals to "(.*?)" exists$/ do |resource_name, fie
   if obj
     assert_equal field_value, obj.send(field_name)
   else
-    new_obj = FactoryGirl.create(resource_name.to_sym, field_name.to_sym => field_value)
+    new_obj = FactoryBot.create(resource_name.to_sym, field_name.to_sym => field_value)
     assert field_value.eql?(new_obj.send(field_name))
   end
 end
@@ -179,7 +179,7 @@ Given /^a "(.*?)" with "(.*?)" equals to "(.*?)" exists on "(.*?)"$/ do |resourc
     assert_equal field_value, obj.send(field_name)
     assert_equal o.id, obj.organization_id, "object does not belong to #{org_slug}"
   else
-    new_obj = FactoryGirl.create(resource_name.to_sym, field_name.to_sym => field_value, organization_id: o.id)
+    new_obj = FactoryBot.create(resource_name.to_sym, field_name.to_sym => field_value, organization_id: o.id)
     assert field_value.eql?(new_obj.send(field_name))
 
     assert_equal o.id, new_obj.organization_id, "failed to compare #{o.id} with #{new_obj.organization_id}"

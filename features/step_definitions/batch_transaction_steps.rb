@@ -3,8 +3,8 @@ warehouse_name = 'Test warehouse'
 batch_quantity = 20
 
 Given /^a batch and warehouse exists$/ do
-  FactoryGirl.create :batch, name: batch_name
-  FactoryGirl.create :warehouse, name: warehouse_name
+  FactoryBot.create :batch, name: batch_name
+  FactoryBot.create :warehouse, name: warehouse_name
 end
 
 Given /^I fill in data for a manual transaction$/ do

@@ -7,7 +7,7 @@ end
 Given /^a user with the email "(.*?)" exists and have the role "(.*?)" on "(.*?)"$/ do |email, role_name, org_name|
   o = Organization.find_by_name org_name
   assert o
-  u = FactoryGirl.build(:user, email: email, name: email.gsub('@', ' '))
+  u = FactoryBot.build(:user, email: email, name: email.gsub('@', ' '))
   r = u.organization_roles.build(name: role_name)
   r.organization_id = o.id
   r.save
@@ -38,7 +38,7 @@ end
 Given /^a user with email "(.*?)" exists and have no roles on "(.*?)"$/ do |email, organization_name|
   o = Organization.find_by_name organization_name
   assert o, "no organization found"
-  u = FactoryGirl.create(:user, email: email, name: email.gsub('@', ''))
+  u = FactoryBot.create(:user, email: email, name: email.gsub('@', ''))
   assert u, "no user present"
   assert (u.organization_roles.where(organization_id: o.id).count == 0), "user already has a role"
 end
@@ -63,9 +63,9 @@ Then /^a user with email "(.*?)" should not have the "(.*?)" role on "(.*?)"$/ d
 end
 
 Given /^a user with email "(.*?)" and password "(.*?)" exists$/ do |email, password|
-  u = FactoryGirl.create(:user, email: email, password: password, password_confirmation: password)
+  u = FactoryBot.create(:user, email: email, password: password, password_confirmation: password)
   assert u
-  o = FactoryGirl.build(:organization)
+  o = FactoryBot.build(:organization)
   assert o
   oc = Services::OrganizationCreator.new(o, u)
   assert oc.save

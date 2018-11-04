@@ -1,6 +1,6 @@
 def create_items
   [:espresso].each do |name|
-    FactoryGirl.create(:item, name: name)
+    FactoryBot.create(:item, name: name)
   end
 end
 

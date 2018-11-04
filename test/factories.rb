@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :organization do
     name 'test organization'
     organization_type 'Aktiebolag'
@@ -23,8 +23,8 @@ FactoryGirl.define do
 
   factory :item do
     name 'espresso'
-    unit { FactoryGirl.create(:unit) }
-    vat { FactoryGirl.create(:vat) }
+    unit { FactoryBot.create(:unit) }
+    vat { FactoryBot.create(:vat) }
     stocked 'true'
     item_type 'sales'
     item_group 'refined'
@@ -36,7 +36,7 @@ FactoryGirl.define do
     in_price 10000
     distributor_price 15000
     retail_price 20000
-    item { FactoryGirl.create(:item) }
+    item { FactoryBot.create(:item) }
     organization_id 1
   end
 
