@@ -66,7 +66,7 @@ class MailTemplatesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def mail_template_params
-    params.require(:mail_template).permit(MailTemplate.accessible_attributes.to_a)
+    params.require(:mail_template).permit(:name, :template_type, :subject, :attachment, :text)
   end
 
   def new_breadcrumbs

@@ -24,8 +24,8 @@ class Item < ActiveRecord::Base
   has_many :batches
   has_many :purchase_items
 
-  attr_accessible :name, :comment, :item_type, :item_group, :stocked, :unit_id,
-                  :in_price, :distributor_price, :retail_price, :vat_id
+  #attr_accessible :name, :comment, :item_type, :item_group, :stocked, :unit_id,
+  #                :in_price, :distributor_price, :retail_price, :vat_id
 
   validates :name, presence: true
   validates :unit, presence: true

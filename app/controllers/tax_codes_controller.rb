@@ -70,7 +70,7 @@ class TaxCodesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def tax_code_params
-    params.require(:tax_code).permit(TaxCode.accessible_attributes.to_a)
+    params.require(:tax_code).permit(:code, :text, :sum_method, :code_type)
   end
 
   def new_breadcrumbs

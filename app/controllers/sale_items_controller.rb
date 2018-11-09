@@ -64,7 +64,7 @@ class SaleItemsController < ApplicationController
   end
 
   def sale_item_params
-    params.require(:sale_item).permit(SaleItem.accessible_attributes.to_a)
+    params.require(:sale_item).permit(:quantity, :price)
   end
 
   def set_breadcrumbs

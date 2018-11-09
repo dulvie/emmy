@@ -82,7 +82,8 @@ class VatPeriodsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def vat_period_params
-    params.require(:vat_period).permit(VatPeriod.accessible_attributes.to_a)
+    params.require(:vat_period).permit(:name, :vat_from, :vat_to, :accounting_period_id, :deadline,
+                                       :supplier_id)
   end
 
   def new_breadcrumbs

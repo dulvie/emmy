@@ -6,7 +6,7 @@ class ClosingBalance < ActiveRecord::Base
   # t.integer  :accounting_period_id
   # t.timestamps
 
-  attr_accessible :description, :accounting_period_id
+  #attr_accessible :description, :accounting_period_id
 
   belongs_to :organization
   belongs_to :accounting_period

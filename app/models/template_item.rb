@@ -8,8 +8,8 @@ class TemplateItem < ActiveRecord::Base
   # t.integer  :template_id
   # t.timestamps
 
-  attr_accessible :account_id, :description, :enable_debit, :enable_credit,
-                  :enable_result_unit
+  #attr_accessible :account_id, :description, :enable_debit, :enable_credit,
+  #                :enable_result_unit
 
   belongs_to :organization
   belongs_to :account

@@ -8,7 +8,7 @@ class Template < ActiveRecord::Base
 
   PAY_TYPES = [' ', 'income', 'cost']
 
-  attr_accessible :name, :description, :template_type, :accounting_plan, :accounting_plan_id
+  #attr_accessible :name, :description, :template_type, :accounting_plan, :accounting_plan_id
 
   belongs_to :organization
   belongs_to :accounting_plan

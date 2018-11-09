@@ -63,7 +63,7 @@ class WarehousesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def warehouse_params
-    params.require(:warehouse).permit(Warehouse.accessible_attributes.to_a)
+    params.require(:warehouse).permit(:name, :address, :zip, :city, :primary_contact_id)
   end
 
   def show_breadcrumbs

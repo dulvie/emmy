@@ -154,7 +154,8 @@ class ImportsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def import_params
-    params.require(:import).permit(Import.accessible_attributes.to_a)
+    params.require(:import).permit(:description, :our_reference_id, :to_warehouse_id,  :batch_id,
+                                   :quantity, :importing_id, :shipping_id, :started_at, :completed_at)
   end
 
   def new_breadcrumbs

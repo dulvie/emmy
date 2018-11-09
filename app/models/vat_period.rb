@@ -13,8 +13,8 @@ class VatPeriod < ActiveRecord::Base
 
   # t.timestamps
 
-  attr_accessible :name, :vat_from, :vat_to, :accounting_period_id, :deadline,
-    :supplier_id
+  #attr_accessible :name, :vat_from, :vat_to, :accounting_period_id, :deadline,
+  #  :supplier_id
 
   belongs_to :organization
   belongs_to :accounting_period

@@ -67,7 +67,8 @@ class ExportBankFilesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def export_bank_file_params
-    params.require(:export_bank_file).permit(ExportBankFile.accessible_attributes.to_a)
+    params.require(:export_bank_file).permit(:export_date, :from_date, :to_date, :reference, :pay_account,
+                                             :organization_number, :iban, :download)
   end
 
   def new_breadcrumbs

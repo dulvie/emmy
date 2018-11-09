@@ -5,7 +5,7 @@ class AccountingGroup < ActiveRecord::Base
   # t.integer  :accounting_plan_id
   # t.timestamps
 
-  attr_accessible :number, :name
+  #attr_accessible :number, :name
 
   belongs_to :organization
   belongs_to :accounting_plan

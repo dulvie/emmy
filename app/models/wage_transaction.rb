@@ -5,7 +5,7 @@ class WageTransaction < ActiveRecord::Base
   # t.integer  :organization_id
   # t.integer  :wage_period_id
 
-  attr_accessible :execute, :complete, :user, :user_id, :wage_period_id
+  #attr_accessible :execute, :complete, :user, :user_id, :wage_period_id
 
   belongs_to :wage_period
   belongs_to :user

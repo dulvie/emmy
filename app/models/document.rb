@@ -10,7 +10,7 @@ class Document < ActiveRecord::Base
   belongs_to :user
   belongs_to :parent, polymorphic: true
 
-  attr_accessible :name, :user, :parent, :user_id, :parent_id, :parent_type, :upload
+  #attr_accessible :name, :user, :parent, :user_id, :parent_id, :parent_type, :upload
 
   validates_attachment_content_type :upload, content_type: ['application/pdf', 'image/jpeg', 'image/png']
   VALID_PARENT_TYPES = ['Purchase', 'Organization', 'nil']

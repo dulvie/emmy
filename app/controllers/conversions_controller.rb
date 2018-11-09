@@ -72,7 +72,7 @@ class ConversionsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def conversion_params
-    params.require(:conversion).permit(Conversion.accessible_attributes.to_a)
+    params.require(:conversion).permit(:old_number, :new_number)
   end
 
   def new_breadcrumbs

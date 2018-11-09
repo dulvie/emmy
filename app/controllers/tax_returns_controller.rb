@@ -76,7 +76,7 @@ class TaxReturnsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def tax_return_params
-    params.require(:tax_return).permit(TaxReturn.accessible_attributes.to_a)
+    params.require(:tax_return).permit(:name, :tax_form, :deadline, :accounting_period_id)
   end
 
   def new_breadcrumbs

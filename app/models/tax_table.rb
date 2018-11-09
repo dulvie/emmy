@@ -8,7 +8,7 @@ class TaxTable < ActiveRecord::Base
 
   # t.timestamps
 
-  attr_accessible :name, :file_name, :year, :table_name
+  #attr_accessible :name, :file_name, :year, :table_name
 
   belongs_to :organization
   has_many :tax_table_rows, dependent: :destroy

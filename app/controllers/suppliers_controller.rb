@@ -72,7 +72,9 @@ class SuppliersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def supplier_params
-    params.require(:supplier).permit(Supplier.accessible_attributes.to_a)
+    params.require(:supplier).permit(:name, :address, :zip, :city, :country, :vat_number,
+                                     :primary_contact_id, :bankgiro, :postgiro, :plusgiro,
+                                     :reference, :supplier_type)
   end
 
   def new_breadcrumbs

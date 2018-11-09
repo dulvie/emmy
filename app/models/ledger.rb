@@ -3,7 +3,7 @@ class Ledger < ActiveRecord::Base
   # t.integer  :organization_id
   # t.integer  :accounting_period_id
 
-  attr_accessible :name, :accounting_period
+  #attr_accessible :name, :accounting_period
 
   belongs_to :organization
   belongs_to :accounting_period

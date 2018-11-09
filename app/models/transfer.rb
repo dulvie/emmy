@@ -20,7 +20,8 @@ class Transfer < ActiveRecord::Base
   belongs_to :organization
   has_many :comments, as: :parent, dependent: :destroy
 
-  attr_accessible :from_warehouse_id, :to_warehouse_id, :batch_id, :quantity
+  #attr_accessible :from_warehouse_id, :to_warehouse_id, :batch_id, :quantity
+
   accepts_nested_attributes_for :comments
 
   # Callbacks

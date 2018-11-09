@@ -98,11 +98,11 @@ class TransfersController < ApplicationController
   end
 
   def comments_params
-    params.require(:comments).permit(Comment.accessible_attributes.to_a)
+    params.require(:comments).permit(:body, :user, :parent, :user_id, :parent_id, :parent_type)
   end
 
   def transfer_params
-    params.require(:transfer).permit(Transfer.accessible_attributes.to_a)
+    params.require(:transfer).permit(:from_warehouse_id, :to_warehouse_id, :batch_id, :quantity)
   end
 
   def init

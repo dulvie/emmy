@@ -5,7 +5,7 @@ class TaxCode < ActiveRecord::Base
   # t.string   :code_type
   # t.integer  :organization_id
 
-  attr_accessible :code, :text, :sum_method, :code_type
+  #attr_accessible :code, :text, :sum_method, :code_type
 
   belongs_to :organization
   has_many   :accounts

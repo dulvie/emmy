@@ -52,7 +52,7 @@ class InventoryItemsController < ApplicationController
   private
 
   def inventory_item_params
-    params.require(:inventory_item).permit(InventoryItem.accessible_attributes.to_a)
+    params.require(:inventory_item).permit(:inventory_id, :batch_id, :shelf_quantity, :actual_quantity, :reported)
   end
 
   def set_breadcrumbs

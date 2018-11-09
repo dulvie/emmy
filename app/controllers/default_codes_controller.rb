@@ -69,7 +69,7 @@ class DefaultCodesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def default_code_params
-    params.require(:default_code).permit(DefaultCode.accessible_attributes.to_a)
+    params.require(:default_code).permit(:code, :text)
   end
 
   def new_breadcrumbs

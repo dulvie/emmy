@@ -34,9 +34,6 @@ gem 'resque', '~> 1.25'
 
 gem 'bootstrap-sass', '~> 3.2'
 
-# Adds backward compatibility.
-gem 'protected_attributes_continued'
-
 gem 'wicked_pdf'
 gem 'foreman'
 gem 'dotenv'
@@ -57,7 +54,7 @@ gem 'exception_notification', '~> 4.0'
 gem 'puma', '~> 3.10'
 
 # Ensure rack-protection is up to date.
-gem 'rack-protection', '~> 1.5.5'
+gem 'rack-protection', '~> 2.0'
 
 # bump due to cve CVE-2018-3741 (CVE-2018-8048 loofah)
 gem 'rails-html-sanitizer', '~> 1.0.4'

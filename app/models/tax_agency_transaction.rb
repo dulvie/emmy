@@ -6,7 +6,7 @@ class TaxAgencyTransaction < ActiveRecord::Base
   # t.datetime :posting_date
   # t.string   :report_type
 
-  attr_accessible :report_type, :parent, :posting_date, :user, :user_id
+  #attr_accessible :report_type, :parent, :posting_date, :user, :user_id
 
   belongs_to :user
   belongs_to :organization

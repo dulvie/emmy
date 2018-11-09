@@ -29,8 +29,8 @@ class Production < ActiveRecord::Base
   accepts_nested_attributes_for :materials, :work, :batch
   delegate :unit, to: :batch
 
-  attr_accessible :description, :our_reference_id, :warehouse_id, :batch_id, :quantity, :cost_price,
-                  :started_at, :completed_at
+  #attr_accessible :description, :our_reference_id, :warehouse_id, :batch_id, :quantity, :cost_price,
+  #                :started_at, :completed_at
 
   validates :description, presence: true
   validates :warehouse_id, presence: true

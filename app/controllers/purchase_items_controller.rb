@@ -40,7 +40,7 @@ class PurchaseItemsController < ApplicationController
   private
 
   def purchase_item_params
-    params.require(:purchase_item).permit(PurchaseItem.accessible_attributes.to_a)
+    params.require(:purchase_item).permit(:batch_id, :item_id, :quantity, :price, :total_amount)
   end
 
   def set_breadcrumbs

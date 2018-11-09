@@ -133,7 +133,8 @@ class SalesController < ApplicationController
   private
 
   def sale_params
-    params.require(:sale).permit(Sale.accessible_attributes.to_a)
+    params.require(:sale).permit(:warehouse_id, :customer_id, :contact_email, :contact_name,
+                                 :contact_telephone, :payment_term, :invoice_text)
   end
 
   def new_breadcrumbs

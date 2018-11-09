@@ -90,7 +90,7 @@ class OpeningBalancesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def opening_balance_params
-    params.require(:opening_balance).permit(OpeningBalance.accessible_attributes.to_a)
+    params.require(:opening_balance).permit(:posting_date, :description, :accounting_period_id)
   end
 
   def new_breadcrumbs

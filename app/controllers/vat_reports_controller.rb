@@ -83,7 +83,7 @@ class VatReportsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def vat_base_params
-    params.require(:vat_base).permit(VatPeriod.accessible_attributes.to_a)
+    params.require(:vat_base).permit(:amount, :accounting_period_id, :vat_period_id, :tax_code_id)
   end
 
   def new_breadcrumbs

@@ -69,7 +69,7 @@ class ResultUnitsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def result_unit_params
-    params.require(:result_unit).permit(ResultUnit.accessible_attributes.to_a)
+    params.require(:result_unit).permit(:name, :employee_id)
   end
 
   def new_breadcrumbs

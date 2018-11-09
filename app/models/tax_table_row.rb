@@ -12,8 +12,8 @@ class TaxTableRow < ActiveRecord::Base
   # t.integer  :tax_table_id
   # t.timestamps
 
-  attr_accessible :calculation, :from_wage, :to_wage, :column_1, :column_2,
-                  :column_3, :column_4, :column_5, :column_6, :tax_table_id
+  #attr_accessible :calculation, :from_wage, :to_wage, :column_1, :column_2,
+  #                :column_3, :column_4, :column_5, :column_6, :tax_table_id
 
   CALCULATION_TYPES = ['belopp', 'procent']
 

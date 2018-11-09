@@ -74,7 +74,7 @@ class BatchesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def batch_params
-    params.require(:batch).permit(Batch.accessible_attributes.to_a)
+    params.require(:batch).permit(:item_id, :name, :comment, :in_price, :distributor_price, :retail_price, :expire_at, :refined_at)
   end
 
   def new_breadcrumbs

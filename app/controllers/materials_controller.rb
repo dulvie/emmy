@@ -61,7 +61,7 @@ class MaterialsController < ApplicationController
   private
 
   def material_params
-    params.require(:material).permit(Material.accessible_attributes.to_a)
+    params.require(:material).permit(:batch_id, :quantity)
   end
 
   def new_breadcrumbs

@@ -54,7 +54,7 @@ class SieImportsController < ApplicationController
   private
   # Never trust parameters from the scary internet, only allow the white list through.
   def sie_import_params
-    params.require(:sie_import).permit(SieImport.accessible_attributes.to_a)
+    params.require(:sie_import).permit(:import_date, :sie_type, :accounting_period_id, :upload)
     # params.permit(current_organization, current_user)
   end
 

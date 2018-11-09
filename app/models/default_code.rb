@@ -4,7 +4,7 @@ class DefaultCode < ActiveRecord::Base
   # t.string   :state
   # t.integer  :organization_id
 
-  attr_accessible :code, :text
+  #attr_accessible :code, :text
 
   belongs_to :organization
   has_many   :accounts

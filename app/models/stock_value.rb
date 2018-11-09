@@ -6,7 +6,7 @@ class StockValue < ActiveRecord::Base
   # t.integer  :organization_id
   # t.timestamps
 
-  attr_accessible :name, :comment, :value_date, :value
+  #attr_accessible :name, :comment, :value_date, :value
 
   belongs_to :organization
   has_many   :stock_value_items, dependent: :destroy

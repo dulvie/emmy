@@ -10,7 +10,8 @@ class InventoryItem < ActiveRecord::Base
   belongs_to :inventory
   belongs_to :batch
 
-  attr_accessible :inventory_id, :batch_id, :shelf_quantity, :actual_quantity, :reported
+  #attr_accessible :inventory_id, :batch_id, :shelf_quantity, :actual_quantity, :reported
+
   accepts_nested_attributes_for :batch
 
   validates :batch_id, presence: true

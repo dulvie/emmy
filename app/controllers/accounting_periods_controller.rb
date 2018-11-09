@@ -85,7 +85,7 @@ class AccountingPeriodsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def accounting_period_params
-    params.require(:accounting_period).permit(AccountingPeriod.accessible_attributes.to_a)
+    params.require(:accounting_period).permit(:name, :accounting_from, :accounting_to, :active, :vat_period_type, :accounting_plan, :accounting_plan_id)
   end
 
   def new_breadcrumbs

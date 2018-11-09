@@ -138,7 +138,7 @@ class ImportBankFileRowsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def import_bank_file_row_params
-    params.require(:import_bank_file_row).permit(TemplateItem.accessible_attributes.to_a)
+    params.require(:import_bank_file_row).permit(:posting_date, :amount, :bank_account, :name)
   end
 
   def new_breadcrumbs

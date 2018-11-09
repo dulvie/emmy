@@ -8,7 +8,7 @@ class VatReport < ActiveRecord::Base
   # t.integer  :tax_code_id
   # t.timestamps
 
-  attr_accessible :amount, :accounting_period_id, :vat_period_id, :tax_code_id
+  #attr_accessible :amount, :accounting_period_id, :vat_period_id, :tax_code_id
 
   belongs_to :organization
   belongs_to :accounting_period

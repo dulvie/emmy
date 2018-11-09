@@ -87,8 +87,8 @@ class TaxReturnReportsController < ApplicationController
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.
-  def vat_base_params
-    params.require(:vat_base).permit(VatPeriod.accessible_attributes.to_a)
+  def tax_return_params
+    params.require(:vat_base).permit(:amount, :accounting_period_id, :ink_code_id)
   end
 
   def new_breadcrumbs

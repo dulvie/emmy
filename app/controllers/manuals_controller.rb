@@ -70,11 +70,7 @@ class ManualsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def batch_transaction_params
-    params.require(:manual).permit(BatchTransaction.accessible_attributes.to_a)
-  end
-
-  def commentsx_params
-    params.require(:comments).permit(Comment.accessible_attributes.to_a)
+    params.require(:manual).permit(:warehouse, :warehouse_id, :batch, :batch_id, :parent_id, :parent, :quantity)
   end
 
   def comments_params

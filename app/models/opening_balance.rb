@@ -6,7 +6,7 @@ class OpeningBalance < ActiveRecord::Base
   # t.integer  :accounting_period_id
   # t.timestamps
 
-  attr_accessible :posting_date, :description, :accounting_period_id
+  #attr_accessible :posting_date, :description, :accounting_period_id
 
   belongs_to :organization
   belongs_to :accounting_period

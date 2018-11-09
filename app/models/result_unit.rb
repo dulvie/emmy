@@ -3,7 +3,7 @@ class ResultUnit < ActiveRecord::Base
   # t.integer  :organization_id
   # t.integer  :employee_id
 
-  attr_accessible :name, :employee_id
+  #attr_accessible :name, :employee_id
 
   belongs_to :organization
   belongs_to :employee

@@ -68,7 +68,7 @@ class StockValueItemsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def stock_value_item_params
-    params.require(:stock_value_item).permit(StockValueItem.accessible_attributes.to_a)
+    params.require(:stock_value_item).permit(:name, :price, :quantity, :value, :warehouse_id, :batch_id)
   end
 
   def new_breadcrumbs

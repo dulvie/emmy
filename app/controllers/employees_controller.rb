@@ -66,7 +66,9 @@ class EmployeesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def employee_params
-    params.require(:employee).permit(Employee.accessible_attributes.to_a)
+    params.require(:employee).permit(:name, :begin, :ending, :wage_type, :salary, :tax, :birth_year,
+                                     :tax_table_id, :tax_table_column, :personal, :clearingnumber,
+                                     :bank_account)
   end
 
   def new_breadcrumbs
@@ -102,6 +104,9 @@ class EmployeesController < ApplicationController
 
     @contacts = current_organization.contacts
     gon.push contacts: ActiveModel::ArraySerializer.new(@contacts, each_serializer: ContactSerializer)
+    #Problem solved chaging from ActiveModel::ArraySerializer.new
+    #to ActiveModel::Serializer::CollectionSerializer.new
+
   end
 
   def load_dependent

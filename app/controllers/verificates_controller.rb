@@ -138,7 +138,8 @@ class VerificatesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def verificate_params
-    params.require(:verificate).permit(Verificate.accessible_attributes.to_a)
+    params.require(:verificate).permit(:posting_date, :description, :accounting_period_id, :reference,
+                                       :note, :template_id, :import_bank_file_row_id)
   end
 
   def new_breadcrumbs

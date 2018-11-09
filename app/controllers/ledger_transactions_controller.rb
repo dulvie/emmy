@@ -70,7 +70,8 @@ class LedgerTransactionsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def ledger_transation_params
-    params.require(:ledger_transation).permit(ledger_transation.accessible_attributes.to_a)
+    params.require(:ledger_transation).permit(:name, :parent, :accounting_period, :ledger, :account,
+                                              :posting_date, :number, :text, :sum)
   end
 
   def new_breadcrumbs

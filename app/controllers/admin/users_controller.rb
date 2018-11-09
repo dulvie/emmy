@@ -43,7 +43,8 @@ module Admin
     private
 
     def user_params
-      params.require(:user).permit(User.accessible_attributes.to_a)
+      params.require(:user).permit(:name, :default_locale,
+                                   :email, :password, :password_confirmation, :remember_me )
     end
 
     def role_params

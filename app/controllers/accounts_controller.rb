@@ -76,7 +76,7 @@ class AccountsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def account_params
-    params.require(:account).permit(Account.accessible_attributes.to_a)
+    params.require(:account).permit(:number, :description, :tax_code_id, :default_code_id, :active)
   end
 
   def new_breadcrumbs

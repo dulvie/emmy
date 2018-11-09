@@ -49,8 +49,8 @@ class Sale < ActiveRecord::Base
   has_one :document, as: :parent, dependent: :delete
   has_many :comments, as: :parent
 
-  attr_accessible :warehouse_id, :customer_id, :contact_email, :contact_name, :contact_telephone,
-                  :payment_term, :invoice_text
+  #attr_accessible :warehouse_id, :customer_id, :contact_email, :contact_name, :contact_telephone,
+  #                :payment_term, :invoice_text
 
   attr_accessor :custom_error, :mail_template
 

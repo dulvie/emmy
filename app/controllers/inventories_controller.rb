@@ -75,7 +75,7 @@ class InventoriesController < ApplicationController
   private
 
   def inventory_params
-    params.require(:inventory).permit(Inventory.accessible_attributes.to_a)
+    params.require(:inventory).permit(:description, :user_id, :warehouse_id, :inventory_date)
   end
 
   def new_breadcrumbs

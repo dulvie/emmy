@@ -66,7 +66,7 @@ class UnitsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def unit_params
-    params.require(:unit).permit(Unit.accessible_attributes.to_a)
+    params.require(:unit).permit(:name, :weight, :package_dimensions)
   end
 
   def new_breadcrumbs

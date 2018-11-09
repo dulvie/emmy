@@ -68,7 +68,7 @@ class DefaultCodeHeadersController < ApplicationController
   private
   # Never trust parameters from the scary internet, only allow the white list through.
   def default_code_header_params
-    params.require(:default_code_header).permit(DefaultCodeHeader.accessible_attributes.to_a)
+    params.require(:default_code_header).permit(:name, :file_name, :run_type, :accounting_plan_id)
   end
 
   def new_breadcrumbs

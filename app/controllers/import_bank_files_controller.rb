@@ -68,7 +68,7 @@ class ImportBankFilesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def import_bank_file_params
     if params[:import_bank_file]
-      params.require(:import_bank_file).permit(ImportBankFile.accessible_attributes.to_a)
+      params.require(:import_bank_file).permit(:import_date, :from_date, :to_date, :reference, :upload)
     end
     # params.permit(current_organization, current_user)
   end

@@ -62,7 +62,7 @@ class AccountingClassesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def accounting_class_params
-    params.require(:accounting_class).permit(AccountingClass.accessible_attributes.to_a)
+    params.require(:accounting_class).permit(:number, :name)
   end
 
   def new_breadcrumbs

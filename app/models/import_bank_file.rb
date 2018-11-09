@@ -11,7 +11,7 @@ class ImportBankFile < ActiveRecord::Base
 
   VALID_EVENTS = %w(import_event)
 
-  attr_accessible :import_date, :from_date, :to_date, :reference, :upload
+  #attr_accessible :import_date, :from_date, :to_date, :reference, :upload
 
   has_attached_file :upload
   belongs_to :organization

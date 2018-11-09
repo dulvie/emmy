@@ -62,7 +62,8 @@ class CustomersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def customer_params
-    params.require(:customer).permit(Customer.accessible_attributes.to_a)
+    params.require(:customer).permit(:name, :vat_number, :email, :telephone, :address, :zip, :city,
+                                     :country, :reseller, :primary_contact_id, :payment_term)
   end
 
   def new_breadcrumbs

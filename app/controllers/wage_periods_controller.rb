@@ -95,7 +95,8 @@ class WagePeriodsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def wage_period_params
-    params.require(:wage_period).permit(WagePeriod.accessible_attributes.to_a)
+    params.require(:wage_period).permit(:name, :wage_from, :wage_to, :payment_date, :deadline,
+                                        :accounting_period_id, :supplier_id)
   end
 
   def new_breadcrumbs
