@@ -68,7 +68,7 @@ class NeCodesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def ne_code_params
-    params.require(:ne_code).permit(NeCode.accessible_attributes.to_a)
+    params.require(:ne_code).permit(:code, :text, :sum_method)
   end
 
   def new_breadcrumbs

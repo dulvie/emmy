@@ -8,7 +8,7 @@ class OpeningBalanceItem < ActiveRecord::Base
   # t.integer  :opening_balance_id
   # t.timestamps
 
-  attr_accessible :account_id, :description, :debit, :credit
+  #attr_accessible :account_id, :description, :debit, :credit
 
   belongs_to :organization
   belongs_to :accounting_period

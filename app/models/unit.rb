@@ -7,7 +7,7 @@ class Unit < ActiveRecord::Base
   belongs_to :organization
   has_many :items
 
-  attr_accessible :name, :weight, :package_dimensions
+  #attr_accessible :name, :weight, :package_dimensions
 
   validates :name, presence: true, uniqueness: {scope: :organization_id}
 

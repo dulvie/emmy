@@ -102,7 +102,8 @@ class ProductionsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def production_params
-    params.require(:production).permit(Production.accessible_attributes.to_a)
+    params.require(:production).permit(:description, :our_reference_id, :warehouse_id, :batch_id,
+                                       :quantity, :cost_price, :started_at, :completed_at)
   end
 
   def new_breadcrumbs

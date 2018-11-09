@@ -73,7 +73,7 @@ class TaxTablesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def tax_table_params
-    params.require(:tax_table).permit(TaxTable.accessible_attributes.to_a)
+    params.require(:tax_table).permit(:name, :file_name, :year, :table_name)
   end
 
   def new_breadcrumbs

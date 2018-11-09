@@ -20,8 +20,8 @@ class Batch < ActiveRecord::Base
   has_many :shelves, through: :batch_transactions
   has_one :production
 
-  attr_accessible :item_id, :name, :comment, :in_price, :distributor_price, :retail_price,
-                  :expire_at, :refined_at
+  #attr_accessible :item_id, :name, :comment, :in_price, :distributor_price, :retail_price,
+  #                :expire_at, :refined_at
 
   delegate :item_group, :vat, :unit, to: :item
 

@@ -18,8 +18,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :name, :default_locale,
-                  :email, :password, :password_confirmation, :remember_me # by devise
+  #attr_accessible :name, :default_locale,
+  #                :email, :password, :password_confirmation, :remember_me # by devise
 
   has_many :contact_relations, as: :parent do
     def search_by_org(o)

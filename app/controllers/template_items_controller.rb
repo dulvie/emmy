@@ -69,7 +69,8 @@ class TemplateItemsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def template_item_params
-    params.require(:template_item).permit(TemplateItem.accessible_attributes.to_a)
+    params.require(:template_item).permit(:account_id, :description, :enable_debit, :enable_credit,
+                                          :enable_result_unit)
   end
 
   def new_breadcrumbs

@@ -4,7 +4,7 @@ class NeCode < ActiveRecord::Base
   # t.string   :sum_method
   # t.integer  :organization_id
 
-  attr_accessible :code, :text, :sum_method
+  #attr_accessible :code, :text, :sum_method
 
   belongs_to :organization
   has_many   :accounts

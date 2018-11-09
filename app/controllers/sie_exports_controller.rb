@@ -46,7 +46,7 @@ class SieExportsController < ApplicationController
   private
   # Never trust parameters from the scary internet, only allow the white list through.
   def sie_export_params
-    params.require(:sie_export).permit(SieExport.accessible_attributes.to_a)
+    params.require(:sie_export).permit(:export_date, :sie_type, :accounting_period, :accounting_period_id, :download)
     # params.permit(current_organization, current_user)
   end
 

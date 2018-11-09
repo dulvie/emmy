@@ -9,7 +9,7 @@ class MailTemplate < ActiveRecord::Base
 
   TEMPLATE_TYPES = ['invoice', 'reminder']
 
-  attr_accessible :name, :template_type, :subject, :attachment, :text
+  #attr_accessible :name, :template_type, :subject, :attachment, :text
 
   belongs_to :organization
 

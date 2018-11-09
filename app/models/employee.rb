@@ -19,8 +19,8 @@ class Employee < ActiveRecord::Base
   before_create :set_tax
   before_save   :set_salary
 
-  attr_accessible :name, :begin, :ending, :wage_type, :salary, :tax, :birth_year, :tax_table_id,
-                  :tax_table_column, :personal, :clearingnumber, :bank_account
+  #attr_accessible :name, :begin, :ending, :wage_type, :salary, :tax, :birth_year, :tax_table_id,
+  #                :tax_table_column, :personal, :clearingnumber, :bank_account
 
   WAGE_TYPES = ['Fixed', 'Invoiced']
 

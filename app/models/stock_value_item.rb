@@ -12,7 +12,7 @@ class StockValueItem < ActiveRecord::Base
 
   before_save :calculate_value
 
-  attr_accessible :name, :price, :quantity, :value, :warehouse_id, :batch_id
+  #attr_accessible :name, :price, :quantity, :value, :warehouse_id, :batch_id
 
   belongs_to :stock_value
   belongs_to :warehouse

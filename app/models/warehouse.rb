@@ -15,7 +15,7 @@ class Warehouse < ActiveRecord::Base
   has_many :manuals, through: :batch_transactions, source: :parent, source_type: 'Manual'
   has_many :sales
 
-  attr_accessible :name, :address, :zip, :city, :primary_contact_id
+  #attr_accessible :name, :address, :zip, :city, :primary_contact_id
 
   validates :name, presence: true, uniqueness: {scope: :organization_id}
 

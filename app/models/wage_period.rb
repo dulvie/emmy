@@ -17,8 +17,8 @@ class WagePeriod < ActiveRecord::Base
 
   # t.timestamps
 
-  attr_accessible :name, :wage_from, :wage_to, :payment_date, :deadline, :accounting_period_id,
-                  :supplier_id
+  #attr_accessible :name, :wage_from, :wage_to, :payment_date, :deadline, :accounting_period_id,
+  #                :supplier_id
 
   belongs_to :organization
   belongs_to :accounting_period

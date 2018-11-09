@@ -15,7 +15,7 @@ class SaleItem < ActiveRecord::Base
   belongs_to :item
   belongs_to :batch
 
-  attr_accessible :quantity, :price
+  #attr_accessible :quantity, :price
 
   attr_accessor :row_type
 

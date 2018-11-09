@@ -6,7 +6,7 @@ class LedgerAccount < ActiveRecord::Base
   # t.integer  :account_id
   # t.decimal  :sum
 
-  attr_accessible :name, :accounting_period_id, :ledger_id, :account_id, :sum
+  #attr_accessible :name, :accounting_period_id, :ledger_id, :account_id, :sum
 
   belongs_to :organization
   belongs_to :accounting_period

@@ -16,7 +16,8 @@ class Inventory < ActiveRecord::Base
   has_many :comments, as: :parent
 
   accepts_nested_attributes_for :inventory_items
-  attr_accessible :description, :user_id, :warehouse_id, :inventory_date
+
+  #attr_accessible :description, :user_id, :warehouse_id, :inventory_date
 
   # Callbacks
   before_create :check_transfer

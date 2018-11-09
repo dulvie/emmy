@@ -37,8 +37,9 @@ class Purchase < ActiveRecord::Base
   has_many :comments, as: :parent
 
   accepts_nested_attributes_for :purchase_items
-  attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id,
-                  :to_warehouse_id, :ordered_at, :parent_type, :parent_id
+
+  #attr_accessible :description, :supplier_id, :contact_name, :contact_email, :our_reference_id,
+  #                :to_warehouse_id, :ordered_at, :parent_type, :parent_id
 
   validates :description, presence: true
   validates :supplier_id, presence: true

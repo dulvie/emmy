@@ -19,8 +19,8 @@ class Customer < ActiveRecord::Base
   has_many :comments, as: :parent
   has_many :sales
 
-  attr_accessible :name, :vat_number, :email, :telephone, :address, :zip, :city, :country, :reseller,
-                  :primary_contact_id, :payment_term
+  #attr_accessible :name, :vat_number, :email, :telephone, :address, :zip, :city, :country, :reseller,
+  #                :primary_contact_id, :payment_term
 
   validates :name, presence: true, uniqueness: {scope: :organization_id}
   validates :payment_term, presence: true

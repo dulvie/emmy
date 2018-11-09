@@ -21,9 +21,9 @@ class Supplier < ActiveRecord::Base
   has_many :comments, as: :parent
   has_many :purchases
 
-  attr_accessible :name, :address, :zip, :city, :country, :vat_number, 
-    :primary_contact_id, :bankgiro, :postgiro, :plusgiro, :reference, 
-    :supplier_type
+  #attr_accessible :name, :address, :zip, :city, :country, :vat_number,
+  #  :primary_contact_id, :bankgiro, :postgiro, :plusgiro, :reference,
+  #  :supplier_type
 
   TYPES = ['RSV', ' ']
   validates :name, presence: true, uniqueness: {scope: :organization_id}

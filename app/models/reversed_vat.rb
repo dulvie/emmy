@@ -12,7 +12,7 @@ class ReversedVat < ActiveRecord::Base
 
   # t.timestamps
 
-  attr_accessible :name, :vat_from, :vat_to, :accounting_period_id, :deadline
+  #attr_accessible :name, :vat_from, :vat_to, :accounting_period_id, :deadline
 
   belongs_to :organization
   belongs_to :accounting_period

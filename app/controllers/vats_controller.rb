@@ -65,7 +65,7 @@ class VatsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def vat_params
-    params.require(:vat).permit(Vat.accessible_attributes.to_a)
+    params.require(:vat).permit(:name, :vat_percent)
   end
 
   def new_breadcrumbs

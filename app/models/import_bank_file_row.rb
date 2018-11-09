@@ -11,7 +11,7 @@ class ImportBankFileRow < ActiveRecord::Base
   # t.integer  :import_bank_file_id
   # t.timestamps
 
-  attr_accessible :posting_date, :amount, :bank_account, :name
+  #attr_accessible :posting_date, :amount, :bank_account, :name
 
   belongs_to :organization
   belongs_to :import_bank_file

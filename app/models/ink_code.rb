@@ -5,7 +5,7 @@ class InkCode < ActiveRecord::Base
   # t.string   :bas_accounts
   # t.integer  :organization_id
 
-  attr_accessible :code, :text, :sum_method, :bas_accounts
+  #attr_accessible :code, :text, :sum_method, :bas_accounts
 
   belongs_to :organization
   has_many   :accounts

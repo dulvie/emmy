@@ -11,7 +11,7 @@ class BatchTransaction < ActiveRecord::Base
   belongs_to :warehouse
   belongs_to :parent, polymorphic: true
 
-  attr_accessible :warehouse, :warehouse_id, :batch, :batch_id, :parent_id, :parent, :quantity
+  #attr_accessible :warehouse, :warehouse_id, :batch, :batch_id, :parent_id, :parent, :quantity
 
   validates :warehouse, presence: true
   validates :batch, presence: true

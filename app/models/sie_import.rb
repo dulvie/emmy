@@ -11,7 +11,7 @@ class SieImport < ActiveRecord::Base
   VALID_EVENTS = %w(import_event)
   SIE_TYPES = %w(IB UB Transactions)
 
-  attr_accessible :import_date, :sie_type, :accounting_period_id, :upload
+  #attr_accessible :import_date, :sie_type, :accounting_period_id, :upload
 
   has_attached_file :upload
   belongs_to :organization

@@ -8,7 +8,7 @@ class BankFileTransaction < ActiveRecord::Base
   # t.integer  :user_id
   # t.integer  :organization_id
 
-  attr_accessible :parent, :directory, :file_name, :execute, :path, :user, :user_id
+  #attr_accessible :parent, :directory, :file_name, :execute, :path, :user, :user_id
 
   belongs_to :user
   belongs_to :organization

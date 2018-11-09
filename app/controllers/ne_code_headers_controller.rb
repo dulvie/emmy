@@ -68,7 +68,7 @@ class NeCodeHeadersController < ApplicationController
   private
   # Never trust parameters from the scary internet, only allow the white list through.
   def ne_code_header_params
-    params.require(:ne_code_header).permit(NeCodeHeader.accessible_attributes.to_a)
+    params.require(:ne_code_header).permit(:name, :file_name, :run_type, :accounting_plan_id)
   end
 
   def new_breadcrumbs

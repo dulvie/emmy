@@ -111,7 +111,7 @@ class CommentsController < ApplicationController
   end
 
   def comment_params
-    params.require(:comment).permit(Comment.accessible_attributes.to_a)
+    params.require(:comment).permit(:body, :user, :parent, :user_id, :parent_id, :parent_type)
   end
 
   def show_breadcrumbs

@@ -167,11 +167,13 @@ class PurchasesController < ApplicationController
    end
 
   def purchase_item_params
-    params.permit(PurchaseItem.accessible_attributes.to_a, purchase_items_attributes: [])
+    params.permit([:batch_id, :item_id, :quantity, :price, :total_amount], purchase_items_attributes: [])
   end
 
   def purchase_params
-    params.require(:purchase).permit(Purchase.accessible_attributes.to_a)
+    params.require(:purchase).permit(:description, :supplier_id, :contact_name, :contact_email,
+                                     :our_reference_id, :to_warehouse_id, :ordered_at, :parent_type,
+                                     :parent_id)
   end
 
   def new_breadcrumbs

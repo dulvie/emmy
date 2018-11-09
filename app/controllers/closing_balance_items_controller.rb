@@ -70,7 +70,7 @@ class ClosingBalanceItemsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def closing_balance_item_params
-    params.require(:closing_balance_item).permit(ClosingBalanceItem.accessible_attributes.to_a)
+    params.require(:closing_balance_item).permit(:account_id, :description, :debit, :credit)
   end
 
   def new_breadcrumbs

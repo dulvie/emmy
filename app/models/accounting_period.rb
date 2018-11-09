@@ -8,7 +8,7 @@ class AccountingPeriod < ActiveRecord::Base
   # t.integer  :accounting_plan_id
   # t.timestamps
 
-  attr_accessible :name, :accounting_from, :accounting_to, :active, :vat_period_type, :accounting_plan, :accounting_plan_id
+  #attr_accessible :name, :accounting_from, :accounting_to, :active, :vat_period_type, :accounting_plan, :accounting_plan_id
 
   belongs_to :organization
   belongs_to :accounting_plan

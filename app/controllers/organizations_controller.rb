@@ -24,7 +24,9 @@ class OrganizationsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def organization_params
-    params.require(:organization).permit(Organization.accessible_attributes.to_a)
+    params.require(:organization).permit(:email, :name, :address, :zip, :organization_type, :organization_number,
+                                         :vat_number, :bankgiro, :postgiro, :plusgiro, :city, :swift, :iban,
+                                         :invoice_text, :logo)
   end
 
   def show_breadcrumbs

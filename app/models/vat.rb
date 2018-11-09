@@ -6,7 +6,7 @@ class Vat < ActiveRecord::Base
   belongs_to :organization
   has_many :items
 
-  attr_accessible :name, :vat_percent
+  #attr_accessible :name, :vat_percent
 
   validates :name, presence: true, uniqueness: { scope: :organization_id }
   validates :vat_percent, presence: true

@@ -8,7 +8,7 @@ class Material < ActiveRecord::Base
   belongs_to :production
   belongs_to :batch
 
-  attr_accessible :batch_id, :quantity
+  #attr_accessible :batch_id, :quantity
 
   delegate :unit, to: :batch
 

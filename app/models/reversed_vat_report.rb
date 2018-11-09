@@ -9,8 +9,8 @@ class ReversedVatReport < ActiveRecord::Base
   # t.integer  :reversed_vat_id
   # t.timestamps
 
-  attr_accessible :vat_number, :goods, :services, :third_part, :note, :accounting_period_id,
-                  :reversed_vat_id
+  #attr_accessible :vat_number, :goods, :services, :third_part, :note, :accounting_period_id,
+  #                :reversed_vat_id
 
   belongs_to :organization
   belongs_to :accounting_period

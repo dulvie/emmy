@@ -7,7 +7,7 @@ class InkCodeHeader < ActiveRecord::Base
   # t.integer  :organization_id
   # t.timestamps
 
-  attr_accessible :name, :file_name, :run_type, :accounting_plan_id
+  #attr_accessible :name, :file_name, :run_type, :accounting_plan_id
 
   belongs_to :organization
   belongs_to :accounting_plan

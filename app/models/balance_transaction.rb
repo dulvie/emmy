@@ -7,7 +7,7 @@ class BalanceTransaction < ActiveRecord::Base
   # t.integer  :user_id
   # t.integer  :organization_id
 
-  attr_accessible :parent, :execute, :accounting_period_id, :user, :user_id
+  #attr_accessible :parent, :execute, :accounting_period_id, :user, :user_id
 
   belongs_to :user
   belongs_to :organization

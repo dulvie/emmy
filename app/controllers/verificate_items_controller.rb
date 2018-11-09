@@ -80,7 +80,7 @@ class VerificateItemsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def verificate_item_params
-    params.require(:verificate_item).permit(VerificateItem.accessible_attributes.to_a)
+    params.require(:verificate_item).permit(:account_id, :description, :debit, :credit, :result_unit_id, :tax_code_id)
   end
 
   def new_breadcrumbs

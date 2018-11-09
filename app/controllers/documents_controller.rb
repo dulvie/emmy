@@ -103,7 +103,7 @@ class DocumentsController < ApplicationController
   end
 
   def document_params
-    params.require(:document).permit(Document.accessible_attributes.to_a)
+    params.require(:document).permit(:name, :user, :parent, :user_id, :parent_id, :parent_type, :upload)
   end
 
   def show_breadcrumbs

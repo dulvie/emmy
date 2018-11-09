@@ -12,7 +12,7 @@ class Account < ActiveRecord::Base
   # t.boolean  :active, null: false, default: true
   # t.timestamps
 
-  attr_accessible :number, :description, :tax_code_id, :default_code_id, :active
+  #attr_accessible :number, :description, :tax_code_id, :default_code_id, :active
 
   belongs_to :organization
   belongs_to :accounting_plan

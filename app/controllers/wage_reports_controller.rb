@@ -83,7 +83,7 @@ class WageReportsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def wage_base_params
-    params.require(:wage_base).permit(wagePeriod.accessible_attributes.to_a)
+    params.require(:wage_base).permit(:amount, :accounting_period_id, :wage_period_id, :tax_code_id)
   end
 
   def new_breadcrumbs

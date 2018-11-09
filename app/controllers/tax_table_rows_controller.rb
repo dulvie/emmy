@@ -46,7 +46,8 @@ class TaxTableRowsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def tax_table_row_params
-    params.require(:tex_table_row).permit(TaxTableRow.accessible_attributes.to_a)
+    params.require(:tex_table_row).permit(:calculation, :from_wage, :to_wage, :column_1, :column_2,
+                                          :column_3, :column_4, :column_5, :column_6, :tax_table_id)
   end
 
   def show_breadcrumbs

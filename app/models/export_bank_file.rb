@@ -12,8 +12,8 @@ class ExportBankFile < ActiveRecord::Base
   # t.integer  :user_id
   # t.timestamps
 
-  attr_accessible :export_date, :from_date, :to_date, :reference, :pay_account,
-                  :organization_number, :iban, :download
+  #attr_accessible :export_date, :from_date, :to_date, :reference, :pay_account,
+  #                :organization_number, :iban, :download
 
   belongs_to :organization
   belongs_to :user

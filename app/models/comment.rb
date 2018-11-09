@@ -11,7 +11,7 @@ class Comment < ActiveRecord::Base
 
   validates :body, presence: true
 
-  attr_accessible :body, :user, :parent, :user_id, :parent_id, :parent_type
+  #attr_accessible :body, :user, :parent, :user_id, :parent_id, :parent_type
 
   VALID_PARENT_TYPES = ['Customer', 'Supplier', 'Warehouse', 'Manual', 'Transfer', 'Import',
                         'Production', 'Inventory', 'Purchase', 'Sale', 'nil']

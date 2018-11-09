@@ -64,7 +64,7 @@ class LedgerAccountsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def ledger_account_params
-    params.require(:ledger_account).permit(LedgerAccount.accessible_attributes.to_a)
+    params.require(:ledger_account).permit(:name, :accounting_period_id, :ledger_id, :account_id, :sum)
   end
 
   def new_breadcrumbs

@@ -54,7 +54,8 @@ class ReversedVatReportsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def reversed_vat_report_params
-    params.require(:reversed_vat_report).permit(ReversedVatReport.accessible_attributes.to_a)
+    params.require(:reversed_vat_report).permit(:vat_number, :goods, :services, :third_part, :note,
+                                                :accounting_period_id, :reversed_vat_id)
   end
 
   def new_breadcrumbs

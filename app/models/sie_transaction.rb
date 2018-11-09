@@ -8,8 +8,8 @@ class SieTransaction < ActiveRecord::Base
   # t.integer  :user_id
   # t.integer  :organization_id
 
-  attr_accessible :directory, :file, :sie_type, :execute, :complete, :accounting_period,
-                  :accounting_period_id, :user, :user_id
+  #attr_accessible :directory, :file, :sie_type, :execute, :complete, :accounting_period,
+  #                :accounting_period_id, :user, :user_id
 
   belongs_to :user
   belongs_to :organization

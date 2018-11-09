@@ -10,7 +10,7 @@ class TaxReturn < ActiveRecord::Base
 
   # t.timestamps
 
-  attr_accessible :name, :tax_form, :deadline, :accounting_period_id
+  #attr_accessible :name, :tax_form, :deadline, :accounting_period_id
 
   belongs_to :organization
   belongs_to :accounting_period

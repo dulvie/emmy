@@ -93,7 +93,8 @@ class WagesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def wage_params
-    params.require(:wage).permit(Wage.accessible_attributes.to_a)
+    params.require(:wage).permit(:employee_id, :wage_from, :wage_to, :payment_date, :salary, :addition,
+                                 :discount, :tax, :payroll_tax, :amount, :wage_period_id, :accounting_period_id)
   end
 
   def new_breadcrumbs

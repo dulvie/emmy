@@ -8,7 +8,7 @@ class SieExport < ActiveRecord::Base
   # t.integer  :user_id
   # t.timestamps
 
-  attr_accessible :export_date, :sie_type, :accounting_period, :accounting_period_id, :download
+  #attr_accessible :export_date, :sie_type, :accounting_period, :accounting_period_id, :download
 
   VALID_EVENTS = %w(export_event)
   SIE_TYPES =  ['Bokslutssaldon (1)', 'Periodsaldon (2)', 'Objektsaldon (3)', 'Transaktioner (4)']

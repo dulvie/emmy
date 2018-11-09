@@ -8,7 +8,7 @@ class ContactRelation < ActiveRecord::Base
   belongs_to :contact
   belongs_to :parent, polymorphic: true
 
-  attr_accessible :parent_type, :parent_id, :parent
+  #attr_accessible :parent_type, :parent_id, :parent
 
   def can_delete?
     true

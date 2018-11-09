@@ -116,7 +116,7 @@ class ContactRelationsController < ApplicationController
   end
 
   def contact_params
-    params.require(:contact).permit(Contact.accessible_attributes.to_a)
+    params.require(:contact).permit(:email, :name, :telephone, :address, :zip, :city, :country, :comment)
   end
 
   def new_breadcrumbs

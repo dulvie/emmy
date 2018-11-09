@@ -4,7 +4,7 @@ class Conversion < ActiveRecord::Base
   # t.integer  :organization_id
   # t.timestamps
 
-  attr_accessible :old_number, :new_number
+  #attr_accessible :old_number, :new_number
 
   belongs_to :organization
 

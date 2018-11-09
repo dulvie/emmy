@@ -99,7 +99,7 @@ class TemplatesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def template_params
-    params.require(:template).permit(Template.accessible_attributes.to_a)
+    params.require(:template).permit(:name, :description, :template_type, :accounting_plan, :accounting_plan_id)
   end
 
   def new_breadcrumbs

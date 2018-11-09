@@ -62,7 +62,7 @@ class AccountingGroupsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def accounting_group_params
-    params.require(:accounting_group).permit(AccountingGroup.accessible_attributes.to_a)
+    params.require(:accounting_group).permit(:number, :name)
   end
 
   def new_breadcrumbs

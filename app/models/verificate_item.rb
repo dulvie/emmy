@@ -11,7 +11,7 @@ class VerificateItem < ActiveRecord::Base
   # t.integer  :tax_code_id
   # t.timestamps
 
-  attr_accessible :account_id, :description, :debit, :credit, :result_unit_id, :tax_code_id
+  #attr_accessible :account_id, :description, :debit, :credit, :result_unit_id, :tax_code_id
 
   belongs_to :organization
   belongs_to :accounting_period
