@@ -60,7 +60,7 @@ app.directive('ngBlur', ['$parse', function($parse) {
 	}
 }]);
 
-app.controller('ModalInfoInstanceCtrl', function ($scope, $modalInstance, info) {
+app.controller('ModalInfoInstanceCtrl', function ($scope, $uibModalInstance, info) {
     $scope.info = info;
     $scope.openDate = function($event) {
         $event.preventDefault();
@@ -69,7 +69,7 @@ app.controller('ModalInfoInstanceCtrl', function ($scope, $modalInstance, info) 
     };
 
     $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 });
 $(document).on('ready page:load', function(){

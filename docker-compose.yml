@@ -6,7 +6,7 @@ services:
     image: emmy-dev
     hostname: ruby
     #command: bundle exec foreman start
-    #command: sh -c 'bundle exec foreman start'
+    # command: sh -c 'bundle exec foreman start'
     command: sh -c 'while true ; do sleep 500 ; done'
     volumes:
       - .:/app/

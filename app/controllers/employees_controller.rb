@@ -103,7 +103,8 @@ class EmployeesController < ApplicationController
     end
 
     @contacts = current_organization.contacts
-    gon.push contacts: ActiveModel::ArraySerializer.new(@contacts, each_serializer: ContactSerializer)
+    #gon.push contacts: ActiveModel::ArraySerializer.new(@contacts, each_serializer: ContactSerializer)
+    gon.push contacts: ActiveModel::Serializer::CollectionSerializer.new(@contacts, each_serializer: ContactSerializer)
     #Problem solved chaging from ActiveModel::ArraySerializer.new
     #to ActiveModel::Serializer::CollectionSerializer.new
 
