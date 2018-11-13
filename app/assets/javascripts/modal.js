@@ -1,4 +1,4 @@
-app.controller('ModalCtrl', function ($scope, $modal, $log) {
+app.controller('ModalCtrl', function ($scope, $uibModal, $log) {
 
 	$scope.items = ['item1', 'item2', 'item3'];
 	$scope.date = new Date();
@@ -15,7 +15,7 @@ app.controller('ModalCtrl', function ($scope, $modal, $log) {
 		var temp = $(elem).html();
 
 
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			template: temp,
 			controller: 'ModalInstanceCtrl',
 			size: size,
@@ -67,7 +67,7 @@ app.controller('ModalCtrl', function ($scope, $modal, $log) {
 });
 
 
-app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, dat, min_date, max_date) {
+app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, dat, min_date, max_date) {
     $scope.min_date = min_date;
     $scope.max_date = max_date;
 	$scope.date = dat;
@@ -85,7 +85,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, dat, min_d
 	};
 
 	$scope.cancel = function () {
-		$modalInstance.dismiss('cancel');
+		$uibModalInstance.dismiss('cancel');
 	};
 });
 app.controller('ModalDeleteInstanceCtrl', function ($scope, $modalInstance, obj) {

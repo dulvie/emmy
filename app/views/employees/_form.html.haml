@@ -1,14 +1,29 @@
-%div{ng_controller: 'employee_form_ctrl', ng_init: 'init()' }
+%div{ng_controller: 'employee_form_ctrl'}
   = simple_form_for(@employee, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
     = f.error_notification
     = f.input :name
     = f.input :birth_year
-    = render partial: 'shared/date_field', locals: {form: f, field: :begin, in_id: 'in_begin', in_value: @employee.begin, out_id: 'employee[begin]', field_id: 'begin_short_date',  model: 'begin_date', dp_open: 'begin_open', dp_options: 'begin_options', dp_click: 'open_begin_date($event)'}
-    .error_width
-      = f.error :begin
-    = render partial: 'shared/date_field', locals: {form: f, field: :ending, in_id: 'in_ending', in_value: @employee.ending, out_id: 'employee[ending]', field_id: 'ending_short_date',  model: 'ending_date', dp_open: 'ending_open', dp_options: 'ending_options', dp_click: 'open_ending_date($event)'}
-    .error_width
-      = f.error :ending
+
+    .form-group.form-inline
+      .labels_width.control-label
+        = f.label :begin
+      .fields_width
+        = f.date_field :begin
+
+    /= render partial: 'shared/date_field', locals: {form: f, field: :begin, in_id: 'in_begin', in_value: @employee.begin, out_id: 'employee[begin]', field_id: 'begin_short_date',  model: 'begin_date', dp_open: 'begin_open', dp_options: 'begin_options', dp_click: 'open_begin_date($event)'}
+    /.error_width
+    /  = f.error :begin
+
+    .form-group.form-inline
+      .labels_width.control-label
+        = f.label :ending
+      .fields_width
+        = f.date_field :ending
+
+    /= render partial: 'shared/date_field', locals: {form: f, field: :ending, in_id: 'in_ending', in_value: @employee.ending, out_id: 'employee[ending]', field_id: 'ending_short_date',  model: 'ending_date', dp_open: 'ending_open', dp_options: 'ending_options', dp_click: 'open_ending_date($event)'}
+    /.error_width
+    /  = f.error :ending
+
     = f.input :wage_type, collection: Employee::WAGE_TYPES, include_blank: false
     #salary-wrapper
       = f.input :salary
@@ -41,7 +56,9 @@
   = render partial: 'info'
 
 :javascript
+
   $(document).ready(function() {
+
     $("#employee_wage_type").change(function() {
       wage_type_fields();
     });
@@ -57,3 +74,4 @@
     };
     wage_type_fields();
   });
+  //$(document).on 'turbolinks:load', angular.bootstrap document.body, ['emmy']
