@@ -1,63 +1,55 @@
-%div{ng_controller: 'employee_form_ctrl'}
-  = simple_form_for(@employee, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    = f.error_notification
-    = f.input :name
-    = f.input :birth_year
+= simple_form_for(@employee, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+  = f.input :name
+  = f.input :birth_year
 
-    .form-group.form-inline
-      .labels_width.control-label
-        = f.label :begin
-      .fields_width
-        = f.date_field :begin
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :begin
+    .fields_width
+      = f.date_field :begin
 
-    /= render partial: 'shared/date_field', locals: {form: f, field: :begin, in_id: 'in_begin', in_value: @employee.begin, out_id: 'employee[begin]', field_id: 'begin_short_date',  model: 'begin_date', dp_open: 'begin_open', dp_options: 'begin_options', dp_click: 'open_begin_date($event)'}
-    /.error_width
-    /  = f.error :begin
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :ending
+    .fields_width
+      = f.date_field :ending
 
-    .form-group.form-inline
-      .labels_width.control-label
-        = f.label :ending
-      .fields_width
-        = f.date_field :ending
+  = f.input :wage_type, collection: Employee::WAGE_TYPES, include_blank: false
+  #salary-wrapper
+    = f.input :salary
+  = f.association :tax_table, collection: @tax_tables, include_blank: false
 
-    /= render partial: 'shared/date_field', locals: {form: f, field: :ending, in_id: 'in_ending', in_value: @employee.ending, out_id: 'employee[ending]', field_id: 'ending_short_date',  model: 'ending_date', dp_open: 'ending_open', dp_options: 'ending_options', dp_click: 'open_ending_date($event)'}
-    /.error_width
-    /  = f.error :ending
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :tax_table_column
+    .fields_width
+      = f.input :tax_table_column, label: false, collection: TaxTable::COLUMNS, include_blank: false, :input_html => {:class=>'numeric form-control'}
+      = info_modal('#taxTableColumnId')
+  #tax-wrapper
+    = f.input :tax, disabled: true
+  = f.input :personal, :input_html => {:class => 'short'}
 
-    = f.input :wage_type, collection: Employee::WAGE_TYPES, include_blank: false
-    #salary-wrapper
-      = f.input :salary
-    = f.association :tax_table, collection: @tax_tables, include_blank: false
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :clearingnumber
+    .fields_width
+      = f.input :clearingnumber, label: false, :input_html => {:class=>'numeric'}
+      = info_modal('#clearingnumberId')
 
-    .form-group.form-inline
-      .labels_width.control-label
-        = f.label :tax_table_column
-      .fields_width
-        = f.input :tax_table_column, label: false, collection: TaxTable::COLUMNS, include_blank: false, :input_html => {:class=>'numeric form-control'}
-        = info_modal_for('tax_table_column')
-    #tax-wrapper
-      = f.input :tax, disabled: true
-    = f.input :personal, :input_html => {:class => 'short'}
+  = f.input :bank_account
 
-    .form-group.form-inline
-      .labels_width.control-label
-        = f.label :clearingnumber
-      .fields_width
-        = f.input :clearingnumber, label: false, :input_html => {:class=>'numeric'}
-        = info_modal_for('clearingnumber')
+  .form-button-group
+    .actions
+      = f.submit class: 'btn btn-primary'
 
-    = f.input :bank_account
-
-    .form-button-group
-      .actions
-        = f.submit class: 'btn btn-primary'
-
-  = render partial: 'shared/modal_info', locals: {idx: 'infoContent'}
-  = render partial: 'info'
+= render partial: 'shared/modal_infos', locals: {modalId: 'taxTableColumnId' , modalBody: 'info_tax_table_column'}
+= render partial: 'shared/modal_infos', locals: {modalId: 'clearingnumberId' , modalBody: 'info_clearingnumber'}
 
 :javascript
 
   $(document).ready(function() {
+
 
     $("#employee_wage_type").change(function() {
       wage_type_fields();
@@ -74,4 +66,3 @@
     };
     wage_type_fields();
   });
-  //$(document).on 'turbolinks:load', angular.bootstrap document.body, ['emmy']
