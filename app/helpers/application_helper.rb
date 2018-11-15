@@ -44,6 +44,10 @@ module ApplicationHelper
     link_to delete_icon(obj), '#', :ng_click =>"open_delete($event, 'sm','deleteContent', '#{path}')"
   end
 
+  def info_modal(modal)
+    link_to info_icon, '#', :'data-toggle' => 'modal', :'data-target'=>modal
+  end
+
   def info_modal_for(obj)
     link_to info_icon, '#', :ng_click => "show_info($event, '#{obj}')"
   end

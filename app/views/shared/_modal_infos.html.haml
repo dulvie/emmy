@@ -1,0 +1,10 @@
+%div{ :id=>modalId, :class =>'modal fade'}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %h3{ :class=>"modal-title"}
+          = t(:description)
+      .modal-body
+        = render partial:modalBody
+      .modal-footer
+        = button_tag t(:ok), type: 'button', class: 'btn btn-primary', 'data-dismiss': 'modal'
