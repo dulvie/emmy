@@ -1,39 +1,55 @@
-%div{ng_controller: 'wage_period_form_ctrl', ng_init: 'init()' }
-  = simple_form_for(@wage_period, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    = f.error_notification
-    = f.association :accounting_period, as: :hidden
-    .form-group
-      .labels_width.control-label
-        = f.label :accounting_period
-      .fields_width
-        %input{id: 'show', type: 'text', class: 'form-control', value: f.object.accounting_period.name, disabled: true}
+= simple_form_for(@wage_period, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+  = f.association :accounting_period, as: :hidden
+  .form-group
+    .labels_width.control-label
+      = f.label :accounting_period
+    .fields_width
+      %input{id: 'show', type: 'text', class: 'form-control', value: f.object.accounting_period.name, disabled: true}
 
-    = f.input :name, disabled: !@wage_period.new_record?
-    = render partial: 'shared/date_field', locals: {form: f, field: :wage_from, in_id: 'in_from', in_value: @wage_period.wage_from, out_id: 'wage_period[wage_from]', field_id: 'from_short_date',  model: 'from_date', dp_open: 'from_open', dp_options: 'from_options', dp_click: 'open_from_date($event)'}
-    .error_width
+  = f.input :name, disabled: !@wage_period.new_record?
+
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :wage_from
+    .fields_width
+      = f.date_field :wage_from
       = f.error :wage_from
-    = render partial: 'shared/date_field', locals: {form: f, field: :wage_to, in_id: 'in_to', in_value: @wage_period.wage_to, out_id: 'wage_period[wage_to]', field_id: 'to_short_date',  model: 'to_date', dp_open: 'to_open', dp_options: 'to_options', dp_click: 'open_to_date($event)'}
-    .error_width
-      = f.error :wage_to
-    = render partial: 'shared/date_field', locals: {form: f, field: :payment_date, in_id: 'in_payment', in_value: @wage_period.payment_date, out_id: 'wage_period[payment_date]', field_id: 'payment_short_date',  model: 'payment_date', dp_open: 'payment_open', dp_options: 'payment_options', dp_click: 'open_payment_date($event)'}
-    .error_width
-      = f.error :deadline
-    = render partial: 'shared/date_field', locals: {form: f, field: :deadline, in_id: 'in_deadline', in_value: @wage_period.deadline, out_id: 'wage_period[deadline]', field_id: 'deadline_short_date',  model: 'deadline_date', dp_open: 'deadline_open', dp_options: 'deadline_options', dp_click: 'open_deadline_date($event)'}
-    .error_width
-      = f.error :deadline
-    = f.association :supplier, collection: @suppliers, label: "#{t(:report_to)}", disabled: !@wage_period.new_record? && !@wage_period.preliminary?
-    = f.input :state, disabled: true
 
-    .form-button-group
-      .actions
-        - if @wage_period.new_record? || @wage_period.can_calculate_wage?
-          = f.submit class: 'btn btn-primary'
-        - if !@wage_period.new_record? && @wage_period.can_calculate_wage?
-          - url = state_change_wage_period_path + '&event=mark_wage_calculated' 
-          = link_to "#{t(:create)} #{t(:wage)}", url, method: 'post', class: 'btn btn-primary'
-        - if !@wage_period.new_record? && @wage_period.can_calculate_tax?
-          - url = state_change_wage_period_path + '&event=mark_tax_calculated' 
-          = link_to "#{t(:create)} #{t(:wage)} #{t(:report)}", url, method: 'post', class: 'btn btn-primary'
-        - if false
-          - url = state_change_wage_period_path + '&event=mark_wage_closed' 
-          = link_to "#{t(:state_change)}", url, method: 'post', class: 'btn btn-success'
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :wage_to
+    .fields_width
+      = f.date_field :wage_to
+      = f.error :wage_to
+
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :payment_date
+    .fields_width
+      = f.date_field :payment_date
+      = f.error :payment_date
+
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :deadline
+    .fields_width
+      = f.date_field :deadline
+      = f.error :deadline
+
+  = f.association :supplier, collection: @suppliers, label: "#{t(:report_to)}", disabled: !@wage_period.new_record? && !@wage_period.preliminary?
+  = f.input :state, disabled: true
+
+  .form-button-group
+    .actions
+      - if @wage_period.new_record? || @wage_period.can_calculate_wage?
+        = f.submit class: 'btn btn-primary'
+      - if !@wage_period.new_record? && @wage_period.can_calculate_wage?
+        - url = state_change_wage_period_path + '&event=mark_wage_calculated'
+        = link_to "#{t(:create)} #{t(:wage)}", url, method: 'post', class: 'btn btn-primary'
+      - if !@wage_period.new_record? && @wage_period.can_calculate_tax?
+        - url = state_change_wage_period_path + '&event=mark_tax_calculated'
+        = link_to "#{t(:create)} #{t(:wage)} #{t(:report)}", url, method: 'post', class: 'btn btn-primary'
+      - if false
+        - url = state_change_wage_period_path + '&event=mark_wage_closed'
+        = link_to "#{t(:state_change)}", url, method: 'post', class: 'btn btn-success'
