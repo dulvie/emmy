@@ -32,6 +32,8 @@ class VatPeriod < ActiveRecord::Base
   VALID_EVENTS = %w(vat_report_event vat_verificate_event)
 
   def check_to
+    return if vat_from.nil?
+    return if vat_to.nil?
     if vat_from >= vat_to
       errors.add(:vat_to, I18n.t(:period_error))
     end
