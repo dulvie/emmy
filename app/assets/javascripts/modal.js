@@ -44,7 +44,7 @@ app.controller('ModalCtrl', function ($scope, $uibModal, $log) {
 		$scope.obj = o;
 		var elem = '#'+el;
 		var temp = $(elem).html();
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			template: temp,
 			controller: 'ModalDeleteInstanceCtrl',
 			size: size,
@@ -88,7 +88,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, dat, mi
 		$uibModalInstance.dismiss('cancel');
 	};
 });
-app.controller('ModalDeleteInstanceCtrl', function ($scope, $modalInstance, obj) {
+app.controller('ModalDeleteInstanceCtrl', function ($scope, $uibModalInstance, obj) {
 	$scope.obj = obj;
 	$scope.ok = function ($event) {
 		$event.preventDefault();
@@ -96,11 +96,11 @@ app.controller('ModalDeleteInstanceCtrl', function ($scope, $modalInstance, obj)
 	};
 
 	$scope.cancel = function () {
-		$modalInstance.dismiss('cancel');
+		$uibModalInstance.dismiss('cancel');
 	};
 });
 
-app.controller('ModalMessageInstanceCtrl', function ($scope, $modalInstance, msg) {
+app.controller('ModalMessageInstanceCtrl', function ($scope, $uibModalInstance, msg) {
 	$scope.message = msg;
 	$scope.openDate = function($event) {
 		$event.preventDefault();
@@ -109,6 +109,6 @@ app.controller('ModalMessageInstanceCtrl', function ($scope, $modalInstance, msg
 	};
 
 	$scope.cancel = function () {
-		$modalInstance.dismiss('cancel');
+		$uibModalInstance.dismiss('cancel');
 	};
 });
