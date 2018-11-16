@@ -38,6 +38,8 @@ class WagePeriod < ActiveRecord::Base
   VALID_EVENTS = %w(tax_report_event wage_calculation_event wage_verificate_event tax_verificate_event)
 
   def check_to
+    return if wage_from.nil?
+    return if wage_to.nil?
     if wage_from >= wage_to
       errors.add(:wage_to, I18n.t(:period_error))
     end
