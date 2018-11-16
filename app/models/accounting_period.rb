@@ -30,6 +30,8 @@ class AccountingPeriod < ActiveRecord::Base
   validates :vat_period_type, inclusion: { in: VAT_TYPES }
 
   def check_to
+    return if accounting_from.nil?
+    return if accounting_to.nil?
     if accounting_from >= accounting_to
       errors.add(:accounting_to, I18n.t(:period_error))
     end
