@@ -1,26 +1,38 @@
-%div{ng_controller: 'wage_form_ctrl', ng_init: 'init()' }
-  = simple_form_for([@wage_period, @wage], wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    = f.error_notification
-    = f.input :accounting_period_id, as: :hidden
-    = f.input :wage_period_id, as: :hidden
-    = f.association :employee, collection: @employees, disabled: !@wage.new_record?
-    = render partial: 'shared/date_field', locals: {form: f, field: :wage_from, in_id: 'in_from', in_value: @wage.wage_from, out_id: 'wage[wage_from]', field_id: 'from_short_date',  model: 'from_date', dp_open: 'from_open', dp_options: 'from_options', dp_click: 'open_from_date($event)'}
-    .error_width
-      = f.error :wage_from
-    = render partial: 'shared/date_field', locals: {form: f, field: :wage_to, in_id: 'in_to', in_value: @wage.wage_to, out_id: 'wage[wage_to]', field_id: 'to_short_date',  model: 'to_date', dp_open: 'to_open', dp_options: 'to_options', dp_click: 'open_to_date($event)'}
-    .error_width
-      = f.error :wage_to
-    = render partial: 'shared/date_field', locals: {form: f, field: :payment_date, in_id: 'in_payment', in_value: @wage.payment_date, out_id: 'wage[payment_date]', field_id: 'payment_short_date',  model: 'payment_date', dp_open: 'payment_open', dp_options: 'payment_options', dp_click: 'open_payment_date($event)'}
-    .error_width
-      = f.error :payment_date
-    = f.input :salary
-    = f.input :addition
-    = f.input :discount
-    = f.input :tax, disabled: true
-    = f.input :amount, disabled: true
-    = f.input :payroll_tax, disabled: true
+= simple_form_for([@wage_period, @wage], wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+  = f.input :accounting_period_id, as: :hidden
+  = f.input :wage_period_id, as: :hidden
+  = f.association :employee, collection: @employees, disabled: !@wage.new_record?
 
-    - if @wage.new_record? || @wage.can_delete?
-      .form-button-group
-        .actions
-          = f.submit class: 'btn btn-primary'
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :wage_from
+    .fields_width
+      = f.date_field :wage_from
+      = f.error :wage_from
+
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :wage_to
+    .fields_width
+      = f.date_field :wage_to
+      = f.error :wage_to
+
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :payment_date
+    .fields_width
+      = f.date_field :payment_date
+      = f.error :payment_date
+
+  = f.input :salary
+  = f.input :addition
+  = f.input :discount
+  = f.input :tax, disabled: true
+  = f.input :amount, disabled: true
+  = f.input :payroll_tax, disabled: true
+
+  - if @wage.new_record? || @wage.can_delete?
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'
