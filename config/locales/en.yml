@@ -316,6 +316,7 @@ en:
   paid_at: "Paid at"
   payment_term: "Payment term"
   password: "Password"
+  period_error: "Period error"
   plusgiro: "Plusgiro"
   postgiro: "Postgiro"
   posting_date: "Posting date"

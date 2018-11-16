@@ -1,26 +1,33 @@
-%div{ng_controller: 'accounting_period_form_ctrl', ng_init: 'init()' }
-  = simple_form_for(@accounting_period, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    = f.error_notification
-    = f.input :name
-    = render partial: 'shared/date_field', locals: {form: f, field: :accounting_from, in_id: 'in_from', in_value: @accounting_period.accounting_from, out_id: 'accounting_period[accounting_from]', field_id: 'from_short_date',  model: 'from_date', dp_open: 'from_open', dp_options: 'from_options', dp_click: 'open_from_date($event)'}
-    .error_width
+= simple_form_for(@accounting_period, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+  = f.input :name
+
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :accounting_from
+    .fields_width
+      = f.date_field :accounting_from
       = f.error :accounting_from
-    = render partial: 'shared/date_field', locals: {form: f, field: :accounting_to, in_id: 'in_to', in_value: @accounting_period.accounting_to, out_id: 'accounting_period[accounting_to]', field_id: 'to_short_date',  model: 'to_date', dp_open: 'to_open', dp_options: 'to_options', dp_click: 'open_to_date($event)'}
-    .error_width
+
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :accounting_to
+    .fields_width
+      = f.date_field :accounting_to
       = f.error :accounting_to
-    = f.input :active
-    = f.input :accounting_plan_id, as: :select, collection: @accounting_plans, include_blank: false
 
-    .form-group.form-inline
-      .labels_width.control-label
-        = f.label :vat_period_type
-      .fields_width
-        = f.input :vat_period_type, label: false, as: :select, collection: AccountingPeriod::VAT_TYPES, include_blank: false, input_html: {class: 'short'}
-        = info_modal_for('vat_period_type')
+  = f.input :active
+  = f.input :accounting_plan_id, as: :select, collection: @accounting_plans, include_blank: false
 
-    .form-button-group
-      .actions
-        = f.submit class: 'btn btn-primary'
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :vat_period_type
+    .fields_width
+      = f.input :vat_period_type, label: false, as: :select, collection: AccountingPeriod::VAT_TYPES, include_blank: false, input_html: {class: 'short'}
+      = info_modal('#vatPeriodTypeId')
 
-  = render partial: 'shared/modal_info', locals: {idx: 'infoContent'}
-  = render partial: 'info'
+  .form-button-group
+    .actions
+      = f.submit class: 'btn btn-primary'
+
+= render partial: 'shared/modal_infos', locals: {modalId: 'vatPeriodTypeId' , modalBody: 'info_vat_period_type'}

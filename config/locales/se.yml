@@ -294,6 +294,7 @@ se:
   password: "Lösenord"
   parent: "Parent"
   parent_type: "Förälder"
+  period_error: "Period felaktig"
   plusgiro: "Plusgiro"
   postgiro: "Postgiro"
   posting_date: "Bokföringsdatum"
