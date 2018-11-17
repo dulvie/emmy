@@ -1,15 +1,20 @@
-%div{ :ng_controller => 'stock_value_form_ctrl', :ng_init => 'init()'}
-  = simple_form_for(@stock_value, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    = f.error_notification
-    = f.input :name, disabled: !@stock_value.new_record?
-    = f.input :comment, disabled: !@stock_value.new_record?
-    = render partial: 'shared/date_field', locals: {form: f, field: :value_date, in_id: 'in_value_date', in_value: @stock_value.value_date, out_id: 'stock_value[value_date]', field_id: 'ex_short_date',  model: 'v_date', dp_open: 'v_open', dp_options: 'v_options', dp_click: 'open_v_date($event)'}
-    = f.input :value, disabled: true
-    = f.input :state, disabled: true
+= simple_form_for(@stock_value, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+  = f.input :name, disabled: !@stock_value.new_record?
+  = f.input :comment, disabled: !@stock_value.new_record?
 
-    - if @stock_value.new_record? || @stock_value.can_edit?
-      .form-button-group
-        .actions
-          = f.submit class: 'btn btn-primary'
-          - if !@stock_value.new_record?
-            = link_to "#{t(:create)} #{t(:verificate)}", state_change_stock_value_path(@stock_value, event: 'mark_reported'), method: 'post', class: 'btn btn-success'
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :value_date
+    .fields_width
+      = f.date_field :value_date
+
+  = f.input :value, disabled: true
+  = f.input :state, disabled: true
+
+  - if @stock_value.new_record? || @stock_value.can_edit?
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'
+        - if !@stock_value.new_record?
+          = link_to "#{t(:create)} #{t(:verificate)}", state_change_stock_value_path(@stock_value, event: 'mark_reported'), method: 'post', class: 'btn btn-success'
