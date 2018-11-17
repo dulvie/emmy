@@ -1,21 +1,19 @@
-%div{ng_controller: 'accounting_plan_form_ctrl' }
-  = simple_form_for(@accounting_plan, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    = f.error_notification
-    = f.input :name, disabled: true
-    = f.input :description, disabled: true
-    .form-group.form-inline
-      .labels_width.control-label
-        = f.label :file_name
-      .fields_width
-        - if @accounting_plan.new_record?
-          = f.input :file_name, label: false, as: :select, collection: @files, include_blank: false
-        - else
-          = f.input :file_name, label: false, disabled: true
-        = info_modal_for('accounting_plan_file')
+= simple_form_for(@accounting_plan, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+  = f.input :name, disabled: true
+  = f.input :description, disabled: true
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :file_name
+    .fields_width
+      - if @accounting_plan.new_record?
+        = f.input :file_name, label: false, as: :select, collection: @files, include_blank: false
+      - else
+        = f.input :file_name, label: false, disabled: true
+      = info_modal('#accountingPlanFileId')
 
-    .form-button-group
-      .actions
-        = f.submit class: 'btn btn-primary', disabled: !@accounting_plan.new_record?
+  .form-button-group
+    .actions
+      = f.submit class: 'btn btn-primary', disabled: !@accounting_plan.new_record?
 
-    = render partial: 'shared/modal_info', locals: {idx: 'infoContent'}
-    = render partial: 'info'
+  = render partial: 'shared/modal_infos', locals: {modalId: 'accountingPlanFileId' , modalBody: 'info_accounting_plan_file'}
