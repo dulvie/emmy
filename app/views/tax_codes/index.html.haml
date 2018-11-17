@@ -1,62 +1,61 @@
-%div{ng_controller: 'tax_code_index_ctrl' }
-  .input-group.full-width
-    = link_to "#{t(:create)} #{t(:tax_code)}", new_tax_code_path, class: 'btn btn-success'
-    = link_to "#{t(:import)} #{t(:tax_codes)}", new_tax_code_header_path, class: 'btn btn-default'
-    = info_modal_for('tax_codes')
+.input-group.full-width
+  = link_to "#{t(:create)} #{t(:tax_code)}", new_tax_code_path, class: 'btn btn-success'
+  = link_to "#{t(:import)} #{t(:tax_codes)}", new_tax_code_header_path, class: 'btn btn-default'
+  = info_modal('#taxCodesId')
 
-    .btn-group.pull-right{"data-toggle" => "buttons"}
-      %label.btn.btn-default.active
-        = radio_button_tag :single_use, 'vat', true
-        = t(:vat)
-      %label.btn.btn-default
-        = radio_button_tag :single_use, 'wage', false
-        = t(:wage)
-      %label.btn.btn-default
-        = radio_button_tag :single_use, 'default', false
-        = t(:default)
+  .btn-group.pull-right{"data-toggle" => "buttons"}
+    %label.btn.btn-default.active
+      = radio_button_tag :single_use, 'vat', true
+      = t(:vat)
+    %label.btn.btn-default
+      = radio_button_tag :single_use, 'wage', false
+      = t(:wage)
+    %label.btn.btn-default
+      = radio_button_tag :single_use, 'default', false
+      = t(:default)
 
-  .table-responsive{:ng_controller=>'ModalCtrl'}
-    %table{:class => 'table table-striped'}
-      %thead
-        %tr
-          %th.numeric= t(:code)
-          %th= t(:text)
-          %th= t(:sum_method)
-          %th= t(:accounts)
-          %th
-          %th
-      %tbody{}
-        - @tax_codes.vat.each do |tax_code|
-          %tr.show-vat
-            %td.numeric= tax_code.code
-            %td= tax_code.text
-            %td= tax_code.sum_method
-            %td= link_to link_icon, tax_code_path(tax_code)
-            %td= link_to settings_icon, edit_tax_code_path(tax_code)
-            %td= delete_modal_for tax_code
-        - @tax_codes.wage.each do |tax_code|
-          %tr.show-wage
-            %td.numeric= tax_code.code
-            %td= tax_code.text
-            %td= tax_code.sum_method
-            %td= link_to link_icon, tax_code_path(tax_code)
-            %td= link_to settings_icon, edit_tax_code_path(tax_code)
-            %td= delete_modal_for tax_code
-        - @tax_codes.default.each do |tax_code|
-          %tr.show-default
-            %td.numeric= tax_code.code
-            %td= tax_code.text
-            %td= tax_code.sum_method
-            %td= link_to link_icon, tax_code_path(tax_code)
-            %td= link_to settings_icon, edit_tax_code_path(tax_code)
-            %td= delete_modal_for tax_code
+.table-responsive{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th.numeric= t(:code)
+        %th= t(:text)
+        %th= t(:sum_method)
+        %th= t(:accounts)
+        %th
+        %th
+    %tbody{}
+      - @tax_codes.vat.each do |tax_code|
+        %tr.show-vat
+          %td.numeric= tax_code.code
+          %td= tax_code.text
+          %td= tax_code.sum_method
+          %td= link_to link_icon, tax_code_path(tax_code)
+          %td= link_to settings_icon, edit_tax_code_path(tax_code)
+          %td= delete_modal_for tax_code
+      - @tax_codes.wage.each do |tax_code|
+        %tr.show-wage
+          %td.numeric= tax_code.code
+          %td= tax_code.text
+          %td= tax_code.sum_method
+          %td= link_to link_icon, tax_code_path(tax_code)
+          %td= link_to settings_icon, edit_tax_code_path(tax_code)
+          %td= delete_modal_for tax_code
+      - @tax_codes.default.each do |tax_code|
+        %tr.show-default
+          %td.numeric= tax_code.code
+          %td= tax_code.text
+          %td= tax_code.sum_method
+          %td= link_to link_icon, tax_code_path(tax_code)
+          %td= link_to settings_icon, edit_tax_code_path(tax_code)
+          %td= delete_modal_for tax_code
 
-    = paginate @tax_codes, :theme => 'twitter-bootstrap-3'
-    = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
-    = render partial: 'shared/modal_state_refresh', locals:{idx: 'refresh_id', obj: @tax_code_header, back: new_tax_code_header_path, path: tax_codes_path}
-  = render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'economics'
-  = render partial: 'shared/modal_info', locals: {idx: 'infoContent'}
-  = render partial: 'info'
+  = paginate @tax_codes, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+  = render partial: 'shared/modal_state_refresh', locals:{idx: 'refresh_id', obj: @tax_code_header, back: new_tax_code_header_path, path: tax_codes_path}
+= render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'economics'
+
+= render partial: 'shared/modal_infos', locals: {modalId: 'taxCodesId' , modalBody: 'info_tax_codes'}
 
 :javascript
   $(document).ready(function () {
