@@ -1,30 +1,33 @@
-%div{ :ng_controller => 'inventory_form_ctrl', :ng_init => 'init()'}
-  = simple_form_for(@inventory, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    = f.error_notification
-    = f.association :warehouse,  collection: @warehouses, disabled: !@inventory.new_record?
+= simple_form_for(@inventory, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+  = f.association :warehouse,  collection: @warehouses, disabled: !@inventory.new_record?
 
-    - if @inventory.new_record?
-      = render partial: 'shared/date_field', locals: {form: f, field: :inventory_date, in_id: 'in_inventory_date', in_value: @inventory.inventory_date, out_id: 'inventory[inventory_date]', field_id: 'inventory_short_date',  model: 'inv_date', dp_open: 'inv_open', dp_options: 'inv_options', dp_click: 'open_inv_date($event)'}
-    - else
-      = f.input :inventory_date, as: :string, disabled: true, :input_html => {:class=>'date',:value => localize(f.object.inventory_date, :format => "%Y-%m-%d")}
+  - if @inventory.new_record?
+    .form-group.form-inline
+      .labels_width.control-label
+        = f.label :inventory_date
+      .fields_width
+        = f.date_field :inventory_date
+        = f.error :inventory_date
+  - else
+    = f.input :inventory_date, as: :string, disabled: true, :input_html => {:class=>'date',:value => localize(f.object.inventory_date, :format => "%Y-%m-%d")}
 
-    - if !@inventory.new_record?
-      = render partial: 'shared/state_labels_field', locals: {model: @inventory}
+  - if !@inventory.new_record?
+    = render partial: 'shared/state_labels_field', locals: {model: @inventory}
 
-    - if !@inventory.can_edit_items?
-      .form-group.form-inline
-        .labels_width.control-label
-          = f.label :started_at
-        .fields_width
-          = f.input :started_at, as: :string, label: false, disabled: true, :input_html => {:class=>'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d")}
-          = info_modal_for('inventory')
+  - if !@inventory.can_edit_items?
+    .form-group.form-inline
+      .labels_width.control-label
+        = f.label :started_at
+      .fields_width
+        = f.input :started_at, as: :string, label: false, disabled: true, :input_html => {:class=>'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d")}
+        = info_modal('#inventoryId')
 
-    - if @inventory.completed?
-      = f.input :completed_at, as: :string, disabled: true, :input_html => {:class=>'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d")}
-    - if @inventory.new_record?
-      .form-button-group
-        .actions
-          = f.submit class: 'btn btn-primary'
+  - if @inventory.completed?
+    = f.input :completed_at, as: :string, disabled: true, :input_html => {:class=>'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d")}
+  - if @inventory.new_record?
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'
 
-  = render partial: 'shared/modal_info', locals: {idx: 'infoContent'}
-  = render partial: 'info'
+= render partial: 'shared/modal_infos', locals: {modalId: 'inventoryId' , modalBody: 'info_inventory'}
