@@ -3,4 +3,6 @@
 
 require 'dotenv/tasks'
 require File.expand_path('../config/application', __FILE__)
+require 'resque/tasks'
 Emmy::Application.load_tasks
+task 'resque:setup' => :environment
