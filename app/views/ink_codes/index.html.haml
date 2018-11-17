@@ -1,30 +1,29 @@
-%div{ng_controller: 'ink_code_index_ctrl' }
-  .input-group
-    = link_to "#{t(:create)} #{t(:ink_code)}", new_ink_code_path, class: 'btn btn-success'
-    = link_to "#{t(:import)} #{t(:ink_codes)}", new_ink_code_header_path, class: 'btn btn-default'
-    = info_modal_for('ink_codes')
+.input-group
+  = link_to "#{t(:create)} #{t(:ink_code)}", new_ink_code_path, class: 'btn btn-success'
+  = link_to "#{t(:import)} #{t(:ink_codes)}", new_ink_code_header_path, class: 'btn btn-default'
+  = info_modal('#inkCodesId')
 
-  .table-responsive{:ng_controller=>'ModalCtrl'}
-    %table{:class => 'table table-striped'}
-      %thead
+.table-responsive{:ng_controller=>'ModalCtrl'}
+  %table{:class => 'table table-striped'}
+    %thead
+      %tr
+        %th= t(:code)
+        %th= t(:text)
+        %th= t(:sum_method)
+        %th
+        %th
+    %tbody{}
+      - @ink_codes.each do |ink_code|
         %tr
-          %th= t(:code)
-          %th= t(:text)
-          %th= t(:sum_method)
-          %th
-          %th
-      %tbody{}
-        - @ink_codes.each do |ink_code|
-          %tr
-            %td= ink_code.code
-            %td= ink_code.text
-            %td= ink_code.sum_method
-            %td.numeric= link_to settings_icon, edit_ink_code_path(ink_code)
-            %td.numeric= delete_modal_for ink_code
+          %td= ink_code.code
+          %td= ink_code.text
+          %td= ink_code.sum_method
+          %td.numeric= link_to settings_icon, edit_ink_code_path(ink_code)
+          %td.numeric= delete_modal_for ink_code
 
-    = paginate @ink_codes, :theme => 'twitter-bootstrap-3'
-    = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
-    = render partial: 'shared/modal_state_refresh', locals:{idx: 'refresh_id', obj: @ink_code_header, back: new_ink_code_header_path, path: ink_codes_path}
-  = render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'economics'
-  = render partial: 'shared/modal_info', locals: {idx: 'infoContent'}
-  = render partial: 'info'
+  = paginate @ink_codes, :theme => 'twitter-bootstrap-3'
+  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+  = render partial: 'shared/modal_state_refresh', locals:{idx: 'refresh_id', obj: @ink_code_header, back: new_ink_code_header_path, path: ink_codes_path}
+= render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'economics'
+
+= render partial: 'shared/modal_infos', locals: {modalId: 'inkCodesId' , modalBody: 'info_ink_codes'}
