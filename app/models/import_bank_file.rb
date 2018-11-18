@@ -30,6 +30,7 @@ class ImportBankFile < ActiveRecord::Base
   end
 
   def can_delete?
+    return true if import_bank_file_rows.size == 0
     (completed?)
   end
 
