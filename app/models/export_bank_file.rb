@@ -20,6 +20,8 @@ class ExportBankFile < ActiveRecord::Base
   has_many   :export_bank_file_rows, dependent: :delete_all
   has_attached_file :download
 
+  validates :from_date, presence: true
+  validates :to_date, presence: true
   validates_attachment_content_type :download, content_type: ['text/plain']
 
 

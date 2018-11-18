@@ -1,17 +1,33 @@
-%div{ :ng_controller => 'export_bank_file_form_ctrl', :ng_init => 'init()'}
-  = simple_form_for(@export_bank_file, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    = f.error_notification
+= simple_form_for(@export_bank_file, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
 
-    = render partial: 'shared/date_field', locals: {form: f, field: :export_date, in_id: 'in_export_date', in_value: @export_bank_file.export_date, out_id: 'export_bank_file[export_date]', field_id: 'ex_short_date',  model: 'ex_date', dp_open: 'ex_open', dp_options: 'ex_options', dp_click: 'open_ex($event)'}
-    = render partial: 'shared/date_field', locals: {form: f, field: :from_date, in_id: 'in_from_date', in_value: @export_bank_file.from_date, out_id: 'export_bank_file[from_date]', field_id: 'from_short_date',  model: 'from_date', dp_open: 'from_open', dp_options: 'from_options', dp_click: 'open_from($event)'}
-    = render partial: 'shared/date_field', locals: {form: f, field: :to_date, in_id: 'in_to_date', in_value: @export_bank_file.to_date, out_id: 'export_bank_file[to_date]', field_id: 'to_short_date',  model: 'to_date', dp_open: 'to_open', dp_options: 'to_options', dp_click: 'open_to($event)'}
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :export_date
+    .fields_width
+      = f.date_field :export_date
+      = f.error :eport_date
 
-    = f.input :reference, as: :select, collection: ExportBankFile::TYPES, include_blank: false, disabled: !@export_bank_file.new_record?
-    = f.input :pay_account
-    = f.input :organization_number
-    = f.input :iban
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :from_date
+    .fields_width
+      = f.date_field :from_date
+      = f.error :from_date
 
-    - if @export_bank_file.new_record?
-      .form-button-group
-        .actions
-          = f.submit class: 'btn btn-primary'
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :to_date
+    .fields_width
+      = f.date_field :to_date
+      = f.error :to_date
+
+  = f.input :reference, as: :select, collection: ExportBankFile::TYPES, include_blank: false, disabled: !@export_bank_file.new_record?
+  = f.input :pay_account
+  = f.input :organization_number
+  = f.input :iban
+
+  - if @export_bank_file.new_record?
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'
