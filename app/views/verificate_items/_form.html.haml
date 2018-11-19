@@ -1,25 +1,23 @@
-%div{ng_controller: 'verificate_item_form_ctrl' }
-  = render partial: 'shared/search_account', locals: {model: @verificate, account: 'verificate_item_account_id', description: 'verificate_item_description'}
-  = simple_form_for([@verificate, @verificate_item], wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    = f.error_notification
-    = f.association :account, input_html: {readonly: true, class: 'numeric'}
-    = f.input       :description
-    = f.association :result_unit, collection: @result_units
+= render partial: 'shared/search_account', locals: {model: @verificate, account: 'verificate_item_account_id', description: 'verificate_item_description'}
+= simple_form_for([@verificate, @verificate_item], wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+  = f.association :account, input_html: {readonly: true, class: 'numeric'}
+  = f.input       :description
+  = f.association :result_unit, collection: @result_units
 
-    = f.input :debit
-    = f.input :credit
+  = f.input :debit
+  = f.input :credit
 
-    .form-group.form-inline
-      .labels_width.control-label
-        = f.label :vat_purchase_basis
-      .fields_width
-        = f.input :tax_code_id, as: :select, collection: @tax_codes, label: false
-        = info_modal_for('vat_purchase_basis')
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :vat_purchase_basis
+    .fields_width
+      = f.input :tax_code_id, as: :select, collection: @tax_codes, label: false
+      = info_modal('#vatPurchaseBasisId')
 
-    - if @verificate_item.new_record? || @verificate_item.can_edit?
-      .form-button-group
-        .actions
-          = f.submit class: 'btn btn-primary'
+  - if @verificate_item.new_record? || @verificate_item.can_edit?
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'
 
-  = render partial: 'shared/modal_info', locals: {idx: 'infoContent'}
-  = render partial: 'info'
+= render partial: 'shared/modal_infos', locals: {modalId: 'vatPurchaseBasisId' , modalBody: 'info_vat_purchase_basis'}

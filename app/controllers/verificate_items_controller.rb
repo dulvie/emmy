@@ -18,8 +18,8 @@ class VerificateItemsController < ApplicationController
     @accounts = accounting_plan.accounts.where('active = ?', 'true').order(:number)
     @result_units = current_organization.result_units
     @tax_codes = current_organization.tax_codes.vat_purchase_basis
-    gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer),
-             accounts: ActiveModel::ArraySerializer.new(@accounts, each_serializer: AccountSerializer)
+    gon.push accounting_groups: ActiveModel::Serializer::CollectionSerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer),
+             accounts: ActiveModel::Serializer::CollectionSerializer.new(@accounts, each_serializer: AccountSerializer)
   end
 
   # GET
@@ -33,8 +33,8 @@ class VerificateItemsController < ApplicationController
     @accounts = accounting_plan.accounts.where('active = ?', 'true').order(:number)
     @result_units = current_organization.result_units
     @tax_codes = current_organization.tax_codes.vat_purchase_basis
-    gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer),
-             accounts: ActiveModel::ArraySerializer.new(@accounts, each_serializer: AccountSerializer)
+    gon.push accounting_groups: ActiveModel::Serializer::CollectionSerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer),
+             accounts: ActiveModel::Serializer::CollectionSerializer.new(@accounts, each_serializer: AccountSerializer)
   end
 
   # POST
@@ -49,7 +49,7 @@ class VerificateItemsController < ApplicationController
       else
         @result_units = current_organization.result_units
         @accounting_groups = current_organization.verificates.find(@verificate).accounting_period.accounting_plan.accounting_groups
-        gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer)
+        gon.push accounting_groups: ActiveModel::Serializer::CollectionSeializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer)
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:verificate_item)}"
         format.html { render action: 'new' }
       end
