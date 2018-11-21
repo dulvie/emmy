@@ -29,15 +29,14 @@ class VerificatesController < ApplicationController
     @accounting_period = current_organization.accounting_periods.find(session[:accounting_period_id])
     @verificate.accounting_period = @accounting_period
     @templates = current_organization.templates.where('accounting_plan_id = ?', @accounting_period.accounting_plan_id)
-    gon.push root: AccountingPeriodSerializer.new(@accounting_period)
   end
 
   # GET
   def show
-    @verificate = @verificate.decorate
+    # @verificate = @verificate.decorate
+    @verificate = @verificate
     @accounting_period = @verificate.accounting_period
     @result_units = current_organization.result_units.all
-    gon.push root: AccountingPeriodSerializer.new(@accounting_period)
 
     if params[:import_bank_file_row_id]
       @verificate.import_bank_file_row_id = params[:import_bank_file_row_id]
@@ -63,7 +62,6 @@ class VerificatesController < ApplicationController
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:verificate)}"
         @accounting_period = @verificate.accounting_period
-        gon.push root: AccountingPeriodSerializer.new(@accounting_period)
         @templates = current_organization.templates.where('accounting_plan_id = ?', @accounting_period.accounting_plan_id)
         format.html { render action: 'new' }
       end
@@ -78,7 +76,6 @@ class VerificatesController < ApplicationController
       else
         flash.now[:danger] = "#{t(:failed_to_update)} #{t(:verificate)}"
         @accounting_period = @verificate.accounting_period
-        gon.push root: AccountingPeriodSerializer.new(@accounting_period)
         format.html { render action: 'show' }
       end
     end
@@ -112,12 +109,10 @@ class VerificatesController < ApplicationController
     respond_to do |format|
       if @verificate_items_creator.save
         @accounting_period = @verificate.accounting_period
-        gon.push root: AccountingPeriodSerializer.new(@accounting_period)
         format.html { redirect_to verificate_path(@verificate), notice: "#{t(:verificate_items)} #{t(:was_successfully_created)}" }
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:verificates_items)}"
         @accounting_period = @verificate.accounting_period
-        gon.push root: AccountingPeriodSerializer.new(@accounting_period)
         format.html {  redirect_to verificate_path(@verificate) }
       end
     end

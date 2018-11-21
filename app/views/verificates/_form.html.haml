@@ -1,43 +1,63 @@
-%div{ng_controller: 'verificate_form_ctrl', ng_init: 'init();'}
-  = simple_form_for(@verificate, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    = f.error_notification
-    = f.association :accounting_period, as: :hidden
-    = f.input :import_bank_file_row_id, as: :hidden
-    .form-group
-      .labels_width.control-label
-        = f.label :accounting_period
-      .fields_width
-        %input{id: 'show', type: 'text', class: 'form-control', value: f.object.accounting_period.name, disabled: true}
-    - if @verificate.final?
-      = f.input :number, disabled: true
-      = f.input :posting_date, as: :string, disabled: true, :input_html => { :class => 'date', :value => localize(f.object.posting_date, :format => "%Y-%m-%d"), :readonly => 'readonly'}
-    = f.input :description, disabled: @verificate.final?, input_html: {ng_model: 'description', ng_change: 'form_changed();'}
-    - if @verificate.new_record?
-      = f.association :template, collection: @templates
-    = f.input :reference, disabled: !@verificate.new_record?
-    = f.input :note, disabled: !@verificate.new_record?
-    - if !@verificate.new_record?
-      = render partial: 'shared/state_labels_field', locals: {model: @verificate}
+- min_date = localize(@verificate.accounting_period.allow_from+1.day, :format => "%Y-%m-%d")
+- max_date = localize(@verificate.accounting_period.allow_to, :format => "%Y-%m-%d")
 
-    - if @verificate.new_record? || (@verificate.preliminary? && @verificate.verificate_items.size>0)
-      .form-button-group
-        .actions
-          = f.submit class: 'btn btn-primary'
+= simple_form_for(@verificate, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+  = f.association :accounting_period, as: :hidden
+  = f.input :import_bank_file_row_id, as: :hidden
+  .form-group
+    .labels_width.control-label
+      = f.label :accounting_period
+    .fields_width
+      %input{id: 'show', type: 'text', class: 'form-control', value: f.object.accounting_period.name, disabled: true}
+  - if @verificate.final?
+    = f.input :number, disabled: true
+    = f.input :posting_date, as: :string, disabled: true, :input_html => { :class => 'date', :value => localize(f.object.posting_date, :format => "%Y-%m-%d"), :readonly => 'readonly'}
+  = f.input :description, disabled: @verificate.final?
+  - if @verificate.new_record?
+    = f.association :template, collection: @templates
+  = f.input :reference, disabled: !@verificate.new_record?
+  = f.input :note, disabled: !@verificate.new_record?
+  - if !@verificate.new_record?
+    = render partial: 'shared/state_labels_field', locals: {model: @verificate.decorate}
 
-  - if !@verificate.new_record? && @verificate.template && !@verificate.verificate_items?
-    = render partial: 'template_items/edit_list'
-  - elsif !@verificate.new_record?
-    = render partial: 'verificate_items/list'
-    - if !@verificate.final?
-      .form-button-group
-        .actions
-          = link_to "#{t(:create)} #{t(:verificate_item)}", new_verificate_verificate_item_path(@verificate), class: 'btn btn-primary'
-          - if @verificate.balanced? && @verificate.check_vat_report
-            %div{ng_controller: 'ModalCtrl', ng_init: "init(min_date, max_date)"}
-              %button{:id =>'state_change', :class=>'btn btn-primary', :ng_click=>"open($event, 'sm','verificatesContent' )"}
-                = t(:confirm)
-              = render partial: 'shared/modal_state_change', locals: {idx: 'verificatesContent', model: @verificate, form_path: state_change_verificate_path(@verificate), event: 'mark_final', return_path: verificate_path(@verificate)}
-    - else
-      .form-button-group
-        .actions
-          = link_to "#{t(:reversal)} #{t(:verificate)}", reversal_verificate_path(@verificate), class: 'btn btn-primary', method: 'post'
+  - if @verificate.new_record? || (@verificate.preliminary? && @verificate.verificate_items.size>0)
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'
+
+- if !@verificate.new_record? && @verificate.template && !@verificate.verificate_items?
+  = render partial: 'template_items/edit_list'
+- elsif !@verificate.new_record?
+  = render partial: 'verificate_items/list'
+  - if !@verificate.final?
+    .form-button-group
+      .actions
+        = link_to "#{t(:create)} #{t(:verificate_item)}", new_verificate_verificate_item_path(@verificate), class: 'btn btn-primary'
+        - if @verificate.balanced? && @verificate.check_vat_report
+          %button{:id =>'state_change', :class=>'btn btn-primary', :'data-toggle' => 'modal', :'data-target' => '#scId'}
+            = t(:confirm)
+          = render partial: 'shared/modal_state_changes', locals: {modalId: 'scId',
+                                                                    date_label: t(:posting_date),
+                                                                    date_field: :state_change_at,
+                                                                    date_value: min_date,
+                                                                    min_date: min_date,
+                                                                    max_date: max_date,
+                                                                    model: @verificate,
+                                                                    form_path: state_change_verificate_path(@verificate),
+                                                                    event: 'mark_final',
+                                                                    return_path: verificate_path(@verificate)}
+  - else
+    .form-button-group
+      .actions
+        = link_to "#{t(:reversal)} #{t(:verificate)}", reversal_verificate_path(@verificate), class: 'btn btn-primary', method: 'post'
+
+:javascript
+
+  $(document).ready(function() {
+
+    $("#verificate_description").change(function() {
+       $('#state_change').prop('disabled', true);
+    });
+
+  });
