@@ -1,0 +1,30 @@
+- input ||= nil
+- checkbox ||= nil
+%div{ :id=>modalId, :class =>'modal fade'}
+  .modal-dialog.modal-sm
+    .modal-content
+      .modal-header
+        %h3{ :class=>"modal-title"}
+          = t(:set_date)
+      .modal-body
+        = simple_form_for(model, url: form_path, method: :post) do |f|
+          = hidden_field_tag 'event', event
+          = hidden_field_tag 'return_path', return_path
+          - if !input.nil?
+            = f.input input
+          - if !checkbox.nil?
+            = f.check_box checkbox, checked: true
+            = f.label t(:"#{checkbox}")
+
+          .form-group
+            .control-label
+              %label
+                =date_label
+            .controls
+              %input{name: date_field, id: date_field, type: 'date', html5: true, value: date_value, min: min_date, max: max_date}
+
+          = submit_tag t(:confirm), class: 'btn btn-primary'
+          = button_tag t(:back), class: 'btn btn-danger reseter', 'data-dismiss': 'modal'
+        &nbsp
+      .modal-fotter
+        &nbsp
