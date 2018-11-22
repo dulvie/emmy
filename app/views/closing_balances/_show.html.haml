@@ -1,18 +1,26 @@
-%div{ng_controller: 'closing_balance_form_ctrl', ng_init: 'init()' }
-  = hidden_field_tag 'allow_from', @accounting_period.from_formatted
-  = hidden_field_tag 'allow_to', @accounting_period.to_formatted
-  = simple_form_for(@closing_balance, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    = f.input :description, disabled: @closing_balance.final?
-    = f.input :state, disabled: true
-    - if @closing_balance.final?
-      = f.input :posting_date, as: :string, disabled: true, :input_html => { :class => 'date', :value => localize(f.object.posting_date, :format => "%Y-%m-%d"), :readonly => 'readonly'}
+- min_date = localize(@closing_balance.accounting_period.allow_from, :format => "%Y-%m-%d")
+- max_date = localize(@closing_balance.accounting_period.allow_to, :format => "%Y-%m-%d")
+= simple_form_for(@closing_balance, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.input :description, disabled: @closing_balance.final?
+  = f.input :state, disabled: true
+  - if @closing_balance.final?
+    = f.input :posting_date, as: :string, disabled: true, :input_html => { :class => 'date', :value => localize(f.object.posting_date, :format => "%Y-%m-%d"), :readonly => 'readonly'}
 
-    = render partial: 'closing_balance_items/list'
-    .form-button-group
-      .actions
-        - if @closing_balance.preliminary?
-          = f.submit class: 'btn btn-primary'
-          %div{ng_controller: 'ModalCtrl', ng_init: "init(max_date, max_date)"}
-            %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','balanceContent' )"}
-              = t(:confirm)
-            = render partial: 'shared/modal_state_change', locals: {idx: 'balanceContent', model: @closing_balance, form_path: state_change_closing_balance_path(@closing_balance), event: 'mark_final', return_path: closing_balances_path}
+  = render partial: 'closing_balance_items/list'
+  .form-button-group
+    .actions
+      - if @closing_balance.preliminary?
+        = f.submit class: 'btn btn-primary'
+        %button{:id =>'state_change', :type => 'button', :class=>'btn btn-primary', :'data-toggle' => 'modal', :'data-target' => '#sccId'}
+          = t(:confirm)
+
+= render partial: 'shared/modal_state_changes', locals: {modalId: 'sccId',
+                                                       date_label: t(:posting_date),
+                                                       date_field: :state_change_at,
+                                                       date_value: max_date,
+                                                       min_date: min_date,
+                                                       max_date: max_date,
+                                                       model: @closing_balance,
+                                                       form_path: state_change_closing_balance_path(@closing_balance),
+                                                       event: 'mark_final',
+                                                       return_path: closing_balances_path}

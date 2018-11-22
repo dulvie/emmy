@@ -1,15 +1,12 @@
-%div{ng_controller: 'closing_balance_form_ctrl', ng_init: 'init()' }
-  = hidden_field_tag 'allow_from', @accounting_period.from_formatted
-  = hidden_field_tag 'allow_to', @accounting_period.to_formatted
-  = simple_form_for(@closing_balance, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    = f.error_notification
-    = f.input :accounting_period_id, as: :hidden, input_html: {value: @accounting_period.id}
-    = f.input :description, disabled: !@closing_balance.new_record?
-    = f.input :state, disabled: true
-    - if !@closing_balance.new_record?
-      = f.input :posting_date, as: :string, disabled: true, :input_html => { :class => 'date', :value => localize(f.object.posting_date, :format => "%Y-%m-%d"), :readonly => 'readonly'}
+= simple_form_for(@closing_balance, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+  = f.input :accounting_period_id, as: :hidden, input_html: {value: @accounting_period.id}
+  = f.input :description, disabled: !@closing_balance.new_record?
+  = f.input :state, disabled: true
+  - if !@closing_balance.new_record?
+    = f.input :posting_date, as: :string, disabled: true, :input_html => { :class => 'date', :value => localize(f.object.posting_date, :format => "%Y-%m-%d"), :readonly => 'readonly'}
 
-    - if @closing_balance.new_record?
-      .form-button-group
-        .actions
-          = f.submit class: 'btn btn-primary'
+  - if @closing_balance.new_record?
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'
