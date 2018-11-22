@@ -37,20 +37,21 @@
         - if @verificate.balanced? && @verificate.check_vat_report
           %button{:id =>'state_change', :class=>'btn btn-primary', :'data-toggle' => 'modal', :'data-target' => '#scId'}
             = t(:confirm)
-          = render partial: 'shared/modal_state_changes', locals: {modalId: 'scId',
-                                                                    date_label: t(:posting_date),
-                                                                    date_field: :state_change_at,
-                                                                    date_value: min_date,
-                                                                    min_date: min_date,
-                                                                    max_date: max_date,
-                                                                    model: @verificate,
-                                                                    form_path: state_change_verificate_path(@verificate),
-                                                                    event: 'mark_final',
-                                                                    return_path: verificate_path(@verificate)}
   - else
     .form-button-group
       .actions
         = link_to "#{t(:reversal)} #{t(:verificate)}", reversal_verificate_path(@verificate), class: 'btn btn-primary', method: 'post'
+
+= render partial: 'shared/modal_state_changes', locals: {modalId: 'scId',
+                                                         date_label: t(:posting_date),
+                                                         date_field: :state_change_at,
+                                                         date_value: min_date,
+                                                         min_date: min_date,
+                                                         max_date: max_date,
+                                                         model: @verificate,
+                                                         form_path: state_change_verificate_path(@verificate),
+                                                         event: 'mark_final',
+                                                         return_path: verificate_path(@verificate)}
 
 :javascript
 
