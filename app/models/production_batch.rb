@@ -4,7 +4,7 @@ class ProductionBatch
 
   attr_accessor :organization_id, :production_id, :item_id, :name, :comment,
                 :in_price, :distributor_price, :retail_price, :refined_at,
-                :expire_at, :quantity, :unit
+                :expire_at, :quantity, :unit, :distributor_inc_vat, :retail_inc_vat
 
   validates :name, presence: true
   validates :item_id, presence: true
@@ -20,7 +20,14 @@ class ProductionBatch
     return false unless valid?
     @production = Production.find(production_id)
     ActiveRecord::Base.transaction do
-      @batch = Batch.new(to_hash)
+      @batch = Batch.new(item_id: item_id,
+                         name: name,
+                         comment: comment,
+                         in_price: in_price,
+                         distributor_price: distributor_price,
+                         retail_price: retail_price,
+                         expire_at: expire_at,
+                         refined_at: refined_at)
       @batch.organization_id = organization_id
       @batch.save
       @production.batch = @batch

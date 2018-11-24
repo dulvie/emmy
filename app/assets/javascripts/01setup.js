@@ -60,6 +60,7 @@ var Setup = {
     });
   },
 
+
  getQueryParams: function(qs)
  {
     qs = qs.split('+').join(' ');
@@ -73,6 +74,29 @@ var Setup = {
     }
 
     return params;
- },
+ }
 
-}
+};
+
+var Calc = {
+
+  toDecimal: function(value)
+  {
+    if (!typeof value === 'number'){ return 0 };
+    return value/100;
+  },
+
+  toInteger: function(value)
+  {
+    var regexp = /^[0-9]+(\.[0-9]{1,2})?$/;
+    if (!regexp.test(value)) { return 0 };
+    if (value.indexOf('.') === -1) { return value.concat('00') };
+    if (value.indexOf('.') == value.length-3) { return value.replace('.','') }
+    if (value.indexOf('.') == value.length-2) {
+        var v = value.replace('.', '');
+        return v.concat('0');
+    }
+    var v = value.replace('.','');
+    return v.concat('00');
+  }
+};
