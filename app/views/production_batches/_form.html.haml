@@ -1,48 +1,134 @@
-%div{ :ng_controller => 'production_batch_ctrl', :ng_init => 'init()'}
-  = simple_form_for([@production, @production_batch], wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    = f.error_notification
+- if @production_batch.refined_at
+  - date_refined = @production_batch.refined_at
+- if @production_batch.expire_at
+  - date_expire = @production_batch.expire_at
 
-    = f.input :item_id, collection: @items, :input_html => {:ng_model => 'item_id', :ng_change => 'select_item(true)'}
-    = f.input :name, :label => t(:name_of_new_batch)
-    = f.input :comment, as: :text
+= simple_form_for([@production, @production_batch], wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
 
-    = f.input :in_price, as: :hidden
-    .form-group
-      .labels_width.control-label
-        = f.label :in_price
-      .fields_width
-        %input{id: 'in_price_edit', type: 'number', class: 'form-control numeric', value: 0}
+  = f.input :item_id, collection: @items, include_blank: false
+  = f.input :name, :label => t(:name_of_new_batch)
+  = f.input :comment, as: :text
 
-    = f.input :distributor_price, as: :hidden
-    .form-group
-      .labels_width.control-label
-        = f.label :distributor_price
-      .fields_width
-        %input{id: 'distributor_price_edit', type: 'number', ng_Blur: 'calc_distributor()', class: 'form-control numeric', value: 0}
-    = f.input :distributor_inc_vat, input_html: {class: 'numeric', disabled: true}
+  = f.input :in_price, as: :hidden
+  .form-group
+    .labels_width.control-label
+      = f.label :in_price
+    .fields_width
+      %input{id: 'in_price_edit', type: 'number', class: 'form-control numeric', value: 0}
 
-    = f.input :retail_price, as: :hidden
-    .form-group
-      .labels_width.control-label
-        = f.label :retail_price
-      .fields_width
-        %input{id: 'retail_price_edit', type: 'number', ng_Blur: 'calc_retail()', class: 'form-control numeric', value: 0}
-    = f.input :retail_inc_vat, input_html: {class: 'numeric', disabled: true}
+  = f.input :distributor_price, as: :hidden
+  .form-group
+    .labels_width.control-label
+      = f.label :distributor_price
+    .fields_width
+      %input{id: 'distributor_price_edit', type: 'number', class: 'form-control numeric', value: 0}
+  = f.input :distributor_inc_vat, input_html: {class: 'numeric', disabled: true}
 
-    .form-group.form-inline
-      .labels_width.control-label
-        = f.label :quantity
-      .fields_width
-        = f.input :quantity, as: :integer, label: false
-        = info_modal_for('quantity')
+  = f.input :retail_price, as: :hidden
+  .form-group
+    .labels_width.control-label
+      = f.label :retail_price
+    .fields_width
+      %input{id: 'retail_price_edit', type: 'number', class: 'form-control numeric', value: 0}
+  = f.input :retail_inc_vat, input_html: {class: 'numeric', disabled: true}
 
-    = f.input :unit, disabled: true, input_html: {class: 'medium'}
-    = render partial: 'shared/date_field', locals: {form: f, field: :refined_at, in_id: 'in_refined_at', in_value: @production_batch.refined_at, out_id: 'production_batch[refined_at]', field_id: 're_short_date',  model: 're_date', dp_open: 're_open', dp_options: 're_options', dp_click: 'open_re_date($event)'}
-    = render partial: 'shared/date_field', locals: {form: f, field: :expire_at, in_id: 'in_expire_at', in_value: @production_batch.expire_at, out_id: 'production_batch[expire_at]', field_id: 'ex_short_date',  model: 'ex_date', dp_open: 'ex_open', dp_options: 'ex_options', dp_click: 'open_ex_date($event)'}
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :quantity
+    .fields_width
+      = f.input :quantity, as: :integer, label: false
+      = info_modal('#quantityId')
 
-    .form-button-group
-      .actions
-        = f.submit class: 'btn btn-primary', ng_click: 'before_submit()'
+  = f.input :unit, disabled: true, input_html: {class: 'medium'}
 
-  = render partial: 'shared/modal_info', locals: {idx: 'infoContent'}
-  = render partial: 'info'
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :refined_at
+    .fields_width
+      = f.date_field :refined_at, value: date_refined
+
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :expire_at
+    .fields_width
+      = f.date_field :expire_at, value: date_expire
+
+  .form-button-group
+    .actions
+      = f.submit class: 'btn btn-primary', ng_click: 'before_submit()'
+
+= render partial: 'shared/modal_infos', locals: {modalId: 'quantityId' , modalBody: 'info_quantity'}
+
+:javascript
+
+  $(document).ready(function() {
+    var item = {};
+
+    $("#production_batch_item_id").change(function() {
+      select_item(true);
+    });
+    $("#distributor_price_edit").blur(function() {
+      calc_distributor();
+      set_distributor_price();
+    });
+    $("#retail_price_edit").blur(function() {
+      calc_retail();
+      set_retail_price();
+    });
+    $("#in_price_edit").blur(function() {
+      set_in_price();
+    });
+
+    var default_price = false;
+    if ($('#production_batch_distributor_price').val()=='')
+      default_price = true;
+
+    select_item(default_price);
+
+
+    function select_item(default_price) {
+      var item_id = $('#production_batch_item_id').val();
+      for (x=0; x < gon.items.length; x++) {
+        if (gon.items[x].id == item_id) {
+          item = gon.items[x];
+          var d = new Date();
+          if (default_price)
+            $('#production_batch_name').val(gon.items[x].name + " " + d.getFullYear() + ":" + (d.getMonth()+1))
+          $('#production_batch_unit').val(gon.items[x].unit.name);
+          $('#in_price_edit').val(Calc.toDecimal(gon.items[x].in_price));
+          if (default_price)
+            $('#production_batch_distributor_price').val(gon.items[x].distributor_price);
+          if (default_price)
+            $('#production_batch_retail_price').val(gon.items[x].retail_price);
+          $('#distributor_price_edit').val(Calc.toDecimal($('#production_batch_distributor_price').val()));
+          $('#retail_price_edit').val(Calc.toDecimal($('#production_batch_retail_price').val()));
+          calc_retail();
+          calc_distributor();
+          set_in_price();
+        }
+      }
+    };
+    function set_in_price() {
+      $('#production_batch_in_price').val(Calc.toInteger($('#in_price_edit').val()));
+    };
+    function set_distributor_price() {
+      $('#production_batch_distributor_price').val(Calc.toInteger($('#distributor_price_edit').val()));
+    };
+    function set_retail_price() {
+      	$('#production_batch_retail_price').val(Calc.toInteger($('#retail_price_edit').val()));
+    };
+
+    function calc_retail() {
+      var price = Number($('#retail_price_edit').val());
+      var moms = Number(price * item.vat_add_factor);
+      var ink_moms = (price + moms).toFixed(2);
+      $('#production_batch_retail_inc_vat').val(ink_moms);
+    };
+    function calc_distributor() {
+      var price = Number($('#distributor_price_edit').val());
+      var moms = Number(price * item.vat_add_factor);
+      var ink_moms = (price + moms).toFixed(2);
+      $('#production_batch_distributor_inc_vat').val(ink_moms);
+    };
+  });

@@ -1,28 +1,59 @@
-%div{:ng_controller => 'production_material_form_ctrl', :ng_init => 'init()'}
-  = simple_form_for([@production, @material], wrapper: :horizontal_form, html: {class: 'form-horizontal', }) do |f|
-    = f.error_notification
-    = f.association :batch, disabled: !@production.can_edit?, collection: @batch_selections, include_blank: false, input_html: {:ng_model =>'bch',  :ng_change => 'change_batch()'}
+= simple_form_for([@production, @material], wrapper: :horizontal_form, html: {class: 'form-horizontal', }) do |f|
+  = f.error_notification
+  = f.association :batch, disabled: !@production.can_edit?, collection: @batch_selections, include_blank: false
 
-    .form-group
-      .labels_width.control-label
-        %label
-          =t(:available)
-      .fields_width
-        %input{:value => '{{shelf_qty}}', :class => 'form-control numeric', :readonly => 'readonly'}
+  .form-group
+    .labels_width.control-label
+      %label
+        =t(:available)
+    .fields_width
+      %input{:id => 'available', :class => 'form-control numeric', :readonly => 'readonly'}
 
-    = f.input :unit, disabled: true, input_html: {class: 'medium'}
+  = f.input :unit, disabled: true, input_html: {class: 'medium'}
 
-    .form-group.form-inline
-      .labels_width.control-label
-        = f.label :quantity
-      .fields_width
-        = f.input :quantity, label: false, disabled: !@production.can_edit?
-        = info_modal_for('quantity')
+  .form-group.form-inline
+    .labels_width.control-label
+      = f.label :quantity
+    .fields_width
+      = f.input :quantity, label: false, disabled: !@production.can_edit?
+      = info_modal('#quantityId')
 
-    - if @production.can_edit?
-      .form-button-group
-        .actions
-          = f.submit class: 'btn btn-primary'
+  - if @production.can_edit?
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'
 
-  = render partial: 'shared/modal_info', locals: {idx: 'infoContent'}
-  = render partial: 'info'
+= render partial: 'shared/modal_infos', locals: {modalId: 'quantityId' , modalBody: 'info_quantity'}
+
+:javascript
+
+  $(document).ready(function() {
+
+    set_available();
+    set_unit();
+
+    $("#material_batch_id").change(function() {
+      set_available();
+      set_unit();
+    });
+
+    function set_available() {
+      $('#available').val(0);
+      var idx = $('#material_batch_id').val();
+      for (x=0; x < gon.shelves.length; x++) {
+        if (gon.shelves[x].batch_id == idx) {
+          $('#available').val(gon.shelves[x].quantity);
+        }
+      };
+    };
+
+    function set_unit() {
+      var idx = $('#material_batch_id').val();
+      for (x=0; x < gon.batches.length; x++) {
+        if (gon.batches[x].id == idx) {
+          $('#material_unit').val(gon.batches[x].unit.name);
+        }
+      };
+    };
+
+  });

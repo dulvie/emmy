@@ -73,7 +73,7 @@ class MaterialsController < ApplicationController
     @batch_selections = @production.warehouse.shelves.select('batch_id', 'batch_id as id')
       .where(batch: Batch.where(item: Item.where(item_group: 'unrefined')))
     redirect_to helps_show_message_path(message: "#{I18n.t(:batches)} #{I18n.t(:missing)}") if @batch_selections.size == 0
-    gon.push shelves: ActiveModel::ArraySerializer.new(@production.warehouse.shelves, each_serializer: ShelfSerializer),
-      batches: ActiveModel::ArraySerializer.new(current_organization.batches, each_serializer: BatchSerializer)
+    gon.push shelves: ActiveModel::Serializer::CollectionSerializer.new(@production.warehouse.shelves, each_serializer: ShelfSerializer),
+      batches: ActiveModel::Serializer::CollectionSerializer.new(current_organization.batches, each_serializer: BatchSerializer)
   end
 end
