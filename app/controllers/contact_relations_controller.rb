@@ -88,7 +88,7 @@ class ContactRelationsController < ApplicationController
     @new = true
     @contact_relation_form_url = contact_relations_path(parent_type: @contact_relation.parent_type, parent_id: @contact_relation.parent_id)
     @contacts = current_organization.contacts.where.not(id: @parent.contacts.map(&:id))
-    gon.push contacts: ActiveModel::ArraySerializer.new(@contacts, each_serializer: ContactSerializer)
+    gon.push contacts: ActiveModel::Serializer::CollectionSerializer.new(@contacts, each_serializer: ContactSerializer)
   end
 
   def init_show

@@ -26,7 +26,7 @@
             %td= link_to purchase.parent_type, edit_production_path(purchase.parent_id)
           - elsif purchase.parent_type == 'Import'
             %td= link_to purchase.parent_type, edit_import_path(purchase.parent_id)
-          - elsif
+          - else
             %td
           %td= link_to settings_icon, purchase
           %td= delete_modal_for purchase
