@@ -24,8 +24,9 @@ class ImportBatch
     ActiveRecord::Base.transaction do
 
       # Create new batch for import
-      @batch = Batch.new(to_hash)
-      @batch.in_price = price
+      @batch = Batch.new(item_id: item_id,
+                         name: name,
+                         in_price: price)
       return false unless @batch.save
 
       # Create purchase and purchase_item for import of new batch

@@ -54,6 +54,6 @@ class PurchaseItemsController < ApplicationController
       item_types = ['purchases', 'both']
       @item_selections = current_organization.items.where(item_type: item_types)
     end
-    gon.push items: ActiveModel::ArraySerializer.new(@item_selections, each_serializer: ItemSerializer)
+    gon.push items: ActiveModel::Serializer::CollectionSerializer.new(@item_selections, each_serializer: ItemSerializer)
   end
 end

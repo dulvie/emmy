@@ -96,25 +96,34 @@ class ImportsController < ApplicationController
     @purchase.to_warehouse = @import.to_warehouse
     @purchase.parent_type = 'Import'
     @purchase.parent_id = @import.id
-    gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
+    gon.push suppliers: ActiveModel::Serializer::CollectionSerializer.new(@suppliers, each_serializer: SupplierSerializer)
 
   end
 
   def create_purchase
 
     if params[:parent_column] == 'shipping'
-      @purchase = @import.shipping.build params[:purchase]
+
+      @purchase = @import.shipping.build(purchase_params)
       @purchase.organization_id = current_organization.id
-      @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
+
+      @purchase.purchase_items.build(item_id:  params[:purchase][:purchase_items_attributes][:'0'][:item_id],
+                                     quantity: params[:purchase][:purchase_items_attributes][:'0'][:quantity],
+                                     price:    params[:purchase][:purchase_items_attributes][:'0'][:price])
       @purchase.purchase_items.first.organization_id = current_organization.id
+
       rtn = @purchase.save
     end
 
     if params[:parent_column] == 'customs'
-      @purchase = @import.customs.build params[:purchase]
+      @purchase = @import.customs.build(purchase_params)
       @purchase.organization_id = current_organization.id
-      @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
+
+      @purchase.purchase_items.build(item_id:  params[:purchase][:purchase_items_attributes][:'0'][:item_id],
+                                     quantity: params[:purchase][:purchase_items_attributes][:'0'][:quantity],
+                                     price:    params[:purchase][:purchase_items_attributes][:'0'][:price])
       @purchase.purchase_items.first.organization_id = current_organization.id
+
       rtn = @purchase.save
     end
 
@@ -158,6 +167,11 @@ class ImportsController < ApplicationController
                                    :quantity, :importing_id, :shipping_id, :started_at, :completed_at)
   end
 
+  def purchase_params
+    params.require(:purchase).permit(:description, :supplier_id, :contact_name, :contact_email,
+                                     :our_reference_id, :to_warehouse_id, :parent_type, :parent_id)
+  end
+
   def new_breadcrumbs
     @breadcrumbs = [['Imports', imports_path], ["#{t(:new)} #{t(:import)}"]]
   end
@@ -197,7 +211,7 @@ class ImportsController < ApplicationController
 
     @parent_column = params[:parent_column]
     @suppliers = current_organization.suppliers
-    gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
+    gon.push suppliers: ActiveModel::Serializer::CollectionSerializer.new(@suppliers, each_serializer: SupplierSerializer)
   end
 
   def set_purchases

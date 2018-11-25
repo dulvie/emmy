@@ -30,14 +30,14 @@ class PurchasesController < ApplicationController
       @purchase.our_reference = current_user
       init_new_work
       init_collections
-      gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
+      gon.push suppliers: ActiveModel::Serializer::CollectionSerializer.new(@suppliers, each_serializer: SupplierSerializer)
       respond_to do |format|
         format.html { render 'single_form' }
       end
     end
     @purchase.our_reference = current_user
     init_collections
-    gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
+    gon.push suppliers: ActiveModel::Serializer::CollectionSerializer.new(@suppliers, each_serializer: SupplierSerializer)
   end
 
   def create
@@ -50,7 +50,7 @@ class PurchasesController < ApplicationController
       else
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:purchase)}"
         init_collections
-        gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
+        gon.push suppliers: ActiveModel::Serializer::CollectionSerializer.new(@suppliers, each_serializer: SupplierSerializer)
         format.html { render action: :new }
       end
     end
@@ -118,7 +118,7 @@ class PurchasesController < ApplicationController
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:purchase_item)}"
         init_new
         init_collections
-        gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer)
+        gon.push suppliers: ActiveModel::Serializer::CollectionSerializer.new(@suppliers, each_serializer: SupplierSerializer)
         format.html { render 'single_form' }
       end
     end

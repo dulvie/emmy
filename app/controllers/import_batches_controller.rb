@@ -33,7 +33,7 @@ class ImportBatchesController < ApplicationController
     message = "#{I18n.t(:items)} #{I18n.t(:missing)}" if @items.size == 0
     @suppliers = current_organization.suppliers
     message = "#{I18n.t(:suppliers)} #{I18n.t(:missing)}" if @suppliers.size == 0
-    gon.push suppliers: ActiveModel::ArraySerializer.new(@suppliers, each_serializer: SupplierSerializer), items: ActiveModel::ArraySerializer.new(@items, each_serializer: ItemSerializer)
+    gon.push suppliers: ActiveModel::Serializer::CollectionSerializer.new(@suppliers, each_serializer: SupplierSerializer), items: ActiveModel::Serializer::CollectionSerializer.new(@items, each_serializer: ItemSerializer)
     redirect_to helps_show_message_path(message:message) if @items.size == 0 || @suppliers.size == 0
   end
 

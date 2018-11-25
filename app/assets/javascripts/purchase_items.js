@@ -1,4 +1,4 @@
-app.controller('purchase_items_form_ctrl', function ($scope, $filter, price, $modal, $sce) {
+app.controller('purchase_items_form_ctrl', function ($scope, $filter, price, $uibModal, $sce) {
 	
 	$scope.show_batch = false;
   var o = $("#purchase_item_item_id").val();
@@ -51,7 +51,7 @@ app.controller('purchase_items_form_ctrl', function ($scope, $filter, price, $mo
         $scope.info = $sce.trustAsHtml(info_html);
         var elem = '#'+el;
         var temp = $(elem).html();
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             template: temp,
             controller: 'ModalInfoInstanceCtrl',
             size: size,

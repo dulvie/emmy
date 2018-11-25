@@ -1,24 +1,52 @@
-%div{:ng_controller=>'purchase_form_ctrl', :ng_init=>'init()'}
-  = simple_form_for(@purchase, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    = f.error_notification
+= simple_form_for(@purchase, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
 
-    = f.input :description,  disabled: !@purchase.new_record?
-    = f.association :supplier,  collection: @suppliers, :input_html => {:ng_model=>'supplier', :ng_change=>'select_supplier()'}, disabled: !@purchase.new_record?
-    = f.input :contact_name, disabled: !@purchase.new_record?
-    = f.input :contact_email, disabled: !@purchase.new_record?
-    = f.association :to_warehouse,  collection: @warehouses, disabled: !@purchase.new_record?
-    = f.association :our_reference, collection: @users, disabled: !@purchase.new_record?
+  = f.input :description,  disabled: !@purchase.new_record?
+  = f.association :supplier,  collection: @suppliers, disabled: !@purchase.new_record?
+  = f.input :contact_name, disabled: !@purchase.new_record?
+  = f.input :contact_email, disabled: !@purchase.new_record?
+  = f.association :to_warehouse,  collection: @warehouses, disabled: !@purchase.new_record?
+  = f.association :our_reference, collection: @users, disabled: !@purchase.new_record?
 
-    - if !@purchase.can_edit_items?
-      = f.input :ordered_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.ordered_at, :format => "%Y-%m-%d") }
+  - if !@purchase.can_edit_items?
+    = f.input :ordered_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.ordered_at, :format => "%Y-%m-%d") }
 
-    - if @purchase.received?
-      = f.input :received_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.received_at, :format => "%Y-%m-%d") }
-    - if @purchase.paid?
-      = f.input :paid_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.paid_at, :format => "%Y-%m-%d") }
-    - if @purchase.completed?
-      = f.input :completed_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d") }
-    - if @purchase.new_record?
-      .form-button-group
-        .actions
-          = f.submit class: 'btn btn-primary'
+  - if @purchase.received?
+    = f.input :received_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.received_at, :format => "%Y-%m-%d") }
+  - if @purchase.paid?
+    = f.input :paid_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.paid_at, :format => "%Y-%m-%d") }
+  - if @purchase.completed?
+    = f.input :completed_at,  disabled: true, :as=> :string, :input_html => { :class => 'date', :value => localize(f.object.completed_at, :format => "%Y-%m-%d") }
+  - if @purchase.new_record?
+    .form-button-group
+      .actions
+        = f.submit class: 'btn btn-primary'
+
+
+:javascript
+
+  $(document).ready(function() {
+
+    $("#purchase_supplier_id").change(function() {
+      select_supplier();
+    });
+
+    function select_supplier() {
+      $('#purchase_contact_name').val('');
+      $('#purchase_contact_email').val('');
+      var supplier_id = $('#purchase_supplier_id').val();
+      for (x=0; x<gon.suppliers.length; x++) {
+        if (supplier_id == gon.suppliers[x].id) {
+          var contact_id = gon.suppliers[x].primary_contact_id;
+          var contacts = gon.suppliers[x].contacts;
+          for (y=0; y<contacts.length; y++) {
+            if (contact_id == contacts[y].id) {
+              $('#purchase_contact_name').val(contacts[y].name);
+              $('#purchase_contact_email').val(contacts[y].email);
+            }
+          }
+        }
+      }
+    };
+
+  });

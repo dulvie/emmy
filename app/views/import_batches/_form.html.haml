@@ -5,10 +5,10 @@
     %input{:name => 'import_id', :value => @import.id, :hidden => true}
 
     = f.input :description, as: :hidden
-    = f.input :supplier, collection: @suppliers, :input_html => {:ng_model=>'supplier', :ng_change=>'select_supplier()'}
+    = f.input :supplier, collection: @suppliers
     = f.input :contact_name
     = f.input :contact_email
-    = f.input :item_id, collection: @items, :input_html => {:ng_model => 'item_id', :ng_change => 'select_item(true)'}
+    = f.input :item_id, collection: @items
     = f.input :name, :label => t(:name_of_new_batch)
     = f.input :quantity, as: :integer
     = f.input :unit, disabled: true, :input_html => {:class => 'medium'}
@@ -23,3 +23,49 @@
     .form-button-group
       .actions
         = f.submit class: 'btn btn-primary', ng_click: 'before_submit()'
+
+:javascript
+
+  $(document).ready(function() {
+
+    $("#import_batch_supplier").change(function() {
+      select_supplier();
+    });
+    $("#import_batch_item_id").change(function() {
+      select_item();
+    });
+    $("#price_edit").blur(function() {
+      $('#import_batch_price').val(Calc.toInteger($('#price_edit').val()));
+    });
+
+    $('#price_edit').val(Calc.toDecimal($('#import_batch_price').val()));
+    select_item();
+
+    function select_supplier() {
+      $('#import_batch_contact_name').val('');
+      $('#import_batch_contact_email').val('');
+      var supplier_id = $('#import_batch_supplier').val();
+      for (x=0; x<gon.suppliers.length; x++) {
+        if (supplier_id == gon.suppliers[x].id) {
+          var contact_id = gon.suppliers[x].primary_contact_id;
+          var contacts = gon.suppliers[x].contacts;
+          for (y=0; y<contacts.length; y++) {
+            if (contact_id == contacts[y].id) {
+              $('#import_batch_contact_name').val(contacts[y].name);
+              $('#import_batch_contact_email').val(contacts[y].email);
+            }
+          }
+        }
+      }
+    };
+
+    function select_item() {
+      var item_id = $("#import_batch_item_id").val();
+      for (x=0; x < gon.items.length; x++) {
+        if (item_id == gon.items[x].id) {
+          $('#import_batch_unit').val(gon.items[x].unit.name);
+        };
+      };
+    };
+
+  });
