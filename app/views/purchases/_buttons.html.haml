@@ -1,25 +1,62 @@
-.form-button-group{:ng_controller=>'ModalCtrl'}
+- date_now = DateTime.now.strftime("%Y-%m-%d")
+.form-button-group
   .actions
-
     - if @purchase.can_edit_items?
       = link_to t(:add_batch), new_purchase_purchase_item_path(@purchase), class: 'btn btn-primary'
 
     - if @purchase.can_edit_items? && @purchase.purchase_items.count > 0
-      %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','purchaseContent' )"}
+      %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scId'}
         = t(:ordered)
-      = render partial: 'shared/modal_state_change', locals: {idx: 'purchaseContent', model: @purchase, form_path: state_change_purchase_path(@purchase), event: @purchase.next_event, return_path: purchase_path(@purchase)}
+      = render partial: 'shared/modal_state_changes', locals: {modalId: 'scId',
+                                                       date_label: t(:the_date),
+                                                       date_field: :state_change_at,
+                                                       date_value: date_now,
+                                                       min_date: nil,
+                                                       max_date: nil,
+                                                       model: @purchase,
+                                                       form_path: state_change_purchase_path(@purchase),
+                                                       event: @purchase.next_event,
+                                                       return_path: purchase_path(@purchase)}
 
     - if @purchase.prepared?
-      %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','invoiceContent' )"}
+      %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#sciId'}
         = t(:invoiced)
-      = render partial: 'shared/modal_state_change', locals: {idx: 'invoiceContent', model: @purchase, form_path: state_change_purchase_path(@purchase), event: 'mark_invoiced', return_path: purchase_path(@purchase), input: :supplier_reference}
+      = render partial: 'shared/modal_state_changes', locals: {modalId: 'sciId',
+                                                       date_label: t(:the_date),
+                                                       date_field: :state_change_at,
+                                                       date_value: date_now,
+                                                       min_date: nil,
+                                                       max_date: nil,
+                                                       model: @purchase,
+                                                       form_path: state_change_purchase_path(@purchase),
+                                                       event: 'mark_invoiced',
+                                                       input: :supplier_reference,
+                                                       return_path: purchase_path(@purchase)}
 
     - if (!@purchase.can_edit_items? && !@purchase.received?)
-      %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','goodsContent' )"}
+      %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scrId'}
         = t(:received)
-      = render partial: 'shared/modal_state_change', locals: {idx: 'goodsContent', model: @purchase, form_path: state_change_purchase_path(@purchase), event: 'receive', return_path: purchase_path(@purchase)}
+      = render partial: 'shared/modal_state_changes', locals: {modalId: 'scrId',
+                                                       date_label: t(:the_date),
+                                                       date_field: :state_change_at,
+                                                       date_value: date_now,
+                                                       min_date: nil,
+                                                       max_date: nil,
+                                                       model: @purchase,
+                                                       form_path: state_change_purchase_path(@purchase),
+                                                       event: 'receive',
+                                                       return_path: purchase_path(@purchase)}
 
     - if (!@purchase.can_edit_items? && !@purchase.paid?)
-      %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','payContent' )"}
+      %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scpId'}
         = t(:paid)
-      = render partial: 'shared/modal_state_change', locals: {idx: 'payContent', model: @purchase, form_path: state_change_purchase_path(@purchase), event: 'pay', return_path: purchase_path(@purchase)}
+      = render partial: 'shared/modal_state_changes', locals: {modalId: 'scpId',
+                                                       date_label: t(:the_date),
+                                                       date_field: :state_change_at,
+                                                       date_value: date_now,
+                                                       min_date: nil,
+                                                       max_date: nil,
+                                                       model: @purchase,
+                                                       form_path: state_change_purchase_path(@purchase),
+                                                       event: 'pay',
+                                                       return_path: purchase_path(@purchase)}
