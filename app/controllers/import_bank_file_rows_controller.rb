@@ -18,8 +18,6 @@ class ImportBankFileRowsController < ApplicationController
     accounting_plan = current_organization.accounting_plans.find(accounting_period.accounting_plan_id)
     @accounting_groups = accounting_plan.accounting_groups.order(:number)
     @accounts = accounting_plan.accounts.order(:number)
-    gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer),
-             accounts: ActiveModel::ArraySerializer.new(@accounts, each_serializer: AccountSerializer) 
   end
 
   # GET

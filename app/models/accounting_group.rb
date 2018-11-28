@@ -16,6 +16,10 @@ class AccountingGroup < ActiveRecord::Base
 
   scope :active, -> { joins(:accounts).where('active = ?', true).group('accounting_groups.id')  }
 
+  def active_accounts
+    self.accounts.where('active = ?', true)
+  end
+
   def can_delete?
     return false if accounts.size > 0
     true

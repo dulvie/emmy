@@ -21,3 +21,19 @@
         = f.submit class: 'btn btn-primary'
 
 = render partial: 'shared/modal_infos', locals: {modalId: 'vatPurchaseBasisId' , modalBody: 'info_vat_purchase_basis'}
+
+:javascript
+
+  $(document).ready(function() {
+
+    $("#verificate_id").change(function() {
+      set_account();
+    });
+
+    set_account();
+
+    function set_account() {
+      $("#verificate_item_account_id").val($('#verificate_id').val());
+      $('#verificate_item_description').val($('#verificate_id option:selected').text());
+    }
+  });
