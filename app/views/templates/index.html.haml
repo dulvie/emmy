@@ -1,14 +1,14 @@
-.input-group.col-sm-48{ng_controller: 'templates_index_ctrl' }
+- path = "&accounting_plan_id="+@plan_id
+.input-group.col-sm-48
   %input{id: 'plan_id', type: 'hidden', value: @plan_id}
   = link_to "#{t(:create)} #{t(:template)}", new_template_path, class: 'btn btn-success'
-  = link_to "#{t(:import)} #{t(:templates)}", templates_import_path + "&accounting_plan_id={{plan}}", class: 'btn btn-default', method: 'post'
+  = link_to "#{t(:import)} #{t(:templates)}", templates_import_path+path, class: 'btn btn-default', method: 'post'
 
   .col-sm-30.col-md-30.pull-right.text-right
     = form_tag templates_path, class: 'form-inline submit-on-change', method: :get, enforce_utf8: false do
       = text_field_tag('locale' , params[:locale], type:'hidden')
       = select_tag(:accounting_plan_id,
         options_for_select(@accounting_plans.each.collect{|w| [w.name, w.id]}, params[:accounting_plan_id]),
-        ng_model: 'plan',
         class: 'btn btn-default')
   .clear &nbsp;
 
