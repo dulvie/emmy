@@ -1,44 +1,57 @@
-%div{ :ng_controller => 'item_form_ctrl', :ng_init => 'init()'}
-  = simple_form_for(@item, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    = f.error_notification
+= simple_form_for(@item, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
 
-    = f.input :name
-    = f.input :comment
-    = f.input :item_type, as: 'select', collection: Item::TYPES, include_blank: false, :input_html => {:class=>'medium'}
-    = f.input :item_group, as: 'select', collection: Item::GROUPS, include_blank: false, :input_html => {:class=>'medium'}
-    = f.input :stocked
-    = f.association :unit, collection: @units, :input_html => {:class=>'medium'}
-    = f.association :vat, collection: @vats, :input_html => {:class=>'medium'}
+  = f.input :name
+  = f.input :comment
+  = f.input :item_type, as: 'select', collection: Item::TYPES, include_blank: false, :input_html => {:class=>'medium'}
+  = f.input :item_group, as: 'select', collection: Item::GROUPS, include_blank: false, :input_html => {:class=>'medium'}
+  = f.input :stocked
+  = f.association :unit, collection: @units, :input_html => {:class=>'medium'}
+  = f.association :vat, collection: @vats, :input_html => {:class=>'medium'}
 
-    = f.input :in_price, as: :hidden
+  = f.input :in_price, as: :hidden
+  .form-group
+    .labels_width.control-label
+      = f.label :in_price
+    .fields_width
+      %input{id: 'in_price_edit', type: 'number', class: 'form-control numeric', value: 0}
+
+  #date-fields-wrapper
+
+    = f.input :distributor_price, as: :hidden
     .form-group
       .labels_width.control-label
-        = f.label :in_price
+        = f.label :distributor_price
       .fields_width
-        %input{id: 'in_price_edit', type: 'number', class: 'form-control numeric', value: 0}
+        %input{id: 'distributor_price_edit', type: 'number', class: 'form-control numeric', value: 0}
 
-    #date-fields-wrapper
+    = f.input :retail_price, as: :hidden
+    .form-group
+      .labels_width.control-label
+        = f.label :retail_price
+      .fields_width
+        %input{id: 'retail_price_edit', type: 'number', class: 'form-control numeric', value: 0}
 
-      = f.input :distributor_price, as: :hidden
-      .form-group
-        .labels_width.control-label
-          = f.label :distributor_price
-        .fields_width
-          %input{id: 'distributor_price_edit', type: 'number', class: 'form-control numeric', value: 0}
-
-      = f.input :retail_price, as: :hidden
-      .form-group
-        .labels_width.control-label
-          = f.label :retail_price
-        .fields_width
-          %input{id: 'retail_price_edit', type: 'number', class: 'form-control numeric', value: 0}
-
-    .form-button-group
-      .actions
-        = f.submit class: 'btn btn-primary', ng_click: 'before_submit()'
+  .form-button-group
+    .actions
+      = f.submit class: 'btn btn-primary', ng_click: 'before_submit()'
 
   :javascript
     $(document).ready(function() {
+
+      $("#in_price_edit").blur(function() {
+        $('#item_in_price').val(Calc.toInteger($('#in_price_edit').val()));
+      });
+      $("#distributor_price_edit").blur(function() {
+        $('#item_distributor_price').val(Calc.toInteger($('#distributor_price_edit').val()));
+      });
+      $("#retail_price_edit").blur(function() {
+        $('#item_retail_price').val(Calc.toInteger($('#retail_price_edit').val()));
+      });
+
+      $('#in_price_edit').val(Calc.toDecimal($('#item_in_price').val()));
+      $('#distributor_price_edit').val(Calc.toDecimal($('#item_distributor_price').val()));
+      $('#retail_price_edit').val(Calc.toDecimal($('#item_retail_price').val()));
 
       // hide expire/refined at fields when type is not refined.
       $("#item_item_type").change(function() {
