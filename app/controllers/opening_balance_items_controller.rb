@@ -17,8 +17,6 @@ class OpeningBalanceItemsController < ApplicationController
     accounting_plan = current_organization.accounting_plans.find(@opening_balance.accounting_period.accounting_plan_id)
     @accounting_groups = accounting_plan.accounting_groups.order(:number)
     @accounts = accounting_plan.accounts.order(:number)
-    gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer),
-             accounts: ActiveModel::ArraySerializer.new(@accounts, each_serializer: AccountSerializer)
   end
 
   # GET
@@ -40,7 +38,6 @@ class OpeningBalanceItemsController < ApplicationController
         format.html { redirect_to edit_accounting_period_path(@opening_balance.accounting_period_id), notice: "#{t(:opening_balance_item)} #{t(:was_successfully_created)}" }
       else
         @accounting_groups = current_organization.accounting_plan.accounting_groups
-        gon.push accounting_groups: ActiveModel::ArraySerializer.new(@accounting_groups, each_serializer: AccountingGroupSerializer)
         flash.now[:danger] = "#{t(:failed_to_create)} #{t(:opening_balance_item)}"
         format.html { render action: 'new' }
       end

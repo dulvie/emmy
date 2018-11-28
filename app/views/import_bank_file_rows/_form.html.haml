@@ -10,3 +10,19 @@
   .form-button-group
     .actions
       = f.submit class: 'btn btn-primary'
+
+:javascript
+
+  $(document).ready(function() {
+
+    $("#verificate_id").change(function() {
+      set_account();
+    });
+
+    set_account();
+
+    function set_account() {
+      $("#template_item_account_id").val($('#verificate_id').val());
+      $('#template_item_description').val($('#verificate_id option:selected').text());
+    }
+  });
