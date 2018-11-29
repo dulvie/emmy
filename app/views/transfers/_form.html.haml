@@ -1,61 +1,130 @@
-%div{:ng_controller => 'transfer_form_ctrl', :ng_init => 'init()'}
-  = simple_form_for(@transfer, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-    = f.error_notification
+- date_now = DateTime.now.strftime("%Y-%m-%d")
+= simple_form_for(@transfer, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
 
-    - if @transfer.new_record?
-      = f.association :from_warehouse, collection: @warehouses, :input_html => {:ng_model => 'warehouse_id', :ng_change => 'select_warehouse()'}
-      .hidden
-        = f.association :batch
+  - if @transfer.new_record?
 
-      .form-group.select.required.transfer_batch
-        = f.label :batch, :class=>'select required labels_width control-label'
-        .fields_width
-          %select{:ng_model=>'bch_id', :ng_options=>"opt.batch_id as opt.name for opt in options", :ng_change => 'select_batch()', :include_blank=>false, :class=>'select required form-control'}
+    .form-group.select.required
+      = f.label :from_warehouse, :class=>'select required labels_width control-label'
+      .fields_width
+        = f.collection_select :from_warehouse_id, @warehouses, :id, :name
 
-      .form-group
-        .labels_width.control-label
-          %label
-            = t(:available)
-        .fields_width
-          %input{:class=>'form-control  numeric', :value=>'{{quantity}}', :readonly => 'readonly'}
+    .form-group.select.required.transfer_batch
+      = f.label :batch, :class=>'select required labels_width control-label'
+      .fields_width
+        = f.grouped_collection_select :batch_id, @warehouses, :shelves, :name, :batch_id, :name
 
-    - if !@transfer.new_record?
-      = f.association :from_warehouse, collection: @warehouses, disabled: true
-      = f.association :batch, disabled: true
 
-    = f.input :quantity, disabled: !@transfer.new_record?
-    = f.association :to_warehouse, collection: @warehouses, disabled: !@transfer.new_record?
+    .form-group
+      .labels_width.control-label
+        %label
+          = t(:available)
+      .fields_width
+        %input{:id => 'avaiable', :class=>'form-control  numeric', :readonly => 'readonly'}
 
-    - if @transfer.new_record?
-      = f.simple_fields_for :comments do |c|
-        = c.input :body, as: :text
+  - if !@transfer.new_record?
+    = f.association :from_warehouse, collection: @warehouses, disabled: true
+    = f.association :batch, disabled: true
 
-    - if !@transfer.new_record?
-      .form-group
-        .labels_width.control-label
-          %label
-            = t(:status)
-        .fields_width
-          = @transfer.decorate.pretty_state
-    - if @transfer.sent?
-      = f.input :sent_at, as: :string, disabled: true,  :input_html => { :class => 'date', :value => localize(f.object.sent_at, :format => "%Y-%m-%d") }
-    - if @transfer.received?
-      = f.input :received_at, as: :string, disabled: true, :input_html => { :class => 'date', :value => localize(f.object.received_at, :format => "%Y-%m-%d") }
+  = f.input :quantity, disabled: !@transfer.new_record?
+  = f.association :to_warehouse, collection: @warehouses, disabled: !@transfer.new_record?
 
-    - if @transfer.new_record?
-      .form-button-group
-        .actions
-          = f.submit class: 'btn btn-primary'
+  - if @transfer.new_record?
+    = f.simple_fields_for :comments do |c|
+      = c.input :body, as: :text
 
-- if !@transfer.new_record?
-  %div{:ng_controller => 'ModalCtrl'}
+  - if !@transfer.new_record?
+    .form-group
+      .labels_width.control-label
+        %label
+          = t(:status)
+      .fields_width
+        = @transfer.decorate.pretty_state
+  - if @transfer.sent?
+    = f.input :sent_at, as: :string, disabled: true,  :input_html => { :class => 'date', :value => localize(f.object.sent_at, :format => "%Y-%m-%d") }
+  - if @transfer.received?
+    = f.input :received_at, as: :string, disabled: true, :input_html => { :class => 'date', :value => localize(f.object.received_at, :format => "%Y-%m-%d") }
+
+  - if @transfer.new_record?
     .form-button-group
       .actions
-        - if @transfer.state == 'not_sent'
-          %button{:class => 'btn btn-info', :ng_click=>"open($event, 'sm','transfer_content_" + @transfer.id.to_s + "')"}
-            = t(:send)
-          = render partial: 'shared/modal_state_change', locals: {idx: 'transfer_content_' + @transfer.id.to_s, model: @transfer, form_path: send_package_transfer_path(@transfer), event: 'send_package', return_path: transfers_path}
-        - elsif @transfer.state == 'sent'
-          %button{:class => 'btn btn-info', :ng_click=>"open($event, 'sm','transfer_content_" + @transfer.id.to_s + "')"}
-            = t(:receive)
-          = render partial: 'shared/modal_state_change', locals: {idx: 'transfer_content_' + @transfer.id.to_s, model: @transfer, form_path: receive_package_transfer_path(@transfer), event: 'receive_package', return_path: transfers_path}
+        = f.submit class: 'btn btn-primary'
+
+- if !@transfer.new_record?
+  .form-button-group
+    .actions
+      - if @transfer.state == 'not_sent'
+        %button{:class=>'btn btn-info', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scsId'}
+          =  t(:send)
+        = render partial: 'shared/modal_state_changes', locals: {modalId: 'scsId',
+                                                       date_label: t(:the_date),
+                                                       date_field: :state_change_at,
+                                                       date_value: date_now,
+                                                       min_date: nil,
+                                                       max_date: nil,
+                                                       model: @transfer,
+                                                       form_path: send_package_transfer_path(@transfer),
+                                                       event: 'send_package',
+                                                       return_path: transfers_path}
+
+
+      - elsif @transfer.state == 'sent'
+        %button{:class=>'btn btn-info', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scrId'}
+          =  t(:receive)
+        = render partial: 'shared/modal_state_changes', locals: {modalId: 'scrId',
+                                                       date_label: t(:the_date),
+                                                       date_field: :state_change_at,
+                                                       date_value: date_now,
+                                                       min_date: nil,
+                                                       max_date: nil,
+                                                       model: @transfer,
+                                                       form_path: receive_package_transfer_path(@transfer),
+                                                       event: 'receive_package',
+                                                       return_path: transfers_path}
+
+
+:javascript
+
+  $(document).ready(function() {
+
+    var shelves = [];
+
+    $("#transfer_from_warehouse_id").change(function() {
+      set_batches();
+    });
+
+    $("#transfer_batch_id").change(function() {
+      set_quantity();
+    });
+
+    var models = $("#transfer_batch_id").html();
+    set_batches();
+
+  function set_batches() {
+      var batch = $("#transfer_from_warehouse_id option:selected").text();
+      var options = $(models).filter('optgroup[label="'+batch+'"]').html();
+      if (options.length) {
+        $('#transfer_batch_id').html(options);
+        $("#transfer_batch_id").trigger("change");
+      }
+      else {
+        $('#transfer_batch_id').empty();
+      }
+    }
+
+    function set_quantity() {
+      $('#avaiable').val('0');
+      var warehouse_id = $('#transfer_from_warehouse_id').val();
+      for (x=0; x < gon.warehouses.length; x++) {
+        if (warehouse_id == gon.warehouses[x].id) {
+          for (y=0; y < gon.warehouses[x].shelves.length; y++) {
+            var batch_id = $('#transfer_batch_id').val();
+            if (batch_id == gon.warehouses[x].shelves[y].batch_id) {
+              $('#avaiable').val(gon.warehouses[x].shelves[y].quantity);
+            }
+          }
+        }
+      }
+    }
+
+  });

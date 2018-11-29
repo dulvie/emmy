@@ -107,7 +107,7 @@ class TransfersController < ApplicationController
 
   def init
     @warehouses = current_organization.warehouses
-    gon.push warehouses: ActiveModel::ArraySerializer.new(@warehouses, each_serializer: WarehouseSerializer)
+    gon.push warehouses: ActiveModel::Serializer::CollectionSerializer.new(@warehouses, each_serializer: WarehouseSerializer)
     redirect_to helps_show_message_path(message: "#{I18n.t(:warehouses)} #{I18n.t(:missing)}") if @warehouses.size == 0
   end
 
@@ -115,9 +115,9 @@ class TransfersController < ApplicationController
     transfer = Transfer.new transfer_params
     transfer.user_id = current_user.id
     transfer.organization_id = current_organization.id
-    comment_p = params[:transfer][:comments_attributes][:"0"]
-    comment_p[:user_id] = current_user.id
-    c = transfer.comments.build(comment_p)
+    body = params[:transfer][:comments_attributes][:"0"][:body]
+    user_id = current_user.id
+    c = transfer.comments.build(body: body, user_id: user_id)
     c.organization_id = current_organization.id
     transfer
   end
