@@ -1,28 +1,27 @@
-%div{ :ng_controller => 'import_batch_form_ctrl', :ng_init => 'init()'}
-  = simple_form_for(@import_batch, wrapper: :horizontal_form, html: {class: 'form-horizontal', autocomplete: 'off'}) do |f|
-    = f.error_notification
-    = f.input :import_id, as: :hidden
-    %input{:name => 'import_id', :value => @import.id, :hidden => true}
+= simple_form_for(@import_batch, wrapper: :horizontal_form, html: {class: 'form-horizontal', autocomplete: 'off'}) do |f|
+  = f.error_notification
+  = f.input :import_id, as: :hidden
+  %input{:name => 'import_id', :value => @import.id, :hidden => true}
 
-    = f.input :description, as: :hidden
-    = f.input :supplier, collection: @suppliers
-    = f.input :contact_name
-    = f.input :contact_email
-    = f.input :item_id, collection: @items
-    = f.input :name, :label => t(:name_of_new_batch)
-    = f.input :quantity, as: :integer
-    = f.input :unit, disabled: true, :input_html => {:class => 'medium'}
+  = f.input :description, as: :hidden
+  = f.input :supplier, collection: @suppliers
+  = f.input :contact_name
+  = f.input :contact_email
+  = f.input :item_id, collection: @items
+  = f.input :name, :label => t(:name_of_new_batch)
+  = f.input :quantity, as: :integer
+  = f.input :unit, disabled: true, :input_html => {:class => 'medium'}
 
-    = f.input :price, as: :hidden
-    .form-group
-      .labels_width.control-label
-        = f.label :price
-      .fields_width
-        %input{id: 'price_edit', type: 'number', class: 'form-control numeric', value: 0}
+  = f.input :price, as: :hidden
+  .form-group
+    .labels_width.control-label
+      = f.label :price
+    .fields_width
+      %input{id: 'price_edit', type: 'number', class: 'form-control numeric', value: 0}
 
-    .form-button-group
-      .actions
-        = f.submit class: 'btn btn-primary', ng_click: 'before_submit()'
+  .form-button-group
+    .actions
+      = f.submit class: 'btn btn-primary', ng_click: 'before_submit()'
 
 :javascript
 
@@ -57,15 +56,15 @@
           }
         }
       }
-    };
+    }
 
     function select_item() {
       var item_id = $("#import_batch_item_id").val();
       for (x=0; x < gon.items.length; x++) {
         if (item_id == gon.items[x].id) {
           $('#import_batch_unit').val(gon.items[x].unit.name);
-        };
-      };
-    };
+        }
+      }
+    }
 
   });
