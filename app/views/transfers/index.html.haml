@@ -1,3 +1,4 @@
+- date_now = DateTime.now.strftime("%Y-%m-%d")
 = link_to "#{t(:create)} #{t(:transfer)}", new_transfer_path, class: 'btn btn-success'
 
 .table-responsive{:ng_controller => "ModalCtrl"}
@@ -27,13 +28,32 @@
           %td= transfer.pretty_state
           %td
             - if transfer.state == 'not_sent'
-              %button{:class => 'btn btn-info', :ng_click=>"open($event, 'sm','transfer_content_" + transfer.id.to_s + "')"}
-                = t(:send)
-              = render partial: 'shared/modal_state_change', locals: {idx: 'transfer_content_' + transfer.id.to_s, model: transfer, form_path: send_package_transfer_path(transfer), event: 'send_package', return_path: transfers_path}
+              %button{:class=>'btn btn-info', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scsId_' + transfer.id.to_s }
+                =  t(:send)
+              = render partial: 'shared/modal_state_changes', locals: {modalId: 'scsId_' + transfer.id.to_s,
+                                                       date_label: t(:the_date),
+                                                       date_field: :state_change_at,
+                                                       date_value: date_now,
+                                                       min_date: nil,
+                                                       max_date: nil,
+                                                       model: transfer,
+                                                       form_path: send_package_transfer_path(transfer),
+                                                       event: 'send_package',
+                                                       return_path: transfers_path}
+
             - elsif transfer.state == 'sent'
-              %button{:class => 'btn btn-info', :ng_click=>"open($event, 'sm','transfer_content_" + transfer.id.to_s + "')"}
-                = t(:receive)
-              = render partial: 'shared/modal_state_change', locals: {idx: 'transfer_content_' + transfer.id.to_s, model: transfer, form_path: receive_package_transfer_path(transfer), event: 'receive_package', return_path: transfers_path}
+              %button{:class=>'btn btn-info', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scrId_' + transfer.id.to_s }
+                =  t(:receive)
+              = render partial: 'shared/modal_state_changes', locals: {modalId: 'scrId_' + transfer.id.to_s,
+                                                       date_label: t(:the_date),
+                                                       date_field: :state_change_at,
+                                                       date_value: date_now,
+                                                       min_date: nil,
+                                                       max_date: nil,
+                                                       model: transfer,
+                                                       form_path: receive_package_transfer_path(transfer),
+                                                       event: 'receive_package',
+                                                       return_path: transfers_path}
 
           %td= link_to settings_icon, edit_transfer_path(transfer)
           %td= delete_modal_for transfer
