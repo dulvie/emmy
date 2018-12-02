@@ -33,6 +33,7 @@ gem 'simple_form', '~> 4.0'
 gem 'resque', '~> 1.25'
 
 gem 'bootstrap-sass', '~> 3.2'
+gem 'bootstrap-typeahead-rails'
 
 gem 'wicked_pdf'
 gem 'foreman'

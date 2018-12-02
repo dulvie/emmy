@@ -1,27 +1,70 @@
-%div{:ng_controller => "contact_relations_form_ctrl", :ng_init => 'init()'}
-  = @contact_relation.errors.full_messages.first if @contact_relation.errors.any?
-  = simple_form_for(@contact, wrapper: :horizontal_form, html: {class: 'form-horizontal', autocomplete: 'off'}, url: @contact_relation_form_url) do |f|
-    = f.error_notification
-    - if @new
-      .form-group
-        %label{:class => 'labels_width control-label'}
-          = t(:email_search)
-        .fields_width
-          %input{:id => 'search', :name => 'search', :autocomplete=>'off',  :ng_model=>"selected", :typeahead_on_select => "type_ahead_contact($item, $model, $label)", :typeahead=>"c.email for c in contacts | filter:$viewValue | limitTo:8", :class=>"form-control"}
+= @contact_relation.errors.full_messages.first if @contact_relation.errors.any?
+= simple_form_for(@contact, wrapper: :horizontal_form, html: {class: 'form-horizontal'}, url: @contact_relation_form_url) do |f|
+  = f.error_notification
+  - if @new
+    .form-group
+      %label{:class => 'labels_width control-label'}
+        = t(:email_search)
+      .fields_width
+        %input{:id => 'search', :name => 'search', :autocomplete=>'off', :class=>"typeahead form-control"}
 
-    = f.input :id, as: :hidden
-    = f.input :name
-    - if local_assigns.has_key? :email
-      = f.input :email, :input_html => {:value => email}, :readonly => true
-    - else
-      = f.input :email
-    = f.input :telephone, :input_html => {:class => 'medium'}
-    = f.input :address
-    = f.input :zip, :input_html => {:class => 'short'}
-    = f.input :city
-    = f.input :country, :input_html => {:class => 'medium'}
-    = f.input :comment, as: :text
+  = f.input :id, as: :hidden
+  = f.input :name
+  - if local_assigns.has_key? :email
+    = f.input :email, :input_html => {:value => email}, :readonly => true
+  - else
+    = f.input :email
+  = f.input :telephone, :input_html => {:class => 'medium'}
+  = f.input :address
+  = f.input :zip, :input_html => {:class => 'short'}
+  = f.input :city
+  = f.input :country, :input_html => {:class => 'medium'}
+  = f.input :comment, as: :text
 
-    .form-button-group
-      .actions
-        = f.submit class: 'btn btn-primary'
+  .form-button-group
+    .actions
+      = f.submit class: 'btn btn-primary'
+
+:javascript
+
+  $(document).ready(function() {
+
+    var data = gon.contacts;
+    //var map = {};
+
+    $('#search').typeahead({
+
+      highlight: true}, {
+
+      name: 'contact',
+
+      source: function (query, process) {
+        var contacts = [];
+
+        $.each(data, function (i, contact) {
+          if (contact.email.toLowerCase().indexOf(query.trim().toLowerCase()) != -1) {
+            //map[contact.email] = contact;
+            contacts.push({value: contact.email});
+          }
+        });
+
+        process(contacts);
+      }
+    });
+
+    $('#search').bind('typeahead:selected', function(event, obj, name) {
+      var email = obj['value'];
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].email  == email) {
+          $('#contact_email').val(data[i].email);
+          $('#contact_name').val(data[i].name);
+          $('#contact_telephone').val(data[i].telephone);
+          $('#contact_address').val(data[i].address);
+          $('#contact_zip').val(data[i].zip);
+          $('#contact_country').val(data[i].country);
+          $('#contact_comment').val(data[i].comment);
+        }
+      }
+     });
+
+  })
