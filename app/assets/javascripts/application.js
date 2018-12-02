@@ -12,11 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
-// require turbolinks
+//= require turbolinks
 
 //= require angular
 
 //= require modernizr
 //= require bootstrap
+//= require bootstrap-typeahead-rails
 //= require_tree
 //= require angular-ui-bootstrap-tpls
