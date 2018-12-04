@@ -21,7 +21,7 @@ class CustomersController < ApplicationController
   # GET /customers/new
   def new
     @return_path = params[:return_path]
-  end
+ end
 
   # GET /customers/1
   def show

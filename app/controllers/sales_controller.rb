@@ -16,6 +16,8 @@ class SalesController < ApplicationController
     else
       flash.now[:danger] = "#{t(:failed_to_create)} #{t(:sale)}"
       @warehouses = current_organization.warehouses
+      @customers = current_organization.customers
+      gon.push customers: ActiveModel::Serializer::CollectionSerializer.new(@customers, each_serializer: CustomerSerializer)
       render action: :new
     end
   end
@@ -40,6 +42,8 @@ class SalesController < ApplicationController
     @sale.customer_id = params[:customer_id] if params[:customer_id]
     @mail_templates_invoice = current_organization.mail_templates.invoice
     @mail_templates_reminder = current_organization.mail_templates.reminder
+    @customers = current_organization.customers
+    gon.push customers: ActiveModel::Serializer::CollectionSerializer.new(@customers, each_serializer: CustomerSerializer)
   end
 
   def show

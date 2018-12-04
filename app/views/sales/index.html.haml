@@ -68,16 +68,29 @@
               = link_to doc_icon, sale_path(sale, format: 'pdf'), target: '_blank'
             - if sale.prepared? && !sale.invoice_sent? && !sale.overdue?
               - dc = 'dialogContent' + sale.invoice_number.to_s
-              %button{:class=>'btn btn-xs', :ng_click=>"open($event, 'sm', '"+dc+"' )"}
-                = envelope_icon
               - title = t(:send_email_to_customer)
-              = render partial: 'shared/modal_dialog', locals: {idx: dc, title: title, model: sale, select: 'mail_template', form_path: send_email_sale_path(sale), return_path: sales_path, collection: @mail_templates_invoice}
+              %button{:class=>'btn btn-xs', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#id_'+dc}
+                = envelope_icon
+              = render partial: 'shared/modal_dialogs', locals: {modalId: 'id_'+dc,
+                                                       title: title,
+                                                       model: sale,
+                                                       select: 'mail_template',
+                                                       form_path: send_email_sale_path(sale),
+                                                       return_path: sales_path,
+                                                       collection: @mail_templates_invoice}
+
             - if sale.overdue?
               - dc = 'dialogContent' + sale.invoice_number.to_s
-              %button{:class=>'btn btn-xs btn-warning', :ng_click=>"open($event, 'sm', '"+dc+"' )"}
-                = envelope_icon
               - title = t(:send_reminder_to_customer)
-              = render partial: 'shared/modal_dialog', locals: {idx: dc, title: title, model: sale, select: 'mail_template', form_path: send_reminder_email_sale_path(sale), return_path: sales_path, collection: @mail_templates_reminder}
+              %button{:class=>'btn btn-xs btn-warning', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#id_'+dc}
+                = envelope_icon
+              = render partial: 'shared/modal_dialogs', locals: {modalId: 'id_'+dc,
+                                                       title: title,
+                                                       model: sale,
+                                                       select: 'mail_template',
+                                                       form_path: send_reminder_email_sale_path(sale),
+                                                       return_path: sales_path,
+                                                       collection: @mail_templates_reminder}
 
           %td= link_to settings_icon, sale
           %td= delete_modal_for sale
@@ -85,8 +98,8 @@
   = paginate @sales, :theme => 'twitter-bootstrap-3'
   .row
     .col-md-48
-      = link_to "csv", url_for(params: params.merge(format: 'csv')), class: 'btn btn-default'
-      = link_to "pdf", url_for(params: params.merge(format: 'pdf')), class: 'btn btn-default'
+      = link_to "csv", url_for(params: params.permit(:locale, :organization_slug).merge(format: 'csv')), class: 'btn btn-default'
+      = link_to "pdf", url_for(params: params.permit(:locale, :organization_slug).merge(format: 'pdf')), class: 'btn btn-default'
   %br
   = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
 
