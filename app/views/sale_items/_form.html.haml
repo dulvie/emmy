@@ -6,21 +6,20 @@
       %label
         =t(:sale_type)
     .fields_width
-      = f.radio_button :row_type, 'product', class: 'row_type', ng_click: 'radio_product()'
+      = f.radio_button :row_type, 'product', class: 'row_type'
       = t(:item)
-      = f.radio_button :row_type, 'text', class: 'row_type', ng_click: 'radio_text()'
+      = f.radio_button :row_type, 'text', class: 'row_type'
       = t(:text)
 
   #product-wrapper
     = f.input :product, as: :select,  collection: @products.collect{ |p| [p.name, p.value] },
        selected: @selected_product,
-       include_blank: false,
-       input_html: {:ng_model =>"product_value", :ng_change => 'product_changed()'}
-    = f.input :quantity, :input_html => {:ng_model => "quantity", :ng_change => "select_quantity()"}
+       include_blank: false
+    = f.input :quantity
 
   #text-wrapper
     = f.input :name
-    = f.input :vat, collection: @vat, value_method: 'vat_percent', include_blank: false, input_html: {ng_model: 'text_vat', ng_change: 'text_vat_price()'}
+    = f.input :vat, collection: @vat, value_method: 'vat_percent', include_blank: false
     = f.input :quantity_text, label: t(:quantity), input_html: {type: 'number', class: 'numeric integer'}
     .error_width
       = f.error :quantity
@@ -30,29 +29,65 @@
     .labels_width.control-label
       = f.label :price
     .fields_width
-      %input{id: 'price_edit', type: 'number', ng_blur: 'calc_vat_price()', class: 'form-control numeric', value: 0}
-  = f.input :price_with_vat, input_html: {class: 'numeric', disabled: true, value: '{{price_with_vat}}'}
+      %input{id: 'price_edit', type: 'number', class: 'form-control numeric', value: 0}
+  = f.input :price_with_vat, input_html: {class: 'numeric', disabled: true}
 
   .form-button-group
     .actions
       = f.submit class: 'btn btn-primary', ng_click: 'before_submit()'
 
-  = render partial: 'shared/modal_message', locals: {idx: 'messageContent'}
+  = render partial: 'shared/modal_messages', locals: {modalId: 'qtyModal'}
 
   :javascript
     $(document).ready(function() {
+
+      var product = gon.products[0];
+      var product_value = gon.products[0].value;
+
+      $.each(gon.products, function(i, obj) {
+        if (obj.selected == true) {
+          product = obj;
+          product_value = obj.value;
+        }
+      });
+
+      $('#price_edit').val(Calc.toDecimal($('#sale_item_price').val()));
+        if ($('#price_edit').val()=='0') {
+        product_changed();
+      }
+
+      $('#sale_item_product').change(function() {
+        product_changed();
+      });
+
+      $('#sale_item_quantity').change(function() {
+        quantity_changed();
+      });
+
+      $('#sale_item_vat').change(function() {
+        calc_vat_price();
+      });
+
+      $("#price_edit").blur(function() {
+        $('#sale_item_price').val(Calc.toInteger($('#price_edit').val()));
+        calc_vat_price();
+      });
+
       $('.row_type').change(function() {
         var $me = $(this);
         if ($me.val() == 'product') {
+          product_changed();
           $('#product-wrapper').show();
           $('#text-wrapper').hide();
         }
         if ($me.val() == 'text') {
           $('#sale_item_price').val('0');
+          $('#price_edit').val(0);
           $('#product-wrapper').hide();
           $('#text-wrapper').show();
-        };
+        }
       });
+
       var row_type = $("input[name='sale_item[row_type]']:checked").val();
       if (row_type == 'text') {
         $('#sale_item_quantity_text').val($('#sale_item_quantity').val());
@@ -65,4 +100,64 @@
         $('#text-wrapper').hide();
       }
 
+
+      function product_changed() {
+        if ($("input[name='sale_item[row_type]']:checked").val()=='text') {
+          return;
+        }
+        product_value = $('#sale_item_product').val();
+        var dPrice = 0;
+        var rPrice = 0;
+        $('#sale_item_price').val(0);
+        var reseller = $('#sale_customer_reseller').is(":checked");
+        for (var x=0; x < gon.products.length; x++) {
+          if (gon.products[x].value == product_value) {
+            product = gon.products[x];
+            dPrice = gon.products[x].distributor_price;
+            rPrice = gon.products[x].retail_price;
+            dPriceVat= gon.products[x].distributor_inc_vat;
+            rPriceVat= gon.products[x].retail_inc_vat;
+          }
+        }
+        if (reseller) {
+          $('#sale_item_price').val(dPrice);
+          $('#price_edit').val(Calc.toDecimal(dPrice));
+          $('#sale_item_price_with_vat').val(dPriceVat);
+        }
+        else  {
+          $('#sale_item_price').val(rPrice);
+          $('#price_edit').val(Calc.toDecimal(rPrice));
+          $('#sale_item_price_with_vat').val(rPriceVat);
+        }
+      }
+
+      function quantity_changed() {
+        if ($("input[name='sale_item[row_type]']:checked").val()=='text') {
+          return;
+        }
+        product_value = $('#sale_item_product').val();
+        var quantity = $('#sale_item_quantity').val();
+        for (i=0; i< gon.products.length; i++) {
+          if (gon.products[i].value == product_value) {
+            if (gon.products[i].stocked && quantity > gon.products[i].available_quantity) {
+              var msg = "Kvantitet överstiger lagrets " + gon.products[i].available_quantity
+              alert(msg);
+              $('#message_text').replaceWith(msg);
+              $("#qtyModal").modal();
+            }
+          }
+        }
+      }
+
+      function calc_vat_price() {
+        var price = Number($('#price_edit').val());
+        var moms = 0;
+        if ($("input[name='sale_item[row_type]']:checked").val()=='text') {
+          moms = Number(price * Number($('#sale_item_vat').val()) / 100);
+        } else {
+          moms = Number(price * product.vat_add_factor);
+        }
+        var ink_moms = (price + moms).toFixed(2);
+        $('#sale_item_price_with_vat').val(ink_moms);
+      }
     })

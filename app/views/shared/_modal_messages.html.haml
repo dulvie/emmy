@@ -1,0 +1,12 @@
+%div{:id=>modalId, :class =>'modal fade'}
+  .modal-dialog.modal-sm
+    .modal-content
+      .modal-header
+        %h3{ :class=>"modal-title"}
+          = t(:message)
+      .modal-body
+        %p
+          %h4{:id => 'message_text'}
+      .modal-body
+        = button_tag t(:back), class: 'btn btn-danger reseter', 'data-dismiss': 'modal'
+      .modal-fotter

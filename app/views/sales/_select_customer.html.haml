@@ -2,16 +2,102 @@
   = f.label :customer, class: 'string optional labels_width control-label', for: 'customer_ref', required: true
   = f.input :customer_id, as: :hidden
   %div{:class=>"fields_width"}
-    %input{:id => 'customer_ref', :autocomplete=>'off',  :ng_model=>"selected", :typeahead_on_select => "type_ahead_customer($item, $model, $label)", :typeahead=>"c.name for c in customer | filter:$viewValue", :class=>"form-control"}
+    %input{:id => 'customer_ref', :autocomplete=>'off',  :class=>"typeahead form-control"}
     = f.error :customer_id
   .form-suffix-text
     = link_to "#{t(:create)} #{t(:customer)}", new_customer_path(return_path: new_sale_path)
 
-.form-group
-  = f.label :contact_name, :class => "labels_width control-label"
-  = f.input :contact_name, as: :hidden, input_html: { value: '{{custref}}'}
-  %div{:class=>"fields_width"}
-    %input{:ng_model=>"custref", :typeahead_on_select => "type_ahead_customer_reference($item, $model, $label)", :typeahead=>"r.name for r in reference | filter:$viewValue | limitTo:8", :class=>"form-control"}
-
+= f.input :contact_name, :autocomplete=>'off', :class=>'typeahead'
 = f.input :contact_email, disabled: !@sale.new_record?
 = f.input :contact_telephone, disabled: !@sale.new_record?
+
+:javascript
+
+  $(document).ready(function() {
+
+    var data = gon.customers;
+    var contacts = [];
+    set_customer_ref();
+
+    $('#customer_ref').typeahead({
+      highlight: true}, {
+      name: 'customer',
+      source: function (query, process) {
+        var customers = [];
+        $.each(data, function (i, customer) {
+          if (customer.name.toLowerCase().indexOf(query.trim().toLowerCase()) != -1) {
+            //map[contact.email] = contact;
+            customers.push({value: customer.name});
+          }
+        });
+        process(customers);
+      }
+    });
+
+    $('#customer_ref').bind('typeahead:selected', function(event, obj, name) {
+      var name = obj['value'];
+
+      $('#sale_customer_id').val('');
+      $('#sale_payment_term').val('0');
+      for (var i = 0; i < data.length; i++) {
+
+        if (data[i].name  == name) {
+        //$scope.reference = $scope.customer[i].contacts;
+          contacts = data[i].contacts;
+          $('#sale_customer_id').val(data[i].id);
+          $('#sale_payment_term').val(data[i].payment_term);
+          set_contact(data[i]);
+
+        }
+      }
+     });
+
+    function set_customer_ref() {
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].id  == $('#sale_customer_id').val()) {
+          $('#customer_ref').val(data[i].name);
+        }
+      }
+    }
+    function set_contact(customer) {
+      $('#sale_contact_name').val('');
+      $('#sale_contact_email').val('');
+      $('#sale_contact_telephone').val('');
+      for (var x = 0; x < customer.contacts.length; x++) {
+        if (customer.primary_contact_id == customer.contacts[x].id) {
+          $('#contact_ref').val(customer.contacts[x].name);
+          $('#sale_contact_name').val(customer.contacts[x].name);
+          $('#sale_contact_email').val(customer.contacts[x].email);
+          $('#sale_contact_telephone').val(customer.contacts[x].telephone);
+        }
+      }
+    }
+
+    $('#sale_contact_name').typeahead({
+      highlight: true}, {
+      name: 'contact',
+      source: function (query, process) {
+        var ccontacts = [];
+        $.each(contacts, function (i, contact) {
+          if (contact.name.toLowerCase().indexOf(query.trim().toLowerCase()) != -1) {
+            //map[contact.email] = contact;
+            ccontacts.push({value: contact.name});
+          }
+        });
+        process(ccontacts);
+      }
+    });
+
+    $('#sale_contact_name').bind('typeahead:selected', function(event, obj, name) {
+      var name = obj['value'];
+      $('#sale_contact_email').val('');
+      $('#sale_contact_telephone').val('');
+      for (var i = 0; i < contacts.length; i++) {
+        if (contacts[i].name  == name) {
+          $('#sale_contact_email').val(contacts[i].email);
+          $('#sale_contact_telephone').val(contacts[i].telephone);
+        }
+      }
+     });
+
+  })
