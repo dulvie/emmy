@@ -1,7 +1,7 @@
 .btn-group
   = link_to "#{t(:create)} #{t(:verificate_item)}", new_verificate_item_path, class: 'btn btn-success'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -19,7 +19,8 @@
           %td= verificate_item.debet
           %td= verificate_item.kredit
           %td.numeric= link_to settings_icon, verificate_item_path(verificate_item)
-          %td.numeric= delete_modal_for verificate_item
+          %td.numeric= delete_modal verificate_item, nil, '#mdId'
 
   = paginate @verificate_items, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}

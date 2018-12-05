@@ -1,5 +1,5 @@
 = simple_form_for @verificate, :html => { :class => 'form-horizontal' } do |f|
-  .table-responsive{:ng_controller=>'ModalCtrl'}
+  .table-responsive
     %table{:class => 'table table-striped'}
       %thead
         %tr
@@ -9,7 +9,7 @@
           %th.numeric6= t(:debit)
           %th.numeric6= t(:credit)
           %th
-      %tbody{}
+      %tbody
         - @verificate.verificate_items.each do |item|
           %tr
           = f.simple_fields_for item do |i|
@@ -30,8 +30,3 @@
           %td.numeric
             = @verificate.total_credit
           %td
-
-    = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
-
-
-
