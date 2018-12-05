@@ -1,7 +1,7 @@
 .btn-group
   = link_to "#{t(:create)} #{t(:warehouse)}", new_warehouse_path, class: 'btn btn-success'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -19,7 +19,9 @@
           %td= warehouse.zip
           %td= warehouse.city
           %td= link_to settings_icon, edit_warehouse_path(warehouse)
-          %td= delete_modal_for warehouse
+          %td= delete_modal warehouse, nil, '#mdId'
+
 
   = paginate @warehouses, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}

@@ -44,6 +44,12 @@ module ApplicationHelper
     link_to delete_icon(obj), '#', :ng_click =>"open_delete($event, 'sm','deleteContent', '#{path}')"
   end
 
+  def delete_modal(obj, other_path = nil, modalId)
+    return unless obj.can_delete?
+    path = other_path || url_for(obj)
+    link_to delete_icon(obj), '#', :class=>'dlt', :'data-toggle' => 'modal', :'data-target'=>modalId, :'data-path'=>path
+  end
+
   def info_modal(modal)
     link_to info_icon, '#', :'data-toggle' => 'modal', :'data-target'=>modal
   end
