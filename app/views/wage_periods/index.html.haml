@@ -9,7 +9,7 @@
       class: 'btn btn-default')
 .clear &nbsp;
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -22,7 +22,7 @@
         %th
         %th
         %th
-    %tbody{}
+    %tbody
       - @wage_periods.each do |wage_period|
         %tr
           %td= wage_period.name
@@ -39,8 +39,9 @@
           - else
             %td
           %td.numeric= link_to settings_icon, edit_wage_period_path(wage_period)
-          %td.numeric= delete_modal_for wage_period
+          %td.numeric= delete_modal wage_period, nil, '#mdId'
 
   = paginate @wage_periods, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
 = render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'wages' 

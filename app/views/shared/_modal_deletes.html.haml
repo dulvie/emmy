@@ -1,0 +1,21 @@
+%div{ :id=>modalId, :class =>'modal fade'}
+  .modal-dialog.modal-sm
+    .modal-content
+      .modal-header
+        %h3{ :class=>"modal-title"}
+          = t(:confirm_delete)
+      .modal-body
+        = link_to t(:confirm), '#', method: :delete,  class: 'btn btn-primary', id: 'dltId'
+        = button_tag t(:back), type: 'reset', class: 'btn btn-default reseter', 'data-dismiss'=> 'modal'
+      .modal-fotter
+
+:javascript
+  $(document).ready(function() {
+
+    $('.dlt').click( function() {
+      var el = $(this);
+      var path = el.data('path');
+      $('#dltId').attr('href', path);
+    });
+
+  });

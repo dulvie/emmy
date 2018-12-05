@@ -9,7 +9,7 @@
       class: 'btn btn-default')
 .clear &nbsp;
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -20,7 +20,7 @@
         %th= t(:parent)
         %th
         %th
-    %tbody{}
+    %tbody
       - @verificates.each do |verificate|
         %tr
           %td= verificate.number
@@ -29,7 +29,8 @@
           %td= verificate.pretty_state
           %td= verificate.parent
           %td.numeric= link_to settings_icon, verificate_path(verificate)
-          %td.numeric= delete_modal_for verificate
+          %td.numeric= delete_modal verificate, nil, '#mdId'
 
   = paginate @verificates, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
