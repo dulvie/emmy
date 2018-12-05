@@ -1,6 +1,6 @@
 - @verificate_items = @verificate.verificate_items.page(params[:page]).decorate
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -20,7 +20,7 @@
           %td.numeric= verificate_item.credit
           %td= verificate_item.result_unit_name
           %td= link_to settings_icon, edit_verificate_verificate_item_path(@verificate, verificate_item)
-          %td= delete_modal_for verificate_item, verificate_verificate_item_path(@verificate, verificate_item)
+          %td= delete_modal verificate_item, verificate_verificate_item_path(@verificate, verificate_item), '#mdId'
       %tr
         %td
         %td
@@ -33,7 +33,7 @@
         %td
         %td
   = paginate @verificate_items, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
 
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
 
 
