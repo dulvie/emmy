@@ -1,4 +1,4 @@
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -10,7 +10,7 @@
         %th
         %th
 
-    %tbody{}
+    %tbody
       - @tax_table_rows.each do |tax_table_row|
         %tr
           %td= tax_table_row.calculation
@@ -19,7 +19,8 @@
           %td.numeric= tax_table_row.column_1
           %td.numeric= tax_table_row.column_2
           %td.numeric= link_to settings_icon, tax_table_tax_table_row_path(tax_table_row.tax_table, tax_table_row)
-          %td.numeric= delete_modal_for tax_table_row
+          %td.numeric= delete_modal tax_table_row, nil, '#mdId'
 
   = paginate @tax_table_rows, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
