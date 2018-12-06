@@ -6,7 +6,7 @@
         %th= t(:text)
         %th.numeric= t(:amount)
         %th
-    %tbody{}
+    %tbody
       - @tax_return_reports.each do |tax_return_report|
         %tr
           %td= tax_return_report.ink_code.code
@@ -16,6 +16,4 @@
             - url = tax_return_tax_return_report_path(tax_return_report.tax_return_id, tax_return_report) + "&ink_code_id=#{tax_return_report.ink_code_id}"
             %td.numeric= link_to settings_icon, url
 
-
   = paginate @tax_return_reports, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

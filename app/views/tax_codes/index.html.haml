@@ -14,7 +14,7 @@
       = radio_button_tag :single_use, 'default', false
       = t(:default)
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -24,7 +24,7 @@
         %th= t(:accounts)
         %th
         %th
-    %tbody{}
+    %tbody
       - @tax_codes.vat.each do |tax_code|
         %tr.show-vat
           %td.numeric= tax_code.code
@@ -32,7 +32,7 @@
           %td= tax_code.sum_method
           %td= link_to link_icon, tax_code_path(tax_code)
           %td= link_to settings_icon, edit_tax_code_path(tax_code)
-          %td= delete_modal_for tax_code
+          %td= delete_modal tax_code, nil, '#mdId'
       - @tax_codes.wage.each do |tax_code|
         %tr.show-wage
           %td.numeric= tax_code.code
@@ -40,7 +40,7 @@
           %td= tax_code.sum_method
           %td= link_to link_icon, tax_code_path(tax_code)
           %td= link_to settings_icon, edit_tax_code_path(tax_code)
-          %td= delete_modal_for tax_code
+          %td= delete_modal tax_code, nil, '#mdId'
       - @tax_codes.default.each do |tax_code|
         %tr.show-default
           %td.numeric= tax_code.code
@@ -48,11 +48,11 @@
           %td= tax_code.sum_method
           %td= link_to link_icon, tax_code_path(tax_code)
           %td= link_to settings_icon, edit_tax_code_path(tax_code)
-          %td= delete_modal_for tax_code
+          %td= delete_modal tax_code, nil, '#mdId'
 
   = paginate @tax_codes, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
   = render partial: 'shared/modal_state_refresh', locals:{idx: 'refresh_id', obj: @tax_code_header, back: new_tax_code_header_path, path: tax_codes_path}
+  = render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
 = render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'economics'
 
 = render partial: 'shared/modal_infos', locals: {modalId: 'taxCodesId' , modalBody: 'info_tax_codes'}

@@ -1,7 +1,7 @@
 .btn-group
   = link_to "#{t(:create)} #{t(:stock_value)}", new_stock_value_path, class: 'btn btn-success'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -11,7 +11,7 @@
         %th
         %th
         %th
-    %tbody{}
+    %tbody
       - @stock_values.each do |stock_value|
         %tr
           %td= stock_value.name
@@ -19,7 +19,8 @@
           %td.numeric= stock_value.value
           %td= report_button_for stock_value_stock_value_items_path(stock_value)
           %td.numeric= link_to settings_icon, edit_stock_value_path(stock_value)
-          %td.numeric= delete_modal_for stock_value
+          %td.numeric= delete_modal stock_value, nil, '#mdId'
 
   = paginate @stock_values, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
