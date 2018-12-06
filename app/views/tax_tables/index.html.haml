@@ -1,7 +1,7 @@
 .input-group.full-width
   = link_to "#{t(:import)} #{t(:tax_tables)}", new_tax_table_path, class: 'btn btn-default'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -11,7 +11,7 @@
         %th
         %th
         %th
-    %tbody{}
+    %tbody
       - @tax_tables.each do |tax_table|
         %tr
           %td= tax_table.name
@@ -19,9 +19,10 @@
           %td= tax_table.table_name
           %td= link_to link_icon, tax_table_tax_table_rows_path(tax_table)
           %td= link_to settings_icon, edit_tax_table_path(tax_table)
-          %td= delete_modal_for tax_table
+          %td= delete_modal tax_table, nil, '#mdId'
 
   = paginate @tax_tables, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
-  = render partial: 'shared/modal_refresh', locals:{idx: 'refresh_id', obj: nil, back: new_tax_table_path, path: tax_tables_path}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
+
 = render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'wages'
