@@ -1,20 +1,20 @@
 .btn-group
   = link_to "#{t(:create)} #{t(:result_unit)}", new_result_unit_path, class: 'btn btn-success'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
         %th= t(:name)
         %th.numeric
         %th.numeric
-    %tbody{}
+    %tbody
       - @result_units.each do |result_unit|
         %tr
           %td= result_unit.name
           %td.numeric= link_to settings_icon, edit_result_unit_path(result_unit)
-          %td.numeric= delete_modal_for result_unit
+          %td.numeric= delete_modal result_unit, nil, '#mdId'
 
   = paginate @result_units, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
 
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
