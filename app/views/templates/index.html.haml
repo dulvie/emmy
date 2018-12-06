@@ -1,4 +1,4 @@
-- path = "&accounting_plan_id="+@plan_id
+- path = "&accounting_plan_id="+@plan_id.to_s
 .input-group.col-sm-48
   %input{id: 'plan_id', type: 'hidden', value: @plan_id}
   = link_to "#{t(:create)} #{t(:template)}", new_template_path, class: 'btn btn-success'
@@ -12,7 +12,7 @@
         class: 'btn btn-default')
   .clear &nbsp;
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -20,14 +20,15 @@
         %th= t(:description)
         %th
         %th
-    %tbody{}
+    %tbody
       - @templates.each do |template|
         %tr
           %td= template.name
           %td= template.description
           %td.numeric= link_to settings_icon, template_path(template)
-          %td.numeric= delete_modal_for template
+          %td.numeric= delete_modal template, nil, '#mdId'
 
   = paginate @templates, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
 = render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'economics'
