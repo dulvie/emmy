@@ -1,6 +1,6 @@
 = link_to "#{t(:upload)} #{t(:sie_file)}", new_sie_import_path, class: 'btn btn-success'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -10,7 +10,7 @@
         %th= t(:user)
         %th= t(:accounting_period)
         %th
-    %tbody{}
+    %tbody
       - @sie_imports.each do |sie_import|
         %tr
           %td= sie_import.import_date
@@ -18,8 +18,8 @@
           %td= sie_import.states
           %td= sie_import.user.name
           %td= sie_import.accounting_period.name
-          %td.numeric= delete_modal_for sie_import
+          %td.numeric= delete_modal sie_import, nil, '#mdId'
 
   = paginate @sie_imports, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
 
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
