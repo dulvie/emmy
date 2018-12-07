@@ -1,7 +1,7 @@
 .input-group
   = link_to "#{t(:create)} #{t(:mail_template)}", new_mail_template_path, class: 'btn btn-success'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -9,13 +9,14 @@
         %th= t(:type)
         %th
         %th
-    %tbody{}
+    %tbody
       - @mail_templates.each do |mail_template|
         %tr
           %td= mail_template.name
           %td= mail_template.template_type
           %td.numeric= link_to settings_icon, mail_template_path(mail_template)
-          %td.numeric= delete_modal_for mail_template
+          %td.numeric= delete_modal mail_template, nil, '#mdId'
 
   = paginate @mail_templates, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}

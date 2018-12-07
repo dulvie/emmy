@@ -1,5 +1,5 @@
 class ManualsController < ApplicationController
-  load_and_authorize_resource through: :current_organization
+  load_and_authorize_resource through: :current_organization, except: :create
   before_action :new_breadcrumbs, only: [:new, :create]
   before_action :edit_breadcrumbs, only: [:show, :edit, :update]
 
@@ -28,12 +28,13 @@ class ManualsController < ApplicationController
     init_collection
     @manual.batch_transaction = BatchTransaction.new
     @manual.comments.build
-    gon.push batches: ActiveModel::ArraySerializer.new(@batches, each_serializer: BatchSerializer)
+    gon.push batches: ActiveModel::Serializer::CollectionSerializer.new(@batches, each_serializer: BatchSerializer)
   end
 
   # POST /manuals
   # POST /manuals.json
   def create
+    authorize! :create, @manual
     @manual = new_manual
     respond_to do |format|
       if @manual.save
@@ -41,7 +42,7 @@ class ManualsController < ApplicationController
         # format.json { render action: 'show', status: :created, location: @manual }
       else
         init_collection
-        gon.push batches: ActiveModel::ArraySerializer.new(@batches, each_serializer: BatchSerializer)
+        gon.push batches: ActiveModel::Serializer::CollectionSerializer.new(@batches, each_serializer: BatchSerializer)
         format.html { render action: 'new' }
         # format.json { render json: @manual.errors, status: :unprocessable_entity }
       end
@@ -74,18 +75,19 @@ class ManualsController < ApplicationController
   end
 
   def comments_params
-    params.require([:comments_attributes][:'0'])
+    params.require(:manual).require(:comments_attributes).require(:"0").permit(:body)
   end
 
   def new_manual
     manual = Manual.new
     manual.user_id = current_user.id
     manual.organization = current_organization
+
     manual.batch_transaction = BatchTransaction.new batch_transaction_params
     manual.batch_transaction.organization_id = current_organization.id
-    comment_p = params[:manual][:comments_attributes][:"0"]
-    comment_p[:user_id] = current_user.id
-    c = manual.comments.build(comment_p)
+
+    c = manual.comments.build comments_params
+    c.user_id = current_user.id
     c.organization_id = current_organization.id
     manual
   end

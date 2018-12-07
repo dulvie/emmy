@@ -9,4 +9,6 @@
           = link_to settings_icon, link
       - if object.can_delete?
         .input-group-addon
-          = delete_modal_for object, link
+          = delete_modal object, link, '#mdId'
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}

@@ -1,6 +1,6 @@
 = link_to "#{t(:create)} #{t(:manual_transaction)}", new_manual_path, class: 'btn btn-success'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -18,7 +18,8 @@
           %td= manual.batch ? link_to(manual.batch.name, edit_batch_path(manual.batch)) : ' '
           %td= manual.batch_transaction.quantity
           %td= link_to settings_icon, edit_manual_path(manual)
-          %td= delete_modal_for manual
+          %td= delete_modal manual, nil, '#mdId'
 
   = paginate @manuals, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
