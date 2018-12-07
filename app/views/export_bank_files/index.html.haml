@@ -1,6 +1,6 @@
 = link_to "#{t(:export)} #{t(:bank_file)}", new_export_bank_file_path, class: 'btn btn-success'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -12,7 +12,7 @@
         %th
         %th
         %th
-    %tbody{}
+    %tbody
       - @export_bank_files.each do |export_bank_file|
         %tr
           %td= export_bank_file.reference
@@ -22,7 +22,8 @@
           %td= export_bank_file.states
           %td.numeric= report_button_for export_bank_file_path(export_bank_file)
           %td.numeric= link_to settings_icon, edit_export_bank_file_path(export_bank_file)
-          %td.numeric= delete_modal_for export_bank_file
+          %td.numeric= delete_modal export_bank_file, nil, '#mdId'
 
   = paginate @export_bank_files, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}

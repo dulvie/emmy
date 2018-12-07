@@ -1,5 +1,5 @@
 = simple_form_for @verificate, url: add_verificate_items_verificate_path(@verificate),  method: 'post', :html => { :class => 'form-horizontal' } do |f|
-  .table-responsive{:ng_controller=>'ModalCtrl'}
+  .table-responsive
     %table{:class => 'table table-striped'}
       %thead
         %tr
@@ -8,7 +8,7 @@
           %th= t(:debit)
           %th= t(:credit)
           %th
-      %tbody{}
+      %tbody
         - @verificate.template.template_items.each_with_index do |item, index|
           %tr
           = f.simple_fields_for item do |i|
