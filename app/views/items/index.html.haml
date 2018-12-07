@@ -1,7 +1,7 @@
 .btn-group
   = link_to "#{t(:create)} #{t(:item)}", new_item_path, class: 'btn btn-success'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -21,7 +21,8 @@
         %td= item.stocked
         %td= item.unit.name
         %td= link_to settings_icon, edit_item_path(item)
-        %td= delete_modal_for item
+        %td= delete_modal item, nil, '#mdId'
 
   = paginate @items, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
