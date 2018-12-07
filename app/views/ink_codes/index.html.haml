@@ -3,7 +3,7 @@
   = link_to "#{t(:import)} #{t(:ink_codes)}", new_ink_code_header_path, class: 'btn btn-default'
   = info_modal('#inkCodesId')
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -12,18 +12,20 @@
         %th= t(:sum_method)
         %th
         %th
-    %tbody{}
+    %tbody
       - @ink_codes.each do |ink_code|
         %tr
           %td= ink_code.code
           %td= ink_code.text
           %td= ink_code.sum_method
           %td.numeric= link_to settings_icon, edit_ink_code_path(ink_code)
-          %td.numeric= delete_modal_for ink_code
+          %td.numeric= delete_modal ink_code, nil, '#mdId'
 
   = paginate @ink_codes, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
   = render partial: 'shared/modal_state_refresh', locals:{idx: 'refresh_id', obj: @ink_code_header, back: new_ink_code_header_path, path: ink_codes_path}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
+
 = render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'economics'
 
 = render partial: 'shared/modal_infos', locals: {modalId: 'inkCodesId' , modalBody: 'info_ink_codes'}
