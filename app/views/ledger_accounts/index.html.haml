@@ -1,4 +1,4 @@
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -6,7 +6,7 @@
         %th= t(:text)
         %th.numeric= t(:sum)
         %th
-    %tbody{}
+    %tbody
       - @ledger_accounts.each do |ledger_account|
         %tr
           %td= ledger_account.account_number
@@ -16,4 +16,3 @@
           %td.numeric= link_to settings_icon, url
 
   = paginate @ledger_accounts, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}

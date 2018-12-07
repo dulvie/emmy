@@ -3,7 +3,7 @@
   = link_to "#{t(:import)} #{t(:ne_codes)}", new_ne_code_header_path, class: 'btn btn-default'
   = info_modal('#neCodesId')
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -12,18 +12,20 @@
         %th= t(:sum_method)
         %th
         %th
-    %tbody{}
+    %tbody
       - @ne_codes.each do |ne_code|
         %tr
           %td= ne_code.code
           %td= ne_code.text
           %td= ne_code.sum_method
           %td.numeric= link_to settings_icon, edit_ne_code_path(ne_code)
-          %td.numeric= delete_modal_for ne_code
+          %td.numeric= delete_modal ne_code, nil, '#mdId'
 
   = paginate @ne_codes, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
   = render partial: 'shared/modal_state_refresh', locals:{idx: 'refresh_id', obj: @ne_code_header, back: new_ne_code_header_path, path: ne_codes_path}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
+
 = render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'economics'
 
 = render partial: 'shared/modal_infos', locals: {modalId: 'neCodesId' , modalBody: 'info_ne_codes'}
