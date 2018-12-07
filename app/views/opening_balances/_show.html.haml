@@ -17,7 +17,7 @@
           = link_to "#{t(:create)} #{t(:from_ub)}", opening_balance_create_from_ub_path(@opening_balance), method: 'post', class: 'btn btn-primary'
         %button{:id =>'state_change', :type => 'button', :class=>'btn btn-primary', :'data-toggle' => 'modal', :'data-target' => '#scId'}
           = t(:confirm)
-        = delete_button_for @opening_balance
+        = delete_button @opening_balance, opening_balance_path(@opening_balance), '#mdId'
 
 = render partial: 'shared/modal_state_changes', locals: {modalId: 'scId',
                                                          date_label: t(:posting_date),
@@ -29,4 +29,3 @@
                                                          form_path: state_change_opening_balance_path(@opening_balance),
                                                          event: 'mark_final',
                                                          return_path: opening_balances_path}
-= render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
