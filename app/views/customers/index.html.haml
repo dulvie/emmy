@@ -14,7 +14,7 @@
           = button_tag(search_icon, class: 'btn btn-default')
 
   .clear &nbsp;
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -24,7 +24,7 @@
         %th= t(:city)
         %th
         %th
-    %tbody{}
+    %tbody
       - @customers.each do |customer|
         %tr
           %td= link_to customer.name, customer
@@ -32,8 +32,8 @@
           %td= customer.zip
           %td= customer.city
           %td= link_to settings_icon, customer_path(customer)
-          %td= delete_modal_for customer
+          %td= delete_modal customer, nil, '#mdId'
 
   = paginate @customers, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
 
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}

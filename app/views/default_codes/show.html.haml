@@ -1,11 +1,11 @@
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
         %th= t(:accounting_plan)
         %th= t(:account)
         %th= t(:description)
-    %tbody{}
+    %tbody
       - @connections.each do |connection|
         %tr
           %td= connection.accounting_plan.name
