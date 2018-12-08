@@ -5,7 +5,7 @@
         %h3{ :class=>"modal-title"}
           = t(:confirm_delete)
       .modal-body
-        = link_to t(:confirm), '#', method: :delete,  class: 'btn btn-primary', id: 'dltId'
+        = link_to t(:confirm), '#', method: :delete,  class: 'btn btn-primary dltId', id: 'dltId'
         = button_tag t(:back), type: 'reset', class: 'btn btn-default reseter', 'data-dismiss'=> 'modal'
       .modal-fotter
 
@@ -15,7 +15,7 @@
     $('.dlt').click( function() {
       var el = $(this);
       var path = el.data('path');
-      $('#dltId').attr('href', path);
+      //$('#dltId').attr('href', path);
+      $('.dltId').attr('href', path);
     });
-
   });

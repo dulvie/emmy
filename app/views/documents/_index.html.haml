@@ -3,7 +3,7 @@
   - add_document_url = new_document_path({parent_id: parent.id, parent_type: parent.class.name})
   = link_to t(:add_document), add_document_url, class: 'btn btn-success'
 
-  .table-responsive{:ng_controller=>'ModalCtrl'}
+  .table-responsive
     %table{:class => 'table table-striped'}
       %thead
         %tr
@@ -19,6 +19,6 @@
             %td= document.user.nil? ? ' ' : document.user.name
             %td= link_to document.name, document.upload.url, :target => "_blank"
             %td= link_to settings_icon, document_path(document)
-            %td= delete_modal_for document
+            %td= delete_modal document, nil, '#mddId'
 
-    = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+  = render partial: 'shared/modal_deletes', locals: {modalId: 'mddId'}
