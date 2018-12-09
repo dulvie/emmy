@@ -2,7 +2,7 @@
   = link_to "#{t(:create)} #{t(:wage)}", new_wage_period_wage_path(@wage_period), class: 'btn btn-success'
   = link_to "#{t(:create)} #{t(:verificate)}", state_change_wage_period_path(@wage_period, event: 'mark_wage_reported'), method: 'post', class: 'btn btn-success'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -15,7 +15,7 @@
         %th
         %th
         %th
-    %tbody{}
+    %tbody
       - @wages.each do |wage|
         %tr
           %td= wage.employee.name
@@ -28,7 +28,8 @@
             - if wage.has_document?
               = link_to doc_icon, wage_period_wage_path(@wage_period, wage, format: 'pdf'), target: '_blank'
           %td.numeric= link_to settings_icon, edit_wage_period_wage_path(@wage_period, wage)
-          %td.numeric= delete_modal_for wage, wage_period_wage_path(@wage_period, wage)
+          %td.numeric= delete_modal wage, wage_period_wage_path(@wage_period, wage), '#mdId'
 
   = paginate @wages, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}

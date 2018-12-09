@@ -2,7 +2,7 @@
 .btn-group
   = link_to "#{t(:create)} #{t(:accounting_class)}", new_accounting_plan_accounting_class_path(accounting_plan), class: 'btn btn-success'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -10,14 +10,14 @@
         %th= t(:name)
         %th
         %th
-    %tbody{}
+    %tbody
       - @accounting_classes.each do |accounting_class|
         %tr
           %td= accounting_class.number
           %td= accounting_class.name
           %td.numeric= link_to settings_icon, edit_accounting_plan_accounting_class_path(@accounting_plan, accounting_class)
-          %td.numeric= delete_modal_for accounting_class, accounting_plan_accounting_class_path(@accounting_plan, accounting_class)
+          %td.numeric= delete_modal accounting_class, accounting_plan_accounting_class_path(@accounting_plan, accounting_class), '#mdcId'
 
   = paginate @accounting_classes, param_name: "page_class", :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
 
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdcId'}

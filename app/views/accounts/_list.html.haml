@@ -19,7 +19,7 @@
 
 .clear &nbsp;
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -31,7 +31,7 @@
         %th= t(:ne_code)
         %th
         %th
-    %tbody{}
+    %tbody
       - @accounts.each do |account|
         %tr
           %td= account.number
@@ -41,7 +41,8 @@
           %td= account.ink_code_code
           %td= account.ne_code_code
           %td= link_to settings_icon, edit_accounting_plan_account_path(@accounting_plan, account)
-          %td= delete_modal_for account, accounting_plan_account_path(@accounting_plan, account)
+          %td= delete_modal account, accounting_plan_account_path(@accounting_plan, account), '#mdaId'
 
   = paginate @accounts, param_name: "page_account", theme: 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdaId'}
