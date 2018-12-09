@@ -3,7 +3,7 @@
 - add_comment_url = new_comment_path({parent_id: parent.id, parent_type: parent.class.name})
 = link_to t(:add_comment), add_comment_url, class: 'btn btn-success'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -19,5 +19,6 @@
             %td= comment.user.nil? ? ' ' : comment.user.name
             %td= comment.body
             %td= link_to settings_icon, comment_path(comment)
-            %td= delete_modal_for comment
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+            %td= delete_modal comment, nil, '#mdeId'
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdeId'}

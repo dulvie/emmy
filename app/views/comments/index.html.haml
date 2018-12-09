@@ -1,6 +1,6 @@
 = link_to t(:add_comment), new_comment_path(parent_id: 0, parent_type: 'nil'), class: 'btn btn-success'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   .col-sm-24
     .list-group
     - @comments.each do |comment|
@@ -11,7 +11,8 @@
           = comment.user.name
           .pull-right
             = link_to settings_icon, comment_path(comment)
-            = delete_modal_for comment
+            = delete_modal comment, nil, '#mdId'
         .list-group-item-text
           = comment.body
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
