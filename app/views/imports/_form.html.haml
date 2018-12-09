@@ -109,7 +109,6 @@
                                                        event: 'start',
                                                        return_path: edit_import_path(@import)}
 
-    = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
   - if !@importing.nil?
     = render partial: 'shared/modal_state_changes', locals: {modalId: 'sciId',
                                                        date_label: t(:the_date),

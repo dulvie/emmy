@@ -1,49 +1,48 @@
-%div{:ng_controller=>'ModalCtrl'}
-  .table-border
-    %table{:class => 'table table-striped  fix-bottom'}
-      %thead
+.table-border
+  %table{:class => 'table table-striped  fix-bottom'}
+    %thead
+      %tr
+        %th= t(:name)
+        %th.numeric= t(:quantity)
+        %th.numeric= t(:price)
+        %th.numeric= t(:vat)
+        %th.numeric= t(:amount)
+        %th
+      %tbody
+        - sale_items.each do |item|
+          - item = item.decorate
+          %tr
+            %td.nowrap= item.desc
+            %td.numeric= item.quantity
+            %td.numeric= as_sek(item.price)
+            %td.numeric
+              = "(#{item.vat}%) "
+              = as_sek(item.total_vat)
+            %td.numeric= as_sek(item.price_sum)
+            %td= delete_modal item, sale_sale_item_path(@sale, item), '#mdiId'
+      %tfoot
         %tr
-          %th= t(:name)
-          %th.numeric= t(:quantity)
-          %th.numeric= t(:price)
-          %th.numeric= t(:vat)
-          %th.numeric= t(:amount)
-          %th
-        %tbody
-          - sale_items.each do |item|
-            - item = item.decorate
-            %tr
-              %td.nowrap= item.desc
-              %td.numeric= item.quantity
-              %td.numeric= as_sek(item.price)
-              %td.numeric
-                = "(#{item.vat}%) "
-                = as_sek(item.total_vat)
-              %td.numeric= as_sek(item.price_sum)
-              %td= delete_modal_for item, sale_sale_item_path(@sale, item)
-        %tfoot
-          %tr
-            %td= t(:total)
-            %td
-            %td
-            %td.numeric= as_sek(@sale.total_vat)
-            %td.numeric= as_sek(@sale.total_price)
-            %td
-          %tr
-            %td= "#{t(:total)} #{t(:vat)}"
-            %td.numeric{colspan: '4'}
-              = as_sek(@sale.total_vat)
-          %tr
-            %td= "#{t(:total)} #{t(:price_inc_vat)}"
-            %td.numeric{colspan: '4'}
-              = as_sek(@sale.total_price_inc_vat)
-          %tr
-            %td= "#{t(:rounding)}"
-            %td.numeric{colspan: '4'}
-              = as_sek(@sale.total_rounding)
-          %tr
-            %td= "#{t(:total)}"
-            %td.numeric{colspan: '4'}
-              = as_sek(@sale.total_after_rounding)
+          %td= t(:total)
+          %td
+          %td
+          %td.numeric= as_sek(@sale.total_vat)
+          %td.numeric= as_sek(@sale.total_price)
+          %td
+        %tr
+          %td= "#{t(:total)} #{t(:vat)}"
+          %td.numeric{colspan: '4'}
+            = as_sek(@sale.total_vat)
+        %tr
+          %td= "#{t(:total)} #{t(:price_inc_vat)}"
+          %td.numeric{colspan: '4'}
+            = as_sek(@sale.total_price_inc_vat)
+        %tr
+          %td= "#{t(:rounding)}"
+          %td.numeric{colspan: '4'}
+            = as_sek(@sale.total_rounding)
+        %tr
+          %td= "#{t(:total)}"
+          %td.numeric{colspan: '4'}
+            = as_sek(@sale.total_after_rounding)
 
-    = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdiId'}
