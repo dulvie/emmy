@@ -2,7 +2,7 @@
   = link_to "#{t(:create)} #{t(:user)}", new_admin_user_path(organization_id: @organization.id), class: 'btn btn-success'
   = link_to "#{t(:invite)} #{t(:user)}", new_user_path(organization_slug: @organization.slug), class: 'btn btn-success'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table'}
     %thead
       %tr
@@ -10,12 +10,13 @@
         %th= t(:email)
         %th
         %th
-    %tbody{}
+    %tbody
       - @users.each do |user|
         %tr
           %td= link_to user.name, admin_user_path(user, organization_id: @organization.id)
           %td= link_to user.email, admin_user_path(user, organization_id: @organization.id)
           %td= link_to settings_icon, admin_user_path(user, organization_id: @organization.id)
-          %td= delete_modal_for user
+          %td= delete_modal user, nil, '#mduId'
 
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mduId'}

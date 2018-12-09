@@ -1,7 +1,7 @@
 .input-group
   = link_to "#{t(:import)} #{t(:accounting_plan)}", new_accounting_plan_path, class: 'btn btn-default'
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -10,15 +10,16 @@
         %th= t(:state)
         %th
         %th
-    %tbody{}
+    %tbody
       - @accounting_plans.each do |accounting_plan|
         %tr
           %td= accounting_plan.name
           %td= accounting_plan.description
           %td= accounting_plan.states
           %td.numeric= link_to settings_icon, accounting_plan_path(accounting_plan)
-          %td.numeric= delete_modal_for accounting_plan
+          %td.numeric= delete_modal accounting_plan, nil, '#mdId'
 
   = paginate @accounting_plans, :theme => 'twitter-bootstrap-3'
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
 = render('shared/wizard', wizard_name: session[:wizard]) if session[:wizard] == 'economics'
