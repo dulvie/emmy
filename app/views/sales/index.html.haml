@@ -39,7 +39,7 @@
           = button_tag(search_icon, class: 'btn btn-default')
   .clear &nbsp;
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -93,7 +93,7 @@
                                                        collection: @mail_templates_reminder}
 
           %td= link_to settings_icon, sale
-          %td= delete_modal_for sale
+          %td= delete_modal sale, nil, '#mdId'
 
   = paginate @sales, :theme => 'twitter-bootstrap-3'
   .row
@@ -101,7 +101,8 @@
       = link_to "csv", url_for(params: params.permit(:locale, :organization_slug).merge(format: 'csv')), class: 'btn btn-default'
       = link_to "pdf", url_for(params: params.permit(:locale, :organization_slug).merge(format: 'pdf')), class: 'btn btn-default'
   %br
-  = render partial: 'shared/modal_delete', locals: {idx: 'deleteContent'}
+
+= render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}
 
 :javascript
   $(document).ready(function() {
