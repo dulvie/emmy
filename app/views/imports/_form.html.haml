@@ -1,207 +1,206 @@
 - date_now = DateTime.now.strftime("%Y-%m-%d")
-%div{:ng_controller => "ModalCtrl"}
-  = simple_form_for(@import, wrapper: :horizontal_form, html: {class: 'form-horizontal', autocomplete: 'off'}) do |f|
-    = f.error_notification
+= simple_form_for(@import, wrapper: :horizontal_form, html: {class: 'form-horizontal', autocomplete: 'off'}) do |f|
+  = f.error_notification
 
-    = f.input :description, disabled: !@import.new_record?
-    = f.association :our_reference, collection: @users, disabled: !@import.new_record?
-    = f.association :to_warehouse,  collection: @warehouse, disabled: !@import.new_record?
-    - if !@import.new_record?
-      = render partial: 'shared/state_labels_field', locals: {model: @import}
-    - if @import.started? || @import.completed?
-      = f.input :started_at, :as => :string,  disabled: true, :input_html => { :class => 'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
-
-    - if !@importing.nil?
-      .form-group
-        .labels_width.control-label
-          = f.label :batch
-        .fields_width
-          %input{:value => @importing.purchase_items.first.batch.name, :readonly=>'readonly', :class=>'form-control'}
-      .form-group
-        .labels_width.control-label
-          = f.label t(:quantity)
-        .fields_width
-          %input{:value => @importing.purchase_items.first.quantity, :readonly=>'readonly', :class=>'form-control numeric'}
-
-    - if @import.completed?
-      -
-      = f.input :amount, disabled: true
-      = f.input :cost_price, disabled: true
-
-    - if !@importing.nil?
-      = render partial: 'shared/addon_edit_link', locals: {form: f, object: @importing, label: :importing, value: @importing.description, can_edit:  @import.can_edit_items?, link: purchase_path(@importing)}
-      = render partial: 'shared/state_labels_field', locals: {model: @importing}
-    - if !@shipping.nil?
-      = render partial: 'shared/addon_edit_link', locals: {form: f, object: @shipping, label: :shipping, value: @shipping.description, can_edit:  @import.can_edit_items?, link: purchase_path(@shipping)}
-      = render partial: 'shared/state_labels_field', locals: {model: @shipping}
-    - if !@customs.nil?
-      = render partial: 'shared/addon_edit_link', locals: {form: f, object: @customs, label: :customs, value: @customs.description, can_edit:  @import.can_edit_items?, link: purchase_path(@customs)}
-      = render partial: 'shared/state_labels_field', locals: {model: @customs}
-
-    - if (!@import.new_record? || @import.new_record? || (!@import.new_record? && @import.can_edit_state? && @import.can_edit_items?) || (!@import.new_record? && @importing.nil?) || (!@importing.nil? && @shipping.nil?) || (!@importing.nil? && @customs.nil?))
-      .form-button-group
-        .actions
-          .inline.row
-            .btn-group
-              - if @import.new_record?
-                = f.submit class: 'btn btn-primary'
-              - if !@import.new_record? && @import.can_edit_state? && @import.can_edit_items?
-                %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scId'}
-                  = f.object.next_event
-              - if !@import.new_record? && @importing.nil?
-                = link_to t(:set_product_and_quantity), new_import_import_batch_path(@import), :class => 'btn btn-primary'
-              - if !@importing.nil? && @shipping.nil?
-                - add_single_purchase_url = new_purchase_import_path(@import, :parent_column => 'shipping')
-                = link_to t(:set_shipping), add_single_purchase_url, :class => 'btn btn-primary'
-              - if !@importing.nil? && @customs.nil?
-                - add_single_purchase_url = new_purchase_import_path(@import.id, :parent_column => 'customs')
-                = link_to t(:set_customs), add_single_purchase_url, :class => 'btn btn-primary'
-            %p
-          .inline.row
-            .btn-group
-              - if !@import.can_edit_items? && @importing.can_edit_items?
-                %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#sciId'}
-                  = "#{t(:start)} #{t(:import)}"
-              - if !@import.can_edit_items? && !@importing.can_edit_items? && !@importing.received?
-                %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scirId'}
-                  = "#{t(:receive)} #{t(:import)}"
-              - if !@import.can_edit_items? && !@importing.can_edit_items? && !@importing.paid?
-                %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scipId'}
-                  = "#{t(:pay)} #{t(:import)}"
-
-              - if  !@import.can_edit_items? && @shipping.can_edit_items?
-                %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scsId'}
-                  = "#{t(:start)} #{t(:shipping)}"
-              - if  !@import.can_edit_items? && !@shipping.can_edit_items? && !@shipping.received?
-                %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scsrId'}
-                  = "#{t(:receive)} #{t(:shipping)}"
-              - if  !@import.can_edit_items? && !@shipping.can_edit_items? && !@shipping.paid?
-                %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scspId'}
-                  = "#{t(:pay)} #{t(:shipping)}"
-
-              - if !@import.can_edit_items? && @customs.can_edit_items?
-                %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#sccId'}
-                  = "#{t(:start)} #{t(:customs)}"
-              - if  !@import.can_edit_items? && !@customs.can_edit_items? && !@customs.received?
-                %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#sccrId'}
-                  = "#{t(:receive)} #{t(:customs)}"
-              - if  !@import.can_edit_items? && !@customs.can_edit_items? && !@customs.paid?
-                %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#sccpId'}
-                  = "#{t(:pay)} #{t(:customs)}"
-
-    - if @importing.nil? && !@import.batch.nil?
-      .form-group
-        .labels_width.control-label
-          = f.label :batch
-        .fields_width
-          %input{:value => @import.batch.name, :readonly=>'readonly', :class=>'form-control'}
-
-    %br
-  - if !@import.new_record? && @import.can_edit_state?
-    = render partial: 'shared/modal_state_changes', locals: {modalId: 'scId',
-                                                       date_label: t(:the_date),
-                                                       date_field: :state_change_at,
-                                                       date_value: date_now,
-                                                       min_date: nil,
-                                                       max_date: nil,
-                                                       model: @import,
-                                                       form_path: state_change_import_path(@import),
-                                                       event: 'start',
-                                                       return_path: edit_import_path(@import)}
+  = f.input :description, disabled: !@import.new_record?
+  = f.association :our_reference, collection: @users, disabled: !@import.new_record?
+  = f.association :to_warehouse,  collection: @warehouse, disabled: !@import.new_record?
+  - if !@import.new_record?
+    = render partial: 'shared/state_labels_field', locals: {model: @import}
+  - if @import.started? || @import.completed?
+    = f.input :started_at, :as => :string,  disabled: true, :input_html => { :class => 'date', :value => localize(f.object.started_at, :format => "%Y-%m-%d"), :readonly => 'readonly'}
 
   - if !@importing.nil?
-    = render partial: 'shared/modal_state_changes', locals: {modalId: 'sciId',
-                                                       date_label: t(:the_date),
-                                                       date_field: :state_change_at,
-                                                       date_value: date_now,
-                                                       min_date: nil,
-                                                       max_date: nil,
-                                                       model: @importing,
-                                                       form_path: state_change_purchase_path(@importing),
-                                                       event: 'mark_prepared',
-                                                       return_path: edit_import_path(@import)}
-    = render partial: 'shared/modal_state_changes', locals: {modalId: 'scirId',
-                                                       date_label: t(:the_date),
-                                                       date_field: :state_change_at,
-                                                       date_value: date_now,
-                                                       min_date: nil,
-                                                       max_date: nil,
-                                                       model: @importing,
-                                                       form_path: state_change_purchase_path(@importing),
-                                                       event: 'receive',
-                                                       return_path: edit_import_path(@import)}
-    = render partial: 'shared/modal_state_changes', locals: {modalId: 'scipId',
-                                                       date_label: t(:the_date),
-                                                       date_field: :state_change_at,
-                                                       date_value: date_now,
-                                                       min_date: nil,
-                                                       max_date: nil,
-                                                       model: @importing,
-                                                       form_path: state_change_purchase_path(@importing),
-                                                       event: 'pay',
-                                                       return_path: edit_import_path(@import)}
+    .form-group
+      .labels_width.control-label
+        = f.label :batch
+      .fields_width
+        %input{:value => @importing.purchase_items.first.batch.name, :readonly=>'readonly', :class=>'form-control'}
+    .form-group
+      .labels_width.control-label
+        = f.label t(:quantity)
+      .fields_width
+        %input{:value => @importing.purchase_items.first.quantity, :readonly=>'readonly', :class=>'form-control numeric'}
+
+  - if @import.completed?
+    -
+    = f.input :amount, disabled: true
+    = f.input :cost_price, disabled: true
+
+  - if !@importing.nil?
+    = render partial: 'shared/addon_edit_link', locals: {form: f, object: @importing, label: :importing, value: @importing.description, can_edit:  @import.can_edit_items?, link: purchase_path(@importing)}
+    = render partial: 'shared/state_labels_field', locals: {model: @importing}
   - if !@shipping.nil?
-    = render partial: 'shared/modal_state_changes', locals: {modalId: 'scsId',
-                                                       date_label: t(:the_date),
-                                                       date_field: :state_change_at,
-                                                       date_value: date_now,
-                                                       min_date: nil,
-                                                       max_date: nil,
-                                                       model: @shipping,
-                                                       form_path: state_change_purchase_path(@shipping),
-                                                       event: 'mark_prepared',
-                                                       return_path: edit_import_path(@import)}
-    = render partial: 'shared/modal_state_changes', locals: {modalId: 'scsrId',
-                                                       date_label: t(:the_date),
-                                                       date_field: :state_change_at,
-                                                       date_value: date_now,
-                                                       min_date: nil,
-                                                       max_date: nil,
-                                                       model: @shipping,
-                                                       form_path: state_change_purchase_path(@shipping),
-                                                       event: 'receive',
-                                                       return_path: edit_import_path(@import)}
-    = render partial: 'shared/modal_state_changes', locals: {modalId: 'scspId',
-                                                       date_label: t(:the_date),
-                                                       date_field: :state_change_at,
-                                                       date_value: date_now,
-                                                       min_date: nil,
-                                                       max_date: nil,
-                                                       model: @shipping,
-                                                       form_path: state_change_purchase_path(@shipping),
-                                                       event: 'pay',
-                                                       return_path: edit_import_path(@import)}
+    = render partial: 'shared/addon_edit_link', locals: {form: f, object: @shipping, label: :shipping, value: @shipping.description, can_edit:  @import.can_edit_items?, link: purchase_path(@shipping)}
+    = render partial: 'shared/state_labels_field', locals: {model: @shipping}
   - if !@customs.nil?
-    = render partial: 'shared/modal_state_changes', locals: {modalId: 'sccId',
-                                                       date_label: t(:the_date),
-                                                       date_field: :state_change_at,
-                                                       date_value: date_now,
-                                                       min_date: nil,
-                                                       max_date: nil,
-                                                       model: @customs,
-                                                       form_path: state_change_purchase_path(@customs),
-                                                       event: 'mark_prepared',
-                                                       return_path: edit_import_path(@import)}
-    = render partial: 'shared/modal_state_changes', locals: {modalId: 'sccrId',
-                                                       date_label: t(:the_date),
-                                                       date_field: :state_change_at,
-                                                       date_value: date_now,
-                                                       min_date: nil,
-                                                       max_date: nil,
-                                                       model: @customs,
-                                                       form_path: state_change_purchase_path(@customs),
-                                                       event: 'receive',
-                                                       return_path: edit_import_path(@import)}
-    = render partial: 'shared/modal_state_changes', locals: {modalId: 'sccpId',
-                                                       date_label: t(:the_date),
-                                                       date_field: :state_change_at,
-                                                       date_value: date_now,
-                                                       min_date: nil,
-                                                       max_date: nil,
-                                                       model: @customs,
-                                                       form_path: state_change_purchase_path(@customs),
-                                                       event: 'pay',
-                                                       return_path: edit_import_path(@import)}
+    = render partial: 'shared/addon_edit_link', locals: {form: f, object: @customs, label: :customs, value: @customs.description, can_edit:  @import.can_edit_items?, link: purchase_path(@customs)}
+    = render partial: 'shared/state_labels_field', locals: {model: @customs}
+
+  - if (!@import.new_record? || @import.new_record? || (!@import.new_record? && @import.can_edit_state? && @import.can_edit_items?) || (!@import.new_record? && @importing.nil?) || (!@importing.nil? && @shipping.nil?) || (!@importing.nil? && @customs.nil?))
+    .form-button-group
+      .actions
+        .inline.row
+          .btn-group
+            - if @import.new_record?
+              = f.submit class: 'btn btn-primary'
+            - if !@import.new_record? && @import.can_edit_state? && @import.can_edit_items?
+              %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scId'}
+                = f.object.next_event
+            - if !@import.new_record? && @importing.nil?
+              = link_to t(:set_product_and_quantity), new_import_import_batch_path(@import), :class => 'btn btn-primary'
+            - if !@importing.nil? && @shipping.nil?
+              - add_single_purchase_url = new_purchase_import_path(@import, :parent_column => 'shipping')
+              = link_to t(:set_shipping), add_single_purchase_url, :class => 'btn btn-primary'
+            - if !@importing.nil? && @customs.nil?
+              - add_single_purchase_url = new_purchase_import_path(@import.id, :parent_column => 'customs')
+              = link_to t(:set_customs), add_single_purchase_url, :class => 'btn btn-primary'
+          %p
+        .inline.row
+          .btn-group
+            - if !@import.can_edit_items? && @importing.can_edit_items?
+              %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#sciId'}
+                = "#{t(:start)} #{t(:import)}"
+            - if !@import.can_edit_items? && !@importing.can_edit_items? && !@importing.received?
+              %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scirId'}
+                = "#{t(:receive)} #{t(:import)}"
+            - if !@import.can_edit_items? && !@importing.can_edit_items? && !@importing.paid?
+              %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scipId'}
+                = "#{t(:pay)} #{t(:import)}"
+
+            - if  !@import.can_edit_items? && @shipping.can_edit_items?
+              %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scsId'}
+                = "#{t(:start)} #{t(:shipping)}"
+            - if  !@import.can_edit_items? && !@shipping.can_edit_items? && !@shipping.received?
+              %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scsrId'}
+                = "#{t(:receive)} #{t(:shipping)}"
+            - if  !@import.can_edit_items? && !@shipping.can_edit_items? && !@shipping.paid?
+              %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scspId'}
+                = "#{t(:pay)} #{t(:shipping)}"
+
+            - if !@import.can_edit_items? && @customs.can_edit_items?
+              %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#sccId'}
+                = "#{t(:start)} #{t(:customs)}"
+            - if  !@import.can_edit_items? && !@customs.can_edit_items? && !@customs.received?
+              %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#sccrId'}
+                = "#{t(:receive)} #{t(:customs)}"
+            - if  !@import.can_edit_items? && !@customs.can_edit_items? && !@customs.paid?
+              %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#sccpId'}
+                = "#{t(:pay)} #{t(:customs)}"
+
+  - if @importing.nil? && !@import.batch.nil?
+    .form-group
+      .labels_width.control-label
+        = f.label :batch
+      .fields_width
+        %input{:value => @import.batch.name, :readonly=>'readonly', :class=>'form-control'}
+
+  %br
+- if !@import.new_record? && @import.can_edit_state?
+  = render partial: 'shared/modal_state_changes', locals: {modalId: 'scId',
+                                                     date_label: t(:the_date),
+                                                     date_field: :state_change_at,
+                                                     date_value: date_now,
+                                                     min_date: nil,
+                                                     max_date: nil,
+                                                     model: @import,
+                                                     form_path: state_change_import_path(@import),
+                                                     event: 'start',
+                                                     return_path: edit_import_path(@import)}
+
+- if !@importing.nil?
+  = render partial: 'shared/modal_state_changes', locals: {modalId: 'sciId',
+                                                     date_label: t(:the_date),
+                                                     date_field: :state_change_at,
+                                                     date_value: date_now,
+                                                     min_date: nil,
+                                                     max_date: nil,
+                                                     model: @importing,
+                                                     form_path: state_change_purchase_path(@importing),
+                                                     event: 'mark_prepared',
+                                                     return_path: edit_import_path(@import)}
+  = render partial: 'shared/modal_state_changes', locals: {modalId: 'scirId',
+                                                     date_label: t(:the_date),
+                                                     date_field: :state_change_at,
+                                                     date_value: date_now,
+                                                     min_date: nil,
+                                                     max_date: nil,
+                                                     model: @importing,
+                                                     form_path: state_change_purchase_path(@importing),
+                                                     event: 'receive',
+                                                     return_path: edit_import_path(@import)}
+  = render partial: 'shared/modal_state_changes', locals: {modalId: 'scipId',
+                                                     date_label: t(:the_date),
+                                                     date_field: :state_change_at,
+                                                     date_value: date_now,
+                                                     min_date: nil,
+                                                     max_date: nil,
+                                                     model: @importing,
+                                                     form_path: state_change_purchase_path(@importing),
+                                                     event: 'pay',
+                                                     return_path: edit_import_path(@import)}
+- if !@shipping.nil?
+  = render partial: 'shared/modal_state_changes', locals: {modalId: 'scsId',
+                                                     date_label: t(:the_date),
+                                                     date_field: :state_change_at,
+                                                     date_value: date_now,
+                                                     min_date: nil,
+                                                     max_date: nil,
+                                                     model: @shipping,
+                                                     form_path: state_change_purchase_path(@shipping),
+                                                     event: 'mark_prepared',
+                                                     return_path: edit_import_path(@import)}
+  = render partial: 'shared/modal_state_changes', locals: {modalId: 'scsrId',
+                                                     date_label: t(:the_date),
+                                                     date_field: :state_change_at,
+                                                     date_value: date_now,
+                                                     min_date: nil,
+                                                     max_date: nil,
+                                                     model: @shipping,
+                                                     form_path: state_change_purchase_path(@shipping),
+                                                     event: 'receive',
+                                                     return_path: edit_import_path(@import)}
+  = render partial: 'shared/modal_state_changes', locals: {modalId: 'scspId',
+                                                     date_label: t(:the_date),
+                                                     date_field: :state_change_at,
+                                                     date_value: date_now,
+                                                     min_date: nil,
+                                                     max_date: nil,
+                                                     model: @shipping,
+                                                     form_path: state_change_purchase_path(@shipping),
+                                                     event: 'pay',
+                                                     return_path: edit_import_path(@import)}
+- if !@customs.nil?
+  = render partial: 'shared/modal_state_changes', locals: {modalId: 'sccId',
+                                                     date_label: t(:the_date),
+                                                     date_field: :state_change_at,
+                                                     date_value: date_now,
+                                                     min_date: nil,
+                                                     max_date: nil,
+                                                     model: @customs,
+                                                     form_path: state_change_purchase_path(@customs),
+                                                     event: 'mark_prepared',
+                                                     return_path: edit_import_path(@import)}
+  = render partial: 'shared/modal_state_changes', locals: {modalId: 'sccrId',
+                                                     date_label: t(:the_date),
+                                                     date_field: :state_change_at,
+                                                     date_value: date_now,
+                                                     min_date: nil,
+                                                     max_date: nil,
+                                                     model: @customs,
+                                                     form_path: state_change_purchase_path(@customs),
+                                                     event: 'receive',
+                                                     return_path: edit_import_path(@import)}
+  = render partial: 'shared/modal_state_changes', locals: {modalId: 'sccpId',
+                                                     date_label: t(:the_date),
+                                                     date_field: :state_change_at,
+                                                     date_value: date_now,
+                                                     min_date: nil,
+                                                     max_date: nil,
+                                                     model: @customs,
+                                                     form_path: state_change_purchase_path(@customs),
+                                                     event: 'pay',
+                                                     return_path: edit_import_path(@import)}
 
 :javascript
   $(document).ready(function() {
