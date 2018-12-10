@@ -1,17 +1,16 @@
-%div{:ng_controller=>'ModalCtrl'}
-  %table{:class => 'table table-striped'}
-    %thead
-      %tr
-        %th= t(:batch)
-        %th.numeric
-          = t(:quantity)
-        %th
-      %tbody
-        - materials.each do |item|
-          %tr
-            %td= item.batch.name
-            %td.numeric
-              = item.quantity
-            %td= delete_modal item, production_material_path(@production, item), '#mdId'
+%table{:class => 'table table-striped'}
+  %thead
+    %tr
+      %th= t(:batch)
+      %th.numeric
+        = t(:quantity)
+      %th
+    %tbody
+      - materials.each do |item|
+        %tr
+          %td= item.batch.name
+          %td.numeric
+            = item.quantity
+          %td= delete_modal item, production_material_path(@production, item), '#mdId'
 
 = render partial: 'shared/modal_deletes', locals: {modalId: 'mdId'}

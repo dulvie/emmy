@@ -1,3 +1,4 @@
+- date_now = DateTime.now.strftime("%Y-%m-%d")
 %ul.nav.nav-tabs
   %li.active= link_to t(:base_information), '#inventory-form', data:{toggle:'tab'}
   %li= link_to t(:comments), '#inventory-comments', data:{toggle:'tab'}
@@ -16,10 +17,18 @@
     - if !@inventory.completed?
       .form-button-group
         .actions
-          %div{:ng_controller => "ModalCtrl"}
-            %button{:class=>'btn btn-primary', :ng_click=>"open($event, 'sm','inventoryContent' )"}
-              #{t(@inventory.next_event)}
-            = render partial: 'shared/modal_state_change', locals: {idx: 'inventoryContent', model: @inventory, form_path: state_change_inventory_path(@inventory), event: @inventory.next_event, return_path: inventory_path(@inventory)}
+          %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scId'}
+            #{t(@inventory.next_event)}
+          = render partial: 'shared/modal_state_changes', locals: {modalId: 'scId',
+                                                     date_label: t(:the_date),
+                                                     date_field: :state_change_at,
+                                                     date_value: date_now,
+                                                     min_date: nil,
+                                                     max_date: nil,
+                                                     model: @inventory,
+                                                     form_path: state_change_inventory_path(@inventory),
+                                                     event: @inventory.next_event,
+                                                     return_path: inventory_path(@inventory)}
 
   #inventory-comments.tab-pane
     = render partial: 'comments/index', locals: {comments: @invent.comments, parent: @invent}
