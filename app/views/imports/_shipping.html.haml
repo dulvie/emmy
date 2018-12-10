@@ -1,30 +1,58 @@
 - if !@shipping.nil?
+  - date_now = DateTime.now.strftime("%Y-%m-%d")
+  = simple_form_for(@shipping, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
+    = f.error_notification
 
-  %div{:ng_controller => "ModalCtrl"}
-    = simple_form_for(@shipping, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |f|
-      = f.error_notification
+    = render partial: 'shared/addon_edit_link', locals: {form: f, object: @shipping, label: :shipping, value: f.object.description, can_edit:  @import.can_edit_items?, link: purchase_path(@shipping)}
 
-      = render partial: 'shared/addon_edit_link', locals: {form: f, object: @shipping, label: :shipping, value: f.object.description, can_edit:  @import.can_edit_items?, link: purchase_path(@shipping)}
+    - if f.object.completed?
+      = f.input :state, disabled: true, :input_html => {:class => 'medium'}
 
-      - if f.object.completed?
-        = f.input :state, disabled: true, :input_html => {:class => 'medium'}
+    - if !@import.can_edit_items? && !f.object.completed?
+      .form-button-group
+        .actions
+          - if  !@import.can_edit_items? && f.object.can_edit_items?
+            %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scId'}
+              = t(:start)
 
-      - if !@import.can_edit_items? && !f.object.completed?
-        .form-button-group
-          .actions
-            - if  !@import.can_edit_items? && f.object.can_edit_items?
-              %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','shippingContent' )"}
-                = t(:start)
+          - if  !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.received?
+            %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scrId'}
+              = t(:receive)
 
-            - if  !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.received?
-              %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','shippingGoodsContent' )"}
-                = t(:receive)
+          - if  !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.paid?
+            %button{:class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scpId'}
+              = t(:pay)
 
-            - if  !@import.can_edit_items? && !f.object.can_edit_items? && !f.object.paid?
-              %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','shippingPayContent' )"}
-                = t(:pay)
+  %br
+  = render partial: 'shared/modal_state_changes', locals: {modalId: 'scrId',
+                                                     date_label: t(:the_date),
+                                                     date_field: :state_change_at,
+                                                     date_value: date_now,
+                                                     min_date: nil,
+                                                     max_date: nil,
+                                                     model: @shipping,
+                                                     form_path: state_change_purchase_path(@shipping),
+                                                     event: 'mark_prepared',
+                                                     return_path: edit_import_path(@import)}
 
-    %br
-    = render partial: 'shared/modal_state_change', locals: {idx: 'shippingContent', model: @shipping, form_path: state_change_purchase_path(@shipping), event: 'mark_prepared', return_path: edit_import_path(@import)}
-    = render partial: 'shared/modal_state_change', locals: {idx: 'shippingGoodsContent', model: @shipping, form_path: state_change_purchase_path(@shipping), event: 'receive', return_path: edit_import_path(@import)}
-    = render partial: 'shared/modal_state_change', locals: {idx: 'shippingPayContent', model: @shipping, form_path: state_change_purchase_path(@shipping), event: 'pay', return_path: edit_import_path(@import)}
+  = render partial: 'shared/modal_state_changes', locals: {modalId: 'scrId',
+                                                     date_label: t(:the_date),
+                                                     date_field: :state_change_at,
+                                                     date_value: date_now,
+                                                     min_date: nil,
+                                                     max_date: nil,
+                                                     model: @shipping,
+                                                     form_path: state_change_purchase_path(@shipping),
+                                                     event: 'receive',
+                                                     return_path: edit_import_path(@import)}
+
+  = render partial: 'shared/modal_state_changes', locals: {modalId: 'scpId',
+                                                     date_label: t(:the_date),
+                                                     date_field: :state_change_at,
+                                                     date_value: date_now,
+                                                     min_date: nil,
+                                                     max_date: nil,
+                                                     model: @shipping,
+                                                     form_path: state_change_purchase_path(@shipping),
+                                                     event: 'pay',
+                                                     return_path: edit_import_path(@import)}
