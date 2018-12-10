@@ -1,17 +1,16 @@
 - if !@production.new_record?
-  %div{:ng_controller => "ModalCtrl"}
-    = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |w|
-      - if !@production.work.nil?
-        = render partial: 'shared/addon_edit_link', locals: {form: w, object: @production.work, label: :work, value: w.object.work.description, can_edit: @production.can_edit?, link: purchase_path(@production.work)}
-        - if @production.started? || @production.completed?
-          = w.simple_fields_for :work do |wf|
-            - if !@production.work.paid?
-              .form-button-group
-                .actions
-                  .input-group
-                  - if w.object.work.money_state != 'paid'
-                    %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','workPayContent' )"}
-                      = t(:pay)
+  = simple_form_for(@production, wrapper: :horizontal_form, html: {class: 'form-horizontal'}) do |w|
+    - if !@production.work.nil?
+      = render partial: 'shared/addon_edit_link', locals: {form: w, object: @production.work, label: :work, value: w.object.work.description, can_edit: @production.can_edit?, link: purchase_path(@production.work)}
+      - if @production.started? || @production.completed?
+        = w.simple_fields_for :work do |wf|
+          - if !@production.work.paid?
+            .form-button-group
+              .actions
+                .input-group
+                - if w.object.work.money_state != 'paid'
+                  %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','workPayContent' )"}
+                    = t(:pay)
 
-    - if  !@production.work.nil?
-      = render partial: 'shared/modal_state_change', locals: {idx: 'workPayContent', model: @production.work, form_path: state_change_purchase_path(@production.work), event: 'pay', return_path: edit_production_path(@production)}
+  - if  !@production.work.nil?
+    = render partial: 'shared/modal_state_change', locals: {idx: 'workPayContent', model: @production.work, form_path: state_change_purchase_path(@production.work), event: 'pay', return_path: edit_production_path(@production)}

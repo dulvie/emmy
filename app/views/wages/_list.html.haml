@@ -16,7 +16,7 @@
         options_for_select(wage_years, year.year),
         class: 'btn btn-default')
 
-.table-responsive{:ng_controller=>'ModalCtrl'}
+.table-responsive
   %table{:class => 'table table-striped'}
     %thead
       %tr
@@ -27,7 +27,7 @@
         %th.numeric= t(:tax)
         %th.numeric= t(:amount)
         %th
-    %tbody{}
+    %tbody
       - wages.each do |wage|
         %tr
           %td= wage.wage_from

@@ -1,5 +1,5 @@
 - date_now = DateTime.now.strftime("%Y-%m-%d")
-.form-button-group{:ng_controller=>'ModalCtrl'}
+.form-button-group
   .actions
     - if @sale.can_edit_items?
       = link_to t(:add_batch), new_sale_sale_item_path(@sale), class: 'btn btn-primary pull-left'
