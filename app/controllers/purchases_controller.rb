@@ -102,10 +102,12 @@ class PurchasesController < ApplicationController
   end
 
   def single_purchase
-    @purchase = Purchase.new params[:purchase]
+    @purchase = Purchase.new purchase_params
     @purchase.user = current_user
     @purchase.organization = current_organization
-    @purchase.purchase_items.build params[:purchase][:purchase_items_attributes][:'0']
+    @purchase.purchase_items.build item_id: params[:purchase][:purchase_items_attributes][:'0'][:item_id],
+                                           quantity: params[:purchase][:purchase_items_attributes][:'0'][:quantity],
+                                           price: params[:purchase][:purchase_items_attributes][:'0'][:price]
     @purchase.purchase_items.first.organization = current_organization
     respond_to do |format|
       if @purchase.save
