@@ -1,4 +1,5 @@
-.table-border{:ng_controller => 'inventory_item_list_ctrl'}
+- inventory_items = inventory.inventory_items
+.table-border
   %table{:class => 'table  fix-bottom'}
     %thead
       %tr
@@ -20,15 +21,69 @@
                 %input{:type=>"number", :id=>qty_id, :class=>'form-control numeric', :value=>item.actual_quantity}
               %td
                 - call = "report_item('#{request.path_info[1..-1]}','"+ item.id.to_s + "','" + qty_id + "');"
+                - path = request.path
+                - item_id = item.batch.id
+                - inventory_id = inventory.id
+                - inventory_item_id = item.id
                 - if !item.reported?
                   %div{:id=>'b1_'+index.to_s}
-                    %button{:class=>"btn btn-primary", :ng_click=>call}
+                    %button{:type=>'button', :class=>"btn btn-primary call", :'data-path'=>path,
+                                                                             :'data-item'=>item_id,
+                                                                             :'data-qty'=>qty_id,
+                                                                             :'data-inventory'=>inventory_id,
+                                                                             :'data-inventory_item'=>inventory_item_id}
                       = t(:report)
                   %div{:id=>'b2_'+index.to_s, :class => "hide"}
-                    %button{:class=>"btn btn-default", :ng_click=>call}
+                    %button{:type=>'button', :class=>"btn btn-default call", :'data-path'=>path,
+                                                                             :'data-item'=>item_id,
+                                                                             :'data-qty'=>qty_id,
+                                                                             :'data-inventory'=>inventory_id,
+                                                                             :'data-inventory_item'=>inventory_item_id}
                       %span{ :class => "glyphicon glyphicon-ok"}
                       = t(:report)
                 - if item.reported?
-                  %button{:class=>"btn btn-default", :ng_click=>call}
+                  %button{:type=>'button', :class=>"btn btn-default call", :'data-path'=>path,
+                                                                           :'data-item'=>item_id,
+                                                                           :'data-qty'=>qty_id,
+                                                                           :'data-inventory'=>inventory_id,
+                                                                           :'data-inventory_item'=>inventory_item_id}
                     %span{ :class => "glyphicon glyphicon-ok"}
                     = t(:report)
+
+:javascript
+
+  $(document).ready(function() {
+    $('.call').click( function() {
+      var el = $(this);
+      var path = el.data('path');
+      var item_id = el.data('item');
+      var qty_id = el.data('qty');
+      var inventory_id = el.data('inventory');
+      var inventory_item_id = el.data('inventory_item')
+      report_item(path, item_id, qty_id, inventory_id, inventory_item_id);
+    });
+
+    function report_item(path, item_id, qty_id, inventory_id, inventory_item_id) {
+      var id = '#'+qty_id
+      var qty = $(id).val();
+
+      var inventory_item = {reported: 'true'};
+      inventory_item.actual_quantity = qty;
+      //inventory_item.batch_id = item_id;
+      //inventory_item.inventory_id = inventory_id;
+      var url = path+"/inventory_items/"+inventory_item_id+".json"
+
+      $.ajax({
+        type: "PUT",
+        url: url,
+        data: { inventory_item: inventory_item },
+        success: function(data, textStatus,jqXHR) {
+          var b1 = '#' + qty_id.replace('qty_', 'b1_');
+          var b2 = '#' + qty_id.replace('qty_', 'b2_');
+          $(b1).addClass('hide');
+          $(b2).removeClass('hide');
+        },
+        error: function(jqXHR, textStatus, errorThrown){alert('E: ' +errorThrown)}
+      })
+    }
+  });
