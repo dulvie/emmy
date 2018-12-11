@@ -9,8 +9,17 @@
               .actions
                 .input-group
                 - if w.object.work.money_state != 'paid'
-                  %button{:class=>"btn btn-primary", :ng_click=>"open($event, 'sm','workPayContent' )"}
+                  %button{:id =>'state_change_w', :class=>'btn btn-primary', :type=>'button', :'data-toggle' => 'modal', :'data-target' => '#scpId'}
                     = t(:pay)
 
   - if  !@production.work.nil?
-    = render partial: 'shared/modal_state_change', locals: {idx: 'workPayContent', model: @production.work, form_path: state_change_purchase_path(@production.work), event: 'pay', return_path: edit_production_path(@production)}
+    = render partial: 'shared/modal_state_changes', locals: {modalId: 'scpId',
+                                                       date_label: t(:the_date),
+                                                       date_field: :state_change_at,
+                                                       date_value: date_now,
+                                                       min_date: nil,
+                                                       max_date: nil,
+                                                       model: @production.work,
+                                                       form_path: state_change_purchase_path(@production.work),
+                                                       event: 'pay',
+                                                       return_path: edit_production_path(@production)}
