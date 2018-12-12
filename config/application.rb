@@ -23,6 +23,7 @@ module Emmy
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
     config.i18n.default_locale = :en
 
+    config.active_job.queue_adapter = :resque
 
     # bootstrap-sass compliance fix for rails 4
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
