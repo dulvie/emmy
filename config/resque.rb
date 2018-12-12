@@ -1,1 +1,1 @@
-Resque.redis = REDIS_CONNECTION
+# Resque.redis = REDIS_CONNECTION
