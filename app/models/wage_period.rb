@@ -35,7 +35,7 @@ class WagePeriod < ActiveRecord::Base
   validate :overlaping_period
   validates :payment_date, presence: true
   validates :deadline, presence: true
-  VALID_EVENTS = %w(tax_report_event wage_calculation_event wage_verificate_event tax_verificate_event)
+  VALID_EVENTS = %w(tax_report_job wage_calculation_job wage_verificate_job tax_verificate_job)
 
   def check_to
     return if wage_from.nil?
@@ -110,12 +110,12 @@ class WagePeriod < ActiveRecord::Base
 
   def enqueue_wage_calculation
     logger.info '** WagePeriod enqueue a job that will create wages.'
-    Resque.enqueue(Job::WagePeriodEvent, id, 'wage_calculation_event')
+    WagePeriodJob.perform_later(id, 'wage_calculation_job')
   end
 
-  # Run from the 'Job::WagePeriodEvent' model
-  def wage_calculation_event
-    logger.info '** WagePeriod wage_calculation_event start'
+  # Run from the 'jobs/wage_period_job' model
+  def wage_calculation_job
+    logger.info '** WagePeriod wage_calculation_job start'
     wage_creator = Services::WageCreator.new(self)
     wage_creator.delete_wages
     if wage_creator.save_wages
@@ -132,12 +132,12 @@ class WagePeriod < ActiveRecord::Base
 
   def enqueue_wage_verificate(transition)
     logger.info '** WagePeriod enqueue a job that will create wage verificate.'
-    Resque.enqueue(Job::WagePeriodEvent, id, 'wage_verificate_event')
+    WagePeriodJob.perform_later(id, 'wage_verificate_job')
   end
 
-  # Run from the 'Job::WagePeriodEvent' model
-  def wage_verificate_event
-    logger.info '** WagePeriod create_verificate_event start'
+  # Run from the 'jobs/wage_period_job' model
+  def wage_verificate_job
+    logger.info '** WagePeriod create_verificate_job start'
     wage_verificate = Services::WageVerificate.new(self, payment_date)
     if wage_verificate.wage
       logger.info "** WagePeriod #{id} create_verificate returned ok"
@@ -148,12 +148,12 @@ class WagePeriod < ActiveRecord::Base
 
   def enqueue_tax_verificate(transition)
     logger.info '** WagePeriod enqueue a job that will create tax verificate.'
-    Resque.enqueue(Job::WagePeriodEvent, id, 'tax_verificate_event')
+    WagePeriodJob.perform_later(id, 'tax_verificate_job')
   end
 
-  # Run from the 'Job::WagePeriodEvent' model
-  def tax_verificate_event
-    logger.info '** WagePeriod create_verificate_event start'
+  # Run from the 'jobs/wage_period_job' model
+  def tax_verificate_job
+    logger.info '** WagePeriod create_verificate_job start'
     wage_verificate = Services::WageVerificate.new(self, deadline)
     if wage_verificate.tax
       logger.info "** WagePeriod #{id} create_verificate returned ok"
@@ -180,12 +180,12 @@ class WagePeriod < ActiveRecord::Base
 
   def enqueue_tax_report
     logger.info '** WagePeriod enqueue a job that will create tax report.'
-    Resque.enqueue(Job::WagePeriodEvent, id, 'tax_report_event')
+    WagePeriodJob.perform_later(id, 'tax_report_job')
   end
 
-  # Run from the 'Job::WagePeriodEvent' model
-  def tax_report_event
-    logger.info '** WagePeriod tax_report_event start'
+  # Run from the 'jobs/wage_period_job' model
+  def tax_report_job
+    logger.info '** WagePeriod tax_report_job start'
     wage_report_creator = Services::WageReportCreator.new(self)
     wage_report_creator.delete_wage_report
     if wage_report_creator.report
