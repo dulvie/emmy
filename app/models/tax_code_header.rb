@@ -15,7 +15,7 @@ class TaxCodeHeader < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :organization_id
   validate :check_file_name
-  VALID_EVENTS = %w(import_event)
+  VALID_EVENTS = %w(import_job)
 
   def check_file_name
     file_importer = FileImporter.new(DIRECTORY, nil, nil)
@@ -35,11 +35,11 @@ class TaxCodeHeader < ActiveRecord::Base
   def enqueue_import_event
     logger.info '** TaxCodeHeader enqueue a job that will parse the imported file.'
     create
-    Resque.enqueue(Job::TaxCodeHeaderEvent, id, 'import_event')
+    TaxCodeHeaderJob.perform_later(id, 'import_job')
   end
 
-  # Run from the 'Job::TaxCodeHeaderEvent' model
-  def import_event
+  # Run from the 'Job::TaxCodeHeaderJob' model
+  def import_job
     @tax_codes = organization.tax_codes
     tax_code_creator = Services::TaxCodeCreator.new(organization, @tax_codes, accounting_plan)
     if tax_code_creator.execute(run_type, DIRECTORY, file_name)
