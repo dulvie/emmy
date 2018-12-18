@@ -29,7 +29,7 @@ class VatPeriod < ActiveRecord::Base
   validate :check_to
   validate :overlaping_period
   validates :deadline, presence: true
-  VALID_EVENTS = %w(vat_report_event vat_verificate_event)
+  VALID_EVENTS = %w(vat_report_job vat_verificate_job)
 
   def check_to
     return if vat_from.nil?
@@ -88,12 +88,12 @@ class VatPeriod < ActiveRecord::Base
 
   def enqueue_verificate
     logger.info '** VatPeriod enqueue a job that will create verificate.'
-    Resque.enqueue(Job::VatPeriodEvent, id, 'vat_verificate_event')
+    VatPeriodJob.perform_later(id, 'vat_verificate_job')
   end
 
   # Run from the 'Job::VatPeriodEvent' model
-  def vat_verificate_event
-    logger.info '** VatPeriod verificate_event start'
+  def vat_verificate_job
+    logger.info '** VatPeriod verificate_job start'
     vat_verificate = Services::VatVerificate.new(self, deadline)
     if vat_verificate.create
       logger.info "** VatPeriod #{id} create_verificate returned ok"
@@ -108,12 +108,12 @@ class VatPeriod < ActiveRecord::Base
 
   def enqueue_vat_report
     logger.info '** VatPeriod enqueue a job that will create vat report.'
-    Resque.enqueue(Job::VatPeriodEvent, id, 'vat_report_event')
+    VatPeriodJob.perform_later(id, 'vat_report_job')
   end
 
-  # Run from the 'Job::VatPeriodEvent' model
-  def vat_report_event
-    logger.info '** VatPeriod vat_report_event start'
+  # Run from the 'Job::VatPeriodJob' model
+  def vat_report_job
+    logger.info '** VatPeriod vat_report_job start'
     vat_report_creator = Services::VatReportCreator.new(self)
     vat_report_creator.delete_vat_report
     if vat_report_creator.report
