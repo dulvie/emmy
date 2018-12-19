@@ -15,7 +15,7 @@ class NeCodeHeader < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :organization_id
   validate :check_file_name
-  VALID_EVENTS = %w(import_event)
+  VALID_JOBS = %w(import_job)
 
   def check_file_name
     file_importer = FileImporter.new(DIRECTORY, nil, nil)
@@ -23,7 +23,7 @@ class NeCodeHeader < ActiveRecord::Base
     errors.add(:file_name, I18n.t(:name_error)) if !files.include?(file_name)
   end
 
-  after_commit :enqueue_import_event, on: :create
+  after_commit :enqueue_import_job, on: :create
 
   DIRECTORY = 'files/codes/'
   FILES = 'NE*.csv'
@@ -32,14 +32,14 @@ class NeCodeHeader < ActiveRecord::Base
     false
   end
 
-  def enqueue_import_event
+  def enqueue_import_job
     logger.info '** NeCodeHeader enqueue a job that will parse the imported file.'
     create
-    Resque.enqueue(Job::NeCodeHeaderEvent, id, 'import_event')
+    NeCodeHeaderJob.perform_later(id, 'import_job')
   end
 
-  # Run from the 'Job::NeCodeHeaderEvent' model
-  def import_event
+  # Run from the 'Job::NeCodeHeaderJob' model
+  def import_job
     @ne_codes = organization.ne_codes
     ne_code_creator = Services::NeCodeCreator.new(organization, @ne_codes, accounting_plan)
     if ne_code_creator.execute(run_type, DIRECTORY, file_name)
