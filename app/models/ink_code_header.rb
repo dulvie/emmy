@@ -15,7 +15,7 @@ class InkCodeHeader < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :organization_id
   validate :check_file_name
-  VALID_EVENTS = %w(import_event)
+  VALID_JOBS = %w(import_job)
 
   def check_file_name
     file_importer = FileImporter.new(DIRECTORY, nil, nil)
@@ -23,7 +23,7 @@ class InkCodeHeader < ActiveRecord::Base
     errors.add(:file_name, I18n.t(:name_error)) if !files.include?(file_name)
   end
 
-  after_commit :enqueue_import_event, on: :create
+  after_commit :enqueue_import_job, on: :create
 
   DIRECTORY = 'files/codes/'
   FILES = 'INK*.csv'
@@ -32,14 +32,14 @@ class InkCodeHeader < ActiveRecord::Base
     false
   end
 
-  def enqueue_import_event
+  def enqueue_import_job
     logger.info '** InkCodeHeader enqueue a job that will parse the imported file.'
     create
-    Resque.enqueue(Job::InkCodeHeaderEvent, id, 'import_event')
+    InkCodeHeaderJob.perform_later(id, 'import_job')
   end
 
-  # Run from the 'Job::InkCodeHeaderEvent' model
-  def import_event
+  # Run from the 'Job::InkCodeHeaderJob' model
+  def import_job
     @ink_codes = organization.ink_codes
     ink_code_creator = Services::InkCodeCreator.new(organization, @ink_codes, accounting_plan)
     if ink_code_creator.execute(run_type, DIRECTORY, file_name)
