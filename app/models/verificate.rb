@@ -25,7 +25,7 @@ class Verificate < ActiveRecord::Base
   validates :accounting_period_id, presence: true
   validates :description, presence: true
   validate :check_date
-  VALID_EVENTS = %w(reversal_event)
+  VALID_EVENTS = %w(reversal_job)
 
   def check_date
     if posting_date && (posting_date < accounting_period.accounting_from || posting_date > accounting_period.accounting_to)
@@ -88,11 +88,11 @@ class Verificate < ActiveRecord::Base
 
   def enqueue_reversal
     logger.info '** Verificate enqueue a job that will create reversal.'
-    Resque.enqueue(Job::VerificateEvent, id, 'reversal_event')
+    VerificateJob.perform_later(id, 'reversal_job')
   end
 
-  def reversal_event
-    logger.info '** Verificate reversal_event start'
+  def reversal_job
+    logger.info '** Verificate reversal_job start'
     verificate_creator = Services::VerificateCreator.new(accounting_period, self)
 
     # create verificate
