@@ -22,7 +22,7 @@ class TaxReturn < ActiveRecord::Base
   validates :name, presence: true, uniqueness: {scope: :organization_id}
   validates :deadline, presence: true
   validates :tax_form, inclusion: { in: VALID_TAX_FORMS }
-  VALID_EVENTS = %w(tax_report_event)
+  VALID_EVENTS = %w(tax_report_job)
 
   STATE_CHANGES = [:mark_calculated, :mark_reported]
 
@@ -62,12 +62,12 @@ class TaxReturn < ActiveRecord::Base
 
   def enqueue_tax_report
     logger.info '** TaxReturn enqueue a job that will create tax report.'
-    Resque.enqueue(Job::TaxReturnEvent, id, 'tax_report_event')
+    TaxReturnJob.perform_later(id, 'tax_report_job')
   end
 
-  # Run from the 'Job::TaxReturnEvent' model
-  def tax_report_event
-    logger.info '** TaxReturn tax_report_event start'
+  # Run from the 'Job::TaxReturnJob' model
+  def tax_report_job
+    logger.info '** TaxReturn tax_report_job start'
     vat_report_creator = Services::VatReportCreator.new(self)
     vat_report_creator.delete_vat_report
 
