@@ -14,7 +14,7 @@ class StockValue < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { scope: [:organization_id] }
   validates :value_date, presence: true
 
-  VALID_EVENTS = %w(create_verificate_event)
+  VALID_JOBS = %w(create_verificate_job)
 
   STATE_CHANGES = [:mark_reported]
 
@@ -42,12 +42,13 @@ class StockValue < ActiveRecord::Base
 
   def enqueue_create_verificate(post_date)
     logger.info '** StockValue enqueue a job that will create verificate.'
-    Resque.enqueue(Job::StockValueEvent, id, 'create_verificate_event', post_date)
+    StockValueJob.perform_later(id, 'create_verificate_job', post_date.to_s)
   end
 
-  # Run from the 'Job::StockValueEvent' model
-  def create_verificate_event(post_date)
-    logger.info '** StockValue create_verificate_event start'
+  # Run from the 'Job::StockValueJob' model
+  def create_verificate_job(post_date_string)
+    post_date = post_date_string.to_date
+    logger.info '** StockValue create_verificate_job start'
     stock_value_verificate = Services::StockValueVerificate.new(self, post_date)
     if stock_value_verificate.create
       logger.info "** StockValue #{id} create_verificate returned ok"
