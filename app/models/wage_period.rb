@@ -35,7 +35,7 @@ class WagePeriod < ActiveRecord::Base
   validate :overlaping_period
   validates :payment_date, presence: true
   validates :deadline, presence: true
-  VALID_EVENTS = %w(tax_report_job wage_calculation_job wage_verificate_job tax_verificate_job)
+  VALID_JOBS = %w(tax_report_job wage_calculation_job wage_verificate_job tax_verificate_job)
 
   def check_to
     return if wage_from.nil?

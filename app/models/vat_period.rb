@@ -29,7 +29,7 @@ class VatPeriod < ActiveRecord::Base
   validate :check_to
   validate :overlaping_period
   validates :deadline, presence: true
-  VALID_EVENTS = %w(vat_report_job vat_verificate_job)
+  VALID_JOBS = %w(vat_report_job vat_verificate_job)
 
   def check_to
     return if vat_from.nil?
