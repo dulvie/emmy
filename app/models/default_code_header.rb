@@ -15,7 +15,7 @@ class DefaultCodeHeader < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :organization_id
   validate :check_file_name
-  VALID_EVENTS = %w(import_event)
+  VALID_JOBS = %w(import_job)
 
   def check_file_name
     file_importer = FileImporter.new(DIRECTORY, nil, nil)
@@ -23,7 +23,7 @@ class DefaultCodeHeader < ActiveRecord::Base
     errors.add(:file_name, I18n.t(:name_error)) if !files.include?(file_name)
   end
 
-  after_commit :enqueue_import_event, on: :create
+  after_commit :enqueue_import_job, on: :create
 
   DIRECTORY = 'files/codes/'
   FILES = 'Default*.csv'
@@ -32,14 +32,14 @@ class DefaultCodeHeader < ActiveRecord::Base
     false
   end
 
-  def enqueue_import_event
+  def enqueue_import_job
     logger.info '** DefaultCodeHeader enqueue a job that will parse the imported file.'
     create
-    Resque.enqueue(Job::DefaultCodeHeaderEvent, id, 'import_event')
+    DefaultCodeHeaderJob.perform_later(id, 'import_job')
   end
 
-  # Run from the 'Job::DefaultCodeHeaderEvent' model
-  def import_event
+  # Run from the 'Job::DefaultCodeHeaderJob' model
+  def import_job
     @default_codes = organization.default_codes
     default_code_creator = Services::DefaultCodeCreator.new(organization, @default_codes, accounting_plan)
     if default_code_creator.execute(run_type, DIRECTORY, file_name)
