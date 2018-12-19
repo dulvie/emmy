@@ -25,7 +25,7 @@ class Verificate < ActiveRecord::Base
   validates :accounting_period_id, presence: true
   validates :description, presence: true
   validate :check_date
-  VALID_EVENTS = %w(reversal_job)
+  VALID_JOBS = %w(reversal_job)
 
   def check_date
     if posting_date && (posting_date < accounting_period.accounting_from || posting_date > accounting_period.accounting_to)

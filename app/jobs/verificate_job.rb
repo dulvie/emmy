@@ -2,7 +2,7 @@ class VerificateJob < ApplicationJob
   @queue = :verificate_jobs
   def perform(verificate_id, job_name)
     verificate = Verificate.find(verificate_id)
-    if Verificate::VALID_EVENTS.include?(job_name)
+    if Verificate::VALID_JOBS.include?(job_name)
       Rails.logger.info "will execute #{job_name} on #{verificate.id}"
       verificate.send(job_name)
     else

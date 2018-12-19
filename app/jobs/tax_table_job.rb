@@ -2,7 +2,7 @@
     @queue = :tax_table_jobs
     def perform(tax_table_id, job_name)
       tax_table = TaxTable.find(tax_table_id)
-      if TaxTable::VALID_EVENTS.include?(job_name)
+      if TaxTable::VALID_JOBS.include?(job_name)
         Rails.logger.info "will execute #{job_name} on #{tax_table.id}"
         tax_table.send(job_name)
       else

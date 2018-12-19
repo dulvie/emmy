@@ -15,7 +15,7 @@ class TaxCodeHeader < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :organization_id
   validate :check_file_name
-  VALID_EVENTS = %w(import_job)
+  VALID_JOBS = %w(import_job)
 
   def check_file_name
     file_importer = FileImporter.new(DIRECTORY, nil, nil)

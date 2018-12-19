@@ -22,7 +22,7 @@ class TaxReturn < ActiveRecord::Base
   validates :name, presence: true, uniqueness: {scope: :organization_id}
   validates :deadline, presence: true
   validates :tax_form, inclusion: { in: VALID_TAX_FORMS }
-  VALID_EVENTS = %w(tax_report_job)
+  VALID_JOBS = %w(tax_report_job)
 
   STATE_CHANGES = [:mark_calculated, :mark_reported]
 

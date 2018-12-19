@@ -21,7 +21,7 @@ class TaxTable < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { scope: :organization_id }
   validate  :validate_file
 
-  VALID_EVENTS = %w(import_job destroy_job)
+  VALID_JOBS = %w(import_job destroy_job)
 
   after_commit :enqueue_import_job, on: :create
 
