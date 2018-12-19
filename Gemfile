@@ -31,6 +31,7 @@ gem 'responders', '~> 2.0' # required by devise
 gem 'simple_form', '~> 4.0'
 
 gem 'resque', '~> 1.25'
+#gem 'resque-scheduler'
 
 gem 'bootstrap-sass', '~> 3.2'
 gem 'bootstrap-typeahead-rails'

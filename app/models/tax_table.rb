@@ -21,9 +21,9 @@ class TaxTable < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { scope: :organization_id }
   validate  :validate_file
 
-  VALID_EVENTS = %w(import_event destroy_event)
+  VALID_EVENTS = %w(import_job destroy_job)
 
-  after_commit :enqueue_import_event, on: :create
+  after_commit :enqueue_import_job, on: :create
 
   DIRECTORY = 'files/codes/'
   FILES = 'allm*.csv'
@@ -45,17 +45,18 @@ class TaxTable < ActiveRecord::Base
     true
   end
 
-  def enqueue_import_event
+  def enqueue_import_job
     if completed?
-      logger.info "** TaxTable #{id} already completed, will not enqueue_event"
+      logger.info "** TaxTable #{id} already completed, will not enqueue_job"
       return
     end
     logger.info '** TaxTable enqueue a job that will parse the imported file.'
-    Resque.enqueue(Job::TaxTableEvent, id, 'import_event')
+    TaxTableJob.perform_later(id, 'import_job')
   end
 
-  # Run from the 'Job::TaxTableEvent' model
-  def import_event
+  # Run from the 'Job::TaxTableJob' model
+  # N.B. stataMachines complete not working after_commit
+  def import_job
     return nil if completed?
     tax_table = Services::TaxTableCreator.new(self)
     if tax_table.read_and_save(DIRECTORY, file_name, table_name)
@@ -69,14 +70,14 @@ class TaxTable < ActiveRecord::Base
   def background_destroy
     logger.info '** TaxTable enqueue a job that will destroy all.'
     mark_deleted
-    Resque.enqueue(Job::TaxTableEvent, id, 'destroy_event')
+    TaxTableJob.perform_later(id, 'destroy_job')
   end
 
-  # Run from the 'Job::TaxTableEvent' model
-  def destroy_event
-    logger.info '** TaxTable destroy_event start'
+  # Run from the 'Job::TaxTableJob' model
+  def destroy_job
+    logger.info '** TaxTable destroy_job start'
     destroy
-    logger.info "** TaxTable destroy_event finnish"
+    logger.info '** TaxTable destroy_job finnish'
   end
 
   state_machine :state, initial: :created do
