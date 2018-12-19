@@ -10,7 +10,7 @@ class SieExport < ActiveRecord::Base
 
   #attr_accessible :export_date, :sie_type, :accounting_period, :accounting_period_id, :download
 
-  VALID_EVENTS = %w(export_event)
+  VALID_JOBS = %w(export_job)
   SIE_TYPES =  ['Bokslutssaldon (1)', 'Periodsaldon (2)', 'Objektsaldon (3)', 'Transaktioner (4)']
 
   has_attached_file :download
@@ -31,7 +31,7 @@ class SieExport < ActiveRecord::Base
     end
   end
 
-  after_commit :enqueue_export_event, on: :create
+  after_commit :enqueue_export_job, on: :create
 
   def tmp_file
     # download.path
@@ -42,17 +42,17 @@ class SieExport < ActiveRecord::Base
     true
   end
 
-  def enqueue_export_event
+  def enqueue_export_job
     if completed?
-      logger.info "** SieExport #{id} already completed, will not enqueue_event"
+      logger.info "** SieExport #{id} already completed, will not enqueue_job"
       return
     end
     logger.info '** SieExport enqueue a job that will create a sie file.'
-    Resque.enqueue(Job::ExportSieEvent, id, 'export_event')
+    SieExportJob.perform_later(id, 'export_job')
   end
 
-  # Run from the 'Job::ExportSieEvent' model
-  def export_event
+  # Run from the 'SieExportJob' model
+  def export_job
     return nil if completed?
     export_sie = Services::ExportSie.new(self)
     if export_sie.create_file(sie_type)

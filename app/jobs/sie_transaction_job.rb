@@ -1,13 +1,13 @@
-class Job::SieTransactionEvent
-  @queue = :sie_transaction_events
+class SieTransactionJob < ApplicationJob
+  @queue = :sie_transaction_jobs
 
-  def self.perform(sie_transaction_id)
+  def perform(sie_transaction_id)
     trans = SieTransaction.find(sie_transaction_id)
     execute(trans)
   end
 
-  def self.execute(trans)
-    Rails.logger.info "-->>SieTransactionEvent.execute(#{trans.inspect})"
+  def execute(trans)
+    Rails.logger.info "-->>SieTransactionJob.execute(#{trans.inspect})"
     case trans.execute
     when 'import'
       # moved to import_sie_event
@@ -26,6 +26,6 @@ class Job::SieTransactionEvent
     end
     trans.complete = 'true'
     trans.save
-    Rails.logger.info "-->>END SieTransactionEven"
+    Rails.logger.info "-->>END SieTransactionJob"
   end
 end

@@ -8,7 +8,7 @@ class SieImport < ActiveRecord::Base
   # t.integer  :accounting_period_id
   # t.timestamps
 
-  VALID_EVENTS = %w(import_event)
+  VALID_JOBS = %w(import_job)
   SIE_TYPES = %w(IB UB Transactions)
 
   #attr_accessible :import_date, :sie_type, :accounting_period_id, :upload
@@ -26,7 +26,7 @@ class SieImport < ActiveRecord::Base
   validate :check_ub, on: :create
   validate :check_transactions, on: :create
 
-  after_commit :enqueue_import_event, on: :create
+  after_commit :enqueue_import_job, on: :create
 
   def check_ib
     return true if sie_type != 'IB'
@@ -50,17 +50,17 @@ class SieImport < ActiveRecord::Base
     true
   end
 
-  def enqueue_import_event
+  def enqueue_import_job
     if completed?
-      logger.info "** SieImport #{id} already completed, will not enqueue_event"
+      logger.info "** SieImport #{id} already completed, will not enqueue_job"
       return
     end
     logger.info '** SieImport enqueue a job that will parse the imported file.'
-    Resque.enqueue(Job::ImportSieEvent, id, 'import_event')
+    SieImportJob.perform_later(id, 'import_job')
   end
 
-  # Run from the 'Job::ImportSieEvent' model
-  def import_event
+  # Run from the 'Job::SieImportJob' model
+  def import_job
     return nil if completed?
     logger.info '** SieImport start'
     parse_and_import = Services::ImportSie.new(self)

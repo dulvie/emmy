@@ -19,12 +19,12 @@ class SieTransaction < ActiveRecord::Base
     complete
   end
 
-  after_commit :enqueue_event
+  after_commit :enqueue_job
 
   # Callback: after_commit
-  def enqueue_event
+  def enqueue_job
     return if complete?
     Rails.logger.info "->#{inspect}"
-    Resque.enqueue(Job::SieTransactionEvent, id)
+    SieTransactionJob.perform_later(id)
   end
 end
