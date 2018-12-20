@@ -1,12 +1,12 @@
-class Job::BankFileTransactionEvent
-  @queue = :bank_file_transaction_events
+class BankFileTransactionJob < ApplicationJob
+  queue_as :bank_file_transaction_jobs
 
-  def self.perform(transaction_id)
+  def perform(transaction_id)
     trans = BankFileTransaction.find(transaction_id)
     run(trans)
   end
 
-  def self.run(trans)
+  def run(trans)
     Rails.logger.info "-->>BankFileTransactionEvent.run(#{trans.inspect})"
     case trans.execute
     when 'import'
