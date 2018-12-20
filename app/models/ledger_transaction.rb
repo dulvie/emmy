@@ -23,11 +23,10 @@ class LedgerTransaction < ActiveRecord::Base
   validates :ledger, presence: true
   validates :account, presence: true
 
-  after_commit :enqueue_event
+  after_commit :enqueue_job
 
   # Callback: after_commit
-  def enqueue_event
-    Rails.logger.info "->#{inspect}"
-    Resque.enqueue(Job::LedgerTransactionEvent, id)
+  def enqueue_job
+    LedgerTransactionJob.perform_later(id)
   end
 end
