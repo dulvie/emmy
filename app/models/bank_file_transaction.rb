@@ -1,3 +1,4 @@
+# ToDo can bee removed??
 class BankFileTransaction < ActiveRecord::Base
   # t.string   :parent_type
   # t.integer  :parent_id
@@ -24,6 +25,6 @@ class BankFileTransaction < ActiveRecord::Base
   def enqueue_event
     return if complete?
     Rails.logger.info "->#{inspect}"
-    Resque.enqueue(Job::BankFileTransactionEvent, id)
+    BankFileTransactionJob.perform_later(id)
   end
 end
