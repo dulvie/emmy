@@ -25,22 +25,22 @@ class ExportBankFile < ActiveRecord::Base
   validates_attachment_content_type :download, content_type: ['text/plain']
 
 
-  VALID_EVENTS = %w(export_event)
+  VALID_JOBS = %w(export_job)
   TYPES = ['Fakturabetalning', 'Löneutbetalning']
 
-  after_commit :enqueue_export_event, on: :create
+  after_commit :enqueue_export_job, on: :create
 
-  def enqueue_export_event
+  def enqueue_export_job
     if completed?
-      logger.info "** ExportBankFile #{id} already completed, will not enqueue_event"
+      logger.info "** ExportBankFile #{id} already completed, will not enqueue_job"
       return
     end
     logger.info '** ExportBankFile enqueue a job that will create a export file.'
-    Resque.enqueue(Job::ExportBankFileEvent, id, 'export_event')
+    ExportBankFileJob.perform_later(id, 'export_job')
   end
 
-  # Run from the 'Job::ExportBankFileEvent' model
-  def export_event
+  # Run from the 'ExportBankFileJob' model
+  def export_job
     return nil if completed?
     export_bank_file = Services::ExportBankFileCreator.new(self)
     if export_bank_file.read_and_create_file
