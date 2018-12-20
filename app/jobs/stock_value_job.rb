@@ -1,5 +1,6 @@
 class StockValueJob < ApplicationJob
-  @queue = :stock_value_jobs
+  queue_as :stock_value_jobs
+
   def perform(stock_value_id, job_name, post_date)
     stock_value = StockValue.find(stock_value_id)
     if StockValue::VALID_JOBS.include?(job_name)

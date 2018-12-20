@@ -1,5 +1,6 @@
 class NeCodeHeaderJob < ApplicationJob
-  @queue = :ne_code_header_jobs
+  queue_as :ne_code_header_jobs
+
   def perform(ne_code_header_id, import_job)
     ne_code_header = NeCodeHeader.find(ne_code_header_id)
     if NeCodeHeader::VALID_JOBS.include?(import_job)

@@ -1,5 +1,6 @@
   class TaxTableJob < ApplicationJob
-    @queue = :tax_table_jobs
+    queue_as :tax_table_jobs
+
     def perform(tax_table_id, job_name)
       tax_table = TaxTable.find(tax_table_id)
       if TaxTable::VALID_JOBS.include?(job_name)

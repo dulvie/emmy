@@ -1,5 +1,6 @@
 class AccountingPlanJob < ApplicationJob
-  @queue = :accounting_plan_jobs
+  queue_as :accounting_plan_jobs
+
   def perform(accounting_plan_id, job)
     accounting_plan = AccountingPlan.find(accounting_plan_id)
     if AccountingPlan::VALID_JOBS.include?(job)

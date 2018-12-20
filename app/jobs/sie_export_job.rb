@@ -1,5 +1,6 @@
 class SieExportJob < ApplicationJob
-  @queue = :export_sie_jobs
+  queue_as :sie_export_jobs
+
   def perform(sie_export_id, job_name)
     sie_export = SieExport.find(sie_export_id)
     if SieExport::VALID_JOBS.include?(job_name)

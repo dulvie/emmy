@@ -1,5 +1,6 @@
 class TaxReturnJob < ApplicationJob
-  @queue = :tax_return_jobs
+  queue_as :tax_return_jobs
+
   def perform(tax_return_id, job_name)
     tax_return = TaxReturn.find(tax_return_id)
     if TaxReturn::VALID_JOBS.include?(job_name)

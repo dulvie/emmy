@@ -1,5 +1,6 @@
 class TaxCodeHeaderJob < ApplicationJob
-  @queue = :tax_code_header_jobs
+  queue_as :tax_code_header_jobs
+
   def perform(tax_code_header_id, import_job)
     tax_code_header = TaxCodeHeader.find(tax_code_header_id)
     if TaxCodeHeader::VALID_JOBS.include?(import_job)

@@ -1,5 +1,6 @@
 class InkCodeHeaderJob < ApplicationJob
-  @queue = :ink_code_header_jobs
+  queue_as :ink_code_header_jobs
+
   def perform(ink_code_header_id, import_job)
     ink_code_header = InkCodeHeader.find(ink_code_header_id)
     if InkCodeHeader::VALID_JOBS.include?(import_job)
