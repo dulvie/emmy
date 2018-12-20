@@ -14,7 +14,7 @@ class OpeningBalance < ActiveRecord::Base
 
   validates :accounting_period_id, presence: true, uniqueness: { scope: [:organization_id, :accounting_period_id] }
   validates :description, presence: true
-  VALID_EVENTS = %w(create_from_ub_event)
+  VALID_JOBS = %w(create_from_ub_job)
 
 
   STATE_CHANGES = [:mark_final]
@@ -56,15 +56,15 @@ class OpeningBalance < ActiveRecord::Base
 
   def enqueue_create_from_ub
     if final?
-      logger.info "** OpeningBalance #{id} is final, will not enqueue_event"
+      logger.info "** OpeningBalance #{id} is final, will not enqueue_job"
       return
     end
     logger.info '** OpeningBalance enqueue a job that will create IB from UB.'
-    Resque.enqueue(Job::OpeningBalanceEvent, id, 'create_from_ub_event')
+    OpeningBalanceJob.perform_later(id, 'create_from_ub_job')
   end
 
-  # Run from the 'Job::OpenBalanceEvent' model
-  def create_from_ub_event
+  # Run from the 'OpenBalanceJob' model
+  def create_from_ub_job
     return nil if final?
     opening_balance_creator = Services::OpeningBalanceCreator.new(self)
     if opening_balance_creator.add_from_ub
