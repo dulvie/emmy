@@ -25,7 +25,7 @@ class ReversedVat < ActiveRecord::Base
   validate :check_to
   validate :overlaping_period
   validates :deadline, presence: true
-  VALID_EVENTS = %w(reversed_vat_report_event)
+  VALID_JOBS = %w(reversed_vat_report_job)
 
   def check_to
     if vat_from >= vat_to
@@ -77,12 +77,12 @@ class ReversedVat < ActiveRecord::Base
 
   def enqueue_reversed_vat_report
     logger.info '** ReversedVat enqueue a job that will create report.'
-    Resque.enqueue(Job::ReversedVatEvent, id, 'reversed_vat_report_event')
+    ReversedVatJob.perform_later(id, 'reversed_vat_report_job')
   end
 
-  # Run from the 'Job::ReversedVatEvent' model
-  def reversed_vat_report_event
-    logger.info '** ReversedVat reversed_vat_report_event start'
+  # Run from the 'ReversedVatJob' model
+  def reversed_vat_report_job
+    logger.info '** ReversedVat reversed_vat_report_job start'
     reversed_vat_report_creator = Services::ReversedVatReportCreator.new(self)
     reversed_vat_report_creator.delete_reversed_vat_report
     if reversed_vat_report_creator.report
