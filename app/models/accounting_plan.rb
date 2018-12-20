@@ -16,12 +16,12 @@ class AccountingPlan < ActiveRecord::Base
 
   # validates :name, presence: true, uniqueness: { scope: :organization_id }
   validate :check_file_name, on: :create
-  VALID_EVENTS = %w(import_event disable_accounts_event destroy_event)
+  VALID_JOBS = %w(import_job disable_accounts_job destroy_job)
 
   DIRECTORY = 'files/accounting_plans/'
   FILES = '*.csv'
 
-  after_commit :enqueue_import_event, on: :create
+  after_commit :enqueue_import_job, on: :create
 
   def check_file_name
     file_importer = FileImporter.new(DIRECTORY, nil, nil)
@@ -40,17 +40,17 @@ class AccountingPlan < ActiveRecord::Base
     false
   end
 
-  def enqueue_import_event
+  def enqueue_import_job
     if completed?
-      logger.info "** AccountingPlan #{id} already completed, will not enqueue_event"
+      logger.info "** AccountingPlan #{id} already completed, will not enqueue_job"
       return
     end
     logger.info '** AccountingPlan enqueue a job that will parse the imported file.'
-    Resque.enqueue(Job::AccountingPlanEvent, id, 'import_event')
+    AccountingPlanJob.perform_later(id, 'import_job')
   end
 
-  # Run from the 'Job::AccountingPLanEvent' model
-  def import_event
+  # Run from the 'Job::AccountingPLanJob' model
+  def import_job
     return nil if completed?
     logger.info '** AccountingPlan import_event start'
     accounting_plan_creator = Services::AccountingPlanCreator.new(self)
@@ -65,11 +65,11 @@ class AccountingPlan < ActiveRecord::Base
   def disable_accounts
     return false if !file_name.include?('Normal')
     logger.info '** AccountingPlan enqueue a job that will disable account.'
-    Resque.enqueue(Job::AccountingPlanEvent, id, 'disable_accounts_event')
+    AccountingPlanJob.perform_later(id, 'disable_accounts_job')
   end
 
-  # Run from the 'Job::AccountingPlanEvent' model
-  def disable_accounts_event
+  # Run from the 'Job::AccountingPlanJob' model
+  def disable_accounts_job
     logger.info '** AccountingPlan disable_account_event start'
     accounting_plan_creator = Services::AccountingPlanCreator.new(self)
     if accounting_plan_creator.BAS_set_active(DIRECTORY, file_name)
@@ -82,14 +82,14 @@ class AccountingPlan < ActiveRecord::Base
   def background_destroy
     logger.info '** AccountingPlan enqueue a job that will destroy all.'
     mark_deleted
-    Resque.enqueue(Job::AccountingPlanEvent, id, 'destroy_event')
+    AccountingPlanJob.perform_later(id, 'destroy_job')
   end
 
-  # Run from the 'Job::AccountingPlanEvent' model
-  def destroy_event
-    logger.info '** AccountingPlan destroy_event start'
+  # Run from the 'Job::AccountingPlanJob' model
+  def destroy_job
+    logger.info '** AccountingPlan destroy_job start'
     destroy
-    logger.info "** AccountingPlan destroy_event finnish"
+    logger.info "** AccountingPlan destroy_job finnish"
   end
 
   state_machine :state, initial: :created do
