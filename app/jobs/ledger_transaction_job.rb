@@ -1,14 +1,14 @@
-class Job::LedgerTransactionEvent
-  @queue = :ledger_transaction_events
+class LedgerTransactionJob < ApplicationJob
+  queue_as :ledger_transaction_jobs
 
-  def self.perform(ledger_transaction_id)
-    Rails.logger.info "-->>LedgerTransactionEvent.perform(#{ledger_transaction_id})"
+  def perform(ledger_transaction_id)
+    Rails.logger.info "-->>LedgerTransactionJob.perform(#{ledger_transaction_id})"
     trans = LedgerTransaction.find(ledger_transaction_id)
     sum_ledger(trans)
   end
 
-  def self.sum_ledger(trans)
-    Rails.logger.info "-->>LedgerTransactionEvent.sum_ledger(#{trans.inspect})"
+  def sum_ledger(trans)
+    Rails.logger.info "-->>LedgerTransactionJob.sum_ledger(#{trans.inspect})"
     ledger_accounts = trans.ledger.ledger_accounts.where(account_id: trans.account_id)
     unless ledger_accounts.size > 0
       Rails.logger.info "-->>New LedgerAccount"
