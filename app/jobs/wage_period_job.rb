@@ -1,5 +1,6 @@
 class WagePeriodJob < ApplicationJob
-  @queue = :wage_period_jobs
+  queue_as :wage_period_jobs
+
   def perform(wage_period_id, job_name)
     wage_period = WagePeriod.find(wage_period_id)
     if WagePeriod::VALID_JOBS.include?(job_name)

@@ -1,5 +1,6 @@
 class VatPeriodJob < ApplicationJob
-  @queue = :vat_period_jobs
+  queue_as :vat_period_jobs
+
   def perform(vat_period_id, job_name)
     vat_period = VatPeriod.find(vat_period_id)
     if VatPeriod::VALID_JOBS.include?(job_name)

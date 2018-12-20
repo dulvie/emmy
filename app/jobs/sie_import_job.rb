@@ -1,5 +1,6 @@
 class SieImportJob < ApplicationJob
-  @queue = :import_sie_jobs
+  queue_as :sie_import_jobs
+
   def perform(sie_import_id, import_job)
     sie_import = SieImport.find(sie_import_id)
     if SieImport::VALID_JOBS.include?(import_job)

@@ -1,5 +1,5 @@
 class SieTransactionJob < ApplicationJob
-  @queue = :sie_transaction_jobs
+  queue_as :sie_transaction_jobs
 
   def perform(sie_transaction_id)
     trans = SieTransaction.find(sie_transaction_id)
