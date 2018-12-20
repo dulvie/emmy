@@ -9,7 +9,7 @@ class ImportBankFile < ActiveRecord::Base
   # t.string   :state
   # t.timestamps
 
-  VALID_EVENTS = %w(import_event)
+  VALID_JOBS = %w(import_job)
 
   #attr_accessible :import_date, :from_date, :to_date, :reference, :upload
 
@@ -23,7 +23,7 @@ class ImportBankFile < ActiveRecord::Base
   validates_presence_of :organization_id
   validates_presence_of :user_id
 
-  after_commit :enqueue_import_event, on: :create
+  after_commit :enqueue_import_job, on: :create
 
   def name
     'Nordea'
@@ -34,17 +34,17 @@ class ImportBankFile < ActiveRecord::Base
     (completed?)
   end
 
-  def enqueue_import_event
+  def enqueue_import_job
     if completed?
-      logger.info "** ImportBankFile #{id} already completed, will not enqueue_event"
+      logger.info "** ImportBankFile #{id} already completed, will not enqueue_job"
       return
     end
     logger.info '** ImportBankFile enqueue a job that will parse the imported file.'
-    Resque.enqueue(Job::ImportBankFileEvent, id, 'import_event')
+    ImportBankFileJob.perform_later(id, 'import_job')
   end
 
-  # Run from the 'Job::ImportBankFile' model
-  def import_event
+  # Run from the 'ImportBankFileJob' model
+  def import_job
     return nil if completed?
     parse_and_import = Services::ImportBankFileCreator.new(self)
     if parse_and_import.read_and_save_nordea
