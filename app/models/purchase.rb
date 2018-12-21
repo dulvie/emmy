@@ -45,7 +45,7 @@ class Purchase < ActiveRecord::Base
   validates :supplier_id, presence: true
 
   VALID_PARENT_TYPES = ['Purchase', 'Production', 'Import']
-  VALID_EVENTS = %w(accounts_payable_event supplier_payments_event)
+  VALID_JOBS = %w(accounts_payable_job supplier_payments_job)
 
   EVENTS = [
     :mark_prepared, :mark_invoiced, :mark_complete,  # Generic state
@@ -54,7 +54,6 @@ class Purchase < ActiveRecord::Base
   ]
 
   def state_change(event, changed_at = nil, supplier_reference = nil)
-    Rails.logger.info "sc->#{supplier_reference}"
     return false unless EVENTS.include?(event.to_sym)
     send(event, changed_at, supplier_reference)
   end
@@ -66,7 +65,7 @@ class Purchase < ActiveRecord::Base
     when 'prepared' || 'completed'
       nil
     else
-      fail 'Unknown state#{state} of purchase#{id}'
+      fail "Unknown state#{state} of purchase#{id}"
     end
   end
 
@@ -95,12 +94,12 @@ class Purchase < ActiveRecord::Base
 
   def enqueue_accounts_payable
     logger.info '** Purchase enqueue a job that will create account payable.'
-    Resque.enqueue(Job::PurchaseEvent, id, 'accounts_payable_event')
+    PurchaseJob.perform_later(id, 'accounts_payable_job')
   end
 
-  # Run from the 'Job::PurchaseEvent' model
-  def accounts_payable_event
-    logger.info '** Purchase accounts_payable_event start'
+  # Run from the 'PurchaseJob' model
+  def accounts_payable_job
+    logger.info '** Purchase accounts_payable_job start'
     purchase_verificate = Services::PurchaseVerificate.new(self, ordered_at)
     if purchase_verificate.accounts_payable
       logger.info "** Purchase #{id} accounts_payable verificate returned ok"
@@ -162,12 +161,12 @@ class Purchase < ActiveRecord::Base
 
   def enqueue_supplier_payments
     logger.info '** Purchase enqueue a job that will create supplier payments.'
-    Resque.enqueue(Job::PurchaseEvent, id, 'supplier_payments_event')
+    PurchaseJob.perform_later(id, 'supplier_payments_job')
   end
 
-  # Run from the 'Job::PurchaseEvent' model
-  def supplier_payments_event
-    logger.info '** Purchase supplier_payments_event start'
+  # Run from the 'PurchaseJob' model
+  def supplier_payments_job
+    logger.info '** Purchase supplier_payments_job start'
     purchase_verificate = Services::PurchaseVerificate.new(self, paid_at)
     if purchase_verificate.supplier_payments
       logger.info "** Purchase #{id} supplier_payments_verificate returned ok"
