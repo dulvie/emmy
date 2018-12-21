@@ -57,7 +57,7 @@ class Sale < ActiveRecord::Base
   validates :customer_id, presence: true
   validates :warehouse_id, presence: true
   validates :payment_term, numericality: { greater_than: 1, less_than: 365 }
-  VALID_EVENTS = %w(accounts_receivable_event accounts_receivable_reverse_event customer_payments_event)
+  VALID_JOBS = %w(accounts_receivable_job accounts_receivable_reverse_job customer_payments_job)
 
   after_initialize :default_values
   after_create :add_invoice_number
@@ -144,12 +144,12 @@ class Sale < ActiveRecord::Base
 
   def enqueue_accounts_receivable
     logger.info '** Sale enqueue a job that will create accounts receivable.'
-    Resque.enqueue(Job::SaleEvent, id, 'accounts_receivable_event')
+    SaleJob.perform_later(id, 'accounts_receivable_job')
   end
 
-  # Run from the 'Job::SaleEvent' model
-  def accounts_receivable_event
-    logger.info '** Sale accounts_receivable_event start'
+  # Run from the 'SaleJob' model
+  def accounts_receivable_job
+    logger.info '** Sale accounts_receivable_job start'
     sale_verificate = Services::SaleVerificate.new(self, approved_at)
     if sale_verificate.accounts_receivable
       logger.info "** Sale #{id} accounts_receivable verificate returned ok"
@@ -160,12 +160,12 @@ class Sale < ActiveRecord::Base
 
   def enqueue_accounts_receivable_reverse
     logger.info '** Sale enqueue a job that will create accounts receivable reverse.'
-    Resque.enqueue(Job::SaleEvent, id, 'accounts_receivable_reverse_event')
+    SaleJob.perform_later(id, 'accounts_receivable_reverse_job')
   end
 
-  # Run from the 'Job::SaleEvent' model
-  def accounts_receivable_reverse_event
-    logger.info '** Sale accounts_receivable_reverse_event start'
+  # Run from the 'SaleJob' model
+  def accounts_receivable_reverse_job
+    logger.info '** Sale accounts_receivable_reverse_job start'
     sale_verificate = Services::SaleVerificate.new(self, approved_at)
     if sale_verificate.accounts_receivable_reverse
       logger.info "** Sale #{id} accounts_receivable_reverse verificate returned ok"
@@ -243,12 +243,12 @@ class Sale < ActiveRecord::Base
 
   def enqueue_customer_payments
     logger.info '** Sale enqueue a job that will create customer payments.'
-    Resque.enqueue(Job::SaleEvent, id, 'customer_payments_event')
+    SaleJob.perform_later(id, 'customer_payments_job')
   end
 
-  # Run from the 'Job::SaleEvent' model
-  def customer_payments_event
-    logger.info '** Sale customer_payments_event start'
+  # Run from the 'SaleJob' model
+  def customer_payments_job
+    logger.info '** Sale customer_payments_job start'
     sale_verificate = Services::SaleVerificate.new(self, paid_at)
     if sale_verificate.customer_payments
       logger.info "** Sale #{id} customer_payments verificate returned ok"
