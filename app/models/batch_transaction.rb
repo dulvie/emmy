@@ -17,10 +17,10 @@ class BatchTransaction < ActiveRecord::Base
   validates :batch, presence: true
   validates :quantity, presence: true
 
-  after_commit :enqueue_event
+  after_commit :enqueue_job
 
   # Callback: after_commit
-  def enqueue_event
-    Resque.enqueue(Job::BatchTransactionEvent, id)
+  def enqueue_job
+    BatchTransactionJob.perform_later(id)
   end
 end
