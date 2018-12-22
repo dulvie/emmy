@@ -106,6 +106,6 @@ var Calc = {
     }
 };
 
-$(document).on('ready page:load', function(){
+$(document).on('turbolinks:load', function(){
   Setup.init();
 });
