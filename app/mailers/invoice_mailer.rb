@@ -39,7 +39,7 @@ class InvoiceMailer < ActionMailer::Base
       return mail_template.text
     elsif sale.user.contacts.present?
       sale_fields = sale.attributes
-      contact_fields = organization.contacts.find(sale.user.contacts).attributes
+      contact_fields = organization.contacts.find(sale.user.contacts.first.id).attributes
       fields = sale_fields.merge(contact_fields)
       return set_variables(mail_template.text, fields)
     end
