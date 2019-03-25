@@ -151,6 +151,9 @@ class Sale < ActiveRecord::Base
   def accounts_receivable_job
     logger.info '** Sale accounts_receivable_job start'
     sale_verificate = Services::SaleVerificate.new(self, approved_at)
+    unless sale_verificate.valid?
+      return
+    end
     if sale_verificate.accounts_receivable
       logger.info "** Sale #{id} accounts_receivable verificate returned ok"
     else
@@ -167,6 +170,9 @@ class Sale < ActiveRecord::Base
   def accounts_receivable_reverse_job
     logger.info '** Sale accounts_receivable_reverse_job start'
     sale_verificate = Services::SaleVerificate.new(self, approved_at)
+    unless sale_verificate.valid?
+      return
+    end
     if sale_verificate.accounts_receivable_reverse
       logger.info "** Sale #{id} accounts_receivable_reverse verificate returned ok"
     else
@@ -250,6 +256,9 @@ class Sale < ActiveRecord::Base
   def customer_payments_job
     logger.info '** Sale customer_payments_job start'
     sale_verificate = Services::SaleVerificate.new(self, paid_at)
+    unless sale_verificate.valid?
+      return
+    end
     if sale_verificate.customer_payments
       logger.info "** Sale #{id} customer_payments verificate returned ok"
     else
