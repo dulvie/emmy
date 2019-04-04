@@ -60,17 +60,34 @@
       }
     }
     function set_contact(customer) {
-      $('#sale_contact_name').val('');
-      $('#sale_contact_email').val('');
-      $('#sale_contact_telephone').val('');
-      for (var x = 0; x < customer.contacts.length; x++) {
-        if (customer.primary_contact_id == customer.contacts[x].id) {
-          $('#contact_ref').val(customer.contacts[x].name);
-          $('#sale_contact_name').val(customer.contacts[x].name);
-          $('#sale_contact_email').val(customer.contacts[x].email);
-          $('#sale_contact_telephone').val(customer.contacts[x].telephone);
+      var contact_info = {
+        name: "",
+        email: customer.email,
+        telephone: customer.telephone
+      }
+
+      var contact = customer.contacts[0]
+      var primary_id = customer.primary_contact_id;
+      if (primary_id) {
+        for (var x = 0; x < customer.contacts.length; x++) {
+          if (primary_id == customer.contacts[x].id) {
+            contact = customer.contacts[x];
+          }
         }
       }
+      if (contact) {
+        if (contact.email && contact.email != "") {
+          contact_info.email = contact.email
+        }
+        if (contact.telephone && contact.telephone != "") {
+          contact_info.telephone = contact.telephone
+        }
+        contact_info.name = contact.name
+      }
+
+      $('#sale_contact_name').val(contact_info.name);
+      $('#sale_contact_email').val(contact_info.email);
+      $('#sale_contact_telephone').val(contact_info.telephone);
     }
 
     $('#sale_contact_name').typeahead({
