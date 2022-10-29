@@ -37,3 +37,5 @@ env.development
 
 # Ignore coverage files.
 coverage/*
+
+_home/*

@@ -3,41 +3,37 @@ services:
   emmy:
     env_file:
       - ./dot_env.development
-    image: emmy-dev
-    hostname: ruby
+    image: emmy
+    hostname: emmy
     #command: bundle exec foreman start
     # command: sh -c 'bundle exec foreman start'
-    command: sh -c 'while true ; do sleep 500 ; done'
+    entrypoint: ['sh', '-c', 'while true ; do sleep 500 ; done']
     volumes:
       - .:/app/
-    links:
-      - redis
-      - postgres
+      - ./_home:/home/user/
     ports:
       - '127.0.0.1:3000:3000'
       - '127.0.0.1:1080:1080'
 
-  postgres:
+  postgresql:
     env_file:
       - ./dot_env.development
-    image: postgres:10.3
+    image: postgres:15.0
     hostname: postgres
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
     ports:
       - '127.0.0.1:5432:5432'
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
 
   redis:
-    env_file:
-      - ./dot_env.development
-    image: redis:2
+    image: redis:7-alpine
     hostname: redis
-    ports:
-      - '127.0.0.1:6379:6379'
     volumes:
       - redis-data:/data
+    ports:
+      - '127.0.0.1:6379:6379'
     command: '--appendonly yes'
 
 volumes:
+  postgresql-data:
   redis-data:
-  postgres-data:

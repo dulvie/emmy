@@ -1,20 +1,19 @@
-FROM ruby:2.5-stretch
+FROM ruby:3.1.2-bullseye 
 
 ENV NODE_MAJOR=8 \
     RACK_ENV=development \
     RAILS_ENV=development
 
 RUN apt-get update \
-    && apt-get install -y apt-utils apt-transport-https
+    && apt-get install -y apt-utils apt-transport-https curl netcat-openbsd
 
-RUN curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
-    && echo "deb https://deb.nodesource.com/node_${NODE_MAJOR}.x jessie main" > /etc/apt/sources.list.d/nodesource.list \
-    && echo "deb-src https://deb.nodesource.com/node_${NODE_MAJOR}.x jessie main" >> /etc/apt/sources.list.d/nodesource.list
+RUN curl -L https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor > /usr/share/keyrings/nodesource.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_19.x bullseye main" > /etc/apt/sources.list.d/nodesource.list && \
+    echo "deb-src [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_19.x bullseye main" >> /etc/apt/sources.list.d/nodesource.list
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-      openssh-server \
-      openssh-client \
+      # qt5-default
       zlib1g \
       zlib1g-dev \
       libffi-dev \
@@ -32,7 +31,6 @@ RUN apt-get update \
       build-essential \
       git \
       file \
-      qt5-default \
       libqt5webkit5-dev \
       gstreamer1.0-plugins-base \
       gstreamer1.0-tools \
@@ -47,13 +45,21 @@ RUN adduser --disabled-password --gecos=" " --uid 1000 user
 
 COPY Gemfile* /app/
 RUN chown user:user -R /app
-RUN apt update && apt install netcat-openbsd -y
 USER user
 ENV BUNDLE_PATH=/home/user/.gems \
     GEM_HOME=/home/user/.gems  \
     BUNDLE_APP_CONFIG=/home/user/.gems \
     PATH=/home/user/.gems/bin:$PATH
-RUN gem install bundler && gem install rake -v '12.3.1'
+RUN gem install bundler mailcatcher
 
-RUN bundle install && gem install mailcatcher
-CMD ["bundle", "exec", "foreman", "start"]
+#RUN bundle install
+ENTRYPOINT ["bundle", "exec", "foreman", "start"]
+
+USER root
+RUN echo "Package: *" > /etc/apt/preferences.d/01unstable && \
+    echo "Pin: release a=sid" >> /etc/apt/preferences.d/01unstable && \
+    echo "Pin-Priority: 400" >> /etc/apt/preferences.d/01unstable && \
+    echo "deb https://deb.debian.org/debian sid main contrib non-free" >> /etc/apt/sources.list.d/unstable.list
+
+RUN apt-get update && apt-get install -y -t unstable neovim lua-nvim lua-nvim-dev ruby-neovim python3-neovim
+USER user

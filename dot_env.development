@@ -1,11 +1,11 @@
 DB_PREFIX=emmy
-DB_HOST=postgres
+DB_HOST=postgresql
 DB_NAME=emmy_development
 DB_USERNAME=postgres
 DB_PASSWORD=postgrespassword
 
 POSTGRES_PASSWORD=postgrespassword
-DATABASE_URL_NOT_USED=postgresql://postgres:postgrespassword@postgresql/emmy_development?pool=2
+DATABASE_URL_NOT_USED=postgresql://postgresql:postgrespassword@postgresql/emmy_development?pool=2
 REDIS_URL=redis://redis:6379
 PORT=3000
 
