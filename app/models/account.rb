@@ -33,12 +33,12 @@ class Account < ActiveRecord::Base
   delegate :name, :number, to: :accounting_group, prefix: :class
 
   FILTER_STAGES=[:all, :active, :inactive]
-  FILTER_STAGES.each do |state|
-    case state
+  FILTER_STAGES.each do |statef|
+    case statef
       when :active
-        scope state, -> { where(active: true) }
+        scope statef, -> { where(active: true) }
       when :inactive
-        scope state, -> { where(active: false) }
+        scope statef, -> { where(active: false) }
       else
     end
   end

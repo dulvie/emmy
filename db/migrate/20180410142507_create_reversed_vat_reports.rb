@@ -1,4 +1,4 @@
-class CreateReversedVatReports  < ActiveRecord::Migration
+class CreateReversedVatReports  < ActiveRecord::Migration[7.0]
   def change
     create_table :reversed_vat_reports do |t|
 

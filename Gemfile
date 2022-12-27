@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.2.1'
+gem 'rails', '7.0.4'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -24,13 +24,13 @@ group :doc do
 end
 
 # Use ActiveModel has_secure_password
-gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.13'
 
-gem 'devise', '~> 4.4'
-gem 'responders', '~> 2.0' # required by devise
-gem 'simple_form', '~> 4.0'
+gem 'devise', '~> 4.8'
+#gem 'responders', '~> 2.0' # required by devise
+gem 'simple_form', '~> 5.1'
 
-gem 'resque', '~> 1.25'
+gem 'resque', '~> 2.4'
 #gem 'resque-scheduler'
 
 gem 'bootstrap-sass', '~> 3.2'
@@ -42,7 +42,8 @@ gem 'dotenv'
 gem 'cancancan'
 gem 'modernizr-rails'
 gem 'state_machines-activerecord'
-gem 'draper', '~> 3.0'
+#gem 'draper', '~> 3.0'
+gem 'draper', github: 'drapergem/draper'
 gem 'haml', '~> 5.0'
 gem 'angularjs-rails'
 gem 'active_model_serializers'
@@ -53,14 +54,14 @@ gem 'kaminari'
 gem 'bootstrap-kaminari-views'
 gem 'paperclip', '~> 5.2'
 gem 'exception_notification', '~> 4.0'
-gem 'puma', '~> 3.10'
+gem 'puma', '~> 6.0'
 
 # Ensure rack-protection is up to date.
-gem 'rack-protection', '~> 2.0'
+gem 'rack-protection', '~> 3.0'
 
 # bump due to cve CVE-2018-3741 (CVE-2018-8048 loofah)
-gem 'rails-html-sanitizer', '~> 1.0.4'
-gem 'jbuilder', '~> 2.5'
+#gem 'rails-html-sanitizer', '~> 1.0.4'
+#gem 'jbuilder', '~> 2.5'
 
 group :test, :development do
   gem 'byebug'
@@ -68,7 +69,7 @@ group :test, :development do
   gem 'guard'
   gem 'guard-zeus'
   gem 'i18n-tasks'
-  #gem 'mailcatcher', '~> 0.6'
+  #gem 'mailcatcher', '~> 0.8'
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
@@ -77,13 +78,13 @@ group :test, :development do
 end
 
 group :test do
-  gem 'minitest'
-  gem 'cucumber-rails', '~> 1.4', require: false
-  gem 'database_cleaner'
-  gem 'resque_unit'
-  gem 'capybara', '~> 2.13'
-  gem 'capybara-webkit'
-  gem 'resque_unit'
-  gem 'simplecov', '~> 0.7.1'
-  gem 'rubocop', '~> 0.54', require: false
+#  gem 'minitest'
+#  gem 'cucumber-rails', '~> 1.4', require: false
+#  gem 'database_cleaner'
+#  gem 'resque_unit'
+#  gem 'capybara', '~> 2.13'
+#  gem 'capybara-webkit'
+#  gem 'simplecov', '~> 0.7.1'
+#  gem 'rubocop', '~> 0.54', require: false
+  gem 'rubocop', '~> 1.40', require: false
 end

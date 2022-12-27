@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_organization
-    return nil unless signed_in?
+    return nil unless user_signed_in?
     unless @current_organization
       load_organization if params[:organization_slug]
     end

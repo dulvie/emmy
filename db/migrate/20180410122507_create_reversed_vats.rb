@@ -1,4 +1,4 @@
-class CreateReversedVats  < ActiveRecord::Migration
+class CreateReversedVats  < ActiveRecord::Migration[7.0]
   def change
     create_table :reversed_vats do |t|
       t.string   :name

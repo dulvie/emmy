@@ -120,7 +120,9 @@ class Sale < ActiveRecord::Base
     d = build_document
     pdf_string = WickedPdf.new.pdf_from_string(
       SalesController.new.render_to_string(
-        template: '/sales/show.pdf.haml',
+        #template: '/sales/show.pdf.haml',
+        template: '/sales/show',
+        formats: :pdf,
         layout: 'pdf',
         locale: I18n.locale || I18n.default_locale,
         locals: {

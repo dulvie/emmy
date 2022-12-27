@@ -2,6 +2,10 @@ class VerificateItemDecorator < Draper::Decorator
   include ActionView::Helpers::NumberHelper
   delegate_all
 
+  def name
+    object.number
+  end
+
   def debit
     number_with_precision(object.debit, precision: 2)
   end
