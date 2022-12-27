@@ -16,7 +16,7 @@ class ReportsController < ApplicationController
     @verificates = @verificates.decorate
     respond_to do |format|
       format.pdf do
-        render(pdf: 'verificates', template: 'reports/verificates.pdf.haml', layout: 'pdf')
+        render(pdf: 'verificates', template: 'reports/verificates', layout: 'pdf')
       end
       format.html
     end
@@ -50,7 +50,7 @@ class ReportsController < ApplicationController
 
     respond_to do |format|
       format.pdf do
-        render(pdf: 'ledger', template: 'reports/ledger.pdf.haml', layout: 'pdf')
+        render(pdf: 'ledger', template: 'reports/ledger', layout: 'pdf')
       end
       format.html
     end
@@ -87,7 +87,7 @@ class ReportsController < ApplicationController
     end  
     respond_to do |format|
       format.pdf do
-        render(pdf: 'result', template: 'reports/result.pdf.haml', layout: 'pdf')
+        render(pdf: 'result', template: 'reports/result', layout: 'pdf')
       end
       format.html
     end
@@ -128,7 +128,7 @@ class ReportsController < ApplicationController
 
     respond_to do |format|
       format.pdf do
-        render(pdf: 'balance', template: 'reports/balance.pdf.haml', layout: 'pdf')
+        render(pdf: 'balance', template: 'reports/balance', layout: 'pdf')
       end
       format.html
     end
@@ -153,7 +153,7 @@ class ReportsController < ApplicationController
 
     respond_to do |format|
       format.pdf do
-        render(pdf: 'vat_report', template: 'reports/vat_report.pdf.haml', layout: 'pdf')
+        render(pdf: 'vat_report', template: 'reports/vat_report', layout: 'pdf')
       end
       format.html
     end
