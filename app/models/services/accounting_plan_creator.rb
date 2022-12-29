@@ -30,7 +30,7 @@ module Services
       class_name = ['B1-B5', 'B6-B9', 'B10', 'B13-B16', 'R1-R4', 'R5-R8', 'R9-R10', 'U1-U4']
       nbr = 0
       first = true
-      CSV.foreach(name, { :col_sep => ';' }) do |row|
+      CSV.foreach(name, col_sep: ';') do |row|
         if first
           save_account_plan(row[1],'importerat', file_name)
           first = false
@@ -60,7 +60,7 @@ module Services
       class_id = 'x'
       group_id = 'x'
       first = true
-      CSV.foreach(name, { :col_sep => ';' }) do |row|
+      CSV.foreach(name, col_sep: ';') do |row|
         if first
           save_account_plan(row[1],'importerat', file_name)
           first = false
@@ -86,7 +86,7 @@ module Services
       class_id = 'x'
       group_id = 'x'
       first = true
-      CSV.foreach(name, { :col_sep => ';' }) do |row|
+      CSV.foreach(name, col_sep: ';') do |row|
         if first
           save_account_plan(row[1],'importerat', file_name)
           first = false
@@ -109,7 +109,7 @@ module Services
       name = directory + file_name
       first = true
       Account.transaction do
-      CSV.foreach(name, { :col_sep => ';' }) do |row|
+      CSV.foreach(name, col_sep: ';') do |row|
         if first
           first = false
         elsif row[2].blank? && row[5] && row[5].length == 4

@@ -3,16 +3,21 @@ module Services
   class ImportBankFileCreator
     require 'csv'
 
+    def logger
+      Resque.logger || Rails.logger
+    end
+
     def initialize(import_bank_file)
       @import_bank_file = import_bank_file
     end
 
     def read_and_save_nordea
+      logger.info "****   read and save nordea on #{@import_bank_file.upload.path}"
       idx = 1
       from = '2099-12-31'
       to = '1900-01-01'
       ImportBankFileRow.transaction do
-      CSV.foreach(@import_bank_file.upload.path, { col_sep: "\t",  encoding: "ISO-8859-1" }) do |row|
+      CSV.foreach(@import_bank_file.upload.path, col_sep: "\t", encoding: "ISO-8859-1") do |row|
         case idx
         when 1
           # Check konto row[1]
@@ -32,6 +37,7 @@ module Services
         idx += idx
       end
       end
+      logger.info "successfull csv parse of #{@import_bank_file.upload.path}"
       @import_bank_file.import_date = DateTime.now
       @import_bank_file.from_date = from
       @import_bank_file.to_date = to

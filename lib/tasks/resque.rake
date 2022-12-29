@@ -5,5 +5,6 @@ task 'resque:setup' => :environment do
   end
   Resque.after_fork = Proc.new do |job|
     ActiveRecord::Base.establish_connection
+    Resque.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
   end
 end
