@@ -12,3 +12,6 @@ Style/GuardClause:
 
 Documentation:
   Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
