@@ -31,8 +31,15 @@ class ApplicationController < ActionController::Base
 
   def current_organization
     return nil unless user_signed_in?
+
     unless @current_organization
-      load_organization if params[:organization_slug]
+      # safety first!
+      begin
+        load_organization if params[:organization_slug]
+      rescue
+        sign_out current_user
+        return nil
+      end
     end
     @current_organization
   end
@@ -41,7 +48,23 @@ class ApplicationController < ActionController::Base
 
   def load_organization
     redirect_to(root_path) and return unless current_user
+
     @current_organization ||= Organization.find_by_slug(params[:organization_slug])
+
+    # prevent cancan from trying nil - infinite loops are no fun.
+    unless @current_organization
+      Rails.logger.error "signing out the current user since no current organization found"
+
+      # this prevents infinite loop, but will return a 500.
+      sign_out current_user
+
+      # neither of these will kick in properly
+      #redirect_to "/"
+      #redirect_to root_path
+
+      return
+    end
+
     authorize! :read, @current_organization
   end
 
