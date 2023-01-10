@@ -40,18 +40,18 @@ module Services
         @verificate_creator.save_verificate_item(account, 0, @sale.total_price/100)
 
         # create vat 25
-        tax_code = tax_code(10)
-        account = account_from_tax_code(tax_code)
+        tx_code = tax_code(10)
+        account = account_from_tax_code(tx_code)
         @verificate_creator.save_verificate_item(account, 0, @sale.total_vat_25/100)
 
         # create vat 12
-        tax_code = tax_code(11)
-        account = account_from_tax_code(tax_code)
+        tx_code = tax_code(11)
+        account = account_from_tax_code(tx_code)
         @verificate_creator.save_verificate_item(account, 0, @sale.total_vat_12/100)
 
         # create vat 06
-        tax_code = tax_code(12)
-        account = account_from_tax_code(tax_code)
+        tx_code = tax_code(12)
+        account = account_from_tax_code(tx_code)
         @verificate_creator.save_verificate_item(account, 0, @sale.total_vat_06/100)
 
         # create rounding
@@ -83,18 +83,18 @@ module Services
         @verificate_creator.save_verificate_item(account, @sale.total_price/100, 0)
 
         # create vat 25
-        tax_code = tax_code(10)
-        account = account_from_tax_code(tax_code)
+        tx_code = tax_code(10)
+        account = account_from_tax_code(tx_code)
         @verificate_creator.save_verificate_item(account, @sale.total_vat_25/100, 0)
 
         # create vat 12
-        tax_code = tax_code(11)
-        account = account_from_tax_code(tax_code)
+        tx_code = tax_code(11)
+        account = account_from_tax_code(tx_code)
         @verificate_creator.save_verificate_item(account, @sale.total_vat_12/100, 0)
 
         # create vat 06
-        tax_code = tax_code(12)
-        account = account_from_tax_code(tax_code)
+        tx_code = tax_code(12)
+        account = account_from_tax_code(tx_code)
         @verificate_creator.save_verificate_item(account, @sale.total_vat_06/100, 0)
 
         # create rounding
