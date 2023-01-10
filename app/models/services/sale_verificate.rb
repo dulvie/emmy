@@ -139,14 +139,14 @@ module Services
         @verificate_creator.save_verificate(@sale.paid_at, ver_dsc, '', '', nil, vat_number)
 
         # create income
-        tax_code = tax_code(39)
-        account = account_from_tax_code(tax_code)
-        @verificate_creator.save_verificate_item(account, 0, BigDecimal.new(@sale.total_price)/100, result_unit)
+        tx_code = tax_code(39)
+        account = account_from_tax_code(tx_code)
+        @verificate_creator.save_verificate_item(account, 0, BigDecimal(@sale.total_price)/100, result_unit)
 
         # create customer payments
         default_code = default_code(01)
         account = account_from_default_code(default_code)
-        @verificate_creator.save_verificate_item(account, BigDecimal.new(@sale.total_price)/100, 0)
+        @verificate_creator.save_verificate_item(account, BigDecimal(@sale.total_price)/100, 0)
       end
     end
 

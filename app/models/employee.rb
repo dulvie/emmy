@@ -65,11 +65,11 @@ class Employee < ActiveRecord::Base
   def payroll_percent
     case age
       when 0..65
-        percentage = BigDecimal.new(PAYROLL_TAX_55)
+        percentage = BigDecimal(PAYROLL_TAX_55)
       when 65..78
-        percentage = BigDecimal.new(PAYROLL_TAX_59)
+        percentage = BigDecimal(PAYROLL_TAX_59)
       when 78..99
-        percentage = BigDecimal.new(PAYROLL_TAX_61)
+        percentage = BigDecimal(PAYROLL_TAX_61)
       else
         percentage = 1
     end
@@ -78,11 +78,11 @@ class Employee < ActiveRecord::Base
   def payroll_percent_old
     case age
       when 0..26
-        percentage = BigDecimal.new('0.1549')
+        percentage = BigDecimal('0.1549')
       when 26..65
-        percentage = BigDecimal.new('0.3142')
+        percentage = BigDecimal('0.3142')
       when 65..99
-        percentage = BigDecimal.new('0.1021')
+        percentage = BigDecimal('0.1021')
       else
         percentage = 1
     end

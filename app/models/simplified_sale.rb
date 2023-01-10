@@ -51,8 +51,7 @@ class SimplifiedSale
       # create sale_item object
       @sale_item = SaleItem.new(to_hash)
       @sale_item.name = name
-      sale_price = BigDecimal.new(price) * 100
-      @sale_item.price = sale_price
+      @sale_item.price = BigDecimal(price) * 100
       @sale_item.quantity = 1
       @sale_item.vat = 0
       @sale_item.row_type = 'text'
