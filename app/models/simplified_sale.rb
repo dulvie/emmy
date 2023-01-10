@@ -59,9 +59,6 @@ class SimplifiedSale
 
       # create sale_item object
       @sale_item = SaleItem.new
-      @sale.customer_id = customer_id
-      @sale.contact_name = contact_name
-      @sale.invoice_text = invoice_text
 
       @sale_item.name = name
       @sale_item.price = BigDecimal(price) * 100

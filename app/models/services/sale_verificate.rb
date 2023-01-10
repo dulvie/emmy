@@ -35,8 +35,8 @@ module Services
         @verificate_creator.save_verificate(@sale.approved_at, ver_dsc, '', '', nil, nil)
 
         # create sale
-        default_code = default_code(05)
-        account = account_from_default_code(default_code)
+        some_code = default_code(05)
+        account = account_from_default_code(some_code)
         @verificate_creator.save_verificate_item(account, 0, @sale.total_price/100)
 
         # create vat 25
@@ -55,8 +55,8 @@ module Services
         @verificate_creator.save_verificate_item(account, 0, @sale.total_vat_06/100)
 
         # create rounding
-        default_code = default_code(02)
-        account = account_from_default_code(default_code)
+        some_code = default_code(02)
+        account = account_from_default_code(some_code)
         if @sale.total_rounding > 0
           @verificate_creator.save_verificate_item(account, 0, @sale.total_rounding/100)
         else
@@ -64,8 +64,8 @@ module Services
         end
 
         # create account receivable
-        default_code = default_code(03)
-        account = account_from_default_code(default_code)
+        some_code = default_code(03)
+        account = account_from_default_code(some_code)
         @verificate_creator.save_verificate_item(account, @sale.total_after_rounding/100, 0)
       end
     end
@@ -78,8 +78,8 @@ module Services
         @verificate_creator.save_verificate(@sale.canceled_at, ver_dsc, '', '', nil, nil)
 
         # create sale
-        default_code = default_code(05)
-        account = account_from_default_code(default_code)
+        some_code = default_code(05)
+        account = account_from_default_code(some_code)
         @verificate_creator.save_verificate_item(account, @sale.total_price/100, 0)
 
         # create vat 25
@@ -98,8 +98,8 @@ module Services
         @verificate_creator.save_verificate_item(account, @sale.total_vat_06/100, 0)
 
         # create rounding
-        default_code = default_code(02)
-        account = account_from_default_code(default_code)
+        some_code = default_code(02)
+        account = account_from_default_code(some_code)
         if @sale.total_rounding > 0
           @verificate_creator.save_verificate_item(account, @sale.total_rounding/100, 0)
         else
@@ -107,8 +107,8 @@ module Services
         end
 
         # create account receivable
-        default_code = default_code(03)
-        account = account_from_default_code(default_code)
+        some_code = default_code(03)
+        account = account_from_default_code(some_code)
         @verificate_creator.save_verificate_item(account, 0, @sale.total_after_rounding/100)
       end
     end
@@ -121,13 +121,13 @@ module Services
         @verificate_creator.save_verificate(@sale.paid_at, ver_dsc, '', '', nil, nil)
 
         # create account receivable
-        default_code = default_code(03)
-        account = account_from_default_code(default_code)
+        some_code = default_code(03)
+        account = account_from_default_code(some_code)
         @verificate_creator.save_verificate_item(account, 0, @sale.total_after_rounding/100)
 
         # create customer payments
-        default_code = default_code(01)
-        account = account_from_default_code(default_code)
+        some_code = default_code(01)
+        account = account_from_default_code(some_code)
         @verificate_creator.save_verificate_item(account, @sale.total_after_rounding/100, 0)
       end
     end
@@ -144,8 +144,8 @@ module Services
         @verificate_creator.save_verificate_item(account, 0, BigDecimal(@sale.total_price)/100, result_unit)
 
         # create customer payments
-        default_code = default_code(01)
-        account = account_from_default_code(default_code)
+        some_code = default_code(01)
+        account = account_from_default_code(some_code)
         @verificate_creator.save_verificate_item(account, BigDecimal(@sale.total_price)/100, 0)
       end
     end
