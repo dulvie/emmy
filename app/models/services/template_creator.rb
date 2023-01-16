@@ -15,7 +15,7 @@ module Services
       name = 'files/templates/templates_K1.csv' if @accounting_plan.file_name.include? 'K1_20'
       name = 'files/templates/templates_Mini.csv' if @accounting_plan.file_name.include? 'Mini_20'
 
-      CSV.foreach(name, { :col_sep => ';' }) do |row|
+      CSV.foreach(name, col_sep: ';') do |row|
 
         #template, name, description, type
         save_template(row[1], row[2], row[3]) if row[0] == '#template'

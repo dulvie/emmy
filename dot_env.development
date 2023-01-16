@@ -5,9 +5,12 @@ DB_USERNAME=postgres
 DB_PASSWORD=postgrespassword
 
 POSTGRES_PASSWORD=postgrespassword
-DATABASE_URL_NOT_USED=postgresql://postgresql:postgrespassword@postgresql/emmy_development?pool=2
+DATABASE_URL=postgresql://postgres:postgrespassword@postgresql/emmy_development?pool=2
 REDIS_URL=redis://redis:6379
 PORT=3000
-
 SECRET_KEY_BASE=0cbc05cf55cdf2c4d2913ed06ed2023be801d9081776caeae5de95526befaf32cc945d7ff92641b04b6cecaa26dec3930f8ebd9251bd5a1bdc118e4046ce788d
 DEVISE_PEPPER=9dca19f80260bf5e5ee09395488276d9bc53353d4ace39d5a21d08dc3deb365e144a661689b40fb34e9198835df9713410d44fd8d52d2f594a885b5fd00780b9
+
+SMTP_SERVER=localhost
+SMTP_PORT=1025
+SITE_HOSTNAME=localhost:3000

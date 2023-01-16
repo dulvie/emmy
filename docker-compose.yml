@@ -3,7 +3,7 @@ services:
   emmy:
     env_file:
       - ./dot_env.development
-    image: emmy
+    image: emmy-dev
     hostname: emmy
     #command: bundle exec foreman start
     # command: sh -c 'bundle exec foreman start'

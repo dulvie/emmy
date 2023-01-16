@@ -104,13 +104,18 @@ class ImportBankFileRowsController < ApplicationController
     @import_bank_file_verificate = Services::ImportBankFileVerificate.new( @import_bank_file_row,
                                                                            @import_bank_file_row.posting_date)
     respond_to do |format|
-      @import_bank_file_verificate.template(params[:template_id])
-      ver_id = @import_bank_file_verificate.verificate_id
-      if ver_id > 0
-        format.html { redirect_to verificate_path(ver_id) + "&bank_amount=" + @import_bank_file_row.amount.to_s, notice: 'Verificate was successfully updated.' }
+      if @import_bank_file_verificate.errors.size > 0
+        flash.now[:danger] = "#{t(:issue_with_accouting_period)} #{t(:verificate)}"
+        format.html { redirect_to @import_bank_file_row.import_bank_file }
       else
-        flash.now[:danger] = "#{t(:failed_to_update)} #{t(:verificate)}"
-        format.html { render action: 'match_verificate' }
+        @import_bank_file_verificate.template(params[:template_id])
+        ver_id = @import_bank_file_verificate.verificate_id
+        if ver_id > 0
+          format.html { redirect_to verificate_path(ver_id) + "&bank_amount=" + @import_bank_file_row.amount.to_s, notice: 'Verificate was successfully updated.' }
+        else
+          flash.now[:danger] = "#{t(:failed_to_update)} #{t(:verificate)}"
+          format.html { render action: 'match_verificate' }
+        end
       end
     end
   end

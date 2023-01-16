@@ -35,9 +35,18 @@ class SimplifiedSale
   def submit
     return false unless valid?
 
+
+
     ActiveRecord::Base.transaction do
       # create sale object
-      @sale = Sale.new(to_hash)
+      @sale = Sale.new
+
+      # overlaps between sale/simplified sale
+      @sale.warehouse_id = warehouse_id
+      @sale.customer_id = customer_id
+      @sale.contact_name = contact_name
+      @sale.invoice_text = invoice_text
+
       @sale.user_id = our_reference_id
       @sale.goods_state = 'delivered'
       @sale.delivered_at = posting_date
@@ -49,10 +58,10 @@ class SimplifiedSale
       return false if !@sale.save
 
       # create sale_item object
-      @sale_item = SaleItem.new(to_hash)
+      @sale_item = SaleItem.new
+
       @sale_item.name = name
-      sale_price = BigDecimal.new(price) * 100
-      @sale_item.price = sale_price
+      @sale_item.price = BigDecimal(price) * 100
       @sale_item.quantity = 1
       @sale_item.vat = 0
       @sale_item.row_type = 'text'

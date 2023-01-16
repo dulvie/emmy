@@ -33,7 +33,7 @@ class TaxCodeHeader < ActiveRecord::Base
   end
 
   def enqueue_import_event
-    logger.info '** TaxCodeHeader enqueue a job that will parse the imported file.'
+    Rails.logger.info "** TaxCodeHeader enqueue a job that will parse the imported file. using #{self.inspect}"
     create
     TaxCodeHeaderJob.perform_later(id, 'import_job')
   end
@@ -43,10 +43,10 @@ class TaxCodeHeader < ActiveRecord::Base
     @tax_codes = organization.tax_codes
     tax_code_creator = Services::TaxCodeCreator.new(organization, @tax_codes, accounting_plan)
     if tax_code_creator.execute(run_type, DIRECTORY, file_name)
-      logger.info "** taxCodeHeader #{id} import codes returned ok, marking complete"
+      Resque.logger.info "** taxCodeHeader #{id} import codes returned ok, marking complete"
       complete
     else
-      logger.info "** taxCodeHeader #{id} import did NOT return ok, not marking complete"
+      Resque.logger.info "** taxCodeHeader #{id} import did NOT return ok, not marking complete"
     end
   end
 

@@ -16,7 +16,7 @@
         %th
         %th= t(:verificate)
     %tbody{}
-      - total = BigDecimal.new(0)
+      - total = BigDecimal(0)
       - number = 0
       - @account_payables_paid.each do |paid|
         %tr
@@ -25,10 +25,10 @@
           %td= paid.description
           %td= paid.money_state 
           %td= paid.supplier.name
-          - amount = BigDecimal.new(paid.total_amount)/100
+          - amount = BigDecimal(paid.total_amount)/100
           %td.numeric= number_with_precision(amount, precision: 2)
           %td= link_to settings_icon, purchase_path(paid.id)
-          - total += BigDecimal.new(paid.total_amount)/100
+          - total += BigDecimal(paid.total_amount)/100
           %td= link_to paid.verificate_state, verificate_path(paid.verificate_id)
           - number += 1
       -if number > 0
@@ -42,7 +42,7 @@
           %td
           %td
       - sum_invoiced = 0
-      - total = BigDecimal.new(0)
+      - total = BigDecimal(0)
       - group = 'invoiced'
       - @accounts_payables.each do |purchase|
         - if !purchase.invoiced? && group == 'invoiced'
@@ -62,10 +62,10 @@
           %td= purchase.description
           %td= purchase.goods_state 
           %td= purchase.supplier.name
-          - amount = BigDecimal.new(purchase.total_amount)/100
+          - amount = BigDecimal(purchase.total_amount)/100
           %td.numeric= number_with_precision(amount, precision: 2)
           %td= link_to settings_icon, purchase_path(purchase.id)
-          - total += BigDecimal.new(purchase.total_amount)/100
+          - total += BigDecimal(purchase.total_amount)/100
           - sum_invoiced += purchase.total_amount/100 if purchase.invoiced?
           - if (purchase.verificate_id)
             %td= link_to purchase.verificate_state, verificate_path(purchase.verificate_id)

@@ -1,0 +1,8 @@
+.git
+.bundle
+tmp/
+_home/
+_old/
+docker
+log
+

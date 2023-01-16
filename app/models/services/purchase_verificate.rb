@@ -38,12 +38,12 @@ module Services
         # create vat
         tax_code = tax_code(48)
         account = account_from_tax_code(tax_code)
-        @verificate_creator.save_verificate_item(account, BigDecimal.new(@purchase.total_vat)/100, 0)
+        @verificate_creator.save_verificate_item(account, BigDecimal(@purchase.total_vat)/100, 0)
 
         # create accounts payable
         default_code = default_code(04)
         account = account_from_default_code(default_code)
-        @verificate_creator.save_verificate_item(account, 0, BigDecimal.new(@purchase.total_amount)/100)
+        @verificate_creator.save_verificate_item(account, 0, BigDecimal(@purchase.total_amount)/100)
       end
     end
 
@@ -57,12 +57,12 @@ module Services
         # create accounts payable
         default_code = default_code(04)
         account = account_from_default_code(default_code)
-        @verificate_creator.save_verificate_item(account, BigDecimal.new(@purchase.total_amount)/100, 0)
+        @verificate_creator.save_verificate_item(account, BigDecimal(@purchase.total_amount)/100, 0)
 
         # create supplier payments
         default_code = default_code(01)
         account = account_from_default_code(default_code)
-        @verificate_creator.save_verificate_item(account, 0, BigDecimal.new(@purchase.total_amount)/100)
+        @verificate_creator.save_verificate_item(account, 0, BigDecimal(@purchase.total_amount)/100)
       end
     end
 

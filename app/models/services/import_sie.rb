@@ -84,7 +84,7 @@ module Services
       set_diff_account(number) if @account.nil?
       return if @account.nil?
 
-      sum = BigDecimal.new(amount)
+      sum = BigDecimal(amount)
       if sum > 0
         debit = sum
         credit = 0
@@ -108,7 +108,7 @@ module Services
       set_diff_account(number) if @account.nil?
       return if @account.nil?
 
-      sum = BigDecimal.new(amount)
+      sum = BigDecimal(amount)
       if sum > 0
         debit = sum
         credit = 0
@@ -190,7 +190,7 @@ module Services
       set_diff_account(number) if account.nil?
       return if account.nil?
 
-      sum = BigDecimal.new(amount)
+      sum = BigDecimal(amount)
       if sum > 0
         debit = sum
         credit = 0

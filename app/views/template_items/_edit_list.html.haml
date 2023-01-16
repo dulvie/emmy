@@ -46,57 +46,65 @@
       = f.submit "#{t:add_template}",  id: 'confirm', class: 'btn btn-primary'
 
 :javascript
-  $(document).on('ready page:load', function () {
-  $('#confirm').attr('disabled', 'disabled');
-
-  set_bank_amount();
-
-  $('.frm').submit(function(e) {
-      $.each($(".debit"), function(idx,el){el.value = el.value.replace(',','.');});
-      $.each($(".credit"), function(idx,el){el.value = el.value.replace(',','.');});
-  });
-
-  $(".debit").change(function() {
+  $(document).ready(function() {
+    $('#confirm').attr('disabled', 'disabled');
+    set_bank_amount(true);
+    $('.frm').submit(function(e) {
+        $.each($(".debit"), function(idx,el){el.value = el.value.replace(',','.');});
+        $.each($(".credit"), function(idx,el){el.value = el.value.replace(',','.');});
+    });
+    $(".debit").change(function() {
       $('#total_debit').val(summa(".debit"));
       check_balance();
     });
+
     $(".credit").change(function() {
       $('#total_credit').val(summa(".credit"));
       check_balance();
     });
-    
-  function set_bank_amount() {
-    var parm = getUrlVars();
-    var amount = parm['bank_amount']
-    if (!amount) 
+  })
+
+
+
+
+
+  function set_bank_amount(should_retry) {
+    let param = new URLSearchParams(window.location.search)
+    let amount = parseFloat(param.get('bank_amount'))
+    if (!amount) {
+      if (should_retry) {
+        setTimeout(function() { set_bank_amount(false) }, 1500)
+      }
       return;
+    }
     $(".account").each(function() {
       if (this.value == '1920') {
-      deb = '#' + this.id + 'debit';
-      cre = '#' + this.id + 'credit';
-      if ($(deb).is('[readonly]')) {
-        $(deb).val(0);
-        $(cre).val(-amount);
-        $('#total_credit').val(summa(".credit"));
+        let deb = '#' + this.id + 'debit';
+        let cre = '#' + this.id + 'credit';
+        if ($(deb).is('[readonly]')) {
+          $(deb).val(0);
+          $(cre).val(-amount);
+          $('#total_credit').val(summa(".credit"));
+        }
+        if ($(cre).is('[readonly]')) {
+          $(deb).val(amount);
+          $(cre).val('0');
+          $('#total_debit').val(summa(".debit"));
+        }
       }
-      if ($(cre).is('[readonly]')) {
-        $(deb).val(amount);
-        $(cre).val('0');
-        $('#total_debit').val(summa(".debit"));
-      }
-    };
-  });   
-  };
-   
+    })
+  }
+
   function summa(elem) {
-    var sum = 0;
+    let sum = 0;
     $(elem).each(function() {
       if(!isNaN(this.value) && this.value.length != 0) {
         sum += parseFloat(this.value);
-      };
-    });
-    return sum;
-  };
+      }
+    })
+    return sum
+  }
+
   function check_balance() {
      if ($('#total_debit').val() ==  $('#total_credit').val()) {
          $('#confirm').removeAttr("disabled");
@@ -104,15 +112,4 @@
     else {
       $('#confirm').attr('disabled', 'disabled');
     }
-  };
-  function getUrlVars() {
-    var vars = [], hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for(var i = 0; i < hashes.length; i++) {
-      hash = hashes[i].split('=');
-      vars.push(hash[0]);
-      vars[hash[0]] = hash[1];
-    }
-    return vars;
-  };
-  });
+  }

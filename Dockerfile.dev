@@ -1,4 +1,4 @@
-FROM ruby:3.1.2-bullseye 
+FROM ruby:3.1.3-bullseye 
 
 ENV NODE_MAJOR=8 \
     RACK_ENV=development \
@@ -41,25 +41,28 @@ RUN gem update --system \
 
 WORKDIR /app
 
-RUN adduser --disabled-password --gecos=" " --uid 1000 user
-
-COPY Gemfile* /app/
-RUN chown user:user -R /app
-USER user
-ENV BUNDLE_PATH=/home/user/.gems \
-    GEM_HOME=/home/user/.gems  \
-    BUNDLE_APP_CONFIG=/home/user/.gems \
-    PATH=/home/user/.gems/bin:$PATH
-RUN gem install bundler mailcatcher
-
-#RUN bundle install
-ENTRYPOINT ["bundle", "exec", "foreman", "start"]
-
 USER root
 RUN echo "Package: *" > /etc/apt/preferences.d/01unstable && \
     echo "Pin: release a=sid" >> /etc/apt/preferences.d/01unstable && \
     echo "Pin-Priority: 400" >> /etc/apt/preferences.d/01unstable && \
     echo "deb https://deb.debian.org/debian sid main contrib non-free" >> /etc/apt/sources.list.d/unstable.list
 
-RUN apt-get update && apt-get install -y -t unstable neovim lua-nvim lua-nvim-dev ruby-neovim python3-neovim
+RUN apt-get update && apt-get install -y -t unstable neovim lua-nvim lua-nvim-dev ruby-neovim python3-neovim ripgrep
+RUN apt-get install -y tmux iproute2
+
+RUN adduser --disabled-password --gecos=" " --uid 1000 user
+
+RUN chown user:user -R /app
+USER user
+ENV BUNDLE_PATH=/home/user/.gems \
+    GEM_HOME=/home/user/.gems  \
+    BUNDLE_APP_CONFIG=/home/user/.gems \
+    PATH=/home/user/.gems/bin:$PATH
+
+RUN gem install bundler mailcatcher foreman
+COPY Gemfile* /app/
+RUN bundle install
+ENTRYPOINT ["foreman", "start"]
+USER root
+RUN apt-get install -y vim-tiny iputils-ping iproute2 netcat-openbsd
 USER user

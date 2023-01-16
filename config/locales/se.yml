@@ -405,7 +405,7 @@ se:
   stock_values: "Lagervärden"
   stock_value_item: "Lagervärde artikel"
   sub_factor: "Sub faktor"
-  success: "Succe"
+  success: "Framgång"
   sum: "Sum"
   sum_method: "Sum metod"
   supplier: "Leverantör"
