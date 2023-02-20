@@ -103,7 +103,7 @@
   function set_batches() {
       var batch = $("#transfer_from_warehouse_id option:selected").text();
       var options = $(models).filter('optgroup[label="'+batch+'"]').html();
-      if (options.length) {
+      if (options && options.length) {
         $('#transfer_batch_id').html(options);
         $("#transfer_batch_id").trigger("change");
       }

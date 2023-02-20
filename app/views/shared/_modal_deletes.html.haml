@@ -12,10 +12,15 @@
 :javascript
   $(document).ready(function() {
 
-    $('.dlt').click( function() {
+    $('.dlt').click( function(ev) {
+    console.log('event', ev)
+    ev.preventDefault();
+
       var el = $(this);
+      console.log(el)
       var path = el.data('path');
       //$('#dltId').attr('href', path);
+      console.log('path: ',path)
       $('.dltId').attr('href', path);
     });
   });

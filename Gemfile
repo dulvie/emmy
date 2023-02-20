@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '7.0.4'
+gem 'rails', '7.0.4.2'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -26,8 +26,10 @@ end
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.13'
 
-gem 'devise', '~> 4.8'
-#gem 'responders', '~> 2.0' # required by devise
+gem 'devise', '~> 4.9'
+#gem 'responders', '~> 2.0' # required by devise not?
+#gem 'responders', '~> 3.1' # 3.1 is latest 20230218
+
 gem 'simple_form', '~> 5.1'
 
 gem 'resque', '~> 2.4'
@@ -58,7 +60,7 @@ gem 'exception_notification', '~> 4.0'
 gem 'puma', '~> 6.0'
 
 # Ensure rack-protection is up to date.
-gem 'rack-protection', '~> 3.0'
+# gem 'rack-protection', '~> 3.0' # not used anymore? rack-protection is now part of "upstream" sinatra
 
 # bump due to cve CVE-2018-3741 (CVE-2018-8048 loofah)
 #gem 'rails-html-sanitizer', '~> 1.0.4'
